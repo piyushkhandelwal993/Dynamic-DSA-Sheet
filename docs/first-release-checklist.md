@@ -45,6 +45,12 @@ npm run desktop:generate-icons -- /absolute/path/to/source-icon.png
 
 - [ ] Windows code-signing credentials
 
+If you are doing a free-first launch:
+
+- [ ] macOS signing configured if available
+- [ ] Windows signing intentionally skipped
+- [ ] release notes clearly label Windows as preview / unsigned
+
 ## Release Notes
 
 - [ ] Copy `docs/release-notes-template.md`
@@ -94,4 +100,4 @@ Make sure the release page tells users:
 - It provides adaptive next-problem guidance
 - Java 17+ is currently required for code execution
 - macOS / Windows / Linux availability
-
+- Windows may show a trust warning if it is released unsigned

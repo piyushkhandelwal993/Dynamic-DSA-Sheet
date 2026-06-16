@@ -56,7 +56,28 @@ Regenerate them from your source art with:
 npm run desktop:generate-icons -- /absolute/path/to/source-icon.png
 ```
 
-### 2. Configure Signing Secrets
+### 2. Choose Your Release Mode
+
+You have two valid launch paths:
+
+#### Free-first release
+
+- signed macOS if you already have Apple signing available
+- unsigned Windows preview
+- unsigned Linux AppImage
+- clear release notes that Windows is a preview build and may show OS trust warnings
+
+This is the fastest path if you want real users now without buying Windows signing.
+
+#### Fully signed release
+
+- signed macOS
+- signed Windows
+- Linux AppImage
+
+This is the more polished path, but it requires signing credentials.
+
+### 3. Configure Signing Secrets
 
 For macOS distribution outside the App Store, configure:
 
@@ -67,6 +88,8 @@ For macOS distribution outside the App Store, configure:
 - `APPLE_TEAM_ID`
 
 For Windows signing, configure an appropriate certificate path/password workflow.
+
+If you are using the free-first launch, Windows signing can be skipped for now.
 
 ## GitHub Release Flow
 
@@ -120,14 +143,15 @@ The app now detects this and shows a setup banner, but the most polished future 
 
 ### v1
 
-- signed macOS build
-- signed Windows build
+- signed macOS build if available
+- Windows preview build if you do not yet have code signing
 - Linux AppImage
 - Java prerequisite detection
 - GitHub Releases distribution
 
 ### v1.1
 
+- signed Windows release
 - bundled Java runtime or guided runtime installer
 - auto-update support
 - release notes and changelog polish

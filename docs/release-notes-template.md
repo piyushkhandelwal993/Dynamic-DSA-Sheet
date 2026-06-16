@@ -13,6 +13,12 @@
 - Windows
 - Linux
 
+## Release Channel
+
+- macOS: stable
+- Windows: preview
+- Linux: preview
+
 ## Important Requirement
 
 DSA Sheet currently runs Java solutions locally on your machine.
@@ -37,9 +43,21 @@ Choose the installer for your platform from the release assets:
 - Windows: `.exe`
 - Linux: `.AppImage`
 
+## Windows Preview Note
+
+The Windows build may show an "Unknown publisher" or trust warning if it is unsigned.
+
+That is expected for the free-first release path.
+
+If Windows warns on install:
+
+1. choose **More info**
+2. choose **Run anyway**
+
+We plan to move to a signed Windows release in a later version.
+
 ## Notes
 
 - This is the desktop release of DSA Sheet
 - Progress is stored locally on your machine
 - Future releases may bundle or provision Java automatically for an even smoother first-run experience
-
