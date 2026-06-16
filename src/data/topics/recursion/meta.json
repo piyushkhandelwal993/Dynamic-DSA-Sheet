@@ -1,0 +1,22 @@
+{
+  "id": "recursion",
+  "name": "Recursion",
+  "description": "Build recursive thinking from base cases and stack frames all the way to backtracking, memoization, and divide-and-conquer.",
+  "roadmap": [
+    "What recursion is",
+    "Base case and recursive case",
+    "Parameterized recursion",
+    "Functional recursion",
+    "Recursion on strings",
+    "Recursion on arrays",
+    "Backtracking basics",
+    "Subsequences and subsets",
+    "Permutations",
+    "Memoization",
+    "Divide and conquer",
+    "Recursive search problems"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Recursion Tower",
+  "status": "active"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "arrays",
+  "name": "Arrays",
+  "description": "Practice traversal, prefix ideas, and pattern recognition on linear collections.",
+  "roadmap": [
+    "Traversal basics",
+    "Min and max",
+    "Counting and frequency",
+    "Prefix sums",
+    "Two pointers",
+    "Sliding window basics"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Array Valley",
+  "status": "active"
+}

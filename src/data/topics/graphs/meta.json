@@ -1,0 +1,18 @@
+{
+  "id": "graphs",
+  "name": "Graphs",
+  "description": "Master graph representation, traversal, shortest paths, DSU, and spanning tree techniques.",
+  "roadmap": [
+    "Graph basics",
+    "Graph traversals",
+    "Components and cycles",
+    "Grid traversal",
+    "Directed acyclic graphs",
+    "Shortest paths",
+    "Disjoint set and MST",
+    "Advanced graph applications"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Graph Frontier",
+  "status": "active"
+}

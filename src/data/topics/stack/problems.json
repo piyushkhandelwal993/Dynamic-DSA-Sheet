@@ -1,0 +1,543 @@
+[
+  {
+    "id": "st-001",
+    "topic": "Stack",
+    "subtopic": "Stack basics",
+    "title": "Implement Stack Using Array",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-intro", "stack-array-implementation", "stack-operations"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 18,
+    "description": "Implement a stack using an array. Process q operations where 1 x means push x, 2 means pop, and 3 means print the top element or -1 if the stack is empty.",
+    "constraints": ["1 <= q <= 10^5", "-10^9 <= x <= 10^9"],
+    "inputFormat": ["An integer q", "q lines of queries in the format 1 x, 2, or 3"],
+    "outputFormat": ["For each type 3 query, print the current top or -1"],
+    "edgeCases": ["Pop on empty stack", "Top query on empty stack"],
+    "intendedApproachSummary": "Maintain an array and a top pointer. Push increments top, pop decrements top, and peek reads arr[top].",
+    "wrongApproachHints": ["Do not shift array elements on pop.", "Check empty state before pop or top queries."],
+    "hints": ["Initialize top = -1.", "Push writes to ++top, pop reads from top--."],
+    "examples": [
+      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "output": "8\n5\n-1", "explanation": "The stack follows LIFO order." }
+    ],
+    "testCases": [
+      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "expectedOutput": "8\n5\n-1", "visibility": "sample" },
+      { "input": "5\n2\n1 4\n3\n2\n3", "expectedOutput": "4\n-1", "visibility": "hidden" }
+    ],
+    "remedialProblems": [],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-002",
+    "topic": "Stack",
+    "subtopic": "Balanced brackets",
+    "title": "Balanced Brackets",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-intro", "balanced-parentheses"],
+    "prerequisiteConcepts": ["stack-intro", "stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a string containing only (), {}, and [], print Balanced if the brackets are valid, otherwise print Not Balanced.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A string s"],
+    "outputFormat": ["Print Balanced or Not Balanced"],
+    "edgeCases": ["Closing bracket appears first", "Open brackets remain at the end"],
+    "intendedApproachSummary": "Push opening brackets. On each closing bracket, the top must be its matching opener.",
+    "wrongApproachHints": ["Counting only the number of brackets is not enough.", "You must also check that the stack is empty at the end."],
+    "hints": ["Map each closing bracket to its expected opener.", "Check isEmpty before pop."],
+    "examples": [
+      { "input": "{[()]}", "output": "Balanced", "explanation": "Each closing bracket matches the most recent unmatched opener." }
+    ],
+    "testCases": [
+      { "input": "{[()]}", "expectedOutput": "Balanced", "visibility": "sample" },
+      { "input": "([)]", "expectedOutput": "Not Balanced", "visibility": "sample" },
+      { "input": "(()", "expectedOutput": "Not Balanced", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-003",
+    "topic": "Stack",
+    "subtopic": "Reverse using stack",
+    "title": "Reverse a Word Using Stack",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-operations", "reverse-using-stack"],
+    "prerequisiteConcepts": ["stack-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given a lowercase string, reverse it using a stack and print the reversed string.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A string s"],
+    "outputFormat": ["Print the reversed string"],
+    "edgeCases": ["Single-character string"],
+    "intendedApproachSummary": "Push every character, then pop until the stack becomes empty.",
+    "wrongApproachHints": ["This problem is about using the stack explicitly, not just scanning backward.", "Remember that popping already reverses order."],
+    "hints": ["Push characters first.", "Build the answer while popping."],
+    "examples": [
+      { "input": "stack", "output": "kcats", "explanation": "The last pushed character comes out first." }
+    ],
+    "testCases": [
+      { "input": "stack", "expectedOutput": "kcats", "visibility": "sample" },
+      { "input": "a", "expectedOutput": "a", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-004",
+    "topic": "Stack",
+    "subtopic": "Stack simulation",
+    "title": "Remove Adjacent Duplicates",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-operations", "stack-simulation"],
+    "prerequisiteConcepts": ["stack-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Repeatedly remove adjacent equal characters from a string until no such pair remains. Print the final string.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A string s"],
+    "outputFormat": ["Print the reduced string or Empty if nothing remains"],
+    "edgeCases": ["Entire string gets removed", "No duplicates exist"],
+    "intendedApproachSummary": "Use a stack of characters. If the current character equals the top, pop it; otherwise push it.",
+    "wrongApproachHints": ["Avoid repeated string deletion inside loops.", "Remember that removals can expose new adjacent duplicates."],
+    "hints": ["Compare the current character with the stack top.", "Build the final string from the remaining stack."],
+    "examples": [
+      { "input": "abbaca", "output": "ca", "explanation": "bb is removed first, then aa is removed." }
+    ],
+    "testCases": [
+      { "input": "abbaca", "expectedOutput": "ca", "visibility": "sample" },
+      { "input": "azxxzy", "expectedOutput": "ay", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-005",
+    "topic": "Stack",
+    "subtopic": "Expression evaluation",
+    "title": "Evaluate Postfix Expression",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-operations", "postfix-evaluation"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a postfix expression with single-digit operands and operators +, -, *, /, evaluate and print the result.",
+    "constraints": ["1 <= expression.length <= 10^5"],
+    "inputFormat": ["A postfix expression string without spaces"],
+    "outputFormat": ["Print the evaluated integer result"],
+    "edgeCases": ["Subtraction order matters", "Division should use a / b where a was pushed before b"],
+    "intendedApproachSummary": "Push operands. On an operator, pop b first, then a, compute a op b, and push the result back.",
+    "wrongApproachHints": ["Do not pop operands in reverse order for subtraction and division.", "Every operator reduces two stack elements into one."],
+    "hints": ["Digits are operands.", "Pop right operand before left operand."],
+    "examples": [
+      { "input": "231*+9-", "output": "-4", "explanation": "2 + (3 * 1) - 9 = -4." }
+    ],
+    "testCases": [
+      { "input": "231*+9-", "expectedOutput": "-4", "visibility": "sample" },
+      { "input": "52+83-*4/", "expectedOutput": "8", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001", "st-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-006",
+    "topic": "Stack",
+    "subtopic": "Expression evaluation",
+    "title": "Evaluate Prefix Expression",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["postfix-evaluation", "expression-conversion"],
+    "prerequisiteConcepts": ["postfix-evaluation"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a prefix expression with single-digit operands and operators +, -, *, /, evaluate and print the result.",
+    "constraints": ["1 <= expression.length <= 10^5"],
+    "inputFormat": ["A prefix expression string without spaces"],
+    "outputFormat": ["Print the evaluated integer result"],
+    "edgeCases": ["Scan direction must be correct", "Subtraction and division order still matter"],
+    "intendedApproachSummary": "Scan from right to left. Push operands, and on an operator pop the left then right logical values in the correct order.",
+    "wrongApproachHints": ["Scanning left to right makes the stack logic awkward here.", "Keep operand order correct for non-commutative operators."],
+    "hints": ["Reverse the traversal direction.", "After popping two values, combine them and push back."],
+    "examples": [
+      { "input": "-+7*45+20", "output": "25", "explanation": "(7 + (4 * 5)) - (2 + 0) = 25." }
+    ],
+    "testCases": [
+      { "input": "-+7*45+20", "expectedOutput": "25", "visibility": "sample" },
+      { "input": "+9*26", "expectedOutput": "21", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-007",
+    "topic": "Stack",
+    "subtopic": "Stack simulation",
+    "title": "Min Stack Queries",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-operations", "min-stack"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 22,
+    "description": "Process q queries on a stack: 1 x push x, 2 pop, 3 print current minimum, or -1 if empty. Every operation must support O(1) minimum retrieval.",
+    "constraints": ["1 <= q <= 10^5"],
+    "inputFormat": ["An integer q", "q lines of queries"],
+    "outputFormat": ["For each type 3 query, print the minimum or -1"],
+    "edgeCases": ["Repeated minimum values", "Pop until empty"],
+    "intendedApproachSummary": "Track a second stack of current minimum values or store the minimum with each push.",
+    "wrongApproachHints": ["Do not scan the whole stack to answer minimum queries.", "Be careful when the current minimum is popped."],
+    "hints": ["Push Math.min(x, currentMin) onto the min stack.", "Pop from both stacks together."],
+    "examples": [
+      { "input": "8\n1 5\n1 2\n3\n2\n3\n1 1\n3\n2", "output": "2\n5\n1", "explanation": "The auxiliary minimum stack keeps the current minimum at each depth." }
+    ],
+    "testCases": [
+      { "input": "8\n1 5\n1 2\n3\n2\n3\n1 1\n3\n2", "expectedOutput": "2\n5\n1", "visibility": "sample" },
+      { "input": "6\n1 4\n1 4\n3\n2\n3\n2", "expectedOutput": "4\n4", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-008",
+    "topic": "Stack",
+    "subtopic": "Monotonic stack",
+    "title": "Stock Span",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "stock-span"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "For each day's stock price, print how many consecutive days ending today had price less than or equal to today's price.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated prices"],
+    "outputFormat": ["Print n span values"],
+    "edgeCases": ["Strictly increasing prices", "Strictly decreasing prices"],
+    "intendedApproachSummary": "Maintain a decreasing stack of indices. Pop smaller or equal prices before computing the current span.",
+    "wrongApproachHints": ["Nested left scans are too slow.", "Indices are more useful than raw values for the span formula."],
+    "hints": ["If the stack becomes empty, the span is i + 1.", "Otherwise span = i - previousGreaterIndex."],
+    "examples": [
+      { "input": "7\n100 80 60 70 60 75 85", "output": "1 1 1 2 1 4 6", "explanation": "Each span stretches back until a higher price blocks it." }
+    ],
+    "testCases": [
+      { "input": "7\n100 80 60 70 60 75 85", "expectedOutput": "1 1 1 2 1 4 6", "visibility": "sample" },
+      { "input": "5\n10 20 30 40 50", "expectedOutput": "1 2 3 4 5", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001", "st-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-009",
+    "topic": "Stack",
+    "subtopic": "Monotonic stack",
+    "title": "Next Greater Element to the Right",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "next-greater-element"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "For each array element, print the nearest greater element to its right, or -1 if none exists.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print n answers"],
+    "edgeCases": ["Strictly decreasing array", "Duplicate values"],
+    "intendedApproachSummary": "Traverse from right to left while maintaining a decreasing stack of candidates.",
+    "wrongApproachHints": ["A nested search to the right is too slow.", "Pop values that cannot serve as a greater answer."],
+    "hints": ["Process from the end.", "While top <= current, pop it."],
+    "examples": [
+      { "input": "4\n4 5 2 10", "output": "5 10 10 -1", "explanation": "Each answer is the first larger value to the right." }
+    ],
+    "testCases": [
+      { "input": "4\n4 5 2 10", "expectedOutput": "5 10 10 -1", "visibility": "sample" },
+      { "input": "5\n13 7 6 12 10", "expectedOutput": "-1 12 12 -1 -1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-008"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-010",
+    "topic": "Stack",
+    "subtopic": "Monotonic stack",
+    "title": "Previous Smaller Element",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "previous-smaller-element"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "For each element, print the nearest smaller element on its left, or -1 if it does not exist.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print n answers"],
+    "edgeCases": ["Strictly increasing array", "Strictly decreasing array"],
+    "intendedApproachSummary": "Traverse from left to right while keeping an increasing stack of candidates.",
+    "wrongApproachHints": ["You must remove larger or equal elements before answering.", "A stack of candidates is enough; nested loops are not."],
+    "hints": ["While top >= current, pop it.", "After answering, push the current value."],
+    "examples": [
+      { "input": "5\n4 10 5 8 20", "output": "-1 4 4 5 8", "explanation": "Each value looks to the closest smaller value on the left." }
+    ],
+    "testCases": [
+      { "input": "5\n4 10 5 8 20", "expectedOutput": "-1 4 4 5 8", "visibility": "sample" },
+      { "input": "4\n3 2 1 4", "expectedOutput": "-1 -1 -1 1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-009"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-011",
+    "topic": "Stack",
+    "subtopic": "Expression conversion",
+    "title": "Infix to Postfix",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-operations", "expression-conversion"],
+    "prerequisiteConcepts": ["balanced-parentheses", "postfix-evaluation"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 24,
+    "description": "Convert an infix expression containing operands, +, -, *, /, ^, and parentheses into postfix form.",
+    "constraints": ["1 <= expression.length <= 10^5"],
+    "inputFormat": ["A valid infix expression string without spaces"],
+    "outputFormat": ["Print the postfix expression"],
+    "edgeCases": ["Nested parentheses", "Operators with different precedence"],
+    "intendedApproachSummary": "Send operands directly to output. Use a stack for operators and pop while precedence rules allow.",
+    "wrongApproachHints": ["You cannot just remove parentheses and keep the same order.", "Handle precedence and parentheses separately."],
+    "hints": ["On ')', pop until '(' is found.", "Pop higher-precedence operators before pushing the new one."],
+    "examples": [
+      { "input": "a+b*(c-d)", "output": "abcd-*+", "explanation": "Multiplication and the parenthesized subtraction must stay together before the final addition." }
+    ],
+    "testCases": [
+      { "input": "a+b*(c-d)", "expectedOutput": "abcd-*+", "visibility": "sample" },
+      { "input": "(a+b)*c", "expectedOutput": "ab+c*", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-002", "st-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-012",
+    "topic": "Stack",
+    "subtopic": "Monotonic stack",
+    "title": "Daily Temperatures",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "next-greater-element"],
+    "prerequisiteConcepts": ["monotonic-stack"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "For each day, print how many days you would have to wait until a warmer temperature. If there is no future warmer day, print 0.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated temperatures"],
+    "outputFormat": ["Print n answers"],
+    "edgeCases": ["No warmer future day", "Equal temperatures"],
+    "intendedApproachSummary": "Use a decreasing stack of indices. When a warmer temperature appears, pop colder indices and compute the wait.",
+    "wrongApproachHints": ["Do not scan rightward from every day.", "Store indices so you can compute day differences."],
+    "hints": ["While current temperature is greater than the temperature at the top index, resolve that index."],
+    "examples": [
+      { "input": "8\n73 74 75 71 69 72 76 73", "output": "1 1 4 2 1 1 0 0", "explanation": "Each day waits until the first warmer future day." }
+    ],
+    "testCases": [
+      { "input": "8\n73 74 75 71 69 72 76 73", "expectedOutput": "1 1 4 2 1 1 0 0", "visibility": "sample" },
+      { "input": "4\n30 40 50 60", "expectedOutput": "1 1 1 0", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-009"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-013",
+    "topic": "Stack",
+    "subtopic": "Monotonic stack",
+    "title": "Circular Next Greater Element",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "next-greater-element"],
+    "prerequisiteConcepts": ["next-greater-element"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 24,
+    "description": "For each element in a circular array, print the next greater element encountered while moving right cyclically. Print -1 if none exists.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print n answers"],
+    "edgeCases": ["Greatest element has no answer", "Need to wrap around once"],
+    "intendedApproachSummary": "Simulate a doubled traversal from right to left with modulo indexing while maintaining a decreasing stack.",
+    "wrongApproachHints": ["Do not actually build a doubled array if you do not need to.", "Only one extra wrap is required."],
+    "hints": ["Iterate from 2n - 1 down to 0.", "Only record answers during the first n positions."],
+    "examples": [
+      { "input": "3\n1 2 1", "output": "2 -1 2", "explanation": "The last 1 wraps to the beginning to find 2." }
+    ],
+    "testCases": [
+      { "input": "3\n1 2 1", "expectedOutput": "2 -1 2", "visibility": "sample" },
+      { "input": "5\n5 4 3 2 1", "expectedOutput": "-1 5 5 5 5", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-009", "st-012"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-014",
+    "topic": "Stack",
+    "subtopic": "Advanced stack applications",
+    "title": "Largest Rectangle in Histogram",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["monotonic-stack", "largest-rectangle-histogram"],
+    "prerequisiteConcepts": ["monotonic-stack", "previous-smaller-element"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 30,
+    "description": "Given histogram bar heights, print the maximum rectangle area that can be formed.",
+    "constraints": ["1 <= n <= 10^5", "0 <= heights[i] <= 10^9"],
+    "inputFormat": ["An integer n", "n space-separated heights"],
+    "outputFormat": ["Print the maximum area"],
+    "edgeCases": ["All bars equal", "Increasing then decreasing heights"],
+    "intendedApproachSummary": "Maintain an increasing stack of indices. When a shorter bar appears, pop heights and compute the area where each popped height is the limiting bar.",
+    "wrongApproachHints": ["Checking every left-right span is too slow.", "The width comes from the previous smaller and next smaller boundaries."],
+    "hints": ["Use indices, not just heights.", "Run a cleanup pass after the main loop or append a sentinel bar."],
+    "examples": [
+      { "input": "6\n2 1 5 6 2 3", "output": "10", "explanation": "The best rectangle uses heights 5 and 6 with width 2, giving area 10." }
+    ],
+    "testCases": [
+      { "input": "6\n2 1 5 6 2 3", "expectedOutput": "10", "visibility": "sample" },
+      { "input": "4\n2 4 2 1", "expectedOutput": "6", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-010", "st-012"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-015",
+    "topic": "Stack",
+    "subtopic": "Advanced stack applications",
+    "title": "Maximal Rectangle in Binary Matrix",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["largest-rectangle-histogram", "monotonic-stack"],
+    "prerequisiteConcepts": ["largest-rectangle-histogram"],
+    "expectedComplexity": "O(n * m)",
+    "estimatedMinutes": 35,
+    "description": "Given a binary matrix, print the area of the largest rectangle containing only 1s.",
+    "constraints": ["1 <= n, m <= 200"],
+    "inputFormat": ["Two integers n and m", "n lines each containing m binary digits separated by spaces"],
+    "outputFormat": ["Print the maximum rectangle area"],
+    "edgeCases": ["All zero matrix", "All ones matrix"],
+    "intendedApproachSummary": "Build histogram heights row by row and reuse the largest-rectangle-in-histogram logic on each row.",
+    "wrongApproachHints": ["Checking every rectangle directly is too slow.", "Reset histogram height to 0 when a cell contains 0."],
+    "hints": ["Treat each row as the base of a histogram.", "Update heights cumulatively."],
+    "examples": [
+      { "input": "4 5\n1 0 1 0 0\n1 0 1 1 1\n1 1 1 1 1\n1 0 0 1 0", "output": "6", "explanation": "The best rectangle covers a 3x2 block of 1s." }
+    ],
+    "testCases": [
+      { "input": "4 5\n1 0 1 0 0\n1 0 1 1 1\n1 1 1 1 1\n1 0 0 1 0", "expectedOutput": "6", "visibility": "sample" },
+      { "input": "2 3\n1 1 1\n1 1 1", "expectedOutput": "6", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-014"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-016",
+    "topic": "Stack",
+    "subtopic": "Advanced stack applications",
+    "title": "Validate Stack Sequences",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-simulation"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given pushed and popped sequences of distinct values, print Valid if they could describe a stack, otherwise print Invalid.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n pushed values", "n popped values"],
+    "outputFormat": ["Print Valid or Invalid"],
+    "edgeCases": ["Entire pop chain after one push sequence", "Impossible early pop order"],
+    "intendedApproachSummary": "Simulate the pushes, and after every push pop as long as the stack top matches the next required popped value.",
+    "wrongApproachHints": ["Do not compare positions without simulating the stack state.", "One push can trigger multiple pops."],
+    "hints": ["Track the index into the popped array.", "Keep popping while the top matches popped[j]."],
+    "examples": [
+      { "input": "5\n1 2 3 4 5\n4 5 3 2 1", "output": "Valid", "explanation": "This pop sequence is achievable after pushing all values." }
+    ],
+    "testCases": [
+      { "input": "5\n1 2 3 4 5\n4 5 3 2 1", "expectedOutput": "Valid", "visibility": "sample" },
+      { "input": "5\n1 2 3 4 5\n4 3 5 1 2", "expectedOutput": "Invalid", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-017",
+    "topic": "Stack",
+    "subtopic": "Advanced stack applications",
+    "title": "Asteroid Collision",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-simulation"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "Given integers representing asteroids moving right (positive) or left (negative), simulate collisions and print the surviving asteroids.",
+    "constraints": ["1 <= n <= 10^5", "-10^9 <= asteroids[i] <= 10^9", "asteroids[i] != 0"],
+    "inputFormat": ["An integer n", "n space-separated asteroid values"],
+    "outputFormat": ["Print the surviving asteroids in order, or Empty if none survive"],
+    "edgeCases": ["Equal sizes destroy both", "Multiple previous asteroids collide with one new asteroid"],
+    "intendedApproachSummary": "Keep surviving asteroids in a stack. Only a right-moving top and a left-moving current asteroid can collide.",
+    "wrongApproachHints": ["Do not try every pair.", "One incoming asteroid may destroy several previous ones."],
+    "hints": ["Collisions happen only when stack top > 0 and current < 0.", "Use a loop to resolve repeated collisions."],
+    "examples": [
+      { "input": "3\n5 10 -5", "output": "5 10", "explanation": "-5 collides with 10 and gets destroyed." }
+    ],
+    "testCases": [
+      { "input": "3\n5 10 -5", "expectedOutput": "5 10", "visibility": "sample" },
+      { "input": "4\n8 -8 3 -4", "expectedOutput": "-4", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-016"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "st-018",
+    "topic": "Stack",
+    "subtopic": "Advanced stack applications",
+    "title": "Simplify Unix Path",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-simulation"],
+    "prerequisiteConcepts": ["stack-operations"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given an absolute Unix path, simplify it by resolving ., .., and extra slashes.",
+    "constraints": ["1 <= path.length <= 10^5"],
+    "inputFormat": ["A Unix path string"],
+    "outputFormat": ["Print the canonical simplified path"],
+    "edgeCases": ["Repeated slashes", "Moving above root should stay at root"],
+    "intendedApproachSummary": "Split by slash and simulate directory navigation with a stack of path segments.",
+    "wrongApproachHints": ["String replacement alone does not handle .. correctly.", "Ignore empty tokens and '.' tokens."],
+    "hints": ["Pop on '..' if the stack is not empty.", "Join the remaining segments with '/'."],
+    "examples": [
+      { "input": "/a/./b/../../c/", "output": "/c", "explanation": "The path moves into a, then b, then climbs back twice before entering c." }
+    ],
+    "testCases": [
+      { "input": "/a/./b/../../c/", "expectedOutput": "/c", "visibility": "sample" },
+      { "input": "/home//foo/", "expectedOutput": "/home/foo", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["st-004", "st-016"],
+    "skipIfMastered": []
+  }
+]

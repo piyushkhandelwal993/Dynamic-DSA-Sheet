@@ -1,0 +1,17 @@
+{
+  "id": "binary-search",
+  "name": "Binary Search",
+  "description": "Learn how to cut sorted search spaces, find boundaries, and binary-search over answers.",
+  "roadmap": [
+    "Binary search basics",
+    "Boundaries and occurrences",
+    "Search insert position",
+    "Rotated arrays and peaks",
+    "Square root and answer search",
+    "Capacity and feasibility search",
+    "Advanced binary search"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Search Citadel",
+  "status": "active"
+}

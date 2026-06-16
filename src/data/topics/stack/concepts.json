@@ -1,0 +1,156 @@
+[
+  {
+    "id": "stack-intro",
+    "name": "Stack Basics",
+    "description": "A stack follows LIFO order: the most recently added element leaves first.",
+    "exampleJava": "Deque<Integer> st = new ArrayDeque<>(); st.push(10); int top = st.peek();",
+    "commonMistakes": [
+      "Mixing FIFO queue behavior with LIFO stack behavior",
+      "Calling pop on an empty stack"
+    ],
+    "practiceProblems": ["st-001", "st-002"]
+  },
+  {
+    "id": "stack-array-implementation",
+    "name": "Array-Based Stack",
+    "description": "Use an array and a top pointer to implement push, pop, and peek in constant time.",
+    "exampleJava": "arr[++top] = value; int removed = arr[top--];",
+    "commonMistakes": [
+      "Forgetting overflow and underflow checks",
+      "Updating top in the wrong order"
+    ],
+    "practiceProblems": ["st-001"]
+  },
+  {
+    "id": "stack-operations",
+    "name": "Push Pop Peek",
+    "description": "Core stack operations should all run in O(1).",
+    "exampleJava": "st.push(x); int y = st.pop(); int z = st.peek();",
+    "commonMistakes": [
+      "Using remove(0) and shifting elements",
+      "Reading the top without checking emptiness"
+    ],
+    "practiceProblems": ["st-001", "st-004", "st-005"]
+  },
+  {
+    "id": "balanced-parentheses",
+    "name": "Balanced Parentheses",
+    "description": "Push opening brackets and match them against closing brackets in order.",
+    "exampleJava": "if (ch == '(') st.push(ch); else if (st.isEmpty() || st.pop() != '(') ok = false;",
+    "commonMistakes": [
+      "Not checking stack emptiness before pop",
+      "Forgetting to verify the stack is empty at the end"
+    ],
+    "practiceProblems": ["st-002"]
+  },
+  {
+    "id": "reverse-using-stack",
+    "name": "Reverse Using Stack",
+    "description": "Push items once, then pop them to reverse their order.",
+    "exampleJava": "for (char ch : s.toCharArray()) st.push(ch); while (!st.isEmpty()) out.append(st.pop());",
+    "commonMistakes": [
+      "Printing in the same order after pushing",
+      "Using a stack but still scanning backward directly"
+    ],
+    "practiceProblems": ["st-003", "st-004"]
+  },
+  {
+    "id": "postfix-evaluation",
+    "name": "Postfix Evaluation",
+    "description": "Push operands and apply operators to the top two operands when they appear.",
+    "exampleJava": "int b = st.pop(); int a = st.pop(); st.push(a + b);",
+    "commonMistakes": [
+      "Popping operands in the wrong order",
+      "Treating multi-digit parsing like single-character parsing"
+    ],
+    "practiceProblems": ["st-005", "st-006"]
+  },
+  {
+    "id": "min-stack",
+    "name": "Min Stack",
+    "description": "Track the current minimum alongside normal stack operations.",
+    "exampleJava": "minStack.push(Math.min(x, minStack.peek()));",
+    "commonMistakes": [
+      "Losing the previous minimum after pop",
+      "Recomputing the minimum with a full scan"
+    ],
+    "practiceProblems": ["st-007"]
+  },
+  {
+    "id": "monotonic-stack",
+    "name": "Monotonic Stack",
+    "description": "Keep the stack increasing or decreasing so each element is pushed and popped at most once.",
+    "exampleJava": "while (!st.isEmpty() && arr[st.peek()] <= arr[i]) st.pop();",
+    "commonMistakes": [
+      "Using the wrong comparison direction",
+      "Forgetting whether the stack stores indices or values"
+    ],
+    "practiceProblems": ["st-008", "st-009", "st-010", "st-012"]
+  },
+  {
+    "id": "stock-span",
+    "name": "Stock Span",
+    "description": "Use a decreasing stack of indices to find how far the current value can extend left.",
+    "exampleJava": "while (!st.isEmpty() && price[st.peek()] <= price[i]) st.pop(); span[i] = st.isEmpty() ? i + 1 : i - st.peek();",
+    "commonMistakes": [
+      "Using values when indices are required",
+      "Getting the span formula off by one"
+    ],
+    "practiceProblems": ["st-008"]
+  },
+  {
+    "id": "next-greater-element",
+    "name": "Next Greater Element",
+    "description": "Maintain a decreasing stack so the next larger value can be found in linear time.",
+    "exampleJava": "while (!st.isEmpty() && st.peek() <= arr[i]) st.pop(); ans[i] = st.isEmpty() ? -1 : st.peek();",
+    "commonMistakes": [
+      "Scanning to the right with a nested loop",
+      "Using the wrong direction for traversal"
+    ],
+    "practiceProblems": ["st-009", "st-013"]
+  },
+  {
+    "id": "previous-smaller-element",
+    "name": "Previous Smaller Element",
+    "description": "Keep an increasing stack so the nearest smaller element on the left can be found quickly.",
+    "exampleJava": "while (!st.isEmpty() && st.peek() >= arr[i]) st.pop();",
+    "commonMistakes": [
+      "Not clearing larger elements before answering",
+      "Confusing smaller with greater"
+    ],
+    "practiceProblems": ["st-010"]
+  },
+  {
+    "id": "expression-conversion",
+    "name": "Expression Conversion",
+    "description": "Use operator precedence and a stack to convert infix notation to postfix.",
+    "exampleJava": "while (!st.isEmpty() && precedence(st.peek()) >= precedence(ch)) out.append(st.pop());",
+    "commonMistakes": [
+      "Ignoring operator precedence",
+      "Forgetting to pop until '(' when handling ')'"
+    ],
+    "practiceProblems": ["st-011", "st-012"]
+  },
+  {
+    "id": "largest-rectangle-histogram",
+    "name": "Largest Rectangle in Histogram",
+    "description": "Use a monotonic increasing stack to determine the widest rectangle for each height.",
+    "exampleJava": "while (!st.isEmpty() && h[st.peek()] > h[i]) { int height = h[st.pop()]; ... }",
+    "commonMistakes": [
+      "Using the wrong left boundary after popping",
+      "Forgetting the final cleanup after the scan"
+    ],
+    "practiceProblems": ["st-014", "st-015"]
+  },
+  {
+    "id": "stack-simulation",
+    "name": "Stack Simulation",
+    "description": "Simulate stack pushes and pops to validate sequences or collisions.",
+    "exampleJava": "for (int x : pushed) { st.push(x); while (!st.isEmpty() && st.peek() == popped[j]) { st.pop(); j++; } }",
+    "commonMistakes": [
+      "Trying to reason without simulating the actual stack state",
+      "Forgetting repeated pop opportunities after one push"
+    ],
+    "practiceProblems": ["st-016", "st-017", "st-018"]
+  }
+]

@@ -1,0 +1,474 @@
+[
+  {
+    "id": "gr-001",
+    "topic": "Graphs",
+    "subtopic": "Graph basics",
+    "title": "Build Adjacency List",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["graph-intro", "adjacency-list"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 15,
+    "description": "Given an undirected graph with n vertices and m edges, build its adjacency list and print neighbors of each vertex in increasing insertion order.",
+    "constraints": ["1 <= n <= 10^5", "0 <= m <= 2 * 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines each containing u v with 0-based vertices"],
+    "outputFormat": ["For each vertex i from 0 to n-1, print: i: neighbors"],
+    "edgeCases": ["Isolated vertices", "Multiple neighbors"],
+    "intendedApproachSummary": "Create a list of neighbor lists and add both directions for every undirected edge.",
+    "wrongApproachHints": ["Do not forget the reverse edge for undirected graphs.", "Printing only edges is not the same as building adjacency lists."],
+    "hints": ["Initialize n empty lists.", "For edge u-v, add v to u and u to v."],
+    "examples": [
+      { "input": "4 3\n0 1\n0 2\n1 3", "output": "0: 1 2\n1: 0 3\n2: 0\n3: 1", "explanation": "Each vertex lists the nodes directly connected to it." }
+    ],
+    "testCases": [
+      { "input": "4 3\n0 1\n0 2\n1 3", "expectedOutput": "0: 1 2\n1: 0 3\n2: 0\n3: 1", "visibility": "sample" },
+      { "input": "3 0", "expectedOutput": "0:\n1:\n2:", "visibility": "hidden" }
+    ],
+    "remedialProblems": [],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-002",
+    "topic": "Graphs",
+    "subtopic": "Graph traversals",
+    "title": "DFS Traversal from Node 0",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["adjacency-list", "dfs-graph"],
+    "prerequisiteConcepts": ["graph-intro"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 18,
+    "description": "Given an undirected graph, print the DFS traversal starting from node 0, visiting neighbors in the order they were provided.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines of undirected edges"],
+    "outputFormat": ["Print the DFS traversal from node 0"],
+    "edgeCases": ["Disconnected graph", "Node 0 isolated"],
+    "intendedApproachSummary": "Build adjacency lists and recursively or iteratively visit unvisited neighbors from node 0.",
+    "wrongApproachHints": ["Do not revisit nodes.", "This problem asks only for the component reachable from node 0."],
+    "hints": ["Use a visited array.", "Visit a node before recursing on neighbors."],
+    "examples": [
+      { "input": "5 4\n0 1\n0 2\n1 3\n2 4", "output": "0 1 3 2 4", "explanation": "DFS dives down one branch before backtracking." }
+    ],
+    "testCases": [
+      { "input": "5 4\n0 1\n0 2\n1 3\n2 4", "expectedOutput": "0 1 3 2 4", "visibility": "sample" },
+      { "input": "3 1\n1 2", "expectedOutput": "0", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-003",
+    "topic": "Graphs",
+    "subtopic": "Graph traversals",
+    "title": "BFS Traversal from Node 0",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["adjacency-list", "bfs-graph"],
+    "prerequisiteConcepts": ["graph-intro"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 18,
+    "description": "Given an undirected graph, print the BFS traversal starting from node 0, visiting neighbors in the order they were provided.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines of undirected edges"],
+    "outputFormat": ["Print the BFS traversal from node 0"],
+    "edgeCases": ["Disconnected graph", "Node 0 isolated"],
+    "intendedApproachSummary": "Use a queue, push node 0, and process nodes breadth-first while marking visited nodes early.",
+    "wrongApproachHints": ["Mark nodes visited when enqueueing to avoid duplicates.", "BFS is queue-based, not recursion-first."],
+    "hints": ["Offer node 0 to the queue first.", "Poll front, then enqueue unvisited neighbors."],
+    "examples": [
+      { "input": "5 4\n0 1\n0 2\n1 3\n2 4", "output": "0 1 2 3 4", "explanation": "BFS processes by layers of edge distance." }
+    ],
+    "testCases": [
+      { "input": "5 4\n0 1\n0 2\n1 3\n2 4", "expectedOutput": "0 1 2 3 4", "visibility": "sample" },
+      { "input": "3 1\n1 2", "expectedOutput": "0", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-002"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-004",
+    "topic": "Graphs",
+    "subtopic": "Components and cycles",
+    "title": "Count Connected Components",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["connected-components", "dfs-graph"],
+    "prerequisiteConcepts": ["dfs-graph"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 20,
+    "description": "Given an undirected graph, print the number of connected components.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines of undirected edges"],
+    "outputFormat": ["Print the number of connected components"],
+    "edgeCases": ["No edges", "Graph already connected"],
+    "intendedApproachSummary": "Run DFS or BFS from every unvisited vertex and count how many launches are needed.",
+    "wrongApproachHints": ["Starting from node 0 only is not enough for disconnected graphs."],
+    "hints": ["Loop over every node.", "Each fresh traversal marks one component."],
+    "examples": [
+      { "input": "5 2\n0 1\n3 4", "output": "3", "explanation": "Components are {0,1}, {2}, and {3,4}." }
+    ],
+    "testCases": [
+      { "input": "5 2\n0 1\n3 4", "expectedOutput": "3", "visibility": "sample" },
+      { "input": "4 3\n0 1\n1 2\n2 3", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-002", "gr-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-005",
+    "topic": "Graphs",
+    "subtopic": "Components and cycles",
+    "title": "Detect Cycle in Undirected Graph",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["cycle-detection", "dfs-graph"],
+    "prerequisiteConcepts": ["dfs-graph"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 22,
+    "description": "Given an undirected graph, print Cycle if it contains a cycle, otherwise print Acyclic.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines of undirected edges"],
+    "outputFormat": ["Print Cycle or Acyclic"],
+    "edgeCases": ["Cycle in later component", "Tree-shaped graph"],
+    "intendedApproachSummary": "Run DFS/BFS with parent tracking. Seeing an already visited neighbor that is not the parent means a cycle exists.",
+    "wrongApproachHints": ["In an undirected graph, the parent edge should not count as a cycle."],
+    "hints": ["Pass parent into DFS.", "If visited[nei] and nei != parent, a cycle exists."],
+    "examples": [
+      { "input": "4 4\n0 1\n1 2\n2 0\n2 3", "output": "Cycle", "explanation": "0-1-2-0 forms a cycle." }
+    ],
+    "testCases": [
+      { "input": "4 4\n0 1\n1 2\n2 0\n2 3", "expectedOutput": "Cycle", "visibility": "sample" },
+      { "input": "4 3\n0 1\n1 2\n2 3", "expectedOutput": "Acyclic", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-006",
+    "topic": "Graphs",
+    "subtopic": "Directed acyclic graphs",
+    "title": "Detect Cycle in Directed Graph",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["cycle-detection", "topological-sort"],
+    "prerequisiteConcepts": ["bfs-graph"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 22,
+    "description": "Given a directed graph, print Cycle if it contains a cycle, otherwise print Acyclic.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines of directed edges u v"],
+    "outputFormat": ["Print Cycle or Acyclic"],
+    "edgeCases": ["Back-edge cycle", "Disconnected directed graph"],
+    "intendedApproachSummary": "Use Kahn's algorithm or DFS recursion-state tracking. If not all nodes can be processed topologically, a cycle exists.",
+    "wrongApproachHints": ["Undirected parent logic does not work here."],
+    "hints": ["Compute indegrees for Kahn's algorithm.", "If processed count < n, the graph has a cycle."],
+    "examples": [
+      { "input": "4 4\n0 1\n1 2\n2 0\n2 3", "output": "Cycle", "explanation": "0 -> 1 -> 2 -> 0 is a directed cycle." }
+    ],
+    "testCases": [
+      { "input": "4 4\n0 1\n1 2\n2 0\n2 3", "expectedOutput": "Cycle", "visibility": "sample" },
+      { "input": "4 3\n0 1\n1 2\n2 3", "expectedOutput": "Acyclic", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-007",
+    "topic": "Graphs",
+    "subtopic": "Grid traversal",
+    "title": "Number of Islands",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["grid-bfs", "dfs-graph"],
+    "prerequisiteConcepts": ["dfs-graph"],
+    "expectedComplexity": "O(n * m)",
+    "estimatedMinutes": 22,
+    "description": "Given a binary grid of 0s and 1s, print the number of connected islands of 1s using 4-direction movement.",
+    "constraints": ["1 <= n, m <= 300"],
+    "inputFormat": ["Two integers n and m", "n rows of m integers"],
+    "outputFormat": ["Print the number of islands"],
+    "edgeCases": ["All water", "Single large island"],
+    "intendedApproachSummary": "Treat each land cell as a graph node and run BFS/DFS to mark the whole island.",
+    "wrongApproachHints": ["Diagonal cells do not connect here unless stated.", "Do not revisit cells."],
+    "hints": ["Use direction arrays.", "Launch a traversal only from unvisited land."],
+    "examples": [
+      { "input": "4 5\n1 1 0 0 0\n1 1 0 0 1\n0 0 1 0 1\n0 0 0 1 1", "output": "4", "explanation": "There are 4 separate land components." }
+    ],
+    "testCases": [
+      { "input": "4 5\n1 1 0 0 0\n1 1 0 0 1\n0 0 1 0 1\n0 0 0 1 1", "expectedOutput": "4", "visibility": "sample" },
+      { "input": "2 2\n0 0\n0 0", "expectedOutput": "0", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-008",
+    "topic": "Graphs",
+    "subtopic": "Grid traversal",
+    "title": "Shortest Path in Binary Matrix",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["grid-bfs", "shortest-path-unweighted"],
+    "prerequisiteConcepts": ["bfs-graph"],
+    "expectedComplexity": "O(n * m)",
+    "estimatedMinutes": 24,
+    "description": "Given a grid where 0 means open and 1 means blocked, print the length of the shortest 4-direction path from top-left to bottom-right, or -1 if unreachable.",
+    "constraints": ["1 <= n, m <= 300"],
+    "inputFormat": ["Two integers n and m", "n rows of m integers"],
+    "outputFormat": ["Print the shortest path length or -1"],
+    "edgeCases": ["Start or end blocked", "No path exists"],
+    "intendedApproachSummary": "Use BFS from the start cell, because every move costs 1.",
+    "wrongApproachHints": ["DFS does not guarantee the shortest path in an unweighted grid."],
+    "hints": ["Store distance in the queue state or in a dist grid.", "Mark visited when enqueueing."],
+    "examples": [
+      { "input": "3 3\n0 0 0\n1 1 0\n0 0 0", "output": "5", "explanation": "The shortest valid 4-direction path has length 5 nodes." }
+    ],
+    "testCases": [
+      { "input": "3 3\n0 0 0\n1 1 0\n0 0 0", "expectedOutput": "5", "visibility": "sample" },
+      { "input": "2 2\n0 1\n1 0", "expectedOutput": "-1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-003", "gr-007"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-009",
+    "topic": "Graphs",
+    "subtopic": "Directed acyclic graphs",
+    "title": "Topological Sort",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["topological-sort"],
+    "prerequisiteConcepts": ["bfs-graph"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 22,
+    "description": "Given a DAG, print one valid topological ordering.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m directed edges u v"],
+    "outputFormat": ["Print one valid topological order"],
+    "edgeCases": ["Multiple valid answers", "Independent nodes"],
+    "intendedApproachSummary": "Use Kahn's algorithm with indegrees and a queue of zero-indegree nodes.",
+    "wrongApproachHints": ["A normal BFS traversal order is not automatically a topological order."],
+    "hints": ["Compute indegree for every node.", "Whenever indegree hits zero, enqueue that node."],
+    "examples": [
+      { "input": "6 6\n5 2\n5 0\n4 0\n4 1\n2 3\n3 1", "output": "4 5 2 0 3 1", "explanation": "This is one valid topological ordering." }
+    ],
+    "testCases": [
+      { "input": "6 6\n5 2\n5 0\n4 0\n4 1\n2 3\n3 1", "expectedOutput": "4 5 2 0 3 1", "visibility": "sample" },
+      { "input": "3 2\n0 1\n0 2", "expectedOutput": "0 1 2", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-006"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-010",
+    "topic": "Graphs",
+    "subtopic": "Directed acyclic graphs",
+    "title": "Course Schedule",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["topological-sort", "cycle-detection"],
+    "prerequisiteConcepts": ["topological-sort"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 20,
+    "description": "Given numCourses and prerequisite pairs a b meaning b must be completed before a, print Possible if all courses can be finished, otherwise Impossible.",
+    "constraints": ["1 <= numCourses <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines a b"],
+    "outputFormat": ["Print Possible or Impossible"],
+    "edgeCases": ["No prerequisites", "Cycle among prerequisites"],
+    "intendedApproachSummary": "Use Kahn's algorithm and check whether all courses are processed.",
+    "wrongApproachHints": ["You do not need to output the order, just whether one exists."],
+    "hints": ["If processed count == n, finishing all courses is possible."],
+    "examples": [
+      { "input": "2 1\n1 0", "output": "Possible", "explanation": "Take course 0 before 1." }
+    ],
+    "testCases": [
+      { "input": "2 1\n1 0", "expectedOutput": "Possible", "visibility": "sample" },
+      { "input": "2 2\n1 0\n0 1", "expectedOutput": "Impossible", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-009"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-011",
+    "topic": "Graphs",
+    "subtopic": "Shortest paths",
+    "title": "Shortest Path in Unweighted Graph",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["shortest-path-unweighted", "bfs-graph"],
+    "prerequisiteConcepts": ["bfs-graph"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 20,
+    "description": "Given an unweighted undirected graph and a source node s, print the minimum distance from s to every vertex, using -1 for unreachable vertices.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m undirected edges", "An integer s"],
+    "outputFormat": ["Print n distances"],
+    "edgeCases": ["Disconnected vertices", "Source with no neighbors"],
+    "intendedApproachSummary": "BFS from the source computes minimum edge counts naturally in an unweighted graph.",
+    "wrongApproachHints": ["DFS can reach all nodes but not guarantee minimum distance."],
+    "hints": ["Initialize all distances to -1.", "When visiting a neighbor first time, set dist[nei] = dist[node] + 1."],
+    "examples": [
+      { "input": "6 5\n0 1\n0 2\n1 3\n2 4\n4 5\n0", "output": "0 1 1 2 2 3", "explanation": "Each value is the minimum number of edges from source 0." }
+    ],
+    "testCases": [
+      { "input": "6 5\n0 1\n0 2\n1 3\n2 4\n4 5\n0", "expectedOutput": "0 1 1 2 2 3", "visibility": "sample" },
+      { "input": "4 1\n1 2\n0", "expectedOutput": "0 -1 -1 -1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-012",
+    "topic": "Graphs",
+    "subtopic": "Shortest paths",
+    "title": "Dijkstra Shortest Path",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["dijkstra", "shortest-path-unweighted"],
+    "prerequisiteConcepts": ["shortest-path-unweighted"],
+    "expectedComplexity": "O((n + m) log n)",
+    "estimatedMinutes": 28,
+    "description": "Given a weighted undirected graph with non-negative weights and a source s, print the shortest distance from s to every node, using -1 for unreachable vertices.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines u v w", "An integer s"],
+    "outputFormat": ["Print n shortest distances"],
+    "edgeCases": ["Disconnected vertices", "Multiple edges between same pair"],
+    "intendedApproachSummary": "Use a min-priority queue of (distance, node) and relax edges whenever a shorter path is found.",
+    "wrongApproachHints": ["BFS only works for equal edge weights.", "Skip stale heap entries when their stored distance is larger than the current best."],
+    "hints": ["Initialize dist[s] = 0.", "When dist[node] + w improves dist[nei], push the new pair."],
+    "examples": [
+      { "input": "5 6\n0 1 2\n0 2 4\n1 2 1\n1 3 7\n2 4 3\n3 4 1\n0", "output": "0 2 3 7 6", "explanation": "The best path to 4 is 0 -> 1 -> 2 -> 4 with total weight 6." }
+    ],
+    "testCases": [
+      { "input": "5 6\n0 1 2\n0 2 4\n1 2 1\n1 3 7\n2 4 3\n3 4 1\n0", "expectedOutput": "0 2 3 7 6", "visibility": "sample" },
+      { "input": "3 1\n0 1 5\n0", "expectedOutput": "0 5 -1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-011"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-013",
+    "topic": "Graphs",
+    "subtopic": "Shortest paths",
+    "title": "Network Delay Time",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["dijkstra"],
+    "prerequisiteConcepts": ["dijkstra"],
+    "expectedComplexity": "O((n + m) log n)",
+    "estimatedMinutes": 26,
+    "description": "Given directed travel times and a source node k, print the minimum time for the signal to reach every node, or -1 if some node is unreachable.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Three integers n, m, k", "m lines u v w with 1-based nodes"],
+    "outputFormat": ["Print the network delay time or -1"],
+    "edgeCases": ["Unreachable node", "Single node graph"],
+    "intendedApproachSummary": "Run Dijkstra from k and take the maximum shortest distance if all nodes are reachable.",
+    "wrongApproachHints": ["The answer is the slowest shortest path, not the sum of all shortest paths."],
+    "hints": ["After Dijkstra, if any distance is still infinite, answer is -1.", "Otherwise print the maximum distance."],
+    "examples": [
+      { "input": "4 3 2\n2 1 1\n2 3 1\n3 4 1", "output": "2", "explanation": "The farthest node is reached in 2 time units." }
+    ],
+    "remedialProblems": ["gr-012"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-014",
+    "topic": "Graphs",
+    "subtopic": "Disjoint set and MST",
+    "title": "Number of Provinces using DSU",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["union-find"],
+    "prerequisiteConcepts": ["connected-components"],
+    "expectedComplexity": "O(n^2 α(n))",
+    "estimatedMinutes": 22,
+    "description": "Given an n x n adjacency matrix of an undirected graph, print the number of provinces using disjoint set union.",
+    "constraints": ["1 <= n <= 500"],
+    "inputFormat": ["An integer n", "n lines each containing n integers 0 or 1"],
+    "outputFormat": ["Print the number of provinces"],
+    "edgeCases": ["Self edges on diagonal", "Fully disconnected graph"],
+    "intendedApproachSummary": "Union every connected pair, then count the number of distinct parents.",
+    "wrongApproachHints": ["Do not union the same relationship twice if you can avoid it.", "Use path compression to keep operations fast."],
+    "hints": ["Only scan j > i in the matrix.", "Count unique roots at the end."],
+    "examples": [
+      { "input": "3\n1 1 0\n1 1 0\n0 0 1", "output": "2", "explanation": "Cities 0 and 1 form one province, city 2 forms another." }
+    ],
+    "testCases": [
+      { "input": "3\n1 1 0\n1 1 0\n0 0 1", "expectedOutput": "2", "visibility": "sample" },
+      { "input": "3\n1 0 0\n0 1 0\n0 0 1", "expectedOutput": "3", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-015",
+    "topic": "Graphs",
+    "subtopic": "Disjoint set and MST",
+    "title": "Kruskal Minimum Spanning Tree",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["union-find", "mst"],
+    "prerequisiteConcepts": ["union-find"],
+    "expectedComplexity": "O(m log m)",
+    "estimatedMinutes": 30,
+    "description": "Given a connected weighted undirected graph, print the total weight of its minimum spanning tree using Kruskal's algorithm.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines u v w"],
+    "outputFormat": ["Print the MST total weight"],
+    "edgeCases": ["Multiple possible MST edges of same weight"],
+    "intendedApproachSummary": "Sort edges by weight and add an edge only if it connects two different DSU components.",
+    "wrongApproachHints": ["Do not add an edge that forms a cycle.", "Sorting by edge weight is essential."],
+    "hints": ["Union the endpoints after taking an edge.", "Stop after taking n - 1 edges."],
+    "examples": [
+      { "input": "4 5\n0 1 10\n0 2 6\n0 3 5\n1 3 15\n2 3 4", "output": "19", "explanation": "The MST uses edges of weights 4, 5, and 10." }
+    ],
+    "testCases": [
+      { "input": "4 5\n0 1 10\n0 2 6\n0 3 5\n1 3 15\n2 3 4", "expectedOutput": "19", "visibility": "sample" },
+      { "input": "3 3\n0 1 1\n1 2 2\n0 2 10", "expectedOutput": "3", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["gr-014"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "gr-016",
+    "topic": "Graphs",
+    "subtopic": "Advanced graph applications",
+    "title": "Prim Minimum Spanning Tree",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["mst", "dijkstra"],
+    "prerequisiteConcepts": ["mst"],
+    "expectedComplexity": "O((n + m) log n)",
+    "estimatedMinutes": 30,
+    "description": "Given a connected weighted undirected graph, print the total weight of its minimum spanning tree using Prim's algorithm.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines u v w"],
+    "outputFormat": ["Print the MST total weight"],
+    "edgeCases": ["Sparse graph", "Dense graph"],
+    "intendedApproachSummary": "Use a min-priority queue of candidate edges, always taking the lightest edge that reaches a new vertex.",
+    "wrongApproachHints": ["Do not add weights for vertices already in the MST.", "Prim grows one connected tree; it does not sort all edges first."],
+    "hints": ["Track visited vertices.", "Push all outgoing edges of a newly added vertex."],
+    "examples": [
+      { "input": "4 5\n0 1 10\n0 2 6\n0 3 5\n1 3 15\n2 3 4", "output": "19", "explanation": "Prim reaches the same MST cost as Kruskal." }
+    ],
+    "remedialProblems": ["gr-015"],
+    "skipIfMastered": []
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "dp-intro",
+    "name": "DP Basics",
+    "description": "Dynamic programming stores answers to repeated subproblems so they are solved once.",
+    "exampleJava": "if (memo[n] != -1) return memo[n];",
+    "commonMistakes": [
+      "Using DP when the subproblems do not overlap",
+      "Not defining the state clearly"
+    ],
+    "practiceProblems": ["dp-001", "dp-002"]
+  },
+  {
+    "id": "memoization",
+    "name": "Memoization",
+    "description": "Top-down DP uses recursion plus a cache to avoid recomputation.",
+    "exampleJava": "memo[n] = solve(n - 1) + solve(n - 2);",
+    "commonMistakes": [
+      "Forgetting to store computed results",
+      "Using a memo table with the wrong dimensions"
+    ],
+    "practiceProblems": ["dp-001", "dp-002", "dp-003"]
+  },
+  {
+    "id": "tabulation",
+    "name": "Tabulation",
+    "description": "Bottom-up DP fills a table in dependency order without recursion.",
+    "exampleJava": "for (int i = 2; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];",
+    "commonMistakes": [
+      "Filling states before their dependencies are ready",
+      "Misaligning array indices with the mathematical state"
+    ],
+    "practiceProblems": ["dp-001", "dp-004"]
+  },
+  {
+    "id": "state-transition",
+    "name": "State Transition",
+    "description": "Each DP state should be derived from smaller well-defined previous states.",
+    "exampleJava": "dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);",
+    "commonMistakes": [
+      "Skipping a valid choice in the recurrence",
+      "Mixing state meaning across indices"
+    ],
+    "practiceProblems": ["dp-003", "dp-004", "dp-005"]
+  },
+  {
+    "id": "space-optimization",
+    "name": "Space Optimization",
+    "description": "When only recent states are needed, replace a full DP table with rolling variables or rows.",
+    "exampleJava": "int prev2 = 0, prev1 = 1; int cur = prev1 + prev2;",
+    "commonMistakes": [
+      "Overwriting a state before it is used",
+      "Optimizing space before understanding the original recurrence"
+    ],
+    "practiceProblems": ["dp-002", "dp-005", "dp-007"]
+  },
+  {
+    "id": "grid-dp",
+    "name": "Grid DP",
+    "description": "Use row-column states when movement is constrained across a matrix or board.",
+    "exampleJava": "dp[i][j] = dp[i - 1][j] + dp[i][j - 1];",
+    "commonMistakes": [
+      "Ignoring blocked cells or boundaries",
+      "Using the wrong base row or base column initialization"
+    ],
+    "practiceProblems": ["dp-006", "dp-007"]
+  },
+  {
+    "id": "knapsack-dp",
+    "name": "Knapsack Style DP",
+    "description": "Model take-or-skip choices over items and capacities or target sums.",
+    "exampleJava": "dp[i][t] = dp[i - 1][t] || dp[i - 1][t - nums[i]];",
+    "commonMistakes": [
+      "Updating 1D DP in the wrong direction",
+      "Using capacity states that go negative"
+    ],
+    "practiceProblems": ["dp-008", "dp-009", "dp-010"]
+  },
+  {
+    "id": "lis-dp",
+    "name": "Sequence DP",
+    "description": "Track the best sequence ending at each position under an ordering rule.",
+    "exampleJava": "if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);",
+    "commonMistakes": [
+      "Allowing invalid sequence extensions",
+      "Forgetting to initialize each dp[i] to 1"
+    ],
+    "practiceProblems": ["dp-011", "dp-012"]
+  },
+  {
+    "id": "string-dp",
+    "name": "String DP",
+    "description": "Build DP over prefixes or suffixes of strings to compare, align, or match characters.",
+    "exampleJava": "if (a.charAt(i - 1) == b.charAt(j - 1)) dp[i][j] = 1 + dp[i - 1][j - 1];",
+    "commonMistakes": [
+      "Confusing indices of the string with indices of the dp table",
+      "Forgetting the extra 0th row and column"
+    ],
+    "practiceProblems": ["dp-013", "dp-014"]
+  },
+  {
+    "id": "interval-dp",
+    "name": "Interval DP",
+    "description": "Solve subproblems on contiguous ranges and combine splits or inward moves.",
+    "exampleJava": "dp[i][j] = Math.min(dp[i][j], cost(i, k, j) + dp[i][k] + dp[k + 1][j]);",
+    "commonMistakes": [
+      "Iterating intervals in the wrong order",
+      "Not choosing a correct split variable"
+    ],
+    "practiceProblems": ["dp-015"]
+  }
+]

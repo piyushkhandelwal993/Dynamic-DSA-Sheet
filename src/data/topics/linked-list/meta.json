@@ -1,0 +1,16 @@
+{
+  "id": "linked-list",
+  "name": "Linked List",
+  "description": "Learn node traversal, pointer updates, reversal, and fast-slow tricks on linked structures.",
+  "roadmap": [
+    "Linked list basics",
+    "Traversal and length",
+    "Insertion and deletion",
+    "Reversal",
+    "Fast and slow pointers",
+    "Merge and cleanup"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Node Harbor",
+  "status": "active"
+}

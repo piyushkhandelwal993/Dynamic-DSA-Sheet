@@ -1,0 +1,145 @@
+[
+  {
+    "id": "recursion-intro",
+    "name": "Recursion Intro",
+    "description": "Recursion solves a problem by reducing it to smaller instances of the same problem.",
+    "exampleJava": "void solve(int n) { if (n == 0) return; solve(n - 1); }",
+    "commonMistakes": [
+      "Forgetting to reduce the problem size",
+      "Calling the same function with unchanged parameters"
+    ],
+    "practiceProblems": ["rec-001", "rec-002"]
+  },
+  {
+    "id": "base-case",
+    "name": "Base Case",
+    "description": "A base case stops recursion and prevents infinite calls.",
+    "exampleJava": "if (n <= 1) return 1;",
+    "commonMistakes": [
+      "Missing the stopping condition",
+      "Writing a base case that never matches"
+    ],
+    "practiceProblems": ["rec-003", "rec-004"]
+  },
+  {
+    "id": "parameterized-recursion",
+    "name": "Parameterized Recursion",
+    "description": "Parameterized recursion carries the answer forward using arguments.",
+    "exampleJava": "void sum(int i, int acc) { if (i == 0) return; sum(i - 1, acc + i); }",
+    "commonMistakes": [
+      "Mutating the wrong accumulator",
+      "Not updating parameters before the next call"
+    ],
+    "practiceProblems": ["rec-002", "rec-004"]
+  },
+  {
+    "id": "functional-recursion",
+    "name": "Functional Recursion",
+    "description": "Functional recursion returns a value from smaller subproblems and combines the results.",
+    "exampleJava": "int fact(int n) { return n <= 1 ? 1 : n * fact(n - 1); }",
+    "commonMistakes": [
+      "Forgetting to return the recursive result",
+      "Combining values in the wrong order"
+    ],
+    "practiceProblems": ["rec-003", "rec-005"]
+  },
+  {
+    "id": "recursion-on-strings",
+    "name": "Recursion on Strings",
+    "description": "Strings can be processed recursively by shrinking the active range or prefix.",
+    "exampleJava": "return s.charAt(l) == s.charAt(r) && isPal(s, l + 1, r - 1);",
+    "commonMistakes": [
+      "Using the wrong stopping indices",
+      "Not handling empty or single-character strings"
+    ],
+    "practiceProblems": ["rec-007", "rec-008"]
+  },
+  {
+    "id": "recursion-on-arrays",
+    "name": "Recursion on Arrays",
+    "description": "Arrays can be processed recursively by moving an index or splitting the range.",
+    "exampleJava": "return arr[i] + sum(arr, i + 1);",
+    "commonMistakes": [
+      "Stepping past array bounds",
+      "Not updating the index"
+    ],
+    "practiceProblems": ["rec-009", "rec-011"]
+  },
+  {
+    "id": "tree-recursion",
+    "name": "Tree Recursion",
+    "description": "Tree recursion makes more than one recursive call from a single state.",
+    "exampleJava": "return fib(n - 1) + fib(n - 2);",
+    "commonMistakes": [
+      "Ignoring the exponential growth of calls",
+      "Missing one of the base cases"
+    ],
+    "practiceProblems": ["rec-006", "rec-019"]
+  },
+  {
+    "id": "backtracking-basics",
+    "name": "Backtracking Basics",
+    "description": "Backtracking explores a choice, recurses, then undoes the choice before trying the next path.",
+    "exampleJava": "path.add(x); dfs(); path.remove(path.size() - 1);",
+    "commonMistakes": [
+      "Forgetting to undo the last choice",
+      "Sharing mutable state incorrectly"
+    ],
+    "practiceProblems": ["rec-013", "rec-014"]
+  },
+  {
+    "id": "subsequence-generation",
+    "name": "Subsequence Generation",
+    "description": "At each index, decide whether to include or exclude the current element.",
+    "exampleJava": "pick(); dfs(i + 1); unpick(); dfs(i + 1);",
+    "commonMistakes": [
+      "Missing one branch of the decision tree",
+      "Appending answers too early"
+    ],
+    "practiceProblems": ["rec-013", "rec-014"]
+  },
+  {
+    "id": "permutations",
+    "name": "Permutations",
+    "description": "Permutations recursively place unused elements into the current position.",
+    "exampleJava": "for (...) { used[i] = true; path.add(nums[i]); dfs(); ... }",
+    "commonMistakes": [
+      "Reusing an element without marking it",
+      "Not restoring used state on backtrack"
+    ],
+    "practiceProblems": ["rec-016", "rec-024"]
+  },
+  {
+    "id": "memoization",
+    "name": "Memoization",
+    "description": "Memoization stores results of repeated recursive states to avoid recomputation.",
+    "exampleJava": "if (dp[n] != -1) return dp[n];",
+    "commonMistakes": [
+      "Caching under the wrong key",
+      "Not initializing the memo table properly"
+    ],
+    "practiceProblems": ["rec-019", "rec-020"]
+  },
+  {
+    "id": "divide-and-conquer",
+    "name": "Divide and Conquer",
+    "description": "Divide-and-conquer splits a problem into subranges, solves them recursively, then merges the answers.",
+    "exampleJava": "int mid = (l + r) / 2; solve(l, mid); solve(mid + 1, r);",
+    "commonMistakes": [
+      "Wrong range boundaries",
+      "Forgetting the merge/combine step"
+    ],
+    "practiceProblems": ["rec-021", "rec-022"]
+  },
+  {
+    "id": "recursive-search",
+    "name": "Recursive Search",
+    "description": "Recursive search explores a state space with pruning and validity checks.",
+    "exampleJava": "if (!isSafe(...)) return; dfs(nextState);",
+    "commonMistakes": [
+      "Not pruning impossible states",
+      "Failing to restore state after exploration"
+    ],
+    "practiceProblems": ["rec-023", "rec-024"]
+  }
+]

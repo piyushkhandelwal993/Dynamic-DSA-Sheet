@@ -1,0 +1,92 @@
+{
+  "name": "dsa-sheet",
+  "version": "1.0.0",
+  "description": "Adaptive DSA learning platform that recommends the next best problem automatically.",
+  "productName": "DSA Sheet",
+  "author": "DSA Sheet",
+  "bin": {
+    "dsa": "dist/index.js"
+  },
+  "main": "desktop/main.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test dist/tests",
+    "desktop": "electron desktop/main.js",
+    "desktop:dev": "npm run build && electron desktop/main.js",
+    "desktop:capture-showcase": "npm run build && electron desktop/capture-showcase.js",
+    "desktop:generate-icons": "python3 desktop/generate-icons.py",
+    "desktop:package": "npm run build && electron-builder --dir",
+    "desktop:dist": "npm run build && electron-builder"
+  },
+  "keywords": [
+    "cli",
+    "dsa",
+    "typescript",
+    "learning"
+  ],
+  "engines": {
+    "node": "20.x"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "inquirer": "^8.2.6",
+    "monaco-editor": "^0.55.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.15.30",
+    "electron": "^31.7.7",
+    "electron-builder": "^26.15.3",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "build": {
+    "appId": "com.dsasheet.desktop",
+    "productName": "DSA Sheet",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "icon": "build/icon.png",
+    "files": [
+      "desktop/**/*",
+      "dist/**/*",
+      "src/data/**/*",
+      "sample-solutions/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "desktop/main.js"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "hardenedRuntime": true
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": [
+        "AppImage"
+      ],
+      "category": "Education"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

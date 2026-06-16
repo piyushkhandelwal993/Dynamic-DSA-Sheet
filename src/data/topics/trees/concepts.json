@@ -1,0 +1,134 @@
+[
+  {
+    "id": "tree-intro",
+    "name": "Tree Basics",
+    "description": "A binary tree node connects to left and right children, creating a recursive structure.",
+    "exampleJava": "class TreeNode { int val; TreeNode left, right; }",
+    "commonMistakes": [
+      "Forgetting null child checks",
+      "Treating trees like arrays without traversal logic"
+    ],
+    "practiceProblems": ["tr-001", "tr-002"]
+  },
+  {
+    "id": "recursive-tree-traversal",
+    "name": "Recursive Tree Traversal",
+    "description": "Visit the current node before, between, or after recursive calls to children.",
+    "exampleJava": "preorder(root.left); preorder(root.right);",
+    "commonMistakes": [
+      "Missing the base case root == null",
+      "Using the wrong visit order"
+    ],
+    "practiceProblems": ["tr-001", "tr-002", "tr-003"]
+  },
+  {
+    "id": "level-order-traversal",
+    "name": "Level Order Traversal",
+    "description": "Use a queue to process the tree level by level from left to right.",
+    "exampleJava": "Queue<TreeNode> q = new ArrayDeque<>(); q.offer(root);",
+    "commonMistakes": [
+      "Trying to do true level order with plain recursion",
+      "Not snapshotting the level size before iterating a level"
+    ],
+    "practiceProblems": ["tr-004", "tr-009"]
+  },
+  {
+    "id": "tree-height",
+    "name": "Tree Height",
+    "description": "The height of a tree is 1 plus the maximum height of its children.",
+    "exampleJava": "return 1 + Math.max(height(root.left), height(root.right));",
+    "commonMistakes": [
+      "Counting edges when the problem expects node count",
+      "Returning 1 instead of 0 for null in node-based height definitions"
+    ],
+    "practiceProblems": ["tr-005"]
+  },
+  {
+    "id": "tree-diameter",
+    "name": "Tree Diameter",
+    "description": "Track the longest path passing through each node while computing heights.",
+    "exampleJava": "diameter = Math.max(diameter, leftHeight + rightHeight);",
+    "commonMistakes": [
+      "Recomputing heights from scratch at every node",
+      "Confusing height with diameter"
+    ],
+    "practiceProblems": ["tr-006"]
+  },
+  {
+    "id": "balanced-tree-check",
+    "name": "Balanced Tree Check",
+    "description": "A tree is balanced if the left and right subtree heights differ by at most 1 at every node.",
+    "exampleJava": "if (Math.abs(left - right) > 1) return -1;",
+    "commonMistakes": [
+      "Checking only the root balance",
+      "Doing O(n^2) repeated height calls"
+    ],
+    "practiceProblems": ["tr-007"]
+  },
+  {
+    "id": "bst-search",
+    "name": "BST Search",
+    "description": "Use BST ordering to move left or right instead of scanning the entire tree.",
+    "exampleJava": "if (target < root.val) root = root.left; else root = root.right;",
+    "commonMistakes": [
+      "Ignoring the ordering property and traversing both sides",
+      "Going the wrong direction for comparisons"
+    ],
+    "practiceProblems": ["tr-008"]
+  },
+  {
+    "id": "bst-insert-delete",
+    "name": "BST Insert and Delete",
+    "description": "Insert by descending to the correct null child, and delete by handling 0, 1, or 2 child cases.",
+    "exampleJava": "root.right = deleteNode(root.right, successor.val);",
+    "commonMistakes": [
+      "Losing a subtree when reconnecting nodes",
+      "Not replacing a two-child node correctly"
+    ],
+    "practiceProblems": ["tr-010", "tr-011"]
+  },
+  {
+    "id": "tree-view",
+    "name": "Tree Views",
+    "description": "Capture visible nodes from a direction using BFS or ordered DFS.",
+    "exampleJava": "if (i == 0) leftView.add(node.val);",
+    "commonMistakes": [
+      "Taking every node instead of one per level",
+      "Mixing left view with level order output"
+    ],
+    "practiceProblems": ["tr-009", "tr-012"]
+  },
+  {
+    "id": "lca-binary-tree",
+    "name": "Lowest Common Ancestor",
+    "description": "Return the split point where one target is found in each subtree, or the target node itself.",
+    "exampleJava": "if (left != null && right != null) return root;",
+    "commonMistakes": [
+      "Returning too early when only one side has a match",
+      "Not handling the case where root is one of the targets"
+    ],
+    "practiceProblems": ["tr-013"]
+  },
+  {
+    "id": "tree-construction",
+    "name": "Tree Construction",
+    "description": "Rebuild the tree by using traversal order properties and subtree boundaries.",
+    "exampleJava": "TreeNode root = new TreeNode(preorder[preIndex++]);",
+    "commonMistakes": [
+      "Not splitting the inorder range correctly",
+      "Using linear search repeatedly instead of an index map"
+    ],
+    "practiceProblems": ["tr-014"]
+  },
+  {
+    "id": "serialize-tree",
+    "name": "Serialize Tree",
+    "description": "Encode tree structure explicitly so null children and branching are preserved.",
+    "exampleJava": "out.add(node == null ? \"#\" : Integer.toString(node.val));",
+    "commonMistakes": [
+      "Omitting null markers",
+      "Producing an encoding that cannot be decoded uniquely"
+    ],
+    "practiceProblems": ["tr-015"]
+  }
+]

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "queue-intro",
+    "name": "Queue Basics",
+    "description": "A queue follows FIFO order: the earliest inserted item leaves first.",
+    "exampleJava": "Queue<Integer> q = new ArrayDeque<>(); q.offer(10); int front = q.peek();",
+    "commonMistakes": [
+      "Treating a queue like a stack",
+      "Removing from the wrong end"
+    ],
+    "practiceProblems": ["q-001", "q-002"]
+  },
+  {
+    "id": "queue-operations",
+    "name": "Enqueue Dequeue",
+    "description": "Core queue operations should insert at the rear and remove from the front in O(1).",
+    "exampleJava": "q.offer(x); int y = q.poll();",
+    "commonMistakes": [
+      "Using remove(0) on an ArrayList",
+      "Forgetting empty checks before poll or peek"
+    ],
+    "practiceProblems": ["q-001", "q-003"]
+  },
+  {
+    "id": "array-queue-implementation",
+    "name": "Array-Based Queue",
+    "description": "Implement a queue with an array and front/rear pointers.",
+    "exampleJava": "arr[rear++] = x; int value = arr[front++];",
+    "commonMistakes": [
+      "Not handling capacity limits",
+      "Letting front and rear grow without control"
+    ],
+    "practiceProblems": ["q-001", "q-002"]
+  },
+  {
+    "id": "circular-queue",
+    "name": "Circular Queue",
+    "description": "Wrap front and rear indices with modulo arithmetic so space can be reused.",
+    "exampleJava": "rear = (rear + 1) % capacity;",
+    "commonMistakes": [
+      "Confusing full and empty states",
+      "Applying modulo in only one pointer update"
+    ],
+    "practiceProblems": ["q-002", "q-004"]
+  },
+  {
+    "id": "queue-simulation",
+    "name": "Queue Simulation",
+    "description": "Simulate FIFO flows directly instead of reasoning abstractly.",
+    "exampleJava": "for (int x : values) { q.offer(x); if (needRemove) q.poll(); }",
+    "commonMistakes": [
+      "Skipping intermediate queue states",
+      "Removing multiple elements without checking availability"
+    ],
+    "practiceProblems": ["q-003", "q-005"]
+  },
+  {
+    "id": "generate-binary-numbers",
+    "name": "Generate Binary Numbers",
+    "description": "Use a queue of strings to generate values level by level.",
+    "exampleJava": "String cur = q.poll(); q.offer(cur + \"0\"); q.offer(cur + \"1\");",
+    "commonMistakes": [
+      "Appending to the wrong parent string",
+      "Using recursion instead of queue layering"
+    ],
+    "practiceProblems": ["q-005"]
+  },
+  {
+    "id": "bfs-on-grid",
+    "name": "Breadth-First Queue Flow",
+    "description": "Use a queue to process states layer by layer in shortest-step style problems.",
+    "exampleJava": "while (!q.isEmpty()) { int cur = q.poll(); ... q.offer(next); }",
+    "commonMistakes": [
+      "Revisiting states repeatedly",
+      "Mixing DFS recursion with BFS intent"
+    ],
+    "practiceProblems": ["q-006", "q-007"]
+  },
+  {
+    "id": "sliding-window-queue",
+    "name": "Sliding Window with Deque",
+    "description": "Use a deque to keep only useful candidates for the current window.",
+    "exampleJava": "while (!dq.isEmpty() && arr[dq.peekLast()] <= arr[i]) dq.pollLast();",
+    "commonMistakes": [
+      "Forgetting to remove out-of-window indices",
+      "Storing values instead of indices when positions matter"
+    ],
+    "practiceProblems": ["q-008", "q-009"]
+  },
+  {
+    "id": "deque-technique",
+    "name": "Deque Technique",
+    "description": "Use both ends of a deque deliberately for front expiry and back cleanup.",
+    "exampleJava": "if (dq.peekFirst() <= i - k) dq.pollFirst();",
+    "commonMistakes": [
+      "Removing from the wrong end",
+      "Using a plain queue where a deque is required"
+    ],
+    "practiceProblems": ["q-008", "q-009", "q-010"]
+  },
+  {
+    "id": "top-k-elements",
+    "name": "Top-K with Priority Queue",
+    "description": "Use a heap to keep only the strongest K candidates efficiently.",
+    "exampleJava": "PriorityQueue<Integer> pq = new PriorityQueue<>();",
+    "commonMistakes": [
+      "Using a full sort when K is much smaller than n",
+      "Choosing the wrong heap direction"
+    ],
+    "practiceProblems": ["q-011", "q-012"]
+  },
+  {
+    "id": "task-scheduling-queue",
+    "name": "Task Scheduling Queue",
+    "description": "Model scheduling and cooldown constraints with queues or heaps.",
+    "exampleJava": "cooldown.offer(new int[] {time + n, count - 1});",
+    "commonMistakes": [
+      "Not releasing cooled tasks back in time",
+      "Using only one structure when two phases are needed"
+    ],
+    "practiceProblems": ["q-012", "q-013"]
+  }
+]

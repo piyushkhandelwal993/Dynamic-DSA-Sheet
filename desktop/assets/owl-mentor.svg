@@ -1,0 +1,38 @@
+<svg width="320" height="280" viewBox="0 0 320 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="owlGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 120) rotate(90) scale(150 150)">
+      <stop stop-color="#A78BFA" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#070B16" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="owlBody" x1="160" y1="62" x2="160" y2="248" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="owlWing" x1="68" y1="110" x2="126" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#5B21B6"/>
+    </linearGradient>
+    <linearGradient id="owlWingRight" x1="252" y1="110" x2="194" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#5B21B6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="160" cy="138" r="126" fill="url(#owlGlow)"/>
+  <ellipse cx="160" cy="244" rx="114" ry="20" fill="#111A2E" opacity="0.82"/>
+  <path d="M61 212C81 173 109 151 132 156C112 181 100 204 95 226C82 226 71 222 61 212Z" fill="url(#owlWing)"/>
+  <path d="M259 212C239 173 211 151 188 156C208 181 220 204 225 226C238 226 249 222 259 212Z" fill="url(#owlWingRight)"/>
+  <path d="M160 54C204 54 238 95 238 150C238 205 204 244 160 244C116 244 82 205 82 150C82 95 116 54 160 54Z" fill="url(#owlBody)"/>
+  <path d="M108 88C96 66 76 52 58 48C71 72 86 86 108 88Z" fill="#7C3AED"/>
+  <path d="M212 88C224 66 244 52 262 48C249 72 234 86 212 88Z" fill="#7C3AED"/>
+  <ellipse cx="129" cy="129" rx="33" ry="36" fill="#F8FAFC"/>
+  <ellipse cx="191" cy="129" rx="33" ry="36" fill="#F8FAFC"/>
+  <circle cx="129" cy="129" r="18" fill="#111A2E"/>
+  <circle cx="191" cy="129" r="18" fill="#111A2E"/>
+  <circle cx="136" cy="123" r="5" fill="#FFFFFF"/>
+  <circle cx="198" cy="123" r="5" fill="#FFFFFF"/>
+  <path d="M160 141L146 157H174L160 141Z" fill="#F59E0B"/>
+  <path d="M131 171C141 182 151 188 160 188C169 188 179 182 189 171" stroke="#E9D5FF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M112 214C128 205 144 201 160 201C176 201 192 205 208 214" stroke="#6D28D9" stroke-width="12" stroke-linecap="round"/>
+  <path d="M122 236L111 262" stroke="#F59E0B" stroke-width="8" stroke-linecap="round"/>
+  <path d="M198 236L209 262" stroke="#F59E0B" stroke-width="8" stroke-linecap="round"/>
+</svg>

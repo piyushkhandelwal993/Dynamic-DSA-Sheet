@@ -1,0 +1,134 @@
+[
+  {
+    "id": "binary-search-intro",
+    "name": "Binary Search Basics",
+    "description": "Search a sorted array by repeatedly comparing with the middle element and discarding half the range.",
+    "exampleJava": "while (left <= right) { int mid = left + (right - left) / 2; }",
+    "commonMistakes": [
+      "Using binary search on unsorted data",
+      "Updating the wrong side after comparing with mid"
+    ],
+    "practiceProblems": ["bs-001", "bs-002"]
+  },
+  {
+    "id": "sorted-mid-check",
+    "name": "Sorted Mid Check",
+    "description": "Decide which half to keep by comparing the target with the middle value.",
+    "exampleJava": "if (arr[mid] == target) return mid; else if (arr[mid] < target) left = mid + 1;",
+    "commonMistakes": [
+      "Forgetting the equality case",
+      "Moving both pointers incorrectly"
+    ],
+    "practiceProblems": ["bs-001", "bs-005"]
+  },
+  {
+    "id": "lower-bound",
+    "name": "Lower Bound",
+    "description": "Find the first position where a value can appear without breaking sorted order.",
+    "exampleJava": "if (arr[mid] >= target) { ans = mid; right = mid - 1; }",
+    "commonMistakes": [
+      "Stopping at any match instead of the first valid index",
+      "Returning the wrong insertion position when target is absent"
+    ],
+    "practiceProblems": ["bs-002", "bs-004"]
+  },
+  {
+    "id": "upper-bound",
+    "name": "Upper Bound",
+    "description": "Find the first position strictly greater than the target.",
+    "exampleJava": "if (arr[mid] > target) { ans = mid; right = mid - 1; }",
+    "commonMistakes": [
+      "Using >= instead of >",
+      "Confusing upper bound with last occurrence"
+    ],
+    "practiceProblems": ["bs-003", "bs-004"]
+  },
+  {
+    "id": "first-last-occurrence",
+    "name": "First and Last Occurrence",
+    "description": "Run boundary-style binary searches to lock onto both ends of a value range.",
+    "exampleJava": "int first = firstOccurrence(arr, x); int last = lastOccurrence(arr, x);",
+    "commonMistakes": [
+      "Returning the same boundary for both ends",
+      "Not handling target absence cleanly"
+    ],
+    "practiceProblems": ["bs-003"]
+  },
+  {
+    "id": "search-insert-position",
+    "name": "Search Insert Position",
+    "description": "Return the exact position where the target belongs even if it is not present.",
+    "exampleJava": "return left;",
+    "commonMistakes": [
+      "Returning -1 when the target is absent",
+      "Returning right instead of the insertion index"
+    ],
+    "practiceProblems": ["bs-004"]
+  },
+  {
+    "id": "rotated-array-search",
+    "name": "Rotated Array Search",
+    "description": "Use sorted-half logic inside a rotated array to keep discarding half the space.",
+    "exampleJava": "if (nums[left] <= nums[mid]) { ... } else { ... }",
+    "commonMistakes": [
+      "Assuming the whole array is globally sorted",
+      "Not identifying which half is currently sorted"
+    ],
+    "practiceProblems": ["bs-005", "bs-006"]
+  },
+  {
+    "id": "peak-element",
+    "name": "Peak Element",
+    "description": "Compare the middle with a neighbor to move toward a guaranteed peak.",
+    "exampleJava": "if (nums[mid] < nums[mid + 1]) left = mid + 1; else right = mid;",
+    "commonMistakes": [
+      "Using a normal exact-match binary search template",
+      "Accessing neighbors without boundary care"
+    ],
+    "practiceProblems": ["bs-007"]
+  },
+  {
+    "id": "answer-binary-search",
+    "name": "Answer Space Binary Search",
+    "description": "Binary search over a numeric answer and use a feasibility check to test each guess.",
+    "exampleJava": "if (isPossible(mid)) { ans = mid; right = mid - 1; } else left = mid + 1;",
+    "commonMistakes": [
+      "Searching the input array instead of the answer range",
+      "Using a feasibility check that is not monotonic"
+    ],
+    "practiceProblems": ["bs-008", "bs-009", "bs-010", "bs-011"]
+  },
+  {
+    "id": "sqrt-binary-search",
+    "name": "Square Root Search",
+    "description": "Search over integers to find the floor square root without overflow mistakes.",
+    "exampleJava": "long sq = 1L * mid * mid;",
+    "commonMistakes": [
+      "Overflowing int when squaring mid",
+      "Returning the first larger square instead of the floor"
+    ],
+    "practiceProblems": ["bs-008"]
+  },
+  {
+    "id": "capacity-search",
+    "name": "Capacity Search",
+    "description": "Binary search the smallest capacity, speed, or limit that still satisfies the problem constraints.",
+    "exampleJava": "if (daysNeeded(mid) <= days) right = mid - 1;",
+    "commonMistakes": [
+      "Searching the wrong numeric range",
+      "Using a non-monotonic helper"
+    ],
+    "practiceProblems": ["bs-009", "bs-010", "bs-011"]
+  },
+  {
+    "id": "partition-binary-search",
+    "name": "Partition Binary Search",
+    "description": "Partition two sorted arrays and use boundary comparisons to find the correct split.",
+    "exampleJava": "if (left1 <= right2 && left2 <= right1) return ...;",
+    "commonMistakes": [
+      "Binary searching the larger array instead of the smaller one",
+      "Using wrong partition boundaries when one side is empty"
+    ],
+    "practiceProblems": ["bs-012"]
+  }
+]

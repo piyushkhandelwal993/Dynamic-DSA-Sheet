@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: file: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
+    <title>dsa-sheet desktop</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app-shell" class="app-shell">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">
+            <span class="brand-glyph">&lt;/&gt;</span>
+          </div>
+          <div>
+            <div class="eyebrow">Adaptive DSA Arena</div>
+            <h1>DSA SHEET</h1>
+            <p>Dynamic. Adaptive. Yours.</p>
+          </div>
+        </div>
+
+        <section class="flow-panel">
+          <h2>Primary Flow</h2>
+          <div class="flow-steps">
+            <div class="flow-step current">
+              <span class="flow-icon">□</span>
+              <span>Current Task</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <span class="flow-icon">▶</span>
+              <span>Solve</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <span class="flow-icon">✓</span>
+              <span>Submit</span>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+              <span class="flow-icon">↻</span>
+              <span>Next Task</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="nav-panel">
+          <h2>Navigation</h2>
+          <div class="view-tabs sidebar-nav" id="view-tabs">
+            <button class="view-tab active" data-view="home" title="Home" aria-label="Home">
+              <span class="nav-icon">⌂</span>
+              <span class="nav-label">Home</span>
+            </button>
+            <button class="view-tab active" data-view="practice" title="Practice" aria-label="Practice">
+              <span class="nav-icon">&lt;/&gt;</span>
+              <span class="nav-label">Practice</span>
+            </button>
+            <button class="view-tab" data-view="progress" title="Progress" aria-label="Progress">
+              <span class="nav-icon">▥</span>
+              <span class="nav-label">Progress</span>
+            </button>
+            <button class="view-tab" data-view="world" title="World" aria-label="World">
+              <span class="nav-icon">◎</span>
+              <span class="nav-label">World</span>
+            </button>
+            <button class="view-tab" data-view="problems" title="Problems" aria-label="Problems">
+              <span class="nav-icon">☰</span>
+              <span class="nav-label">Problems</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="player-card">
+          <h2>Player</h2>
+          <div id="player-card"></div>
+        </section>
+      </aside>
+
+      <button id="sidebar-edge-toggle-button" class="sidebar-edge-toggle" aria-label="Toggle sidebar">☰</button>
+
+      <main class="workspace-shell">
+        <header class="app-header panel">
+          <div class="app-header-main">
+            <div class="eyebrow">Focused Topic</div>
+            <div class="header-breadcrumb-row">
+              <div id="header-breadcrumb" class="header-breadcrumb">Loading...</div>
+              <span id="header-difficulty-badge" class="pill gray is-hidden">Easy</span>
+            </div>
+            <div class="topic-switcher-wrap">
+              <button id="topic-switcher-button" class="topic-switcher-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="topic-name">Loading...</span>
+                <span class="topic-switcher-caret">▾</span>
+              </button>
+              <div id="topic-switcher-menu" class="topic-switcher-menu is-hidden" role="listbox" aria-label="Select topic"></div>
+            </div>
+            <p id="topic-description" class="muted"></p>
+          </div>
+
+          <div class="header-actions">
+            <div class="header-actions-main">
+              <div id="header-player-chip" class="header-player-chip">Player</div>
+              <button id="toggle-sidebar-button" class="ghost-button">☰ Sidebar</button>
+              <button id="refresh-button" class="ghost-button">Refresh</button>
+            </div>
+            <div class="header-actions-secondary">
+              <button id="reset-layout-button" class="ghost-button subtle-button">Reset Layout</button>
+              <button id="reset-preferences-button" class="ghost-button subtle-button">Reset Preferences</button>
+            </div>
+          </div>
+        </header>
+
+        <section id="environment-banner" class="environment-banner panel is-hidden" aria-live="polite">
+          <div class="environment-banner-copy">
+            <div class="eyebrow">Desktop Setup</div>
+            <strong id="environment-banner-title">Java setup required</strong>
+            <p id="environment-banner-message" class="muted"></p>
+          </div>
+          <div class="environment-banner-actions">
+            <button id="environment-banner-guide-button" class="ghost-button">Open Java Guide</button>
+            <button id="environment-banner-dismiss-button" class="ghost-button subtle-button">Dismiss</button>
+          </div>
+        </section>
+
+        <section id="home-view" class="view-panel home-page">
+          <nav class="home-nav panel">
+            <div class="home-nav-brand">
+              <div class="home-nav-mark">&lt;/&gt;</div>
+              <div>
+                <strong>DSA SHEET</strong>
+                <span>Adaptive DSA Arena</span>
+              </div>
+            </div>
+            <div class="home-nav-links">
+              <button type="button" class="home-nav-link" data-home-scroll="home-engine-section">Features</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-timeline-section">How It Works</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-roadmap-section">Roadmap</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-stats-section">Stats</button>
+            </div>
+            <div class="home-nav-actions">
+              <button id="home-login-button" class="ghost-button subtle-button" type="button">Open App</button>
+              <button id="home-nav-start-button" class="primary-button" type="button">Start Learning Free</button>
+            </div>
+          </nav>
+
+          <section class="home-hero">
+            <div class="home-hero-copy">
+              <div class="home-hero-pill">Adaptive learning that evolves with you</div>
+              <h1>Stop Guessing<br />What To <span>Solve Next.</span></h1>
+              <p class="home-lead">
+                DSA Sheet analyzes your code, understands your strengths and gaps,
+                and gives you exactly the next problem you should solve.
+              </p>
+              <div class="home-hero-actions">
+                <button id="home-start-button" class="primary-button">Start Learning Free</button>
+                <button id="home-demo-button" class="ghost-button">Watch Demo</button>
+              </div>
+              <div class="home-highlight-row">
+                <div class="home-highlight-pill">
+                  <span class="home-highlight-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4C7.6 4 4 7.6 4 12s3.6 8 8 8 8-3.6 8-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <span>Adaptive Roadmap</span>
+                </div>
+                <div class="home-highlight-pill">
+                  <span class="home-highlight-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l6 3v5c0 4.2-2.6 7.4-6 8-3.4-.6-6-3.8-6-8V7l6-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.5 12 1.8 1.8 3.7-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span>Personalized Recommendations</span>
+                </div>
+                <div class="home-highlight-pill">
+                  <span class="home-highlight-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8.5h7v7h-7z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 18V6h12v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <span>Real Code Analysis</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="home-hero-visual">
+              <div class="hero-glow hero-glow-top"></div>
+              <div class="hero-glow hero-glow-bottom"></div>
+              <div class="hero-world-map" id="hero-path"></div>
+              <div class="hero-journey-card panel">
+                <div class="eyebrow">Your Learning Journey</div>
+                <h3 id="hero-task-title">Loading task…</h3>
+                <div id="hero-journey-steps" class="hero-journey-steps"></div>
+                <div class="hero-task-why">
+                  <strong>Why this problem?</strong>
+                  <div id="hero-task-reasons" class="hero-task-reasons"></div>
+                </div>
+                <div class="hero-task-footer">
+                  <button id="hero-task-start-button" class="primary-button">Start Solving</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="home-problem-section" class="home-problem-section panel">
+            <div class="section-intro centered-intro">
+              <h2>Most students don't fail DSA.<br />They fail because they don't know what to learn next.</h2>
+            </div>
+            <div class="compare-grid">
+              <article class="compare-card compare-card-bad">
+                <h3>Traditional Learning</h3>
+                <div class="compare-flow">
+                  <span><i></i>YouTube Playlist</span>
+                  <span>↓</span>
+                  <span><i></i>Striver Sheet</span>
+                  <span>↓</span>
+                  <span><i></i>LeetCode</span>
+                  <span>↓</span>
+                  <span><i></i>Random Problem</span>
+                  <span>↓</span>
+                  <span><i></i>Another Sheet</span>
+                </div>
+              </article>
+              <article class="compare-card compare-card-good">
+                <h3>DSA Sheet</h3>
+                <div class="compare-flow">
+                  <span><i></i>Current Task</span>
+                  <span>↓</span>
+                  <span><i></i>Solve</span>
+                  <span>↓</span>
+                  <span><i></i>Feedback</span>
+                  <span>↓</span>
+                  <span><i></i>Next Task</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="home-engine-section" class="home-engine-section">
+            <div class="section-intro centered-intro">
+              <div class="eyebrow">Why DSA Sheet is different</div>
+              <h2>We don't just give problems. We build your skill graph.</h2>
+            </div>
+            <div class="feature-grid">
+              <article class="feature-card panel">
+                <div class="feature-card-icon">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M20 9c-5 0-9 3.8-9 8.5 0 1.7.5 3.2 1.5 4.5A8.8 8.8 0 0 0 11 27c0 4.4 3.5 8 8 8h2V9h-1Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M28 9c5 0 9 3.8 9 8.5 0 1.7-.5 3.2-1.5 4.5A8.8 8.8 0 0 1 37 27c0 4.4-3.5 8-8 8h-2V9h1Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M20 20h8M20 27h8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
+                </div>
+                <h3>Learns From Your Code</h3>
+                <p>We analyze correctness, complexity, mastered concepts, and missed concepts.</p>
+                <ul>
+                  <li>Code quality</li>
+                  <li>Time &amp; space complexity</li>
+                  <li>Concepts mastered</li>
+                  <li>Concepts missed</li>
+                </ul>
+              </article>
+              <article class="feature-card panel">
+                <div class="feature-card-icon">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="14" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="24" r="2.8" fill="currentColor"/><path d="m31 17 8-8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m35 13 3 3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
+                </div>
+                <h3>Personalized Roadmap</h3>
+                <p>Two students solving the same problem can receive completely different next recommendations.</p>
+                <ul>
+                  <li>Adaptive path</li>
+                  <li>Focus on weak areas</li>
+                  <li>Optimized for you</li>
+                </ul>
+              </article>
+              <article class="feature-card panel">
+                <div class="feature-card-icon">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M27 4 12 27h10l-3 17 17-24H26l1-16Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/></svg>
+                </div>
+                <h3>No More Sheet Hopping</h3>
+                <p>The platform automatically picks the right next problem so you stay in flow.</p>
+                <ul>
+                  <li>No random jumps</li>
+                  <li>No wasted time</li>
+                  <li>Maximum progression</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section id="home-showcase-section" class="home-showcase-section">
+            <div class="section-intro centered-intro">
+              <h2>See DSA Sheet in Action</h2>
+            </div>
+            <div class="showcase-frame">
+              <div class="showcase-image-grid">
+                <figure class="showcase-shot showcase-shot-large">
+                  <img src="./assets/showcase/practice-view.png" alt="DSA Sheet practice view with current task, problem statement, and code editor" />
+                  <figcaption>
+                    <span class="showcase-caption-label">Practice View</span>
+                    <strong>Current task, problem statement, and Monaco editor in one focused workspace.</strong>
+                  </figcaption>
+                </figure>
+                <figure class="showcase-shot">
+                  <img src="./assets/showcase/practice-feedback.png" alt="DSA Sheet feedback view with execution result and adaptive recommendation" />
+                  <figcaption>
+                    <span class="showcase-caption-label">Adaptive Feedback</span>
+                    <strong>Execution results, concept signals, and the next recommendation after submit.</strong>
+                  </figcaption>
+                </figure>
+                <figure class="showcase-shot">
+                  <img src="./assets/showcase/home-landing.png" alt="DSA Sheet landing screen with adaptive learning journey and world map" />
+                  <figcaption>
+                    <span class="showcase-caption-label">Home Experience</span>
+                    <strong>The live desktop landing page rendered directly from the product.</strong>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <section id="home-world-section" class="home-world-section panel">
+            <div class="section-intro centered-intro">
+              <div class="eyebrow">Learn DSA Like An Adventure</div>
+              <h2>Worlds unlock as your code gets stronger.</h2>
+            </div>
+            <div id="home-worlds" class="home-worlds"></div>
+          </section>
+
+          <section id="home-timeline-section" class="home-timeline-section panel">
+            <div class="section-intro centered-intro">
+              <div class="eyebrow">How Learning Works</div>
+              <h2>Understand concept → solve → feedback → unlock the next challenge.</h2>
+            </div>
+            <div class="timeline-row">
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4C7.6 4 4 7.6 4 12s3.6 8 8 8 8-3.6 8-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong>Understand Concept</strong></div>
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><strong>Solve Problem</strong></div>
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><strong>Get Feedback</strong></div>
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v6h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Fill Knowledge Gaps</strong></div>
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 7h7v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Unlock Next Challenge</strong></div>
+              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.5-4.8-2.5-4.8 2.5.9-5.5L4.2 9.7l5.4-.8L12 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><strong>Master Topic</strong></div>
+            </div>
+          </section>
+
+          <section id="home-roadmap-section" class="home-roadmap-section panel">
+            <div class="section-intro centered-intro">
+              <div class="eyebrow">DSA Roadmap</div>
+              <h2>Progression nodes built around the product journey.</h2>
+            </div>
+            <div id="home-roadmap" class="home-roadmap"></div>
+          </section>
+
+          <section id="home-stats-section" class="home-stats-section panel">
+            <div class="section-intro centered-intro">
+              <h2>Product momentum, shown clearly.</h2>
+            </div>
+            <div id="home-stats" class="home-stats"></div>
+          </section>
+
+          <section class="home-final-cta panel">
+            <div class="final-cta-path"></div>
+            <div class="owl-mentor">
+              <img class="owl-illustration" src="./assets/owl-mentor.svg" alt="Owl mentor illustration" />
+            </div>
+            <div class="final-cta-copy">
+              <h2>Ready To Stop Guessing What To Solve Next?</h2>
+              <p>Start your adaptive DSA journey today.</p>
+              <button id="home-final-cta-button" class="primary-button">Start Learning Free</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="practice-view" class="view-panel">
+          <section class="panel practice-strip">
+            <div class="practice-strip-main">
+              <div class="task-card">
+                <div class="task-card-main">
+                  <div class="eyebrow">Current Task</div>
+                  <h3 id="mission-title">Loading your next task...</h3>
+                  <p id="mission-summary" class="muted"></p>
+                  <div id="mission-meta" class="mission-meta"></div>
+                </div>
+                <div class="task-card-arrow">→</div>
+              </div>
+
+              <div class="mission-actions">
+                <button id="mission-action-button" class="primary-button">Start Task</button>
+                <button id="mission-jump-button" class="ghost-button">Browse Problems</button>
+              </div>
+            </div>
+
+            <aside class="practice-strip-side">
+              <div class="practice-strip-stats">
+                <div class="stat-card streak-card">
+                  <span class="stat-icon">🔥</span>
+                  <div>
+                    <strong id="streak-count">0</strong>
+                    <span class="stat-label">Day Streak</span>
+                  </div>
+                </div>
+                <div class="stat-card progress-card">
+                  <span class="stat-ring"></span>
+                  <div>
+                    <strong id="solved-count">0/0</strong>
+                    <span class="stat-label">Solved In This Topic</span>
+                  </div>
+                </div>
+              </div>
+              <div class="stat-card wide task-help-card">
+                <span class="stat-label">Why now</span>
+                <strong id="mission-steps">Start the recommended problem and submit it.</strong>
+              </div>
+            </aside>
+          </section>
+
+          <section class="practice-layout">
+            <section class="panel problem-pane">
+              <div class="panel-header">
+                <div>
+                  <div class="eyebrow">Problem</div>
+                  <h2 id="problem-pane-title">Choose a problem</h2>
+                </div>
+              </div>
+
+              <div id="problem-tabs" class="problem-tabs">
+                <button class="problem-tab active" data-problem-view="description">Description</button>
+                <button class="problem-tab" data-problem-view="examples">Examples</button>
+                <button class="problem-tab" data-problem-view="hints">Hints</button>
+              </div>
+
+              <div id="problem-pane-content" class="problem-pane-content muted">
+                Use the next-task strip to open your recommended problem. The full statement will appear here.
+              </div>
+            </section>
+
+            <div id="splitter" class="splitter" role="separator" aria-orientation="vertical" aria-label="Resize panels">
+              <span class="splitter-handle"></span>
+            </div>
+
+            <section class="panel editor-pane">
+              <div class="panel-header">
+                <div>
+                  <div class="eyebrow">Code Editor</div>
+                  <h2 id="editor-problem-title">Workspace</h2>
+                </div>
+                <div class="editor-actions">
+                  <button id="toggle-editor-focus-button" class="ghost-button" disabled>Focus Editor</button>
+                  <button id="editor-decrease-font-button" class="ghost-button" disabled>A-</button>
+                  <button id="editor-increase-font-button" class="ghost-button" disabled>A+</button>
+                  <button id="open-file-button" class="ghost-button" disabled>Open File</button>
+                  <button id="run-button" class="ghost-button" disabled>Run</button>
+                  <button id="save-button" class="ghost-button" disabled>Save</button>
+                  <button id="submit-button" class="primary-button" disabled>Submit</button>
+                </div>
+              </div>
+
+              <div id="problem-meta" class="problem-meta muted">Open a problem to load its starter file here.</div>
+              <div class="editor-toolbar">
+                <span id="save-status" class="pill gray">No file open</span>
+                <span class="editor-hint">Monaco editor. Cmd/Ctrl+S saves.</span>
+              </div>
+              <div id="editor"></div>
+              <div class="editor-statusbar">
+                <span id="cursor-status">Ln 1, Col 1</span>
+                <span id="selection-status">0 selected</span>
+                <span id="line-status">0 lines</span>
+                <span id="font-status">14px</span>
+              </div>
+              <div class="custom-run-panel">
+                <div class="custom-run-header">
+                  <div>
+                    <div class="eyebrow">Run Mode</div>
+                    <p class="muted">Use official tests or try your own custom input before submitting.</p>
+                  </div>
+                  <div id="run-mode-tabs" class="run-mode-tabs">
+                    <button class="run-mode-tab active" data-run-mode="official">Official Tests</button>
+                    <button class="run-mode-tab" data-run-mode="custom">Custom Input</button>
+                  </div>
+                </div>
+                <div id="custom-input-section" class="custom-input-section is-hidden">
+                  <label class="custom-input-label" for="custom-input">Custom stdin</label>
+                  <textarea id="custom-input" class="custom-input" spellcheck="false" placeholder="Enter the exact stdin you want to test..."></textarea>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section id="result-section" class="panel result-section is-hidden">
+            <div class="result-section-header">
+              <div class="result-section-title">
+                <div class="eyebrow">Results</div>
+                <strong>Run feedback and next step</strong>
+              </div>
+            </div>
+            <div id="result-tabs" class="result-tabs">
+              <button class="result-tab active" data-result-view="summary">Summary</button>
+              <button class="result-tab" data-result-view="execution">Execution</button>
+              <button class="result-tab" data-result-view="guidance">Next Step</button>
+            </div>
+            <div id="result-panel" class="result-panel muted"></div>
+          </section>
+        </section>
+
+        <section id="progress-view" class="view-panel is-hidden">
+          <section class="panel progress-shell">
+            <aside class="progress-rail" aria-hidden="true">
+              <span class="progress-rail-icon active">↗</span>
+              <span class="progress-rail-icon">▦</span>
+              <span class="progress-rail-icon">◌</span>
+              <span class="progress-rail-icon">★</span>
+            </aside>
+
+            <div class="progress-main">
+              <div class="progress-headline">
+                <div class="eyebrow">Progress</div>
+                <h2>Your learning momentum</h2>
+              </div>
+
+              <div class="progress-summary-grid">
+                <article class="progress-summary-card">
+                  <span class="progress-summary-icon">🔥</span>
+                  <strong id="progress-streak-value" class="progress-summary-value">0</strong>
+                  <span class="progress-summary-meta">Day streak</span>
+                </article>
+                <article class="progress-summary-card">
+                  <span class="progress-summary-icon">✦</span>
+                  <strong id="progress-xp-value" class="progress-summary-value">0</strong>
+                  <span class="progress-summary-meta">Total XP</span>
+                </article>
+                <article class="progress-summary-card">
+                  <span class="progress-summary-icon">✓</span>
+                  <strong id="progress-solved-value" class="progress-summary-value">0</strong>
+                  <span class="progress-summary-meta">Problems solved</span>
+                </article>
+                <article class="progress-summary-card progress-summary-card-wide">
+                  <span class="progress-summary-icon">◎</span>
+                  <strong id="progress-topic-value" class="progress-summary-value">Topic</strong>
+                  <span id="progress-topic-meta" class="progress-summary-meta">0/0 solved</span>
+                </article>
+              </div>
+
+              <div class="analytics-grid analytics-grid-polished">
+                <section class="panel analytics-card analytics-card-wide">
+                  <div class="eyebrow">Streak Calendar</div>
+                  <div id="streak-summary" class="streak-summary"></div>
+                  <div id="streak-calendar" class="streak-calendar"></div>
+                </section>
+
+                <section class="panel analytics-card">
+                  <div class="eyebrow">Submission Trend</div>
+                  <div id="submission-trend" class="chart-area"></div>
+                </section>
+
+                <section class="panel analytics-card">
+                  <div class="eyebrow">Topic Progress</div>
+                  <div id="topic-progress" class="chart-area"></div>
+                </section>
+
+                <section class="panel analytics-card">
+                  <div class="eyebrow">Strongest Skills</div>
+                  <div id="skill-bars" class="skill-bars"></div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section id="world-view" class="view-panel is-hidden">
+          <div class="world-grid">
+            <section class="panel">
+              <div class="eyebrow">Why This Is Next</div>
+              <div id="next-card"></div>
+            </section>
+
+            <section class="panel">
+              <div class="eyebrow">World Path</div>
+              <div id="world-zones" class="world-map"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="problems-view" class="view-panel is-hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Problem Bank</div>
+                <h2>Browse Problems</h2>
+              </div>
+            </div>
+            <p class="muted sidebar-help">Use this only when you want to jump manually. Otherwise, stay in Practice and follow the recommended task.</p>
+            <div class="problem-library-toolbar">
+              <input id="problem-search-input" class="library-input" type="search" placeholder="Search problems..." />
+              <select id="problem-difficulty-filter" class="library-select">
+                <option value="all">All difficulties</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+              <select id="problem-status-filter" class="library-select">
+                <option value="all">All status</option>
+                <option value="solved">Solved</option>
+                <option value="started">Started</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+            <div class="problem-library-table">
+              <div class="problem-library-head">
+                <span>#</span>
+                <span>Problem</span>
+                <span>Difficulty</span>
+                <span>Status</span>
+                <span>Complexity</span>
+              </div>
+              <div id="problem-list" class="problem-library-body"></div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div id="success-modal-overlay" class="modal-overlay is-hidden">
+      <div class="success-modal">
+        <div class="success-confetti" aria-hidden="true">
+          <span class="confetti-piece piece-1"></span>
+          <span class="confetti-piece piece-2"></span>
+          <span class="confetti-piece piece-3"></span>
+          <span class="confetti-piece piece-4"></span>
+          <span class="confetti-piece piece-5"></span>
+          <span class="confetti-piece piece-6"></span>
+        </div>
+        <div class="success-check">✓</div>
+        <div class="eyebrow">Quest Complete</div>
+        <h2 id="success-modal-title">Great Work</h2>
+        <div class="success-stats">
+          <div class="success-stat">
+            <span class="success-stat-value" id="success-modal-xp">+0 XP</span>
+            <span class="stat-label">Reward</span>
+          </div>
+          <div class="success-stat">
+            <span class="success-stat-value" id="success-modal-streak">+0 Day Streak</span>
+            <span class="stat-label">Consistency</span>
+          </div>
+        </div>
+        <div class="next-task-modal-card">
+          <div class="eyebrow">Next</div>
+          <strong id="success-modal-next-task">No next task yet</strong>
+          <p id="success-modal-next-reason" class="muted"></p>
+        </div>
+        <div class="success-actions">
+          <button id="success-modal-start-button" class="primary-button">Start Next Task</button>
+          <button id="success-modal-review-button" class="ghost-button">Review Submission</button>
+          <button id="success-modal-close-button" class="ghost-button">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

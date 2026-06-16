@@ -1,0 +1,134 @@
+[
+  {
+    "id": "graph-intro",
+    "name": "Graph Basics",
+    "description": "A graph stores vertices and edges; adjacency lists are the standard efficient representation.",
+    "exampleJava": "List<List<Integer>> graph = new ArrayList<>();",
+    "commonMistakes": [
+      "Forgetting whether the graph is directed or undirected",
+      "Using an adjacency matrix unnecessarily for sparse graphs"
+    ],
+    "practiceProblems": ["gr-001", "gr-002"]
+  },
+  {
+    "id": "adjacency-list",
+    "name": "Adjacency List",
+    "description": "Store each node's outgoing neighbors in a list for efficient traversal.",
+    "exampleJava": "graph.get(u).add(v); graph.get(v).add(u);",
+    "commonMistakes": [
+      "Not adding the reverse edge in an undirected graph",
+      "Indexing the graph incorrectly"
+    ],
+    "practiceProblems": ["gr-001"]
+  },
+  {
+    "id": "dfs-graph",
+    "name": "DFS on Graphs",
+    "description": "Explore depth-first using recursion or an explicit stack while marking visited nodes.",
+    "exampleJava": "visited[node] = true; for (int nei : graph.get(node)) dfs(nei);",
+    "commonMistakes": [
+      "Forgetting visited checks and revisiting forever",
+      "Assuming one DFS call covers all components automatically"
+    ],
+    "practiceProblems": ["gr-002", "gr-004"]
+  },
+  {
+    "id": "bfs-graph",
+    "name": "BFS on Graphs",
+    "description": "Use a queue to explore breadth-first and discover minimum-edge distances in unweighted graphs.",
+    "exampleJava": "Queue<Integer> q = new ArrayDeque<>(); q.offer(src);",
+    "commonMistakes": [
+      "Marking visited too late and pushing duplicates",
+      "Using DFS when shortest edge-count path is needed"
+    ],
+    "practiceProblems": ["gr-003", "gr-008"]
+  },
+  {
+    "id": "connected-components",
+    "name": "Connected Components",
+    "description": "Run DFS or BFS from each unvisited node to count disconnected pieces of the graph.",
+    "exampleJava": "for (int i = 0; i < n; i++) if (!visited[i]) { dfs(i); components++; }",
+    "commonMistakes": [
+      "Only traversing from node 0",
+      "Not resetting logic across components"
+    ],
+    "practiceProblems": ["gr-004"]
+  },
+  {
+    "id": "cycle-detection",
+    "name": "Cycle Detection",
+    "description": "Use parent tracking in undirected graphs or recursion state/indegree logic in directed graphs.",
+    "exampleJava": "if (visited[nei] && nei != parent) return true;",
+    "commonMistakes": [
+      "Treating the parent edge like a cycle in undirected graphs",
+      "Using undirected logic on directed graphs"
+    ],
+    "practiceProblems": ["gr-005", "gr-006"]
+  },
+  {
+    "id": "grid-bfs",
+    "name": "Grid BFS",
+    "description": "Treat each cell as a graph node and use BFS with direction vectors.",
+    "exampleJava": "int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};",
+    "commonMistakes": [
+      "Going out of bounds",
+      "Not marking visited cells correctly"
+    ],
+    "practiceProblems": ["gr-007", "gr-008"]
+  },
+  {
+    "id": "topological-sort",
+    "name": "Topological Sort",
+    "description": "Order nodes of a DAG so every directed edge points forward in the ordering.",
+    "exampleJava": "if (--indegree[nei] == 0) q.offer(nei);",
+    "commonMistakes": [
+      "Applying topo sort to graphs with cycles without checking",
+      "Forgetting to initialize indegrees correctly"
+    ],
+    "practiceProblems": ["gr-009", "gr-010"]
+  },
+  {
+    "id": "shortest-path-unweighted",
+    "name": "Unweighted Shortest Path",
+    "description": "BFS gives the minimum number of edges from a source in an unweighted graph.",
+    "exampleJava": "dist[nei] = dist[node] + 1;",
+    "commonMistakes": [
+      "Using DFS and expecting minimum distance",
+      "Updating distances after revisiting nodes unnecessarily"
+    ],
+    "practiceProblems": ["gr-011"]
+  },
+  {
+    "id": "dijkstra",
+    "name": "Dijkstra Algorithm",
+    "description": "Use a min-priority queue to relax weighted edges in graphs with non-negative weights.",
+    "exampleJava": "PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));",
+    "commonMistakes": [
+      "Using Dijkstra with negative weights",
+      "Not skipping stale priority queue entries"
+    ],
+    "practiceProblems": ["gr-012", "gr-013"]
+  },
+  {
+    "id": "union-find",
+    "name": "Disjoint Set Union",
+    "description": "Track connectivity with find and union operations using path compression and union by rank/size.",
+    "exampleJava": "parent[x] = find(parent[x]);",
+    "commonMistakes": [
+      "Forgetting path compression",
+      "Not checking whether two nodes are already in the same set"
+    ],
+    "practiceProblems": ["gr-014", "gr-015"]
+  },
+  {
+    "id": "mst",
+    "name": "Minimum Spanning Tree",
+    "description": "Build the lightest set of edges connecting all nodes without cycles.",
+    "exampleJava": "if (find(u) != find(v)) { union(u, v); cost += w; }",
+    "commonMistakes": [
+      "Adding an edge that forms a cycle",
+      "Sorting or selecting edges incorrectly"
+    ],
+    "practiceProblems": ["gr-015", "gr-016"]
+  }
+]

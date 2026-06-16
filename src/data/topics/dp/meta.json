@@ -1,0 +1,18 @@
+{
+  "id": "dp",
+  "name": "Dynamic Programming",
+  "description": "Learn how to reuse subproblem answers through memoization, tabulation, and strong state design.",
+  "roadmap": [
+    "DP basics",
+    "1D DP basics",
+    "Tabulation basics",
+    "Grid DP",
+    "String DP basics",
+    "Knapsack style DP",
+    "Sequence DP",
+    "Advanced DP"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "DP Sanctuary",
+  "status": "active"
+}

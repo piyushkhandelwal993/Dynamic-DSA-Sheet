@@ -1,0 +1,123 @@
+[
+  {
+    "id": "ll-traversal",
+    "name": "Linked List Traversal",
+    "description": "Move a pointer node by node until it becomes null.",
+    "exampleJava": "Node curr = head; while (curr != null) { curr = curr.next; }",
+    "commonMistakes": [
+      "Forgetting to move curr to curr.next",
+      "Stopping one node too early"
+    ],
+    "practiceProblems": ["ll-001", "ll-002"]
+  },
+  {
+    "id": "ll-length",
+    "name": "Length of Linked List",
+    "description": "Count nodes while traversing the list once.",
+    "exampleJava": "int len = 0; while (curr != null) { len++; curr = curr.next; }",
+    "commonMistakes": [
+      "Not handling an empty list",
+      "Incrementing count in the wrong place"
+    ],
+    "practiceProblems": ["ll-001"]
+  },
+  {
+    "id": "ll-search",
+    "name": "Search in Linked List",
+    "description": "Scan each node until the target value is found or the list ends.",
+    "exampleJava": "while (curr != null) { if (curr.data == x) return true; curr = curr.next; }",
+    "commonMistakes": [
+      "Returning false too early",
+      "Comparing the node itself instead of node.data"
+    ],
+    "practiceProblems": ["ll-002"]
+  },
+  {
+    "id": "ll-head-tail-update",
+    "name": "Head and Tail Update",
+    "description": "Adjust the head or tail pointer carefully during insert and delete operations.",
+    "exampleJava": "newNode.next = head; head = newNode;",
+    "commonMistakes": [
+      "Losing the old head",
+      "Not handling deletion when the list has one node"
+    ],
+    "practiceProblems": ["ll-003", "ll-004", "ll-005"]
+  },
+  {
+    "id": "ll-node-delete",
+    "name": "Delete Node",
+    "description": "Reconnect the previous node to skip the node being removed.",
+    "exampleJava": "prev.next = prev.next.next;",
+    "commonMistakes": [
+      "Not handling deletion at position 1",
+      "Walking past the node before the target"
+    ],
+    "practiceProblems": ["ll-005"]
+  },
+  {
+    "id": "ll-reverse",
+    "name": "Reverse Linked List",
+    "description": "Reverse the next pointers using previous, current, and next references.",
+    "exampleJava": "while (curr != null) { Node next = curr.next; curr.next = prev; prev = curr; curr = next; }",
+    "commonMistakes": [
+      "Losing the rest of the list before saving next",
+      "Returning the old head instead of prev"
+    ],
+    "practiceProblems": ["ll-006"]
+  },
+  {
+    "id": "ll-middle",
+    "name": "Middle of Linked List",
+    "description": "Use fast and slow pointers so slow lands at the middle.",
+    "exampleJava": "while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }",
+    "commonMistakes": [
+      "Forgetting the fast.next null check",
+      "Using two full passes when the intended trick is one pass"
+    ],
+    "practiceProblems": ["ll-007"]
+  },
+  {
+    "id": "ll-fast-slow",
+    "name": "Fast and Slow Pointers",
+    "description": "Move one pointer twice as fast as the other to detect structure properties.",
+    "exampleJava": "slow = slow.next; fast = fast.next.next;",
+    "commonMistakes": [
+      "Moving both pointers by one step",
+      "Missing null checks before fast.next.next"
+    ],
+    "practiceProblems": ["ll-007", "ll-008"]
+  },
+  {
+    "id": "ll-cycle-detection",
+    "name": "Cycle Detection",
+    "description": "Detect whether fast and slow pointers meet inside a cycle.",
+    "exampleJava": "if (slow == fast) return true;",
+    "commonMistakes": [
+      "Comparing values instead of node references",
+      "Not stopping when fast reaches null"
+    ],
+    "practiceProblems": ["ll-008"]
+  },
+  {
+    "id": "ll-merge-sorted",
+    "name": "Merge Sorted Lists",
+    "description": "Use a dummy node and tail pointer to stitch two sorted lists together.",
+    "exampleJava": "tail.next = l1.data <= l2.data ? l1 : l2;",
+    "commonMistakes": [
+      "Forgetting to append the remaining nodes",
+      "Losing the dummy head reference"
+    ],
+    "practiceProblems": ["ll-009"]
+  },
+  {
+    "id": "ll-remove-duplicates",
+    "name": "Remove Duplicates",
+    "description": "Skip over repeated values in a sorted linked list.",
+    "exampleJava": "if (curr.data == curr.next.data) curr.next = curr.next.next;",
+    "commonMistakes": [
+      "Advancing curr too early after deletion",
+      "Applying sorted-list logic to unsorted data"
+    ],
+    "practiceProblems": ["ll-010"]
+  }
+]

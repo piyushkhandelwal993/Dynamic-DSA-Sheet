@@ -1,0 +1,1006 @@
+[
+  {
+    "id": "bit-001",
+    "topic": "Bit Manipulation",
+    "subtopic": "Binary Representation",
+    "title": "Convert Decimal to Binary",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["binary-representation"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 15,
+    "description": "Given a non-negative integer n, return its binary representation without leading zeroes. For this Bit Manipulation track, try to think in terms of reading and shifting bits, not only repeated division.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return or print the binary representation of n as a string"
+    ],
+    "edgeCases": [
+      "n = 0 should return 0",
+      "Small values like 1 and 2",
+      "Large values where many bits are present"
+    ],
+    "intendedApproachSummary": "Read the last bit using bitwise logic and move through the number one bit at a time. For example, n & 1 reveals the current least significant bit, and shifting right moves to the next bit.",
+    "wrongApproachHints": [
+      "Using only modulo/division may give the right answer, but it does not practice direct bit access.",
+      "If you build digits from right to left, remember to reverse the final result."
+    ],
+    "hints": ["Repeatedly divide by 2.", "Store remainders.", "Reverse the answer."],
+    "examples": [
+      {
+        "input": "10",
+        "output": "1010",
+        "explanation": "10 in decimal is 1010 in binary."
+      },
+      {
+        "input": "0",
+        "output": "0",
+        "explanation": "Zero is a special case because the loop for repeated extraction may never run."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "10",
+        "expectedOutput": "1010",
+        "visibility": "sample"
+      },
+      {
+        "input": "0",
+        "expectedOutput": "0",
+        "visibility": "sample"
+      },
+      {
+        "input": "13",
+        "expectedOutput": "1101",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-002",
+    "topic": "Bit Manipulation",
+    "subtopic": "Odd Even Check",
+    "title": "Check Odd or Even",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["odd-even-check", "bitwise-and"],
+    "prerequisiteConcepts": ["binary-representation"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 10,
+    "description": "Given an integer n, determine whether it is odd or even. Solve it using a bitwise observation instead of modulo.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return or print Odd if n is odd, otherwise Even"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1",
+      "Very large even and odd values"
+    ],
+    "intendedApproachSummary": "The least significant bit decides odd or even. If n & 1 is 1, the number is odd. If it is 0, the number is even.",
+    "wrongApproachHints": [
+      "n % 2 works, but the goal here is to practice reading the last bit directly.",
+      "Do not overcomplicate it with loops or string conversion."
+    ],
+    "hints": ["Observe the last bit.", "Odd numbers end with 1 in binary.", "Use n & 1."],
+    "examples": [
+      {
+        "input": "7",
+        "output": "Odd",
+        "explanation": "7 in binary is 111, so the last bit is 1."
+      },
+      {
+        "input": "12",
+        "output": "Even",
+        "explanation": "12 in binary is 1100, so the last bit is 0."
+      }
+    ],
+    "remedialProblems": ["bit-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-003",
+    "topic": "Bit Manipulation",
+    "subtopic": "Check ith Bit",
+    "title": "Check ith Bit",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["check-ith-bit", "bitwise-and", "left-shift"],
+    "prerequisiteConcepts": ["binary-representation", "odd-even-check"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n and an index i, determine whether the ith bit of n is set. Assume bits are 0-indexed from the right.",
+    "constraints": [
+      "0 <= n <= 10^9",
+      "0 <= i < 31"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer i representing a 0-based bit position"
+    ],
+    "outputFormat": [
+      "Return or print 1 if the ith bit is set, otherwise 0"
+    ],
+    "edgeCases": [
+      "i = 0",
+      "n = 0",
+      "i larger than the highest set bit of n"
+    ],
+    "intendedApproachSummary": "Build a mask using 1 << i and check whether n & mask is non-zero. That directly tests the target bit in constant time.",
+    "wrongApproachHints": [
+      "If you loop through all bits, you are missing the direct mask-based idea.",
+      "Be careful about 0-based indexing. The 0th bit is the last bit."
+    ],
+    "hints": ["Create a mask using 1 << i.", "AND the mask with n.", "Compare the result with 0."],
+    "examples": [
+      {
+        "input": "10, 1",
+        "output": "1",
+        "explanation": "10 in binary is 1010, and bit 1 is set."
+      },
+      {
+        "input": "10, 0",
+        "output": "0",
+        "explanation": "The 0th bit of 1010 is 0."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "10 1",
+        "expectedOutput": "1",
+        "visibility": "sample"
+      },
+      {
+        "input": "10 0",
+        "expectedOutput": "0",
+        "visibility": "sample"
+      },
+      {
+        "input": "7 2",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": ["bit-002"],
+    "skipIfMastered": ["bit-018"]
+  },
+  {
+    "id": "bit-004",
+    "topic": "Bit Manipulation",
+    "subtopic": "Set ith Bit",
+    "title": "Set ith Bit",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["set-ith-bit", "bitwise-or", "left-shift"],
+    "prerequisiteConcepts": ["check-ith-bit"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n and an index i, set the ith bit of n to 1 and return the updated number.",
+    "constraints": [
+      "0 <= n <= 10^9",
+      "0 <= i < 31"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer i representing a 0-based bit position"
+    ],
+    "outputFormat": [
+      "Return the updated integer after setting the ith bit"
+    ],
+    "edgeCases": [
+      "The bit is already set",
+      "i = 0",
+      "n = 0"
+    ],
+    "intendedApproachSummary": "Use a mask 1 << i and combine it with n using bitwise OR. OR guarantees the target bit becomes 1.",
+    "wrongApproachHints": [
+      "Do not simulate binary with strings when a mask is enough.",
+      "Using XOR here is wrong because XOR toggles instead of always setting."
+    ],
+    "hints": ["Build a mask.", "Use OR to force the bit to 1.", "Return the updated number."],
+    "examples": [
+      {
+        "input": "8, 1",
+        "output": "10",
+        "explanation": "8 is 1000 in binary. Setting bit 1 gives 1010, which is 10."
+      }
+    ],
+    "remedialProblems": ["bit-003"],
+    "skipIfMastered": ["bit-019"]
+  },
+  {
+    "id": "bit-005",
+    "topic": "Bit Manipulation",
+    "subtopic": "Clear ith Bit",
+    "title": "Clear ith Bit",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["clear-ith-bit", "bitwise-and", "bitwise-not", "left-shift"],
+    "prerequisiteConcepts": ["check-ith-bit", "set-ith-bit"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n and an index i, clear the ith bit of n so that the target bit becomes 0.",
+    "constraints": [
+      "0 <= n <= 10^9",
+      "0 <= i < 31"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer i representing a 0-based bit position"
+    ],
+    "outputFormat": [
+      "Return the updated integer after clearing the ith bit"
+    ],
+    "edgeCases": [
+      "The bit is already 0",
+      "i = 0",
+      "n = 0"
+    ],
+    "intendedApproachSummary": "Create a mask for the ith bit, invert that mask, then AND it with n. This keeps every other bit unchanged and forces the target bit to 0.",
+    "wrongApproachHints": [
+      "Negate the mask, not the number itself.",
+      "Missing parentheses around 1 << i often causes the wrong mask."
+    ],
+    "hints": ["Build a mask for the ith bit.", "Invert the mask.", "AND it with n."],
+    "examples": [
+      {
+        "input": "14, 1",
+        "output": "12",
+        "explanation": "14 is 1110 in binary. Clearing bit 1 gives 1100, which is 12."
+      }
+    ],
+    "remedialProblems": ["bit-004"],
+    "skipIfMastered": ["bit-021"]
+  },
+  {
+    "id": "bit-006",
+    "topic": "Bit Manipulation",
+    "subtopic": "Toggle ith Bit",
+    "title": "Toggle ith Bit",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["toggle-ith-bit", "bitwise-xor", "left-shift"],
+    "prerequisiteConcepts": ["check-ith-bit"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n and an index i, toggle the ith bit. If the bit is 0 it should become 1, and if it is 1 it should become 0.",
+    "constraints": [
+      "0 <= n <= 10^9",
+      "0 <= i < 31"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer i representing a 0-based bit position"
+    ],
+    "outputFormat": [
+      "Return the updated integer after toggling the ith bit"
+    ],
+    "edgeCases": [
+      "Toggling the 0th bit",
+      "Toggling a bit that is currently 0",
+      "Toggling the same bit twice restores the original value"
+    ],
+    "intendedApproachSummary": "Use XOR with a mask 1 << i. XOR flips a bit only when the mask has 1 at that position.",
+    "wrongApproachHints": [
+      "OR only sets a bit, so it cannot be used for toggling.",
+      "A loop is unnecessary when one mask and XOR solve it in O(1)."
+    ],
+    "hints": ["XOR flips when the mask bit is 1.", "Use 1 << i.", "Return the toggled value."],
+    "examples": [
+      {
+        "input": "10, 1",
+        "output": "8",
+        "explanation": "10 is 1010 in binary. Toggling bit 1 changes it to 1000, which is 8."
+      }
+    ],
+    "remedialProblems": ["bit-003"],
+    "skipIfMastered": ["bit-022"]
+  },
+  {
+    "id": "bit-007",
+    "topic": "Bit Manipulation",
+    "subtopic": "Left shift / right shift",
+    "title": "Extract ith Bit Using Right Shift",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["check-ith-bit", "right-shift", "bitwise-and"],
+    "prerequisiteConcepts": ["binary-representation"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n and an index i, extract the ith bit by shifting the number to the right until the target bit reaches the least significant position.",
+    "constraints": [
+      "0 <= n <= 10^9",
+      "0 <= i < 31"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer i representing a 0-based bit position"
+    ],
+    "outputFormat": [
+      "Return or print 1 if the ith bit is set, otherwise 0"
+    ],
+    "edgeCases": [
+      "i = 0",
+      "n = 0",
+      "Large shift values that move all set bits away"
+    ],
+    "intendedApproachSummary": "Shift n right by i places so the target bit becomes the least significant bit, then use & 1 to read it.",
+    "wrongApproachHints": [
+      "Do not forget the final & 1 after shifting.",
+      "Shifting the wrong number of times tests the wrong bit."
+    ],
+    "hints": ["Shift the target bit to the last position.", "Mask it with 1.", "Return the result."],
+    "examples": [
+      {
+        "input": "10, 3",
+        "output": "1",
+        "explanation": "10 is 1010. Shifting right by 3 gives 1, and 1 & 1 is 1."
+      }
+    ],
+    "remedialProblems": ["bit-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-008",
+    "topic": "Bit Manipulation",
+    "subtopic": "Count set bits",
+    "title": "Count Set Bits with Basic Loop",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["count-set-bits", "right-shift", "bitwise-and"],
+    "prerequisiteConcepts": ["binary-representation", "odd-even-check"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 20,
+    "description": "Given a non-negative integer n, count how many bits in its binary representation are set to 1.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return or print the number of set bits in n"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Numbers with a single set bit",
+      "Numbers with many consecutive set bits"
+    ],
+    "intendedApproachSummary": "Inspect the least significant bit using n & 1, add it to the answer, then right shift n until it becomes 0.",
+    "wrongApproachHints": [
+      "String conversion works, but the intended skill here is bit inspection.",
+      "If you forget to shift, the loop never progresses."
+    ],
+    "hints": ["Check the last bit.", "Shift right after each step.", "Count every 1 bit."],
+    "examples": [
+      {
+        "input": "13",
+        "output": "3",
+        "explanation": "13 is 1101 in binary, so it has three set bits."
+      }
+    ],
+    "remedialProblems": ["bit-002"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-009",
+    "topic": "Bit Manipulation",
+    "subtopic": "Brian Kernighan algorithm",
+    "title": "Count Set Bits Efficiently",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["count-set-bits", "brian-kernighan", "bitwise-and"],
+    "prerequisiteConcepts": ["count-set-bits"],
+    "expectedComplexity": "O(number of set bits)",
+    "estimatedMinutes": 20,
+    "description": "Count the number of set bits in n using Brian Kernighan's algorithm. This approach should remove one set bit per iteration.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return or print the number of set bits in n"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Powers of two",
+      "Numbers with many set bits"
+    ],
+    "intendedApproachSummary": "Repeatedly apply n = n & (n - 1). Each iteration removes the lowest set bit, so the loop runs exactly once per set bit.",
+    "wrongApproachHints": [
+      "If you are still shifting through every bit, you have not used the intended optimization.",
+      "Remember to increment the counter every time one set bit is removed."
+    ],
+    "hints": ["Look at n & (n - 1).", "One set bit disappears each time.", "Count the iterations."],
+    "examples": [
+      {
+        "input": "13",
+        "output": "3",
+        "explanation": "13 becomes 12, then 8, then 0. Three iterations mean three set bits."
+      }
+    ],
+    "remedialProblems": ["bit-008"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-010",
+    "topic": "Bit Manipulation",
+    "subtopic": "Power of two",
+    "title": "Power of Two Check",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["power-of-two", "bitwise-and", "brian-kernighan"],
+    "prerequisiteConcepts": ["count-set-bits"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "description": "Given an integer n, determine whether it is a power of two. A valid answer must handle zero and negative values correctly.",
+    "constraints": [
+      "-10^9 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return or print true if n is a power of two, otherwise false"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1",
+      "Negative numbers"
+    ],
+    "intendedApproachSummary": "A positive power of two has exactly one set bit. So check n > 0 and then verify (n & (n - 1)) == 0.",
+    "wrongApproachHints": [
+      "A loop that divides by 2 is acceptable mathematically, but it misses the intended bit trick.",
+      "Forgetting the n > 0 guard causes 0 to be classified incorrectly."
+    ],
+    "hints": ["A power of two has one set bit.", "Use n & (n - 1).", "Guard against non-positive values."],
+    "examples": [
+      {
+        "input": "16",
+        "output": "true",
+        "explanation": "16 is 10000 in binary, which contains exactly one set bit."
+      },
+      {
+        "input": "12",
+        "output": "false",
+        "explanation": "12 is 1100 in binary, which contains more than one set bit."
+      }
+    ],
+    "remedialProblems": ["bit-009"],
+    "skipIfMastered": ["bit-024"]
+  },
+  {
+    "id": "bit-011",
+    "topic": "Bit Manipulation",
+    "subtopic": "XOR tricks",
+    "title": "XOR from 1 to N",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["xor-tricks", "bitwise-xor"],
+    "prerequisiteConcepts": ["binary-representation"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "hints": ["Observe the repeating pattern.", "Results repeat every 4 values.", "Avoid looping to N."],
+    "examples": [{"input": "5", "output": "1"}],
+    "remedialProblems": ["bit-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-012",
+    "topic": "Bit Manipulation",
+    "subtopic": "Single number",
+    "title": "Find Single Number",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["single-number", "xor-tricks", "bitwise-xor"],
+    "prerequisiteConcepts": ["xor-tricks"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "hints": ["XOR equal values together.", "Pairs cancel out.", "The unique value stays."],
+    "examples": [{"input": "[2,2,1]", "output": "1"}],
+    "remedialProblems": ["bit-011"],
+    "skipIfMastered": ["bit-025"]
+  },
+  {
+    "id": "bit-013",
+    "topic": "Bit Manipulation",
+    "subtopic": "Two unique numbers",
+    "title": "Find Two Unique Numbers",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["two-unique-numbers", "bitwise-xor", "bitwise-and"],
+    "prerequisiteConcepts": ["single-number", "xor-tricks"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 25,
+    "hints": ["First XOR all numbers.", "Find a set bit that differs.", "Partition and XOR again."],
+    "examples": [{"input": "[1,2,1,3,2,5]", "output": "[3,5]"}],
+    "remedialProblems": ["bit-012"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-014",
+    "topic": "Bit Manipulation",
+    "subtopic": "Missing number",
+    "title": "Find Missing Number with XOR",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["missing-number", "bitwise-xor"],
+    "prerequisiteConcepts": ["xor-tricks"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "hints": ["XOR all indices and values.", "Equal values cancel out.", "The missing value remains."],
+    "examples": [{"input": "[3,0,1]", "output": "2"}],
+    "remedialProblems": ["bit-011"],
+    "skipIfMastered": ["bit-027"]
+  },
+  {
+    "id": "bit-015",
+    "topic": "Bit Manipulation",
+    "subtopic": "AND OR XOR NOT",
+    "title": "Invert All Bits",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bitwise-not"],
+    "prerequisiteConcepts": ["binary-representation"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 10,
+    "hints": ["Use the NOT operator.", "Understand signed representation.", "Test small numbers manually."],
+    "examples": [{"input": "5", "output": "-6"}],
+    "remedialProblems": ["bit-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-016",
+    "topic": "Bit Manipulation",
+    "subtopic": "AND OR XOR NOT",
+    "title": "Complement Base 10 Integer",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-not", "bitwise-xor"],
+    "prerequisiteConcepts": ["binary-representation"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 20,
+    "hints": ["Only invert relevant bits.", "Build a mask of all 1s.", "XOR with the mask."],
+    "examples": [{"input": "5", "output": "2"}],
+    "remedialProblems": ["bit-015"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-017",
+    "topic": "Bit Manipulation",
+    "subtopic": "Odd/even using bit",
+    "title": "Count Odd Numbers in an Array",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["odd-even-check", "bitwise-and"],
+    "prerequisiteConcepts": ["odd-even-check"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "hints": ["Check the last bit of each number.", "Increment when it is 1.", "Avoid modulo for practice."],
+    "examples": [{"input": "[1,2,3,4,5]", "output": "3"}],
+    "remedialProblems": ["bit-002"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-018",
+    "topic": "Bit Manipulation",
+    "subtopic": "Check ith Bit",
+    "title": "Is ith Bit Set in a Range Query",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["check-ith-bit", "left-shift", "bitwise-and"],
+    "prerequisiteConcepts": ["check-ith-bit"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 20,
+    "hints": ["The core test is unchanged.", "Focus on the query format.", "Keep the check constant time."],
+    "examples": [{"input": "13, 2", "output": "1"}],
+    "remedialProblems": ["bit-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-019",
+    "topic": "Bit Manipulation",
+    "subtopic": "Set ith Bit",
+    "title": "Set Multiple Bits from Queries",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["set-ith-bit", "bitwise-or", "left-shift"],
+    "prerequisiteConcepts": ["set-ith-bit"],
+    "expectedComplexity": "O(q)",
+    "estimatedMinutes": 20,
+    "hints": ["Each query builds a mask.", "OR updates the state.", "Accumulate changes."],
+    "examples": [{"input": "0, [1,3]", "output": "10"}],
+    "remedialProblems": ["bit-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-020",
+    "topic": "Bit Manipulation",
+    "subtopic": "Swap using XOR",
+    "title": "Swap Two Numbers Using XOR",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bitwise-xor", "xor-tricks"],
+    "prerequisiteConcepts": ["xor-tricks"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 10,
+    "hints": ["Use XOR three times.", "Track values carefully.", "Think about aliasing if variables are same."],
+    "examples": [{"input": "a=3, b=5", "output": "a=5, b=3"}],
+    "remedialProblems": ["bit-011"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-021",
+    "topic": "Bit Manipulation",
+    "subtopic": "Clear ith Bit",
+    "title": "Clear Rightmost Set Bit",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["clear-ith-bit", "bitwise-and", "brian-kernighan"],
+    "prerequisiteConcepts": ["clear-ith-bit", "brian-kernighan"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 15,
+    "hints": ["Look at n & (n - 1).", "The rightmost 1 disappears.", "Return the updated number."],
+    "examples": [{"input": "12", "output": "8"}],
+    "remedialProblems": ["bit-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-022",
+    "topic": "Bit Manipulation",
+    "subtopic": "Toggle ith Bit",
+    "title": "Toggle Bits in a Given Range",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["toggle-ith-bit", "bitwise-xor", "left-shift"],
+    "prerequisiteConcepts": ["toggle-ith-bit"],
+    "expectedComplexity": "O(k)",
+    "estimatedMinutes": 20,
+    "hints": ["Build masks for each index or a combined mask.", "XOR flips selected bits.", "Check the range carefully."],
+    "examples": [{"input": "10, 1, 2", "output": "12"}],
+    "remedialProblems": ["bit-006"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-023",
+    "topic": "Bit Manipulation",
+    "subtopic": "Brian Kernighan algorithm",
+    "title": "Count Bits for All Numbers Up to N",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["brian-kernighan", "count-set-bits"],
+    "prerequisiteConcepts": ["brian-kernighan"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 25,
+    "hints": ["Reuse a bit counting subroutine.", "Brian Kernighan helps each number.", "Track outputs in an array."],
+    "examples": [{"input": "5", "output": "[0,1,1,2,1,2]"}],
+    "remedialProblems": ["bit-009"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-024",
+    "topic": "Bit Manipulation",
+    "subtopic": "Power of two",
+    "title": "Power of Four Check",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["power-of-two", "bitwise-and", "left-shift"],
+    "prerequisiteConcepts": ["power-of-two"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 20,
+    "hints": ["First check power of two.", "Then ensure the set bit is in the right position.", "Masks can help."],
+    "examples": [{"input": "16", "output": "true"}],
+    "remedialProblems": ["bit-010"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-025",
+    "topic": "Bit Manipulation",
+    "subtopic": "Single number",
+    "title": "Single Number II",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["single-number", "bitmasking-basics", "bitwise-xor"],
+    "prerequisiteConcepts": ["single-number", "count-set-bits"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 30,
+    "hints": ["Numbers appear three times except one.", "Count bits or use state masks.", "Think per bit position."],
+    "examples": [{"input": "[2,2,3,2]", "output": "3"}],
+    "remedialProblems": ["bit-012"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-026",
+    "topic": "Bit Manipulation",
+    "subtopic": "Two unique numbers",
+    "title": "Find Repeating and Missing Pair with XOR",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["two-unique-numbers", "missing-number", "bitwise-xor"],
+    "prerequisiteConcepts": ["two-unique-numbers", "missing-number"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 30,
+    "hints": ["XOR expected and actual values.", "Split using a differentiating bit.", "Recover both answers."],
+    "examples": [{"input": "[1,2,2,4]", "output": "[2,3]"}],
+    "remedialProblems": ["bit-013", "bit-014"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-027",
+    "topic": "Bit Manipulation",
+    "subtopic": "Missing number",
+    "title": "Find Missing Numbers in Bitwise Buckets",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["missing-number", "bitwise-xor", "bitmasking-basics"],
+    "prerequisiteConcepts": ["missing-number"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 25,
+    "hints": ["Use bucket or bit partitions.", "XOR still cancels equal pieces.", "Carefully track ranges."],
+    "examples": [{"input": "[0,1,3]", "output": "2"}],
+    "remedialProblems": ["bit-014"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-028",
+    "topic": "Bit Manipulation",
+    "subtopic": "Subsets using bits",
+    "title": "Generate All Subsets",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["subsets-using-bits", "left-shift", "check-ith-bit"],
+    "prerequisiteConcepts": ["check-ith-bit"],
+    "expectedComplexity": "O(n * 2^n)",
+    "estimatedMinutes": 30,
+    "hints": ["Every mask represents one subset.", "Read each bit to decide inclusion.", "Loop masks from 0 to 2^n - 1."],
+    "examples": [{"input": "[1,2]", "output": "[[],[1],[2],[1,2]]"}],
+    "remedialProblems": ["bit-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-029",
+    "topic": "Bit Manipulation",
+    "subtopic": "Subsets using bits",
+    "title": "Subset Sum via Bitmask Enumeration",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["subsets-using-bits", "left-shift", "bitmasking-basics"],
+    "prerequisiteConcepts": ["subsets-using-bits"],
+    "expectedComplexity": "O(n * 2^n)",
+    "estimatedMinutes": 30,
+    "hints": ["Enumerate all masks.", "Compute the sum for chosen elements.", "Track matches to the target."],
+    "examples": [{"input": "[1,2,3], 3", "output": "2"}],
+    "remedialProblems": ["bit-028"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-030",
+    "topic": "Bit Manipulation",
+    "subtopic": "Bitmasking basics",
+    "title": "Visited Cities Mask",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bitmasking-basics", "set-ith-bit", "check-ith-bit"],
+    "prerequisiteConcepts": ["set-ith-bit", "check-ith-bit"],
+    "expectedComplexity": "O(q)",
+    "estimatedMinutes": 20,
+    "hints": ["Set a city bit when visited.", "Check before counting duplicates.", "Store everything in one integer mask."],
+    "examples": [{"input": "[0,2,2,3]", "output": "3"}],
+    "remedialProblems": ["bit-004", "bit-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-031",
+    "topic": "Bit Manipulation",
+    "subtopic": "Bitmasking basics",
+    "title": "Assign Tasks with Availability Mask",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bitmasking-basics", "subsets-using-bits"],
+    "prerequisiteConcepts": ["bitmasking-basics", "subsets-using-bits"],
+    "expectedComplexity": "O(n * 2^n)",
+    "estimatedMinutes": 40,
+    "hints": ["Represent chosen workers by a mask.", "Transitions add one bit at a time.", "Think DP on mask."],
+    "examples": [{"input": "n=3", "output": "count of valid assignments"}],
+    "remedialProblems": ["bit-030", "bit-028"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-032",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Hamming Distance",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-xor", "count-set-bits"],
+    "prerequisiteConcepts": ["count-set-bits", "xor-tricks"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 15,
+    "hints": ["XOR highlights different bits.", "Count the set bits in the XOR value.", "A helper function may help."],
+    "examples": [{"input": "1, 4", "output": "2"}],
+    "remedialProblems": ["bit-008", "bit-011"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-033",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Number Complement",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-not", "binary-representation"],
+    "prerequisiteConcepts": ["bitwise-not"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 15,
+    "hints": ["Find the active bit length.", "Invert only those bits.", "A mask is useful."],
+    "examples": [{"input": "5", "output": "2"}],
+    "remedialProblems": ["bit-015"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-034",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Reverse Bits",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["left-shift", "right-shift", "bitwise-and"],
+    "prerequisiteConcepts": ["left-shift", "right-shift"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 25,
+    "hints": ["Process 32 positions.", "Shift answer left before adding next bit.", "Extract each bit from n."],
+    "examples": [{"input": "43261596", "output": "964176192"}],
+    "remedialProblems": ["bit-007"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-035",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Bitwise AND of Numbers Range",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-and", "right-shift", "left-shift"],
+    "prerequisiteConcepts": ["bitwise-and", "left-shift", "right-shift"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 25,
+    "hints": ["Common prefix matters.", "Shift both numbers until they match.", "Shift back after counting moves."],
+    "examples": [{"input": "5, 7", "output": "4"}],
+    "remedialProblems": ["bit-007"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-036",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Sum of Two Integers Without Plus",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-and", "bitwise-xor", "left-shift"],
+    "prerequisiteConcepts": ["bitwise-and", "bitwise-xor", "left-shift"],
+    "expectedComplexity": "O(1)",
+    "estimatedMinutes": 30,
+    "hints": ["XOR adds without carry.", "AND finds carries.", "Shift carries left and repeat."],
+    "examples": [{"input": "1, 2", "output": "3"}],
+    "remedialProblems": ["bit-006", "bit-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-037",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Maximum XOR of Two Numbers in an Array",
+    "difficulty": "Hard",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-xor", "bitmasking-basics"],
+    "prerequisiteConcepts": ["xor-tricks", "bitmasking-basics"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 45,
+    "hints": ["Build the answer bit by bit.", "Track prefixes using a mask.", "Test whether a candidate bit can be set."],
+    "examples": [{"input": "[3,10,5,25,2,8]", "output": "28"}],
+    "remedialProblems": ["bit-012", "bit-030"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-038",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Decode XORed Array",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-xor", "xor-tricks"],
+    "prerequisiteConcepts": ["xor-tricks"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "hints": ["Use previous decoded value.", "XOR helps recover the next element.", "Process left to right."],
+    "examples": [{"input": "[1,2,3], 1", "output": "[1,0,2,1]"}],
+    "remedialProblems": ["bit-011"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-039",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Count Bits DP",
+    "difficulty": "Medium",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["count-set-bits", "right-shift", "bitwise-and"],
+    "prerequisiteConcepts": ["count-set-bits"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "hints": ["Reuse a previous answer.", "i >> 1 removes the last bit.", "Add i & 1 to extend the count."],
+    "examples": [{"input": "5", "output": "[0,1,1,2,1,2]"}],
+    "remedialProblems": ["bit-008"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "bit-040",
+    "topic": "Bit Manipulation",
+    "subtopic": "LeetCode-style problems",
+    "title": "Minimum Bit Flips to Convert Number",
+    "difficulty": "Easy",
+    "platform": "LeetCode Style",
+    "url": "",
+    "expectedConcepts": ["bitwise-xor", "count-set-bits"],
+    "prerequisiteConcepts": ["count-set-bits", "xor-tricks"],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 15,
+    "hints": ["XOR the two numbers.", "Every set bit is one flip.", "Count the set bits."],
+    "examples": [{"input": "10, 7", "output": "3"}],
+    "remedialProblems": ["bit-032"],
+    "skipIfMastered": []
+  }
+]

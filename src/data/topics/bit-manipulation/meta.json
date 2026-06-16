@@ -1,0 +1,27 @@
+{
+  "id": "bit-manipulation",
+  "name": "Bit Manipulation",
+  "description": "Learn how to read, flip, count, and reason about bits directly.",
+  "roadmap": [
+    "Binary representation",
+    "AND OR XOR NOT",
+    "Left shift / right shift",
+    "Odd even check",
+    "Check ith bit",
+    "Set ith bit",
+    "Clear ith bit",
+    "Toggle ith bit",
+    "Count set bits",
+    "Brian Kernighan algorithm",
+    "Power of two",
+    "XOR tricks",
+    "Single number",
+    "Two unique numbers",
+    "Missing number",
+    "Subsets using bits",
+    "Bitmasking basics"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Bit Arena",
+  "status": "active"
+}

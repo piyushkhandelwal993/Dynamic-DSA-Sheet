@@ -1,0 +1,134 @@
+[
+  {
+    "id": "array-traversal",
+    "name": "Array Traversal",
+    "description": "Visit each element in order using a loop.",
+    "exampleJava": "for (int i = 0; i < arr.length; i++) { sum += arr[i]; }",
+    "commonMistakes": [
+      "Using the wrong loop boundary",
+      "Skipping the first or last element"
+    ],
+    "practiceProblems": ["arr-001", "arr-002"]
+  },
+  {
+    "id": "min-max-array",
+    "name": "Min and Max in Array",
+    "description": "Track the best value seen so far while scanning the array once.",
+    "exampleJava": "int best = arr[0]; for (int value : arr) best = Math.max(best, value);",
+    "commonMistakes": [
+      "Initializing from 0 when array can contain negatives",
+      "Forgetting to handle a single-element array"
+    ],
+    "practiceProblems": ["arr-001", "arr-004"]
+  },
+  {
+    "id": "sorted-check",
+    "name": "Sorted Check",
+    "description": "Compare each element with the next one to verify ordering.",
+    "exampleJava": "for (int i = 1; i < arr.length; i++) if (arr[i] < arr[i - 1]) return false;",
+    "commonMistakes": [
+      "Using > instead of < for ascending checks",
+      "Not handling arrays of length 0 or 1"
+    ],
+    "practiceProblems": ["arr-002"]
+  },
+  {
+    "id": "reverse-array",
+    "name": "Reverse Array",
+    "description": "Swap elements from both ends until pointers meet.",
+    "exampleJava": "while (left < right) { int t = arr[left]; arr[left++] = arr[right]; arr[right--] = t; }",
+    "commonMistakes": [
+      "Not moving both pointers",
+      "Using extra memory when in-place reversal is expected"
+    ],
+    "practiceProblems": ["arr-003"]
+  },
+  {
+    "id": "second-largest",
+    "name": "Second Largest",
+    "description": "Track the largest and second largest values in one pass.",
+    "exampleJava": "if (x > first) { second = first; first = x; } else if (x > second && x != first) { second = x; }",
+    "commonMistakes": [
+      "Not handling duplicates carefully",
+      "Using sorting for a problem that expects one pass"
+    ],
+    "practiceProblems": ["arr-004"]
+  },
+  {
+    "id": "frequency-counting",
+    "name": "Frequency Counting",
+    "description": "Count how many times each value appears using a map or count array.",
+    "exampleJava": "map.put(x, map.getOrDefault(x, 0) + 1);",
+    "commonMistakes": [
+      "Forgetting to initialize missing counts",
+      "Using nested loops unnecessarily"
+    ],
+    "practiceProblems": ["arr-005"]
+  },
+  {
+    "id": "prefix-sum",
+    "name": "Prefix Sum",
+    "description": "Precompute running sums so range-sum queries become fast.",
+    "exampleJava": "prefix[i + 1] = prefix[i] + arr[i];",
+    "commonMistakes": [
+      "Off-by-one errors in prefix indexing",
+      "Forgetting the extra 0 at the front"
+    ],
+    "practiceProblems": ["arr-006", "arr-012"]
+  },
+  {
+    "id": "kadane-algorithm",
+    "name": "Kadane Algorithm",
+    "description": "Track the best subarray ending at each index.",
+    "exampleJava": "current = Math.max(arr[i], current + arr[i]); best = Math.max(best, current);",
+    "commonMistakes": [
+      "Resetting to 0 incorrectly when all values are negative",
+      "Confusing current sum and best sum"
+    ],
+    "practiceProblems": ["arr-007"]
+  },
+  {
+    "id": "two-pointers",
+    "name": "Two Pointers",
+    "description": "Maintain two moving indices to transform or scan an array efficiently.",
+    "exampleJava": "while (left < right) { ... left++; right--; }",
+    "commonMistakes": [
+      "Moving only one pointer",
+      "Breaking sorted-array assumptions"
+    ],
+    "practiceProblems": ["arr-008", "arr-009"]
+  },
+  {
+    "id": "in-place-array-update",
+    "name": "In-place Array Update",
+    "description": "Modify the same array without allocating another full answer array.",
+    "exampleJava": "nums[write] = nums[read];",
+    "commonMistakes": [
+      "Overwriting values too early",
+      "Returning the wrong final length"
+    ],
+    "practiceProblems": ["arr-008", "arr-009"]
+  },
+  {
+    "id": "sliding-window",
+    "name": "Sliding Window",
+    "description": "Grow and shrink a window while tracking the answer incrementally.",
+    "exampleJava": "sum += arr[right]; while (sum > k) sum -= arr[left++];",
+    "commonMistakes": [
+      "Forgetting to shrink the window",
+      "Using this trick on arrays with negative numbers when it does not apply"
+    ],
+    "practiceProblems": ["arr-010"]
+  },
+  {
+    "id": "stock-profit",
+    "name": "Stock Profit Scan",
+    "description": "Track the minimum buy price so far and the best profit so far.",
+    "exampleJava": "minPrice = Math.min(minPrice, price); best = Math.max(best, price - minPrice);",
+    "commonMistakes": [
+      "Buying after selling in the scan logic",
+      "Resetting the minimum incorrectly"
+    ],
+    "practiceProblems": ["arr-011"]
+  }
+]

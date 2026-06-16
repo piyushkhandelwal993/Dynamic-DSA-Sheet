@@ -1,0 +1,20 @@
+{
+  "id": "queue",
+  "name": "Queue",
+  "description": "Master FIFO processing from basic queue operations to deque windows, BFS-style flows, and priority queues.",
+  "roadmap": [
+    "Queue basics",
+    "Queue simulation",
+    "Circular queue",
+    "Generate sequences with queue",
+    "BFS-style queue",
+    "Task scheduling",
+    "Deque techniques",
+    "Sliding window with deque",
+    "Priority queue applications",
+    "Advanced queue applications"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Queue Harbor",
+  "status": "active"
+}

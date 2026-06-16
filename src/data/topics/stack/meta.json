@@ -1,0 +1,22 @@
+{
+  "id": "stack",
+  "name": "Stack",
+  "description": "Master LIFO thinking from basic push-pop operations to monotonic stacks and expression handling.",
+  "roadmap": [
+    "Stack basics",
+    "Stack simulation",
+    "Balanced brackets",
+    "Reverse using stack",
+    "Expression evaluation",
+    "Min stack",
+    "Monotonic stack",
+    "Stock span",
+    "Next greater and previous smaller",
+    "Expression conversion",
+    "Largest rectangle in histogram",
+    "Advanced stack applications"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Stack Forge",
+  "status": "active"
+}

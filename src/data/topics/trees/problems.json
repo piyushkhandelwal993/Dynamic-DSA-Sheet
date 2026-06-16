@@ -1,0 +1,452 @@
+[
+  {
+    "id": "tr-001",
+    "topic": "Trees",
+    "subtopic": "Tree basics",
+    "title": "Preorder Traversal",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tree-intro", "recursive-tree-traversal"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its preorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n representing number of level-order entries", "n space-separated integers with -1 for null"],
+    "outputFormat": ["Print preorder traversal values"],
+    "edgeCases": ["Single-node tree", "Missing left or right child"],
+    "intendedApproachSummary": "Visit root, then recurse on left subtree, then recurse on right subtree.",
+    "wrongApproachHints": ["Preorder is not left-root-right.", "You must stop recursion at null nodes."],
+    "hints": ["Base case is root == null.", "Print before recursive calls."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "1 2 3 4 5", "explanation": "Preorder visits each node before its children." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "1 2 3 4 5", "visibility": "sample" },
+      { "input": "3\n7 -1 -1", "expectedOutput": "7", "visibility": "hidden" }
+    ],
+    "remedialProblems": [],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-002",
+    "topic": "Trees",
+    "subtopic": "DFS traversals",
+    "title": "Inorder Traversal",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["recursive-tree-traversal"],
+    "prerequisiteConcepts": ["tree-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its inorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print inorder traversal values"],
+    "edgeCases": ["Tree with only left chain", "Tree with only right chain"],
+    "intendedApproachSummary": "Recurse on left subtree, visit root, then recurse on right subtree.",
+    "wrongApproachHints": ["Do not print the root before the left subtree in inorder."],
+    "hints": ["The root visit happens between the two recursive calls."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "2 1 4 3 5", "explanation": "Inorder visits left, root, right." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "2 1 4 3 5", "visibility": "sample" },
+      { "input": "3\n8 7 -1", "expectedOutput": "7 8", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-003",
+    "topic": "Trees",
+    "subtopic": "DFS traversals",
+    "title": "Postorder Traversal",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["recursive-tree-traversal"],
+    "prerequisiteConcepts": ["tree-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its postorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print postorder traversal values"],
+    "edgeCases": ["Single-node tree", "Skewed tree"],
+    "intendedApproachSummary": "Recurse on left subtree, then right subtree, and print the root last.",
+    "wrongApproachHints": ["Postorder prints the root after both subtrees are complete."],
+    "hints": ["Base case remains root == null.", "Print after both recursive calls."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "2 4 5 3 1", "explanation": "Postorder visits children before the parent." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "2 4 5 3 1", "visibility": "sample" },
+      { "input": "3\n8 -1 9", "expectedOutput": "9 8", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-002"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-004",
+    "topic": "Trees",
+    "subtopic": "BFS traversals",
+    "title": "Level Order Traversal",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["level-order-traversal"],
+    "prerequisiteConcepts": ["tree-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 16,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print the nodes level by level from left to right.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print level-order traversal values"],
+    "edgeCases": ["Tree with gaps", "Single node"],
+    "intendedApproachSummary": "Use a queue and repeatedly process the current front node, pushing its non-null children.",
+    "wrongApproachHints": ["This is a queue problem, not a recursive DFS order."],
+    "hints": ["Start with the root in the queue.", "Pop front, print it, then push children."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "1 2 3 4 5", "explanation": "Level order visits breadth-first." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "1 2 3 4 5", "visibility": "sample" },
+      { "input": "5\n10 20 -1 30 -1", "expectedOutput": "10 20 30", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-005",
+    "topic": "Trees",
+    "subtopic": "Tree basics",
+    "title": "Height of Binary Tree",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tree-height", "recursive-tree-traversal"],
+    "prerequisiteConcepts": ["tree-intro"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its height measured in number of nodes on the longest root-to-leaf path.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print the height"],
+    "edgeCases": ["Single-node tree", "Skewed tree"],
+    "intendedApproachSummary": "Height(root) = 1 + max(height(left), height(right)); height(null) = 0.",
+    "wrongApproachHints": ["Do not confuse level count with edge count unless the problem says so."],
+    "hints": ["Base case for null is 0.", "Combine child answers with max."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "3", "explanation": "The longest path has 3 nodes." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "3", "visibility": "sample" },
+      { "input": "3\n9 -1 8", "expectedOutput": "2", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-006",
+    "topic": "Trees",
+    "subtopic": "Tree properties and paths",
+    "title": "Diameter of Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tree-diameter", "recursive-tree-traversal"],
+    "prerequisiteConcepts": ["tree-height"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its diameter measured in number of edges on the longest path between any two nodes.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print the diameter"],
+    "edgeCases": ["Single-node tree has diameter 0", "Longest path may not go through root"],
+    "intendedApproachSummary": "While computing subtree heights, update a global best with leftHeight + rightHeight.",
+    "wrongApproachHints": ["Do not recompute heights separately for every node."],
+    "hints": ["Return heights from recursion.", "Update diameter before returning the current height."],
+    "examples": [
+      { "input": "7\n1 2 3 4 5 -1 -1", "output": "3", "explanation": "The longest path is 4 -> 2 -> 1 -> 3." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 4 5 -1 -1", "expectedOutput": "3", "visibility": "sample" },
+      { "input": "3\n1 2 -1", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-007",
+    "topic": "Trees",
+    "subtopic": "Tree properties and paths",
+    "title": "Check Balanced Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["balanced-tree-check"],
+    "prerequisiteConcepts": ["tree-height"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print Balanced if every node has left and right subtree heights differing by at most 1; otherwise print Not Balanced.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print Balanced or Not Balanced"],
+    "edgeCases": ["Imbalance deep inside a subtree"],
+    "intendedApproachSummary": "Return subtree heights, but return a failure marker as soon as an imbalance is found.",
+    "wrongApproachHints": ["Checking only the root height difference is not enough.", "Repeated standalone height calls make the solution O(n^2)."],
+    "hints": ["Use -1 as an imbalance marker if you like.", "Propagate imbalance upward immediately."],
+    "examples": [
+      { "input": "7\n1 2 3 4 -1 -1 -1", "output": "Balanced", "explanation": "Every node still satisfies the balance condition." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 4 -1 -1 -1", "expectedOutput": "Balanced", "visibility": "sample" },
+      { "input": "7\n1 2 -1 3 -1 4 -1", "expectedOutput": "Not Balanced", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-008",
+    "topic": "Trees",
+    "subtopic": "BST operations",
+    "title": "Search in BST",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-search"],
+    "prerequisiteConcepts": ["tree-intro"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 15,
+    "description": "Given a BST in level-order form using -1 for nulls and a target value, print Found if the target exists, otherwise print Not Found.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
+    "outputFormat": ["Print Found or Not Found"],
+    "edgeCases": ["Target at root", "Target absent"],
+    "intendedApproachSummary": "Compare target with the current node value and move left or right accordingly.",
+    "wrongApproachHints": ["Do not search both subtrees blindly; use the BST property."],
+    "hints": ["If target < node.val, go left.", "If target > node.val, go right."],
+    "examples": [
+      { "input": "7\n4 2 6 1 3 5 7\n5", "output": "Found", "explanation": "5 lies in the right subtree of 4 and the left subtree of 6." }
+    ],
+    "testCases": [
+      { "input": "7\n4 2 6 1 3 5 7\n5", "expectedOutput": "Found", "visibility": "sample" },
+      { "input": "7\n4 2 6 1 3 5 7\n8", "expectedOutput": "Not Found", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-001"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-009",
+    "topic": "Trees",
+    "subtopic": "Tree views",
+    "title": "Left View of Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["level-order-traversal", "tree-view"],
+    "prerequisiteConcepts": ["level-order-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print the left view of the tree.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print left view values"],
+    "edgeCases": ["Only one node per level", "Right-heavy tree"],
+    "intendedApproachSummary": "Use level-order traversal and record the first node processed at each level.",
+    "wrongApproachHints": ["Do not print all nodes from every level.", "The left view keeps one representative per level."],
+    "hints": ["Before processing a level, note the queue size.", "The first node in each level is part of the answer."],
+    "examples": [
+      { "input": "7\n1 2 3 4 5 -1 6", "output": "1 2 4", "explanation": "From the left side, these are the first visible nodes per level." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 4 5 -1 6", "expectedOutput": "1 2 4", "visibility": "sample" },
+      { "input": "5\n1 -1 2 -1 3", "expectedOutput": "1 2 3", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-004"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-010",
+    "topic": "Trees",
+    "subtopic": "BST operations",
+    "title": "Insert into BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-insert-delete"],
+    "prerequisiteConcepts": ["bst-search"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST in level-order form using -1 for nulls and a value x, insert x into the BST and print its inorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer x"],
+    "outputFormat": ["Print inorder traversal after insertion"],
+    "edgeCases": ["Insert into empty tree", "Insert as leaf on either side"],
+    "intendedApproachSummary": "Descend left or right until a null child is found, then attach the new node there.",
+    "wrongApproachHints": ["Do not rebuild the whole tree from scratch.", "Preserve the BST property during insertion."],
+    "hints": ["Compare x with current node value.", "Stop when the correct child link is null."],
+    "examples": [
+      { "input": "7\n4 2 6 1 3 5 7\n8", "output": "1 2 3 4 5 6 7 8", "explanation": "8 becomes the right child of 7." }
+    ],
+    "testCases": [
+      { "input": "7\n4 2 6 1 3 5 7\n8", "expectedOutput": "1 2 3 4 5 6 7 8", "visibility": "sample" },
+      { "input": "1\n-1\n5", "expectedOutput": "5", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-008"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-011",
+    "topic": "Trees",
+    "subtopic": "BST operations",
+    "title": "Delete Node in BST",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-insert-delete"],
+    "prerequisiteConcepts": ["bst-search"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 28,
+    "description": "Given a BST in level-order form using -1 for nulls and a key, delete the key from the BST and print its inorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer key"],
+    "outputFormat": ["Print inorder traversal after deletion"],
+    "edgeCases": ["Delete leaf", "Delete node with one child", "Delete node with two children"],
+    "intendedApproachSummary": "Handle the three delete cases carefully. For two children, replace with inorder successor or predecessor and delete that replacement node recursively.",
+    "wrongApproachHints": ["You cannot just drop a node with children.", "Be careful not to lose subtrees when reconnecting."],
+    "hints": ["Find the successor in the right subtree.", "Delete the successor after copying its value."],
+    "examples": [
+      { "input": "7\n5 3 6 2 4 -1 7\n3", "output": "2 4 5 6 7", "explanation": "3 is replaced while preserving BST order." }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 6 2 4 -1 7\n3", "expectedOutput": "2 4 5 6 7", "visibility": "sample" },
+      { "input": "7\n5 3 6 2 4 -1 7\n7", "expectedOutput": "2 3 4 5 6", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-010"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-012",
+    "topic": "Trees",
+    "subtopic": "Tree views",
+    "title": "Top View of Binary Tree",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tree-view", "level-order-traversal"],
+    "prerequisiteConcepts": ["level-order-traversal"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 28,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its top view from leftmost visible node to rightmost.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print top view values"],
+    "edgeCases": ["Multiple nodes share the same horizontal distance", "Single-node tree"],
+    "intendedApproachSummary": "Run BFS while tracking horizontal distance. The first node seen at a distance belongs to the top view.",
+    "wrongApproachHints": ["DFS alone can easily take a deeper node before a shallower one.", "Only the first node per horizontal distance should be kept."],
+    "hints": ["Store pairs of node and horizontal distance in the queue.", "Use an ordered map for final left-to-right printing."],
+    "examples": [
+      { "input": "7\n1 2 3 4 5 6 7", "output": "4 2 1 3 7", "explanation": "These nodes are visible from the top." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 4 5 6 7", "expectedOutput": "4 2 1 3 7", "visibility": "sample" },
+      { "input": "5\n1 2 3 -1 4", "expectedOutput": "2 1 3", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-009"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-013",
+    "topic": "Trees",
+    "subtopic": "Tree properties and paths",
+    "title": "Lowest Common Ancestor of Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["lca-binary-tree"],
+    "prerequisiteConcepts": ["recursive-tree-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 24,
+    "description": "Given a binary tree in level-order form using -1 for nulls and two node values p and q known to exist, print the value of their lowest common ancestor.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "Two integers p and q"],
+    "outputFormat": ["Print the LCA value"],
+    "edgeCases": ["One node is ancestor of the other", "Targets lie in different subtrees"],
+    "intendedApproachSummary": "Return root if it matches p or q. Recurse into both subtrees; if both return non-null, root is the LCA.",
+    "wrongApproachHints": ["The first matched target is not always the final answer.", "You need information from both sides."],
+    "hints": ["Base cases are root == null or root.val == p/q.", "If both left and right answers are non-null, return root."],
+    "examples": [
+      { "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 1", "output": "3", "explanation": "5 and 1 split at root 3." }
+    ],
+    "testCases": [
+      { "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 1", "expectedOutput": "3", "visibility": "sample" },
+      { "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 4", "expectedOutput": "5", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-005"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-014",
+    "topic": "Trees",
+    "subtopic": "Tree construction",
+    "title": "Build Tree from Preorder and Inorder",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tree-construction"],
+    "prerequisiteConcepts": ["recursive-tree-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 30,
+    "description": "Given preorder and inorder traversals of a binary tree with distinct values, construct the tree and print its postorder traversal.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n preorder values", "n inorder values"],
+    "outputFormat": ["Print postorder traversal of the reconstructed tree"],
+    "edgeCases": ["Single node", "Skewed tree"],
+    "intendedApproachSummary": "The preorder front gives the root. Use an inorder index map to split left and right subtree ranges recursively.",
+    "wrongApproachHints": ["Repeated linear search in inorder makes the solution too slow.", "You must respect subtree boundaries while recursing."],
+    "hints": ["Keep a preorder index that advances as roots are created.", "Map inorder values to indices for O(1) splits."],
+    "examples": [
+      { "input": "5\n3 9 20 15 7\n9 3 15 20 7", "output": "9 15 7 20 3", "explanation": "That is the postorder traversal of the reconstructed tree." }
+    ],
+    "testCases": [
+      { "input": "5\n3 9 20 15 7\n9 3 15 20 7", "expectedOutput": "9 15 7 20 3", "visibility": "sample" },
+      { "input": "1\n1\n1", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-003"],
+    "skipIfMastered": []
+  },
+  {
+    "id": "tr-015",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Serialize Binary Tree (Level Order)",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["serialize-tree", "level-order-traversal"],
+    "prerequisiteConcepts": ["level-order-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 26,
+    "description": "Given a binary tree in level-order form using -1 for nulls, serialize it again using level order with # for null nodes, trimming only the unnecessary trailing null markers.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print the serialized tokens separated by spaces"],
+    "edgeCases": ["Sparse tree needs internal null markers", "Do not keep useless trailing null markers forever"],
+    "intendedApproachSummary": "Use a queue for BFS and emit # whenever a missing child is encountered. After traversal, trim only trailing # markers.",
+    "wrongApproachHints": ["Skipping null markers entirely loses the structure.", "Only trailing null markers may be removed safely."],
+    "hints": ["Push both children of a non-null node into the queue.", "Track output tokens and trim from the back at the end."],
+    "examples": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "output": "1 2 3 # # 4 5", "explanation": "The null children of node 2 must be preserved to keep the shape." }
+    ],
+    "testCases": [
+      { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "1 2 3 # # 4 5", "visibility": "sample" },
+      { "input": "3\n1 -1 -1", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "remedialProblems": ["tr-004", "tr-014"],
+    "skipIfMastered": []
+  }
+]

@@ -1,0 +1,233 @@
+[
+  {
+    "id": "binary-representation",
+    "name": "Binary Representation",
+    "description": "Binary represents numbers using only 0 and 1. Repeated division by 2 or bit shifts can reveal each bit.",
+    "exampleJava": "while (n > 0) { bits.append(n % 2); n /= 2; }",
+    "commonMistakes": [
+      "Forgetting to reverse collected remainders",
+      "Not handling n = 0"
+    ],
+    "practiceProblems": ["bit-001", "bit-002"]
+  },
+  {
+    "id": "bitwise-and",
+    "name": "Bitwise AND",
+    "description": "The AND operator keeps a bit set only when both input bits are 1.",
+    "exampleJava": "int result = a & b;",
+    "commonMistakes": [
+      "Using logical && instead of bitwise &",
+      "Forgetting operator precedence in combined expressions"
+    ],
+    "practiceProblems": ["bit-003", "bit-004"]
+  },
+  {
+    "id": "bitwise-or",
+    "name": "Bitwise OR",
+    "description": "The OR operator sets a bit if either input bit is 1.",
+    "exampleJava": "int result = a | mask;",
+    "commonMistakes": [
+      "Using OR where XOR was intended",
+      "Not building the mask first"
+    ],
+    "practiceProblems": ["bit-005", "bit-006"]
+  },
+  {
+    "id": "bitwise-xor",
+    "name": "Bitwise XOR",
+    "description": "XOR sets a bit when the input bits differ. It is useful for toggling bits and finding unique values.",
+    "exampleJava": "ans ^= num;",
+    "commonMistakes": [
+      "Using XOR without understanding cancellation",
+      "Mixing XOR and OR in the same trick"
+    ],
+    "practiceProblems": ["bit-012", "bit-020"]
+  },
+  {
+    "id": "bitwise-not",
+    "name": "Bitwise NOT",
+    "description": "The NOT operator flips every bit in a number.",
+    "exampleJava": "int inverted = ~n;",
+    "commonMistakes": [
+      "Forgetting signed integer representation",
+      "Expecting only positive outputs"
+    ],
+    "practiceProblems": ["bit-015", "bit-016"]
+  },
+  {
+    "id": "left-shift",
+    "name": "Left Shift",
+    "description": "1 << i creates a mask with only the ith bit set.",
+    "exampleJava": "int mask = 1 << i;",
+    "commonMistakes": [
+      "Using Math.pow instead of shift",
+      "Confusing bit position from 0-based and 1-based indexing"
+    ],
+    "practiceProblems": ["bit-003", "bit-004"]
+  },
+  {
+    "id": "right-shift",
+    "name": "Right Shift",
+    "description": "Right shift moves bits to the right and can expose a target bit at the least significant position.",
+    "exampleJava": "int bit = (n >> i) & 1;",
+    "commonMistakes": [
+      "Using the wrong shift count",
+      "Forgetting to mask with 1"
+    ],
+    "practiceProblems": ["bit-003", "bit-007"]
+  },
+  {
+    "id": "odd-even-check",
+    "name": "Odd Even Check",
+    "description": "A number is odd when its least significant bit is 1, so n & 1 is enough.",
+    "exampleJava": "boolean isOdd = (n & 1) == 1;",
+    "commonMistakes": [
+      "Using modulo even when the exercise expects bitwise practice",
+      "Comparing against true instead of 1"
+    ],
+    "practiceProblems": ["bit-002", "bit-017"]
+  },
+  {
+    "id": "check-ith-bit",
+    "name": "Check ith Bit",
+    "description": "Build a mask or shift the number so the target bit can be tested.",
+    "exampleJava": "int isSet = (n & (1 << i)) != 0 ? 1 : 0;",
+    "commonMistakes": [
+      "Using 1-based indexing accidentally",
+      "Shifting the mask in the wrong direction"
+    ],
+    "practiceProblems": ["bit-003", "bit-018"]
+  },
+  {
+    "id": "set-ith-bit",
+    "name": "Set ith Bit",
+    "description": "Use OR with a mask to force a bit to 1.",
+    "exampleJava": "n = n | (1 << i);",
+    "commonMistakes": [
+      "Using XOR instead of OR",
+      "Forgetting to save the updated number"
+    ],
+    "practiceProblems": ["bit-004", "bit-019"]
+  },
+  {
+    "id": "clear-ith-bit",
+    "name": "Clear ith Bit",
+    "description": "Use AND with the negated mask to force a bit to 0.",
+    "exampleJava": "n = n & ~(1 << i);",
+    "commonMistakes": [
+      "Negating the number instead of the mask",
+      "Missing parentheses around the shift"
+    ],
+    "practiceProblems": ["bit-005", "bit-021"]
+  },
+  {
+    "id": "toggle-ith-bit",
+    "name": "Toggle ith Bit",
+    "description": "Use XOR with a mask to flip the target bit.",
+    "exampleJava": "n = n ^ (1 << i);",
+    "commonMistakes": [
+      "Using OR so the bit never flips back",
+      "Building the wrong mask"
+    ],
+    "practiceProblems": ["bit-006", "bit-022"]
+  },
+  {
+    "id": "count-set-bits",
+    "name": "Count Set Bits",
+    "description": "Count how many 1 bits appear in the binary form of a number.",
+    "exampleJava": "count += (n & 1); n >>= 1;",
+    "commonMistakes": [
+      "Looping forever on negative numbers",
+      "Using string conversion for an intended bit solution"
+    ],
+    "practiceProblems": ["bit-008", "bit-009"]
+  },
+  {
+    "id": "brian-kernighan",
+    "name": "Brian Kernighan Algorithm",
+    "description": "Repeatedly remove the lowest set bit using n & (n - 1).",
+    "exampleJava": "while (n != 0) { n &= (n - 1); count++; }",
+    "commonMistakes": [
+      "Using it without understanding why one bit disappears",
+      "Forgetting to increment the counter"
+    ],
+    "practiceProblems": ["bit-009", "bit-023"]
+  },
+  {
+    "id": "power-of-two",
+    "name": "Power of Two",
+    "description": "A positive power of two has exactly one set bit, so n > 0 and (n & (n - 1)) == 0.",
+    "exampleJava": "boolean ok = n > 0 && (n & (n - 1)) == 0;",
+    "commonMistakes": [
+      "Not guarding against n <= 0",
+      "Using loops when constant time is expected"
+    ],
+    "practiceProblems": ["bit-010", "bit-024"]
+  },
+  {
+    "id": "xor-tricks",
+    "name": "XOR Tricks",
+    "description": "XOR cancels equal values and keeps unmatched values, which helps in parity and unique-number problems.",
+    "exampleJava": "int ans = 0; for (int num : nums) ans ^= num;",
+    "commonMistakes": [
+      "Not initializing accumulator to 0",
+      "Trying XOR on problems where counts are not paired"
+    ],
+    "practiceProblems": ["bit-011", "bit-012"]
+  },
+  {
+    "id": "single-number",
+    "name": "Single Number",
+    "description": "When every other number appears twice, XORing all values leaves the unique number.",
+    "exampleJava": "int ans = 0; for (int num : nums) ans ^= num;",
+    "commonMistakes": [
+      "Sorting first and missing the intended O(1) extra space trick",
+      "Using hash maps for a bitwise practice question"
+    ],
+    "practiceProblems": ["bit-012", "bit-025"]
+  },
+  {
+    "id": "two-unique-numbers",
+    "name": "Two Unique Numbers",
+    "description": "Use total XOR to find a distinguishing bit, then partition numbers into two groups.",
+    "exampleJava": "int diff = xor & -xor;",
+    "commonMistakes": [
+      "Choosing the wrong distinguishing mask",
+      "Forgetting to split into two XOR groups"
+    ],
+    "practiceProblems": ["bit-013", "bit-026"]
+  },
+  {
+    "id": "missing-number",
+    "name": "Missing Number",
+    "description": "The XOR of indices and values leaves the missing number in a 0..n array.",
+    "exampleJava": "ans ^= i ^ nums[i];",
+    "commonMistakes": [
+      "Using sum formula when the exercise wants XOR practice",
+      "Forgetting to XOR with n at the end"
+    ],
+    "practiceProblems": ["bit-014", "bit-027"]
+  },
+  {
+    "id": "subsets-using-bits",
+    "name": "Subsets Using Bits",
+    "description": "Every number from 0 to 2^n - 1 can act as a selection mask for subset generation.",
+    "exampleJava": "for (int mask = 0; mask < (1 << n); mask++) { }",
+    "commonMistakes": [
+      "Using the wrong upper bound for masks",
+      "Reading the wrong bit while building a subset"
+    ],
+    "practiceProblems": ["bit-028", "bit-029"]
+  },
+  {
+    "id": "bitmasking-basics",
+    "name": "Bitmasking Basics",
+    "description": "A bitmask compresses multiple yes/no states inside one integer.",
+    "exampleJava": "visitedMask |= (1 << city);",
+    "commonMistakes": [
+      "Mutating the wrong state variable",
+      "Forgetting to clear a bit during backtracking"
+    ],
+    "practiceProblems": ["bit-030", "bit-031"]
+  }
+]

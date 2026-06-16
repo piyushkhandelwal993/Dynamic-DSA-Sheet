@@ -1,0 +1,19 @@
+{
+  "id": "trees",
+  "name": "Trees",
+  "description": "Learn recursive and level-order tree thinking from basic traversals to BSTs, views, and construction.",
+  "roadmap": [
+    "Tree basics",
+    "DFS traversals",
+    "BFS traversals",
+    "Tree height and properties",
+    "BST operations",
+    "Tree views",
+    "LCA and paths",
+    "Tree construction",
+    "Advanced tree applications"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Tree Canopy",
+  "status": "active"
+}
