@@ -116,6 +116,8 @@ For an exact operator checklist, see:
 - [docs/first-release-checklist.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/first-release-checklist.md)
 - [docs/release-notes-template.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/release-notes-template.md)
 - [docs/versioning-and-updates.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/versioning-and-updates.md)
+- [docs/macos-preview-install.md](/Users/piyushkhandelwal/Documents/dsa-sheet/docs/macos-preview-install.md)
+- [docs/windows-preview-install.md](/Users/piyushkhandelwal/Documents/dsa-sheet/docs/windows-preview-install.md)
 
 ## Optional Desktop Updates
 

@@ -3098,15 +3098,6 @@ li + li {
 }
 
 @media (max-width: 1240px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
   .practice-layout,
   .home-hero,
   .home-nav,
@@ -3163,6 +3154,15 @@ li + li {
 }
 
 @media (max-width: 920px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
   .workspace-shell {
     padding: 12px;
   }
