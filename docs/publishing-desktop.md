@@ -105,11 +105,12 @@ git push origin v1.0.0
 The workflow will:
 
 1. install dependencies
-2. build TypeScript
-3. run tests
-4. build desktop installers
-5. publish installers and update metadata to the GitHub Release
-6. upload CI artifacts for debugging
+2. install Temurin JDK 17 for Java runner tests
+3. build TypeScript
+4. run tests
+5. build desktop installers
+6. publish installers and update metadata to the GitHub Release
+7. upload CI artifacts for debugging
 
 For an exact operator checklist, see:
 
