@@ -78,6 +78,7 @@ For deeper product docs, see:
 - [docs/ui-gap-checklist.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/ui-gap-checklist.md)
 - [docs/publishing-desktop.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/publishing-desktop.md)
 - [docs/first-release-checklist.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/first-release-checklist.md)
+- [docs/versioning-and-updates.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/versioning-and-updates.md)
 - [docs/windows-preview-install.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/windows-preview-install.md)
 
 ## Adaptive Recommendation System

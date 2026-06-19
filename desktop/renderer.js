@@ -21,7 +21,9 @@ const state = {
   editorDirty: false,
   editorFontSize: 14,
   editorContent: "",
-  monacoReady: false
+  monacoReady: false,
+  updateStatus: null,
+  updateDismissed: false
 };
 
 const DEFAULT_PREFERENCES = {
@@ -77,6 +79,14 @@ const environmentBannerTitleEl = document.getElementById("environment-banner-tit
 const environmentBannerMessageEl = document.getElementById("environment-banner-message");
 const environmentBannerGuideButtonEl = document.getElementById("environment-banner-guide-button");
 const environmentBannerDismissButtonEl = document.getElementById("environment-banner-dismiss-button");
+const updateBannerEl = document.getElementById("update-banner");
+const updateBannerTitleEl = document.getElementById("update-banner-title");
+const updateBannerMessageEl = document.getElementById("update-banner-message");
+const updateProgressEl = document.getElementById("update-progress");
+const updateProgressFillEl = document.getElementById("update-progress-fill");
+const updateDownloadButtonEl = document.getElementById("update-download-button");
+const updateInstallButtonEl = document.getElementById("update-install-button");
+const updateLaterButtonEl = document.getElementById("update-later-button");
 const topicSwitcherButtonEl = document.getElementById("topic-switcher-button");
 const topicSwitcherMenuEl = document.getElementById("topic-switcher-menu");
 const topicNameEl = document.getElementById("topic-name");
@@ -336,6 +346,57 @@ function buildResultStateBanner(title, description, statusPill = "") {
       ${statusPill ? `<div>${statusPill}</div>` : ""}
     </div>
   `;
+}
+
+function updateVersionLabel(status) {
+  return status?.version ? ` v${status.version}` : "";
+}
+
+function renderUpdateBanner() {
+  const status = state.updateStatus;
+  const statusName = status?.status ?? "idle";
+  const hiddenStatuses = new Set(["idle", "checking", "checked", "not-available", "disabled-dev"]);
+  const shouldHide = !status || hiddenStatuses.has(statusName) || (state.updateDismissed && statusName !== "downloading");
+
+  updateBannerEl.classList.toggle("is-hidden", shouldHide);
+  if (shouldHide) {
+    return;
+  }
+
+  updateDownloadButtonEl.classList.add("is-hidden");
+  updateInstallButtonEl.classList.add("is-hidden");
+  updateLaterButtonEl.classList.remove("is-hidden");
+  updateProgressEl.classList.add("is-hidden");
+  updateProgressFillEl.style.width = "0%";
+
+  if (statusName === "available") {
+    updateBannerTitleEl.textContent = `Update available${updateVersionLabel(status)}`;
+    updateBannerMessageEl.textContent = "You can keep working and update when you are ready. Your local progress and workspaces stay intact.";
+    updateDownloadButtonEl.classList.remove("is-hidden");
+    return;
+  }
+
+  if (statusName === "downloading") {
+    const percent = Math.max(0, Math.min(100, Number(status.percent ?? 0)));
+    updateBannerTitleEl.textContent = "Downloading update";
+    updateBannerMessageEl.textContent = `${percent}% downloaded. You can continue solving while this finishes.`;
+    updateProgressEl.classList.remove("is-hidden");
+    updateProgressFillEl.style.width = `${percent}%`;
+    updateLaterButtonEl.classList.add("is-hidden");
+    return;
+  }
+
+  if (statusName === "downloaded") {
+    updateBannerTitleEl.textContent = `Update ready${updateVersionLabel(status)}`;
+    updateBannerMessageEl.textContent = "Restart when ready to install. Your DSA progress, preferences, and code files remain untouched.";
+    updateInstallButtonEl.classList.remove("is-hidden");
+    return;
+  }
+
+  if (statusName === "error") {
+    updateBannerTitleEl.textContent = "Update check failed";
+    updateBannerMessageEl.textContent = status.message || "We could not check for updates right now. You can keep using the app normally.";
+  }
 }
 
 function currentProblemFilters() {
@@ -1986,6 +2047,7 @@ function render() {
   renderRunMode();
   renderHeader();
   renderEnvironmentBanner();
+  renderUpdateBanner();
   renderTopicSwitcher();
   renderHomeHero();
   renderHomeWorlds();
@@ -2031,6 +2093,36 @@ environmentBannerGuideButtonEl?.addEventListener("click", async () => {
 environmentBannerDismissButtonEl?.addEventListener("click", () => {
   environmentBannerDismissed = true;
   renderEnvironmentBanner();
+});
+
+updateDownloadButtonEl?.addEventListener("click", async () => {
+  state.updateDismissed = false;
+  try {
+    await window.dsaDesktop.downloadUpdate();
+  } catch (error) {
+    state.updateStatus = {
+      status: "error",
+      message: error?.message ?? String(error)
+    };
+    renderUpdateBanner();
+  }
+});
+
+updateInstallButtonEl?.addEventListener("click", async () => {
+  try {
+    await window.dsaDesktop.installUpdate();
+  } catch (error) {
+    state.updateStatus = {
+      status: "error",
+      message: error?.message ?? String(error)
+    };
+    renderUpdateBanner();
+  }
+});
+
+updateLaterButtonEl?.addEventListener("click", () => {
+  state.updateDismissed = true;
+  renderUpdateBanner();
 });
 
 topicSwitcherButtonEl.addEventListener("click", () => {
@@ -2239,6 +2331,14 @@ document.addEventListener("click", (event) => {
   if (!(target instanceof Node)) return;
   if (topicSwitcherButtonEl.contains(target) || topicSwitcherMenuEl.contains(target)) return;
   closeTopicSwitcher();
+});
+
+window.dsaDesktop.onUpdateStatus?.((status) => {
+  state.updateStatus = status;
+  if (["available", "downloaded", "downloading"].includes(status?.status)) {
+    state.updateDismissed = false;
+  }
+  renderUpdateBanner();
 });
 
 (async () => {

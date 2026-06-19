@@ -13,5 +13,13 @@ contextBridge.exposeInMainWorld("dsaDesktop", {
   savePreferences: (preferences) => ipcRenderer.invoke("desktop:save-preferences", preferences),
   openPath: (targetPath) => ipcRenderer.invoke("desktop:open-path", targetPath),
   openExternal: (targetUrl) => ipcRenderer.invoke("desktop:open-external", targetUrl),
-  pickJavaFile: () => ipcRenderer.invoke("desktop:pick-java-file")
+  pickJavaFile: () => ipcRenderer.invoke("desktop:pick-java-file"),
+  checkForUpdates: () => ipcRenderer.invoke("desktop:check-for-updates"),
+  downloadUpdate: () => ipcRenderer.invoke("desktop:download-update"),
+  installUpdate: () => ipcRenderer.invoke("desktop:install-update"),
+  onUpdateStatus: (handler) => {
+    const listener = (_event, status) => handler(status);
+    ipcRenderer.on("desktop:update-status", listener);
+    return () => ipcRenderer.removeListener("desktop:update-status", listener);
+  }
 });

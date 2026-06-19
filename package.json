@@ -12,13 +12,14 @@
     "dev": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "node --test dist/tests",
+    "test": "node scripts/run-tests.mjs",
     "desktop": "electron desktop/main.js",
     "desktop:dev": "npm run build && electron desktop/main.js",
     "desktop:capture-showcase": "npm run build && electron desktop/capture-showcase.js",
     "desktop:generate-icons": "python3 desktop/generate-icons.py",
     "desktop:package": "npm run build && electron-builder --dir",
-    "desktop:dist": "npm run build && electron-builder"
+    "desktop:dist": "npm run build && electron-builder",
+    "desktop:publish": "npm run build && electron-builder --publish always"
   },
   "keywords": [
     "cli",
@@ -27,19 +28,20 @@
     "learning"
   ],
   "engines": {
-    "node": "20.x"
+    "node": ">=22.12 <23"
   },
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^12.1.0",
+    "electron-updater": "^6.8.9",
     "inquirer": "^8.2.6",
-    "monaco-editor": "^0.55.1"
+    "monaco-editor": "^0.53.0"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/node": "^22.15.30",
-    "electron": "^31.7.7",
+    "electron": "^42.4.1",
     "electron-builder": "^26.15.3",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
@@ -87,6 +89,13 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "piyushkhandelwal993",
+        "repo": "Dynamic-DSA-Sheet"
+      }
+    ]
   }
 }

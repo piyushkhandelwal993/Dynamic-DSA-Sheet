@@ -9,8 +9,10 @@ This project now has the base structure needed to ship the Electron desktop app 
 - Desktop distribution scripts:
   - `npm run desktop:package`
   - `npm run desktop:dist`
+  - `npm run desktop:publish`
 - GitHub Actions release workflow:
   - `.github/workflows/release-desktop.yml`
+- Optional app updates via `electron-updater`
 - First-run Java prerequisite detection in the app UI
 - Desktop security improvements:
   - `contextIsolation: true`
@@ -21,16 +23,16 @@ This project now has the base structure needed to ship the Electron desktop app 
 
 ## Node Version For Packaging
 
-Use Node 20 LTS for desktop packaging.
+Use Node 22 LTS for desktop packaging.
 
 This repo now includes:
 
 - `.nvmrc`
-- `package.json` `engines.node = 20.x`
+- `package.json` `engines.node = >=22.12 <23`
 
 Reason:
 
-`electron-builder` packaging is stable on Node 20 in the release workflow. A local dry-run under newer Node versions can fail with an ESM loader error inside builder dependencies.
+The current Electron Builder dependency tree expects Node 22.12+ for packaging-related tooling.
 
 ## Release Targets
 
@@ -106,13 +108,35 @@ The workflow will:
 2. build TypeScript
 3. run tests
 4. build desktop installers
-5. upload artifacts
-6. attach them to the GitHub Release
+5. publish installers and update metadata to the GitHub Release
+6. upload CI artifacts for debugging
 
 For an exact operator checklist, see:
 
 - [docs/first-release-checklist.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/first-release-checklist.md)
 - [docs/release-notes-template.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/release-notes-template.md)
+- [docs/versioning-and-updates.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/versioning-and-updates.md)
+
+## Optional Desktop Updates
+
+The desktop app checks GitHub Releases for newer versions on launch when it is running as a packaged app.
+
+The update flow is optional:
+
+1. the app detects a newer release
+2. an update banner appears
+3. the user clicks `Update Now`
+4. the app downloads the update
+5. the user clicks `Restart And Install`
+
+The installed app is separate from user data. Progress and workspaces remain in `~/.dsa-sheet`, so normal app updates should keep user data intact.
+
+Important:
+
+- package version and Git tag should match, for example `1.0.1` and `v1.0.1`
+- release builds must use `npm run desktop:publish` on tags
+- do not manually upload only installers and forget updater metadata
+- macOS auto-update should be treated as production-ready after signing/notarization is configured
 
 ## Local Distribution Commands
 
@@ -126,6 +150,12 @@ Build distributable installers:
 
 ```bash
 npm run desktop:dist
+```
+
+Publish distributable installers and updater metadata:
+
+```bash
+npm run desktop:publish
 ```
 
 ## Important Product Constraint
@@ -153,5 +183,5 @@ The app now detects this and shows a setup banner, but the most polished future 
 
 - signed Windows release
 - bundled Java runtime or guided runtime installer
-- auto-update support
+- signed/notarized macOS update path
 - release notes and changelog polish

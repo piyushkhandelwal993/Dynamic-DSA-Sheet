@@ -1,8 +1,69 @@
 const path = require("path");
 const { app, BrowserWindow, ipcMain, shell, dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
+
+let mainWindow = null;
+let latestUpdateInfo = null;
+
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = false;
 
 function getDesktopApi() {
   return require(path.join(__dirname, "..", "dist", "services", "desktopApp.js"));
+}
+
+function sendUpdateStatus(status) {
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    return;
+  }
+  mainWindow.webContents.send("desktop:update-status", status);
+}
+
+function setupAutoUpdater() {
+  autoUpdater.on("checking-for-update", () => {
+    sendUpdateStatus({ status: "checking" });
+  });
+
+  autoUpdater.on("update-available", (info) => {
+    latestUpdateInfo = info;
+    sendUpdateStatus({
+      status: "available",
+      version: info.version,
+      releaseName: info.releaseName,
+      releaseNotes: info.releaseNotes
+    });
+  });
+
+  autoUpdater.on("update-not-available", () => {
+    latestUpdateInfo = null;
+    sendUpdateStatus({ status: "not-available" });
+  });
+
+  autoUpdater.on("download-progress", (progress) => {
+    sendUpdateStatus({
+      status: "downloading",
+      percent: Math.round(progress.percent ?? 0),
+      transferred: progress.transferred,
+      total: progress.total
+    });
+  });
+
+  autoUpdater.on("update-downloaded", (info) => {
+    latestUpdateInfo = info;
+    sendUpdateStatus({
+      status: "downloaded",
+      version: info.version,
+      releaseName: info.releaseName,
+      releaseNotes: info.releaseNotes
+    });
+  });
+
+  autoUpdater.on("error", (error) => {
+    sendUpdateStatus({
+      status: "error",
+      message: error?.message ?? String(error)
+    });
+  });
 }
 
 function createWindow() {
@@ -21,8 +82,19 @@ function createWindow() {
     }
   });
 
+  mainWindow = win;
   win.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
   win.loadFile(path.join(__dirname, "index.html"));
+
+  win.webContents.once("did-finish-load", () => {
+    if (app.isPackaged) {
+      autoUpdater.checkForUpdates().catch((error) => {
+        sendUpdateStatus({ status: "error", message: error?.message ?? String(error) });
+      });
+    } else {
+      sendUpdateStatus({ status: "disabled-dev" });
+    }
+  });
 }
 
 ipcMain.handle("desktop:bootstrap", async (_event, topicId) => getDesktopApi().getDesktopBootstrap(topicId));
@@ -58,8 +130,34 @@ ipcMain.handle("desktop:pick-java-file", async () => {
   });
   return result.canceled ? null : result.filePaths[0];
 });
+ipcMain.handle("desktop:check-for-updates", async () => {
+  if (!app.isPackaged) {
+    sendUpdateStatus({ status: "disabled-dev" });
+    return { status: "disabled-dev" };
+  }
+
+  const result = await autoUpdater.checkForUpdates();
+  return {
+    status: result?.updateInfo ? "checked" : "not-available",
+    updateInfo: result?.updateInfo ?? latestUpdateInfo
+  };
+});
+ipcMain.handle("desktop:download-update", async () => {
+  if (!app.isPackaged) {
+    sendUpdateStatus({ status: "disabled-dev" });
+    return false;
+  }
+
+  await autoUpdater.downloadUpdate();
+  return true;
+});
+ipcMain.handle("desktop:install-update", async () => {
+  autoUpdater.quitAndInstall(false, true);
+  return true;
+});
 
 app.whenReady().then(() => {
+  setupAutoUpdater();
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
