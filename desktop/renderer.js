@@ -222,6 +222,16 @@ function scheduleEditorRefresh() {
   window.setTimeout(refresh, 80);
 }
 
+let editorResizeFrame = 0;
+
+function scheduleEditorLayout() {
+  if (!monacoEditor) return;
+  window.cancelAnimationFrame(editorResizeFrame);
+  editorResizeFrame = window.requestAnimationFrame(() => {
+    monacoEditor?.layout();
+  });
+}
+
 function scrollToResultsSection() {
   if (resultSectionEl.classList.contains("is-hidden")) {
     return;
@@ -2699,6 +2709,13 @@ window.addEventListener("keydown", (event) => {
     toggleEditorFocus();
   }
 });
+
+window.addEventListener("resize", scheduleEditorLayout);
+
+if (typeof ResizeObserver !== "undefined") {
+  const editorResizeObserver = new ResizeObserver(scheduleEditorLayout);
+  editorResizeObserver.observe(editorEl);
+}
 
 document.addEventListener("click", (event) => {
   const target = event.target;

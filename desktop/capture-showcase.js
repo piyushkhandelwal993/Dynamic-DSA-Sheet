@@ -10,6 +10,9 @@ const homeOutput = path.join(outputDir, "home-landing.png");
 const practiceOutput = path.join(outputDir, "practice-view.png");
 const feedbackOutput = path.join(outputDir, "practice-feedback.png");
 const sampleSolutionPath = path.join(projectRoot, "sample-solutions", "MaximumElementArray.java");
+const captureWidth = Number(process.env.DSA_CAPTURE_WIDTH) || 1600;
+const captureHeight = Number(process.env.DSA_CAPTURE_HEIGHT) || 1280;
+const captureZoom = Number(process.env.DSA_CAPTURE_ZOOM) || 1;
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -45,8 +48,8 @@ async function runCapture() {
   await prepareWorkspace();
 
   const win = new BrowserWindow({
-    width: 1600,
-    height: 1280,
+    width: captureWidth,
+    height: captureHeight,
     show: false,
     backgroundColor: "#070B16",
     webPreferences: {
@@ -57,7 +60,15 @@ async function runCapture() {
   });
 
   await win.loadFile(path.join(__dirname, "index.html"));
+  win.webContents.setZoomFactor(captureZoom);
   await wait(1800);
+  const viewport = await win.webContents.executeJavaScript(`({
+    innerWidth: window.innerWidth,
+    innerHeight: window.innerHeight,
+    devicePixelRatio: window.devicePixelRatio,
+    compactPractice: window.matchMedia("(max-width: 1240px)").matches
+  })`);
+  console.log("Capture viewport", viewport);
 
   await captureToFile(win, homeOutput);
 
