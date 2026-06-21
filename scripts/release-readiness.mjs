@@ -67,7 +67,8 @@ function checkWorkflow() {
   assert.match(workflow, /macos-14/, "Release workflow must include Apple Silicon macOS");
   assert.match(workflow, /windows-latest/, "Release workflow must include Windows");
   assert.match(workflow, /ubuntu-latest/, "Release workflow must include Linux");
-  assert.match(workflow, /setup-mingw/, "Windows release CI must install a C++ compiler");
+  assert.match(workflow, /choco install mingw/, "Windows release CI must install a C++ compiler");
+  assert.match(workflow, /GITHUB_PATH/, "Windows release CI must expose the C++ compiler to later steps");
 }
 
 function checkTopicLearningPaths() {
@@ -104,4 +105,3 @@ checkDataSeparation();
 
 console.log(`Release readiness passed for DSA Sheet v${packageJson.version}.`);
 console.log(`Validated ${topicRegistry.topicOrder.length} topic learning paths, desktop security, updater policy, assets, and platform packaging.`);
-
