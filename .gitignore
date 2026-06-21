@@ -2,7 +2,7 @@ node_modules/
 dist/
 release/
 
-build/
+build/*
 !build/icon.png
 !build/icon.ico
 !build/icon.icns
