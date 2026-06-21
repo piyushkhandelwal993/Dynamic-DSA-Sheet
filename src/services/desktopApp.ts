@@ -1,6 +1,6 @@
 import fs from "fs";
 import { spawnSync } from "child_process";
-import { DesktopBootstrap, DesktopPreferences, JavaRuntimeStatus, Problem, ProblemSessionResult } from "../types";
+import { CppRuntimeStatus, DesktopBootstrap, DesktopPreferences, JavaRuntimeStatus, Problem, ProblemSessionResult, ProgrammingLanguage } from "../types";
 import {
   getActiveTopicId,
   getConceptById,
@@ -25,6 +25,7 @@ import { recommendNextProblem } from "./recommendation";
 import { buildWorldZones, buildActiveQuests, getMasterySummary } from "./progression";
 import { submitProblemSolution } from "./submission";
 import { runJavaSubmission, runJavaWithCustomInput } from "./javaRunner";
+import { runCppSubmission, runCppWithCustomInput } from "./cppRunner";
 
 function buildStreakCalendar() {
   const skillProfile = getSkillProfile();
@@ -56,7 +57,10 @@ function buildSkillBars() {
       conceptId: item.conceptId,
       conceptName: getConceptById(item.conceptId)?.name ?? item.conceptId,
       score: item.score,
-      tier: item.tier
+      tier: item.tier,
+      implementationScore: item.implementationScore,
+      implementationTier: item.implementationTier,
+      fullyMastered: item.fullyMastered
     }));
 }
 
@@ -129,6 +133,18 @@ export function detectJavaRuntime(): JavaRuntimeStatus {
   };
 }
 
+export function detectCppRuntime(): CppRuntimeStatus {
+  const compilerCheck = readVersionLine("g++", ["--version"]);
+  return {
+    available: compilerCheck.available,
+    compilerAvailable: compilerCheck.available,
+    compilerVersion: compilerCheck.version,
+    guidance: compilerCheck.available
+      ? "C++ is ready. You can compile and run C++17 solutions locally."
+      : "C++ compiler was not found. Install g++ with C++17 support to run and submit C++ solutions."
+  };
+}
+
 export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootstrap {
   const progress = getProgress();
   const skillProfile = getSkillProfile();
@@ -154,7 +170,8 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     progressMap: progress.problems,
     recommendedTopicId: nextRecommendation.problem ? (getTopicIdForProblem(nextRecommendation.problem.id) ?? topicId) : topicId,
     preferences: getDesktopPreferences(),
-    javaRuntime: detectJavaRuntime()
+    javaRuntime: detectJavaRuntime(),
+    cppRuntime: detectCppRuntime()
   };
 }
 
@@ -178,7 +195,7 @@ export function getDesktopProblem(problemId: string): Problem {
   return problem;
 }
 
-export function startDesktopProblem(problemId: string): ProblemSessionResult {
+export function startDesktopProblem(problemId: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
   const problem = getDesktopProblem(problemId);
   const progress = getProgress();
   const current = progress.problems[problemId] ?? {
@@ -195,52 +212,60 @@ export function startDesktopProblem(problemId: string): ProblemSessionResult {
   };
   saveProgress(progress);
 
-  const workspace = ensureProblemWorkspace(problem);
+  const workspace = ensureProblemWorkspace(problem, language);
   const workspaceCode = fs.readFileSync(workspace.filePath, "utf-8");
 
   return {
     problem,
     workspacePath: workspace.filePath,
     workspaceCode,
-    created: workspace.created
+    created: workspace.created,
+    language
   };
 }
 
-export function loadDesktopWorkspace(problemId: string): ProblemSessionResult {
+export function loadDesktopWorkspace(problemId: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
   const problem = getDesktopProblem(problemId);
-  const workspace = ensureProblemWorkspace(problem);
+  const workspace = ensureProblemWorkspace(problem, language);
   const workspaceCode = fs.readFileSync(workspace.filePath, "utf-8");
   return {
     problem,
     workspacePath: workspace.filePath,
     workspaceCode,
-    created: workspace.created
+    created: workspace.created,
+    language
   };
 }
 
-export function saveDesktopWorkspace(problemId: string, code: string): ProblemSessionResult {
+export function saveDesktopWorkspace(problemId: string, code: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
   const problem = getDesktopProblem(problemId);
-  const filePath = getProblemStarterFilePath(problem);
-  ensureProblemWorkspace(problem);
+  const filePath = getProblemStarterFilePath(problem, language);
+  ensureProblemWorkspace(problem, language);
   fs.writeFileSync(filePath, code, "utf-8");
   return {
     problem,
     workspacePath: filePath,
     workspaceCode: code,
-    created: false
+    created: false,
+    language
   };
 }
 
-export function submitDesktopProblem(problemId: string, code?: string) {
+export function submitDesktopProblem(problemId: string, code?: string, language: ProgrammingLanguage = "java") {
   if (typeof code === "string") {
-    saveDesktopWorkspace(problemId, code);
+    saveDesktopWorkspace(problemId, code, language);
   }
-  return submitProblemSolution(problemId);
+  return submitProblemSolution(problemId, undefined, language);
 }
 
-export function runDesktopProblem(problemId: string, code?: string, options?: { mode?: "official" | "custom"; customInput?: string }) {
+export function runDesktopProblem(
+  problemId: string,
+  code?: string,
+  options?: { mode?: "official" | "custom"; customInput?: string; language?: ProgrammingLanguage }
+) {
   const problem = getDesktopProblem(problemId);
-  const session = typeof code === "string" ? saveDesktopWorkspace(problemId, code) : loadDesktopWorkspace(problemId);
+  const language = options?.language ?? "java";
+  const session = typeof code === "string" ? saveDesktopWorkspace(problemId, code, language) : loadDesktopWorkspace(problemId, language);
   const mode = options?.mode ?? "official";
   const customInput = options?.customInput ?? "";
 
@@ -249,11 +274,14 @@ export function runDesktopProblem(problemId: string, code?: string, options?: { 
       problem,
       workspacePath: session.workspacePath,
       mode,
-      customRun: runJavaWithCustomInput(problem, session.workspacePath, customInput)
+      customRun:
+        language === "cpp"
+          ? runCppWithCustomInput(problem, session.workspacePath, customInput)
+          : runJavaWithCustomInput(problem, session.workspacePath, customInput)
     };
   }
 
-  const execution = runJavaSubmission(problem, session.workspacePath);
+  const execution = language === "cpp" ? runCppSubmission(problem, session.workspacePath) : runJavaSubmission(problem, session.workspacePath);
 
   return {
     problem,

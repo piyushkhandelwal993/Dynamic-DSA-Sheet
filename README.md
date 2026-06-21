@@ -108,3 +108,24 @@ The CLI and desktop app create these local files:
 - Local execution happens on the client machine
 - Problems with test cases use real compile/run-based correctness
 - Problems without test cases still fall back to heuristic correctness
+# Analyzer Benchmark
+
+Run the adversarial Java/C++ analyzer benchmark before a release:
+
+```bash
+npm run benchmark:analyzer
+```
+
+The command reports labeled precision, recall, and Java/C++ parity and exits unsuccessfully when the release quality floor is missed.
+
+## Test-Case Coverage
+
+Audit executable and hidden boundary-case coverage before a release:
+
+```bash
+npm run audit:test-cases
+```
+
+Java and C++ use the same effective test-case registry. The audit distinguishes authoritative configured or curated cases from weaker example-only fallback coverage and fails when the release floor is missed.
+
+Problem stdin/stdout serialization follows [docs/problem-io-contract.md](docs/problem-io-contract.md).

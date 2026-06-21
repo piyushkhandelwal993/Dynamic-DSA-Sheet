@@ -165,7 +165,7 @@ export function submitCommand(problemId: string, filePath?: string): void {
   }
 
   const outcome = submitProblemSolution(problemId, resolvedPath);
-  const { execution, analysis, detection, score, recommendation, rewardResult, revisionDays } = outcome;
+  const { execution, analysis, detection, score, analysisFeedback, recommendation, rewardResult, revisionDays } = outcome;
 
   console.log(formatQuestBanner(rewardResult.questStatus));
   console.log(`Problem: ${problem.title}`);
@@ -197,15 +197,31 @@ export function submitCommand(problemId: string, filePath?: string): void {
     printExecutionFeedback(problem, execution, analysis, detection);
     console.log("");
   }
-  console.log("Detected:");
-  const detectedLines = [...analysis.detected, ...analysis.warnings];
-  detectedLines.forEach((line) => console.log(`- ${line}`));
+  console.log("Detected Concepts:");
+  analysisFeedback.detectedConcepts.forEach((item) => {
+    console.log(`- ${item.conceptId} (${item.confidence}, ${item.confidenceScore}%)`);
+    item.evidence.slice(0, 2).forEach((evidence) => console.log(`  Evidence: ${evidence}`));
+  });
+  if (analysisFeedback.detectedConcepts.length === 0) {
+    console.log("- None");
+  }
   console.log("");
   console.log("Missing Concepts:");
   detection.missingConcepts.forEach((concept) => console.log(`- ${concept}`));
   if (detection.missingConcepts.length === 0) {
     console.log("- None");
   }
+  console.log("");
+  console.log("Complexity Reasoning:");
+  analysisFeedback.complexityReasoning.forEach((reason) => console.log(`- ${reason}`));
+  if (analysisFeedback.antiPatterns.length > 0) {
+    console.log("");
+    console.log("Analyzer Warnings:");
+    analysisFeedback.antiPatterns.forEach((issue) => console.log(`- ${issue.id} (${issue.confidence})`));
+  }
+  console.log("");
+  console.log("How To Improve:");
+  analysisFeedback.improvements.forEach((improvement) => console.log(`- ${improvement}`));
   console.log("");
   console.log("Recommended Next:");
   console.log(recommendation.message);

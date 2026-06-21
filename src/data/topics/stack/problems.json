@@ -57,6 +57,14 @@
       { "input": "([)]", "expectedOutput": "Not Balanced", "visibility": "sample" },
       { "input": "(()", "expectedOutput": "Not Balanced", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isBalanced",
+      "javaSignature": "public boolean isBalanced(String value)",
+      "cppSignature": "bool isBalanced(const string& value)",
+      "providedTypes": ["input string"],
+      "driverStrategy": "stack-balanced-brackets"
+    },
     "remedialProblems": ["st-001"],
     "skipIfMastered": []
   },
@@ -327,6 +335,7 @@
       { "input": "a+b*(c-d)", "expectedOutput": "abcd-*+", "visibility": "sample" },
       { "input": "(a+b)*c", "expectedOutput": "ab+c*", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["stack-intro", "balanced-parentheses"],
     "remedialProblems": ["st-002", "st-005"],
     "skipIfMastered": []
   },

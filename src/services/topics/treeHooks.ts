@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String|Integer|TreeNode|Node)\s+([a-zA-Z_]\w*)/g;
@@ -7,39 +9,23 @@ export function analyzeTreeJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const treeNodePattern = /(TreeNode|Node)\s+\w+|class\s+TreeNode|class\s+Node|root\.(left|right)|\w+\.(left|right)/;
-  const recursiveTraversalPattern =
-    /(preorder|inorder|postorder|dfs|traverse|height|depth|diameter|maxPath|isBalanced)\s*\([^)]*\)\s*\{[\s\S]{0,400}\w+\s*\(\s*\w+\.(left|right)\s*\)/;
-  const queueTraversalPattern = /(Queue<|ArrayDeque<|LinkedList<)[\s\S]{0,220}(offer|poll|peek)/;
-  const bstLogicPattern =
-    /(root\.val|node\.val|current\.val|data)\s*[<>]=?\s*(low|high|target|key|val)|target\s*[<>]=?\s*(root|node|current)\.val|isValidBST|minValue|maxValue/;
-  const treeConstructionPattern =
-    /(buildTree|construct|preorderIndex|postorderIndex|inorderMap|splitIndex|mid\s*=|new\s+TreeNode|new\s+Node)/;
-  const lcaPattern = /(lowestCommonAncestor|lca)\s*\(|if\s*\(\s*root\s*==\s*p\s*\|\||if\s*\(\s*root\s*==\s*q\s*\|\|left\s*!=\s*null\s*&&\s*right\s*!=\s*null/;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 2 && !queueTraversalPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !treeNodePattern.test(content),
-    missingEdgeCaseHandling: !/(root\s*==\s*null|node\s*==\s*null|null\s*==\s*root|null\s*==\s*node|queue\.isEmpty\(\))/i.test(content),
-    usesTreeNodePattern: treeNodePattern.test(content),
-    usesRecursiveTraversal: recursiveTraversalPattern.test(content),
-    usesQueueTraversal: queueTraversalPattern.test(content),
-    usesBstLogic: bstLogicPattern.test(content),
-    usesTreeConstruction: treeConstructionPattern.test(content),
-    usesLcaPattern: lcaPattern.test(content)
+    hasUnnecessaryLoop: facts.metrics.loopCount > 2 && !hasFact(facts, "level-order-tree-traversal"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "tree-node"),
+    missingEdgeCaseHandling: !hasFact(facts, "tree-edge-check"),
+    usesTreeNodePattern: hasFact(facts, "tree-node"),
+    usesRecursiveTraversal: hasFact(facts, "recursive-tree-traversal"),
+    usesQueueTraversal: hasFact(facts, "level-order-tree-traversal"),
+    usesBstLogic: hasFact(facts, "bst-logic"),
+    usesTreeConstruction: hasFact(facts, "tree-construction"),
+    usesLcaPattern: hasFact(facts, "lowest-common-ancestor")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp", "n"].includes(name) && variableNames.length > 4);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp", "n"].includes(name) && variableNames.length > 4);
 
   if (signals.usesTreeNodePattern) detected.push("Used tree node structure");
   if (signals.usesRecursiveTraversal) detected.push("Used recursive tree traversal");
@@ -53,6 +39,16 @@ export function analyzeTreeJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle tree edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

@@ -449,6 +449,13 @@
                   <h2 id="editor-problem-title">Workspace</h2>
                 </div>
                 <div class="editor-actions">
+                  <label class="language-control" for="language-select">
+                    <span>Language</span>
+                    <select id="language-select" disabled>
+                      <option value="java">Java</option>
+                      <option value="cpp">C++17</option>
+                    </select>
+                  </label>
                   <button id="toggle-editor-focus-button" class="ghost-button" disabled>Focus Editor</button>
                   <button id="editor-decrease-font-button" class="ghost-button" disabled>A-</button>
                   <button id="editor-increase-font-button" class="ghost-button" disabled>A+</button>
@@ -623,7 +630,7 @@
       </main>
     </div>
 
-    <div id="success-modal-overlay" class="modal-overlay is-hidden">
+    <dialog id="success-modal-overlay" class="modal-overlay">
       <div class="success-modal">
         <div class="success-confetti" aria-hidden="true">
           <span class="confetti-piece piece-1"></span>
@@ -657,7 +664,7 @@
           <button id="success-modal-close-button" class="ghost-button">Close</button>
         </div>
       </div>
-    </div>
+    </dialog>
 
     <script src="./renderer.js"></script>
   </body>

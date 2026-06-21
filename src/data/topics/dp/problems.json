@@ -26,6 +26,14 @@
       { "input": "7", "expectedOutput": "13", "visibility": "sample" },
       { "input": "0", "expectedOutput": "0", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "fibonacci",
+      "javaSignature": "public int fibonacci(int n)",
+      "cppSignature": "int fibonacci(int n)",
+      "providedTypes": ["integer input"],
+      "driverStrategy": "dp-fibonacci"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -56,6 +64,7 @@
       { "input": "4", "expectedOutput": "5", "visibility": "sample" },
       { "input": "2", "expectedOutput": "2", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["dp-intro", "memoization", "tabulation"],
     "remedialProblems": ["dp-001"],
     "skipIfMastered": []
   },

@@ -26,6 +26,14 @@
       { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "1 2 3 4 5", "visibility": "sample" },
       { "input": "3\n7 -1 -1", "expectedOutput": "7", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "preorder",
+      "javaSignature": "public List<Integer> preorder(TreeNode root)",
+      "cppSignature": "vector<int> preorder(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-preorder"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -56,6 +64,7 @@
       { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "2 1 4 3 5", "visibility": "sample" },
       { "input": "3\n8 7 -1", "expectedOutput": "7 8", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["tree-intro", "recursive-tree-traversal"],
     "remedialProblems": ["tr-001"],
     "skipIfMastered": []
   },
@@ -146,6 +155,14 @@
       { "input": "7\n1 2 3 -1 -1 4 5", "expectedOutput": "3", "visibility": "sample" },
       { "input": "3\n9 -1 8", "expectedOutput": "2", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "height",
+      "javaSignature": "public int height(TreeNode root)",
+      "cppSignature": "int height(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-height"
+    },
     "remedialProblems": ["tr-001"],
     "skipIfMastered": []
   },
@@ -176,6 +193,7 @@
       { "input": "7\n1 2 3 4 5 -1 -1", "expectedOutput": "3", "visibility": "sample" },
       { "input": "3\n1 2 -1", "expectedOutput": "1", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["tree-height"],
     "remedialProblems": ["tr-005"],
     "skipIfMastered": []
   },

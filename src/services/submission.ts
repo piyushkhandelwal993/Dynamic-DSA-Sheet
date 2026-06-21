@@ -1,5 +1,5 @@
 import fs from "fs";
-import { AnalysisResult, ConceptDetectionResult, ExecutionResult, Problem, RecommendationResult, ScoreBreakdown } from "../types";
+import { AnalysisResult, ConceptDetectionResult, ExecutionResult, ExplainableAnalysisFeedback, Problem, ProgrammingLanguage, RecommendationResult, ScoreBreakdown } from "../types";
 import {
   copySubmission,
   getGameProfile,
@@ -14,9 +14,12 @@ import {
 } from "./storage";
 import { resolveSubmissionPath } from "./workspace";
 import { runJavaSubmission } from "./javaRunner";
-import { analyzeJavaFileForProblem } from "./analyzer";
-import { detectConceptsForTopic } from "./conceptDetector";
-import { scoreSubmission } from "./scoring";
+import { runCppSubmission } from "./cppRunner";
+import { analyzeFileForProblem } from "./analyzer";
+import { analyzeCodeFacts } from "./analysis-engine/analyzeCode";
+import { matchProblemExpectations } from "./analysis-engine/matcher";
+import { buildExplainableFeedback } from "./analysis-engine/feedback";
+import { scoreSubmissionFromFacts } from "./analysis-engine/factScoring";
 import { chooseRevisionDays, buildRevisionDate } from "./revision";
 import { isNonBitwiseFoundationSolve } from "./approachRules";
 import { recommendAfterSubmission } from "./recommendation";
@@ -30,29 +33,33 @@ export interface SubmissionOutcome {
   analysis: AnalysisResult;
   detection: ConceptDetectionResult;
   score: ScoreBreakdown;
+  analysisFeedback: ExplainableAnalysisFeedback;
   recommendation: RecommendationResult;
   rewardResult: RewardResult;
   solvedByExecution: boolean;
   revisionDays: number;
 }
 
-export function submitProblemSolution(problemId: string, filePath?: string): SubmissionOutcome {
+export function submitProblemSolution(problemId: string, filePath?: string, language: ProgrammingLanguage = "java"): SubmissionOutcome {
   const problem = getProblemById(problemId);
   if (!problem) {
     throw new Error(`Problem not found: ${problemId}`);
   }
 
-  const resolvedPath = resolveSubmissionPath(problem, filePath);
+  const resolvedPath = resolveSubmissionPath(problem, filePath, language);
   if (!fs.existsSync(resolvedPath)) {
-    throw new Error(`Java file not found: ${resolvedPath}. Run dsa start ${problemId} first or pass a custom file path.`);
+    throw new Error(`${language === "cpp" ? "C++" : "Java"} file not found: ${resolvedPath}.`);
   }
 
   copySubmission(problemId, resolvedPath);
 
-  const execution = runJavaSubmission(problem, resolvedPath);
-  const analysis = analyzeJavaFileForProblem(problem, resolvedPath);
-  const detection = detectConceptsForTopic(problem, analysis);
-  const score = scoreSubmission(problem, analysis, detection, execution);
+  const execution = language === "cpp" ? runCppSubmission(problem, resolvedPath) : runJavaSubmission(problem, resolvedPath);
+  const facts = analyzeCodeFacts(language, fs.readFileSync(resolvedPath, "utf-8"));
+  const analysis = analyzeFileForProblem(problem, resolvedPath, language);
+  const factExpectation = matchProblemExpectations(problem, facts);
+  const detection = factExpectation.detection;
+  const score = scoreSubmissionFromFacts(problem, facts, factExpectation, execution);
+  const analysisFeedback = buildExplainableFeedback(problem, facts, factExpectation, score, execution);
 
   const progress = getProgress();
   const current = progress.problems[problemId] ?? {
@@ -79,7 +86,14 @@ export function submitProblemSolution(problemId: string, filePath?: string): Sub
     approachTags: isNonBitwiseFoundationSolve(problem, analysis) ? ["non-bitwise-foundation"] : [],
     retryRequired: false,
     retryConceptIds: [],
-    retryReason: undefined
+    retryReason: undefined,
+    bestImplementationScore: Math.max(
+      current.bestImplementationScore ?? 0,
+      Math.min(score.finalScore, problem.solutionMode === "guided-function" ? 60 : problem.solutionMode === "function" ? 72 : problem.solutionMode === "partial-program" ? 85 : 100)
+    ),
+    completedSolutionModes: solvedByExecution
+      ? Array.from(new Set([...(current.completedSolutionModes ?? []), problem.solutionMode ?? "complete-program"]))
+      : current.completedSolutionModes ?? []
   };
 
   const skillProfile = getSkillProfile();
@@ -116,6 +130,7 @@ export function submitProblemSolution(problemId: string, filePath?: string): Sub
     analysis,
     detection,
     score,
+    analysisFeedback,
     recommendation,
     rewardResult,
     solvedByExecution,

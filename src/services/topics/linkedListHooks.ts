@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String|Node|ListNode)\s+([a-zA-Z_]\w*)/g;
@@ -7,33 +9,22 @@ export function analyzeLinkedListJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const traversalPattern = /(while\s*\(\s*\w+\s*!=\s*null\s*\)|for\s*\(\s*.*\w+\s*=\s*\w+\.next)/.test(content);
-  const headUpdatePattern = /(head\s*=\s*new\s+\w+|new\w*\.next\s*=\s*head|head\s*=\s*head\.next)/.test(content);
-  const deletionPattern = /\.next\s*=\s*\w+\.next\.next|prev\.next\s*=\s*curr\.next/.test(content);
-  const reversePattern = /curr\.next\s*=\s*prev|prev\s*=\s*curr;[\s\S]*curr\s*=\s*next/.test(content);
-  const fastSlowPattern = /(slow\s*=\s*slow\.next[\s\S]*fast\s*=\s*fast\.next\.next|fast\s*=\s*fast\.next\.next[\s\S]*slow\s*=\s*slow\.next)/.test(content);
-  const dummyNodePattern = /(dummy|sentinel)\s*=\s*new\s+\w+\s*\(/.test(content);
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    missingEdgeCaseHandling: !/(head\s*==\s*null|n\s*==\s*0|if\s*\(\s*head\s*==\s*null|head\s*!=\s*null)/.test(content),
-    usesLinkedListTraversal: traversalPattern,
-    usesHeadUpdate: headUpdatePattern,
-    usesNodeDeletion: deletionPattern,
-    usesLinkedListReverse: reversePattern,
-    usesFastSlowPointers: fastSlowPattern,
-    usesDummyNode: dummyNodePattern
+    missingEdgeCaseHandling: !hasFact(facts, "linked-list-edge-check"),
+    usesLinkedListTraversal: hasFact(facts, "linked-list-traversal"),
+    usesHeadUpdate: hasFact(facts, "head-update"),
+    usesNodeDeletion: hasFact(facts, "node-deletion"),
+    usesLinkedListReverse: hasFact(facts, "linked-list-reversal"),
+    usesFastSlowPointers: hasFact(facts, "fast-slow-pointers"),
+    usesDummyNode: hasFact(facts, "dummy-node")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans"].includes(name) && variableNames.length > 2);
-  signals.hasHardcoding = /\breturn\s+\d+\s*;/.test(content) && !signals.usesLinkedListTraversal;
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans"].includes(name) && variableNames.length > 2);
+  signals.hasHardcoding = hasFact(facts, "hardcoded-output") && !signals.usesLinkedListTraversal;
 
   if (signals.usesLinkedListTraversal) detected.push("Used linked-list traversal");
   if (signals.usesHeadUpdate) detected.push("Updated head or head-adjacent links");
@@ -47,6 +38,16 @@ export function analyzeLinkedListJavaContent(content: string): AnalysisResult {
   if (signals.hasHardcoding) warnings.push("Contains hardcoded output or logic.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectLinkedListConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

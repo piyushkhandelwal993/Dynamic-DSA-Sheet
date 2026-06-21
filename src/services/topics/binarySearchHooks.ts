@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String|Integer)\s+([a-zA-Z_]\w*)/g;
@@ -7,35 +9,22 @@ export function analyzeBinarySearchJavaContent(content: string): AnalysisResult 
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const midPattern = /(mid\s*=|mid\s*=\s*left\s*\+\s*\(right\s*-\s*left\)\s*\/\s*2|mid\s*=\s*\(left\s*\+\s*right\)\s*\/\s*2)/;
-  const boundPattern = /(ans\s*=|first\s*=|last\s*=|lowerBound|upperBound|leftMost|rightMost)/;
-  const answerBinaryPattern =
-    /(while\s*\(\s*left\s*<=\s*right\s*\)|while\s*\(\s*low\s*<=\s*high\s*\)|while\s*\(\s*left\s*<\s*right\s*\))[\s\S]{0,240}(mid)[\s\S]{0,240}(possible|can|isValid|isPossible|hours|capacity|days|bouquets)/i;
-  const sortedMidCheckPattern = /(arr\s*\[\s*mid\s*\]|nums\s*\[\s*mid\s*\]|midVal|midValue)/;
-  const partitionPattern = /(partition|cut1|cut2|left1|left2|right1|right2|maxLeft|minRight)/;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 2 && !answerBinaryPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !midPattern.test(content),
-    missingEdgeCaseHandling: !/(n\s*==\s*0|arr\.length\s*==\s*0|nums\.length\s*==\s*0|null|left\s*>\s*right|low\s*>\s*high)/.test(content),
-    usesBinarySearch: midPattern.test(content) && /(left|right|low|high)/.test(content) && /while\s*\(/.test(content),
-    usesLowerUpperBoundPattern: boundPattern.test(content) && midPattern.test(content),
-    usesAnswerBinarySearch: answerBinaryPattern.test(content),
-    usesSortedMidCheck: sortedMidCheckPattern.test(content) && midPattern.test(content),
-    usesPartitionBinarySearch: partitionPattern.test(content) && midPattern.test(content)
+    hasUnnecessaryLoop: facts.metrics.loopCount > 2 && !hasFact(facts, "answer-space-search"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "binary-search"),
+    missingEdgeCaseHandling: !hasFact(facts, "empty-or-null-check") && !/(left\s*>\s*right|low\s*>\s*high)/.test(content),
+    usesBinarySearch: hasFact(facts, "binary-search"),
+    usesLowerUpperBoundPattern: hasFact(facts, "lower-upper-bound"),
+    usesAnswerBinarySearch: hasFact(facts, "answer-space-search"),
+    usesSortedMidCheck: hasFact(facts, "sorted-mid-check"),
+    usesPartitionBinarySearch: hasFact(facts, "partition-binary-search")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp"].includes(name) && variableNames.length > 3);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp"].includes(name) && variableNames.length > 3);
 
   if (signals.usesBinarySearch) detected.push("Used binary-search loop");
   if (signals.usesLowerUpperBoundPattern) detected.push("Tracked boundary answer for lower/upper bound style search");
@@ -48,6 +37,16 @@ export function analyzeBinarySearchJavaContent(content: string): AnalysisResult 
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectBinarySearchConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

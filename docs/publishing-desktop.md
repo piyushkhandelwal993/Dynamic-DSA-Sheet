@@ -107,7 +107,7 @@ The workflow will:
 1. install dependencies
 2. install Temurin JDK 17 for Java runner tests
 3. build TypeScript
-4. run tests
+4. run the unified production gate (`npm run release:check`)
 5. build desktop installers
 6. publish installers and update metadata to the GitHub Release
 7. upload CI artifacts for debugging
@@ -163,11 +163,14 @@ npm run desktop:publish
 
 ## Important Product Constraint
 
-The app currently executes Java locally using `java` and `javac`.
+The app executes Java and C++ locally.
 
-That means users need JDK 17+ installed unless you later bundle or provision a runtime automatically.
+Users currently need:
 
-The app now detects this and shows a setup banner, but the most polished future release would either:
+- JDK 17+ for Java
+- a C++17-compatible `g++` compiler for C++
+
+The app detects both toolchains and shows setup guidance, but the most polished future release would either:
 
 - bundle a runtime, or
 - download/manage one on first launch

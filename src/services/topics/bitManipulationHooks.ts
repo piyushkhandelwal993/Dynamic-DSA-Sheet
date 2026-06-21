@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String)\s+([a-zA-Z_]\w*)/g;
@@ -17,39 +19,26 @@ export function analyzeBitJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected = [...base.detected];
   const warnings = [...base.warnings];
-
-  const normalBitMaskPattern = /(1\s*<<|>>\s*1|&\s*1|\|\s*\(|\^\s*\()/;
-  const hardcodedBranchPattern = /if\s*\(\s*[\w\s<>=!&|()+-]+\)\s*return\s+\d+\s*;/g;
-  const hardcodedAssignmentPattern = /\b(?:int|long)\s+\w+\s*=\s*\d+\s*;/g;
-  const hardcodedBranchCount = content.match(hardcodedBranchPattern)?.length ?? 0;
-  const hardcodedAssignmentCount = content.match(hardcodedAssignmentPattern)?.length ?? 0;
-  const usesBitwiseOperators = /[&|^~]|<<|>>/.test(content);
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    usesAnd: /\&/.test(content) && !/\&\&/.test(content),
-    usesOr: /\|/.test(content) && !/\|\|/.test(content),
-    usesXor: /\^/.test(content),
-    usesLeftShift: /<</.test(content),
-    usesRightShift: />>/.test(content),
-    usesNot: /~/.test(content),
-    usesPowerOfTwoPattern: /n\s*&\s*\(\s*n\s*-\s*1\s*\)|\w+\s*&=\s*\(\s*\w+\s*-\s*1\s*\)/.test(content),
-    usesStringConversion: /(Integer\.toBinaryString|toString\(\s*n\s*,\s*2\s*\)|StringBuilder|StringBuffer)/.test(content),
-    usesModuloDivision: /[%\/]\s*2/.test(content),
-    hasUnnecessaryLoop: /(for|while)\s*\(/.test(content),
-    hasHardcoding:
-      (!usesBitwiseOperators && hardcodedBranchCount >= 1) ||
-      (hardcodedAssignmentCount >= 2 && !normalBitMaskPattern.test(content)),
-    missingEdgeCaseHandling: !/(n\s*<=?\s*0|n\s*==\s*0|if\s*\(\s*\w+\s*<\s*0|\bnull\b)/.test(content)
+    usesAnd: hasFact(facts, "bitwise-and"),
+    usesOr: hasFact(facts, "bitwise-or"),
+    usesXor: hasFact(facts, "bitwise-xor"),
+    usesLeftShift: hasFact(facts, "left-shift"),
+    usesRightShift: hasFact(facts, "right-shift"),
+    usesNot: hasFact(facts, "bitwise-not"),
+    usesPowerOfTwoPattern: hasFact(facts, "clear-lowest-set-bit"),
+    usesStringConversion: hasFact(facts, "binary-string-conversion"),
+    usesModuloDivision: hasFact(facts, "modulo-division-by-two"),
+    hasUnnecessaryLoop: facts.metrics.loopCount > 0,
+    hasHardcoding: hasFact(facts, "bit-hardcoding"),
+    missingEdgeCaseHandling: !hasFact(facts, "bit-edge-check")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans"].includes(name) && variableNames.length > 2);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans"].includes(name) && variableNames.length > 2);
 
   if (signals.usesAnd) detected.push("Used bitwise AND");
   if (signals.usesOr) detected.push("Used bitwise OR");
@@ -67,6 +56,16 @@ export function analyzeBitJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectBitConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

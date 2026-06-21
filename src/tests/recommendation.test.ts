@@ -194,3 +194,114 @@ test("recommendNextProblem prioritizes same-problem retry after non-bitwise foun
   assert.equal(recommendation.type, "revise-prerequisite");
   assert.equal(recommendation.problem?.id, "bit-001");
 });
+
+test("strong guided solve recommends the matching complete-program milestone", () => {
+  const problems = getTopicProblems("arrays");
+  const problem = problems.find((item) => item.id === "arr-001");
+  assert.ok(problem);
+
+  const recommendation = recommendAfterSubmission(
+    problem,
+    problems,
+    makeProgress(),
+    makeSkillProfile(),
+    {
+      finalScore: 94,
+      conceptMatchScore: 100,
+      qualityScore: 90,
+      complexityScore: 90
+    },
+    {
+      detected: [],
+      warnings: [],
+      signals: makeSignals({ usesArrayTraversal: true })
+    }
+  );
+
+  assert.equal(recommendation.problem?.id, "arr-004");
+  assert.match(recommendation.message, /complete program/i);
+  assert.equal(recommendation.suggestedProblemIds[0], "arr-004");
+});
+
+test("next-problem recommendation prioritizes independence after guided mastery", () => {
+  const problems = getTopicProblems("trees");
+  const skillProfile = makeSkillProfile();
+  skillProfile.conceptScores["tree-height"] = 90;
+  skillProfile.conceptAttempts["tree-height"] = 2;
+  skillProfile.implementationScores["tree-height"] = 60;
+  skillProfile.implementationAttempts["tree-height"] = 2;
+
+  const recommendation = recommendNextProblem(problems, makeProgress(), skillProfile);
+
+  assert.equal(recommendation.problem?.id, "tr-006");
+  assert.match(recommendation.message, /Implementation milestone/);
+  assert.deepEqual(recommendation.conceptIds, ["tree-height"]);
+});
+
+test("solved independence milestones are not recommended again", () => {
+  const problems = getTopicProblems("linked-list");
+  const progress = makeProgress();
+  progress.problems["ll-009"] = {
+    problemId: "ll-009",
+    status: "solved",
+    attempts: 1,
+    bestScore: 90
+  };
+  const skillProfile = makeSkillProfile();
+  skillProfile.conceptScores["ll-reverse"] = 90;
+  skillProfile.implementationScores["ll-reverse"] = 60;
+
+  const recommendation = recommendNextProblem(problems, progress, skillProfile);
+
+  assert.notEqual(recommendation.problem?.id, "ll-009");
+});
+
+test("guided stack solve routes to its complete-program milestone", () => {
+  const problems = getTopicProblems("stack");
+  const problem = problems.find((item) => item.id === "st-002");
+  assert.ok(problem);
+
+  const recommendation = recommendAfterSubmission(
+    problem,
+    problems,
+    makeProgress(),
+    makeSkillProfile(),
+    { finalScore: 92, conceptMatchScore: 100, qualityScore: 90, complexityScore: 90 },
+    {
+      detected: [],
+      warnings: [],
+      signals: makeSignals({ usesStackStructure: true, usesParenthesisMatching: true })
+    }
+  );
+
+  assert.equal(recommendation.problem?.id, "st-011");
+});
+
+test("guided queue and binary search concepts have milestone routes", () => {
+  const queueProfile = makeSkillProfile();
+  queueProfile.conceptScores["queue-simulation"] = 88;
+  queueProfile.implementationScores["queue-simulation"] = 60;
+  assert.equal(recommendNextProblem(getTopicProblems("queue"), makeProgress(), queueProfile).problem?.id, "q-005");
+
+  const searchProfile = makeSkillProfile();
+  searchProfile.conceptScores["binary-search-intro"] = 90;
+  searchProfile.implementationScores["binary-search-intro"] = 60;
+  assert.equal(recommendNextProblem(getTopicProblems("binary-search"), makeProgress(), searchProfile).problem?.id, "bs-003");
+});
+
+test("recursion graph and DP guided concepts have milestone routes", () => {
+  const recursionProfile = makeSkillProfile();
+  recursionProfile.conceptScores["functional-recursion"] = 90;
+  recursionProfile.implementationScores["functional-recursion"] = 60;
+  assert.equal(recommendNextProblem(getTopicProblems("recursion"), makeProgress(), recursionProfile).problem?.id, "rec-012");
+
+  const graphProfile = makeSkillProfile();
+  graphProfile.conceptScores["bfs-graph"] = 90;
+  graphProfile.implementationScores["bfs-graph"] = 60;
+  assert.equal(recommendNextProblem(getTopicProblems("graphs"), makeProgress(), graphProfile).problem?.id, "gr-011");
+
+  const dpProfile = makeSkillProfile();
+  dpProfile.conceptScores["dp-intro"] = 90;
+  dpProfile.implementationScores["dp-intro"] = 60;
+  assert.equal(recommendNextProblem(getTopicProblems("dp"), makeProgress(), dpProfile).problem?.id, "dp-002");
+});

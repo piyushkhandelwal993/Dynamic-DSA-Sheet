@@ -6,11 +6,12 @@ Use this checklist when preparing the first public desktop release of DSA Sheet.
 
 - [ ] Use Node 22 LTS
 - [ ] Run `npm ci`
-- [ ] Run `npm run build`
-- [ ] Run `npm test`
+- [ ] Run `npm run release:check`
 - [ ] Confirm app launches with `npm run desktop`
 - [ ] Confirm the Java setup banner appears correctly on a machine without JDK
 - [ ] Confirm Run and Submit work on a machine with JDK 17+
+- [ ] Confirm the C++ setup banner appears correctly without `g++`
+- [ ] Confirm Run and Submit work with a C++17-compatible `g++`
 
 ## Branding
 
@@ -81,6 +82,7 @@ Expected artifacts:
 
 - [ ] `.dmg`
 - [ ] `.zip`
+- [ ] Intel and Apple Silicon macOS artifacts
 - [ ] `.exe`
 - [ ] `.AppImage`
 - [ ] `latest.yml`
@@ -102,6 +104,7 @@ Make sure the release page tells users:
 
 - DSA Sheet is a desktop app
 - It provides adaptive next-problem guidance
-- Java 17+ is currently required for code execution
+- Java 17+ is required for Java execution
+- a C++17-compatible `g++` is required for C++ execution
 - macOS / Windows / Linux availability
 - Windows may show a trust warning if it is released unsigned

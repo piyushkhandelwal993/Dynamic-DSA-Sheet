@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import os from "os";
-import { Concept, DesktopPreferences, GameProfile, Problem, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
+import { Concept, DesktopPreferences, GameProfile, Problem, ProgrammingLanguage, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
 import { defaultTopicId, topicOrder, topicPacks } from "../data/topics";
 import { createInitialGameProfile, rankFromLevel } from "./game";
 
@@ -43,7 +43,8 @@ export function createInitialDesktopPreferences(): DesktopPreferences {
     sidebarCollapsed: false,
     editorFocusMode: false,
     lastOpenedTopicId: defaultTopicId,
-    lastOpenedProblemId: null
+    lastOpenedProblemId: null,
+    selectedLanguage: "java"
   };
 }
 
@@ -91,7 +92,10 @@ export function createInitialSkillProfile(): SkillProfile {
     strongConcepts: [],
     submissionHistory: [],
     conceptAttempts: zeroMap,
-    conceptStrongHits: zeroMap
+    conceptStrongHits: zeroMap,
+    implementationScores: { ...zeroMap },
+    implementationAttempts: { ...zeroMap },
+    implementationStrongHits: { ...zeroMap }
   };
 }
 
@@ -146,7 +150,29 @@ export function saveProgress(progress: ProgressState): void {
 
 export function getSkillProfile(): SkillProfile {
   ensureBaseStructure();
-  return readJson<SkillProfile>(getSkillProfilePath()) ?? createInitialSkillProfile();
+  const defaults = createInitialSkillProfile();
+  const saved = readJson<Partial<SkillProfile>>(getSkillProfilePath());
+  if (!saved) return defaults;
+
+  // Profiles created before scaffolded learning used complete-program submissions,
+  // so their concept evidence is also valid implementation evidence.
+  const legacyImplementationScores = saved.implementationScores ?? saved.conceptScores ?? defaults.implementationScores;
+  const legacyImplementationAttempts = saved.implementationAttempts ?? saved.conceptAttempts ?? defaults.implementationAttempts;
+  const legacyImplementationStrongHits = saved.implementationStrongHits ?? saved.conceptStrongHits ?? defaults.implementationStrongHits;
+
+  return {
+    ...defaults,
+    ...saved,
+    conceptScores: { ...defaults.conceptScores, ...(saved.conceptScores ?? {}) },
+    conceptAttempts: { ...defaults.conceptAttempts, ...(saved.conceptAttempts ?? {}) },
+    conceptStrongHits: { ...defaults.conceptStrongHits, ...(saved.conceptStrongHits ?? {}) },
+    implementationScores: { ...defaults.implementationScores, ...legacyImplementationScores },
+    implementationAttempts: { ...defaults.implementationAttempts, ...legacyImplementationAttempts },
+    implementationStrongHits: { ...defaults.implementationStrongHits, ...legacyImplementationStrongHits },
+    weakConcepts: saved.weakConcepts ?? [],
+    strongConcepts: saved.strongConcepts ?? [],
+    submissionHistory: saved.submissionHistory ?? []
+  };
 }
 
 export function saveSkillProfile(skillProfile: SkillProfile): void {
@@ -185,7 +211,8 @@ export function getDesktopPreferences(): DesktopPreferences {
     sidebarCollapsed: saved.sidebarCollapsed ?? defaults.sidebarCollapsed,
     editorFocusMode: saved.editorFocusMode ?? defaults.editorFocusMode,
     lastOpenedTopicId: saved.lastOpenedTopicId ?? defaults.lastOpenedTopicId,
-    lastOpenedProblemId: saved.lastOpenedProblemId ?? defaults.lastOpenedProblemId
+    lastOpenedProblemId: saved.lastOpenedProblemId ?? defaults.lastOpenedProblemId,
+    selectedLanguage: saved.selectedLanguage === "cpp" ? "cpp" : "java"
   };
 }
 
@@ -257,6 +284,10 @@ export function getProblemWorkspaceDir(problem: Problem): string {
   return path.join(getWorkspaceDir(), topicId, problem.id);
 }
 
-export function getProblemStarterFilePath(problem: Problem): string {
-  return path.join(getProblemWorkspaceDir(problem), "Main.java");
+export function getProblemStarterFilePath(problem: Problem, language: ProgrammingLanguage = "java"): string {
+  const functionMode = Boolean(problem.functionContract && problem.solutionMode !== "complete-program");
+  const fileName = language === "cpp"
+    ? functionMode ? "solution.cpp" : "main.cpp"
+    : functionMode ? "Solution.java" : "Main.java";
+  return path.join(getProblemWorkspaceDir(problem), fileName);
 }

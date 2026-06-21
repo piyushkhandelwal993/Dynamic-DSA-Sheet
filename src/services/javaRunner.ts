@@ -2,10 +2,10 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { spawnSync } from "child_process";
-import { CustomRunResult, ExecutionCaseResult, ExecutionResult, Problem, ProblemTestCase } from "../types";
-
-const COMPILE_TIMEOUT_MS = 5000;
-const RUN_TIMEOUT_MS = 2000;
+import { CustomRunResult, ExecutionCaseResult, ExecutionResult, Problem } from "../types";
+import { classifyProcessFailure, executionPolicy, javaRuntimeArgs } from "./executionPolicy";
+import { getExecutionTestCases } from "./problemTestCases";
+import { buildJavaHarnessFiles, usesFunctionHarness } from "./functionHarness";
 
 function sanitizeJavaIdentifier(value: string): string {
   return value.replace(/[^a-zA-Z0-9_]/g, "");
@@ -31,31 +31,21 @@ function normalizeOutput(value: string): string {
     .trim();
 }
 
-function getExecutionTestCases(problem: Problem): ProblemTestCase[] {
-  if (problem.testCases && problem.testCases.length > 0) {
-    return problem.testCases;
-  }
-
-  return problem.examples.map((example) => ({
-    input: example.input,
-    expectedOutput: example.output,
-    visibility: "sample" as const,
-    explanation: example.explanation
-  }));
-}
-
-function prepareJavaRun(sourcePath: string, runKey: string) {
+function prepareJavaRun(problem: Problem, sourcePath: string, runKey: string) {
   const content = fs.readFileSync(sourcePath, "utf-8");
-  const className = detectMainClassName(content);
   const runDir = fs.mkdtempSync(path.join(os.tmpdir(), `dsa-sheet-${sanitizeJavaIdentifier(runKey)}-`));
-  const javaFileName = `${className}.java`;
-  const javaFilePath = path.join(runDir, javaFileName);
-  fs.writeFileSync(javaFilePath, content, "utf-8");
+  const harnessFiles = usesFunctionHarness(problem) ? buildJavaHarnessFiles(problem, content) : null;
+  const className = harnessFiles ? "Main" : detectMainClassName(content);
+  const files = harnessFiles ?? { [`${className}.java`]: content };
+  Object.entries(files).forEach(([fileName, source]) => {
+    fs.writeFileSync(path.join(runDir, fileName), source, "utf-8");
+  });
 
-  const compile = spawnSync("javac", [javaFileName], {
+  const compile = spawnSync("javac", Object.keys(files), {
     cwd: runDir,
     encoding: "utf-8",
-    timeout: COMPILE_TIMEOUT_MS
+    timeout: executionPolicy.compileTimeoutMs,
+    maxBuffer: executionPolicy.maxCompileOutputBytes
   });
 
   return {
@@ -77,88 +67,106 @@ export function runJavaSubmission(problem: Problem, sourcePath: string): Executi
     };
   }
 
-  const { className, runDir, compile } = prepareJavaRun(sourcePath, problem.id);
+  const { className, runDir, compile } = prepareJavaRun(problem, sourcePath, problem.id);
 
   if (compile.status !== 0) {
+    const compileError = (compile.stderr || compile.stdout || compile.error?.message || "Compilation failed").trim();
+    fs.rmSync(runDir, { recursive: true, force: true });
     return {
       usedTestCases: true,
       compileSucceeded: false,
       passedCount: 0,
       totalCount: testCases.length,
-      compileError: (compile.stderr || compile.stdout || "Compilation failed").trim(),
+      compileError,
       failedCases: []
     };
   }
 
-  const failedCases: ExecutionCaseResult[] = [];
-  let passedCount = 0;
+  try {
+    const failedCases: ExecutionCaseResult[] = [];
+    let passedCount = 0;
 
-  testCases.forEach((testCase) => {
-    const execution = spawnSync("java", [className], {
-      cwd: runDir,
-      encoding: "utf-8",
-      input: `${testCase.input}\n`,
-      timeout: RUN_TIMEOUT_MS
+    testCases.forEach((testCase) => {
+      const execution = spawnSync("java", javaRuntimeArgs(className), {
+        cwd: runDir,
+        encoding: "utf-8",
+        input: `${testCase.input}\n`,
+        timeout: executionPolicy.runTimeoutMs,
+        maxBuffer: executionPolicy.maxRunOutputBytes,
+        killSignal: "SIGKILL"
+      });
+      const failure = classifyProcessFailure(execution, "java");
+      const actualOutput = normalizeOutput(execution.stdout ?? "");
+      const expectedOutput = normalizeOutput(testCase.expectedOutput);
+      const passed = execution.status === 0 && !failure.resourceLimit && actualOutput === expectedOutput;
+
+      if (passed) {
+        passedCount += 1;
+        return;
+      }
+
+      failedCases.push({
+        input: testCase.input,
+        expectedOutput: testCase.expectedOutput,
+        actualOutput,
+        passed: false,
+        visibility: testCase.visibility,
+        error: failure.message || undefined,
+        timedOut: failure.timedOut,
+        outputLimitExceeded: failure.outputLimitExceeded,
+        memoryLimitExceeded: failure.memoryLimitExceeded,
+        resourceLimit: failure.resourceLimit
+      });
     });
 
-    const actualOutput = normalizeOutput(execution.stdout ?? "");
-    const expectedOutput = normalizeOutput(testCase.expectedOutput);
-    const timedOut = execution.signal === "SIGTERM";
-    const runtimeError = timedOut ? "Timed out while executing the program." : (execution.stderr ?? "").trim();
-    const passed = execution.status === 0 && !timedOut && actualOutput === expectedOutput;
-
-    if (passed) {
-      passedCount += 1;
-      return;
-    }
-
-    failedCases.push({
-      input: testCase.input,
-      expectedOutput: testCase.expectedOutput,
-      actualOutput,
-      passed: false,
-      visibility: testCase.visibility,
-      error: runtimeError || undefined,
-      timedOut
-    });
-  });
-
-  return {
-    usedTestCases: true,
-    compileSucceeded: true,
-    passedCount,
-    totalCount: testCases.length,
-    failedCases
-  };
+    return {
+      usedTestCases: true,
+      compileSucceeded: true,
+      passedCount,
+      totalCount: testCases.length,
+      failedCases
+    };
+  } finally {
+    fs.rmSync(runDir, { recursive: true, force: true });
+  }
 }
 
 export function runJavaWithCustomInput(problem: Problem, sourcePath: string, customInput: string): CustomRunResult {
-  const { className, runDir, compile } = prepareJavaRun(sourcePath, `${problem.id}-custom`);
+  const { className, runDir, compile } = prepareJavaRun(problem, sourcePath, `${problem.id}-custom`);
 
   if (compile.status !== 0) {
+    const compileError = (compile.stderr || compile.stdout || compile.error?.message || "Compilation failed").trim();
+    fs.rmSync(runDir, { recursive: true, force: true });
     return {
       compileSucceeded: false,
       actualOutput: "",
       customInput,
-      compileError: (compile.stderr || compile.stdout || "Compilation failed").trim()
+      compileError
     };
   }
 
-  const execution = spawnSync("java", [className], {
-    cwd: runDir,
-    encoding: "utf-8",
-    input: customInput,
-    timeout: RUN_TIMEOUT_MS
-  });
+  try {
+    const execution = spawnSync("java", javaRuntimeArgs(className), {
+      cwd: runDir,
+      encoding: "utf-8",
+      input: customInput,
+      timeout: executionPolicy.runTimeoutMs,
+      maxBuffer: executionPolicy.maxRunOutputBytes,
+      killSignal: "SIGKILL"
+    });
+    const failure = classifyProcessFailure(execution, "java");
 
-  const timedOut = execution.signal === "SIGTERM";
-  const runtimeError = timedOut ? "Timed out while executing the program." : (execution.stderr ?? "").trim();
-
-  return {
-    compileSucceeded: execution.status === 0 && !timedOut,
-    actualOutput: normalizeOutput(execution.stdout ?? ""),
-    runtimeError: runtimeError || undefined,
-    timedOut,
-    customInput
-  };
+    return {
+      compileSucceeded: execution.status === 0 && !failure.resourceLimit,
+      actualOutput: normalizeOutput(execution.stdout ?? ""),
+      runtimeError: failure.message || undefined,
+      timedOut: failure.timedOut,
+      outputLimitExceeded: failure.outputLimitExceeded,
+      memoryLimitExceeded: failure.memoryLimitExceeded,
+      resourceLimit: failure.resourceLimit,
+      customInput
+    };
+  } finally {
+    fs.rmSync(runDir, { recursive: true, force: true });
+  }
 }

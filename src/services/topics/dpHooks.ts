@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String|Integer|List|ArrayList)\s+([a-zA-Z_]\w*)/g;
@@ -7,37 +9,23 @@ export function analyzeDpJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const memoPattern = /(memo|dp)\s*\[|HashMap<.*>\s+\w+|Map<.*>\s+\w+[\s\S]{0,180}return\s+\w+\[/;
-  const bottomUpPattern = /(dp)\s*\[[^\]]+\]\s*=|for\s*\(\s*int\s+i\s*=\s*1|for\s*\(\s*int\s+idx\s*=\s*1/;
-  const stateTransitionPattern = /(dp)\s*\[[^\]]+\]\s*=\s*Math\.(max|min)|dp\s*\[[^\]]+\]\s*=\s*dp\s*\[[^\]]+\]\s*[+\-*\/]|take|notTake|pick|skip/;
-  const spaceOptPattern = /(prev|curr|next)\b|rolling|oneD|1d dp|dp\s*=\s*new\s+int\s*\[/i;
-  const knapsackPattern = /(capacity|weight|weights|values|target|sum)\b[\s\S]{0,220}dp\s*\[/i;
-  const intervalPattern = /(gap|len|length)\b[\s\S]{0,220}for\s*\(\s*int\s+i|for\s*\(\s*int\s+j\s*=/;
-  const recursivePattern = /\b\w+\s*\(\s*[^)]*\)\s*\{[\s\S]{0,500}\b\w+\s*\(\s*[^)]*\)/;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 3 && !intervalPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !memoPattern.test(content) && !bottomUpPattern.test(content),
-    missingEdgeCaseHandling: !/(n\s*==\s*0|index\s*<\s*0|target\s*==\s*0|if\s*\(\s*\w+\s*==\s*null|arr\.length\s*==\s*0)/.test(content),
-    usesMemoTable: memoPattern.test(content) && recursivePattern.test(content),
-    usesBottomUpDp: bottomUpPattern.test(content),
-    usesStateTransition: stateTransitionPattern.test(content),
-    usesSpaceOptimization: spaceOptPattern.test(content) && bottomUpPattern.test(content),
-    usesKnapsackPattern: knapsackPattern.test(content) && bottomUpPattern.test(content),
-    usesIntervalDp: intervalPattern.test(content)
+    hasUnnecessaryLoop: facts.metrics.loopCount > 3 && !hasFact(facts, "interval-dp"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "dp-memoization") && !hasFact(facts, "bottom-up-dp"),
+    missingEdgeCaseHandling: !hasFact(facts, "dp-edge-check"),
+    usesMemoTable: hasFact(facts, "dp-memoization"),
+    usesBottomUpDp: hasFact(facts, "bottom-up-dp"),
+    usesStateTransition: hasFact(facts, "dp-state-transition"),
+    usesSpaceOptimization: hasFact(facts, "dp-space-optimization"),
+    usesKnapsackPattern: hasFact(facts, "knapsack-dp"),
+    usesIntervalDp: hasFact(facts, "interval-dp")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp", "res"].includes(name) && variableNames.length > 4);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "ans", "temp", "res"].includes(name) && variableNames.length > 4);
 
   if (signals.usesMemoTable) detected.push("Used memoization table");
   if (signals.usesBottomUpDp) detected.push("Used bottom-up DP table");
@@ -51,6 +39,16 @@ export function analyzeDpJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle DP edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectDpConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

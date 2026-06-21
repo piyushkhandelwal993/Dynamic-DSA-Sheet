@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|String|Integer|List|ArrayList|Queue|Deque)\s+([a-zA-Z_]\w*)/g;
@@ -7,36 +9,23 @@ export function analyzeGraphJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const adjacencyPattern = /(ArrayList<.*>.*graph|List<.*>.*graph|adj\b|adjacency|neighbors|edges)/;
-  const traversalPattern = /(visited|vis)\s*\[|dfs\s*\(|bfs\s*\(|Queue<|ArrayDeque<|Stack<|\.get\s*\(|neighbors/;
-  const topoPattern = /(indegree|inDegree|topo|topological|Queue<.*>\s+\w+.*indegree|dfsOrder|stack\.push)/;
-  const shortestPathPattern = /(dist\s*\[|distance|PriorityQueue<|relax|weight|dijkstra|bellman|floyd)/i;
-  const dsuPattern = /(parent\s*\[|rank\s*\[|size\s*\[|find\s*\(|union\s*\(|path compression)/i;
-  const mstPattern = /(kruskal|prim|PriorityQueue<|mst|minimum spanning|union\s*\()/i;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 3 && !topoPattern.test(content) && !shortestPathPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !adjacencyPattern.test(content),
-    missingEdgeCaseHandling: !/(n\s*==\s*0|graph\.size\(\)\s*==\s*0|visited|queue\.isEmpty\(\)|pq\.isEmpty\(\)|null)/.test(content),
-    usesGraphAdjacency: adjacencyPattern.test(content),
-    usesGraphTraversal: traversalPattern.test(content),
-    usesTopologicalSort: topoPattern.test(content),
-    usesShortestPath: shortestPathPattern.test(content),
-    usesDisjointSet: dsuPattern.test(content),
-    usesMstLogic: mstPattern.test(content)
+    hasUnnecessaryLoop: facts.metrics.loopCount > 3 && !hasFact(facts, "topological-sort") && !hasFact(facts, "shortest-path-relaxation"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "graph-adjacency"),
+    missingEdgeCaseHandling: !hasFact(facts, "graph-edge-check"),
+    usesGraphAdjacency: hasFact(facts, "graph-adjacency"),
+    usesGraphTraversal: hasFact(facts, "graph-traversal"),
+    usesTopologicalSort: hasFact(facts, "topological-sort"),
+    usesShortestPath: hasFact(facts, "shortest-path-relaxation"),
+    usesDisjointSet: hasFact(facts, "disjoint-set-union"),
+    usesMstLogic: hasFact(facts, "minimum-spanning-tree")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans", "g"].includes(name) && variableNames.length > 4);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "temp", "ans", "g"].includes(name) && variableNames.length > 4);
 
   if (signals.usesGraphAdjacency) detected.push("Built graph adjacency structure");
   if (signals.usesGraphTraversal) detected.push("Used graph traversal pattern");
@@ -50,6 +39,16 @@ export function analyzeGraphJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle graph edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectGraphConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

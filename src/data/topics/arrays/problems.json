@@ -27,6 +27,14 @@
       { "input": "1\n-4", "expectedOutput": "-4", "visibility": "sample" },
       { "input": "4\n-3 -8 -1 -5", "expectedOutput": "-1", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "findMaximum",
+      "javaSignature": "public int findMaximum(int[] nums)",
+      "cppSignature": "int findMaximum(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-maximum"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -88,6 +96,14 @@
       { "input": "5\n1 2 3 4 5", "expectedOutput": "5 4 3 2 1", "visibility": "sample" },
       { "input": "4\n9 1 7 3", "expectedOutput": "3 7 1 9", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverse",
+      "javaSignature": "public void reverse(int[] nums)",
+      "cppSignature": "void reverse(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-reverse"
+    },
     "remedialProblems": ["arr-002"],
     "skipIfMastered": []
   },
@@ -118,6 +134,7 @@
       { "input": "5\n8 2 10 6 4", "expectedOutput": "8", "visibility": "sample" },
       { "input": "2\n3 9", "expectedOutput": "3", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["array-traversal", "min-max-array"],
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -234,6 +251,7 @@
       { "input": "5\n0 1 0 3 12", "expectedOutput": "1 3 12 0 0", "visibility": "sample" },
       { "input": "4\n0 0 4 5", "expectedOutput": "4 5 0 0", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["reverse-array", "two-pointers"],
     "remedialProblems": ["arr-003"],
     "skipIfMastered": []
   },

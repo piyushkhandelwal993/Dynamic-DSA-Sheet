@@ -3,7 +3,7 @@
 ## Highlights
 
 - Adaptive next-problem guidance built into the desktop app
-- Monaco-based in-app Java editor
+- Monaco-based in-app Java and C++ editor
 - Local Run and Submit workflow
 - Topic progression across Arrays, Bit Manipulation, Linked List, Stack, Queue, Recursion, Binary Search, Trees, Graphs, and Dynamic Programming
 
@@ -21,13 +21,14 @@
 
 ## Important Requirement
 
-DSA Sheet currently runs Java solutions locally on your machine.
+DSA Sheet runs Java and C++ solutions locally on your machine.
 
-Please install **JDK 17 or newer** to use Run and Submit.
+Please install:
 
-If Java is missing, the app will show a setup banner and guide you.
+- **JDK 17 or newer** for Java
+- a **C++17-compatible `g++` compiler** for C++
 
-## What’s Inside
+If a toolchain is missing, the app shows a setup banner and guidance.
 
 - Current Task → Solve → Feedback → Next Task workflow
 - Topic-aware learning progression
@@ -60,4 +61,4 @@ We plan to move to a signed Windows release in a later version.
 
 - This is the desktop release of DSA Sheet
 - Progress is stored locally on your machine
-- Future releases may bundle or provision Java automatically for an even smoother first-run experience
+- Future releases may bundle or provision language runtimes automatically for an even smoother first-run experience

@@ -40,8 +40,7 @@ For every release:
 ```bash
 nvm use
 npm ci
-npm run build
-npm test
+npm run release:check
 ```
 
 4. Commit the version change and notes.

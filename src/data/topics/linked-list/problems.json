@@ -27,6 +27,14 @@
       { "input": "0", "expectedOutput": "0", "visibility": "sample" },
       { "input": "1\n9", "expectedOutput": "1", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "length",
+      "javaSignature": "public int length(Node head)",
+      "cppSignature": "int length(Node* head)",
+      "providedTypes": ["singly-linked-node"],
+      "driverStrategy": "linked-list-length"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -57,6 +65,14 @@
       { "input": "4\n3 8 2 7\n2", "expectedOutput": "Found", "visibility": "sample" },
       { "input": "3\n1 5 9\n4", "expectedOutput": "Not Found", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "contains",
+      "javaSignature": "public boolean contains(Node head, int target)",
+      "cppSignature": "bool contains(Node* head, int target)",
+      "providedTypes": ["singly-linked-node"],
+      "driverStrategy": "linked-list-search"
+    },
     "remedialProblems": ["ll-001"],
     "skipIfMastered": []
   },
@@ -109,6 +125,7 @@
     "examples": [
       { "input": "3\n2 4 6\n8", "output": "2 4 6 8", "explanation": "8 is appended after the last node." }
     ],
+    "independenceMilestoneFor": ["ll-traversal", "ll-length", "ll-search"],
     "remedialProblems": ["ll-001"],
     "skipIfMastered": []
   },
@@ -166,6 +183,14 @@
       { "input": "0", "expectedOutput": "", "visibility": "sample" },
       { "input": "1\n8", "expectedOutput": "8", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverse",
+      "javaSignature": "public Node reverse(Node head)",
+      "cppSignature": "Node* reverse(Node* head)",
+      "providedTypes": ["singly-linked-node"],
+      "driverStrategy": "linked-list-reverse"
+    },
     "remedialProblems": ["ll-001"],
     "skipIfMastered": []
   },
@@ -248,6 +273,7 @@
     "examples": [
       { "input": "3\n1 3 5\n3\n2 4 6", "output": "1 2 3 4 5 6", "explanation": "The merged list remains sorted." }
     ],
+    "independenceMilestoneFor": ["ll-reverse"],
     "remedialProblems": ["ll-004"],
     "skipIfMastered": []
   },

@@ -1786,6 +1786,34 @@ textarea {
   justify-content: flex-end;
 }
 
+.language-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(23, 35, 58, 0.88);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.language-control select {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.language-control select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 #reset-layout-button,
 #reset-preferences-button {
   white-space: nowrap;
@@ -2359,6 +2387,49 @@ button:disabled {
 .result-detail-stack {
   display: grid;
   gap: 14px;
+}
+
+.analysis-evidence-card {
+  margin-top: 14px;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 10px;
+}
+
+.evidence-item {
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.56);
+  padding: 12px;
+}
+
+.evidence-item.warning {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.evidence-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.evidence-facts {
+  margin-top: 9px;
+}
+
+.evidence-item ul,
+.analysis-reason-list {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.analysis-reason-list {
+  margin-top: 0;
 }
 
 .result-detail-card h4,
@@ -2940,18 +3011,27 @@ li + li {
 }
 
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 10, 24, 0.72);
-  backdrop-filter: blur(8px);
-  display: grid;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
   place-items: center;
-  z-index: 40;
+  overflow: auto;
   animation: modal-fade-in 220ms ease;
 }
 
-.modal-overlay.is-hidden {
-  display: none;
+.modal-overlay[open] {
+  display: grid;
+}
+
+.modal-overlay::backdrop {
+  background: rgba(5, 10, 24, 0.78);
+  backdrop-filter: blur(8px);
 }
 
 .success-modal {

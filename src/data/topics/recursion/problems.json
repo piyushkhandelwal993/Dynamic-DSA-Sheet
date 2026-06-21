@@ -97,6 +97,14 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "factorial",
+      "javaSignature": "public int factorial(int n)",
+      "cppSignature": "int factorial(int n)",
+      "providedTypes": ["integer input"],
+      "driverStrategy": "recursion-factorial"
+    },
     "remedialProblems": ["rec-002"],
     "skipIfMastered": []
   },
@@ -313,6 +321,7 @@
     "wrongApproachHints": ["Do not recurse on unchanged arguments.", "The base case must trigger when the second value becomes 0."],
     "hints": ["Replace the larger problem with the remainder form.", "Look for the stopping condition when one number is exhausted."],
     "examples": [{"input": "48, 18", "output": "6", "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."}],
+    "independenceMilestoneFor": ["functional-recursion", "base-case"],
     "remedialProblems": ["rec-005"],
     "skipIfMastered": []
   },

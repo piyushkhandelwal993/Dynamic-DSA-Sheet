@@ -34,7 +34,8 @@ async function prepareWorkspace() {
     sidebarCollapsed: false,
     editorFocusMode: false,
     lastOpenedTopicId: "arrays",
-    lastOpenedProblemId: "arr-001"
+    lastOpenedProblemId: "arr-001",
+    selectedLanguage: "java"
   });
   desktopApi.saveDesktopWorkspace("arr-001", solution);
   desktopApi.startDesktopProblem("arr-001");

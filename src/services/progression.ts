@@ -382,13 +382,26 @@ export function getMasteryTier(score: number, attempts = 0): MasteryTier {
   return "Mastered";
 }
 
-export function getMasterySummary(skillProfile: SkillProfile): Array<{ conceptId: string; score: number; tier: MasteryTier }> {
+export function getMasterySummary(skillProfile: SkillProfile): Array<{
+  conceptId: string;
+  score: number;
+  tier: MasteryTier;
+  implementationScore: number;
+  implementationTier: MasteryTier;
+  fullyMastered: boolean;
+}> {
   return Object.entries(skillProfile.conceptScores)
-    .map(([conceptId, score]) => ({
-      conceptId,
-      score,
-      tier: getMasteryTier(score, skillProfile.conceptAttempts[conceptId] ?? 0)
-    }))
+    .map(([conceptId, score]) => {
+      const implementationScore = skillProfile.implementationScores[conceptId] ?? 0;
+      return {
+        conceptId,
+        score,
+        tier: getMasteryTier(score, skillProfile.conceptAttempts[conceptId] ?? 0),
+        implementationScore,
+        implementationTier: getMasteryTier(implementationScore, skillProfile.implementationAttempts[conceptId] ?? 0),
+        fullyMastered: skillProfile.strongConcepts.includes(conceptId)
+      };
+    })
     .filter((item) => item.tier !== "Unseen")
     .sort((a, b) => b.score - a.score);
 }

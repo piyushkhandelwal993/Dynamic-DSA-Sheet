@@ -1,6 +1,31 @@
 export type Level = "beginner" | "intermediate" | "advanced";
 export type Difficulty = "Easy" | "Medium" | "Hard";
 export type ProblemStatus = "pending" | "started" | "submitted" | "solved" | "skipped";
+export type ProgrammingLanguage = "java" | "cpp";
+export type SolutionMode = "guided-function" | "function" | "partial-program" | "complete-program";
+export type FunctionDriverStrategy =
+  | "linked-list-length"
+  | "linked-list-search"
+  | "linked-list-reverse"
+  | "array-maximum"
+  | "array-reverse"
+  | "tree-height"
+  | "tree-preorder"
+  | "stack-balanced-brackets"
+  | "queue-reverse-first-k"
+  | "binary-search-exact"
+  | "bit-check"
+  | "recursion-factorial"
+  | "graph-bfs"
+  | "dp-fibonacci";
+
+export interface FunctionContract {
+  functionName: string;
+  javaSignature: string;
+  cppSignature: string;
+  providedTypes: string[];
+  driverStrategy: FunctionDriverStrategy;
+}
 
 export interface StudentProfile {
   studentId: string;
@@ -49,6 +74,9 @@ export interface Problem {
   testCases?: ProblemTestCase[];
   remedialProblems: string[];
   skipIfMastered: string[];
+  solutionMode?: SolutionMode;
+  functionContract?: FunctionContract;
+  independenceMilestoneFor?: string[];
 }
 
 export interface Concept {
@@ -78,6 +106,8 @@ export interface ProblemProgress {
   retryRequired?: boolean;
   retryConceptIds?: string[];
   retryReason?: string;
+  bestImplementationScore?: number;
+  completedSolutionModes?: SolutionMode[];
 }
 
 export interface ProgressState {
@@ -92,6 +122,8 @@ export interface SubmissionHistoryEntry {
   conceptMatchScore: number;
   detectedConcepts: string[];
   missingConcepts: string[];
+  solutionMode?: SolutionMode;
+  implementationScore?: number;
 }
 
 export interface SkillProfile {
@@ -102,6 +134,9 @@ export interface SkillProfile {
   submissionHistory: SubmissionHistoryEntry[];
   conceptAttempts: Record<string, number>;
   conceptStrongHits: Record<string, number>;
+  implementationScores: Record<string, number>;
+  implementationAttempts: Record<string, number>;
+  implementationStrongHits: Record<string, number>;
 }
 
 export interface AnalysisResult {
@@ -183,6 +218,30 @@ export interface ConceptDetectionResult {
   missingConcepts: string[];
 }
 
+export type AnalysisConfidence = "High" | "Medium" | "Low";
+
+export interface ConceptEvidence {
+  conceptId: string;
+  confidence: AnalysisConfidence;
+  confidenceScore: number;
+  factIds: string[];
+  evidence: string[];
+}
+
+export interface AnalysisIssue {
+  id: string;
+  confidence: AnalysisConfidence;
+  evidence: string[];
+}
+
+export interface ExplainableAnalysisFeedback {
+  detectedConcepts: ConceptEvidence[];
+  missingConcepts: string[];
+  antiPatterns: AnalysisIssue[];
+  complexityReasoning: string[];
+  improvements: string[];
+}
+
 export interface ScoreBreakdown {
   correctnessScore: number;
   conceptMatchScore: number;
@@ -199,6 +258,9 @@ export interface ExecutionCaseResult {
   visibility: "sample" | "hidden";
   error?: string;
   timedOut?: boolean;
+  outputLimitExceeded?: boolean;
+  memoryLimitExceeded?: boolean;
+  resourceLimit?: "time" | "output" | "memory";
 }
 
 export interface ExecutionResult {
@@ -215,6 +277,9 @@ export interface CustomRunResult {
   actualOutput: string;
   runtimeError?: string;
   timedOut?: boolean;
+  outputLimitExceeded?: boolean;
+  memoryLimitExceeded?: boolean;
+  resourceLimit?: "time" | "output" | "memory";
   customInput: string;
   compileError?: string;
 }
@@ -225,6 +290,13 @@ export interface JavaRuntimeStatus {
   javacAvailable: boolean;
   javaVersion?: string;
   javacVersion?: string;
+  guidance: string;
+}
+
+export interface CppRuntimeStatus {
+  available: boolean;
+  compilerAvailable: boolean;
+  compilerVersion?: string;
   guidance: string;
 }
 
@@ -242,6 +314,7 @@ export interface DesktopPreferences {
   editorFocusMode?: boolean;
   lastOpenedTopicId?: string | null;
   lastOpenedProblemId?: string | null;
+  selectedLanguage?: ProgrammingLanguage;
 }
 
 export interface DesktopBootstrap {
@@ -259,6 +332,9 @@ export interface DesktopBootstrap {
     conceptId: string;
     score: number;
     tier: MasteryTier;
+    implementationScore: number;
+    implementationTier: MasteryTier;
+    fullyMastered: boolean;
   }[];
   streakCalendar: { date: string; count: number; level: number }[];
   skillBars: {
@@ -266,6 +342,9 @@ export interface DesktopBootstrap {
     conceptName: string;
     score: number;
     tier: string;
+    implementationScore: number;
+    implementationTier: string;
+    fullyMastered: boolean;
   }[];
   submissionTrend: {
     problemId: string;
@@ -282,6 +361,7 @@ export interface DesktopBootstrap {
   recommendedTopicId: string;
   preferences: DesktopPreferences;
   javaRuntime: JavaRuntimeStatus;
+  cppRuntime: CppRuntimeStatus;
 }
 
 export interface RecommendationResult {
@@ -351,4 +431,5 @@ export interface ProblemSessionResult {
   workspacePath: string;
   workspaceCode: string;
   created: boolean;
+  language: ProgrammingLanguage;
 }

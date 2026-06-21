@@ -18,6 +18,19 @@ function isSolved(progress: ProgressState, problemId: string): boolean {
   return Boolean(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
 }
 
+function findIndependenceMilestone(
+  problems: Problem[],
+  conceptIds: string[],
+  progress: ProgressState
+): Problem | undefined {
+  return problems.find(
+    (candidate) =>
+      (candidate.solutionMode ?? "complete-program") === "complete-program" &&
+      !isSolved(progress, candidate.id) &&
+      candidate.independenceMilestoneFor?.some((conceptId) => conceptIds.includes(conceptId))
+  );
+}
+
 function findNextHigherProblem(problems: Problem[], problem: Problem, skillProfile: SkillProfile): Problem | undefined {
   return problems.find(
     (candidate) =>
@@ -83,6 +96,29 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
         conceptIds: pendingRetryEntry.retryConceptIds ?? retryProblem.expectedConcepts
       };
     }
+  }
+
+  const readyForIndependence = Object.keys(skillProfile.conceptScores).filter(
+    (conceptId) =>
+      (skillProfile.conceptScores[conceptId] ?? 0) >= 75 &&
+      (skillProfile.implementationScores[conceptId] ?? 0) < 70
+  );
+  const independenceMilestone = findIndependenceMilestone(problems, readyForIndependence, progress);
+  if (independenceMilestone) {
+    const matchedConcepts = independenceMilestone.independenceMilestoneFor?.filter((conceptId) =>
+      readyForIndependence.includes(conceptId)
+    ) ?? [];
+    return {
+      type: "move-forward",
+      message: `Implementation milestone: build ${independenceMilestone.title} as a complete program.`,
+      problem: independenceMilestone,
+      reasons: [
+        "Your algorithm understanding is strong enough to remove the scaffolding.",
+        "This complete-program challenge verifies input handling, supporting structures, and implementation independence."
+      ],
+      suggestedProblemIds: [independenceMilestone.id],
+      conceptIds: matchedConcepts
+    };
   }
 
   const weakConceptSet = new Set(skillProfile.weakConcepts);
@@ -163,14 +199,36 @@ export function recommendAfterSubmission(
   }
 
   if (score.finalScore >= 85 && score.conceptMatchScore >= 80) {
+    const scaffolded = (problem.solutionMode ?? "complete-program") !== "complete-program";
+    const independenceMilestone = scaffolded
+      ? findIndependenceMilestone(problems, problem.expectedConcepts, progress)
+      : undefined;
+    if (independenceMilestone) {
+      return {
+        type: "move-forward",
+        message: `Algorithm understood. Next, build ${independenceMilestone.title} as a complete program.`,
+        problem: independenceMilestone,
+        reasons: [
+          "The guided function passed with strong concept evidence.",
+          "This milestone removes the driver and provided structures so you can prove implementation independence."
+        ],
+        suggestedProblemIds: [independenceMilestone.id],
+        conceptIds: problem.expectedConcepts
+      };
+    }
+
     const nextHigher = findNextHigherProblem(problems, problem, skillProfile);
     const fallbackNext = problems.find((candidate) => candidate.id !== problem.id && !isSolved(progress, candidate.id));
     const nextProblem = nextHigher ?? fallbackNext;
     return {
       type: "move-forward",
-      message: `Strong mastery detected. Move forward to ${nextProblem?.title ?? "the next higher problem"}.`,
+      message: scaffolded
+        ? `Algorithm understood. Move forward to ${nextProblem?.title ?? "the next problem"}; a complete-program milestone will verify independence later.`
+        : `Strong mastery detected. Move forward to ${nextProblem?.title ?? "the next higher problem"}.`,
       problem: nextProblem,
-      reasons: ["High final score and concept match show readiness for harder practice."],
+      reasons: scaffolded
+        ? ["The function passed with strong concept evidence.", "Implementation independence is tracked separately until you solve a complete-program milestone."]
+        : ["High final score and concept match show readiness for harder practice."],
       suggestedProblemIds: uniqueProblemIds([nextProblem?.id ?? problem.id, ...problem.skipIfMastered.slice(0, 2)]).slice(0, 3),
       conceptIds: problem.expectedConcepts
     };

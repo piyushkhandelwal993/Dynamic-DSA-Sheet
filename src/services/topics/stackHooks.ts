@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|char|String|Integer)\s+([a-zA-Z_]\w*)/g;
@@ -7,39 +9,23 @@ export function analyzeStackJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const stackStructurePattern = /(Stack<|Deque<|ArrayDeque<|LinkedList<)/;
-  const pushPopPattern = /\.(push|pop|peek)\s*\(/;
-  const addRemoveLastPattern = /\.(addLast|removeLast|getLast|offerLast|pollLast|peekLast)\s*\(/;
-  const monotonicPattern =
-    /(while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,120}(peek|getLast|peekLast)\s*\(\)[\s\S]{0,80}[<>]=?|while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,120}[<>]=?[\s\S]{0,80}(peek|getLast|peekLast)\s*\()/;
-  const parenthesisPattern = /[\(\)\[\]\{\}]/.test(content) && /(push|pop|peek|addLast|removeLast|getLast|peekLast)/.test(content);
-  const expressionPattern =
-    /(precedence|isOperator|postfix|infix|prefix|Character\.isLetterOrDigit|Character\.isDigit|\+\s*" ")/;
-  const minStackPattern = /(minStack|minValues|minHistory|Math\.min|currentMin)/;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 2 && !monotonicPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !stackStructurePattern.test(content),
-    missingEdgeCaseHandling: !/(isEmpty\(\)|empty\(\)|n\s*==\s*0|length\(\)\s*==\s*0|arr\.length\s*==\s*0|null)/.test(content),
-    usesStackStructure: stackStructurePattern.test(content),
-    usesPushPop: pushPopPattern.test(content) || addRemoveLastPattern.test(content),
-    usesMonotonicStack: monotonicPattern.test(content) && (pushPopPattern.test(content) || addRemoveLastPattern.test(content)),
-    usesParenthesisMatching: parenthesisPattern,
-    usesExpressionConversion: expressionPattern.test(content) && (pushPopPattern.test(content) || addRemoveLastPattern.test(content)),
-    usesMinStackPattern: minStackPattern.test(content) && (pushPopPattern.test(content) || addRemoveLastPattern.test(content))
+    hasUnnecessaryLoop: facts.metrics.loopCount > 2 && !hasFact(facts, "monotonic-stack"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "stack-like"),
+    missingEdgeCaseHandling: !hasFact(facts, "empty-or-null-check"),
+    usesStackStructure: hasFact(facts, "stack-like"),
+    usesPushPop: hasFact(facts, "stack-operations"),
+    usesMonotonicStack: hasFact(facts, "monotonic-stack"),
+    usesParenthesisMatching: hasFact(facts, "parenthesis-matching"),
+    usesExpressionConversion: hasFact(facts, "expression-conversion"),
+    usesMinStackPattern: hasFact(facts, "min-stack")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "st", "ans", "temp"].includes(name) && variableNames.length > 3);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "st", "ans", "temp"].includes(name) && variableNames.length > 3);
 
   if (signals.usesStackStructure) detected.push("Used stack-style data structure");
   if (signals.usesPushPop) detected.push("Used push/pop or equivalent stack operations");
@@ -53,6 +39,16 @@ export function analyzeStackJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectStackConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

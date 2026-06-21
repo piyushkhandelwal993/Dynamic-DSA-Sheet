@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const poorVariableRegex = /\b(?:int|long|boolean|char|String|Integer)\s+([a-zA-Z_]\w*)/g;
@@ -7,36 +9,23 @@ export function analyzeQueueJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const loopCount = content.match(/\b(for|while)\s*\(/g)?.length ?? 0;
-  const queueStructurePattern = /(Queue<|Deque<|ArrayDeque<|LinkedList<|PriorityQueue<)/;
-  const enqueueDequeuePattern = /\.(offer|poll|add|remove|peek|addLast|removeFirst|offerLast|pollFirst|peekFirst)\s*\(/;
-  const circularQueuePattern = /(front|rear|size|capacity|count)[\s\S]{0,140}%|rear\s*=\s*\(rear\s*\+\s*1\)\s*%|front\s*=\s*\(front\s*\+\s*1\)\s*%/;
-  const dequeWindowPattern = /(while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,120}(peekFirst|peekLast)\s*\(\)|removeFirst\(\)|removeLast\(\)|pollFirst\(\)|pollLast\(\))/;
-  const bfsStylePattern = /(levelSize|while\s*\(\s*!?\w+\.isEmpty\(\)\s*\)|poll\(\)|offer\(\))/;
-  const priorityQueuePattern = /PriorityQueue</;
-  const hardcodedReturnPattern = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/;
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasUnnecessaryLoop: loopCount > 2 && !dequeWindowPattern.test(content),
-    hasHardcoding: hardcodedReturnPattern.test(content) && !queueStructurePattern.test(content),
-    missingEdgeCaseHandling: !/(isEmpty\(\)|n\s*==\s*0|length\(\)\s*==\s*0|arr\.length\s*==\s*0|null|size\s*==\s*0)/.test(content),
-    usesQueueStructure: queueStructurePattern.test(content),
-    usesEnqueueDequeue: enqueueDequeuePattern.test(content),
-    usesCircularQueuePattern: circularQueuePattern.test(content),
-    usesDequeWindowPattern: dequeWindowPattern.test(content) && /(Deque<|ArrayDeque<)/.test(content),
-    usesBfsStyleQueue: bfsStylePattern.test(content) && /(Queue<|Deque<|ArrayDeque<|LinkedList<)/.test(content),
-    usesPriorityQueue: priorityQueuePattern.test(content)
+    hasUnnecessaryLoop: facts.metrics.loopCount > 2 && !hasFact(facts, "deque-window"),
+    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "queue-like"),
+    missingEdgeCaseHandling: !hasFact(facts, "queue-edge-check"),
+    usesQueueStructure: hasFact(facts, "queue-like") || hasFact(facts, "priority-queue"),
+    usesEnqueueDequeue: hasFact(facts, "queue-operations"),
+    usesCircularQueuePattern: hasFact(facts, "circular-queue"),
+    usesDequeWindowPattern: hasFact(facts, "deque-window"),
+    usesBfsStyleQueue: hasFact(facts, "bfs-queue-processing"),
+    usesPriorityQueue: hasFact(facts, "priority-queue")
   };
 
-  const variableNames: string[] = [];
-  let match = poorVariableRegex.exec(content);
-  while (match) {
-    variableNames.push(match[1]);
-    match = poorVariableRegex.exec(content);
-  }
-  signals.hasPoorVariableNames = variableNames.some((name) => ["a", "b", "x", "y", "q", "ans", "temp"].includes(name) && variableNames.length > 3);
+  const variableNames = facts.metrics.variableNames.length ? facts.metrics.variableNames : extractVariableNames(content);
+  signals.hasPoorVariableNames = hasFact(facts, "poor-variable-names") || variableNames.some((name) => ["a", "b", "x", "y", "q", "ans", "temp"].includes(name) && variableNames.length > 3);
 
   if (signals.usesQueueStructure) detected.push("Used queue-style data structure");
   if (signals.usesEnqueueDequeue) detected.push("Used enqueue/dequeue style operations");
@@ -50,6 +39,16 @@ export function analyzeQueueJavaContent(content: string): AnalysisResult {
   if (signals.missingEdgeCaseHandling) warnings.push("Did not handle edge cases clearly.");
 
   return { detected, warnings, signals };
+}
+
+function extractVariableNames(content: string): string[] {
+  const variableNames: string[] = [];
+  let match = poorVariableRegex.exec(content);
+  while (match) {
+    variableNames.push(match[1]);
+    match = poorVariableRegex.exec(content);
+  }
+  return variableNames;
 }
 
 export function detectQueueConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {

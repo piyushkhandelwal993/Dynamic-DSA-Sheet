@@ -1,7 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { Problem } from "../types";
+import { Problem, ProgrammingLanguage } from "../types";
 import { ensureBaseStructure, getProblemStarterFilePath, getProblemWorkspaceDir } from "./storage";
+import { buildCppFunctionTemplate, buildJavaFunctionTemplate, usesFunctionHarness } from "./functionHarness";
+import { normalizeCppSource, PORTABLE_CPP_HEADERS } from "./cppSupport";
+
+export { normalizeCppSource, PORTABLE_CPP_HEADERS } from "./cppSupport";
 
 function buildHeaderComment(problem: Problem): string {
   const lines = [
@@ -61,24 +65,61 @@ ${outputHints}
 `;
 }
 
-export function ensureProblemWorkspace(problem: Problem): { filePath: string; created: boolean } {
+export function buildCppStarterTemplate(problem: Problem): string {
+  const readHints = problem.inputFormat?.map((line) => `    // TODO: ${line}`).join("\n") ?? "    // TODO: read input";
+  const outputHints = problem.outputFormat?.map((line) => `    // TODO: ${line}`).join("\n") ?? "    // TODO: print the answer";
+
+  return `${PORTABLE_CPP_HEADERS}
+using namespace std;
+
+/*
+${buildHeaderComment(problem)}
+ */
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+${readHints}
+
+    // TODO: implement the intended approach for this problem.
+    // Hint: ${problem.hints[0] ?? "Use the expected concept directly."}
+
+${outputHints}
+
+    return 0;
+}
+`;
+}
+
+export function ensureProblemWorkspace(problem: Problem, language: ProgrammingLanguage = "java"): { filePath: string; created: boolean } {
   ensureBaseStructure();
   const workspacePath = getProblemWorkspaceDir(problem);
-  const filePath = getProblemStarterFilePath(problem);
+  const filePath = getProblemStarterFilePath(problem, language);
   fs.mkdirSync(workspacePath, { recursive: true });
 
   if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, buildJavaStarterTemplate(problem), "utf-8");
+    const template = usesFunctionHarness(problem)
+      ? language === "cpp" ? buildCppFunctionTemplate(problem) : buildJavaFunctionTemplate(problem)
+      : language === "cpp" ? buildCppStarterTemplate(problem) : buildJavaStarterTemplate(problem);
+    fs.writeFileSync(filePath, template, "utf-8");
     return { filePath, created: true };
+  }
+
+  if (language === "cpp") {
+    const existing = fs.readFileSync(filePath, "utf-8");
+    const normalized = normalizeCppSource(existing);
+    if (normalized !== existing) {
+      fs.writeFileSync(filePath, normalized, "utf-8");
+    }
   }
 
   return { filePath, created: false };
 }
 
-export function resolveSubmissionPath(problem: Problem, filePath?: string): string {
+export function resolveSubmissionPath(problem: Problem, filePath?: string, language: ProgrammingLanguage = "java"): string {
   if (filePath) {
     return path.resolve(filePath);
   }
 
-  return getProblemStarterFilePath(problem);
+  return getProblemStarterFilePath(problem, language);
 }

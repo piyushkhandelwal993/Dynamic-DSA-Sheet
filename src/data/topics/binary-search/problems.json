@@ -26,6 +26,14 @@
       { "input": "6\n1 3 5 7 9 11\n7", "expectedOutput": "3", "visibility": "sample" },
       { "input": "5\n2 4 6 8 10\n5", "expectedOutput": "-1", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "search",
+      "javaSignature": "public int search(int[] values, int target)",
+      "cppSignature": "int search(vector<int>& values, int target)",
+      "providedTypes": ["sorted integer array"],
+      "driverStrategy": "binary-search-exact"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -86,6 +94,7 @@
       { "input": "7\n1 2 2 2 3 4 5\n2", "expectedOutput": "1 3", "visibility": "sample" },
       { "input": "5\n1 3 5 7 9\n4", "expectedOutput": "-1 -1", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["binary-search-intro", "sorted-mid-check"],
     "remedialProblems": ["bs-002"],
     "skipIfMastered": []
   },

@@ -86,6 +86,14 @@
       { "input": "5 3\n1 2 3 4 5", "expectedOutput": "3 2 1 4 5", "visibility": "sample" },
       { "input": "4 4\n9 8 7 6", "expectedOutput": "6 7 8 9", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseFirstK",
+      "javaSignature": "public int[] reverseFirstK(int[] values, int k)",
+      "cppSignature": "vector<int> reverseFirstK(vector<int>& values, int k)",
+      "providedTypes": ["queue values as an integer array"],
+      "driverStrategy": "queue-reverse-first-k"
+    },
     "remedialProblems": ["q-001"],
     "skipIfMastered": []
   },
@@ -146,6 +154,7 @@
       { "input": "5", "expectedOutput": "1 10 11 100 101", "visibility": "sample" },
       { "input": "1", "expectedOutput": "1", "visibility": "hidden" }
     ],
+    "independenceMilestoneFor": ["queue-simulation"],
     "remedialProblems": ["q-001"],
     "skipIfMastered": []
   },

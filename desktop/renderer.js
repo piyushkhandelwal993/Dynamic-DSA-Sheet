@@ -21,6 +21,7 @@ const state = {
   editorDirty: false,
   editorFontSize: 14,
   editorContent: "",
+  selectedLanguage: "java",
   monacoReady: false,
   updateStatus: null,
   updateDismissed: false
@@ -35,7 +36,8 @@ const DEFAULT_PREFERENCES = {
   sidebarCollapsed: false,
   editorFocusMode: false,
   lastOpenedTopicId: null,
-  lastOpenedProblemId: null
+  lastOpenedProblemId: null,
+  selectedLanguage: "java"
 };
 
 const MARKETING_WORLDS = [
@@ -157,6 +159,7 @@ const runButtonEl = document.getElementById("run-button");
 const saveButtonEl = document.getElementById("save-button");
 const submitButtonEl = document.getElementById("submit-button");
 const openFileButtonEl = document.getElementById("open-file-button");
+const languageSelectEl = document.getElementById("language-select");
 const refreshButtonEl = document.getElementById("refresh-button");
 const resetLayoutButtonEl = document.getElementById("reset-layout-button");
 const resetPreferencesButtonEl = document.getElementById("reset-preferences-button");
@@ -196,6 +199,27 @@ function scheduleScrollReset() {
     });
   });
   window.setTimeout(resetAppScrollPosition, 60);
+}
+
+function scheduleEditorRefresh() {
+  if (!monacoEditor) return;
+
+  const refresh = () => {
+    applyEditorLanguage();
+    if (monacoEditor.getValue() !== state.editorContent) {
+      suppressEditorDirtyTracking = true;
+      monacoEditor.setValue(state.editorContent);
+      suppressEditorDirtyTracking = false;
+    }
+    monacoEditor.layout();
+    updateEditorStatus();
+  };
+
+  requestAnimationFrame(() => {
+    refresh();
+    requestAnimationFrame(refresh);
+  });
+  window.setTimeout(refresh, 80);
 }
 
 function scrollToResultsSection() {
@@ -318,6 +342,10 @@ function javaGuideUrl() {
   return "https://adoptium.net/temurin/releases/?version=17";
 }
 
+function cppGuideUrl() {
+  return "https://code.visualstudio.com/docs/languages/cpp";
+}
+
 function buildSummaryScoreRing(score, label = "Great") {
   return `
     <div class="score-ring ${scoreColor(score)}">
@@ -334,6 +362,56 @@ function renderConceptChips(concepts, color = "blue") {
     return `<span class="pill gray">None</span>`;
   }
   return concepts.map((concept) => `<span class="pill ${color}">${escapeHtml(concept)}</span>`).join("");
+}
+
+function confidenceColor(confidence) {
+  if (confidence === "High") return "green";
+  if (confidence === "Medium") return "yellow";
+  return "gray";
+}
+
+function renderConceptEvidence(items) {
+  if (!items?.length) {
+    return `<div class="empty-guidance">No expected concept has strong supporting evidence yet.</div>`;
+  }
+  return `
+    <div class="evidence-list">
+      ${items.map((item) => `
+        <div class="evidence-item">
+          <div class="evidence-item-header">
+            <strong>${escapeHtml(item.conceptName ?? conceptLabel(item.conceptId))}</strong>
+            <span class="pill ${confidenceColor(item.confidence)}">${escapeHtml(item.confidence)} · ${item.confidenceScore}%</span>
+          </div>
+          <div class="evidence-facts">${renderConceptChips(item.factIds.map(conceptLabel), "blue")}</div>
+          <ul>${item.evidence.map((evidence) => `<li>${escapeHtml(evidence)}</li>`).join("")}</ul>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderAnalysisIssues(items) {
+  if (!items?.length) {
+    return `<div class="empty-guidance">No significant anti-patterns were detected.</div>`;
+  }
+  return `
+    <div class="evidence-list">
+      ${items.map((item) => `
+        <div class="evidence-item warning">
+          <div class="evidence-item-header">
+            <strong>${escapeHtml(conceptLabel(item.id))}</strong>
+            <span class="pill ${confidenceColor(item.confidence)}">${escapeHtml(item.confidence)}</span>
+          </div>
+          <ul>${item.evidence.map((evidence) => `<li>${escapeHtml(evidence)}</li>`).join("")}</ul>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderReasonList(items, emptyMessage) {
+  if (!items?.length) return `<div class="empty-guidance">${escapeHtml(emptyMessage)}</div>`;
+  return `<ul class="analysis-reason-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
 }
 
 function buildResultStateBanner(title, description, statusPill = "") {
@@ -455,7 +533,8 @@ function getDesktopPreferences() {
     sidebarCollapsed: state.sidebarCollapsed,
     editorFocusMode: state.editorFocusMode,
     lastOpenedTopicId: state.bootstrap?.activeTopicId ?? null,
-    lastOpenedProblemId: state.currentProblem?.id ?? null
+    lastOpenedProblemId: state.currentProblem?.id ?? null,
+    selectedLanguage: state.selectedLanguage
   };
 }
 
@@ -478,6 +557,7 @@ function applyDesktopPreferences(preferences = {}) {
   state.editorFocusMode = preferences.editorFocusMode ?? DEFAULT_PREFERENCES.editorFocusMode;
   state.lastOpenedTopicId = preferences.lastOpenedTopicId ?? DEFAULT_PREFERENCES.lastOpenedTopicId;
   state.lastOpenedProblemId = preferences.lastOpenedProblemId ?? DEFAULT_PREFERENCES.lastOpenedProblemId;
+  state.selectedLanguage = preferences.selectedLanguage === "cpp" ? "cpp" : "java";
 }
 
 async function persistDesktopPreferences() {
@@ -520,7 +600,9 @@ function showSuccessModal(data) {
   successModalNextReasonEl.textContent = data.nextTaskReason || "Take the next recommended problem when you're ready.";
   successModalReviewButtonEl.classList.toggle("is-hidden", !data.hasReview);
   animateSuccessCounts(data.xp, data.streakGain);
-  successModalOverlayEl.classList.remove("is-hidden");
+  if (!successModalOverlayEl.open) {
+    successModalOverlayEl.showModal();
+  }
 }
 
 function hideSuccessModal() {
@@ -529,7 +611,9 @@ function hideSuccessModal() {
     cancelAnimationFrame(successCountAnimationFrame);
     successCountAnimationFrame = null;
   }
-  successModalOverlayEl.classList.add("is-hidden");
+  if (successModalOverlayEl.open) {
+    successModalOverlayEl.close();
+  }
 }
 
 function saveLastSubmissionReview(problem, panels) {
@@ -622,6 +706,167 @@ function loadScript(src) {
   });
 }
 
+function loadStylesheet(href) {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`link[data-href="${href}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === "true" || existing.sheet) {
+        resolve();
+        return;
+      }
+      existing.addEventListener("load", resolve, { once: true });
+      existing.addEventListener("error", reject, { once: true });
+      return;
+    }
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    link.dataset.href = href;
+    link.addEventListener(
+      "load",
+      () => {
+        link.dataset.loaded = "true";
+        resolve();
+      },
+      { once: true }
+    );
+    link.addEventListener("error", reject, { once: true });
+    document.head.appendChild(link);
+  });
+}
+
+function registerDsaLanguage(monaco, id, definition) {
+  if (!monaco.languages.getLanguages().some((language) => language.id === id)) {
+    monaco.languages.register({ id });
+  }
+
+  monaco.languages.setLanguageConfiguration(id, definition.configuration);
+  monaco.languages.setMonarchTokensProvider(id, definition.tokenizer);
+}
+
+function registerDsaLanguages(monaco) {
+  const commonOperators = [
+    "=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=", "&&", "||",
+    "++", "--", "+", "-", "*", "/", "&", "|", "^", "%", "<<", ">>", ">>>",
+    "+=", "-=", "*=", "/=", "&=", "|=", "^=", "%=", "<<=", ">>=", ">>>="
+  ];
+  const commonConfiguration = {
+    comments: { lineComment: "//", blockComment: ["/*", "*/"] },
+    brackets: [["{", "}"], ["[", "]"], ["(", ")"]],
+    autoClosingPairs: [
+      { open: "{", close: "}" },
+      { open: "[", close: "]" },
+      { open: "(", close: ")" },
+      { open: "\"", close: "\"", notIn: ["string", "comment"] },
+      { open: "'", close: "'", notIn: ["string", "comment"] }
+    ],
+    surroundingPairs: [
+      { open: "{", close: "}" },
+      { open: "[", close: "]" },
+      { open: "(", close: ")" },
+      { open: "\"", close: "\"" },
+      { open: "'", close: "'" }
+    ]
+  };
+  const createTokenizer = ({ keywords, typeKeywords, preprocessor = false }) => ({
+    defaultToken: "",
+    tokenPostfix: `.${preprocessor ? "cpp" : "java"}`,
+    keywords,
+    typeKeywords,
+    operators: commonOperators,
+    symbols: /[=><!~?:&|+\-*/^%]+/,
+    escapes: /\\(?:[abfnrtv\\"'0-7]|x[0-9A-Fa-f]+|u[0-9A-Fa-f]{4})/,
+    tokenizer: {
+      root: [
+        ...(preprocessor ? [[/^\s*#\s*[a-zA-Z_]\w*/, "keyword.directive"]] : []),
+        [/[a-zA-Z_$][\w$]*/, {
+          cases: {
+            "@typeKeywords": "type",
+            "@keywords": "keyword",
+            "@default": "identifier"
+          }
+        }],
+        { include: "@whitespace" },
+        [/[{}()[\]]/, "@brackets"],
+        [/@symbols/, { cases: { "@operators": "operator", "@default": "" } }],
+        [/\d*\.\d+([eE][+-]?\d+)?[fFdD]?/, "number.float"],
+        [/0[xX][0-9a-fA-F]+[lL]?/, "number.hex"],
+        [/0[bB][01]+[lL]?/, "number.binary"],
+        [/\d+[lLuUfF]*/, "number"],
+        [/[;,.]/, "delimiter"],
+        [/"([^"\\]|\\.)*$/, "string.invalid"],
+        [/"/, "string", "@string"],
+        [/'([^'\\]|\\.)'/, "string"],
+        [/'/, "string.invalid"]
+      ],
+      whitespace: [
+        [/[ \t\r\n]+/, ""],
+        [/\/\*/, "comment", "@comment"],
+        [/\/\/.*$/, "comment"]
+      ],
+      comment: [
+        [/[^/*]+/, "comment"],
+        [/\*\//, "comment", "@pop"],
+        [/[/*]/, "comment"]
+      ],
+      string: [
+        [/[^\\"]+/, "string"],
+        [/@escapes/, "string.escape"],
+        [/\\./, "string.escape.invalid"],
+        [/"/, "string", "@pop"]
+      ]
+    }
+  });
+
+  registerDsaLanguage(monaco, "java", {
+    configuration: commonConfiguration,
+    tokenizer: createTokenizer({
+      keywords: [
+        "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+        "class", "const", "continue", "default", "do", "double", "else", "enum",
+        "extends", "final", "finally", "float", "for", "goto", "if", "implements",
+        "import", "instanceof", "int", "interface", "long", "native", "new", "package",
+        "private", "protected", "public", "return", "short", "static", "strictfp",
+        "super", "switch", "synchronized", "this", "throw", "throws", "transient",
+        "try", "void", "volatile", "while", "true", "false", "null", "record", "var"
+      ],
+      typeKeywords: [
+        "String", "Integer", "Long", "Double", "Float", "Character", "Object",
+        "List", "ArrayList", "Map", "HashMap", "Set", "HashSet", "Queue", "Deque",
+        "Stack", "Scanner", "System", "Math", "Arrays", "Collections"
+      ]
+    })
+  });
+
+  registerDsaLanguage(monaco, "cpp", {
+    configuration: commonConfiguration,
+    tokenizer: createTokenizer({
+      preprocessor: true,
+      keywords: [
+        "alignas", "alignof", "and", "asm", "auto", "bitand", "bitor", "bool",
+        "break", "case", "catch", "char", "class", "compl", "concept", "const",
+        "constexpr", "const_cast", "continue", "co_await", "co_return", "co_yield",
+        "decltype", "default", "delete", "do", "double", "dynamic_cast", "else",
+        "enum", "explicit", "export", "extern", "false", "float", "for", "friend",
+        "goto", "if", "inline", "int", "long", "mutable", "namespace", "new",
+        "noexcept", "not", "nullptr", "operator", "or", "private", "protected",
+        "public", "register", "reinterpret_cast", "requires", "return", "short",
+        "signed", "sizeof", "static", "static_assert", "static_cast", "struct",
+        "switch", "template", "this", "thread_local", "throw", "true", "try",
+        "typedef", "typeid", "typename", "union", "unsigned", "using", "virtual",
+        "void", "volatile", "wchar_t", "while", "xor"
+      ],
+      typeKeywords: [
+        "string", "vector", "array", "map", "unordered_map", "set", "unordered_set",
+        "queue", "deque", "stack", "priority_queue", "pair", "tuple", "size_t",
+        "int8_t", "int16_t", "int32_t", "int64_t", "uint8_t", "uint16_t",
+        "uint32_t", "uint64_t", "istream", "ostream"
+      ]
+    })
+  });
+}
+
 async function ensureMonaco() {
   if (monacoApi) {
     return monacoApi;
@@ -633,7 +878,9 @@ async function ensureMonaco() {
       const workerMainUrl = new URL("../node_modules/monaco-editor/min/vs/base/worker/workerMain.js", window.location.href).toString();
       const baseUrl = new URL("../node_modules/monaco-editor/min/", window.location.href).toString();
       const vsPath = new URL("../node_modules/monaco-editor/min/vs", window.location.href).toString();
+      const editorCssUrl = new URL("../node_modules/monaco-editor/min/vs/style.css", window.location.href).toString();
 
+      await loadStylesheet(editorCssUrl);
       await loadScript(loaderUrl);
 
       window.MonacoEnvironment = {
@@ -645,8 +892,29 @@ async function ensureMonaco() {
       };
 
       return new Promise((resolve, reject) => {
+        let settled = false;
+        const finish = () => {
+          if (settled || !window.monaco?.editor) return;
+          settled = true;
+          window.clearInterval(readinessInterval);
+          window.clearTimeout(readinessTimeout);
+          resolve(window.monaco);
+        };
+        const fail = (error) => {
+          if (settled) return;
+          settled = true;
+          window.clearInterval(readinessInterval);
+          window.clearTimeout(readinessTimeout);
+          reject(error);
+        };
+        const readinessInterval = window.setInterval(finish, 25);
+        const readinessTimeout = window.setTimeout(() => {
+          fail(new Error("Monaco editor assets loaded, but the editor API did not become ready."));
+        }, 8000);
+
         window.require.config({ paths: { vs: vsPath } });
-        window.require(["vs/editor/editor.main"], () => resolve(window.monaco), reject);
+        window.require(["vs/editor/editor.main"], finish, fail);
+        finish();
       });
     })();
   }
@@ -657,13 +925,15 @@ async function ensureMonaco() {
 
 async function initializeMonacoEditor() {
   const monaco = await ensureMonaco();
+  registerDsaLanguages(monaco);
   if (monacoEditor) {
     return;
   }
+  const initialContent = state.editorContent;
 
   monacoEditor = monaco.editor.create(editorEl, {
-    value: state.editorContent,
-    language: "java",
+    value: initialContent,
+    language: state.selectedLanguage === "cpp" ? "cpp" : "java",
     theme: "vs-dark",
     automaticLayout: true,
     minimap: { enabled: false },
@@ -696,7 +966,9 @@ async function initializeMonacoEditor() {
   });
 
   state.monacoReady = true;
+  setEditorValue(initialContent);
   applyEditorFontSize();
+  scheduleEditorRefresh();
   updateEditorStatus();
 }
 
@@ -713,6 +985,18 @@ function setEditorValue(value) {
     suppressEditorDirtyTracking = true;
     monacoEditor.setValue(value);
     suppressEditorDirtyTracking = false;
+  }
+}
+
+function applyEditorLanguage() {
+  if (languageSelectEl) {
+    languageSelectEl.value = state.selectedLanguage;
+  }
+  if (monacoEditor && monacoApi) {
+    const model = monacoEditor.getModel();
+    if (model) {
+      monacoApi.editor.setModelLanguage(model, state.selectedLanguage === "cpp" ? "cpp" : "java");
+    }
   }
 }
 
@@ -768,6 +1052,7 @@ function setEditorControlsEnabled(enabled) {
   saveButtonEl.disabled = !enabled;
   submitButtonEl.disabled = !enabled;
   openFileButtonEl.disabled = !enabled;
+  if (languageSelectEl) languageSelectEl.disabled = !enabled;
 }
 
 function renderRunMode() {
@@ -791,6 +1076,7 @@ function emptyEditorState() {
   editorProblemTitleEl.textContent = "Workspace";
   problemMetaEl.textContent = "Open a problem to load its starter file here.";
   state.editorDirty = false;
+  if (languageSelectEl) languageSelectEl.disabled = true;
   updateEditorStatus();
 }
 
@@ -822,6 +1108,7 @@ function setCurrentView(view) {
   void persistDesktopPreferences();
   render();
   scheduleScrollReset();
+  if (view === "practice") scheduleEditorRefresh();
 }
 
 function renderViews() {
@@ -1181,24 +1468,31 @@ function renderHeader() {
 }
 
 function renderEnvironmentBanner() {
-  const runtime = state.bootstrap?.javaRuntime;
+  const runtime = state.selectedLanguage === "cpp" ? state.bootstrap?.cppRuntime : state.bootstrap?.javaRuntime;
   if (!environmentBannerEl || !runtime) return;
 
   const shouldShow = !runtime.available && !environmentBannerDismissed;
   environmentBannerEl.classList.toggle("is-hidden", !shouldShow);
   if (!shouldShow) return;
 
-  environmentBannerTitleEl.textContent = runtime.javaAvailable && !runtime.javacAvailable
-    ? "Java compiler missing"
-    : !runtime.javaAvailable && runtime.javacAvailable
-      ? "Java runtime missing"
-      : "Java setup required";
+  environmentBannerTitleEl.textContent = state.selectedLanguage === "cpp"
+    ? "C++ compiler missing"
+    : runtime.javaAvailable && !runtime.javacAvailable
+      ? "Java compiler missing"
+      : !runtime.javaAvailable && runtime.javacAvailable
+        ? "Java runtime missing"
+        : "Java setup required";
 
-  const details = [
-    runtime.guidance,
-    runtime.javaVersion ? `Runtime: ${runtime.javaVersion}.` : "Runtime: not detected.",
-    runtime.javacVersion ? `Compiler: ${runtime.javacVersion}.` : "Compiler: not detected."
-  ];
+  const details = state.selectedLanguage === "cpp"
+    ? [
+        runtime.guidance,
+        runtime.compilerVersion ? `Compiler: ${runtime.compilerVersion}.` : "Compiler: not detected."
+      ]
+    : [
+        runtime.guidance,
+        runtime.javaVersion ? `Runtime: ${runtime.javaVersion}.` : "Runtime: not detected.",
+        runtime.javacVersion ? `Compiler: ${runtime.javacVersion}.` : "Compiler: not detected."
+      ];
   environmentBannerMessageEl.textContent = details.join(" ");
 }
 
@@ -1395,11 +1689,27 @@ function renderEditorMeta(problem, workspacePath) {
     return;
   }
 
-  editorProblemTitleEl.textContent = `${problem.id} · ${problem.title}`;
+  const functionMode = Boolean(problem.functionContract && problem.solutionMode !== "complete-program");
+  const independenceMilestone = Boolean(problem.independenceMilestoneFor?.length);
+  editorProblemTitleEl.textContent = functionMode
+    ? `Complete the function · ${problem.title}`
+    : independenceMilestone
+      ? `Complete-program milestone · ${problem.title}`
+    : `${problem.id} · ${problem.title}`;
+  const modeDetails = functionMode
+    ? `<br /><strong>Task:</strong> Implement <code>${escapeHtml(
+        state.selectedLanguage === "cpp" ? problem.functionContract.cppSignature : problem.functionContract.javaSignature
+      )}</code><br /><span class="muted">Node, input parsing, output formatting, and the test driver are provided.</span>`
+    : "";
+  const milestoneDetails = independenceMilestone
+    ? `<br /><strong>Milestone:</strong> Build the complete executable solution without generated scaffolding.`
+    : "";
   problemMetaEl.innerHTML = `
     <strong>${escapeHtml(problem.topic)} · ${escapeHtml(problem.subtopic)}</strong><br />
     Workspace: ${escapeHtml(workspacePath ?? "Not created yet")}<br />
-    Language: Java
+    Language: ${state.selectedLanguage === "cpp" ? "C++17" : "Java"}
+    ${modeDetails}
+    ${milestoneDetails}
   `;
 }
 
@@ -1560,6 +1870,13 @@ function renderSkillBars() {
           </div>
           <div class="mini-bar">
             <div class="bar-fill ${masteryColor(item.tier)}" style="width: ${item.score}%"></div>
+          </div>
+          <div class="mini-bar-labels">
+            <span class="muted">Implementation independence</span>
+            <span class="muted">${item.implementationScore}% · ${escapeHtml(item.implementationTier)}</span>
+          </div>
+          <div class="mini-bar">
+            <div class="bar-fill ${masteryColor(item.implementationTier)}" style="width: ${item.implementationScore}%"></div>
           </div>
         </div>
       `
@@ -1791,7 +2108,7 @@ function formatLikelyCause(outcome) {
   const likelyCauses = [];
 
   if (!outcome.execution.compileSucceeded) {
-    likelyCauses.push("The Java file did not compile. Start by fixing the compiler message shown above.");
+    likelyCauses.push(`The ${state.selectedLanguage === "cpp" ? "C++" : "Java"} file did not compile. Start by fixing the compiler message shown above.`);
   }
   if (outcome.execution.compileSucceeded && outcome.execution.failedCases.length) {
     likelyCauses.push("At least one test case produced a wrong output. Compare the failed input with your logic and edge cases.");
@@ -1823,17 +2140,19 @@ function formatLikelyCause(outcome) {
 }
 
 async function startProblem(problemId) {
-  const session = await window.dsaDesktop.startProblem(problemId);
+  const session = await window.dsaDesktop.startProblem(problemId, state.selectedLanguage);
   loadWorkspaceSession(session);
 }
 
 function loadWorkspaceSession(session) {
   state.currentProblem = session.problem;
   state.workspacePath = session.workspacePath;
+  state.selectedLanguage = session.language === "cpp" ? "cpp" : "java";
   state.currentView = "practice";
   state.currentProblemView = "description";
   clearResultPanels();
   setEditorValue(session.workspaceCode);
+  applyEditorLanguage();
   editorEl.classList.remove("is-disabled");
   if (monacoEditor) {
     monacoEditor.updateOptions({ readOnly: false });
@@ -1843,6 +2162,7 @@ function loadWorkspaceSession(session) {
   applyEditorFontSize();
   render();
   updateEditorStatus();
+  scheduleEditorRefresh();
   monacoEditor?.focus();
   scheduleScrollReset();
   void persistDesktopPreferences();
@@ -1853,7 +2173,7 @@ async function restoreLastWorkspace() {
   if (!problemId) return;
 
   try {
-    const session = await window.dsaDesktop.loadWorkspace(problemId);
+    const session = await window.dsaDesktop.loadWorkspace(problemId, state.selectedLanguage);
     loadWorkspaceSession(session);
   } catch (_error) {
     state.lastOpenedProblemId = null;
@@ -1863,7 +2183,7 @@ async function restoreLastWorkspace() {
 
 async function saveCurrentWorkspace() {
   if (!state.currentProblem) return;
-  await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue());
+  await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
   setEditorDirty(false);
   setResultPanels(
     {
@@ -1878,12 +2198,14 @@ async function saveCurrentWorkspace() {
 
 async function runCurrentWorkspace() {
   if (!state.currentProblem) return;
-  if (!state.bootstrap?.javaRuntime?.available) {
+  const runtime = state.selectedLanguage === "cpp" ? state.bootstrap?.cppRuntime : state.bootstrap?.javaRuntime;
+  const languageName = state.selectedLanguage === "cpp" ? "C++" : "Java";
+  if (!runtime?.available) {
     setResultPanels(
       {
-        summary: `<strong>Java Setup Required</strong><p>${escapeHtml(state.bootstrap?.javaRuntime?.guidance ?? "Install JDK 17 or newer to run solutions.")}</p>`,
-        execution: `<p class="muted">Run is unavailable until both <code>java</code> and <code>javac</code> are installed.</p>`,
-        guidance: `<p class="muted">Use the Desktop Setup banner to open the Java install guide, then restart the app.</p>`
+        summary: `<strong>${languageName} Setup Required</strong><p>${escapeHtml(runtime?.guidance ?? `Install a ${languageName} compiler to run solutions.`)}</p>`,
+        execution: `<p class="muted">Run is unavailable until the selected language toolchain is installed.</p>`,
+        guidance: `<p class="muted">Install the required compiler, then restart the app.</p>`
       },
       true,
       "summary"
@@ -1894,7 +2216,8 @@ async function runCurrentWorkspace() {
   }
   const outcome = await window.dsaDesktop.runProblem(state.currentProblem.id, getEditorValue(), {
     mode: state.currentRunMode,
-    customInput: customInputEl.value
+    customInput: customInputEl.value,
+    language: state.selectedLanguage
   });
   if (outcome.mode === "custom") {
     setResultPanels(buildCustomRunPanels(outcome.problem, outcome.customRun), true, "execution");
@@ -1908,12 +2231,14 @@ async function runCurrentWorkspace() {
 
 async function submitCurrentWorkspace() {
   if (!state.currentProblem) return;
-  if (!state.bootstrap?.javaRuntime?.available) {
+  const runtime = state.selectedLanguage === "cpp" ? state.bootstrap?.cppRuntime : state.bootstrap?.javaRuntime;
+  const languageName = state.selectedLanguage === "cpp" ? "C++" : "Java";
+  if (!runtime?.available) {
     setResultPanels(
       {
-        summary: `<strong>Java Setup Required</strong><p>${escapeHtml(state.bootstrap?.javaRuntime?.guidance ?? "Install JDK 17 or newer to submit solutions.")}</p>`,
-        execution: `<p class="muted">Submit is unavailable until both <code>java</code> and <code>javac</code> are installed.</p>`,
-        guidance: `<p class="muted">Use the Desktop Setup banner to open the Java install guide, then restart the app.</p>`
+        summary: `<strong>${languageName} Setup Required</strong><p>${escapeHtml(runtime?.guidance ?? `Install a ${languageName} compiler to submit solutions.`)}</p>`,
+        execution: `<p class="muted">Submit is unavailable until the selected language toolchain is installed.</p>`,
+        guidance: `<p class="muted">Install the required compiler, then restart the app.</p>`
       },
       true,
       "summary"
@@ -1923,13 +2248,20 @@ async function submitCurrentWorkspace() {
     return;
   }
   const previousStreak = state.bootstrap?.gameProfile?.streakDays ?? 0;
-  const outcome = await window.dsaDesktop.submitProblem(state.currentProblem.id, getEditorValue());
+  const outcome = await window.dsaDesktop.submitProblem(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
   state.editorDirty = false;
   state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap.activeTopicId);
 
   const missingConceptNames = await Promise.all(
     outcome.detection.missingConcepts.map((conceptId) => window.dsaDesktop.getConceptName(conceptId))
   );
+  const detectedConceptNames = await Promise.all(
+    outcome.analysisFeedback.detectedConcepts.map((item) => window.dsaDesktop.getConceptName(item.conceptId))
+  );
+  const detectedConceptEvidence = outcome.analysisFeedback.detectedConcepts.map((item, index) => ({
+    ...item,
+    conceptName: detectedConceptNames[index]
+  }));
   const nextProblem = state.bootstrap?.nextRecommendation?.problem;
   const nextTaskAction = nextProblem
     ? `
@@ -1966,11 +2298,15 @@ async function submitCurrentWorkspace() {
               </div>
               <div class="result-metrics-block">
                 <div class="result-metrics-label">Concept Signals</div>
-                <div class="metric-row"><strong>Detected Concepts</strong><span class="chip-list">${renderConceptChips(outcome.analysis.detected.length ? outcome.analysis.detected : ["No strong signals"], "blue")}</span></div>
+                <div class="metric-row"><strong>Detected Concepts</strong><span class="chip-list">${renderConceptChips(detectedConceptNames, "blue")}</span></div>
                 <div class="metric-row"><strong>Missing Concepts</strong><span class="chip-list">${renderConceptChips(missingConceptNames, "red")}</span></div>
               </div>
             </div>
           </div>
+        </div>
+        <div class="result-detail-card analysis-evidence-card">
+          <h4>Why these concepts were detected</h4>
+          ${renderConceptEvidence(detectedConceptEvidence)}
         </div>
       `,
     execution: `
@@ -1990,6 +2326,18 @@ async function submitCurrentWorkspace() {
           <div class="result-detail-card">
             <div class="eyebrow">Review · ${escapeHtml(outcome.problem.id)}</div>
             ${formatLikelyCause(outcome) || `<div class="empty-guidance">No major warning signals were detected. You can focus on the next recommended step.</div>`}
+          </div>
+          <div class="result-detail-card">
+            <h4>Complexity reasoning</h4>
+            ${renderReasonList(outcome.analysisFeedback.complexityReasoning, "No complexity evidence is available.")}
+          </div>
+          <div class="result-detail-card">
+            <h4>Analyzer warnings</h4>
+            ${renderAnalysisIssues(outcome.analysisFeedback.antiPatterns)}
+          </div>
+          <div class="result-detail-card">
+            <h4>How to improve</h4>
+            ${renderReasonList(outcome.analysisFeedback.improvements, "No immediate improvement is required.")}
           </div>
           <div class="result-next-card">
             <h4>Recommendation</h4>
@@ -2067,12 +2415,17 @@ function render() {
   renderRecommendationInsights();
   renderSkillBars();
   renderWorldZones();
+  applyEditorLanguage();
   resultTabsEl.querySelectorAll("[data-result-view]").forEach((button) => {
     button.classList.toggle("active", button.getAttribute("data-result-view") === state.activeResultView);
   });
   resultPanelEl.innerHTML = state.resultTabs[state.activeResultView] ?? state.resultHtml;
   resultSectionEl.classList.toggle("is-hidden", !state.showResult);
-  successModalOverlayEl.classList.toggle("is-hidden", !state.successModal);
+  if (state.successModal && !successModalOverlayEl.open) {
+    successModalOverlayEl.showModal();
+  } else if (!state.successModal && successModalOverlayEl.open) {
+    successModalOverlayEl.close();
+  }
   applyEditorFontSize();
   updateEditorStatus();
   if (state.currentView === "home") {
@@ -2087,7 +2440,7 @@ refreshButtonEl.addEventListener("click", async () => {
 });
 
 environmentBannerGuideButtonEl?.addEventListener("click", async () => {
-  await window.dsaDesktop.openExternal(javaGuideUrl());
+  await window.dsaDesktop.openExternal(state.selectedLanguage === "cpp" ? cppGuideUrl() : javaGuideUrl());
 });
 
 environmentBannerDismissButtonEl?.addEventListener("click", () => {
@@ -2191,6 +2544,27 @@ saveButtonEl.addEventListener("click", saveCurrentWorkspace);
 runButtonEl.addEventListener("click", runCurrentWorkspace);
 submitButtonEl.addEventListener("click", submitCurrentWorkspace);
 openFileButtonEl.addEventListener("click", openCurrentWorkspace);
+languageSelectEl?.addEventListener("change", async () => {
+  const nextLanguage = languageSelectEl.value === "cpp" ? "cpp" : "java";
+  if (nextLanguage === state.selectedLanguage) return;
+
+  if (state.currentProblem) {
+    await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
+  }
+
+  state.selectedLanguage = nextLanguage;
+  environmentBannerDismissed = false;
+  clearResultPanels();
+
+  if (state.currentProblem) {
+    const session = await window.dsaDesktop.loadWorkspace(state.currentProblem.id, state.selectedLanguage);
+    loadWorkspaceSession(session);
+  } else {
+    applyEditorLanguage();
+    render();
+    await persistDesktopPreferences();
+  }
+});
 decreaseFontButtonEl.addEventListener("click", () => {
   state.editorFontSize = Math.max(12, state.editorFontSize - 1);
   applyEditorFontSize();
@@ -2345,10 +2719,17 @@ window.dsaDesktop.onUpdateStatus?.((status) => {
   try {
     const savedPreferences = await window.dsaDesktop.loadPreferences();
     applyDesktopPreferences(savedPreferences);
-    await initializeMonacoEditor();
     emptyEditorState();
     await loadBootstrap(savedPreferences.lastOpenedTopicId ?? undefined);
     await restoreLastWorkspace();
+    await initializeMonacoEditor();
+    applyEditorLanguage();
+    if (state.currentProblem) {
+      setEditorValue(state.editorContent);
+      monacoEditor?.updateOptions({ readOnly: false });
+      setEditorControlsEnabled(true);
+      scheduleEditorRefresh();
+    }
     render();
     scheduleScrollReset();
   } catch (error) {

@@ -1,4 +1,6 @@
 import { AnalysisResult, ConceptDetectionResult, Problem } from "../../types";
+import { analyzeCodeFacts } from "../analysis-engine/analyzeCode";
+import { hasFact } from "../analysis-engine/facts";
 import { createEmptyAnalysisResult } from "../analysisUtils";
 
 const recursionMethodRegex = /\b(?:public|private|protected|static|\s)*\s*(?:int|long|boolean|String|void|List<[^>]+>|ArrayList<[^>]+>|char|double)\s+([a-zA-Z_]\w*)\s*\(/g;
@@ -17,32 +19,19 @@ export function analyzeRecursionJavaContent(content: string): AnalysisResult {
   const base = createEmptyAnalysisResult();
   const detected: string[] = [];
   const warnings: string[] = [];
-
-  const methodNames = detectRecursiveMethodNames(content);
-  const recursiveCalls = methodNames.filter((name) => new RegExp(`\\b${name}\\s*\\(`, "g").test(content));
-  const recursiveCallCounts = methodNames.map((name) => ({
-    name,
-    count: content.match(new RegExp(`\\b${name}\\s*\\(`, "g"))?.length ?? 0
-  }));
-  const hasRecursiveCall = recursiveCallCounts.some((item) => item.count >= 2);
-  const hasMultipleRecursiveCalls = recursiveCallCounts.some((item) => item.count >= 3);
-  const hasBaseCase = /(if\s*\([^)]*(==|<=|>=|<|>)\s*[^)]*\)\s*(return|{|System\.out\.print)|return\s+\w+\s*;)/.test(content);
-  const usesMemoization = /(dp\s*\[|memo|HashMap|Map<)/.test(content);
-  const usesBacktrackingUndo = /(\.remove\s*\(|used\s*\[\w+\]\s*=\s*false|swap\s*\([^)]*\)\s*;[\s\S]*swap\s*\([^)]*\)\s*;)/.test(content);
-  const usesDivideAndConquer = /(mid\s*=|\(l\s*\+\s*r\)\s*\/\s*2|merge\s*\(|partition\s*\()/.test(content) && hasMultipleRecursiveCalls;
-  const missingRecursiveProgress = hasRecursiveCall && !/(\w+\s*-\s*1|\w+\s*\+\s*1|mid|left|right|start|end|idx|index)/.test(content);
+  const facts = analyzeCodeFacts("java", content);
 
   const signals = {
     ...base.signals,
-    hasRecursiveCall,
-    hasBaseCase,
-    hasMultipleRecursiveCalls,
-    usesMemoization,
-    usesBacktrackingUndo,
-    usesDivideAndConquer,
-    missingRecursiveProgress,
-    hasPoorVariableNames: /\b(?:int|long|boolean|String)\s+(a|b|x|y|temp)\b/.test(content),
-    missingEdgeCaseHandling: !/(n\s*<=?\s*0|n\s*==\s*0|if\s*\(\s*\w+\s*<\s*0|\bnull\b|length\s*==\s*0)/.test(content)
+    hasRecursiveCall: hasFact(facts, "recursive-call"),
+    hasBaseCase: hasFact(facts, "base-case"),
+    hasMultipleRecursiveCalls: hasFact(facts, "multiple-recursive-calls"),
+    usesMemoization: hasFact(facts, "memoization"),
+    usesBacktrackingUndo: hasFact(facts, "backtracking-undo"),
+    usesDivideAndConquer: hasFact(facts, "divide-and-conquer"),
+    missingRecursiveProgress: hasFact(facts, "missing-recursive-progress"),
+    hasPoorVariableNames: hasFact(facts, "poor-variable-names") || /\b(?:int|long|boolean|String)\s+(a|b|x|y|temp)\b/.test(content),
+    missingEdgeCaseHandling: !hasFact(facts, "empty-or-null-check") && !hasFact(facts, "recursive-base-case")
   };
 
   if (signals.hasRecursiveCall) detected.push("Used recursion");
