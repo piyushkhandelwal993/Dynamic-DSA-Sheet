@@ -1,5 +1,20 @@
 import { addFact, CodeFacts, createEmptyCodeFacts, hasFact } from "../facts";
 import { detectOpposingPointerMovement } from "./pointerMovement";
+import { normalizeBinarySearchRoles, normalizeJavaLinkedListRoles } from "./semanticRoles";
+import {
+  detectsKadaneRecurrence,
+  detectsMemoizedRecurrence,
+  detectsCircularIndexing,
+  detectsDistanceRelaxation,
+  detectsMinTrackingStack,
+  detectsNestedAdjacency,
+  detectsPathCompression,
+  detectsRollingState,
+  detectsRunningExtreme,
+  detectsStockProfit,
+  detectsTabulation,
+  detectsTreeBranchRecursion
+} from "./structuralTechniques";
 
 const variableDeclarationRegex = /\b(?:int|long|boolean|char|String|Integer|List|ArrayList|Map|HashMap|Set|HashSet|Deque|Queue|Stack|PriorityQueue|Node|ListNode|TreeNode)\s+(?:\[\]\s*)?([a-zA-Z_]\w*)/g;
 
@@ -64,7 +79,11 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   if (/(precedence|isOperator|postfix|infix|prefix|Character\.isLetterOrDigit|Character\.isDigit|\+\s*" ")/.test(content) && hasStackOperation(content)) {
     addFact(facts, "algorithms", "expression-conversion", "medium", ["operator precedence/expression tokens"]);
   }
-  if (/(minStack|minValues|minHistory|Math\.min|currentMin)/.test(content) && hasStackOperation(content)) {
+  if (
+    (/(minStack|minValues|minHistory|Math\.min|currentMin)/.test(content) ||
+      detectsMinTrackingStack(content, "java")) &&
+    hasStackOperation(content)
+  ) {
     addFact(facts, "algorithms", "min-stack", "medium", ["minimum tracking with stack operations"]);
   }
   detectAdvancedStackTechniques(facts, content);
@@ -350,7 +369,8 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
 
   if (
     hasArrayLoop &&
-    (/\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=\s*(?:Math\.(?:min|max)\s*\(|[^;]*(?:<|>)[^;]*\?)/i.test(content) ||
+    (detectsRunningExtreme(content, "java") ||
+      /\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=\s*(?:Math\.(?:min|max)\s*\(|[^;]*(?:<|>)[^;]*\?)/i.test(content) ||
       /\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b[\s\S]{0,180}(?:<|>)[\s\S]{0,120}\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=/i.test(content))
   ) {
     addFact(facts, "algorithms", "min-max-tracking", "high", ["running minimum/maximum update"]);
@@ -387,9 +407,10 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
   }
 
   if (
-    /\b(?:currentSum|currSum|maxEndingHere|localMax|runningMax)\b/i.test(content) &&
+    detectsKadaneRecurrence(content, "java") ||
+    (/\b(?:currentSum|currSum|maxEndingHere|localMax|runningMax)\b/i.test(content) &&
     /Math\.max\s*\([^,]+,\s*[^)]*\+[^)]*\)|\b(?:currentSum|currSum|maxEndingHere|localMax)\b\s*=\s*Math\.max/i.test(content)
-  ) {
+    )) {
     addFact(facts, "algorithms", "kadane-algorithm", "high", ["best ending-here recurrence"]);
   }
 
@@ -402,10 +423,11 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
   }
 
   if (
-    /\b(?:minPrice|lowestPrice|buyPrice)\b/i.test(content) &&
+    detectsStockProfit(content, "java") ||
+    (/\b(?:minPrice|lowestPrice|buyPrice)\b/i.test(content) &&
     /\b(?:maxProfit|bestProfit|profit)\b/i.test(content) &&
     /(?:Math\.min|<[\s\S]{0,100}(?:minPrice|lowestPrice|buyPrice))/.test(content)
-  ) {
+    )) {
     addFact(facts, "algorithms", "stock-profit", "high", ["minimum price and best profit tracked"]);
   }
 }
@@ -577,6 +599,7 @@ function escapeRegex(value: string): string {
 }
 
 function detectBinarySearch(content: string) {
+  content = normalizeBinarySearchRoles(content);
   const midPattern = /(mid\s*=|mid\s*=\s*(?:left|low)\s*\+\s*\((?:right|high)\s*-\s*(?:left|low)\)\s*\/\s*2|mid\s*=\s*\((?:left|low)\s*\+\s*(?:right|high)\)\s*\/\s*2)/;
   const boundPattern = /(ans\s*=|first\s*=|last\s*=|lowerBound|upperBound|leftMost|rightMost)/;
   const answerBinaryPattern =
@@ -611,7 +634,7 @@ function detectBinarySearch(content: string) {
       /(?:left1|maxLeft1)\s*<=\s*(?:right2|minRight2)[\s\S]{0,140}(?:left2|maxLeft2)\s*<=\s*(?:right1|minRight1)/.test(content),
     usesRotatedArraySearch:
       usesBinarySearch &&
-      /(?:arr|nums)\s*\[\s*(?:left|low)\s*\]\s*<=?\s*(?:arr|nums)\s*\[\s*mid\s*\]|(?:arr|nums)\s*\[\s*mid\s*\]\s*<=?\s*(?:arr|nums)\s*\[\s*(?:right|high)\s*\]/.test(content),
+      /(?:arr|nums|values)\s*\[\s*(?:left|low)\s*\]\s*<=?\s*(?:arr|nums|values)\s*\[\s*mid\s*\]|(?:arr|nums|values)\s*\[\s*mid\s*\]\s*<=?\s*(?:arr|nums|values)\s*\[\s*(?:right|high)\s*\]/.test(content),
     usesPeakSearch:
       usesBinarySearch &&
       /(?:arr|nums)\s*\[\s*mid\s*\]\s*[<>]\s*(?:arr|nums)\s*\[\s*mid\s*\+\s*1\s*\]/.test(content),
@@ -625,6 +648,7 @@ function detectBinarySearch(content: string) {
 }
 
 function detectLinkedList(content: string) {
+  content = normalizeJavaLinkedListRoles(content);
   const usesLinkedListTraversal = /(while\s*\([^)]*null[^)]*\)[\s\S]{0,500}\b\w+\s*=\s*\w+\.next|for\s*\(\s*.*\w+\s*=\s*\w+\.next)/.test(content);
   const usesFastSlowPointers = /(slow\s*=\s*slow\.next[\s\S]*fast\s*=\s*fast\.next\.next|fast\s*=\s*fast\.next\.next[\s\S]*slow\s*=\s*slow\.next)/.test(content);
   return {
@@ -671,6 +695,7 @@ function detectQueue(content: string) {
       /\w+\s*\[\s*(?:rear|front)(?:\+\+|\s*)\s*\]/.test(content) &&
       /(?:front\+\+|rear\+\+|\+\+front|\+\+rear)/.test(content),
     usesCircularQueuePattern:
+      detectsCircularIndexing(content) ||
       /(front|rear|size|capacity|count)[\s\S]{0,140}%|rear\s*=\s*\(rear\s*\+\s*1\)\s*%|front\s*=\s*\(front\s*\+\s*1\)\s*%/.test(content),
     usesDequeWindowPattern,
     usesBfsStyleQueue:
@@ -707,6 +732,7 @@ function detectTree(content: string) {
   const usesTreeNodePattern =
     /(TreeNode|Node)\s+\w+|class\s+TreeNode|class\s+Node|root\.(left|right)|\w+\.(left|right)/.test(content);
   const usesRecursiveTraversal =
+    detectsTreeBranchRecursion(content, ".") ||
     /(preorder|inorder|postorder|dfs|traverse|height|depth|diameter|maxPath|isBalanced)\s*\([^)]*\)\s*\{[\s\S]{0,400}\w+\s*\(\s*\w+\.(left|right)\s*\)/.test(content);
   const usesQueueTraversal =
     usesTreeNodePattern &&
@@ -801,6 +827,7 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
 
 function detectGraph(content: string) {
   const usesGraphAdjacency =
+    detectsNestedAdjacency(content, "java") ||
     /(ArrayList<.*>.*graph|List<.*>.*graph|\badj\b|adjacency|neighbors|edges)/.test(content);
   const hasVisitedState = /(visited|vis)\s*\[/.test(content);
   const hasQueue = /\b(?:Queue<|ArrayDeque<|Deque<)/.test(content);
@@ -822,8 +849,10 @@ function detectGraph(content: string) {
     usesTopologicalSort:
       /(indegree|inDegree|topo|topological|Queue<.*>\s+\w+.*indegree|dfsOrder|stack\.push)/.test(content),
     usesShortestPath:
+      detectsDistanceRelaxation(content) ||
       /(dist\s*\[|distance|PriorityQueue<|relax|weight|dijkstra|bellman|floyd)/i.test(content),
     usesDisjointSet:
+      detectsPathCompression(content) ||
       /(parent\s*\[|rank\s*\[|size\s*\[|find\s*\(|union\s*\(|path compression)/i.test(content),
     usesMstLogic:
       /(kruskal|prim|PriorityQueue<|mst|minimum spanning|union\s*\()/i.test(content),
@@ -899,10 +928,17 @@ function detectDynamicProgramming(content: string) {
     /\b\w+\s*\(\s*[^)]*\)\s*\{[\s\S]{0,500}\b\w+\s*\(\s*[^)]*\)/;
 
   return {
-    usesMemoTable: memoPattern.test(content) && recursivePattern.test(content),
-    usesBottomUpDp: bottomUpPattern.test(content),
-    usesStateTransition: stateTransitionPattern.test(content),
-    usesSpaceOptimization: spaceOptPattern.test(content) && bottomUpPattern.test(content),
+    usesMemoTable: (memoPattern.test(content) || detectsMemoizedRecurrence(content)) && recursivePattern.test(content),
+    usesBottomUpDp:
+      bottomUpPattern.test(content) ||
+      detectsTabulation(content) ||
+      detectsRollingState(content),
+    usesStateTransition:
+      stateTransitionPattern.test(content) ||
+      detectsMemoizedRecurrence(content) ||
+      detectsTabulation(content),
+    usesSpaceOptimization:
+      (spaceOptPattern.test(content) && bottomUpPattern.test(content)) || detectsRollingState(content),
     usesKnapsackPattern: knapsackPattern.test(content) && bottomUpPattern.test(content),
     usesIntervalDp: intervalPattern.test(content),
     hasEdgeCaseHandling:

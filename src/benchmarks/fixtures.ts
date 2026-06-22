@@ -258,5 +258,165 @@ export const analyzerBenchmarkFixtures: AnalyzerBenchmarkFixture[] = [
     `,
     expectedFacts: ["queue-like", "queue-operations"],
     forbiddenFacts: ["priority-queue", "monotonic-stack"]
+  },
+  {
+    id: "java-renamed-binary-search",
+    language: "java",
+    category: "identifier-independence",
+    parityGroup: "renamed-binary-search",
+    code: `
+      int locate(int[] data, int needle) {
+        int beginning = 0, ending = data.length - 1;
+        while (beginning <= ending) {
+          int pivot = beginning + (ending - beginning) / 2;
+          if (data[pivot] == needle) return pivot;
+          if (data[pivot] < needle) beginning = pivot + 1;
+          else ending = pivot - 1;
+        }
+        return -1;
+      }
+    `,
+    expectedFacts: ["binary-search", "sorted-mid-check", "logarithmic-search"],
+    forbiddenFacts: ["left-shift", "right-shift"]
+  },
+  {
+    id: "cpp-renamed-binary-search",
+    language: "cpp",
+    category: "identifier-independence",
+    parityGroup: "renamed-binary-search",
+    code: `
+      int locate(vector<int>& data, int needle) {
+        int beginning = 0, ending = data.size() - 1;
+        while (beginning <= ending) {
+          int pivot = beginning + (ending - beginning) / 2;
+          if (data[pivot] == needle) return pivot;
+          if (data[pivot] < needle) beginning = pivot + 1;
+          else ending = pivot - 1;
+        }
+        return -1;
+      }
+    `,
+    expectedFacts: ["binary-search", "sorted-mid-check", "logarithmic-search"],
+    forbiddenFacts: ["left-shift", "right-shift"]
+  },
+  {
+    id: "java-renamed-linked-list-reversal",
+    language: "java",
+    category: "identifier-independence",
+    parityGroup: "renamed-linked-list-reversal",
+    code: `
+      ListNode turn(ListNode entry) {
+        ListNode behind = null;
+        ListNode walker = entry;
+        while (walker != null) {
+          ListNode saved = walker.next;
+          walker.next = behind;
+          behind = walker;
+          walker = saved;
+        }
+        return behind;
+      }
+    `,
+    expectedFacts: ["linked-list-reversal", "linked-list-traversal"],
+    forbiddenFacts: ["fast-slow-pointers"]
+  },
+  {
+    id: "cpp-renamed-linked-list-reversal",
+    language: "cpp",
+    category: "identifier-independence",
+    parityGroup: "renamed-linked-list-reversal",
+    code: `
+      ListNode* turn(ListNode* entry) {
+        ListNode* behind = nullptr;
+        ListNode* walker = entry;
+        while (walker != nullptr) {
+          ListNode* saved = walker->next;
+          walker->next = behind;
+          behind = walker;
+          walker = saved;
+        }
+        return behind;
+      }
+    `,
+    expectedFacts: ["linked-list-reversal", "linked-list-traversal"],
+    forbiddenFacts: ["fast-slow-pointers"]
+  },
+  {
+    id: "java-renamed-graph-techniques",
+    language: "java",
+    category: "identifier-independence",
+    parityGroup: "renamed-graph-techniques",
+    code: `
+      int rootOf(int[] leader, int item) {
+        if (leader[item] != item) leader[item] = rootOf(leader, leader[item]);
+        return leader[item];
+      }
+      void improve(int[] costs, int from, int to, int amount) {
+        if (costs[to] > costs[from] + amount) costs[to] = costs[from] + amount;
+      }
+      List<List<Integer>> network;
+    `,
+    expectedFacts: ["graph-adjacency", "shortest-path-relaxation", "disjoint-set-union"],
+    forbiddenFacts: ["binary-search"]
+  },
+  {
+    id: "cpp-renamed-graph-techniques",
+    language: "cpp",
+    category: "identifier-independence",
+    parityGroup: "renamed-graph-techniques",
+    code: `
+      int rootOf(vector<int>& leader, int item) {
+        if (leader[item] != item) leader[item] = rootOf(leader, leader[item]);
+        return leader[item];
+      }
+      void improve(vector<int>& costs, int from, int to, int amount) {
+        if (costs[to] > costs[from] + amount) costs[to] = costs[from] + amount;
+      }
+      vector<vector<int>> network;
+    `,
+    expectedFacts: ["graph-adjacency", "shortest-path-relaxation", "disjoint-set-union"],
+    forbiddenFacts: ["binary-search"]
+  },
+  {
+    id: "java-renamed-tree-queue-stack",
+    language: "java",
+    category: "identifier-independence",
+    parityGroup: "renamed-tree-queue-stack",
+    code: `
+      int measure(TreeNode branch) {
+        if (branch == null) return 0;
+        return 1 + Math.max(measure(branch.left), measure(branch.right));
+      }
+      void advance() {
+        writeCursor = (writeCursor + 1) % limit;
+      }
+      void store(Deque<Integer> values, Deque<Integer> lows, int item) {
+        values.push(item);
+        lows.push(lows.isEmpty() ? item : Math.min(item, lows.peek()));
+      }
+    `,
+    expectedFacts: ["recursive-tree-traversal", "circular-queue", "min-stack"],
+    forbiddenFacts: ["binary-search"]
+  },
+  {
+    id: "cpp-renamed-tree-queue-stack",
+    language: "cpp",
+    category: "identifier-independence",
+    parityGroup: "renamed-tree-queue-stack",
+    code: `
+      int measure(TreeNode* branch) {
+        if (!branch) return 0;
+        return 1 + max(measure(branch->left), measure(branch->right));
+      }
+      void advance() {
+        writeCursor = (writeCursor + 1) % limit;
+      }
+      void store(stack<int>& values, stack<int>& lows, int item) {
+        values.push(item);
+        lows.push(lows.empty() ? item : min(item, lows.top()));
+      }
+    `,
+    expectedFacts: ["recursive-tree-traversal", "circular-queue", "min-stack"],
+    forbiddenFacts: ["binary-search"]
   }
 ];

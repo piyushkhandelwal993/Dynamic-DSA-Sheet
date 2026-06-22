@@ -72,6 +72,218 @@ test("two-pointer detection supports arbitrary names and assignment movement", (
   assert.equal(hasFact(cppFacts, "array-reversal"), true);
 });
 
+test("binary-search detection does not depend on conventional variable names", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      int locate(int[] data, int needle) {
+        int beginning = 0;
+        int ending = data.length - 1;
+        while (beginning <= ending) {
+          int pivot = beginning + (ending - beginning) / 2;
+          if (data[pivot] == needle) return pivot;
+          if (data[pivot] < needle) beginning = pivot + 1;
+          else ending = pivot - 1;
+        }
+        return -1;
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      int locate(vector<int>& data, int needle) {
+        int beginning = 0;
+        int ending = data.size() - 1;
+        while (beginning <= ending) {
+          int pivot = beginning + (ending - beginning) / 2;
+          if (data[pivot] == needle) return pivot;
+          if (data[pivot] < needle) beginning = pivot + 1;
+          else ending = pivot - 1;
+        }
+        return -1;
+      }
+    `
+  );
+
+  ["binary-search", "sorted-mid-check", "logarithmic-search"].forEach((fact) => {
+    assert.equal(hasFact(javaFacts, fact), true, `Java missed ${fact}`);
+    assert.equal(hasFact(cppFacts, fact), true, `C++ missed ${fact}`);
+  });
+});
+
+test("linked-list pointer techniques do not depend on cursor names", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      Node reverse(Node entrance) {
+        Node behind = null;
+        Node walker = entrance;
+        while (walker != null) {
+          Node saved = walker.next;
+          walker.next = behind;
+          behind = walker;
+          walker = saved;
+        }
+        return behind;
+      }
+
+      boolean cycle(Node entrance) {
+        Node turtle = entrance;
+        Node rabbit = entrance;
+        while (rabbit != null && rabbit.next != null) {
+          turtle = turtle.next;
+          rabbit = rabbit.next.next;
+          if (turtle == rabbit) return true;
+        }
+        return false;
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      Node* reverse(Node* entrance) {
+        Node* behind = nullptr;
+        Node* walker = entrance;
+        while (walker != nullptr) {
+          Node* saved = walker->next;
+          walker->next = behind;
+          behind = walker;
+          walker = saved;
+        }
+        return behind;
+      }
+
+      bool cycle(Node* entrance) {
+        Node* turtle = entrance;
+        Node* rabbit = entrance;
+        while (rabbit != nullptr && rabbit->next != nullptr) {
+          turtle = turtle->next;
+          rabbit = rabbit->next->next;
+          if (turtle == rabbit) return true;
+        }
+        return false;
+      }
+    `
+  );
+
+  ["linked-list-reversal", "fast-slow-pointers", "linked-list-cycle-detection"].forEach((fact) => {
+    assert.equal(hasFact(javaFacts, fact), true, `Java missed ${fact}`);
+    assert.equal(hasFact(cppFacts, fact), true, `C++ missed ${fact}`);
+  });
+});
+
+test("array strategy detection does not depend on accumulator names", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      int gain(int[] prices) {
+        int floor = prices[0];
+        int reward = 0;
+        for (int price : prices) {
+          floor = Math.min(floor, price);
+          reward = Math.max(reward, price - floor);
+        }
+        return reward;
+      }
+
+      int segment(int[] values) {
+        int ending = values[0];
+        int overall = values[0];
+        for (int i = 1; i < values.length; i++) {
+          ending = Math.max(values[i], ending + values[i]);
+          overall = Math.max(overall, ending);
+        }
+        return overall;
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      int gain(vector<int>& prices) {
+        int floor = prices[0];
+        int reward = 0;
+        for (int price : prices) {
+          floor = min(floor, price);
+          reward = max(reward, price - floor);
+        }
+        return reward;
+      }
+
+      int segment(vector<int>& values) {
+        int ending = values[0];
+        int overall = values[0];
+        for (int i = 1; i < values.size(); i++) {
+          ending = max(values[i], ending + values[i]);
+          overall = max(overall, ending);
+        }
+        return overall;
+      }
+    `
+  );
+
+  ["min-max-tracking", "stock-profit", "kadane-algorithm"].forEach((fact) => {
+    assert.equal(hasFact(javaFacts, fact), true, `Java missed ${fact}`);
+    assert.equal(hasFact(cppFacts, fact), true, `C++ missed ${fact}`);
+  });
+});
+
+test("DP detection does not depend on dp memo or rolling-state names", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      int solve(int position, int[] values, int[] cache) {
+        if (position < 0) return 0;
+        if (cache[position] != -1) return cache[position];
+        int include = values[position] + solve(position - 2, values, cache);
+        int exclude = solve(position - 1, values, cache);
+        return cache[position] = Math.max(include, exclude);
+      }
+
+      int fib(int n) {
+        int older = 0;
+        int newer = 1;
+        for (int step = 2; step <= n; step++) {
+          int combined = older + newer;
+          older = newer;
+          newer = combined;
+        }
+        return newer;
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      int solve(int position, vector<int>& values, vector<int>& cache) {
+        if (position < 0) return 0;
+        if (cache[position] != -1) return cache[position];
+        int include = values[position] + solve(position - 2, values, cache);
+        int exclude = solve(position - 1, values, cache);
+        return cache[position] = max(include, exclude);
+      }
+
+      int fib(int n) {
+        int older = 0;
+        int newer = 1;
+        for (int step = 2; step <= n; step++) {
+          int combined = older + newer;
+          older = newer;
+          newer = combined;
+        }
+        return newer;
+      }
+    `
+  );
+
+  ["dp-memoization", "dp-state-transition", "bottom-up-dp", "dp-space-optimization"].forEach((fact) => {
+    assert.equal(hasFact(javaFacts, fact), true, `Java missed ${fact}`);
+    assert.equal(hasFact(cppFacts, fact), true, `C++ missed ${fact}`);
+  });
+});
+
 test("java facts normalize hash map and hardcoded anti-patterns", () => {
   const mapFacts = analyzeCodeFacts(
     "java",
@@ -894,4 +1106,153 @@ test("cpp stream operators are not classified as bit shifts", () => {
   assert.equal(hasFact(facts, "right-shift"), false);
   assert.equal(hasFact(facts, "base-case"), false);
   assert.equal(hasFact(facts, "array-traversal"), true);
+});
+
+test("java structural facts do not depend on graph, tree, queue, or stack names", () => {
+  const graphFacts = analyzeCodeFacts(
+    "java",
+    `
+      void inspect(List<List<Integer>> network, int source) {
+        boolean[] marked = new boolean[network.size()];
+        Queue<Integer> pending = new ArrayDeque<>();
+        pending.offer(source);
+        while (!pending.isEmpty()) {
+          int item = pending.poll();
+          marked[item] = true;
+          for (int adjacent : network.get(item)) {
+            if (!marked[adjacent]) pending.offer(adjacent);
+          }
+        }
+      }
+    `
+  );
+  const shortestPathFacts = analyzeCodeFacts(
+    "java",
+    `
+      void improve(int[] costs, int from, int to, int amount) {
+        if (costs[to] > costs[from] + amount) {
+          costs[to] = costs[from] + amount;
+        }
+      }
+    `
+  );
+  const disjointSetFacts = analyzeCodeFacts(
+    "java",
+    `
+      int rootOf(int[] leader, int item) {
+        if (leader[item] != item) {
+          leader[item] = rootOf(leader, leader[item]);
+        }
+        return leader[item];
+      }
+    `
+  );
+  const treeFacts = analyzeCodeFacts(
+    "java",
+    `
+      int measure(TreeNode branch) {
+        if (branch == null) return 0;
+        return 1 + Math.max(measure(branch.left), measure(branch.right));
+      }
+    `
+  );
+  const queueFacts = analyzeCodeFacts(
+    "java",
+    `
+      void advance() {
+        writeCursor = (writeCursor + 1) % limit;
+      }
+    `
+  );
+  const stackFacts = analyzeCodeFacts(
+    "java",
+    `
+      void store(Deque<Integer> values, Deque<Integer> lows, int item) {
+        values.push(item);
+        lows.push(lows.isEmpty() ? item : Math.min(item, lows.peek()));
+      }
+    `
+  );
+
+  assert.equal(hasFact(graphFacts, "graph-adjacency"), true);
+  assert.equal(hasFact(shortestPathFacts, "shortest-path-relaxation"), true);
+  assert.equal(hasFact(disjointSetFacts, "disjoint-set-union"), true);
+  assert.equal(hasFact(treeFacts, "recursive-tree-traversal"), true);
+  assert.equal(hasFact(queueFacts, "circular-queue"), true);
+  assert.equal(hasFact(stackFacts, "min-stack"), true);
+});
+
+test("cpp structural facts do not depend on graph, tree, queue, or stack names", () => {
+  const graphFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void inspect(vector<vector<int>>& network, int source) {
+        vector<bool> marked(network.size());
+        queue<int> pending;
+        pending.push(source);
+        while (!pending.empty()) {
+          int item = pending.front();
+          pending.pop();
+          marked[item] = true;
+          for (int adjacent : network[item]) {
+            if (!marked[adjacent]) pending.push(adjacent);
+          }
+        }
+      }
+    `
+  );
+  const shortestPathFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void improve(vector<int>& costs, int from, int to, int amount) {
+        if (costs[to] > costs[from] + amount) {
+          costs[to] = costs[from] + amount;
+        }
+      }
+    `
+  );
+  const disjointSetFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      int rootOf(vector<int>& leader, int item) {
+        if (leader[item] != item) {
+          leader[item] = rootOf(leader, leader[item]);
+        }
+        return leader[item];
+      }
+    `
+  );
+  const treeFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      int measure(TreeNode* branch) {
+        if (!branch) return 0;
+        return 1 + max(measure(branch->left), measure(branch->right));
+      }
+    `
+  );
+  const queueFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void advance() {
+        writeCursor = (writeCursor + 1) % limit;
+      }
+    `
+  );
+  const stackFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void store(stack<int>& values, stack<int>& lows, int item) {
+        values.push(item);
+        lows.push(lows.empty() ? item : min(item, lows.top()));
+      }
+    `
+  );
+
+  assert.equal(hasFact(graphFacts, "graph-adjacency"), true);
+  assert.equal(hasFact(shortestPathFacts, "shortest-path-relaxation"), true);
+  assert.equal(hasFact(disjointSetFacts, "disjoint-set-union"), true);
+  assert.equal(hasFact(treeFacts, "recursive-tree-traversal"), true);
+  assert.equal(hasFact(queueFacts, "circular-queue"), true);
+  assert.equal(hasFact(stackFacts, "min-stack"), true);
 });

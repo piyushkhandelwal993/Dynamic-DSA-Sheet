@@ -1,5 +1,20 @@
 import { addFact, CodeFacts, createEmptyCodeFacts } from "../facts";
 import { detectOpposingPointerMovement } from "./pointerMovement";
+import { normalizeBinarySearchRoles, normalizeCppLinkedListRoles } from "./semanticRoles";
+import {
+  detectsKadaneRecurrence,
+  detectsCircularIndexing,
+  detectsDistanceRelaxation,
+  detectsMinTrackingStack,
+  detectsNestedAdjacency,
+  detectsPathCompression,
+  detectsMemoizedRecurrence,
+  detectsRollingState,
+  detectsRunningExtreme,
+  detectsStockProfit,
+  detectsTabulation,
+  detectsTreeBranchRecursion
+} from "./structuralTechniques";
 
 const variableDeclarationRegex =
   /\b(?:int|long|long long|bool|char|string|auto|vector<[^;=]+>|map<[^;=]+>|unordered_map<[^;=]+>|set<[^;=]+>|unordered_set<[^;=]+>|stack<[^;=]+>|queue<[^;=]+>|deque<[^;=]+>|priority_queue<[^;=]+>|ListNode\s*\*|TreeNode\s*\*|Node\s*\*)\s+([a-zA-Z_]\w*)/g;
@@ -86,7 +101,8 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
 
   if (
     hasArrayLoop &&
-    (/\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=\s*(?:std::)?(?:min|max)\s*\(/i.test(content) ||
+    (detectsRunningExtreme(content, "cpp") ||
+      /\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=\s*(?:std::)?(?:min|max)\s*\(/i.test(content) ||
       /\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b[\s\S]{0,180}(?:<|>)[\s\S]{0,120}\b(?:min|max|minimum|maximum|largest|smallest|best)\w*\b\s*=/i.test(content))
   ) {
     addFact(facts, "algorithms", "min-max-tracking", "high", ["running minimum/maximum update"]);
@@ -121,9 +137,10 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
   }
 
   if (
-    /\b(?:currentSum|currSum|maxEndingHere|localMax|runningMax)\b/i.test(content) &&
+    detectsKadaneRecurrence(content, "cpp") ||
+    (/\b(?:currentSum|currSum|maxEndingHere|localMax|runningMax)\b/i.test(content) &&
     /(?:std::)?max\s*\([^,]+,\s*[^)]*\+[^)]*\)|\b(?:currentSum|currSum|maxEndingHere|localMax)\b\s*=\s*(?:std::)?max/i.test(content)
-  ) {
+    )) {
     addFact(facts, "algorithms", "kadane-algorithm", "high", ["best ending-here recurrence"]);
   }
 
@@ -136,10 +153,11 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
   }
 
   if (
-    /\b(?:minPrice|lowestPrice|buyPrice)\b/i.test(content) &&
+    detectsStockProfit(content, "cpp") ||
+    (/\b(?:minPrice|lowestPrice|buyPrice)\b/i.test(content) &&
     /\b(?:maxProfit|bestProfit|profit)\b/i.test(content) &&
     /(?:(?:std::)?min|<[\s\S]{0,100}(?:minPrice|lowestPrice|buyPrice))/.test(content)
-  ) {
+    )) {
     addFact(facts, "algorithms", "stock-profit", "high", ["minimum price and best profit tracked"]);
   }
 }
@@ -175,10 +193,17 @@ function detectStackAndQueue(facts: CodeFacts, content: string): void {
   if (/(precedence|isOperator|postfix|infix|prefix|isalnum|isdigit)/.test(content) && stackOperations) {
     addFact(facts, "algorithms", "expression-conversion", "medium", ["operator precedence/expression tokens"]);
   }
-  if (/(minStack|minValues|minHistory|currentMin)/.test(content) && stackOperations) {
+  if (
+    (/(minStack|minValues|minHistory|currentMin)/.test(content) ||
+      detectsMinTrackingStack(content, "cpp")) &&
+    stackOperations
+  ) {
     addFact(facts, "algorithms", "min-stack", "medium", ["minimum tracking with stack operations"]);
   }
-  if (/(front|rear|size|capacity|count)[\s\S]{0,140}%|rear\s*=\s*\(rear\s*\+\s*1\)\s*%|front\s*=\s*\(front\s*\+\s*1\)\s*%/.test(content)) {
+  if (
+    detectsCircularIndexing(content) ||
+    /(front|rear|size|capacity|count)[\s\S]{0,140}%|rear\s*=\s*\(rear\s*\+\s*1\)\s*%|front\s*=\s*\(front\s*\+\s*1\)\s*%/.test(content)
+  ) {
     addFact(facts, "algorithms", "circular-queue", "high", ["front/rear index wraps with modulo"]);
   }
   if (
@@ -380,6 +405,7 @@ function escapeRegex(value: string): string {
 }
 
 function detectBinarySearch(facts: CodeFacts, content: string): void {
+  content = normalizeBinarySearchRoles(content);
   const hasMid = /\bmid\s*=/.test(content);
   const hasBounds = /\b(left|right|low|high)\b/.test(content);
   const usesBinarySearch = hasMid && hasBounds && /while\s*\(/.test(content);
@@ -449,6 +475,7 @@ function detectBinarySearch(facts: CodeFacts, content: string): void {
 }
 
 function detectLinkedList(facts: CodeFacts, content: string): void {
+  content = normalizeCppLinkedListRoles(content);
   const usesTraversal = /while\s*\([^)]*(?:nullptr|NULL)[^)]*\)[\s\S]{0,500}\b\w+\s*=\s*\w+->next/.test(content);
   const usesFastSlow = /(slow\s*=\s*slow->next[\s\S]*fast\s*=\s*fast->next->next|fast\s*=\s*fast->next->next[\s\S]*slow\s*=\s*slow->next)/.test(content);
   if (usesTraversal) {
@@ -507,7 +534,11 @@ function detectLinkedList(facts: CodeFacts, content: string): void {
 function detectTree(facts: CodeFacts, content: string): void {
   const hasTreeNode = /(TreeNode|Node)\s*\*\s*\w+|struct\s+TreeNode|class\s+TreeNode|\w+->(left|right)/.test(content);
   if (hasTreeNode) addFact(facts, "dataStructures", "tree-node", "high", ["tree node with left/right links"]);
-  if (hasTreeNode && /(preorder|inorder|postorder|dfs|traverse|height|depth|diameter|maxPath|isBalanced)[\s\S]{0,500}\w+\s*\(\s*\w+->(left|right)\s*\)/.test(content)) {
+  if (
+    hasTreeNode &&
+    (detectsTreeBranchRecursion(content, "->") ||
+      /(preorder|inorder|postorder|dfs|traverse|height|depth|diameter|maxPath|isBalanced)[\s\S]{0,500}\w+\s*\(\s*\w+->(left|right)\s*\)/.test(content))
+  ) {
     addFact(facts, "algorithms", "recursive-tree-traversal", "high", ["recursive call on left or right child"]);
   }
   if (hasTreeNode && /\bqueue</.test(content) && /\.(push|pop|front)\s*\(/.test(content)) {
@@ -601,7 +632,9 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
 }
 
 function detectGraph(facts: CodeFacts, content: string): void {
-  const hasAdjacency = /(vector<.*>.*graph|\badj\b|adjacency|neighbors|edges)/.test(content);
+  const hasAdjacency =
+    detectsNestedAdjacency(content, "cpp") ||
+    /(vector<.*>.*graph|\badj\b|adjacency|neighbors|edges)/.test(content);
   const hasTraversal = /(visited|vis)\s*\[|\bdfs\s*\(|\bbfs\s*\(|(?:graph|adj|neighbors)\s*\[/.test(content);
   if (hasAdjacency) addFact(facts, "dataStructures", "graph-adjacency", "high", ["adjacency list, neighbors, or edges"]);
   if (hasTraversal) addFact(facts, "algorithms", "graph-traversal", "high", ["visited state with DFS/BFS or neighbor iteration"]);
@@ -614,10 +647,16 @@ function detectGraph(facts: CodeFacts, content: string): void {
   if (/(indegree|inDegree|topo|topological|dfsOrder|stack\.push)/.test(content)) {
     addFact(facts, "algorithms", "topological-sort", "high", ["indegree or DFS finishing order"]);
   }
-  if (/(dist\s*\[|distance|priority_queue<|relax|weight|dijkstra|bellman|floyd)/i.test(content)) {
+  if (
+    detectsDistanceRelaxation(content) ||
+    /(dist\s*\[|distance|priority_queue<|relax|weight|dijkstra|bellman|floyd)/i.test(content)
+  ) {
     addFact(facts, "algorithms", "shortest-path-relaxation", "high", ["distance update or weighted priority processing"]);
   }
-  if (/(parent\s*\[|rank\s*\[|size\s*\[|find\s*\(|unionSet\s*\(|unite\s*\(|path compression)/i.test(content)) {
+  if (
+    detectsPathCompression(content) ||
+    /(parent\s*\[|rank\s*\[|size\s*\[|find\s*\(|unionSet\s*\(|unite\s*\(|path compression)/i.test(content)
+  ) {
     addFact(facts, "dataStructures", "disjoint-set-union", "high", ["parent/rank with find and union"]);
   }
   if (/(kruskal|prim|priority_queue<|mst|minimum spanning|unionSet\s*\(|unite\s*\()/i.test(content)) {
@@ -684,12 +723,19 @@ function detectAdvancedGraphTechniques(facts: CodeFacts, content: string): void 
 function detectDynamicProgramming(facts: CodeFacts, content: string): void {
   const functionNames = detectFunctionNames(content);
   const hasRecursion = functionNames.some((name) => (content.match(new RegExp(`\\b${name}\\s*\\(`, "g"))?.length ?? 0) >= 2);
-  const hasDpTable = /\b(?:dp|memo)\s*\[/.test(content);
-  const hasBottomUp = hasDpTable && /\b(for|while)\s*\(/.test(content);
+  const hasDpTable = /\b(?:dp|memo)\s*\[/.test(content) || detectsMemoizedRecurrence(content);
+  const hasBottomUp =
+    (hasDpTable && /\b(for|while)\s*\(/.test(content)) || detectsTabulation(content);
   if (hasDpTable && hasRecursion) addFact(facts, "algorithms", "dp-memoization", "high", ["recursive state cached in a table"]);
   if (hasBottomUp) addFact(facts, "algorithms", "bottom-up-dp", "high", ["DP table filled iteratively"]);
   if (/dp(?:\s*\[[^\]]+\])+\s*=\s*(?:max|min)\s*\(|dp(?:\s*\[[^\]]+\])+\s*=\s*dp(?:\s*\[[^\]]+\])+\s*[+\-*\/]|take|notTake|pick|skip/.test(content)) {
     addFact(facts, "algorithms", "dp-state-transition", "high", ["DP state derived from prior states"]);
+  }
+  if (
+    !hasFactInBuckets(facts, "dp-state-transition") &&
+    (detectsMemoizedRecurrence(content) || detectsTabulation(content))
+  ) {
+    addFact(facts, "algorithms", "dp-state-transition", "high", ["cached or iterative state derived from prior states"]);
   }
   if (hasBottomUp && /(prev|curr|next|rolling|oneD|1d dp)/i.test(content)) {
     addFact(facts, "algorithms", "dp-space-optimization", "medium", ["rolling previous/current state"]);
@@ -705,6 +751,7 @@ function detectDynamicProgramming(facts: CodeFacts, content: string): void {
     addFact(facts, "edgeCaseSignals", "dp-edge-check", "medium", ["empty/base target or index guard"]);
   }
   const hasRollingState =
+    detectsRollingState(content) ||
     /\b(?:prev|prev1|prev2|previous|curr|current|next)\w*\b/i.test(content) &&
     /\b(?:for|while)\s*\(/.test(content) &&
     /(?:prev|previous|curr|current|next)\w*\s*=\s*[^;]*(?:prev|previous|curr|current)/i.test(content);
