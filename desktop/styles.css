@@ -1655,6 +1655,8 @@ textarea {
   display: grid;
   gap: 6px;
   min-width: 0;
+  width: 100%;
+  justify-self: start;
 }
 
 .topic-switcher-wrap {
@@ -3254,12 +3256,18 @@ li + li {
   .app-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
   }
 
   .header-actions,
   .header-actions-main,
   .header-actions-secondary {
     justify-content: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-self: start;
   }
 }
 
