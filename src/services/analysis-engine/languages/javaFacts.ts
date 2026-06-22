@@ -1,4 +1,5 @@
 import { addFact, CodeFacts, createEmptyCodeFacts, hasFact } from "../facts";
+import { detectOpposingPointerMovement } from "./pointerMovement";
 
 const variableDeclarationRegex = /\b(?:int|long|boolean|char|String|Integer|List|ArrayList|Map|HashMap|Set|HashSet|Deque|Queue|Stack|PriorityQueue|Node|ListNode|TreeNode)\s+(?:\[\]\s*)?([a-zA-Z_]\w*)/g;
 
@@ -338,9 +339,7 @@ function extractVariableNames(content: string): string[] {
 }
 
 function detectTwoPointerMovement(content: string): boolean {
-  const hasTwoPointerNames = /\b(left|right|low|high|i|j)\b[\s\S]{0,220}\b(left|right|low|high|i|j)\b/.test(content);
-  const hasPointerMovement = /(left\s*[+-]{2}|right\s*[+-]{2}|low\s*[+-]{2}|high\s*[+-]{2}|i\+\+[\s\S]{0,120}j--|j--[\s\S]{0,120}i\+\+)/.test(content);
-  return hasTwoPointerNames && hasPointerMovement;
+  return detectOpposingPointerMovement(content);
 }
 
 function detectArrayTechniques(facts: CodeFacts, content: string): void {

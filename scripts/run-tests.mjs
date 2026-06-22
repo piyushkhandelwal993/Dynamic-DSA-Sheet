@@ -13,7 +13,9 @@ if (testFiles.length === 0) {
   process.exit(1);
 }
 
-const result = spawnSync(process.execPath, ["--test", ...testFiles], {
+// Runner tests spawn compilers and JVMs; serial files avoid CI-only timeouts
+// caused by several constrained language processes competing at once.
+const result = spawnSync(process.execPath, ["--test", "--test-concurrency=1", ...testFiles], {
   stdio: "inherit"
 });
 

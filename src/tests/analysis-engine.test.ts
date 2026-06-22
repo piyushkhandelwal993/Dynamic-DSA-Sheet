@@ -34,6 +34,44 @@ test("java facts normalize array two-pointer signals", () => {
   assert.equal(hasFact(facts, "single-pass"), true);
 });
 
+test("two-pointer detection supports arbitrary names and assignment movement", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      void reverse(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        while (start < end) {
+          int value = nums[start];
+          nums[start] = nums[end];
+          nums[end] = value;
+          start += 1;
+          end = end - 1;
+        }
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void reverse(vector<int>& nums) {
+        int l = 0;
+        int r = nums.size() - 1;
+        while (l < r) {
+          swap(nums[l], nums[r]);
+          ++l;
+          r -= 1;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(javaFacts, "two-pointers"), true);
+  assert.equal(hasFact(javaFacts, "array-reversal"), true);
+  assert.equal(hasFact(cppFacts, "two-pointers"), true);
+  assert.equal(hasFact(cppFacts, "array-reversal"), true);
+});
+
 test("java facts normalize hash map and hardcoded anti-patterns", () => {
   const mapFacts = analyzeCodeFacts(
     "java",

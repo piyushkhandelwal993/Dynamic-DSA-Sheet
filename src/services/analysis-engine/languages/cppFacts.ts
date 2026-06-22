@@ -1,4 +1,5 @@
 import { addFact, CodeFacts, createEmptyCodeFacts } from "../facts";
+import { detectOpposingPointerMovement } from "./pointerMovement";
 
 const variableDeclarationRegex =
   /\b(?:int|long|long long|bool|char|string|auto|vector<[^;=]+>|map<[^;=]+>|unordered_map<[^;=]+>|set<[^;=]+>|unordered_set<[^;=]+>|stack<[^;=]+>|queue<[^;=]+>|deque<[^;=]+>|priority_queue<[^;=]+>|ListNode\s*\*|TreeNode\s*\*|Node\s*\*)\s+([a-zA-Z_]\w*)/g;
@@ -786,9 +787,7 @@ function detectFunctionNames(content: string): string[] {
 }
 
 function detectTwoPointerMovement(content: string): boolean {
-  const hasNames = /\b(left|right|low|high|i|j)\b[\s\S]{0,220}\b(left|right|low|high|i|j)\b/.test(content);
-  const hasMovement = /(left\s*[+-]{2}|right\s*[+-]{2}|low\s*[+-]{2}|high\s*[+-]{2}|i\+\+[\s\S]{0,120}j--|j--[\s\S]{0,120}i\+\+)/.test(content);
-  return hasNames && hasMovement;
+  return detectOpposingPointerMovement(content);
 }
 
 function estimateNestedLoopDepth(content: string): number {
