@@ -238,9 +238,23 @@ function scrollToResultsSection() {
   }
 
   requestAnimationFrame(() => {
-    resultSectionEl.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+    const container = document.querySelector(".workspace-shell");
+    if (!(container instanceof HTMLElement)) {
+      resultSectionEl.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const resultRect = resultSectionEl.getBoundingClientRect();
+    const resultTop = container.scrollTop + resultRect.top - containerRect.top;
+    const maximumScrollTop = Math.max(0, container.scrollHeight - container.clientHeight);
+
+    container.scrollTo({
+      top: Math.min(Math.max(0, resultTop - 4), maximumScrollTop),
+      behavior: "smooth"
     });
   });
 }
@@ -640,6 +654,7 @@ function reviewLastSubmission() {
   state.currentView = "practice";
   hideSuccessModal();
   render();
+  scrollToResultsSection();
 }
 
 async function startRecommendedNextProblem() {

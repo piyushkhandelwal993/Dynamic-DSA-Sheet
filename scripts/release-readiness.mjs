@@ -63,8 +63,8 @@ function checkPackaging() {
 function checkWorkflow() {
   const workflow = read(".github/workflows/release-desktop.yml");
   assert.match(workflow, /npm run release:check/, "Release workflow must run the unified release gate");
-  assert.match(workflow, /macos-13/, "Release workflow must include Intel macOS");
-  assert.match(workflow, /macos-14/, "Release workflow must include Apple Silicon macOS");
+  assert.match(workflow, /macos-15-intel/, "Release workflow must include Intel macOS");
+  assert.match(workflow, /os:\s*macos-15\s/, "Release workflow must include Apple Silicon macOS");
   assert.match(workflow, /windows-latest/, "Release workflow must include Windows");
   assert.match(workflow, /ubuntu-latest/, "Release workflow must include Linux");
   assert.match(workflow, /choco install mingw/, "Windows release CI must install a C++ compiler");
