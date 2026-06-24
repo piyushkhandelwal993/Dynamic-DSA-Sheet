@@ -7,35 +7,72 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["binary-search-intro", "sorted-mid-check"],
+    "expectedConcepts": [
+      "binary-search-intro",
+      "sorted-mid-check"
+    ],
     "prerequisiteConcepts": [],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 15,
     "description": "Given a sorted array and a target value, print its index or -1 if it is absent.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n sorted space-separated integers", "An integer target"],
-    "outputFormat": ["Print the index of target or -1"],
-    "edgeCases": ["Target absent", "Single-element array"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n sorted space-separated integers",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Print the index of target or -1"
+    ],
+    "edgeCases": [
+      "Target absent",
+      "Single-element array"
+    ],
     "intendedApproachSummary": "Compare the target with the middle value and keep only the half that can still contain it.",
-    "wrongApproachHints": ["A linear scan works but misses the main binary-search idea.", "The array must stay sorted for this logic to work."],
-    "hints": ["Use left and right pointers.", "Compute mid carefully."],
+    "wrongApproachHints": [
+      "A linear scan works but misses the main binary-search idea.",
+      "The array must stay sorted for this logic to work."
+    ],
+    "hints": [
+      "Use left and right pointers.",
+      "Compute mid carefully."
+    ],
     "examples": [
-      { "input": "6\n1 3 5 7 9 11\n7", "output": "3", "explanation": "7 is found at index 3." }
+      {
+        "input": "6\n1 3 5 7 9 11\n7",
+        "output": "3",
+        "explanation": "7 is found at index 3."
+      }
     ],
     "testCases": [
-      { "input": "6\n1 3 5 7 9 11\n7", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "5\n2 4 6 8 10\n5", "expectedOutput": "-1", "visibility": "hidden" }
+      {
+        "input": "6\n1 3 5 7 9 11\n7",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n2 4 6 8 10\n5",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
     ],
     "solutionMode": "guided-function",
     "functionContract": {
       "functionName": "search",
       "javaSignature": "public int search(int[] values, int target)",
       "cppSignature": "int search(vector<int>& values, int target)",
-      "providedTypes": ["sorted integer array"],
+      "providedTypes": [
+        "sorted integer array"
+      ],
       "driverStrategy": "binary-search-exact"
     },
     "remedialProblems": [],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "binary-search-foundation"
   },
   {
     "id": "bs-002",
@@ -45,27 +82,64 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["lower-bound"],
-    "prerequisiteConcepts": ["binary-search-intro"],
+    "expectedConcepts": [
+      "lower-bound"
+    ],
+    "prerequisiteConcepts": [
+      "binary-search-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 16,
     "description": "Given a sorted array and a target, print the first index where the value is at least the target. If no such index exists, print n.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n sorted integers", "An integer target"],
-    "outputFormat": ["Print the lower-bound index"],
-    "edgeCases": ["Target smaller than all values", "Target larger than all values"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n sorted integers",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Print the lower-bound index"
+    ],
+    "edgeCases": [
+      "Target smaller than all values",
+      "Target larger than all values"
+    ],
     "intendedApproachSummary": "When arr[mid] is large enough, record mid as an answer candidate and continue left.",
-    "wrongApproachHints": ["Do not stop at the first matching value you see unless you know it is the first valid one."],
-    "hints": ["Track an answer variable initialized to n.", "Move right only when arr[mid] < target."],
+    "wrongApproachHints": [
+      "Do not stop at the first matching value you see unless you know it is the first valid one."
+    ],
+    "hints": [
+      "Track an answer variable initialized to n.",
+      "Move right only when arr[mid] < target."
+    ],
     "examples": [
-      { "input": "5\n1 2 4 4 9\n4", "output": "2", "explanation": "Index 2 is the first position with value at least 4." }
+      {
+        "input": "5\n1 2 4 4 9\n4",
+        "output": "2",
+        "explanation": "Index 2 is the first position with value at least 4."
+      }
     ],
     "testCases": [
-      { "input": "5\n1 2 4 4 9\n4", "expectedOutput": "2", "visibility": "sample" },
-      { "input": "4\n3 5 7 8\n10", "expectedOutput": "4", "visibility": "hidden" }
+      {
+        "input": "5\n1 2 4 4 9\n4",
+        "expectedOutput": "2",
+        "visibility": "sample"
+      },
+      {
+        "input": "4\n3 5 7 8\n10",
+        "expectedOutput": "4",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "binary-search-boundary-foundation"
   },
   {
     "id": "bs-003",
@@ -75,28 +149,71 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["first-last-occurrence", "lower-bound", "upper-bound"],
-    "prerequisiteConcepts": ["lower-bound"],
+    "expectedConcepts": [
+      "first-last-occurrence",
+      "lower-bound",
+      "upper-bound"
+    ],
+    "prerequisiteConcepts": [
+      "lower-bound"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 18,
     "description": "Given a sorted array and target x, print the first and last index of x, or -1 -1 if x is absent.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n sorted integers", "An integer x"],
-    "outputFormat": ["Print two integers: first occurrence and last occurrence"],
-    "edgeCases": ["Target absent", "Target fills the whole array"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n sorted integers",
+      "An integer x"
+    ],
+    "outputFormat": [
+      "Print two integers: first occurrence and last occurrence"
+    ],
+    "edgeCases": [
+      "Target absent",
+      "Target fills the whole array"
+    ],
     "intendedApproachSummary": "Use one boundary search for the first occurrence and another for the last occurrence.",
-    "wrongApproachHints": ["Do not expand linearly after finding one copy.", "Left and right boundaries need slightly different conditions."],
-    "hints": ["Find the first index with value >= x.", "Find the first index with value > x, then step back."],
+    "wrongApproachHints": [
+      "Do not expand linearly after finding one copy.",
+      "Left and right boundaries need slightly different conditions."
+    ],
+    "hints": [
+      "Find the first index with value >= x.",
+      "Find the first index with value > x, then step back."
+    ],
     "examples": [
-      { "input": "7\n1 2 2 2 3 4 5\n2", "output": "1 3", "explanation": "2 starts at index 1 and ends at index 3." }
+      {
+        "input": "7\n1 2 2 2 3 4 5\n2",
+        "output": "1 3",
+        "explanation": "2 starts at index 1 and ends at index 3."
+      }
     ],
     "testCases": [
-      { "input": "7\n1 2 2 2 3 4 5\n2", "expectedOutput": "1 3", "visibility": "sample" },
-      { "input": "5\n1 3 5 7 9\n4", "expectedOutput": "-1 -1", "visibility": "hidden" }
+      {
+        "input": "7\n1 2 2 2 3 4 5\n2",
+        "expectedOutput": "1 3",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n1 3 5 7 9\n4",
+        "expectedOutput": "-1 -1",
+        "visibility": "hidden"
+      }
     ],
-    "independenceMilestoneFor": ["binary-search-intro", "sorted-mid-check"],
-    "remedialProblems": ["bs-002"],
-    "skipIfMastered": []
+    "independenceMilestoneFor": [
+      "binary-search-intro",
+      "sorted-mid-check"
+    ],
+    "remedialProblems": [
+      "bs-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "binary-search-boundary-independence"
   },
   {
     "id": "bs-004",
@@ -106,27 +223,65 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["search-insert-position", "lower-bound"],
-    "prerequisiteConcepts": ["binary-search-intro"],
+    "expectedConcepts": [
+      "search-insert-position",
+      "lower-bound"
+    ],
+    "prerequisiteConcepts": [
+      "binary-search-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 15,
     "description": "Given a sorted array and target x, print the index where x should be inserted to keep the array sorted.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n sorted integers", "An integer x"],
-    "outputFormat": ["Print the insertion index"],
-    "edgeCases": ["Insert at front", "Insert at end"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n sorted integers",
+      "An integer x"
+    ],
+    "outputFormat": [
+      "Print the insertion index"
+    ],
+    "edgeCases": [
+      "Insert at front",
+      "Insert at end"
+    ],
     "intendedApproachSummary": "This is exactly the lower-bound position of x.",
-    "wrongApproachHints": ["Do not return -1 when the target is absent.", "The answer is still valid even if x already exists."],
-    "hints": ["Think in terms of the first index where value >= x."],
+    "wrongApproachHints": [
+      "Do not return -1 when the target is absent.",
+      "The answer is still valid even if x already exists."
+    ],
+    "hints": [
+      "Think in terms of the first index where value >= x."
+    ],
     "examples": [
-      { "input": "4\n1 3 5 6\n5", "output": "2", "explanation": "5 already exists at index 2." }
+      {
+        "input": "4\n1 3 5 6\n5",
+        "output": "2",
+        "explanation": "5 already exists at index 2."
+      }
     ],
     "testCases": [
-      { "input": "4\n1 3 5 6\n5", "expectedOutput": "2", "visibility": "sample" },
-      { "input": "4\n1 3 5 6\n2", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "4\n1 3 5 6\n5",
+        "expectedOutput": "2",
+        "visibility": "sample"
+      },
+      {
+        "input": "4\n1 3 5 6\n2",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-002"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "review",
+    "masteryWeight": 0.7,
+    "variantGroup": "binary-search-boundary-review"
   },
   {
     "id": "bs-005",
@@ -136,27 +291,66 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["rotated-array-search", "sorted-mid-check"],
-    "prerequisiteConcepts": ["binary-search-intro"],
+    "expectedConcepts": [
+      "rotated-array-search",
+      "sorted-mid-check"
+    ],
+    "prerequisiteConcepts": [
+      "binary-search-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 22,
     "description": "Given a sorted array rotated at an unknown pivot and a target, print the target index or -1 if absent.",
-    "constraints": ["1 <= n <= 10^5", "All values are distinct"],
-    "inputFormat": ["An integer n", "n rotated sorted integers", "An integer target"],
-    "outputFormat": ["Print the target index or -1"],
-    "edgeCases": ["Pivot near the ends", "Target absent"],
+    "constraints": [
+      "1 <= n <= 10^5",
+      "All values are distinct"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n rotated sorted integers",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Print the target index or -1"
+    ],
+    "edgeCases": [
+      "Pivot near the ends",
+      "Target absent"
+    ],
     "intendedApproachSummary": "At each step one half is sorted. Decide whether the target belongs to that sorted half or the other half.",
-    "wrongApproachHints": ["The whole array is not globally sorted anymore, so plain comparisons are not enough."],
-    "hints": ["Check whether left..mid is sorted or mid..right is sorted.", "Then test whether the target lies inside that sorted interval."],
+    "wrongApproachHints": [
+      "The whole array is not globally sorted anymore, so plain comparisons are not enough."
+    ],
+    "hints": [
+      "Check whether left..mid is sorted or mid..right is sorted.",
+      "Then test whether the target lies inside that sorted interval."
+    ],
     "examples": [
-      { "input": "7\n4 5 6 7 0 1 2\n0", "output": "4", "explanation": "0 appears after the rotation point." }
+      {
+        "input": "7\n4 5 6 7 0 1 2\n0",
+        "output": "4",
+        "explanation": "0 appears after the rotation point."
+      }
     ],
     "testCases": [
-      { "input": "7\n4 5 6 7 0 1 2\n0", "expectedOutput": "4", "visibility": "sample" },
-      { "input": "7\n4 5 6 7 0 1 2\n3", "expectedOutput": "-1", "visibility": "hidden" }
+      {
+        "input": "7\n4 5 6 7 0 1 2\n0",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "7\n4 5 6 7 0 1 2\n3",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "binary-search-rotated-foundation"
   },
   {
     "id": "bs-006",
@@ -166,27 +360,63 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["rotated-array-search"],
-    "prerequisiteConcepts": ["rotated-array-search"],
+    "expectedConcepts": [
+      "rotated-array-search"
+    ],
+    "prerequisiteConcepts": [
+      "rotated-array-search"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 18,
     "description": "Given a rotated sorted array with distinct values, print the minimum value.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n rotated sorted integers"],
-    "outputFormat": ["Print the minimum value"],
-    "edgeCases": ["Array not rotated", "Rotation near the last index"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n rotated sorted integers"
+    ],
+    "outputFormat": [
+      "Print the minimum value"
+    ],
+    "edgeCases": [
+      "Array not rotated",
+      "Rotation near the last index"
+    ],
     "intendedApproachSummary": "Compare nums[mid] with nums[right] to decide which side still contains the minimum.",
-    "wrongApproachHints": ["Do not scan linearly for the minimum.", "The right end comparison is often the cleanest signal."],
-    "hints": ["If nums[mid] <= nums[right], the minimum is at mid or to the left."],
+    "wrongApproachHints": [
+      "Do not scan linearly for the minimum.",
+      "The right end comparison is often the cleanest signal."
+    ],
+    "hints": [
+      "If nums[mid] <= nums[right], the minimum is at mid or to the left."
+    ],
     "examples": [
-      { "input": "5\n3 4 5 1 2", "output": "1", "explanation": "1 is the rotation minimum." }
+      {
+        "input": "5\n3 4 5 1 2",
+        "output": "1",
+        "explanation": "1 is the rotation minimum."
+      }
     ],
     "testCases": [
-      { "input": "5\n3 4 5 1 2", "expectedOutput": "1", "visibility": "sample" },
-      { "input": "5\n1 2 3 4 5", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "5\n3 4 5 1 2",
+        "expectedOutput": "1",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-005"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-005"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "binary-search-rotated-practice"
   },
   {
     "id": "bs-007",
@@ -196,27 +426,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["peak-element"],
-    "prerequisiteConcepts": ["binary-search-intro"],
+    "expectedConcepts": [
+      "peak-element"
+    ],
+    "prerequisiteConcepts": [
+      "binary-search-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 18,
     "description": "Given an array where adjacent elements are never equal, print the index of any peak element.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n integers"],
-    "outputFormat": ["Print the index of any peak"],
-    "edgeCases": ["Peak at the beginning", "Peak at the end"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n integers"
+    ],
+    "outputFormat": [
+      "Print the index of any peak"
+    ],
+    "edgeCases": [
+      "Peak at the beginning",
+      "Peak at the end"
+    ],
     "intendedApproachSummary": "If nums[mid] < nums[mid + 1], a peak exists to the right; otherwise a peak exists to the left or at mid.",
-    "wrongApproachHints": ["You are not searching for an exact value.", "The slope direction tells you where a peak must exist."],
-    "hints": ["Compare mid with mid + 1.", "Use a left < right style loop."],
+    "wrongApproachHints": [
+      "You are not searching for an exact value.",
+      "The slope direction tells you where a peak must exist."
+    ],
+    "hints": [
+      "Compare mid with mid + 1.",
+      "Use a left < right style loop."
+    ],
     "examples": [
-      { "input": "4\n1 2 3 1", "output": "2", "explanation": "3 is a peak at index 2." }
+      {
+        "input": "4\n1 2 3 1",
+        "output": "2",
+        "explanation": "3 is a peak at index 2."
+      }
     ],
     "testCases": [
-      { "input": "4\n1 2 3 1", "expectedOutput": "2", "visibility": "sample" },
-      { "input": "6\n1 2 1 3 5 6", "expectedOutput": "5", "visibility": "hidden", "explanation": "Index 5 is one valid peak for this case." }
+      {
+        "input": "4\n1 2 3 1",
+        "expectedOutput": "2",
+        "visibility": "sample"
+      },
+      {
+        "input": "6\n1 2 1 3 5 6",
+        "expectedOutput": "5",
+        "visibility": "hidden",
+        "explanation": "Index 5 is one valid peak for this case."
+      }
     ],
-    "remedialProblems": ["bs-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "binary-search-peak-practice"
   },
   {
     "id": "bs-008",
@@ -226,27 +494,64 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["answer-binary-search", "sqrt-binary-search"],
-    "prerequisiteConcepts": ["binary-search-intro"],
+    "expectedConcepts": [
+      "answer-binary-search",
+      "sqrt-binary-search"
+    ],
+    "prerequisiteConcepts": [
+      "binary-search-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 16,
     "description": "Given a non-negative integer x, print floor(sqrt(x)).",
-    "constraints": ["0 <= x <= 10^12"],
-    "inputFormat": ["A long integer x"],
-    "outputFormat": ["Print floor(sqrt(x))"],
-    "edgeCases": ["x = 0", "Large x needs long multiplication"],
+    "constraints": [
+      "0 <= x <= 10^12"
+    ],
+    "inputFormat": [
+      "A long integer x"
+    ],
+    "outputFormat": [
+      "Print floor(sqrt(x))"
+    ],
+    "edgeCases": [
+      "x = 0",
+      "Large x needs long multiplication"
+    ],
     "intendedApproachSummary": "Binary search the integer answer range [0, x] and keep the largest mid whose square is <= x.",
-    "wrongApproachHints": ["Be careful about overflow when computing mid * mid.", "Do not return the first square larger than x."],
-    "hints": ["Use long for multiplication.", "Track the best valid answer so far."],
+    "wrongApproachHints": [
+      "Be careful about overflow when computing mid * mid.",
+      "Do not return the first square larger than x."
+    ],
+    "hints": [
+      "Use long for multiplication.",
+      "Track the best valid answer so far."
+    ],
     "examples": [
-      { "input": "17", "output": "4", "explanation": "4^2 = 16 and 5^2 = 25, so the floor square root is 4." }
+      {
+        "input": "17",
+        "output": "4",
+        "explanation": "4^2 = 16 and 5^2 = 25, so the floor square root is 4."
+      }
     ],
     "testCases": [
-      { "input": "17", "expectedOutput": "4", "visibility": "sample" },
-      { "input": "81", "expectedOutput": "9", "visibility": "hidden" }
+      {
+        "input": "17",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "81",
+        "expectedOutput": "9",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "binary-search-answer-foundation"
   },
   {
     "id": "bs-009",
@@ -256,27 +561,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["answer-binary-search", "capacity-search"],
-    "prerequisiteConcepts": ["answer-binary-search"],
+    "expectedConcepts": [
+      "answer-binary-search",
+      "capacity-search"
+    ],
+    "prerequisiteConcepts": [
+      "answer-binary-search"
+    ],
     "expectedComplexity": "O(n log M)",
     "estimatedMinutes": 24,
     "description": "Given piles of bananas and h hours, print the minimum integer speed Koko needs so that she finishes within h hours.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["Two integers n and h", "n pile sizes"],
-    "outputFormat": ["Print the minimum eating speed"],
-    "edgeCases": ["Single pile", "Very large pile sizes"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and h",
+      "n pile sizes"
+    ],
+    "outputFormat": [
+      "Print the minimum eating speed"
+    ],
+    "edgeCases": [
+      "Single pile",
+      "Very large pile sizes"
+    ],
     "intendedApproachSummary": "Binary search the speed. For each speed, compute total hours needed and test if it is feasible.",
-    "wrongApproachHints": ["The speed is the search space, not the array index.", "The feasibility function must be monotonic."],
-    "hints": ["Low can start at 1.", "High can start at the maximum pile size."],
+    "wrongApproachHints": [
+      "The speed is the search space, not the array index.",
+      "The feasibility function must be monotonic."
+    ],
+    "hints": [
+      "Low can start at 1.",
+      "High can start at the maximum pile size."
+    ],
     "examples": [
-      { "input": "4 8\n3 6 7 11", "output": "4", "explanation": "Speed 4 finishes in exactly 8 hours." }
+      {
+        "input": "4 8\n3 6 7 11",
+        "output": "4",
+        "explanation": "Speed 4 finishes in exactly 8 hours."
+      }
     ],
     "testCases": [
-      { "input": "4 8\n3 6 7 11", "expectedOutput": "4", "visibility": "sample" },
-      { "input": "5 5\n30 11 23 4 20", "expectedOutput": "30", "visibility": "hidden" }
+      {
+        "input": "4 8\n3 6 7 11",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 5\n30 11 23 4 20",
+        "expectedOutput": "30",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-008"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-008"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "binary-search-capacity-foundation"
   },
   {
     "id": "bs-010",
@@ -286,27 +629,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["answer-binary-search", "capacity-search"],
-    "prerequisiteConcepts": ["answer-binary-search"],
+    "expectedConcepts": [
+      "answer-binary-search",
+      "capacity-search"
+    ],
+    "prerequisiteConcepts": [
+      "answer-binary-search"
+    ],
     "expectedComplexity": "O(n log S)",
     "estimatedMinutes": 25,
     "description": "Given package weights and D days, print the minimum ship capacity needed to deliver all packages in order within D days.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["Two integers n and D", "n package weights"],
-    "outputFormat": ["Print the minimum capacity"],
-    "edgeCases": ["Capacity must be at least the heaviest package", "All packages in one day"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and D",
+      "n package weights"
+    ],
+    "outputFormat": [
+      "Print the minimum capacity"
+    ],
+    "edgeCases": [
+      "Capacity must be at least the heaviest package",
+      "All packages in one day"
+    ],
     "intendedApproachSummary": "Binary search the capacity and simulate how many days that capacity requires.",
-    "wrongApproachHints": ["The answer is not an index in the array.", "Your helper should count days greedily in order."],
-    "hints": ["Low starts at max(weight).", "High starts at sum(weight)."],
+    "wrongApproachHints": [
+      "The answer is not an index in the array.",
+      "Your helper should count days greedily in order."
+    ],
+    "hints": [
+      "Low starts at max(weight).",
+      "High starts at sum(weight)."
+    ],
     "examples": [
-      { "input": "5 3\n1 2 3 1 1", "output": "3", "explanation": "Capacity 3 is enough to ship in 3 days." }
+      {
+        "input": "5 3\n1 2 3 1 1",
+        "output": "3",
+        "explanation": "Capacity 3 is enough to ship in 3 days."
+      }
     ],
     "testCases": [
-      { "input": "5 3\n1 2 3 1 1", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "6 3\n3 2 2 4 1 4", "expectedOutput": "6", "visibility": "hidden" }
+      {
+        "input": "5 3\n1 2 3 1 1",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "6 3\n3 2 2 4 1 4",
+        "expectedOutput": "6",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-009"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-009"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "binary-search-capacity-practice"
   },
   {
     "id": "bs-011",
@@ -316,27 +697,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["answer-binary-search", "capacity-search"],
-    "prerequisiteConcepts": ["answer-binary-search"],
+    "expectedConcepts": [
+      "answer-binary-search",
+      "capacity-search"
+    ],
+    "prerequisiteConcepts": [
+      "answer-binary-search"
+    ],
     "expectedComplexity": "O(n log M)",
     "estimatedMinutes": 26,
     "description": "Given bloom days, m bouquets, and k adjacent flowers per bouquet, print the minimum day needed, or -1 if impossible.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["Three integers n, m, k", "n bloom days"],
-    "outputFormat": ["Print the minimum feasible day or -1"],
-    "edgeCases": ["Not enough flowers overall", "Multiple bouquets need disjoint groups"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Three integers n, m, k",
+      "n bloom days"
+    ],
+    "outputFormat": [
+      "Print the minimum feasible day or -1"
+    ],
+    "edgeCases": [
+      "Not enough flowers overall",
+      "Multiple bouquets need disjoint groups"
+    ],
     "intendedApproachSummary": "Binary search the day and greedily count how many bouquets can be formed by that day.",
-    "wrongApproachHints": ["The feasibility helper should reset the consecutive flower count when a flower has not bloomed yet."],
-    "hints": ["If m * k > n, answer is immediately -1.", "Search days between min and max bloom day."],
+    "wrongApproachHints": [
+      "The feasibility helper should reset the consecutive flower count when a flower has not bloomed yet."
+    ],
+    "hints": [
+      "If m * k > n, answer is immediately -1.",
+      "Search days between min and max bloom day."
+    ],
     "examples": [
-      { "input": "5 3 1\n1 10 3 10 2", "output": "3", "explanation": "By day 3, flowers at days 1, 3, and 2 are ready." }
+      {
+        "input": "5 3 1\n1 10 3 10 2",
+        "output": "3",
+        "explanation": "By day 3, flowers at days 1, 3, and 2 are ready."
+      }
     ],
     "testCases": [
-      { "input": "5 3 1\n1 10 3 10 2", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "5 3 2\n1 10 3 10 2", "expectedOutput": "-1", "visibility": "hidden" }
+      {
+        "input": "5 3 1\n1 10 3 10 2",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 3 2\n1 10 3 10 2",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-009"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-009"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "binary-search-capacity-challenge"
   },
   {
     "id": "bs-012",
@@ -346,26 +764,66 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["partition-binary-search"],
-    "prerequisiteConcepts": ["lower-bound", "rotated-array-search"],
+    "expectedConcepts": [
+      "partition-binary-search"
+    ],
+    "prerequisiteConcepts": [
+      "lower-bound",
+      "rotated-array-search"
+    ],
     "expectedComplexity": "O(log(min(n, m)))",
     "estimatedMinutes": 35,
     "description": "Given two sorted arrays, print the median of the combined sorted order.",
-    "constraints": ["0 <= n, m <= 10^5", "n + m >= 1"],
-    "inputFormat": ["Two integers n and m", "n sorted integers", "m sorted integers"],
-    "outputFormat": ["Print the median as a decimal if needed"],
-    "edgeCases": ["One array empty", "Total length even"],
+    "constraints": [
+      "0 <= n, m <= 10^5",
+      "n + m >= 1"
+    ],
+    "inputFormat": [
+      "Two integers n and m",
+      "n sorted integers",
+      "m sorted integers"
+    ],
+    "outputFormat": [
+      "Print the median as a decimal if needed"
+    ],
+    "edgeCases": [
+      "One array empty",
+      "Total length even"
+    ],
     "intendedApproachSummary": "Binary search the partition position in the smaller array so that left partitions contain the correct number of elements and all left values are <= all right values.",
-    "wrongApproachHints": ["Do not merge the arrays fully.", "Always binary search the smaller array for cleaner boundaries."],
-    "hints": ["Define partitions cut1 and cut2.", "Use sentinel values for empty sides."],
+    "wrongApproachHints": [
+      "Do not merge the arrays fully.",
+      "Always binary search the smaller array for cleaner boundaries."
+    ],
+    "hints": [
+      "Define partitions cut1 and cut2.",
+      "Use sentinel values for empty sides."
+    ],
     "examples": [
-      { "input": "2 1\n1 3\n2", "output": "2.0", "explanation": "The merged order is [1, 2, 3], so the median is 2." }
+      {
+        "input": "2 1\n1 3\n2",
+        "output": "2.0",
+        "explanation": "The merged order is [1, 2, 3], so the median is 2."
+      }
     ],
     "testCases": [
-      { "input": "2 1\n1 3\n2", "expectedOutput": "2.0", "visibility": "sample" },
-      { "input": "2 2\n1 2\n3 4", "expectedOutput": "2.5", "visibility": "hidden" }
+      {
+        "input": "2 1\n1 3\n2",
+        "expectedOutput": "2.0",
+        "visibility": "sample"
+      },
+      {
+        "input": "2 2\n1 2\n3 4",
+        "expectedOutput": "2.5",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["bs-010"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "bs-010"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.45,
+    "variantGroup": "binary-search-partition-challenge"
   }
 ]

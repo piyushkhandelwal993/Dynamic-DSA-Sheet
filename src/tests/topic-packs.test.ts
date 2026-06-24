@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { getDefaultTopicId, getTopicMeta, getTopicMetas, getTopicProblems, getTopicRoadmap } from "../services/storage";
+import { ProblemPoolRole } from "../types";
 
 test("topic registry exposes the default topic pack", () => {
   assert.equal(getDefaultTopicId(), "bit-manipulation");
@@ -29,4 +30,21 @@ test("topic registry exposes roadmap metadata", () => {
   assert.ok(getTopicProblems("recursion").length >= 20);
   assert.ok(getTopicProblems("stack").length >= 15);
   assert.ok(getTopicProblems("trees").length >= 12);
+});
+
+test("adaptive pool pilot topics expose healthy role coverage", () => {
+  const pilotTopicIds = ["arrays", "stack", "linked-list", "binary-search"];
+  const requiredRoles: ProblemPoolRole[] = ["core", "practice", "challenge"];
+
+  for (const topicId of pilotTopicIds) {
+    const problems = getTopicProblems(topicId);
+    const roles = new Set(problems.map((problem) => problem.poolRole ?? "core"));
+
+    assert.ok(problems.every((problem) => problem.variantGroup), `${topicId} should assign a variant group to every pilot problem`);
+    assert.ok(problems.every((problem) => typeof problem.masteryWeight === "number"), `${topicId} should assign mastery weights`);
+
+    for (const role of requiredRoles) {
+      assert.equal(roles.has(role), true, `${topicId} should include ${role} pool problems`);
+    }
+  }
 });
