@@ -90,7 +90,7 @@ test("curated problems expose canonical input and output contracts", () => {
 test("catalog test-case coverage meets the release floor", () => {
   const report = buildTestCaseCoverageReport();
 
-  assert.equal(report.totalProblems, 181);
+  assert.equal(report.totalProblems, 187);
   assert.equal(report.executableCoverage, testCaseReleaseFloor.executableCoverage);
   assert.ok(report.hiddenCoverage >= testCaseReleaseFloor.hiddenCoverage);
   assert.equal(report.missingProblems, 0);
