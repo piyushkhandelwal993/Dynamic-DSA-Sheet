@@ -7,35 +7,71 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["dp-intro", "memoization", "tabulation"],
+    "expectedConcepts": [
+      "dp-intro",
+      "memoization",
+      "tabulation"
+    ],
     "prerequisiteConcepts": [],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Given n, print the nth Fibonacci number with F(0) = 0 and F(1) = 1.",
-    "constraints": ["0 <= n <= 45"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Print F(n)"],
-    "edgeCases": ["n = 0", "n = 1"],
+    "constraints": [
+      "0 <= n <= 45"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print F(n)"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1"
+    ],
     "intendedApproachSummary": "Use memoization or tabulation so each Fibonacci state is solved once.",
-    "wrongApproachHints": ["Plain recursion repeats work exponentially.", "This is the standard first DP state-reuse example."],
-    "hints": ["F(n) depends on F(n-1) and F(n-2).", "Store solved values."],
+    "wrongApproachHints": [
+      "Plain recursion repeats work exponentially.",
+      "This is the standard first DP state-reuse example."
+    ],
+    "hints": [
+      "F(n) depends on F(n-1) and F(n-2).",
+      "Store solved values."
+    ],
     "examples": [
-      { "input": "7", "output": "13", "explanation": "The Fibonacci sequence is 0, 1, 1, 2, 3, 5, 8, 13." }
+      {
+        "input": "7",
+        "output": "13",
+        "explanation": "The Fibonacci sequence is 0, 1, 1, 2, 3, 5, 8, 13."
+      }
     ],
     "testCases": [
-      { "input": "7", "expectedOutput": "13", "visibility": "sample" },
-      { "input": "0", "expectedOutput": "0", "visibility": "hidden" }
+      {
+        "input": "7",
+        "expectedOutput": "13",
+        "visibility": "sample"
+      },
+      {
+        "input": "0",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
     ],
     "solutionMode": "guided-function",
     "functionContract": {
       "functionName": "fibonacci",
       "javaSignature": "public int fibonacci(int n)",
       "cppSignature": "int fibonacci(int n)",
-      "providedTypes": ["integer input"],
+      "providedTypes": [
+        "integer input"
+      ],
       "driverStrategy": "dp-fibonacci"
     },
     "remedialProblems": [],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-foundation"
   },
   {
     "id": "dp-002",
@@ -45,28 +81,69 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["dp-intro", "tabulation", "space-optimization"],
-    "prerequisiteConcepts": ["dp-intro"],
+    "expectedConcepts": [
+      "dp-intro",
+      "tabulation",
+      "space-optimization"
+    ],
+    "prerequisiteConcepts": [
+      "dp-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Given n stairs, print the number of distinct ways to climb to the top when you can take 1 or 2 steps at a time.",
-    "constraints": ["1 <= n <= 45"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Print the number of ways"],
-    "edgeCases": ["n = 1", "n = 2"],
+    "constraints": [
+      "1 <= n <= 45"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print the number of ways"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "n = 2"
+    ],
     "intendedApproachSummary": "Ways(n) = ways(n-1) + ways(n-2). This can be solved with a small rolling state.",
-    "wrongApproachHints": ["This is Fibonacci-shaped; a full exponential recursion is unnecessary."],
-    "hints": ["Start from the smallest stair counts.", "Only the last two answers are needed."],
+    "wrongApproachHints": [
+      "This is Fibonacci-shaped; a full exponential recursion is unnecessary."
+    ],
+    "hints": [
+      "Start from the smallest stair counts.",
+      "Only the last two answers are needed."
+    ],
     "examples": [
-      { "input": "4", "output": "5", "explanation": "The 5 ways come from different 1-step and 2-step combinations." }
+      {
+        "input": "4",
+        "output": "5",
+        "explanation": "The 5 ways come from different 1-step and 2-step combinations."
+      }
     ],
     "testCases": [
-      { "input": "4", "expectedOutput": "5", "visibility": "sample" },
-      { "input": "2", "expectedOutput": "2", "visibility": "hidden" }
+      {
+        "input": "4",
+        "expectedOutput": "5",
+        "visibility": "sample"
+      },
+      {
+        "input": "2",
+        "expectedOutput": "2",
+        "visibility": "hidden"
+      }
     ],
-    "independenceMilestoneFor": ["dp-intro", "memoization", "tabulation"],
-    "remedialProblems": ["dp-001"],
-    "skipIfMastered": []
+    "independenceMilestoneFor": [
+      "dp-intro",
+      "memoization",
+      "tabulation"
+    ],
+    "remedialProblems": [
+      "dp-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "dp-foundation-independence"
   },
   {
     "id": "dp-003",
@@ -76,27 +153,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["state-transition", "memoization"],
-    "prerequisiteConcepts": ["dp-intro"],
+    "expectedConcepts": [
+      "state-transition",
+      "memoization"
+    ],
+    "prerequisiteConcepts": [
+      "dp-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given money in houses along a street, print the maximum money you can rob without robbing two adjacent houses.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n space-separated house values"],
-    "outputFormat": ["Print the maximum amount"],
-    "edgeCases": ["Single house", "Two houses"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated house values"
+    ],
+    "outputFormat": [
+      "Print the maximum amount"
+    ],
+    "edgeCases": [
+      "Single house",
+      "Two houses"
+    ],
     "intendedApproachSummary": "At each index, choose between skipping the house or taking it and skipping the previous one.",
-    "wrongApproachHints": ["Greedily taking the larger immediate house can fail.", "This is a take-vs-skip recurrence."],
-    "hints": ["State i depends on i-1 and i-2.", "Memoization or tabulation both work."],
+    "wrongApproachHints": [
+      "Greedily taking the larger immediate house can fail.",
+      "This is a take-vs-skip recurrence."
+    ],
+    "hints": [
+      "State i depends on i-1 and i-2.",
+      "Memoization or tabulation both work."
+    ],
     "examples": [
-      { "input": "5\n2 7 9 3 1", "output": "12", "explanation": "Rob houses with values 2, 9, and 1 for a total of 12." }
+      {
+        "input": "5\n2 7 9 3 1",
+        "output": "12",
+        "explanation": "Rob houses with values 2, 9, and 1 for a total of 12."
+      }
     ],
     "testCases": [
-      { "input": "5\n2 7 9 3 1", "expectedOutput": "12", "visibility": "sample" },
-      { "input": "4\n1 2 3 1", "expectedOutput": "4", "visibility": "hidden" }
+      {
+        "input": "5\n2 7 9 3 1",
+        "expectedOutput": "12",
+        "visibility": "sample"
+      },
+      {
+        "input": "4\n1 2 3 1",
+        "expectedOutput": "4",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-002"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-1d-foundation"
   },
   {
     "id": "dp-004",
@@ -106,27 +221,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["tabulation", "state-transition"],
-    "prerequisiteConcepts": ["state-transition"],
+    "expectedConcepts": [
+      "tabulation",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "state-transition"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 18,
     "description": "Given an array, print the maximum possible sum of elements such that no two chosen elements are adjacent.",
-    "constraints": ["1 <= n <= 10^5", "-10^4 <= arr[i] <= 10^4"],
-    "inputFormat": ["An integer n", "n space-separated integers"],
-    "outputFormat": ["Print the maximum sum"],
-    "edgeCases": ["Negative values", "Single element"],
+    "constraints": [
+      "1 <= n <= 10^5",
+      "-10^4 <= arr[i] <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the maximum sum"
+    ],
+    "edgeCases": [
+      "Negative values",
+      "Single element"
+    ],
     "intendedApproachSummary": "Fill dp[i] as the best answer up to index i using take or skip logic.",
-    "wrongApproachHints": ["This is closely related to House Robber but with general integers."],
-    "hints": ["dp[i] = max(dp[i-1], arr[i] + dp[i-2])."],
+    "wrongApproachHints": [
+      "This is closely related to House Robber but with general integers."
+    ],
+    "hints": [
+      "dp[i] = max(dp[i-1], arr[i] + dp[i-2])."
+    ],
     "examples": [
-      { "input": "5\n3 2 7 10 12", "output": "22", "explanation": "Choose 3, 7, and 12." }
+      {
+        "input": "5\n3 2 7 10 12",
+        "output": "22",
+        "explanation": "Choose 3, 7, and 12."
+      }
     ],
     "testCases": [
-      { "input": "5\n3 2 7 10 12", "expectedOutput": "22", "visibility": "sample" },
-      { "input": "1\n9", "expectedOutput": "9", "visibility": "hidden" }
+      {
+        "input": "5\n3 2 7 10 12",
+        "expectedOutput": "22",
+        "visibility": "sample"
+      },
+      {
+        "input": "1\n9",
+        "expectedOutput": "9",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-003"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-003"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "dp-1d-practice"
   },
   {
     "id": "dp-005",
@@ -136,27 +288,63 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["state-transition", "space-optimization"],
-    "prerequisiteConcepts": ["tabulation"],
+    "expectedConcepts": [
+      "state-transition",
+      "space-optimization"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 18,
     "description": "Given the cost of stepping on each stair, print the minimum cost to reach just beyond the top when you may climb 1 or 2 steps at a time.",
-    "constraints": ["2 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n space-separated costs"],
-    "outputFormat": ["Print the minimum cost"],
-    "edgeCases": ["Starting from either stair 0 or stair 1"],
+    "constraints": [
+      "2 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated costs"
+    ],
+    "outputFormat": [
+      "Print the minimum cost"
+    ],
+    "edgeCases": [
+      "Starting from either stair 0 or stair 1"
+    ],
     "intendedApproachSummary": "The minimum cost for stair i depends on the cheaper of the previous two states plus cost[i].",
-    "wrongApproachHints": ["Greedy local choice does not always lead to the optimal total."],
-    "hints": ["You can start from index 0 or 1.", "Only the last two costs are needed."],
+    "wrongApproachHints": [
+      "Greedy local choice does not always lead to the optimal total."
+    ],
+    "hints": [
+      "You can start from index 0 or 1.",
+      "Only the last two costs are needed."
+    ],
     "examples": [
-      { "input": "3\n10 15 20", "output": "15", "explanation": "Start at stair 1, pay 15, and jump to the top." }
+      {
+        "input": "3\n10 15 20",
+        "output": "15",
+        "explanation": "Start at stair 1, pay 15, and jump to the top."
+      }
     ],
     "testCases": [
-      { "input": "3\n10 15 20", "expectedOutput": "15", "visibility": "sample" },
-      { "input": "10\n1 100 1 1 1 100 1 1 100 1", "expectedOutput": "6", "visibility": "hidden" }
+      {
+        "input": "3\n10 15 20",
+        "expectedOutput": "15",
+        "visibility": "sample"
+      },
+      {
+        "input": "10\n1 100 1 1 1 100 1 1 100 1",
+        "expectedOutput": "6",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-002"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "dp-1d-practice"
   },
   {
     "id": "dp-006",
@@ -166,27 +354,63 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["grid-dp", "tabulation"],
-    "prerequisiteConcepts": ["tabulation"],
+    "expectedConcepts": [
+      "grid-dp",
+      "tabulation"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation"
+    ],
     "expectedComplexity": "O(n * m)",
     "estimatedMinutes": 20,
     "description": "Given an n x m grid, print the number of unique paths from top-left to bottom-right when you may move only right or down.",
-    "constraints": ["1 <= n, m <= 200"],
-    "inputFormat": ["Two integers n and m"],
-    "outputFormat": ["Print the number of unique paths"],
-    "edgeCases": ["Single row", "Single column"],
+    "constraints": [
+      "1 <= n, m <= 200"
+    ],
+    "inputFormat": [
+      "Two integers n and m"
+    ],
+    "outputFormat": [
+      "Print the number of unique paths"
+    ],
+    "edgeCases": [
+      "Single row",
+      "Single column"
+    ],
     "intendedApproachSummary": "Each cell gets paths from the top cell and left cell.",
-    "wrongApproachHints": ["Brute force recursion is too slow for bigger grids."],
-    "hints": ["Initialize the first row and first column carefully.", "Transition is dp[i][j] = dp[i-1][j] + dp[i][j-1]."],
+    "wrongApproachHints": [
+      "Brute force recursion is too slow for bigger grids."
+    ],
+    "hints": [
+      "Initialize the first row and first column carefully.",
+      "Transition is dp[i][j] = dp[i-1][j] + dp[i][j-1]."
+    ],
     "examples": [
-      { "input": "3 7", "output": "28", "explanation": "There are 28 distinct right/down paths." }
+      {
+        "input": "3 7",
+        "output": "28",
+        "explanation": "There are 28 distinct right/down paths."
+      }
     ],
     "testCases": [
-      { "input": "3 7", "expectedOutput": "28", "visibility": "sample" },
-      { "input": "1 5", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "3 7",
+        "expectedOutput": "28",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 5",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-grid-foundation"
   },
   {
     "id": "dp-007",
@@ -196,27 +420,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["grid-dp", "space-optimization"],
-    "prerequisiteConcepts": ["grid-dp"],
+    "expectedConcepts": [
+      "grid-dp",
+      "space-optimization"
+    ],
+    "prerequisiteConcepts": [
+      "grid-dp"
+    ],
     "expectedComplexity": "O(n * m)",
     "estimatedMinutes": 22,
     "description": "Given an n x m grid of non-negative integers, print the minimum path sum from top-left to bottom-right when moving only right or down.",
-    "constraints": ["1 <= n, m <= 200"],
-    "inputFormat": ["Two integers n and m", "n rows of m integers"],
-    "outputFormat": ["Print the minimum path sum"],
-    "edgeCases": ["Single row", "Single column"],
+    "constraints": [
+      "1 <= n, m <= 200"
+    ],
+    "inputFormat": [
+      "Two integers n and m",
+      "n rows of m integers"
+    ],
+    "outputFormat": [
+      "Print the minimum path sum"
+    ],
+    "edgeCases": [
+      "Single row",
+      "Single column"
+    ],
     "intendedApproachSummary": "DP state at each cell is its value plus the smaller of top and left path sums.",
-    "wrongApproachHints": ["Greedy local choice is not enough because future path costs matter."],
-    "hints": ["Use a large sentinel for unavailable directions.", "This can be reduced to one rolling row."],
+    "wrongApproachHints": [
+      "Greedy local choice is not enough because future path costs matter."
+    ],
+    "hints": [
+      "Use a large sentinel for unavailable directions.",
+      "This can be reduced to one rolling row."
+    ],
     "examples": [
-      { "input": "3 3\n1 3 1\n1 5 1\n4 2 1", "output": "7", "explanation": "The minimum path is 1 -> 3 -> 1 -> 1 -> 1." }
+      {
+        "input": "3 3\n1 3 1\n1 5 1\n4 2 1",
+        "output": "7",
+        "explanation": "The minimum path is 1 -> 3 -> 1 -> 1 -> 1."
+      }
     ],
     "testCases": [
-      { "input": "3 3\n1 3 1\n1 5 1\n4 2 1", "expectedOutput": "7", "visibility": "sample" },
-      { "input": "2 3\n1 2 3\n4 5 6", "expectedOutput": "12", "visibility": "hidden" }
+      {
+        "input": "3 3\n1 3 1\n1 5 1\n4 2 1",
+        "expectedOutput": "7",
+        "visibility": "sample"
+      },
+      {
+        "input": "2 3\n1 2 3\n4 5 6",
+        "expectedOutput": "12",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-006"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-006"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "dp-grid-practice"
   },
   {
     "id": "dp-008",
@@ -226,27 +487,66 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["knapsack-dp", "state-transition"],
-    "prerequisiteConcepts": ["tabulation"],
+    "expectedConcepts": [
+      "knapsack-dp",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation"
+    ],
     "expectedComplexity": "O(n * target)",
     "estimatedMinutes": 24,
     "description": "Given an array and target sum K, print Yes if a subset sums to K, otherwise No.",
-    "constraints": ["1 <= n <= 200", "0 <= K <= 2000"],
-    "inputFormat": ["Two integers n and K", "n space-separated integers"],
-    "outputFormat": ["Print Yes or No"],
-    "edgeCases": ["K = 0", "All numbers larger than K"],
+    "constraints": [
+      "1 <= n <= 200",
+      "0 <= K <= 2000"
+    ],
+    "inputFormat": [
+      "Two integers n and K",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print Yes or No"
+    ],
+    "edgeCases": [
+      "K = 0",
+      "All numbers larger than K"
+    ],
     "intendedApproachSummary": "Take-or-skip DP over index and current target.",
-    "wrongApproachHints": ["This is not a greedy pick-largest-first problem.", "Every item has a skip branch too."],
-    "hints": ["Base: target 0 is always possible.", "Transition from previous row or smaller target."],
+    "wrongApproachHints": [
+      "This is not a greedy pick-largest-first problem.",
+      "Every item has a skip branch too."
+    ],
+    "hints": [
+      "Base: target 0 is always possible.",
+      "Transition from previous row or smaller target."
+    ],
     "examples": [
-      { "input": "6 9\n3 34 4 12 5 2", "output": "Yes", "explanation": "Subset 4 + 5 reaches 9." }
+      {
+        "input": "6 9\n3 34 4 12 5 2",
+        "output": "Yes",
+        "explanation": "Subset 4 + 5 reaches 9."
+      }
     ],
     "testCases": [
-      { "input": "6 9\n3 34 4 12 5 2", "expectedOutput": "Yes", "visibility": "sample" },
-      { "input": "4 30\n1 2 3 4", "expectedOutput": "No", "visibility": "hidden" }
+      {
+        "input": "6 9\n3 34 4 12 5 2",
+        "expectedOutput": "Yes",
+        "visibility": "sample"
+      },
+      {
+        "input": "4 30\n1 2 3 4",
+        "expectedOutput": "No",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-004"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-004"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-knapsack-foundation"
   },
   {
     "id": "dp-009",
@@ -256,27 +556,67 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["knapsack-dp", "tabulation"],
-    "prerequisiteConcepts": ["knapsack-dp"],
+    "expectedConcepts": [
+      "knapsack-dp",
+      "tabulation"
+    ],
+    "prerequisiteConcepts": [
+      "knapsack-dp"
+    ],
     "expectedComplexity": "O(n * W)",
     "estimatedMinutes": 26,
     "description": "Given weights, values, and capacity W, print the maximum value obtainable by taking each item at most once.",
-    "constraints": ["1 <= n <= 200", "1 <= W <= 2000"],
-    "inputFormat": ["Two integers n and W", "n weights", "n values"],
-    "outputFormat": ["Print the maximum total value"],
-    "edgeCases": ["Capacity smaller than all items", "Exact fill not required"],
+    "constraints": [
+      "1 <= n <= 200",
+      "1 <= W <= 2000"
+    ],
+    "inputFormat": [
+      "Two integers n and W",
+      "n weights",
+      "n values"
+    ],
+    "outputFormat": [
+      "Print the maximum total value"
+    ],
+    "edgeCases": [
+      "Capacity smaller than all items",
+      "Exact fill not required"
+    ],
     "intendedApproachSummary": "For each item, choose between not taking it or taking it if capacity allows.",
-    "wrongApproachHints": ["This is 0/1 knapsack, so an item cannot be reused.", "A ratio-based greedy method is not correct here."],
-    "hints": ["Transition from previous item row.", "Take branch uses capacity - weight[i]."],
+    "wrongApproachHints": [
+      "This is 0/1 knapsack, so an item cannot be reused.",
+      "A ratio-based greedy method is not correct here."
+    ],
+    "hints": [
+      "Transition from previous item row.",
+      "Take branch uses capacity - weight[i]."
+    ],
     "examples": [
-      { "input": "3 50\n10 20 30\n60 100 120", "output": "220", "explanation": "Taking items 20 and 30 yields the best value 220." }
+      {
+        "input": "3 50\n10 20 30\n60 100 120",
+        "output": "220",
+        "explanation": "Taking items 20 and 30 yields the best value 220."
+      }
     ],
     "testCases": [
-      { "input": "3 50\n10 20 30\n60 100 120", "expectedOutput": "220", "visibility": "sample" },
-      { "input": "3 5\n4 5 1\n1 2 3", "expectedOutput": "4", "visibility": "hidden" }
+      {
+        "input": "3 50\n10 20 30\n60 100 120",
+        "expectedOutput": "220",
+        "visibility": "sample"
+      },
+      {
+        "input": "3 5\n4 5 1\n1 2 3",
+        "expectedOutput": "4",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-008"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-008"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "dp-knapsack-practice"
   },
   {
     "id": "dp-010",
@@ -286,27 +626,66 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["knapsack-dp", "state-transition"],
-    "prerequisiteConcepts": ["knapsack-dp"],
+    "expectedConcepts": [
+      "knapsack-dp",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "knapsack-dp"
+    ],
     "expectedComplexity": "O(n * amount)",
     "estimatedMinutes": 24,
     "description": "Given coin denominations and an amount, print the minimum number of coins needed to make the amount, or -1 if impossible.",
-    "constraints": ["1 <= n <= 100", "0 <= amount <= 10^4"],
-    "inputFormat": ["Two integers n and amount", "n coin values"],
-    "outputFormat": ["Print the minimum number of coins or -1"],
-    "edgeCases": ["amount = 0", "No combination possible"],
+    "constraints": [
+      "1 <= n <= 100",
+      "0 <= amount <= 10^4"
+    ],
+    "inputFormat": [
+      "Two integers n and amount",
+      "n coin values"
+    ],
+    "outputFormat": [
+      "Print the minimum number of coins or -1"
+    ],
+    "edgeCases": [
+      "amount = 0",
+      "No combination possible"
+    ],
     "intendedApproachSummary": "DP over amounts where dp[x] is the best answer using all available coin choices.",
-    "wrongApproachHints": ["Greedy biggest-coin-first fails for many coin systems.", "Use a large sentinel for unreachable states."],
-    "hints": ["dp[0] = 0.", "Try every coin as the last coin used."],
+    "wrongApproachHints": [
+      "Greedy biggest-coin-first fails for many coin systems.",
+      "Use a large sentinel for unreachable states."
+    ],
+    "hints": [
+      "dp[0] = 0.",
+      "Try every coin as the last coin used."
+    ],
     "examples": [
-      { "input": "3 11\n1 2 5", "output": "3", "explanation": "11 = 5 + 5 + 1 uses 3 coins." }
+      {
+        "input": "3 11\n1 2 5",
+        "output": "3",
+        "explanation": "11 = 5 + 5 + 1 uses 3 coins."
+      }
     ],
     "testCases": [
-      { "input": "3 11\n1 2 5", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "1 3\n2", "expectedOutput": "-1", "visibility": "hidden" }
+      {
+        "input": "3 11\n1 2 5",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 3\n2",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-008"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-008"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.15,
+    "variantGroup": "dp-knapsack-challenge"
   },
   {
     "id": "dp-011",
@@ -316,27 +695,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["lis-dp", "state-transition"],
-    "prerequisiteConcepts": ["tabulation"],
+    "expectedConcepts": [
+      "lis-dp",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation"
+    ],
     "expectedComplexity": "O(n^2)",
     "estimatedMinutes": 25,
     "description": "Given an array, print the length of the longest strictly increasing subsequence.",
-    "constraints": ["1 <= n <= 2500"],
-    "inputFormat": ["An integer n", "n space-separated integers"],
-    "outputFormat": ["Print the LIS length"],
-    "edgeCases": ["All equal values", "Strictly decreasing array"],
+    "constraints": [
+      "1 <= n <= 2500"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the LIS length"
+    ],
+    "edgeCases": [
+      "All equal values",
+      "Strictly decreasing array"
+    ],
     "intendedApproachSummary": "dp[i] stores the LIS ending at i. Extend from previous smaller values.",
-    "wrongApproachHints": ["A contiguous subarray is not the same as a subsequence.", "Initialize every dp[i] to 1."],
-    "hints": ["For each i, check all j < i.", "If nums[j] < nums[i], try dp[j] + 1."],
+    "wrongApproachHints": [
+      "A contiguous subarray is not the same as a subsequence.",
+      "Initialize every dp[i] to 1."
+    ],
+    "hints": [
+      "For each i, check all j < i.",
+      "If nums[j] < nums[i], try dp[j] + 1."
+    ],
     "examples": [
-      { "input": "8\n10 9 2 5 3 7 101 18", "output": "4", "explanation": "One LIS is 2, 3, 7, 101." }
+      {
+        "input": "8\n10 9 2 5 3 7 101 18",
+        "output": "4",
+        "explanation": "One LIS is 2, 3, 7, 101."
+      }
     ],
     "testCases": [
-      { "input": "8\n10 9 2 5 3 7 101 18", "expectedOutput": "4", "visibility": "sample" },
-      { "input": "4\n4 3 2 1", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "8\n10 9 2 5 3 7 101 18",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "4\n4 3 2 1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-004"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-004"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-sequence-foundation"
   },
   {
     "id": "dp-012",
@@ -346,27 +763,64 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["lis-dp"],
-    "prerequisiteConcepts": ["lis-dp"],
+    "expectedConcepts": [
+      "lis-dp"
+    ],
+    "prerequisiteConcepts": [
+      "lis-dp"
+    ],
     "expectedComplexity": "O(n^2)",
     "estimatedMinutes": 28,
     "description": "Given an array, print the length of the longest subsequence that first increases and then decreases.",
-    "constraints": ["1 <= n <= 2500"],
-    "inputFormat": ["An integer n", "n space-separated integers"],
-    "outputFormat": ["Print the longest bitonic subsequence length"],
-    "edgeCases": ["Purely increasing array", "Purely decreasing array"],
+    "constraints": [
+      "1 <= n <= 2500"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the longest bitonic subsequence length"
+    ],
+    "edgeCases": [
+      "Purely increasing array",
+      "Purely decreasing array"
+    ],
     "intendedApproachSummary": "Compute LIS ending at each position and LDS starting at each position, then combine them.",
-    "wrongApproachHints": ["You need two DP passes, not one.", "Subtract 1 when combining because the peak gets counted twice."],
-    "hints": ["Run LIS left to right.", "Run LIS-like logic right to left for decreasing part."],
+    "wrongApproachHints": [
+      "You need two DP passes, not one.",
+      "Subtract 1 when combining because the peak gets counted twice."
+    ],
+    "hints": [
+      "Run LIS left to right.",
+      "Run LIS-like logic right to left for decreasing part."
+    ],
     "examples": [
-      { "input": "8\n1 11 2 10 4 5 2 1", "output": "6", "explanation": "One bitonic subsequence is 1, 2, 10, 4, 2, 1." }
+      {
+        "input": "8\n1 11 2 10 4 5 2 1",
+        "output": "6",
+        "explanation": "One bitonic subsequence is 1, 2, 10, 4, 2, 1."
+      }
     ],
     "testCases": [
-      { "input": "8\n1 11 2 10 4 5 2 1", "expectedOutput": "6", "visibility": "sample" },
-      { "input": "5\n1 2 3 4 5", "expectedOutput": "5", "visibility": "hidden" }
+      {
+        "input": "8\n1 11 2 10 4 5 2 1",
+        "expectedOutput": "6",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "expectedOutput": "5",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-011"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-011"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "dp-sequence-challenge"
   },
   {
     "id": "dp-013",
@@ -376,27 +830,65 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["string-dp", "tabulation"],
-    "prerequisiteConcepts": ["grid-dp"],
+    "expectedConcepts": [
+      "string-dp",
+      "tabulation"
+    ],
+    "prerequisiteConcepts": [
+      "grid-dp"
+    ],
     "expectedComplexity": "O(n * m)",
     "estimatedMinutes": 26,
     "description": "Given two strings, print the length of their longest common subsequence.",
-    "constraints": ["1 <= n, m <= 1000"],
-    "inputFormat": ["A string a", "A string b"],
-    "outputFormat": ["Print the LCS length"],
-    "edgeCases": ["No common characters", "One string fully contained as subsequence"],
+    "constraints": [
+      "1 <= n, m <= 1000"
+    ],
+    "inputFormat": [
+      "A string a",
+      "A string b"
+    ],
+    "outputFormat": [
+      "Print the LCS length"
+    ],
+    "edgeCases": [
+      "No common characters",
+      "One string fully contained as subsequence"
+    ],
     "intendedApproachSummary": "Build dp over prefixes. Match characters by taking diagonal + 1, otherwise take the best of top and left.",
-    "wrongApproachHints": ["Substring and subsequence are different.", "You need an extra base row and column."],
-    "hints": ["If chars match, use dp[i-1][j-1] + 1.", "Else take max(dp[i-1][j], dp[i][j-1])."],
+    "wrongApproachHints": [
+      "Substring and subsequence are different.",
+      "You need an extra base row and column."
+    ],
+    "hints": [
+      "If chars match, use dp[i-1][j-1] + 1.",
+      "Else take max(dp[i-1][j], dp[i][j-1])."
+    ],
     "examples": [
-      { "input": "abcde\nace", "output": "3", "explanation": "ace is a common subsequence of length 3." }
+      {
+        "input": "abcde\nace",
+        "output": "3",
+        "explanation": "ace is a common subsequence of length 3."
+      }
     ],
     "testCases": [
-      { "input": "abcde\nace", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "abc\ndef", "expectedOutput": "0", "visibility": "hidden" }
+      {
+        "input": "abcde\nace",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "abc\ndef",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-006"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-006"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "dp-string-foundation"
   },
   {
     "id": "dp-014",
@@ -406,27 +898,64 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["string-dp", "state-transition"],
-    "prerequisiteConcepts": ["string-dp"],
+    "expectedConcepts": [
+      "string-dp",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "string-dp"
+    ],
     "expectedComplexity": "O(n * m)",
     "estimatedMinutes": 30,
     "description": "Given two strings, print the minimum number of insertions, deletions, and replacements required to convert the first string into the second.",
-    "constraints": ["1 <= n, m <= 500"],
-    "inputFormat": ["A string word1", "A string word2"],
-    "outputFormat": ["Print the edit distance"],
-    "edgeCases": ["One string empty", "Strings already equal"],
+    "constraints": [
+      "1 <= n, m <= 500"
+    ],
+    "inputFormat": [
+      "A string word1",
+      "A string word2"
+    ],
+    "outputFormat": [
+      "Print the edit distance"
+    ],
+    "edgeCases": [
+      "One string empty",
+      "Strings already equal"
+    ],
     "intendedApproachSummary": "Use DP over prefixes with transitions for insert, delete, and replace when characters differ.",
-    "wrongApproachHints": ["Do not confuse this with LCS directly; the operations have explicit costs."],
-    "hints": ["Base row/column represent converting to or from empty strings.", "If chars match, carry the diagonal value."],
+    "wrongApproachHints": [
+      "Do not confuse this with LCS directly; the operations have explicit costs."
+    ],
+    "hints": [
+      "Base row/column represent converting to or from empty strings.",
+      "If chars match, carry the diagonal value."
+    ],
     "examples": [
-      { "input": "horse\nros", "output": "3", "explanation": "horse -> rorse -> rose -> ros." }
+      {
+        "input": "horse\nros",
+        "output": "3",
+        "explanation": "horse -> rorse -> rose -> ros."
+      }
     ],
     "testCases": [
-      { "input": "horse\nros", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "intention\nexecution", "expectedOutput": "5", "visibility": "hidden" }
+      {
+        "input": "horse\nros",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "intention\nexecution",
+        "expectedOutput": "5",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-013"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-013"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "dp-string-challenge"
   },
   {
     "id": "dp-015",
@@ -436,26 +965,63 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["interval-dp"],
-    "prerequisiteConcepts": ["tabulation", "state-transition"],
+    "expectedConcepts": [
+      "interval-dp"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation",
+      "state-transition"
+    ],
     "expectedComplexity": "O(n^3)",
     "estimatedMinutes": 35,
     "description": "Given matrix dimensions arr where the ith matrix has size arr[i-1] x arr[i], print the minimum scalar multiplications needed to multiply the full chain.",
-    "constraints": ["2 <= n <= 200"],
-    "inputFormat": ["An integer n", "n space-separated dimensions"],
-    "outputFormat": ["Print the minimum multiplication cost"],
-    "edgeCases": ["Only one matrix means cost 0"],
+    "constraints": [
+      "2 <= n <= 200"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated dimensions"
+    ],
+    "outputFormat": [
+      "Print the minimum multiplication cost"
+    ],
+    "edgeCases": [
+      "Only one matrix means cost 0"
+    ],
     "intendedApproachSummary": "DP over intervals. For every chain [i, j], try every split k and keep the minimum total cost.",
-    "wrongApproachHints": ["Multiplying from left to right greedily is not always optimal.", "Interval length order matters."],
-    "hints": ["dp[i][i] = 0.", "Transition uses dp[i][k] + dp[k+1][j] + arr[i-1]*arr[k]*arr[j]."],
+    "wrongApproachHints": [
+      "Multiplying from left to right greedily is not always optimal.",
+      "Interval length order matters."
+    ],
+    "hints": [
+      "dp[i][i] = 0.",
+      "Transition uses dp[i][k] + dp[k+1][j] + arr[i-1]*arr[k]*arr[j]."
+    ],
     "examples": [
-      { "input": "5\n40 20 30 10 30", "output": "26000", "explanation": "The best parenthesization yields cost 26000." }
+      {
+        "input": "5\n40 20 30 10 30",
+        "output": "26000",
+        "explanation": "The best parenthesization yields cost 26000."
+      }
     ],
     "testCases": [
-      { "input": "5\n40 20 30 10 30", "expectedOutput": "26000", "visibility": "sample" },
-      { "input": "3\n10 20 30", "expectedOutput": "6000", "visibility": "hidden" }
+      {
+        "input": "5\n40 20 30 10 30",
+        "expectedOutput": "26000",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n10 20 30",
+        "expectedOutput": "6000",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["dp-014"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "dp-014"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.4,
+    "variantGroup": "dp-interval-challenge"
   }
 ]

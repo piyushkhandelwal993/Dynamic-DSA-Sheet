@@ -7,19 +7,44 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["recursion-intro", "base-case"],
+    "expectedConcepts": [
+      "recursion-intro",
+      "base-case"
+    ],
     "prerequisiteConcepts": [],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 10,
     "description": "Given a name and a positive integer n, print the name exactly n times using recursion.",
-    "constraints": ["1 <= n <= 1000"],
-    "inputFormat": ["A string name", "An integer n"],
-    "outputFormat": ["Print the name on n lines"],
-    "edgeCases": ["n = 1"],
+    "constraints": [
+      "1 <= n <= 1000"
+    ],
+    "inputFormat": [
+      "A string name",
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print the name on n lines"
+    ],
+    "edgeCases": [
+      "n = 1"
+    ],
     "intendedApproachSummary": "Stop when the printed count reaches n. Otherwise print once and recurse on the smaller remaining count.",
-    "wrongApproachHints": ["If you use a loop, you miss the point of the exercise.", "Make sure the recursive call moves toward the base case."],
-    "hints": ["Think about what the function should do once.", "Reduce the remaining count by 1.", "Stop when no prints remain."],
-    "examples": [{"input": "Alex, 3", "output": "Alex\nAlex\nAlex", "explanation": "The function prints Alex once per recursive call until the count becomes 0."}],
+    "wrongApproachHints": [
+      "If you use a loop, you miss the point of the exercise.",
+      "Make sure the recursive call moves toward the base case."
+    ],
+    "hints": [
+      "Think about what the function should do once.",
+      "Reduce the remaining count by 1.",
+      "Stop when no prints remain."
+    ],
+    "examples": [
+      {
+        "input": "Alex, 3",
+        "output": "Alex\nAlex\nAlex",
+        "explanation": "The function prints Alex once per recursive call until the count becomes 0."
+      }
+    ],
     "testCases": [
       {
         "input": "Alex\n3",
@@ -33,7 +58,10 @@
       }
     ],
     "remedialProblems": [],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "recursion-foundation"
   },
   {
     "id": "rec-002",
@@ -43,21 +71,52 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["parameterized-recursion", "base-case"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "parameterized-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 10,
     "description": "Print all integers from 1 to n using recursion.",
-    "constraints": ["1 <= n <= 10^4"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Print numbers from 1 to n in increasing order"],
-    "edgeCases": ["n = 1"],
+    "constraints": [
+      "1 <= n <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print numbers from 1 to n in increasing order"
+    ],
+    "edgeCases": [
+      "n = 1"
+    ],
     "intendedApproachSummary": "Carry the current number as a parameter. Print it, then recurse with the next value until the current number passes n.",
-    "wrongApproachHints": ["Printing after the recursive call changes the order.", "Do not forget to stop once the current value exceeds n."],
-    "hints": ["Use a helper with the current index.", "Base case should stop after n.", "Decide whether to print before or after recursion based on order."],
-    "examples": [{"input": "5", "output": "1 2 3 4 5", "explanation": "Each call prints one value and moves to the next integer."}],
-    "remedialProblems": ["rec-001"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Printing after the recursive call changes the order.",
+      "Do not forget to stop once the current value exceeds n."
+    ],
+    "hints": [
+      "Use a helper with the current index.",
+      "Base case should stop after n.",
+      "Decide whether to print before or after recursion based on order."
+    ],
+    "examples": [
+      {
+        "input": "5",
+        "output": "1 2 3 4 5",
+        "explanation": "Each call prints one value and moves to the next integer."
+      }
+    ],
+    "remedialProblems": [
+      "rec-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.8,
+    "variantGroup": "recursion-parameter-practice"
   },
   {
     "id": "rec-003",
@@ -67,19 +126,45 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "base-case"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 10,
     "description": "Return the factorial of n using recursion.",
-    "constraints": ["0 <= n <= 12"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return n!"],
-    "edgeCases": ["n = 0", "n = 1"],
+    "constraints": [
+      "0 <= n <= 12"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return n!"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1"
+    ],
     "intendedApproachSummary": "Use the identity n! = n * (n - 1)! with a base case of 0! = 1 and 1! = 1.",
-    "wrongApproachHints": ["If you forget the base case, the recursion never stops.", "Return the recursive result after multiplying by n."],
-    "hints": ["What is the smallest factorial you already know?", "Reduce n by 1 each time."],
-    "examples": [{"input": "5", "output": "120", "explanation": "5! = 5 * 4 * 3 * 2 * 1."}],
+    "wrongApproachHints": [
+      "If you forget the base case, the recursion never stops.",
+      "Return the recursive result after multiplying by n."
+    ],
+    "hints": [
+      "What is the smallest factorial you already know?",
+      "Reduce n by 1 each time."
+    ],
+    "examples": [
+      {
+        "input": "5",
+        "output": "120",
+        "explanation": "5! = 5 * 4 * 3 * 2 * 1."
+      }
+    ],
     "testCases": [
       {
         "input": "5",
@@ -102,11 +187,18 @@
       "functionName": "factorial",
       "javaSignature": "public int factorial(int n)",
       "cppSignature": "int factorial(int n)",
-      "providedTypes": ["integer input"],
+      "providedTypes": [
+        "integer input"
+      ],
       "driverStrategy": "recursion-factorial"
     },
-    "remedialProblems": ["rec-002"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "rec-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "recursion-functional-foundation"
   },
   {
     "id": "rec-004",
@@ -116,21 +208,52 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["parameterized-recursion", "functional-recursion"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "parameterized-recursion",
+      "functional-recursion"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 10,
     "description": "Find the sum of the first n natural numbers using recursion.",
-    "constraints": ["0 <= n <= 10^4"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the sum 1 + 2 + ... + n"],
-    "edgeCases": ["n = 0", "n = 1"],
+    "constraints": [
+      "0 <= n <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the sum 1 + 2 + ... + n"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1"
+    ],
     "intendedApproachSummary": "Either carry the running sum as a parameter or return n + sum(n - 1).",
-    "wrongApproachHints": ["Do not combine both parameterized and functional styles incorrectly.", "A wrong base case will miss 0 or 1."],
-    "hints": ["Try both recursion styles once.", "What should sum(0) return?"],
-    "examples": [{"input": "4", "output": "10", "explanation": "1 + 2 + 3 + 4 = 10."}],
-    "remedialProblems": ["rec-002"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Do not combine both parameterized and functional styles incorrectly.",
+      "A wrong base case will miss 0 or 1."
+    ],
+    "hints": [
+      "Try both recursion styles once.",
+      "What should sum(0) return?"
+    ],
+    "examples": [
+      {
+        "input": "4",
+        "output": "10",
+        "explanation": "1 + 2 + 3 + 4 = 10."
+      }
+    ],
+    "remedialProblems": [
+      "rec-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.85,
+    "variantGroup": "recursion-parameter-practice"
   },
   {
     "id": "rec-005",
@@ -140,21 +263,54 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(b)",
     "estimatedMinutes": 12,
     "description": "Given integers a and b, compute a raised to the power b using recursion.",
-    "constraints": ["-10 <= a <= 10", "0 <= b <= 20"],
-    "inputFormat": ["An integer a", "A non-negative integer b"],
-    "outputFormat": ["Return a^b"],
-    "edgeCases": ["b = 0", "a = 0"],
+    "constraints": [
+      "-10 <= a <= 10",
+      "0 <= b <= 20"
+    ],
+    "inputFormat": [
+      "An integer a",
+      "A non-negative integer b"
+    ],
+    "outputFormat": [
+      "Return a^b"
+    ],
+    "edgeCases": [
+      "b = 0",
+      "a = 0"
+    ],
     "intendedApproachSummary": "Return 1 when the exponent is 0. Otherwise return a multiplied by the result for exponent b - 1.",
-    "wrongApproachHints": ["Returning a when b = 0 is incorrect.", "Make sure the exponent decreases every call."],
-    "hints": ["What is any number to the power 0?", "Build the answer one multiplication at a time."],
-    "examples": [{"input": "2, 5", "output": "32", "explanation": "2^5 = 2 * 2 * 2 * 2 * 2."}],
-    "remedialProblems": ["rec-003"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Returning a when b = 0 is incorrect.",
+      "Make sure the exponent decreases every call."
+    ],
+    "hints": [
+      "What is any number to the power 0?",
+      "Build the answer one multiplication at a time."
+    ],
+    "examples": [
+      {
+        "input": "2, 5",
+        "output": "32",
+        "explanation": "2^5 = 2 * 2 * 2 * 2 * 2."
+      }
+    ],
+    "remedialProblems": [
+      "rec-003"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "recursion-functional-practice"
   },
   {
     "id": "rec-006",
@@ -164,21 +320,52 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["tree-recursion", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "tree-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(2^n)",
     "estimatedMinutes": 15,
     "description": "Return the nth Fibonacci number using plain recursion first, so you can observe repeated calls.",
-    "constraints": ["0 <= n <= 20"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the nth Fibonacci number"],
-    "edgeCases": ["n = 0", "n = 1"],
+    "constraints": [
+      "0 <= n <= 20"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the nth Fibonacci number"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1"
+    ],
     "intendedApproachSummary": "Use fib(n) = fib(n - 1) + fib(n - 2) with base cases for 0 and 1.",
-    "wrongApproachHints": ["Without both base cases the recursion breaks.", "This version is intentionally inefficient to teach tree recursion."],
-    "hints": ["What are the first two Fibonacci numbers?", "Each state branches into two smaller states."],
-    "examples": [{"input": "6", "output": "8", "explanation": "The sequence is 0, 1, 1, 2, 3, 5, 8."}],
-    "remedialProblems": ["rec-003"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Without both base cases the recursion breaks.",
+      "This version is intentionally inefficient to teach tree recursion."
+    ],
+    "hints": [
+      "What are the first two Fibonacci numbers?",
+      "Each state branches into two smaller states."
+    ],
+    "examples": [
+      {
+        "input": "6",
+        "output": "8",
+        "explanation": "The sequence is 0, 1, 1, 2, 3, 5, 8."
+      }
+    ],
+    "remedialProblems": [
+      "rec-003"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "review",
+    "masteryWeight": 0.7,
+    "variantGroup": "recursion-foundation-review"
   },
   {
     "id": "rec-007",
@@ -188,21 +375,53 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["recursion-on-strings", "base-case"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "recursion-on-strings",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Check whether a string is a palindrome using recursion.",
-    "constraints": ["1 <= length of s <= 10^4"],
-    "inputFormat": ["A string s"],
-    "outputFormat": ["Return true if s is a palindrome, otherwise false"],
-    "edgeCases": ["Single character strings", "Even length palindromes", "Mismatch at the ends"],
+    "constraints": [
+      "1 <= length of s <= 10^4"
+    ],
+    "inputFormat": [
+      "A string s"
+    ],
+    "outputFormat": [
+      "Return true if s is a palindrome, otherwise false"
+    ],
+    "edgeCases": [
+      "Single character strings",
+      "Even length palindromes",
+      "Mismatch at the ends"
+    ],
     "intendedApproachSummary": "Compare the left and right characters, then recurse inward on the smaller substring range.",
-    "wrongApproachHints": ["A wrong stopping condition causes index errors.", "Stop once the pointers cross or meet."],
-    "hints": ["Compare the ends first.", "Move both pointers inward."],
-    "examples": [{"input": "level", "output": "true", "explanation": "The outer letters match at every step until the middle is reached."}],
-    "remedialProblems": ["rec-001"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "A wrong stopping condition causes index errors.",
+      "Stop once the pointers cross or meet."
+    ],
+    "hints": [
+      "Compare the ends first.",
+      "Move both pointers inward."
+    ],
+    "examples": [
+      {
+        "input": "level",
+        "output": "true",
+        "explanation": "The outer letters match at every step until the middle is reached."
+      }
+    ],
+    "remedialProblems": [
+      "rec-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "recursion-string-foundation"
   },
   {
     "id": "rec-008",
@@ -212,21 +431,52 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["recursion-on-strings", "functional-recursion"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "recursion-on-strings",
+      "functional-recursion"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Return the reverse of a string using recursion.",
-    "constraints": ["0 <= length of s <= 10^4"],
-    "inputFormat": ["A string s"],
-    "outputFormat": ["Return the reversed string"],
-    "edgeCases": ["Empty string", "Single character string"],
+    "constraints": [
+      "0 <= length of s <= 10^4"
+    ],
+    "inputFormat": [
+      "A string s"
+    ],
+    "outputFormat": [
+      "Return the reversed string"
+    ],
+    "edgeCases": [
+      "Empty string",
+      "Single character string"
+    ],
     "intendedApproachSummary": "Return the reverse of the smaller suffix and append the current character at the end, or swap characters recursively using indices.",
-    "wrongApproachHints": ["Be careful with substring boundaries.", "Appending in the wrong order returns the original string."],
-    "hints": ["Shrink the string from the front.", "Think about what reverse(\"bc\") should return before adding 'a'."],
-    "examples": [{"input": "code", "output": "edoc", "explanation": "The last character ends up first after recursive unwinding."}],
-    "remedialProblems": ["rec-007"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Be careful with substring boundaries.",
+      "Appending in the wrong order returns the original string."
+    ],
+    "hints": [
+      "Shrink the string from the front.",
+      "Think about what reverse(\"bc\") should return before adding 'a'."
+    ],
+    "examples": [
+      {
+        "input": "code",
+        "output": "edoc",
+        "explanation": "The last character ends up first after recursive unwinding."
+      }
+    ],
+    "remedialProblems": [
+      "rec-007"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.85,
+    "variantGroup": "recursion-string-practice"
   },
   {
     "id": "rec-009",
@@ -236,21 +486,52 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 10,
     "description": "Given a non-negative integer n, return the sum of its digits using recursion.",
-    "constraints": ["0 <= n <= 10^9"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the sum of digits"],
-    "edgeCases": ["n = 0", "Single digit numbers"],
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the sum of digits"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Single digit numbers"
+    ],
     "intendedApproachSummary": "Take the last digit with n % 10, then recurse on n / 10 until the number becomes 0.",
-    "wrongApproachHints": ["The stopping condition for 0 is important.", "Do not forget to add the current last digit to the recursive result."],
-    "hints": ["Split into last digit and remaining prefix.", "Keep reducing n by dividing by 10."],
-    "examples": [{"input": "572", "output": "14", "explanation": "5 + 7 + 2 = 14."}],
-    "remedialProblems": ["rec-004"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "The stopping condition for 0 is important.",
+      "Do not forget to add the current last digit to the recursive result."
+    ],
+    "hints": [
+      "Split into last digit and remaining prefix.",
+      "Keep reducing n by dividing by 10."
+    ],
+    "examples": [
+      {
+        "input": "572",
+        "output": "14",
+        "explanation": "5 + 7 + 2 = 14."
+      }
+    ],
+    "remedialProblems": [
+      "rec-004"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.8,
+    "variantGroup": "recursion-number-practice"
   },
   {
     "id": "rec-010",
@@ -260,21 +541,51 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 10,
     "description": "Count the number of decimal digits in n using recursion.",
-    "constraints": ["0 <= n <= 10^9"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the number of digits in n"],
-    "edgeCases": ["n = 0"],
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the number of digits in n"
+    ],
+    "edgeCases": [
+      "n = 0"
+    ],
     "intendedApproachSummary": "Each division by 10 removes one digit. Recurse until the number becomes smaller than 10.",
-    "wrongApproachHints": ["0 has one digit, not zero digits.", "Make sure the recursion shrinks n each time."],
-    "hints": ["What is the answer for a single digit?", "Every recursive step removes one digit."],
-    "examples": [{"input": "5072", "output": "4", "explanation": "5072 contains four digits."}],
-    "remedialProblems": ["rec-009"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "0 has one digit, not zero digits.",
+      "Make sure the recursion shrinks n each time."
+    ],
+    "hints": [
+      "What is the answer for a single digit?",
+      "Every recursive step removes one digit."
+    ],
+    "examples": [
+      {
+        "input": "5072",
+        "output": "4",
+        "explanation": "5072 contains four digits."
+      }
+    ],
+    "remedialProblems": [
+      "rec-009"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "review",
+    "masteryWeight": 0.7,
+    "variantGroup": "recursion-number-review"
   },
   {
     "id": "rec-011",
@@ -284,21 +595,54 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["recursion-on-arrays", "divide-and-conquer"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "recursion-on-arrays",
+      "divide-and-conquer"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(log n)",
     "estimatedMinutes": 20,
     "description": "Given a sorted array and a target value, return the index of the target using recursive binary search.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["A sorted integer array arr", "An integer target"],
-    "outputFormat": ["Return the index of target, or -1 if it is absent"],
-    "edgeCases": ["Target at the first or last index", "Target not present", "Single element array"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "A sorted integer array arr",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Return the index of target, or -1 if it is absent"
+    ],
+    "edgeCases": [
+      "Target at the first or last index",
+      "Target not present",
+      "Single element array"
+    ],
     "intendedApproachSummary": "Choose a middle index, compare against the target, and recurse only into the half that can still contain the answer.",
-    "wrongApproachHints": ["Using binary search requires sorted input.", "Watch your left/right boundaries carefully."],
-    "hints": ["Stop when left becomes greater than right.", "Only one half needs further recursion."],
-    "examples": [{"input": "[1,3,5,7,9], 7", "output": "3", "explanation": "7 is found at index 3."}],
-    "remedialProblems": ["rec-002"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Using binary search requires sorted input.",
+      "Watch your left/right boundaries carefully."
+    ],
+    "hints": [
+      "Stop when left becomes greater than right.",
+      "Only one half needs further recursion."
+    ],
+    "examples": [
+      {
+        "input": "[1,3,5,7,9], 7",
+        "output": "3",
+        "explanation": "7 is found at index 3."
+      }
+    ],
+    "remedialProblems": [
+      "rec-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.15,
+    "variantGroup": "recursion-search-challenge"
   },
   {
     "id": "rec-012",
@@ -308,22 +652,56 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(log(min(a,b)))",
     "estimatedMinutes": 15,
     "description": "Given two non-negative integers a and b, compute their greatest common divisor recursively.",
-    "constraints": ["0 <= a, b <= 10^9"],
-    "inputFormat": ["Two integers a and b"],
-    "outputFormat": ["Return gcd(a, b)"],
-    "edgeCases": ["One value is 0", "Both values equal"],
+    "constraints": [
+      "0 <= a, b <= 10^9"
+    ],
+    "inputFormat": [
+      "Two integers a and b"
+    ],
+    "outputFormat": [
+      "Return gcd(a, b)"
+    ],
+    "edgeCases": [
+      "One value is 0",
+      "Both values equal"
+    ],
     "intendedApproachSummary": "Use Euclid's algorithm: gcd(a, b) = gcd(b, a % b), with gcd(a, 0) = a.",
-    "wrongApproachHints": ["Do not recurse on unchanged arguments.", "The base case must trigger when the second value becomes 0."],
-    "hints": ["Replace the larger problem with the remainder form.", "Look for the stopping condition when one number is exhausted."],
-    "examples": [{"input": "48, 18", "output": "6", "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."}],
-    "independenceMilestoneFor": ["functional-recursion", "base-case"],
-    "remedialProblems": ["rec-005"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Do not recurse on unchanged arguments.",
+      "The base case must trigger when the second value becomes 0."
+    ],
+    "hints": [
+      "Replace the larger problem with the remainder form.",
+      "Look for the stopping condition when one number is exhausted."
+    ],
+    "examples": [
+      {
+        "input": "48, 18",
+        "output": "6",
+        "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."
+      }
+    ],
+    "independenceMilestoneFor": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "remedialProblems": [
+      "rec-005"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "recursion-functional-independence"
   },
   {
     "id": "rec-013",
@@ -333,21 +711,52 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["backtracking-basics", "subsequence-generation"],
-    "prerequisiteConcepts": ["recursion-intro"],
+    "expectedConcepts": [
+      "backtracking-basics",
+      "subsequence-generation"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-intro"
+    ],
     "expectedComplexity": "O(2^n)",
     "estimatedMinutes": 25,
     "description": "Given an array of length n, generate all subsequences using recursion and backtracking.",
-    "constraints": ["1 <= n <= 15"],
-    "inputFormat": ["An integer array nums"],
-    "outputFormat": ["Return or print every subsequence"],
-    "edgeCases": ["Empty subsequence", "Array with repeated values if duplicates are not removed"],
+    "constraints": [
+      "1 <= n <= 15"
+    ],
+    "inputFormat": [
+      "An integer array nums"
+    ],
+    "outputFormat": [
+      "Return or print every subsequence"
+    ],
+    "edgeCases": [
+      "Empty subsequence",
+      "Array with repeated values if duplicates are not removed"
+    ],
     "intendedApproachSummary": "At each index, branch into two choices: include the current element or exclude it.",
-    "wrongApproachHints": ["Missing one branch means half the subsequences disappear.", "If using a shared path list, undo the pick before exploring the exclude branch."],
-    "hints": ["Every element creates a yes/no choice.", "Think of a decision tree."],
-    "examples": [{"input": "[1,2]", "output": "[], [1], [2], [1,2]", "explanation": "Each element can be either taken or skipped."}],
-    "remedialProblems": ["rec-008"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Missing one branch means half the subsequences disappear.",
+      "If using a shared path list, undo the pick before exploring the exclude branch."
+    ],
+    "hints": [
+      "Every element creates a yes/no choice.",
+      "Think of a decision tree."
+    ],
+    "examples": [
+      {
+        "input": "[1,2]",
+        "output": "[], [1], [2], [1,2]",
+        "explanation": "Each element can be either taken or skipped."
+      }
+    ],
+    "remedialProblems": [
+      "rec-008"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "backtracking-foundation"
   },
   {
     "id": "rec-014",
@@ -357,21 +766,54 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["subsequence-generation", "backtracking-basics"],
-    "prerequisiteConcepts": ["backtracking-basics"],
+    "expectedConcepts": [
+      "subsequence-generation",
+      "backtracking-basics"
+    ],
+    "prerequisiteConcepts": [
+      "backtracking-basics"
+    ],
     "expectedComplexity": "O(2^n)",
     "estimatedMinutes": 25,
     "description": "Given an array and a target sum, determine whether any subsequence has sum equal to the target.",
-    "constraints": ["1 <= n <= 20"],
-    "inputFormat": ["An integer array nums", "An integer target"],
-    "outputFormat": ["Return true if a valid subsequence exists, otherwise false"],
-    "edgeCases": ["Target is 0", "No valid subsequence", "Single element equals target"],
+    "constraints": [
+      "1 <= n <= 20"
+    ],
+    "inputFormat": [
+      "An integer array nums",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Return true if a valid subsequence exists, otherwise false"
+    ],
+    "edgeCases": [
+      "Target is 0",
+      "No valid subsequence",
+      "Single element equals target"
+    ],
     "intendedApproachSummary": "At each index, either include the current value in the sum or skip it, then recurse on the next index.",
-    "wrongApproachHints": ["Stopping too early can miss valid later combinations.", "Be careful not to mutate the running sum incorrectly across branches."],
-    "hints": ["This is include/exclude again, but now you track a running sum.", "A true answer can short-circuit the search."],
-    "examples": [{"input": "[1,2,3], 5", "output": "true", "explanation": "The subsequence [2,3] sums to 5."}],
-    "remedialProblems": ["rec-013"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Stopping too early can miss valid later combinations.",
+      "Be careful not to mutate the running sum incorrectly across branches."
+    ],
+    "hints": [
+      "This is include/exclude again, but now you track a running sum.",
+      "A true answer can short-circuit the search."
+    ],
+    "examples": [
+      {
+        "input": "[1,2,3], 5",
+        "output": "true",
+        "explanation": "The subsequence [2,3] sums to 5."
+      }
+    ],
+    "remedialProblems": [
+      "rec-013"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "backtracking-subset-practice"
   },
   {
     "id": "rec-015",
@@ -381,21 +823,53 @@
     "difficulty": "Medium",
     "platform": "LeetCode Style",
     "url": "",
-    "expectedConcepts": ["backtracking-basics", "subsequence-generation"],
-    "prerequisiteConcepts": ["backtracking-basics"],
+    "expectedConcepts": [
+      "backtracking-basics",
+      "subsequence-generation"
+    ],
+    "prerequisiteConcepts": [
+      "backtracking-basics"
+    ],
     "expectedComplexity": "Exponential",
     "estimatedMinutes": 30,
     "description": "Given distinct candidate numbers and a target, return all unique combinations where the chosen numbers sum to the target. A number may be chosen multiple times.",
-    "constraints": ["1 <= candidates.length <= 20"],
-    "inputFormat": ["An integer array candidates", "An integer target"],
-    "outputFormat": ["Return all valid combinations"],
-    "edgeCases": ["No valid combination", "A candidate equals the target exactly"],
+    "constraints": [
+      "1 <= candidates.length <= 20"
+    ],
+    "inputFormat": [
+      "An integer array candidates",
+      "An integer target"
+    ],
+    "outputFormat": [
+      "Return all valid combinations"
+    ],
+    "edgeCases": [
+      "No valid combination",
+      "A candidate equals the target exactly"
+    ],
     "intendedApproachSummary": "Try taking the current candidate again or move to the next candidate, and backtrack after each choice.",
-    "wrongApproachHints": ["If you always move forward after taking a number, you cannot reuse it.", "Remember to remove the last number after each recursive exploration."],
-    "hints": ["This is a choice tree with reuse.", "Stop when the remaining target becomes negative or zero."],
-    "examples": [{"input": "[2,3,6,7], 7", "output": "[[2,2,3],[7]]", "explanation": "Both [2,2,3] and [7] sum to 7."}],
-    "remedialProblems": ["rec-014"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "If you always move forward after taking a number, you cannot reuse it.",
+      "Remember to remove the last number after each recursive exploration."
+    ],
+    "hints": [
+      "This is a choice tree with reuse.",
+      "Stop when the remaining target becomes negative or zero."
+    ],
+    "examples": [
+      {
+        "input": "[2,3,6,7], 7",
+        "output": "[[2,2,3],[7]]",
+        "explanation": "Both [2,2,3] and [7] sum to 7."
+      }
+    ],
+    "remedialProblems": [
+      "rec-014"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "backtracking-combination-challenge"
   },
   {
     "id": "rec-016",
@@ -405,21 +879,51 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["permutations", "backtracking-basics"],
-    "prerequisiteConcepts": ["backtracking-basics"],
+    "expectedConcepts": [
+      "permutations",
+      "backtracking-basics"
+    ],
+    "prerequisiteConcepts": [
+      "backtracking-basics"
+    ],
     "expectedComplexity": "O(n * n!)",
     "estimatedMinutes": 30,
     "description": "Generate all permutations of a list of distinct integers using recursion.",
-    "constraints": ["1 <= n <= 8"],
-    "inputFormat": ["An integer array nums with distinct values"],
-    "outputFormat": ["Return all permutations"],
-    "edgeCases": ["Single element input"],
+    "constraints": [
+      "1 <= n <= 8"
+    ],
+    "inputFormat": [
+      "An integer array nums with distinct values"
+    ],
+    "outputFormat": [
+      "Return all permutations"
+    ],
+    "edgeCases": [
+      "Single element input"
+    ],
     "intendedApproachSummary": "Build the permutation one position at a time by choosing an unused element, recursing, then undoing the choice.",
-    "wrongApproachHints": ["If you do not mark used elements, the same value may appear twice in one permutation.", "Undo both the path and used marker when backtracking."],
-    "hints": ["Track which elements are already in the current path.", "A full path becomes one answer."],
-    "examples": [{"input": "[1,2,3]", "output": "All 6 permutations", "explanation": "Three distinct numbers produce 3! = 6 permutations."}],
-    "remedialProblems": ["rec-013"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "If you do not mark used elements, the same value may appear twice in one permutation.",
+      "Undo both the path and used marker when backtracking."
+    ],
+    "hints": [
+      "Track which elements are already in the current path.",
+      "A full path becomes one answer."
+    ],
+    "examples": [
+      {
+        "input": "[1,2,3]",
+        "output": "All 6 permutations",
+        "explanation": "Three distinct numbers produce 3! = 6 permutations."
+      }
+    ],
+    "remedialProblems": [
+      "rec-013"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "backtracking-permutation-challenge"
   },
   {
     "id": "rec-017",
@@ -429,21 +933,51 @@
     "difficulty": "Medium",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["recursion-intro", "base-case"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "recursion-intro",
+      "base-case"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(2^n)",
     "estimatedMinutes": 25,
     "description": "Print the sequence of moves required to transfer n disks from the source rod to the destination rod using an auxiliary rod.",
-    "constraints": ["1 <= n <= 12"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Print the sequence of valid moves"],
-    "edgeCases": ["n = 1"],
+    "constraints": [
+      "1 <= n <= 12"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print the sequence of valid moves"
+    ],
+    "edgeCases": [
+      "n = 1"
+    ],
     "intendedApproachSummary": "Move n - 1 disks out of the way, move the largest disk, then move the n - 1 disks onto the destination.",
-    "wrongApproachHints": ["The auxiliary and destination rods swap roles between the two recursive calls.", "Do not try to move the largest disk before clearing smaller ones."],
-    "hints": ["Think about how to free the largest disk first.", "The structure repeats on n - 1 disks."],
-    "examples": [{"input": "2", "output": "A->B, A->C, B->C", "explanation": "You first move the smaller disk, then the larger one, then restore the smaller disk on top."}],
-    "remedialProblems": ["rec-003"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "The auxiliary and destination rods swap roles between the two recursive calls.",
+      "Do not try to move the largest disk before clearing smaller ones."
+    ],
+    "hints": [
+      "Think about how to free the largest disk first.",
+      "The structure repeats on n - 1 disks."
+    ],
+    "examples": [
+      {
+        "input": "2",
+        "output": "A->B, A->C, B->C",
+        "explanation": "You first move the smaller disk, then the larger one, then restore the smaller disk on top."
+      }
+    ],
+    "remedialProblems": [
+      "rec-003"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "recursion-classic-practice"
   },
   {
     "id": "rec-018",
@@ -453,21 +987,54 @@
     "difficulty": "Medium",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["functional-recursion", "recursion-intro"],
-    "prerequisiteConcepts": ["functional-recursion"],
+    "expectedConcepts": [
+      "functional-recursion",
+      "recursion-intro"
+    ],
+    "prerequisiteConcepts": [
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 25,
     "description": "Given n people standing in a circle and a step size k, return the index of the survivor when every kth person is removed.",
-    "constraints": ["1 <= n <= 10^4", "1 <= k <= 10^4"],
-    "inputFormat": ["An integer n", "An integer k"],
-    "outputFormat": ["Return the safe position (0-based or 1-based depending on your convention)"],
-    "edgeCases": ["n = 1", "k = 1"],
+    "constraints": [
+      "1 <= n <= 10^4",
+      "1 <= k <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "An integer k"
+    ],
+    "outputFormat": [
+      "Return the safe position (0-based or 1-based depending on your convention)"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "k = 1"
+    ],
     "intendedApproachSummary": "Use the recursive relation for the survivor in smaller circles, then map it back to the current size.",
-    "wrongApproachHints": ["Brute force simulation is possible but misses the intended recurrence.", "Be consistent about 0-based or 1-based indexing."],
-    "hints": ["Think about the answer for n - 1 people first.", "How does adding one more person shift the answer?"],
-    "examples": [{"input": "5, 2", "output": "2", "explanation": "With 0-based indexing, person 2 survives."}],
-    "remedialProblems": ["rec-004"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Brute force simulation is possible but misses the intended recurrence.",
+      "Be consistent about 0-based or 1-based indexing."
+    ],
+    "hints": [
+      "Think about the answer for n - 1 people first.",
+      "How does adding one more person shift the answer?"
+    ],
+    "examples": [
+      {
+        "input": "5, 2",
+        "output": "2",
+        "explanation": "With 0-based indexing, person 2 survives."
+      }
+    ],
+    "remedialProblems": [
+      "rec-004"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.15,
+    "variantGroup": "recursion-search-challenge"
   },
   {
     "id": "rec-019",
@@ -477,21 +1044,52 @@
     "difficulty": "Medium",
     "platform": "LeetCode Style",
     "url": "",
-    "expectedConcepts": ["memoization", "tree-recursion"],
-    "prerequisiteConcepts": ["tree-recursion"],
+    "expectedConcepts": [
+      "memoization",
+      "tree-recursion"
+    ],
+    "prerequisiteConcepts": [
+      "tree-recursion"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 25,
     "description": "Count the number of distinct ways to climb n stairs if you can take 1 or 2 steps at a time. Use recursion with memoization.",
-    "constraints": ["1 <= n <= 45"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the total number of ways"],
-    "edgeCases": ["n = 1", "n = 2"],
+    "constraints": [
+      "1 <= n <= 45"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the total number of ways"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "n = 2"
+    ],
     "intendedApproachSummary": "The state repeats like Fibonacci. Use a memo table so each stair count is solved only once.",
-    "wrongApproachHints": ["Plain recursion repeats the same states many times.", "Cache results before returning them."],
-    "hints": ["ways(n) depends on ways(n-1) and ways(n-2).", "Memoization removes repeated work."],
-    "examples": [{"input": "4", "output": "5", "explanation": "The 5 ways are 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, and 2+2."}],
-    "remedialProblems": ["rec-006"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Plain recursion repeats the same states many times.",
+      "Cache results before returning them."
+    ],
+    "hints": [
+      "ways(n) depends on ways(n-1) and ways(n-2).",
+      "Memoization removes repeated work."
+    ],
+    "examples": [
+      {
+        "input": "4",
+        "output": "5",
+        "explanation": "The 5 ways are 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, and 2+2."
+      }
+    ],
+    "remedialProblems": [
+      "rec-006"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "recursion-memo-foundation"
   },
   {
     "id": "rec-020",
@@ -501,21 +1099,53 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["memoization", "tree-recursion"],
-    "prerequisiteConcepts": ["memoization"],
+    "expectedConcepts": [
+      "memoization",
+      "tree-recursion"
+    ],
+    "prerequisiteConcepts": [
+      "memoization"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 25,
     "description": "Return the nth Tribonacci number, where each term is the sum of the previous three terms. Use recursion with memoization.",
-    "constraints": ["0 <= n <= 35"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return the nth Tribonacci number"],
-    "edgeCases": ["n = 0", "n = 1", "n = 2"],
+    "constraints": [
+      "0 <= n <= 35"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return the nth Tribonacci number"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "n = 1",
+      "n = 2"
+    ],
     "intendedApproachSummary": "This is tree recursion with three branches, but memoization collapses repeated states into linear work.",
-    "wrongApproachHints": ["Do not recompute the same n repeatedly.", "Make sure the first three base cases are correct."],
-    "hints": ["Define the first three values clearly.", "Cache once, reuse many times."],
-    "examples": [{"input": "4", "output": "4", "explanation": "If T0=0, T1=1, T2=1, then T3=2 and T4=4."}],
-    "remedialProblems": ["rec-019"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Do not recompute the same n repeatedly.",
+      "Make sure the first three base cases are correct."
+    ],
+    "hints": [
+      "Define the first three values clearly.",
+      "Cache once, reuse many times."
+    ],
+    "examples": [
+      {
+        "input": "4",
+        "output": "4",
+        "explanation": "If T0=0, T1=1, T2=1, then T3=2 and T4=4."
+      }
+    ],
+    "remedialProblems": [
+      "rec-019"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "recursion-memo-practice"
   },
   {
     "id": "rec-021",
@@ -525,21 +1155,53 @@
     "difficulty": "Medium",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["divide-and-conquer", "recursion-on-arrays"],
-    "prerequisiteConcepts": ["recursion-on-arrays"],
+    "expectedConcepts": [
+      "divide-and-conquer",
+      "recursion-on-arrays"
+    ],
+    "prerequisiteConcepts": [
+      "recursion-on-arrays"
+    ],
     "expectedComplexity": "O(n log n)",
     "estimatedMinutes": 35,
     "description": "Sort an array using merge sort and recursion.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer array nums"],
-    "outputFormat": ["Return the sorted array"],
-    "edgeCases": ["Single element array", "Already sorted array", "Array with duplicates"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer array nums"
+    ],
+    "outputFormat": [
+      "Return the sorted array"
+    ],
+    "edgeCases": [
+      "Single element array",
+      "Already sorted array",
+      "Array with duplicates"
+    ],
     "intendedApproachSummary": "Recursively split the range into halves, sort each half, then merge the sorted halves.",
-    "wrongApproachHints": ["The merge step is required; recursion alone does not sort.", "Take care with mid and temporary storage."],
-    "hints": ["Think in terms of left half, right half, then merge.", "A range of length 1 is already sorted."],
-    "examples": [{"input": "[5,2,4,1]", "output": "[1,2,4,5]", "explanation": "Each half is sorted recursively, then the two sorted halves are merged."}],
-    "remedialProblems": ["rec-011"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "The merge step is required; recursion alone does not sort.",
+      "Take care with mid and temporary storage."
+    ],
+    "hints": [
+      "Think in terms of left half, right half, then merge.",
+      "A range of length 1 is already sorted."
+    ],
+    "examples": [
+      {
+        "input": "[5,2,4,1]",
+        "output": "[1,2,4,5]",
+        "explanation": "Each half is sorted recursively, then the two sorted halves are merged."
+      }
+    ],
+    "remedialProblems": [
+      "rec-011"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "recursion-divide-foundation"
   },
   {
     "id": "rec-022",
@@ -549,21 +1211,53 @@
     "difficulty": "Hard",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["divide-and-conquer", "recursion-on-arrays"],
-    "prerequisiteConcepts": ["divide-and-conquer"],
+    "expectedConcepts": [
+      "divide-and-conquer",
+      "recursion-on-arrays"
+    ],
+    "prerequisiteConcepts": [
+      "divide-and-conquer"
+    ],
     "expectedComplexity": "Average O(n log n)",
     "estimatedMinutes": 40,
     "description": "Implement quick sort recursively by partitioning the array around a pivot.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer array nums"],
-    "outputFormat": ["Return the sorted array"],
-    "edgeCases": ["Repeated elements", "Already sorted array", "Small ranges"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer array nums"
+    ],
+    "outputFormat": [
+      "Return the sorted array"
+    ],
+    "edgeCases": [
+      "Repeated elements",
+      "Already sorted array",
+      "Small ranges"
+    ],
     "intendedApproachSummary": "Partition the array around a pivot so smaller values go left and larger values go right, then recurse on both sides.",
-    "wrongApproachHints": ["Partition boundaries are easy to get wrong.", "Do not recurse on invalid or empty ranges."],
-    "hints": ["First get partitioning correct on small examples.", "The pivot ends in its final sorted position after partitioning."],
-    "examples": [{"input": "[4,1,3,2]", "output": "[1,2,3,4]", "explanation": "Each partition step places one pivot correctly and splits the remaining work."}],
-    "remedialProblems": ["rec-021"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "Partition boundaries are easy to get wrong.",
+      "Do not recurse on invalid or empty ranges."
+    ],
+    "hints": [
+      "First get partitioning correct on small examples.",
+      "The pivot ends in its final sorted position after partitioning."
+    ],
+    "examples": [
+      {
+        "input": "[4,1,3,2]",
+        "output": "[1,2,3,4]",
+        "explanation": "Each partition step places one pivot correctly and splits the remaining work."
+      }
+    ],
+    "remedialProblems": [
+      "rec-021"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "recursion-divide-challenge"
   },
   {
     "id": "rec-023",
@@ -573,21 +1267,53 @@
     "difficulty": "Hard",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["recursive-search", "backtracking-basics"],
-    "prerequisiteConcepts": ["backtracking-basics", "permutations"],
+    "expectedConcepts": [
+      "recursive-search",
+      "backtracking-basics"
+    ],
+    "prerequisiteConcepts": [
+      "backtracking-basics",
+      "permutations"
+    ],
     "expectedComplexity": "Exponential",
     "estimatedMinutes": 50,
     "description": "Fill a partially completed 9x9 Sudoku board using recursive backtracking.",
-    "constraints": ["The board size is fixed at 9x9"],
-    "inputFormat": ["A 9x9 board with empty cells marked"],
-    "outputFormat": ["Return or print a valid completed board"],
-    "edgeCases": ["Already solved board", "Early invalid placements"],
+    "constraints": [
+      "The board size is fixed at 9x9"
+    ],
+    "inputFormat": [
+      "A 9x9 board with empty cells marked"
+    ],
+    "outputFormat": [
+      "Return or print a valid completed board"
+    ],
+    "edgeCases": [
+      "Already solved board",
+      "Early invalid placements"
+    ],
     "intendedApproachSummary": "Find an empty cell, try every valid digit, recurse, and backtrack immediately when a placement leads to a dead end.",
-    "wrongApproachHints": ["If you forget to undo a placement, future branches start from a corrupted board.", "Validity checks should happen before recursing deeper."],
-    "hints": ["Choose one empty cell at a time.", "Prune quickly when a digit violates row, column, or box rules."],
-    "examples": [{"input": "A partially filled Sudoku grid", "output": "A solved Sudoku grid", "explanation": "The solver explores valid candidate placements recursively until the board is complete."}],
-    "remedialProblems": ["rec-016"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "If you forget to undo a placement, future branches start from a corrupted board.",
+      "Validity checks should happen before recursing deeper."
+    ],
+    "hints": [
+      "Choose one empty cell at a time.",
+      "Prune quickly when a digit violates row, column, or box rules."
+    ],
+    "examples": [
+      {
+        "input": "A partially filled Sudoku grid",
+        "output": "A solved Sudoku grid",
+        "explanation": "The solver explores valid candidate placements recursively until the board is complete."
+      }
+    ],
+    "remedialProblems": [
+      "rec-016"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.45,
+    "variantGroup": "backtracking-grid-challenge"
   },
   {
     "id": "rec-024",
@@ -597,20 +1323,53 @@
     "difficulty": "Hard",
     "platform": "Classic",
     "url": "",
-    "expectedConcepts": ["recursive-search", "permutations", "backtracking-basics"],
-    "prerequisiteConcepts": ["permutations", "backtracking-basics"],
+    "expectedConcepts": [
+      "recursive-search",
+      "permutations",
+      "backtracking-basics"
+    ],
+    "prerequisiteConcepts": [
+      "permutations",
+      "backtracking-basics"
+    ],
     "expectedComplexity": "Exponential",
     "estimatedMinutes": 45,
     "description": "Place n queens on an n x n chessboard so that no two queens attack each other. Return all valid board arrangements.",
-    "constraints": ["1 <= n <= 10"],
-    "inputFormat": ["An integer n"],
-    "outputFormat": ["Return all valid queen placements"],
-    "edgeCases": ["n = 1", "n = 2 and n = 3 have no solution"],
+    "constraints": [
+      "1 <= n <= 10"
+    ],
+    "inputFormat": [
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Return all valid queen placements"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "n = 2 and n = 3 have no solution"
+    ],
     "intendedApproachSummary": "Place one queen row by row, only continue with positions that are safe, and backtrack after exploring each choice.",
-    "wrongApproachHints": ["If you do not check diagonals, invalid boards slip through.", "Always remove the queen before trying the next column."],
-    "hints": ["Think row by row.", "Columns and diagonals are the real safety checks."],
-    "examples": [{"input": "4", "output": "2 valid boards", "explanation": "There are exactly two distinct non-attacking arrangements for 4 queens."}],
-    "remedialProblems": ["rec-016"],
-    "skipIfMastered": []
+    "wrongApproachHints": [
+      "If you do not check diagonals, invalid boards slip through.",
+      "Always remove the queen before trying the next column."
+    ],
+    "hints": [
+      "Think row by row.",
+      "Columns and diagonals are the real safety checks."
+    ],
+    "examples": [
+      {
+        "input": "4",
+        "output": "2 valid boards",
+        "explanation": "There are exactly two distinct non-attacking arrangements for 4 queens."
+      }
+    ],
+    "remedialProblems": [
+      "rec-016"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.4,
+    "variantGroup": "backtracking-grid-challenge"
   }
 ]

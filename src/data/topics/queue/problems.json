@@ -7,27 +7,63 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["queue-intro", "array-queue-implementation", "queue-operations"],
+    "expectedConcepts": [
+      "queue-intro",
+      "array-queue-implementation",
+      "queue-operations"
+    ],
     "prerequisiteConcepts": [],
     "expectedComplexity": "O(1)",
     "estimatedMinutes": 18,
     "description": "Implement a queue using an array. Process q operations where 1 x means enqueue x, 2 means dequeue, and 3 means print the front element or -1 if the queue is empty.",
-    "constraints": ["1 <= q <= 10^5", "-10^9 <= x <= 10^9"],
-    "inputFormat": ["An integer q", "q lines of queries"],
-    "outputFormat": ["For each type 3 query, print the current front or -1"],
-    "edgeCases": ["Dequeue on empty queue", "Front query on empty queue"],
+    "constraints": [
+      "1 <= q <= 10^5",
+      "-10^9 <= x <= 10^9"
+    ],
+    "inputFormat": [
+      "An integer q",
+      "q lines of queries"
+    ],
+    "outputFormat": [
+      "For each type 3 query, print the current front or -1"
+    ],
+    "edgeCases": [
+      "Dequeue on empty queue",
+      "Front query on empty queue"
+    ],
     "intendedApproachSummary": "Use front and rear pointers over an array. Enqueue adds at rear and dequeue removes from front.",
-    "wrongApproachHints": ["Do not remove from index 0 of a dynamic array.", "Check empty state before polling."],
-    "hints": ["Track front and rear separately.", "A queue removes the oldest element first."],
+    "wrongApproachHints": [
+      "Do not remove from index 0 of a dynamic array.",
+      "Check empty state before polling."
+    ],
+    "hints": [
+      "Track front and rear separately.",
+      "A queue removes the oldest element first."
+    ],
     "examples": [
-      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "output": "5\n8\n-1", "explanation": "The queue follows FIFO order." }
+      {
+        "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3",
+        "output": "5\n8\n-1",
+        "explanation": "The queue follows FIFO order."
+      }
     ],
     "testCases": [
-      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "expectedOutput": "5\n8\n-1", "visibility": "sample" },
-      { "input": "5\n2\n1 4\n3\n2\n3", "expectedOutput": "4\n-1", "visibility": "hidden" }
+      {
+        "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3",
+        "expectedOutput": "5\n8\n-1",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n2\n1 4\n3\n2\n3",
+        "expectedOutput": "4\n-1",
+        "visibility": "hidden"
+      }
     ],
     "remedialProblems": [],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "queue-foundation"
   },
   {
     "id": "q-002",
@@ -37,27 +73,67 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["array-queue-implementation", "circular-queue"],
-    "prerequisiteConcepts": ["queue-intro", "queue-operations"],
+    "expectedConcepts": [
+      "array-queue-implementation",
+      "circular-queue"
+    ],
+    "prerequisiteConcepts": [
+      "queue-intro",
+      "queue-operations"
+    ],
     "expectedComplexity": "O(1)",
     "estimatedMinutes": 20,
     "description": "Design a fixed-size circular queue. Process queries: 1 x enqueue x, 2 dequeue, 3 print front, 4 print rear. Print -1 when the required element does not exist.",
-    "constraints": ["1 <= capacity <= 10^5", "1 <= q <= 10^5"],
-    "inputFormat": ["Two integers capacity and q", "q lines of queries"],
-    "outputFormat": ["For each type 3 or 4 query, print the requested value or -1"],
-    "edgeCases": ["Queue becomes full", "Queue wraps around after several dequeues"],
+    "constraints": [
+      "1 <= capacity <= 10^5",
+      "1 <= q <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers capacity and q",
+      "q lines of queries"
+    ],
+    "outputFormat": [
+      "For each type 3 or 4 query, print the requested value or -1"
+    ],
+    "edgeCases": [
+      "Queue becomes full",
+      "Queue wraps around after several dequeues"
+    ],
     "intendedApproachSummary": "Use modulo arithmetic to wrap front and rear indices so freed space can be reused.",
-    "wrongApproachHints": ["Do not keep shifting elements after every dequeue.", "You need a size/count to distinguish full and empty."],
-    "hints": ["rear = (rear + 1) % capacity", "front = (front + 1) % capacity on dequeue"],
+    "wrongApproachHints": [
+      "Do not keep shifting elements after every dequeue.",
+      "You need a size/count to distinguish full and empty."
+    ],
+    "hints": [
+      "rear = (rear + 1) % capacity",
+      "front = (front + 1) % capacity on dequeue"
+    ],
     "examples": [
-      { "input": "3 8\n1 10\n1 20\n1 30\n4\n2\n1 40\n4\n3", "output": "30\n40\n20", "explanation": "After one dequeue, the enqueue wraps the rear around." }
+      {
+        "input": "3 8\n1 10\n1 20\n1 30\n4\n2\n1 40\n4\n3",
+        "output": "30\n40\n20",
+        "explanation": "After one dequeue, the enqueue wraps the rear around."
+      }
     ],
     "testCases": [
-      { "input": "3 8\n1 10\n1 20\n1 30\n4\n2\n1 40\n4\n3", "expectedOutput": "30\n40\n20", "visibility": "sample" },
-      { "input": "2 7\n1 5\n1 6\n1 7\n3\n2\n1 7\n4", "expectedOutput": "5\n7", "visibility": "hidden" }
+      {
+        "input": "3 8\n1 10\n1 20\n1 30\n4\n2\n1 40\n4\n3",
+        "expectedOutput": "30\n40\n20",
+        "visibility": "sample"
+      },
+      {
+        "input": "2 7\n1 5\n1 6\n1 7\n3\n2\n1 7\n4",
+        "expectedOutput": "5\n7",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "queue-circular-foundation"
   },
   {
     "id": "q-003",
@@ -67,35 +143,74 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["queue-simulation"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "queue-simulation"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 18,
     "description": "Given a queue of integers and an integer k, reverse the first k elements while keeping the remaining elements in the same relative order.",
-    "constraints": ["1 <= k <= n <= 10^5"],
-    "inputFormat": ["Two integers n and k", "n space-separated integers"],
-    "outputFormat": ["Print the updated queue contents"],
-    "edgeCases": ["k = 1", "k = n"],
+    "constraints": [
+      "1 <= k <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the updated queue contents"
+    ],
+    "edgeCases": [
+      "k = 1",
+      "k = n"
+    ],
     "intendedApproachSummary": "Move the first k elements into a stack to reverse them, push them back, then rotate the remaining n-k elements.",
-    "wrongApproachHints": ["Just reversing the whole queue is incorrect unless k = n.", "The tail of the queue must preserve its original order."],
-    "hints": ["Use a stack only for the first k elements.", "Rotate n-k elements after rebuilding the prefix."],
+    "wrongApproachHints": [
+      "Just reversing the whole queue is incorrect unless k = n.",
+      "The tail of the queue must preserve its original order."
+    ],
+    "hints": [
+      "Use a stack only for the first k elements.",
+      "Rotate n-k elements after rebuilding the prefix."
+    ],
     "examples": [
-      { "input": "5 3\n1 2 3 4 5", "output": "3 2 1 4 5", "explanation": "Only the first three elements are reversed." }
+      {
+        "input": "5 3\n1 2 3 4 5",
+        "output": "3 2 1 4 5",
+        "explanation": "Only the first three elements are reversed."
+      }
     ],
     "testCases": [
-      { "input": "5 3\n1 2 3 4 5", "expectedOutput": "3 2 1 4 5", "visibility": "sample" },
-      { "input": "4 4\n9 8 7 6", "expectedOutput": "6 7 8 9", "visibility": "hidden" }
+      {
+        "input": "5 3\n1 2 3 4 5",
+        "expectedOutput": "3 2 1 4 5",
+        "visibility": "sample"
+      },
+      {
+        "input": "4 4\n9 8 7 6",
+        "expectedOutput": "6 7 8 9",
+        "visibility": "hidden"
+      }
     ],
     "solutionMode": "guided-function",
     "functionContract": {
       "functionName": "reverseFirstK",
       "javaSignature": "public int[] reverseFirstK(int[] values, int k)",
       "cppSignature": "vector<int> reverseFirstK(vector<int>& values, int k)",
-      "providedTypes": ["queue values as an integer array"],
+      "providedTypes": [
+        "queue values as an integer array"
+      ],
       "driverStrategy": "queue-reverse-first-k"
     },
-    "remedialProblems": ["q-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "queue-simulation-foundation"
   },
   {
     "id": "q-004",
@@ -105,27 +220,66 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["circular-queue", "queue-simulation"],
-    "prerequisiteConcepts": ["circular-queue"],
+    "expectedConcepts": [
+      "circular-queue",
+      "queue-simulation"
+    ],
+    "prerequisiteConcepts": [
+      "circular-queue"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 22,
     "description": "Given petrol and distance arrays for circular petrol pumps, print the first index from which a truck can complete the circle, or -1 if impossible.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n petrol values", "n distance values"],
-    "outputFormat": ["Print the starting index or -1"],
-    "edgeCases": ["No valid start exists", "Valid start is not 0"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n petrol values",
+      "n distance values"
+    ],
+    "outputFormat": [
+      "Print the starting index or -1"
+    ],
+    "edgeCases": [
+      "No valid start exists",
+      "Valid start is not 0"
+    ],
     "intendedApproachSummary": "Track total fuel balance and current segment balance while scanning once around the circle.",
-    "wrongApproachHints": ["Trying every start index directly is too slow.", "When current balance becomes negative, the next index becomes the next candidate start."],
-    "hints": ["Keep total balance and current balance separately.", "Reset current balance and candidate start when balance drops below 0."],
+    "wrongApproachHints": [
+      "Trying every start index directly is too slow.",
+      "When current balance becomes negative, the next index becomes the next candidate start."
+    ],
+    "hints": [
+      "Keep total balance and current balance separately.",
+      "Reset current balance and candidate start when balance drops below 0."
+    ],
     "examples": [
-      { "input": "4\n4 6 7 4\n6 5 3 5", "output": "1", "explanation": "Starting from index 1 completes the full circle." }
+      {
+        "input": "4\n4 6 7 4\n6 5 3 5",
+        "output": "1",
+        "explanation": "Starting from index 1 completes the full circle."
+      }
     ],
     "testCases": [
-      { "input": "4\n4 6 7 4\n6 5 3 5", "expectedOutput": "1", "visibility": "sample" },
-      { "input": "3\n1 2 3\n4 5 1", "expectedOutput": "-1", "visibility": "hidden" }
+      {
+        "input": "4\n4 6 7 4\n6 5 3 5",
+        "expectedOutput": "1",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n1 2 3\n4 5 1",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-002"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-002"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "queue-circular-challenge"
   },
   {
     "id": "q-005",
@@ -135,28 +289,66 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["queue-simulation", "generate-binary-numbers"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "queue-simulation",
+      "generate-binary-numbers"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Given N, print the binary representations of numbers from 1 to N in order using a queue-based generation process.",
-    "constraints": ["1 <= N <= 10^4"],
-    "inputFormat": ["An integer N"],
-    "outputFormat": ["Print N binary strings separated by spaces"],
-    "edgeCases": ["N = 1"],
+    "constraints": [
+      "1 <= N <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer N"
+    ],
+    "outputFormat": [
+      "Print N binary strings separated by spaces"
+    ],
+    "edgeCases": [
+      "N = 1"
+    ],
     "intendedApproachSummary": "Start the queue with \"1\". Pop the current value, print it, then push current + \"0\" and current + \"1\".",
-    "wrongApproachHints": ["This exercise is about queue layering, not repeated integer-to-binary conversion.", "Push children in 0-then-1 order."],
-    "hints": ["The queue behaves like a binary tree level order.", "Each popped string produces two new strings."],
+    "wrongApproachHints": [
+      "This exercise is about queue layering, not repeated integer-to-binary conversion.",
+      "Push children in 0-then-1 order."
+    ],
+    "hints": [
+      "The queue behaves like a binary tree level order.",
+      "Each popped string produces two new strings."
+    ],
     "examples": [
-      { "input": "5", "output": "1 10 11 100 101", "explanation": "The queue expands breadth-first over binary strings." }
+      {
+        "input": "5",
+        "output": "1 10 11 100 101",
+        "explanation": "The queue expands breadth-first over binary strings."
+      }
     ],
     "testCases": [
-      { "input": "5", "expectedOutput": "1 10 11 100 101", "visibility": "sample" },
-      { "input": "1", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "5",
+        "expectedOutput": "1 10 11 100 101",
+        "visibility": "sample"
+      },
+      {
+        "input": "1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "independenceMilestoneFor": ["queue-simulation"],
-    "remedialProblems": ["q-001"],
-    "skipIfMastered": []
+    "independenceMilestoneFor": [
+      "queue-simulation"
+    ],
+    "remedialProblems": [
+      "q-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "queue-simulation-independence"
   },
   {
     "id": "q-006",
@@ -166,27 +358,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["bfs-on-grid"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "bfs-on-grid"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n * m)",
     "estimatedMinutes": 25,
     "description": "Given a grid with empty cells, fresh oranges, and rotten oranges, print the minimum minutes needed for all fresh oranges to rot, or -1 if impossible.",
-    "constraints": ["1 <= n, m <= 200"],
-    "inputFormat": ["Two integers n and m", "n rows of m integers"],
-    "outputFormat": ["Print the minimum time or -1"],
-    "edgeCases": ["No fresh oranges", "Fresh orange is isolated"],
+    "constraints": [
+      "1 <= n, m <= 200"
+    ],
+    "inputFormat": [
+      "Two integers n and m",
+      "n rows of m integers"
+    ],
+    "outputFormat": [
+      "Print the minimum time or -1"
+    ],
+    "edgeCases": [
+      "No fresh oranges",
+      "Fresh orange is isolated"
+    ],
     "intendedApproachSummary": "Start BFS from all rotten oranges together and spread layer by layer.",
-    "wrongApproachHints": ["This is not a single-source BFS.", "Track minutes by levels instead of increasing time per cell individually."],
-    "hints": ["Push all initial rotten cells first.", "Count fresh oranges so you know whether all of them were reached."],
+    "wrongApproachHints": [
+      "This is not a single-source BFS.",
+      "Track minutes by levels instead of increasing time per cell individually."
+    ],
+    "hints": [
+      "Push all initial rotten cells first.",
+      "Count fresh oranges so you know whether all of them were reached."
+    ],
     "examples": [
-      { "input": "3 3\n2 1 1\n1 1 0\n0 1 1", "output": "4", "explanation": "The rot spreads outward one layer per minute." }
+      {
+        "input": "3 3\n2 1 1\n1 1 0\n0 1 1",
+        "output": "4",
+        "explanation": "The rot spreads outward one layer per minute."
+      }
     ],
     "testCases": [
-      { "input": "3 3\n2 1 1\n1 1 0\n0 1 1", "expectedOutput": "4", "visibility": "sample" },
-      { "input": "1 2\n2 1", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "3 3\n2 1 1\n1 1 0\n0 1 1",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 2\n2 1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-005"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-005"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "queue-bfs-foundation"
   },
   {
     "id": "q-007",
@@ -196,27 +425,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["queue-simulation", "task-scheduling-queue"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "queue-simulation",
+      "task-scheduling-queue"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given a lowercase character stream, after each character print the first non-repeating character seen so far, or # if none exists.",
-    "constraints": ["1 <= s.length <= 10^5"],
-    "inputFormat": ["A lowercase string s"],
-    "outputFormat": ["Print the answer characters as one string"],
-    "edgeCases": ["All characters repeat", "First unique character changes many times"],
+    "constraints": [
+      "1 <= s.length <= 10^5"
+    ],
+    "inputFormat": [
+      "A lowercase string s"
+    ],
+    "outputFormat": [
+      "Print the answer characters as one string"
+    ],
+    "edgeCases": [
+      "All characters repeat",
+      "First unique character changes many times"
+    ],
     "intendedApproachSummary": "Use a queue to keep candidate characters in order and a frequency array to remove invalid front candidates.",
-    "wrongApproachHints": ["Scanning the whole prefix after each character is too slow.", "The queue front may need repeated cleanup."],
-    "hints": ["Increment frequency as each character arrives.", "While queue front has frequency > 1, remove it."],
+    "wrongApproachHints": [
+      "Scanning the whole prefix after each character is too slow.",
+      "The queue front may need repeated cleanup."
+    ],
+    "hints": [
+      "Increment frequency as each character arrives.",
+      "While queue front has frequency > 1, remove it."
+    ],
     "examples": [
-      { "input": "aabc", "output": "a#bb", "explanation": "After the second a, there is no non-repeating character until b arrives." }
+      {
+        "input": "aabc",
+        "output": "a#bb",
+        "explanation": "After the second a, there is no non-repeating character until b arrives."
+      }
     ],
     "testCases": [
-      { "input": "aabc", "expectedOutput": "a#bb", "visibility": "sample" },
-      { "input": "zz", "expectedOutput": "z#", "visibility": "hidden" }
+      {
+        "input": "aabc",
+        "expectedOutput": "a#bb",
+        "visibility": "sample"
+      },
+      {
+        "input": "zz",
+        "expectedOutput": "z#",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "queue-stream-practice"
   },
   {
     "id": "q-008",
@@ -226,27 +492,65 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["sliding-window-queue", "deque-technique"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "sliding-window-queue",
+      "deque-technique"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 28,
     "description": "Given an array and window size k, print the maximum value in every window of size k.",
-    "constraints": ["1 <= k <= n <= 10^5"],
-    "inputFormat": ["Two integers n and k", "n space-separated integers"],
-    "outputFormat": ["Print the maximum for each window"],
-    "edgeCases": ["k = 1", "Strictly increasing input"],
+    "constraints": [
+      "1 <= k <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the maximum for each window"
+    ],
+    "edgeCases": [
+      "k = 1",
+      "Strictly increasing input"
+    ],
     "intendedApproachSummary": "Use a deque of indices, removing expired indices from the front and smaller useless indices from the back.",
-    "wrongApproachHints": ["Nested scans per window are too slow.", "Store indices so you can evict values that left the window."],
-    "hints": ["Front of the deque always holds the best candidate.", "Pop back while the new value is larger."],
+    "wrongApproachHints": [
+      "Nested scans per window are too slow.",
+      "Store indices so you can evict values that left the window."
+    ],
+    "hints": [
+      "Front of the deque always holds the best candidate.",
+      "Pop back while the new value is larger."
+    ],
     "examples": [
-      { "input": "8 3\n1 3 -1 -3 5 3 6 7", "output": "3 3 5 5 6 7", "explanation": "Each window keeps only useful maximum candidates." }
+      {
+        "input": "8 3\n1 3 -1 -3 5 3 6 7",
+        "output": "3 3 5 5 6 7",
+        "explanation": "Each window keeps only useful maximum candidates."
+      }
     ],
     "testCases": [
-      { "input": "8 3\n1 3 -1 -3 5 3 6 7", "expectedOutput": "3 3 5 5 6 7", "visibility": "sample" },
-      { "input": "5 2\n4 2 12 3 8", "expectedOutput": "4 12 12 8", "visibility": "hidden" }
+      {
+        "input": "8 3\n1 3 -1 -3 5 3 6 7",
+        "expectedOutput": "3 3 5 5 6 7",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 2\n4 2 12 3 8",
+        "expectedOutput": "4 12 12 8",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-005"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-005"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "queue-deque-challenge"
   },
   {
     "id": "q-009",
@@ -256,27 +560,65 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["deque-technique"],
-    "prerequisiteConcepts": ["sliding-window-queue"],
+    "expectedConcepts": [
+      "deque-technique"
+    ],
+    "prerequisiteConcepts": [
+      "sliding-window-queue"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 30,
     "description": "Given an integer array that may contain negatives and an integer K, print the length of the shortest non-empty subarray whose sum is at least K, or -1 if none exists.",
-    "constraints": ["1 <= n <= 10^5", "-10^5 <= arr[i] <= 10^5"],
-    "inputFormat": ["Two integers n and K", "n space-separated integers"],
-    "outputFormat": ["Print the minimum length or -1"],
-    "edgeCases": ["Negative values break normal shrinking-window logic", "No valid subarray exists"],
+    "constraints": [
+      "1 <= n <= 10^5",
+      "-10^5 <= arr[i] <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and K",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the minimum length or -1"
+    ],
+    "edgeCases": [
+      "Negative values break normal shrinking-window logic",
+      "No valid subarray exists"
+    ],
     "intendedApproachSummary": "Use prefix sums plus a deque of candidate prefix indices kept in increasing prefix-sum order.",
-    "wrongApproachHints": ["A normal positive-only sliding window does not work with negative values.", "You need prefix sums to compare far-apart positions safely."],
-    "hints": ["Pop from the front while the current prefix sum reaches the target.", "Pop from the back while the new prefix sum is smaller."],
+    "wrongApproachHints": [
+      "A normal positive-only sliding window does not work with negative values.",
+      "You need prefix sums to compare far-apart positions safely."
+    ],
+    "hints": [
+      "Pop from the front while the current prefix sum reaches the target.",
+      "Pop from the back while the new prefix sum is smaller."
+    ],
     "examples": [
-      { "input": "3 3\n2 -1 2", "output": "3", "explanation": "The whole array is the shortest subarray with sum at least 3." }
+      {
+        "input": "3 3\n2 -1 2",
+        "output": "3",
+        "explanation": "The whole array is the shortest subarray with sum at least 3."
+      }
     ],
     "testCases": [
-      { "input": "3 3\n2 -1 2", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "1 1\n1", "expectedOutput": "1", "visibility": "hidden" }
+      {
+        "input": "3 3\n2 -1 2",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 1\n1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-008"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-008"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.4,
+    "variantGroup": "queue-deque-challenge"
   },
   {
     "id": "q-010",
@@ -286,23 +628,52 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["deque-technique"],
-    "prerequisiteConcepts": ["deque-technique"],
+    "expectedConcepts": [
+      "deque-technique"
+    ],
+    "prerequisiteConcepts": [
+      "deque-technique"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 30,
     "description": "Given an array and an integer k, start at index 0 and move at most k steps each turn. Print the maximum score possible when reaching the last index.",
-    "constraints": ["1 <= k <= n <= 10^5"],
-    "inputFormat": ["Two integers n and k", "n space-separated integers"],
-    "outputFormat": ["Print the maximum achievable score"],
-    "edgeCases": ["Negative values", "Best previous state falls out of range"],
-    "intendedApproachSummary": "Use DP with a deque storing indices whose dp values are decreasing, so the front always gives the best previous score.",
-    "wrongApproachHints": ["Checking all previous k states per index is too slow.", "Remove expired indices before reading the best score."],
-    "hints": ["dp[i] = nums[i] + dp[dq.front()].", "Maintain deque in decreasing dp order."],
-    "examples": [
-      { "input": "6 2\n1 -1 -2 4 -7 3", "output": "7", "explanation": "The best path uses 1 -> -1 -> 4 -> 3 for a total of 7." }
+    "constraints": [
+      "1 <= k <= n <= 10^5"
     ],
-    "remedialProblems": ["q-009"],
-    "skipIfMastered": []
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the maximum achievable score"
+    ],
+    "edgeCases": [
+      "Negative values",
+      "Best previous state falls out of range"
+    ],
+    "intendedApproachSummary": "Use DP with a deque storing indices whose dp values are decreasing, so the front always gives the best previous score.",
+    "wrongApproachHints": [
+      "Checking all previous k states per index is too slow.",
+      "Remove expired indices before reading the best score."
+    ],
+    "hints": [
+      "dp[i] = nums[i] + dp[dq.front()].",
+      "Maintain deque in decreasing dp order."
+    ],
+    "examples": [
+      {
+        "input": "6 2\n1 -1 -2 4 -7 3",
+        "output": "7",
+        "explanation": "The best path uses 1 -> -1 -> 4 -> 3 for a total of 7."
+      }
+    ],
+    "remedialProblems": [
+      "q-009"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "queue-deque-challenge"
   },
   {
     "id": "q-011",
@@ -312,27 +683,64 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["top-k-elements"],
-    "prerequisiteConcepts": ["queue-intro"],
+    "expectedConcepts": [
+      "top-k-elements"
+    ],
+    "prerequisiteConcepts": [
+      "queue-intro"
+    ],
     "expectedComplexity": "O(n log k)",
     "estimatedMinutes": 18,
     "description": "Given an array and integer k, print the k largest elements in ascending order of their final heap contents.",
-    "constraints": ["1 <= k <= n <= 10^5"],
-    "inputFormat": ["Two integers n and k", "n space-separated integers"],
-    "outputFormat": ["Print the k largest elements in ascending order"],
-    "edgeCases": ["k = 1", "All values equal"],
+    "constraints": [
+      "1 <= k <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the k largest elements in ascending order"
+    ],
+    "edgeCases": [
+      "k = 1",
+      "All values equal"
+    ],
     "intendedApproachSummary": "Maintain a min-heap of size k. If a new value is larger than the heap top, replace it.",
-    "wrongApproachHints": ["Full sorting works but is not the intended heap-based approach.", "Use a min-heap, not a max-heap, when you want to keep the top k largest values."],
-    "hints": ["Keep only k elements in the heap.", "Sort the final heap contents before printing if needed."],
+    "wrongApproachHints": [
+      "Full sorting works but is not the intended heap-based approach.",
+      "Use a min-heap, not a max-heap, when you want to keep the top k largest values."
+    ],
+    "hints": [
+      "Keep only k elements in the heap.",
+      "Sort the final heap contents before printing if needed."
+    ],
     "examples": [
-      { "input": "6 3\n1 23 12 9 30 2", "output": "12 23 30", "explanation": "These are the 3 largest values." }
+      {
+        "input": "6 3\n1 23 12 9 30 2",
+        "output": "12 23 30",
+        "explanation": "These are the 3 largest values."
+      }
     ],
     "testCases": [
-      { "input": "6 3\n1 23 12 9 30 2", "expectedOutput": "12 23 30", "visibility": "sample" },
-      { "input": "5 2\n5 5 5 5 5", "expectedOutput": "5 5", "visibility": "hidden" }
+      {
+        "input": "6 3\n1 23 12 9 30 2",
+        "expectedOutput": "12 23 30",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 2\n5 5 5 5 5",
+        "expectedOutput": "5 5",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-001"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "queue-priority-practice"
   },
   {
     "id": "q-012",
@@ -342,27 +750,67 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["task-scheduling-queue", "top-k-elements"],
-    "prerequisiteConcepts": ["queue-operations"],
+    "expectedConcepts": [
+      "task-scheduling-queue",
+      "top-k-elements"
+    ],
+    "prerequisiteConcepts": [
+      "queue-operations"
+    ],
     "expectedComplexity": "O(n log m)",
     "estimatedMinutes": 28,
     "description": "Given task characters and cooldown n, print the least number of time units needed to finish all tasks if identical tasks must be separated by at least n intervals.",
-    "constraints": ["1 <= tasks.length <= 10^5", "0 <= n <= 100"],
-    "inputFormat": ["A string tasks of uppercase letters", "An integer n"],
-    "outputFormat": ["Print the minimum total time"],
-    "edgeCases": ["n = 0", "Only one task type repeats often"],
+    "constraints": [
+      "1 <= tasks.length <= 10^5",
+      "0 <= n <= 100"
+    ],
+    "inputFormat": [
+      "A string tasks of uppercase letters",
+      "An integer n"
+    ],
+    "outputFormat": [
+      "Print the minimum total time"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Only one task type repeats often"
+    ],
     "intendedApproachSummary": "Use a max-heap for available task counts and a queue for cooling tasks that become available later.",
-    "wrongApproachHints": ["Simple sorting is not enough because availability changes over time.", "Remember idle time when no task is available."],
-    "hints": ["Each time unit either runs one task or stays idle.", "Reinsert cooled tasks when their release time arrives."],
+    "wrongApproachHints": [
+      "Simple sorting is not enough because availability changes over time.",
+      "Remember idle time when no task is available."
+    ],
+    "hints": [
+      "Each time unit either runs one task or stays idle.",
+      "Reinsert cooled tasks when their release time arrives."
+    ],
     "examples": [
-      { "input": "AAABBB\n2", "output": "8", "explanation": "One optimal schedule is A B idle A B idle A B." }
+      {
+        "input": "AAABBB\n2",
+        "output": "8",
+        "explanation": "One optimal schedule is A B idle A B idle A B."
+      }
     ],
     "testCases": [
-      { "input": "AAABBB\n2", "expectedOutput": "8", "visibility": "sample" },
-      { "input": "AAAAAABCDEFG\n2", "expectedOutput": "16", "visibility": "hidden" }
+      {
+        "input": "AAABBB\n2",
+        "expectedOutput": "8",
+        "visibility": "sample"
+      },
+      {
+        "input": "AAAAAABCDEFG\n2",
+        "expectedOutput": "16",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-007", "q-011"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-007",
+      "q-011"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "queue-priority-challenge"
   },
   {
     "id": "q-013",
@@ -372,26 +820,62 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["task-scheduling-queue"],
-    "prerequisiteConcepts": ["queue-simulation"],
+    "expectedConcepts": [
+      "task-scheduling-queue"
+    ],
+    "prerequisiteConcepts": [
+      "queue-simulation"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given a senate string of R and D, simulate the banning process and print the eventual winning party.",
-    "constraints": ["1 <= senate.length <= 10^5"],
-    "inputFormat": ["A string senate containing R and D"],
-    "outputFormat": ["Print Radiant or Dire"],
-    "edgeCases": ["One party dominates early", "Indices must wrap by adding n"],
+    "constraints": [
+      "1 <= senate.length <= 10^5"
+    ],
+    "inputFormat": [
+      "A string senate containing R and D"
+    ],
+    "outputFormat": [
+      "Print Radiant or Dire"
+    ],
+    "edgeCases": [
+      "One party dominates early",
+      "Indices must wrap by adding n"
+    ],
     "intendedApproachSummary": "Store Radiant and Dire senator indices in separate queues. The earlier index bans the other and rejoins with index + n.",
-    "wrongApproachHints": ["Removing characters directly from the string is too slow.", "The senators act in cyclic order, so reused indices should be shifted by n."],
-    "hints": ["Compare the front indices of both queues.", "The smaller index acts first in the current round."],
+    "wrongApproachHints": [
+      "Removing characters directly from the string is too slow.",
+      "The senators act in cyclic order, so reused indices should be shifted by n."
+    ],
+    "hints": [
+      "Compare the front indices of both queues.",
+      "The smaller index acts first in the current round."
+    ],
     "examples": [
-      { "input": "RDD", "output": "Dire", "explanation": "The Dire senators survive the cyclic banning process." }
+      {
+        "input": "RDD",
+        "output": "Dire",
+        "explanation": "The Dire senators survive the cyclic banning process."
+      }
     ],
     "testCases": [
-      { "input": "RDD", "expectedOutput": "Dire", "visibility": "sample" },
-      { "input": "RD", "expectedOutput": "Radiant", "visibility": "hidden" }
+      {
+        "input": "RDD",
+        "expectedOutput": "Dire",
+        "visibility": "sample"
+      },
+      {
+        "input": "RD",
+        "expectedOutput": "Radiant",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["q-007"],
-    "skipIfMastered": []
+    "remedialProblems": [
+      "q-007"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "queue-advanced-practice"
   }
 ]

@@ -32,15 +32,26 @@ test("topic registry exposes roadmap metadata", () => {
   assert.ok(getTopicProblems("trees").length >= 12);
 });
 
-test("adaptive pool pilot topics expose healthy role coverage", () => {
-  const pilotTopicIds = ["arrays", "stack", "linked-list", "binary-search"];
+test("adaptive pool topics expose healthy role coverage", () => {
+  const adaptiveTopicIds = [
+    "arrays",
+    "bit-manipulation",
+    "binary-search",
+    "dp",
+    "graphs",
+    "linked-list",
+    "queue",
+    "recursion",
+    "stack",
+    "trees"
+  ];
   const requiredRoles: ProblemPoolRole[] = ["core", "practice", "challenge"];
 
-  for (const topicId of pilotTopicIds) {
+  for (const topicId of adaptiveTopicIds) {
     const problems = getTopicProblems(topicId);
     const roles = new Set(problems.map((problem) => problem.poolRole ?? "core"));
 
-    assert.ok(problems.every((problem) => problem.variantGroup), `${topicId} should assign a variant group to every pilot problem`);
+    assert.ok(problems.every((problem) => problem.variantGroup), `${topicId} should assign a variant group to every adaptive problem`);
     assert.ok(problems.every((problem) => typeof problem.masteryWeight === "number"), `${topicId} should assign mastery weights`);
 
     for (const role of requiredRoles) {
