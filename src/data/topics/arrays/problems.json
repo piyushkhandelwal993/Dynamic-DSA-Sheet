@@ -35,6 +35,9 @@
       "providedTypes": ["integer array"],
       "driverStrategy": "array-maximum"
     },
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "array-traversal-foundation",
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -66,6 +69,9 @@
       { "input": "4\n3 2 4 5", "expectedOutput": "Not Sorted", "visibility": "sample" },
       { "input": "1\n7", "expectedOutput": "Sorted", "visibility": "hidden" }
     ],
+    "poolRole": "practice",
+    "masteryWeight": 0.8,
+    "variantGroup": "array-traversal-foundation",
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -104,6 +110,9 @@
       "providedTypes": ["integer array"],
       "driverStrategy": "array-reverse"
     },
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "array-two-pointer-foundation",
     "remedialProblems": ["arr-002"],
     "skipIfMastered": []
   },
@@ -135,6 +144,9 @@
       { "input": "2\n3 9", "expectedOutput": "3", "visibility": "hidden" }
     ],
     "independenceMilestoneFor": ["array-traversal", "min-max-array"],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "array-traversal-independence",
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -165,6 +177,9 @@
       { "input": "7\n4 1 4 2 2 2 4", "expectedOutput": "2", "visibility": "sample" },
       { "input": "5\n9 9 1 1 3", "expectedOutput": "1", "visibility": "hidden" }
     ],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "array-frequency-practice",
     "remedialProblems": ["arr-001", "arr-002"],
     "skipIfMastered": []
   },
@@ -195,6 +210,9 @@
       { "input": "5\n2 4 1 7 3\n1 3", "expectedOutput": "12", "visibility": "sample" },
       { "input": "4\n5 6 7 8\n0 0", "expectedOutput": "5", "visibility": "hidden" }
     ],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "array-prefix-foundation",
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -221,6 +239,9 @@
     "examples": [
       { "input": "8\n-2 -3 4 -1 -2 1 5 -3", "output": "7", "explanation": "The best subarray is 4 - 1 - 2 + 1 + 5 = 7." }
     ],
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "array-traversal-challenge",
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -252,6 +273,9 @@
       { "input": "4\n0 0 4 5", "expectedOutput": "4 5 0 0", "visibility": "hidden" }
     ],
     "independenceMilestoneFor": ["reverse-array", "two-pointers"],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "array-two-pointer-independence",
     "remedialProblems": ["arr-003"],
     "skipIfMastered": []
   },
@@ -278,6 +302,9 @@
     "examples": [
       { "input": "6\n1 1 2 2 3 4", "output": "4\n1 2 3 4", "explanation": "The unique prefix has length 4." }
     ],
+    "poolRole": "practice",
+    "masteryWeight": 0.9,
+    "variantGroup": "array-two-pointer-practice",
     "remedialProblems": ["arr-002", "arr-008"],
     "skipIfMastered": []
   },
@@ -304,6 +331,9 @@
     "examples": [
       { "input": "5\n1 2 1 1 1\n3", "output": "3", "explanation": "The longest matching window is 1 1 1." }
     ],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "array-window-challenge",
     "remedialProblems": ["arr-008"],
     "skipIfMastered": []
   },
@@ -330,6 +360,9 @@
     "examples": [
       { "input": "6\n7 1 5 3 6 4", "output": "5", "explanation": "Buy at 1 and sell at 6." }
     ],
+    "poolRole": "review",
+    "masteryWeight": 0.7,
+    "variantGroup": "array-min-max-review",
     "remedialProblems": ["arr-001"],
     "skipIfMastered": []
   },
@@ -356,6 +389,9 @@
     "examples": [
       { "input": "4\n1 2 3 4", "output": "24 12 8 6", "explanation": "Each answer multiplies all elements except the current one." }
     ],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "array-prefix-challenge",
     "remedialProblems": ["arr-006"],
     "skipIfMastered": []
   }

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { getTopicProblems } from "../services/storage";
 import { recommendAfterSubmission, recommendNextProblem } from "../services/recommendation";
 import { createInitialProgress, createInitialSkillProfile } from "../services/storage";
-import { ProgressState, SkillProfile } from "../types";
+import { Problem, ProgressState, SkillProfile } from "../types";
 import { makeSignals } from "./helpers";
 
 function makeSkillProfile(overrides?: Partial<SkillProfile>): SkillProfile {
@@ -15,6 +15,25 @@ function makeSkillProfile(overrides?: Partial<SkillProfile>): SkillProfile {
 
 function makeProgress(): ProgressState {
   return createInitialProgress();
+}
+
+function makeProblem(overrides: Partial<Problem> & Pick<Problem, "id" | "expectedConcepts">): Problem {
+  return {
+    topic: "Arrays",
+    subtopic: "Traversal basics",
+    title: overrides.id,
+    difficulty: "Easy",
+    platform: "Custom",
+    url: "",
+    prerequisiteConcepts: [],
+    expectedComplexity: "O(n)",
+    estimatedMinutes: 10,
+    hints: [],
+    examples: [],
+    remedialProblems: [],
+    skipIfMastered: [],
+    ...overrides
+  };
 }
 
 test("recommendNextProblem prioritizes revision due first", () => {
@@ -59,6 +78,87 @@ test("recommendAfterSubmission asks for same-problem retry on low concept match"
   assert.equal(recommendation.type, "revise-prerequisite");
   assert.equal(recommendation.conceptIds[0], "check-ith-bit");
   assert.equal(recommendation.suggestedProblemIds[0], "bit-003");
+});
+
+test("adaptive pool recommends review problems before core when a concept is weak", () => {
+  const problems = [
+    makeProblem({ id: "core-001", expectedConcepts: ["prefix-sum"], poolRole: "core" }),
+    makeProblem({ id: "practice-001", expectedConcepts: ["prefix-sum"], poolRole: "practice" }),
+    makeProblem({ id: "review-001", expectedConcepts: ["prefix-sum"], poolRole: "review" }),
+    makeProblem({ id: "challenge-001", expectedConcepts: ["prefix-sum"], difficulty: "Medium", poolRole: "challenge" })
+  ];
+
+  const recommendation = recommendNextProblem(
+    problems,
+    makeProgress(),
+    makeSkillProfile({
+      weakConcepts: ["prefix-sum"],
+      conceptScores: {
+        "prefix-sum": 42
+      }
+    })
+  );
+
+  assert.equal(recommendation.problem?.id, "review-001");
+  assert.match(recommendation.reasons.join(" "), /Review and practice pool/);
+});
+
+test("adaptive pool recommends challenge problems for strong concepts", () => {
+  const problems = [
+    makeProblem({ id: "core-001", expectedConcepts: ["two-pointers"], poolRole: "core" }),
+    makeProblem({ id: "practice-001", expectedConcepts: ["two-pointers"], poolRole: "practice" }),
+    makeProblem({
+      id: "challenge-001",
+      expectedConcepts: ["two-pointers"],
+      difficulty: "Medium",
+      poolRole: "challenge",
+      masteryWeight: 1.4
+    })
+  ];
+
+  const recommendation = recommendNextProblem(
+    problems,
+    makeProgress(),
+    makeSkillProfile({
+      strongConcepts: ["two-pointers"],
+      conceptScores: {
+        "two-pointers": 86
+      }
+    })
+  );
+
+  assert.equal(recommendation.problem?.id, "challenge-001");
+});
+
+test("adaptive extra practice prefers review pool variants after low code quality", () => {
+  const current = makeProblem({ id: "arr-current", expectedConcepts: ["array-traversal"], poolRole: "core" });
+  const problems = [
+    current,
+    makeProblem({ id: "arr-core", expectedConcepts: ["array-traversal"], poolRole: "core" }),
+    makeProblem({ id: "arr-practice", expectedConcepts: ["array-traversal"], poolRole: "practice" }),
+    makeProblem({ id: "arr-review", expectedConcepts: ["array-traversal"], poolRole: "review" })
+  ];
+
+  const recommendation = recommendAfterSubmission(
+    current,
+    problems,
+    makeProgress(),
+    makeSkillProfile({ weakConcepts: ["array-traversal"] }),
+    {
+      finalScore: 72,
+      conceptMatchScore: 80,
+      qualityScore: 40,
+      complexityScore: 80
+    },
+    {
+      detected: [],
+      warnings: [],
+      signals: makeSignals({ usesArrayTraversal: true })
+    }
+  );
+
+  assert.equal(recommendation.type, "extra-practice");
+  assert.equal(recommendation.suggestedProblemIds[0], "arr-review");
 });
 
 test("recommendAfterSubmission uses real progress for the next recommendation", () => {

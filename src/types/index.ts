@@ -3,6 +3,7 @@ export type Difficulty = "Easy" | "Medium" | "Hard";
 export type ProblemStatus = "pending" | "started" | "submitted" | "solved" | "skipped";
 export type ProgrammingLanguage = "java" | "cpp";
 export type SolutionMode = "guided-function" | "function" | "partial-program" | "complete-program";
+export type ProblemPoolRole = "core" | "practice" | "review" | "challenge";
 export type FunctionDriverStrategy =
   | "linked-list-length"
   | "linked-list-search"
@@ -74,6 +75,10 @@ export interface Problem {
   testCases?: ProblemTestCase[];
   remedialProblems: string[];
   skipIfMastered: string[];
+  poolRole?: ProblemPoolRole;
+  masteryWeight?: number;
+  variantGroup?: string;
+  selectionTags?: string[];
   solutionMode?: SolutionMode;
   functionContract?: FunctionContract;
   independenceMilestoneFor?: string[];
