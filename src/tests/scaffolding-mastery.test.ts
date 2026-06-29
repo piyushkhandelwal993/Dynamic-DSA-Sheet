@@ -6,6 +6,7 @@ import path from "node:path";
 import { getMasterySummary } from "../services/progression";
 import { updateSkillProfileFromSubmission, isConceptMastered } from "../services/skillProfile";
 import { createInitialSkillProfile, getProblemById, getSkillProfile } from "../services/storage";
+import { effectiveProblemForPracticeMode } from "../services/workspace";
 import { AnalysisResult, ConceptDetectionResult, ScoreBreakdown } from "../types";
 import { makeSignals } from "./helpers";
 
@@ -126,8 +127,9 @@ test("legacy skill profiles migrate complete-program evidence without data loss"
 });
 
 test("complete-program milestone credits the guided concept family", () => {
-  const problem = getProblemById("arr-004");
-  assert.ok(problem);
+  const original = getProblemById("arr-004");
+  assert.ok(original);
+  const problem = effectiveProblemForPracticeMode(original, "pro");
   const profile = updateSkillProfileFromSubmission(
     createInitialSkillProfile(),
     problem,

@@ -88,8 +88,8 @@ function checkTopicLearningPaths() {
 }
 
 function checkDataSeparation() {
-  const storage = read("src/services/storage.ts");
-  assert.match(storage, /\.dsa-sheet/, "User data must remain outside the installed application");
+  const paths = read("src/services/paths.ts");
+  assert.match(paths, /\.dsa-sheet/, "User data must remain outside the installed application");
   const updater = read("desktop/main.js");
   assert.match(updater, /autoDownload\s*=\s*false/, "Updates must remain user-controlled");
   assert.match(updater, /autoInstallOnAppQuit\s*=\s*false/, "Updates must not install silently");

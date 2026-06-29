@@ -2,6 +2,7 @@ import { AnalysisResult, Problem, ProblemPoolRole, ProgressState, Recommendation
 import { isRevisionDue } from "./revision";
 import { isConceptMastered } from "./skillProfile";
 import { isNonBitwiseFoundationSolve } from "./approachRules";
+import { effectiveProblemForPracticeMode } from "./workspace";
 
 const difficultyRank: Record<string, number> = {
   Easy: 1,
@@ -92,12 +93,12 @@ function findIndependenceMilestone(
   conceptIds: string[],
   progress: ProgressState
 ): Problem | undefined {
-  return problems.find(
+  const candidate = problems.find(
     (candidate) =>
-      (candidate.solutionMode ?? "complete-program") === "complete-program" &&
       !isSolved(progress, candidate.id) &&
       candidate.independenceMilestoneFor?.some((conceptId) => conceptIds.includes(conceptId))
   );
+  return candidate ? effectiveProblemForPracticeMode(candidate, "pro") : undefined;
 }
 
 function findNextHigherProblem(

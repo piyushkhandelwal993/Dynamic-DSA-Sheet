@@ -26,7 +26,7 @@ test("a new desktop user receives a recommendation and an editable workspace", (
     assert.equal(isInitialized(), true);
 
     const bootstrap = getDesktopBootstrap();
-    assert.equal(bootstrap.preferences.currentView, "home");
+    assert.equal(bootstrap.preferences.currentView, "practice");
     assert.equal(bootstrap.preferences.currentProblemView, "description");
     assert.equal(bootstrap.activeTopicId, "bit-manipulation");
     assert.ok(bootstrap.nextRecommendation.problem);
