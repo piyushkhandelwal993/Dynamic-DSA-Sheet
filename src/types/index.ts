@@ -2,6 +2,7 @@ export type Level = "beginner" | "intermediate" | "advanced";
 export type Difficulty = "Easy" | "Medium" | "Hard";
 export type ProblemStatus = "pending" | "started" | "submitted" | "solved" | "skipped";
 export type ProgrammingLanguage = "java" | "cpp";
+export type PracticeMode = "beginner" | "pro";
 export type SolutionMode = "guided-function" | "function" | "partial-program" | "complete-program";
 export type ProblemPoolRole = "core" | "practice" | "review" | "challenge";
 export type FunctionDriverStrategy =
@@ -9,6 +10,21 @@ export type FunctionDriverStrategy =
   | "linked-list-search"
   | "linked-list-reverse"
   | "array-maximum"
+  | "array-sorted-check"
+  | "array-second-largest"
+  | "array-range-sum"
+  | "array-highest-frequency"
+  | "array-max-subarray"
+  | "array-move-zeroes"
+  | "array-remove-duplicates"
+  | "array-longest-sum-k-positive"
+  | "array-stock-profit"
+  | "array-product-except-self"
+  | "array-count-positive"
+  | "array-running-sum"
+  | "array-pair-sum-sorted"
+  | "array-left-rotate-one"
+  | "array-max-consecutive-ones"
   | "array-reverse"
   | "tree-height"
   | "tree-preorder"
@@ -307,7 +323,7 @@ export interface CppRuntimeStatus {
 
 export type DesktopProblemView = "description" | "examples" | "hints";
 export type DesktopRunMode = "official" | "custom";
-export type DesktopView = "home" | "practice" | "progress" | "world" | "problems";
+export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "profile";
 
 export interface DesktopPreferences {
   splitRatio: number;
@@ -320,6 +336,7 @@ export interface DesktopPreferences {
   lastOpenedTopicId?: string | null;
   lastOpenedProblemId?: string | null;
   selectedLanguage?: ProgrammingLanguage;
+  practiceMode?: PracticeMode;
 }
 
 export interface DesktopBootstrap {
@@ -367,6 +384,7 @@ export interface DesktopBootstrap {
   preferences: DesktopPreferences;
   javaRuntime: JavaRuntimeStatus;
   cppRuntime: CppRuntimeStatus;
+  contentSync: ContentSyncStatus;
 }
 
 export interface RecommendationResult {
@@ -431,10 +449,52 @@ export interface TopicMeta {
   status: "active" | "coming-soon";
 }
 
+export interface ContentBundle {
+  schemaVersion: number;
+  contentVersion: string;
+  generatedAt: string;
+  minAppVersion?: string;
+  defaultTopicId: string;
+  topicOrder: string[];
+  topicPacks: Record<string, {
+    meta: TopicMeta;
+    problems: Problem[];
+    concepts: Concept[];
+  }>;
+}
+
+export interface ContentSyncManifest {
+  schemaVersion: number;
+  contentVersion: string;
+  generatedAt?: string;
+  minAppVersion?: string;
+  bundleUrl: string;
+}
+
+export interface ContentSyncStatus {
+  enabled: boolean;
+  source: "bundled" | "synced";
+  activeContentVersion: string;
+  bundledContentVersion: string;
+  installedContentVersion: string | null;
+  remoteContentVersion: string | null;
+  updateAvailable: boolean;
+  lastCheckedAt: string | null;
+  lastSyncedAt: string | null;
+  manifestUrl: string | null;
+  message: string;
+}
+
+export interface ContentSyncResult {
+  updated: boolean;
+  status: ContentSyncStatus;
+}
+
 export interface ProblemSessionResult {
   problem: Problem;
   workspacePath: string;
   workspaceCode: string;
   created: boolean;
   language: ProgrammingLanguage;
+  practiceMode: PracticeMode;
 }

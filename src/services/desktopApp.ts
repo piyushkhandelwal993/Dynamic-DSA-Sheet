@@ -1,6 +1,15 @@
 import fs from "fs";
 import { spawnSync } from "child_process";
-import { CppRuntimeStatus, DesktopBootstrap, DesktopPreferences, JavaRuntimeStatus, Problem, ProblemSessionResult, ProgrammingLanguage } from "../types";
+import {
+  CppRuntimeStatus,
+  DesktopBootstrap,
+  DesktopPreferences,
+  JavaRuntimeStatus,
+  PracticeMode,
+  Problem,
+  ProblemSessionResult,
+  ProgrammingLanguage
+} from "../types";
 import {
   getActiveTopicId,
   getConceptById,
@@ -16,11 +25,13 @@ import {
   getTopicProblems,
   getTopicRoadmap,
   getTopicIdForProblem,
+  saveProfile,
   saveDesktopPreferences,
   saveProgress,
   setActiveTopicId
 } from "./storage";
-import { ensureProblemWorkspace } from "./workspace";
+import { getContentSyncStatus, syncRemoteContent } from "./catalog";
+import { effectiveProblemForPracticeMode, ensureProblemWorkspace, resetProblemWorkspace } from "./workspace";
 import { recommendNextProblem } from "./recommendation";
 import { buildWorldZones, buildActiveQuests, getMasterySummary } from "./progression";
 import { submitProblemSolution } from "./submission";
@@ -145,17 +156,31 @@ export function detectCppRuntime(): CppRuntimeStatus {
   };
 }
 
+function resolveBootstrapTopicId(requestedTopicId: string): string {
+  const requested = getTopicMeta(requestedTopicId);
+  if (requested) {
+    return requestedTopicId;
+  }
+
+  const firstActiveTopic = getTopicMetas().find((topic) => topic.status === "active");
+  return firstActiveTopic?.id ?? requestedTopicId;
+}
+
 export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootstrap {
+  const resolvedTopicId = resolveBootstrapTopicId(topicId);
+  if (resolvedTopicId !== topicId) {
+    setActiveTopicId(resolvedTopicId);
+  }
   const progress = getProgress();
   const skillProfile = getSkillProfile();
-  const problems = getTopicProblems(topicId);
+  const problems = getTopicProblems(resolvedTopicId);
   const nextRecommendation = recommendNextProblem(problems, progress, skillProfile);
 
   return {
     topics: getTopicMetas(),
-    activeTopicId: topicId,
-    activeTopic: getTopicMeta(topicId),
-    roadmap: getTopicRoadmap(topicId),
+    activeTopicId: resolvedTopicId,
+    activeTopic: getTopicMeta(resolvedTopicId),
+    roadmap: getTopicRoadmap(resolvedTopicId),
     problems,
     profile: getProfile(),
     gameProfile: getGameProfile(),
@@ -168,11 +193,55 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     submissionTrend: buildSubmissionTrend(),
     topicProgress: buildTopicProgressSummary(),
     progressMap: progress.problems,
-    recommendedTopicId: nextRecommendation.problem ? (getTopicIdForProblem(nextRecommendation.problem.id) ?? topicId) : topicId,
+    recommendedTopicId: nextRecommendation.problem ? (getTopicIdForProblem(nextRecommendation.problem.id) ?? resolvedTopicId) : resolvedTopicId,
     preferences: getDesktopPreferences(),
     javaRuntime: detectJavaRuntime(),
-    cppRuntime: detectCppRuntime()
+    cppRuntime: detectCppRuntime(),
+    contentSync: getContentSyncStatus()
   };
+}
+
+export async function syncDesktopContent() {
+  return syncRemoteContent();
+}
+
+export function getDesktopContentSyncStatus() {
+  return getContentSyncStatus();
+}
+
+export function updateDesktopProfile(input: {
+  name?: string;
+  batch?: string;
+  preferredLanguage?: string;
+  currentLevel?: "beginner" | "intermediate" | "advanced";
+}) {
+  const existingProfile = getProfile();
+  const profile = existingProfile ?? {
+    studentId: "local",
+    name: "Player",
+    batch: "Self-paced",
+    preferredLanguage: "Java",
+    currentLevel: "beginner" as const,
+    activeTopicId: getActiveTopicId(),
+    createdAt: new Date().toISOString()
+  };
+
+  const name = input.name?.trim() || profile.name || "Player";
+  const batch = input.batch?.trim() || profile.batch || "Self-paced";
+  const preferredLanguage = input.preferredLanguage?.trim() || profile.preferredLanguage || "Java";
+  const currentLevel = input.currentLevel === "intermediate" || input.currentLevel === "advanced"
+    ? input.currentLevel
+    : "beginner";
+
+  saveProfile({
+    ...profile,
+    name,
+    batch,
+    preferredLanguage,
+    currentLevel
+  });
+
+  return getDesktopBootstrap(getActiveTopicId());
 }
 
 export function switchDesktopTopic(topicId: string) {
@@ -195,8 +264,13 @@ export function getDesktopProblem(problemId: string): Problem {
   return problem;
 }
 
-export function startDesktopProblem(problemId: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
-  const problem = getDesktopProblem(problemId);
+export function startDesktopProblem(
+  problemId: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): ProblemSessionResult {
+  const catalogProblem = getDesktopProblem(problemId);
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
   const progress = getProgress();
   const current = progress.problems[problemId] ?? {
     problemId,
@@ -212,7 +286,7 @@ export function startDesktopProblem(problemId: string, language: ProgrammingLang
   };
   saveProgress(progress);
 
-  const workspace = ensureProblemWorkspace(problem, language);
+  const workspace = ensureProblemWorkspace(catalogProblem, language, practiceMode);
   const workspaceCode = fs.readFileSync(workspace.filePath, "utf-8");
 
   return {
@@ -220,52 +294,94 @@ export function startDesktopProblem(problemId: string, language: ProgrammingLang
     workspacePath: workspace.filePath,
     workspaceCode,
     created: workspace.created,
-    language
+    language,
+    practiceMode
   };
 }
 
-export function loadDesktopWorkspace(problemId: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
-  const problem = getDesktopProblem(problemId);
-  const workspace = ensureProblemWorkspace(problem, language);
+export function loadDesktopWorkspace(
+  problemId: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): ProblemSessionResult {
+  const catalogProblem = getDesktopProblem(problemId);
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
+  const workspace = ensureProblemWorkspace(catalogProblem, language, practiceMode);
   const workspaceCode = fs.readFileSync(workspace.filePath, "utf-8");
   return {
     problem,
     workspacePath: workspace.filePath,
     workspaceCode,
     created: workspace.created,
-    language
+    language,
+    practiceMode
   };
 }
 
-export function saveDesktopWorkspace(problemId: string, code: string, language: ProgrammingLanguage = "java"): ProblemSessionResult {
-  const problem = getDesktopProblem(problemId);
-  const filePath = getProblemStarterFilePath(problem, language);
-  ensureProblemWorkspace(problem, language);
+export function saveDesktopWorkspace(
+  problemId: string,
+  code: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): ProblemSessionResult {
+  const catalogProblem = getDesktopProblem(problemId);
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
+  const filePath = getProblemStarterFilePath(catalogProblem, language, practiceMode);
+  ensureProblemWorkspace(catalogProblem, language, practiceMode);
   fs.writeFileSync(filePath, code, "utf-8");
   return {
     problem,
     workspacePath: filePath,
     workspaceCode: code,
     created: false,
-    language
+    language,
+    practiceMode
   };
 }
 
-export function submitDesktopProblem(problemId: string, code?: string, language: ProgrammingLanguage = "java") {
+export function resetDesktopWorkspace(
+  problemId: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): ProblemSessionResult {
+  const catalogProblem = getDesktopProblem(problemId);
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
+  const workspace = resetProblemWorkspace(catalogProblem, language, practiceMode);
+  return {
+    problem,
+    workspacePath: workspace.filePath,
+    workspaceCode: workspace.workspaceCode,
+    created: false,
+    language,
+    practiceMode
+  };
+}
+
+export function submitDesktopProblem(
+  problemId: string,
+  code?: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+) {
   if (typeof code === "string") {
-    saveDesktopWorkspace(problemId, code, language);
+    saveDesktopWorkspace(problemId, code, language, practiceMode);
   }
-  return submitProblemSolution(problemId, undefined, language);
+  return submitProblemSolution(problemId, undefined, language, practiceMode);
 }
 
 export function runDesktopProblem(
   problemId: string,
   code?: string,
-  options?: { mode?: "official" | "custom"; customInput?: string; language?: ProgrammingLanguage }
+  options?: { mode?: "official" | "custom"; customInput?: string; language?: ProgrammingLanguage; practiceMode?: PracticeMode }
 ) {
-  const problem = getDesktopProblem(problemId);
+  const catalogProblem = getDesktopProblem(problemId);
   const language = options?.language ?? "java";
-  const session = typeof code === "string" ? saveDesktopWorkspace(problemId, code, language) : loadDesktopWorkspace(problemId, language);
+  const practiceMode = options?.practiceMode ?? "beginner";
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
+  const session =
+    typeof code === "string"
+      ? saveDesktopWorkspace(problemId, code, language, practiceMode)
+      : loadDesktopWorkspace(problemId, language, practiceMode);
   const mode = options?.mode ?? "official";
   const customInput = options?.customInput ?? "";
 

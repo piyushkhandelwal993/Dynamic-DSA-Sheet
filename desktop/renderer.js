@@ -2,7 +2,7 @@ const state = {
   bootstrap: null,
   currentProblem: null,
   workspacePath: null,
-  currentView: "home",
+  currentView: "practice",
   currentProblemView: "description",
   currentRunMode: "official",
   splitRatio: 46,
@@ -22,6 +22,7 @@ const state = {
   editorFontSize: 14,
   editorContent: "",
   selectedLanguage: "java",
+  practiceMode: "beginner",
   monacoReady: false,
   updateStatus: null,
   updateDismissed: false
@@ -32,12 +33,13 @@ const DEFAULT_PREFERENCES = {
   editorFontSize: 14,
   currentRunMode: "official",
   currentProblemView: "description",
-  currentView: "home",
+  currentView: "practice",
   sidebarCollapsed: false,
   editorFocusMode: false,
   lastOpenedTopicId: null,
   lastOpenedProblemId: null,
-  selectedLanguage: "java"
+  selectedLanguage: "java",
+  practiceMode: "beginner"
 };
 
 const MARKETING_WORLDS = [
@@ -72,10 +74,12 @@ let environmentBannerDismissed = false;
 
 const appShellEl = document.getElementById("app-shell");
 const topicListEl = document.getElementById("topic-list");
-const playerCardEl = document.getElementById("player-card");
 const headerBreadcrumbEl = document.getElementById("header-breadcrumb");
 const headerDifficultyBadgeEl = document.getElementById("header-difficulty-badge");
 const headerPlayerChipEl = document.getElementById("header-player-chip");
+const headerMoreButtonEl = document.getElementById("header-more-button");
+const headerMoreMenuEl = document.getElementById("header-more-menu");
+const syncContentButtonEl = document.getElementById("sync-content-button");
 const environmentBannerEl = document.getElementById("environment-banner");
 const environmentBannerTitleEl = document.getElementById("environment-banner-title");
 const environmentBannerMessageEl = document.getElementById("environment-banner-message");
@@ -93,7 +97,9 @@ const topicSwitcherButtonEl = document.getElementById("topic-switcher-button");
 const topicSwitcherMenuEl = document.getElementById("topic-switcher-menu");
 const topicNameEl = document.getElementById("topic-name");
 const topicDescriptionEl = document.getElementById("topic-description");
+const contentSyncNoteEl = document.getElementById("content-sync-note");
 const homeStartButtonEl = document.getElementById("home-start-button");
+const homeNameInputEl = document.getElementById("home-name-input");
 const homeDemoButtonEl = document.getElementById("home-demo-button");
 const homeNavStartButtonEl = document.getElementById("home-nav-start-button");
 const homeLoginButtonEl = document.getElementById("home-login-button");
@@ -111,6 +117,8 @@ const homeShowcaseSectionEl = document.getElementById("home-showcase-section");
 const missionTitleEl = document.getElementById("mission-title");
 const missionSummaryEl = document.getElementById("mission-summary");
 const missionMetaEl = document.getElementById("mission-meta");
+const taskHelpInlineEl = document.getElementById("task-help-inline");
+const taskHelpLabelEl = document.getElementById("task-help-label");
 const missionStepsEl = document.getElementById("mission-steps");
 const missionActionButtonEl = document.getElementById("mission-action-button");
 const missionJumpButtonEl = document.getElementById("mission-jump-button");
@@ -121,6 +129,17 @@ const progressXpValueEl = document.getElementById("progress-xp-value");
 const progressSolvedValueEl = document.getElementById("progress-solved-value");
 const progressTopicValueEl = document.getElementById("progress-topic-value");
 const progressTopicMetaEl = document.getElementById("progress-topic-meta");
+const profileFormEl = document.getElementById("profile-form");
+const profileDisplayNameEl = document.getElementById("profile-display-name");
+const profileDisplayMetaEl = document.getElementById("profile-display-meta");
+const profileNameInputEl = document.getElementById("profile-name-input");
+const profileBatchInputEl = document.getElementById("profile-batch-input");
+const profileLanguageInputEl = document.getElementById("profile-language-input");
+const profileLevelInputEl = document.getElementById("profile-level-input");
+const profileSaveStatusEl = document.getElementById("profile-save-status");
+const profileStatsGridEl = document.getElementById("profile-stats-grid");
+const profileActiveTopicEl = document.getElementById("profile-active-topic");
+const profileCreatedAtEl = document.getElementById("profile-created-at");
 const streakSummaryEl = document.getElementById("streak-summary");
 const streakCalendarEl = document.getElementById("streak-calendar");
 const submissionTrendEl = document.getElementById("submission-trend");
@@ -142,6 +161,7 @@ const selectionStatusEl = document.getElementById("selection-status");
 const lineStatusEl = document.getElementById("line-status");
 const fontStatusEl = document.getElementById("font-status");
 const runModeTabsEl = document.getElementById("run-mode-tabs");
+const customRunPanelEl = document.getElementById("custom-run-panel");
 const customInputSectionEl = document.getElementById("custom-input-section");
 const customInputEl = document.getElementById("custom-input");
 const resultSectionEl = document.getElementById("result-section");
@@ -159,7 +179,9 @@ const runButtonEl = document.getElementById("run-button");
 const saveButtonEl = document.getElementById("save-button");
 const submitButtonEl = document.getElementById("submit-button");
 const openFileButtonEl = document.getElementById("open-file-button");
+const resetCodeButtonEl = document.getElementById("reset-code-button");
 const languageSelectEl = document.getElementById("language-select");
+const practiceModeSelectEl = document.getElementById("practice-mode-select");
 const refreshButtonEl = document.getElementById("refresh-button");
 const resetLayoutButtonEl = document.getElementById("reset-layout-button");
 const resetPreferencesButtonEl = document.getElementById("reset-preferences-button");
@@ -178,7 +200,8 @@ const viewEls = {
   practice: document.getElementById("practice-view"),
   progress: document.getElementById("progress-view"),
   world: document.getElementById("world-view"),
-  problems: document.getElementById("problems-view")
+  problems: document.getElementById("problems-view"),
+  profile: document.getElementById("profile-view")
 };
 
 function resetAppScrollPosition() {
@@ -299,6 +322,15 @@ async function launchPrimaryMission() {
   await startProblem(problem.id);
 }
 
+async function syncHomeQuickStartProfile() {
+  if (!homeNameInputEl) return;
+  const name = homeNameInputEl.value.trim();
+  if (!name) return;
+  if (name === (state.bootstrap?.profile?.name ?? "").trim()) return;
+  state.bootstrap = await window.dsaDesktop.updateProfile({ name });
+  render();
+}
+
 function closeTopicSwitcher() {
   topicSwitcherMenuEl.classList.add("is-hidden");
   topicSwitcherButtonEl.setAttribute("aria-expanded", "false");
@@ -308,6 +340,17 @@ function toggleTopicSwitcher() {
   const willOpen = topicSwitcherMenuEl.classList.contains("is-hidden");
   topicSwitcherMenuEl.classList.toggle("is-hidden", !willOpen);
   topicSwitcherButtonEl.setAttribute("aria-expanded", String(willOpen));
+}
+
+function closeHeaderMoreMenu() {
+  headerMoreMenuEl.classList.add("is-hidden");
+  headerMoreButtonEl.setAttribute("aria-expanded", "false");
+}
+
+function toggleHeaderMoreMenu() {
+  const willOpen = headerMoreMenuEl.classList.contains("is-hidden");
+  headerMoreMenuEl.classList.toggle("is-hidden", !willOpen);
+  headerMoreButtonEl.setAttribute("aria-expanded", String(willOpen));
 }
 
 function escapeHtml(value) {
@@ -377,6 +420,33 @@ function buildSummaryScoreRing(score, label = "Great") {
         <strong>${score}</strong>
         <span>${escapeHtml(label)}</span>
       </div>
+    </div>
+  `;
+}
+
+function buildTechnicalScoreRing(score) {
+  const circumference = 276;
+  const dashOffset = Math.max(0, circumference - (circumference * Math.max(0, Math.min(score, 100))) / 100);
+  return `
+    <div class="technical-score-ring ${scoreColor(score)}">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="technical-score-track" cx="50" cy="50" r="44"></circle>
+        <circle class="technical-score-progress" cx="50" cy="50" r="44" stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}"></circle>
+        <circle class="technical-score-ticks" cx="50" cy="50" r="38"></circle>
+      </svg>
+      <div class="technical-score-value">
+        <strong>${score}</strong>
+        <span>Score</span>
+      </div>
+    </div>
+  `;
+}
+
+function buildReviewMetricTile(label, value, tone = "primary") {
+  return `
+    <div class="review-metric-tile ${tone}">
+      <span>${escapeHtml(label)}</span>
+      <strong>${value}<small>/100</small></strong>
     </div>
   `;
 }
@@ -558,7 +628,8 @@ function getDesktopPreferences() {
     editorFocusMode: state.editorFocusMode,
     lastOpenedTopicId: state.bootstrap?.activeTopicId ?? null,
     lastOpenedProblemId: state.currentProblem?.id ?? null,
-    selectedLanguage: state.selectedLanguage
+    selectedLanguage: state.selectedLanguage,
+    practiceMode: state.practiceMode
   };
 }
 
@@ -576,12 +647,15 @@ function applyDesktopPreferences(preferences = {}) {
     typeof preferences.editorFontSize === "number" ? preferences.editorFontSize : DEFAULT_PREFERENCES.editorFontSize;
   state.currentRunMode = preferences.currentRunMode ?? DEFAULT_PREFERENCES.currentRunMode;
   state.currentProblemView = preferences.currentProblemView ?? DEFAULT_PREFERENCES.currentProblemView;
-  state.currentView = preferences.currentView ?? DEFAULT_PREFERENCES.currentView;
+  state.currentView = preferences.currentView === "home"
+    ? "practice"
+    : (preferences.currentView ?? DEFAULT_PREFERENCES.currentView);
   state.sidebarCollapsed = preferences.sidebarCollapsed ?? DEFAULT_PREFERENCES.sidebarCollapsed;
   state.editorFocusMode = preferences.editorFocusMode ?? DEFAULT_PREFERENCES.editorFocusMode;
   state.lastOpenedTopicId = preferences.lastOpenedTopicId ?? DEFAULT_PREFERENCES.lastOpenedTopicId;
   state.lastOpenedProblemId = preferences.lastOpenedProblemId ?? DEFAULT_PREFERENCES.lastOpenedProblemId;
   state.selectedLanguage = preferences.selectedLanguage === "cpp" ? "cpp" : "java";
+  state.practiceMode = preferences.practiceMode === "pro" ? "pro" : "beginner";
 }
 
 async function persistDesktopPreferences() {
@@ -1017,6 +1091,9 @@ function applyEditorLanguage() {
   if (languageSelectEl) {
     languageSelectEl.value = state.selectedLanguage;
   }
+  if (practiceModeSelectEl) {
+    practiceModeSelectEl.value = state.practiceMode;
+  }
   if (monacoEditor && monacoApi) {
     const model = monacoEditor.getModel();
     if (model) {
@@ -1050,6 +1127,7 @@ function updateEditorStatus() {
 
   cursorStatusEl.textContent = `Ln ${line}, Col ${column}`;
   selectionStatusEl.textContent = `${selectionLength} selected`;
+  selectionStatusEl.classList.toggle("is-hidden", selectionLength === 0);
   lineStatusEl.textContent = `${lines} line${lines === 1 ? "" : "s"}`;
 
   if (!state.currentProblem) {
@@ -1077,13 +1155,16 @@ function setEditorControlsEnabled(enabled) {
   saveButtonEl.disabled = !enabled;
   submitButtonEl.disabled = !enabled;
   openFileButtonEl.disabled = !enabled;
+  resetCodeButtonEl.disabled = !enabled;
   if (languageSelectEl) languageSelectEl.disabled = !enabled;
+  if (practiceModeSelectEl) practiceModeSelectEl.disabled = !enabled;
 }
 
 function renderRunMode() {
   runModeTabsEl.querySelectorAll("[data-run-mode]").forEach((button) => {
     button.classList.toggle("active", button.getAttribute("data-run-mode") === state.currentRunMode);
   });
+  customRunPanelEl.classList.toggle("is-hidden", state.currentRunMode !== "custom");
   customInputSectionEl.classList.toggle("is-hidden", state.currentRunMode !== "custom");
 }
 
@@ -1102,6 +1183,7 @@ function emptyEditorState() {
   problemMetaEl.textContent = "Open a problem to load its starter file here.";
   state.editorDirty = false;
   if (languageSelectEl) languageSelectEl.disabled = true;
+  if (practiceModeSelectEl) practiceModeSelectEl.disabled = true;
   updateEditorStatus();
 }
 
@@ -1220,6 +1302,9 @@ function marketingWorldStatus(world, index) {
 }
 
 function renderHomeHero() {
+  if (homeNameInputEl && !homeNameInputEl.value.trim()) {
+    homeNameInputEl.value = state.bootstrap?.profile?.name ?? "";
+  }
   const missionProblem = currentMissionProblem();
   if (!missionProblem) {
     heroTaskTitleEl.textContent = "Your next task will appear here";
@@ -1320,42 +1405,39 @@ function renderHomeHero() {
 
 function renderHomeFlow() {
   if (!homeProductFlowEl) return;
-  const recommendationMessage =
-    state.bootstrap.nextRecommendation?.message ?? "The platform selects the next problem automatically.";
-  const recommendationReason =
-    state.bootstrap.nextRecommendation?.reasons?.[0] ?? "Chosen from your current topic progression.";
-
   homeProductFlowEl.innerHTML = `
-    <article class="flow-phase-card flow-phase-solve">
-      <div class="flow-phase-icon">▶</div>
-      <div class="flow-phase-copy">
-        <span class="flow-phase-label">Solve</span>
-        <strong>Write the solution in the editor.</strong>
-        <p>Run official tests before you submit.</p>
-      </div>
+    <article class="timeline-step panel">
+      <span class="timeline-icon">📘</span>
+      <span class="timeline-count">1</span>
+      <strong>Understand</strong>
+      <p>Learn the concept with curated resources.</p>
     </article>
     <div class="flow-phase-arrow">→</div>
-    <article class="flow-phase-card flow-phase-feedback">
-      <div class="flow-phase-icon">✓</div>
-      <div class="flow-phase-copy">
-        <span class="flow-phase-label">Feedback</span>
-        <strong>See correctness, concepts, and misses.</strong>
-        <p>Feedback stays tied to the problem you just solved.</p>
-      </div>
+    <article class="timeline-step panel">
+      <span class="timeline-icon">&lt;/&gt;</span>
+      <span class="timeline-count">2</span>
+      <strong>Solve</strong>
+      <p>Solve handpicked problems that match your level.</p>
     </article>
     <div class="flow-phase-arrow">→</div>
-    <article class="flow-phase-card flow-phase-recommendation">
-      <div class="flow-phase-icon">↗</div>
-      <div class="flow-phase-copy">
-        <span class="flow-phase-label">Recommendation</span>
-        <strong>${escapeHtml(recommendationMessage)}</strong>
-        <p>${escapeHtml(recommendationReason)}</p>
-      </div>
+    <article class="timeline-step panel">
+      <span class="timeline-icon">🧠</span>
+      <span class="timeline-count">3</span>
+      <strong>Get Feedback</strong>
+      <p>AI analyzes your code and explains what to improve.</p>
+    </article>
+    <div class="flow-phase-arrow">→</div>
+    <article class="timeline-step panel">
+      <span class="timeline-icon">🚀</span>
+      <span class="timeline-count">4</span>
+      <strong>Improve & Unlock</strong>
+      <p>Strengthen weak concepts and unlock new challenges.</p>
     </article>
   `;
 }
 
 function renderHomeWorlds() {
+  if (!homeWorldsEl) return;
   homeWorldsEl.innerHTML = `
     <div class="world-adventure-map">
       <div class="world-adventure-path"></div>
@@ -1384,6 +1466,7 @@ function renderHomeWorlds() {
 }
 
 function renderHomeRoadmap() {
+  if (!homeRoadmapEl) return;
   homeRoadmapEl.innerHTML = MARKETING_ROADMAP
     .map((node) => {
       const solved = topicSolvedCount(node.sourceTopicId);
@@ -1401,30 +1484,30 @@ function renderHomeRoadmap() {
 }
 
 function renderHomeStats() {
-  const stats = platformStats();
+  if (!homeStatsEl) return;
   const cards = [
     {
       icon: marketingIcon("worlds"),
-      value: stats.activeTopics,
-      label: "Active Worlds",
+      value: 12450,
+      label: "Students Learning",
       suffix: "+"
     },
     {
       icon: marketingIcon("problems"),
-      value: stats.totalProblems,
-      label: "Guided Problems",
+      value: 124870,
+      label: "Problems Solved",
       suffix: "+"
     },
     {
       icon: marketingIcon("streak"),
-      value: Math.max(1, state.bootstrap.gameProfile?.streakDays ?? 0),
-      label: "Current Streak",
+      value: 8,
+      label: "Average Day Streak",
       suffix: ""
     },
     {
       icon: marketingIcon("trophy"),
-      value: stats.solvedProblems,
-      label: "Problems Solved",
+      value: 2350,
+      label: "Top Learners",
       suffix: "+"
     }
   ];
@@ -1463,24 +1546,56 @@ function animateHomeCounters() {
   });
 }
 
-function renderPlayerCard() {
+function renderProfilePage() {
   const { profile, gameProfile, activeTopic } = state.bootstrap;
-  const topicTitle = gameProfile.topicTitles?.[state.bootstrap.activeTopicId];
-  playerCardEl.innerHTML = `
-    <strong>${escapeHtml(profile?.name ?? "Player")}</strong>
-    <p>${escapeHtml(gameProfile.rankTitle)} · Level ${gameProfile.level}</p>
-    <p>XP ${gameProfile.xp} · Streak ${gameProfile.streakDays} day(s)</p>
-    <p>${topicTitle ? `Active Title: ${escapeHtml(topicTitle)}` : `Focused World: ${escapeHtml(activeTopic?.worldName ?? "Arena")}`}</p>
-  `;
+  const name = profile?.name ?? "Player";
+  const batch = profile?.batch ?? "Self-paced";
+  const preferredLanguage = profile?.preferredLanguage ?? "Java";
+  const currentLevel = profile?.currentLevel ?? "beginner";
+  const topicProgress = state.bootstrap.topicProgress.find((item) => item.topicId === state.bootstrap.activeTopicId);
+  const totalSolved = state.bootstrap.topicProgress.reduce((sum, item) => sum + item.solved, 0);
+  const createdDate = profile?.createdAt
+    ? new Date(profile.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
+    : "Not available";
+
+  profileDisplayNameEl.textContent = name;
+  profileDisplayMetaEl.textContent = `${gameProfile.rankTitle} · Level ${gameProfile.level}`;
+  profileNameInputEl.value = name;
+  profileBatchInputEl.value = batch;
+  profileLanguageInputEl.value = ["Java", "C++", "Python", "C"].includes(preferredLanguage) ? preferredLanguage : "Java";
+  profileLevelInputEl.value = currentLevel;
+  profileActiveTopicEl.textContent = `${activeTopic?.name ?? "Topic"}${topicProgress ? ` · ${topicProgress.solved}/${topicProgress.total} solved` : ""}`;
+  profileCreatedAtEl.textContent = createdDate;
+
+  const stats = [
+    ["Rank", gameProfile.rankTitle],
+    ["Level", gameProfile.level],
+    ["XP", gameProfile.xp],
+    ["Streak", `${gameProfile.streakDays} day${gameProfile.streakDays === 1 ? "" : "s"}`],
+    ["Solved", totalSolved],
+    ["Batch", batch]
+  ];
+
+  profileStatsGridEl.innerHTML = stats
+    .map(([label, value]) => `
+      <div class="profile-stat-card">
+        <span>${escapeHtml(String(label))}</span>
+        <strong>${escapeHtml(String(value))}</strong>
+      </div>
+    `)
+    .join("");
 }
 
 function renderHeader() {
   const { activeTopic, profile, gameProfile } = state.bootstrap;
   const current = currentMissionProblem();
+  const solved = state.bootstrap.topicProgress.find((item) => item.topicId === state.bootstrap.activeTopicId);
   headerBreadcrumbEl.textContent = current
     ? `${activeTopic?.name ?? "Topic"} › ${current.subtopic}`
     : `${activeTopic?.name ?? "Topic"} › Recommended Path`;
   headerPlayerChipEl.textContent = `${profile?.name ?? "Player"} · Lv ${gameProfile.level}`;
+  streakCountEl.textContent = `${gameProfile.streakDays} day${gameProfile.streakDays === 1 ? "" : "s"}`;
+  solvedCountEl.textContent = `${solved?.solved ?? 0}/${solved?.total ?? state.bootstrap.problems.length}`;
   if (current?.difficulty) {
     headerDifficultyBadgeEl.className = `pill ${difficultyColor(current.difficulty)}`;
     headerDifficultyBadgeEl.textContent = current.difficulty;
@@ -1490,6 +1605,72 @@ function renderHeader() {
   }
   topicNameEl.textContent = activeTopic?.name ?? "Topic";
   topicDescriptionEl.textContent = activeTopic?.description ?? "";
+  renderContentSyncNote();
+}
+
+function formatSyncTime(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleString([], {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function renderContentSyncNote() {
+  if (!contentSyncNoteEl || !state.bootstrap?.contentSync) {
+    return;
+  }
+  const sync = state.bootstrap.contentSync;
+  const sourceLabel = sync.source === "synced" ? `Synced content · ${sync.activeContentVersion}` : "Bundled content";
+  const detail = sync.lastSyncedAt
+    ? `Last synced ${formatSyncTime(sync.lastSyncedAt)}`
+    : sync.enabled
+      ? "Live sync ready"
+      : "Live sync not configured";
+  contentSyncNoteEl.textContent = `${sourceLabel} · ${detail}`;
+
+  if (syncContentButtonEl) {
+    syncContentButtonEl.textContent = sync.enabled ? "Sync Content" : "Sync Not Configured";
+    syncContentButtonEl.disabled = !sync.enabled;
+  }
+}
+
+async function refreshBootstrapAfterContentSync() {
+  const activeTopicId = state.bootstrap?.activeTopicId;
+  await loadBootstrap(activeTopicId ?? undefined);
+  await restoreLastWorkspace();
+  render();
+}
+
+async function syncContent({ quiet = false } = {}) {
+  try {
+    if (syncContentButtonEl) {
+      syncContentButtonEl.disabled = true;
+      syncContentButtonEl.textContent = "Syncing…";
+    }
+
+    const result = await window.dsaDesktop.syncContent();
+    if (result?.updated) {
+      await refreshBootstrapAfterContentSync();
+    } else if (result?.status && state.bootstrap) {
+      state.bootstrap.contentSync = result.status;
+      renderContentSyncNote();
+    }
+
+    if (!quiet && result?.status?.message && contentSyncNoteEl) {
+      contentSyncNoteEl.textContent = result.status.message;
+    }
+  } catch (error) {
+    if (!quiet && contentSyncNoteEl) {
+      contentSyncNoteEl.textContent = error?.message || String(error);
+    }
+  } finally {
+    renderContentSyncNote();
+  }
 }
 
 function renderEnvironmentBanner() {
@@ -1522,10 +1703,9 @@ function renderEnvironmentBanner() {
 }
 
 function renderPracticeStrip() {
-  const { gameProfile, nextRecommendation } = state.bootstrap;
+  const { nextRecommendation } = state.bootstrap;
   const missionProblem = currentMissionProblem();
   const hasWorkspaceOpen = Boolean(state.currentProblem);
-  const solved = state.bootstrap.topicProgress.find((item) => item.topicId === state.bootstrap.activeTopicId);
 
   missionTitleEl.textContent = hasWorkspaceOpen
     ? `Continue ${state.currentProblem.id} · ${state.currentProblem.title}`
@@ -1545,14 +1725,10 @@ function renderPracticeStrip() {
     `
     : "";
 
-  streakCountEl.textContent = `${gameProfile.streakDays} day${gameProfile.streakDays === 1 ? "" : "s"}`;
-  solvedCountEl.textContent = `${solved?.solved ?? 0}/${solved?.total ?? state.bootstrap.problems.length}`;
-
-  missionStepsEl.textContent = hasWorkspaceOpen
-    ? "Read the left panel, code on the right, then submit when ready."
-    : missionProblem
-      ? `Start ${missionProblem.id}, solve it, and submit it.`
-      : "Pick a topic to load your first task.";
+  const recommendationReason = nextRecommendation.reasons?.find((reason) => reason.trim().length > 0);
+  taskHelpLabelEl.textContent = "Why this task?";
+  missionStepsEl.textContent = recommendationReason ?? "";
+  taskHelpInlineEl.classList.toggle("is-hidden", !missionProblem || !recommendationReason);
 
   missionActionButtonEl.textContent = hasWorkspaceOpen ? "Continue Current Task" : "Start Next Task";
   missionActionButtonEl.disabled = !missionProblem;
@@ -1710,32 +1886,14 @@ Output: ${escapeHtml(example.output)}</pre>
 function renderEditorMeta(problem, workspacePath) {
   if (!problem) {
     editorProblemTitleEl.textContent = "Workspace";
-    problemMetaEl.textContent = "Open a problem to load its starter file here.";
+    problemMetaEl.textContent = "";
     return;
   }
 
-  const functionMode = Boolean(problem.functionContract && problem.solutionMode !== "complete-program");
-  const independenceMilestone = Boolean(problem.independenceMilestoneFor?.length);
-  editorProblemTitleEl.textContent = functionMode
-    ? `Complete the function · ${problem.title}`
-    : independenceMilestone
-      ? `Complete-program milestone · ${problem.title}`
-    : `${problem.id} · ${problem.title}`;
-  const modeDetails = functionMode
-    ? `<br /><strong>Task:</strong> Implement <code>${escapeHtml(
-        state.selectedLanguage === "cpp" ? problem.functionContract.cppSignature : problem.functionContract.javaSignature
-      )}</code><br /><span class="muted">Node, input parsing, output formatting, and the test driver are provided.</span>`
-    : "";
-  const milestoneDetails = independenceMilestone
-    ? `<br /><strong>Milestone:</strong> Build the complete executable solution without generated scaffolding.`
-    : "";
-  problemMetaEl.innerHTML = `
-    <strong>${escapeHtml(problem.topic)} · ${escapeHtml(problem.subtopic)}</strong><br />
-    Workspace: ${escapeHtml(workspacePath ?? "Not created yet")}<br />
-    Language: ${state.selectedLanguage === "cpp" ? "C++17" : "Java"}
-    ${modeDetails}
-    ${milestoneDetails}
-  `;
+  const fileName = workspacePath ? workspacePath.split(/[\\/]/).pop() : "No file yet";
+  editorProblemTitleEl.textContent = fileName ?? "Solution";
+  editorProblemTitleEl.title = workspacePath ?? "";
+  problemMetaEl.textContent = "";
 }
 
 function renderStreakCalendar() {
@@ -2165,14 +2323,15 @@ function formatLikelyCause(outcome) {
 }
 
 async function startProblem(problemId) {
-  const session = await window.dsaDesktop.startProblem(problemId, state.selectedLanguage);
+  const session = await window.dsaDesktop.startProblem(problemId, state.selectedLanguage, state.practiceMode);
   loadWorkspaceSession(session);
 }
 
-function loadWorkspaceSession(session) {
+function loadWorkspaceSession(session, options = {}) {
   state.currentProblem = session.problem;
   state.workspacePath = session.workspacePath;
   state.selectedLanguage = session.language === "cpp" ? "cpp" : "java";
+  state.practiceMode = session.practiceMode === "pro" ? "pro" : "beginner";
   state.currentView = "practice";
   state.currentProblemView = "description";
   clearResultPanels();
@@ -2188,8 +2347,15 @@ function loadWorkspaceSession(session) {
   render();
   updateEditorStatus();
   scheduleEditorRefresh();
-  monacoEditor?.focus();
-  scheduleScrollReset();
+  if (options.scrollTarget === "editor") {
+    requestAnimationFrame(() => {
+      scrollToCurrentTaskWorkspace();
+      monacoEditor?.focus();
+    });
+  } else {
+    monacoEditor?.focus();
+    scheduleScrollReset();
+  }
   void persistDesktopPreferences();
 }
 
@@ -2198,7 +2364,7 @@ async function restoreLastWorkspace() {
   if (!problemId) return;
 
   try {
-    const session = await window.dsaDesktop.loadWorkspace(problemId, state.selectedLanguage);
+    const session = await window.dsaDesktop.loadWorkspace(problemId, state.selectedLanguage, state.practiceMode);
     loadWorkspaceSession(session);
   } catch (_error) {
     state.lastOpenedProblemId = null;
@@ -2208,7 +2374,7 @@ async function restoreLastWorkspace() {
 
 async function saveCurrentWorkspace() {
   if (!state.currentProblem) return;
-  await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
+  await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage, state.practiceMode);
   setEditorDirty(false);
   setResultPanels(
     {
@@ -2219,6 +2385,28 @@ async function saveCurrentWorkspace() {
     state.showResult,
     "summary"
   );
+}
+
+async function resetCurrentWorkspaceCode() {
+  if (!state.currentProblem) return;
+
+  const confirmed = window.confirm("Reset this editor to the starter template? Your current code for this problem will be replaced.");
+  if (!confirmed) return;
+
+  const session = await window.dsaDesktop.resetWorkspace(state.currentProblem.id, state.selectedLanguage, state.practiceMode);
+  loadWorkspaceSession(session);
+  clearResultPanels();
+  setResultPanels(
+    {
+      summary: `<strong>Code reset</strong><p>${escapeHtml(session.problem.id)} was restored to the starter template.</p>`,
+      execution: `<p class="muted">No execution run yet. Press Run when you are ready to test again.</p>`,
+      guidance: `<p class="muted">Rebuild your solution from the starter code, then submit for feedback.</p>`
+    },
+    true,
+    "summary"
+  );
+  render();
+  scrollToCurrentTaskWorkspace();
 }
 
 async function runCurrentWorkspace() {
@@ -2236,13 +2424,14 @@ async function runCurrentWorkspace() {
       "summary"
     );
     render();
-    scrollToResultsSection();
+    revealResultsFromFocusMode();
     return;
   }
   const outcome = await window.dsaDesktop.runProblem(state.currentProblem.id, getEditorValue(), {
     mode: state.currentRunMode,
     customInput: customInputEl.value,
-    language: state.selectedLanguage
+    language: state.selectedLanguage,
+    practiceMode: state.practiceMode
   });
   if (outcome.mode === "custom") {
     setResultPanels(buildCustomRunPanels(outcome.problem, outcome.customRun), true, "execution");
@@ -2251,7 +2440,7 @@ async function runCurrentWorkspace() {
   }
   render();
   updateEditorStatus();
-  scrollToResultsSection();
+  revealResultsFromFocusMode();
 }
 
 async function submitCurrentWorkspace() {
@@ -2269,11 +2458,16 @@ async function submitCurrentWorkspace() {
       "summary"
     );
     render();
-    scrollToResultsSection();
+    revealResultsFromFocusMode();
     return;
   }
   const previousStreak = state.bootstrap?.gameProfile?.streakDays ?? 0;
-  const outcome = await window.dsaDesktop.submitProblem(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
+  const outcome = await window.dsaDesktop.submitProblem(
+    state.currentProblem.id,
+    getEditorValue(),
+    state.selectedLanguage,
+    state.practiceMode
+  );
   state.editorDirty = false;
   state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap.activeTopicId);
 
@@ -2288,6 +2482,16 @@ async function submitCurrentWorkspace() {
     conceptName: detectedConceptNames[index]
   }));
   const nextProblem = state.bootstrap?.nextRecommendation?.problem;
+  const executionStatusText = outcome.execution.usedTestCases
+    ? `${outcome.execution.passedCount}/${outcome.execution.totalCount} test cases passed`
+    : outcome.solvedByExecution
+      ? "All available tests passed"
+      : "Review the feedback below";
+  const executionStatusTone = outcome.solvedByExecution ? "success" : "danger";
+  const optimizationItems = [
+    ...outcome.analysisFeedback.improvements,
+    ...outcome.analysisFeedback.antiPatterns.map((item) => conceptLabel(item.id))
+  ].slice(0, 3);
   const nextTaskAction = nextProblem
     ? `
         <div class="next-task-inline">
@@ -2301,37 +2505,77 @@ async function submitCurrentWorkspace() {
 
   const reviewPanels = {
     summary: `
-        ${buildResultStateBanner(
-          `Submission review · ${outcome.problem.id}`,
-          "This result counts toward your progress and concept profile.",
-          `<span class="pill ${scoreColor(outcome.score.finalScore)}">${outcome.score.finalScore}/100</span>`
-        )}
-        <div class="result-card-grid">
-          <div class="result-score-card">
-            <div class="eyebrow">Review · ${escapeHtml(outcome.problem.id)}</div>
-            ${buildSummaryScoreRing(outcome.score.finalScore, outcome.score.finalScore >= 85 ? "Great" : "Review")}
-            <strong>${escapeHtml(outcome.problem.title)}</strong>
+        <div class="submission-review-shell">
+          <div class="submission-review-top">
+            <section class="review-score-hero">
+              <div class="review-score-ring-wrap">
+                ${buildTechnicalScoreRing(outcome.score.finalScore)}
+              </div>
+              <div class="review-score-content">
+                <div class="review-score-heading">
+                  <div>
+                    <div class="eyebrow">Submission Analysis</div>
+                    <h3>${escapeHtml(outcome.problem.title)}</h3>
+                    <div class="review-integrity-row ${executionStatusTone}">
+                      <span class="review-live-dot"></span>
+                      <span>${escapeHtml(executionStatusText)}</span>
+                    </div>
+                  </div>
+                  <span class="review-id-chip">id: ${escapeHtml(outcome.problem.id)}</span>
+                </div>
+                <div class="review-metric-grid">
+                  ${buildReviewMetricTile("Correctness", outcome.score.correctnessScore, "success")}
+                  ${buildReviewMetricTile("Concepts", outcome.score.conceptMatchScore, "success")}
+                  ${buildReviewMetricTile("Code Quality", outcome.score.qualityScore, "primary")}
+                  ${buildReviewMetricTile("Complexity", outcome.score.complexityScore, "warning")}
+                </div>
+              </div>
+            </section>
+
+            <aside class="review-next-objective">
+              <div class="review-objective-icon">↗</div>
+              <div>
+                <div class="review-section-label">Next Problem</div>
+                <h3>${nextProblem ? escapeHtml(nextProblem.title) : "Keep Practicing"}</h3>
+                <p>${escapeHtml(nextProblem ? outcome.recommendation.message : "No new recommendation is available yet. Review the current diagnostics and keep practicing.")}</p>
+              </div>
+              ${nextProblem ? `
+                <div class="review-objective-tags">
+                  <span>${escapeHtml(nextProblem.difficulty)}</span>
+                  <span>Topic: ${escapeHtml(nextProblem.topic)}</span>
+                </div>
+                <button class="primary-button" data-result-action="start-next-task">Start Next Problem</button>
+              ` : ""}
+            </aside>
           </div>
-          <div class="result-metric-card">
-            <div class="result-metrics">
-              <div class="result-metrics-block">
-                <div class="result-metrics-label">Score Breakdown</div>
-                <div class="metric-row"><strong>Correctness</strong><span class="metric-value">${outcome.score.correctnessScore}</span></div>
-                <div class="metric-row"><strong>Concept Match</strong><span class="metric-value">${outcome.score.conceptMatchScore}</span></div>
-                <div class="metric-row"><strong>Code Quality</strong><span class="metric-value">${outcome.score.qualityScore}</span></div>
-                <div class="metric-row"><strong>Complexity</strong><span class="metric-value">${outcome.score.complexityScore}</span></div>
+
+          <div class="review-diagnostics-grid">
+            <section class="review-instrument-card review-kernel-card">
+              <div class="review-card-header">
+                <h4>Concept Feedback</h4>
+                <div class="review-signal-dots" aria-hidden="true"><span></span><span></span><span></span></div>
               </div>
-              <div class="result-metrics-block">
-                <div class="result-metrics-label">Concept Signals</div>
-                <div class="metric-row"><strong>Detected Concepts</strong><span class="chip-list">${renderConceptChips(detectedConceptNames, "blue")}</span></div>
-                <div class="metric-row"><strong>Missing Concepts</strong><span class="chip-list">${renderConceptChips(missingConceptNames, "red")}</span></div>
-              </div>
+              ${renderConceptEvidence(detectedConceptEvidence)}
+              ${missingConceptNames.length ? `
+                <div class="review-missing-block">
+                  <div class="review-section-label">Missing Concepts</div>
+                  <div class="chip-list">${renderConceptChips(missingConceptNames, "red")}</div>
+                </div>
+              ` : ""}
+            </section>
+
+            <div class="review-side-stack">
+              <section class="review-instrument-card review-optimization-card">
+                <div class="review-card-header">
+                  <h4>What To Improve</h4>
+                  <span class="review-priority-chip">${optimizationItems.length ? "Review" : "Looks Good"}</span>
+                </div>
+                ${optimizationItems.length
+                  ? `<ul class="analysis-reason-list">${optimizationItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+                  : `<p class="muted">No immediate improvement is required. Keep the same approach and move forward.</p>`}
+              </section>
             </div>
           </div>
-        </div>
-        <div class="result-detail-card analysis-evidence-card">
-          <h4>Why these concepts were detected</h4>
-          ${renderConceptEvidence(detectedConceptEvidence)}
         </div>
       `,
     execution: `
@@ -2388,6 +2632,7 @@ async function submitCurrentWorkspace() {
   }
   render();
   updateEditorStatus();
+  revealResultsFromFocusMode();
 }
 
 async function openCurrentWorkspace() {
@@ -2408,12 +2653,32 @@ function toggleEditorFocus() {
   render();
 }
 
+function revealResultsFromFocusMode() {
+  if (!state.editorFocusMode) {
+    scrollToResultsSection();
+    return;
+  }
+
+  state.editorFocusMode = false;
+  void persistDesktopPreferences();
+  render();
+  requestAnimationFrame(() => {
+    scrollToResultsSection();
+  });
+}
+
 function render() {
   if (!state.bootstrap) return;
   applySplitRatio();
   appShellEl.classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
   appShellEl.classList.toggle("editor-focus-mode", state.editorFocusMode);
-  toggleSidebarButtonEl.textContent = state.sidebarCollapsed ? "☰ Expand Sidebar" : "☰ Collapse Sidebar";
+  if (toggleSidebarButtonEl) {
+    toggleSidebarButtonEl.textContent = state.sidebarCollapsed ? "›" : "‹";
+    toggleSidebarButtonEl.title = state.sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar";
+    toggleSidebarButtonEl.setAttribute("aria-label", state.sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar");
+  }
+  sidebarEdgeToggleButtonEl.textContent = state.sidebarCollapsed ? "›" : "‹";
+  sidebarEdgeToggleButtonEl.title = state.sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar";
   sidebarEdgeToggleButtonEl.setAttribute("aria-label", state.sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar");
   toggleEditorFocusButtonEl.textContent = state.editorFocusMode ? "Exit Focus" : "Focus Editor";
   renderViews();
@@ -2428,7 +2693,7 @@ function render() {
   renderHomeRoadmap();
   renderHomeStats();
   renderTopics();
-  renderPlayerCard();
+  renderProfilePage();
   renderPracticeStrip();
   renderProblemList();
   renderProblemPane(state.currentProblem);
@@ -2462,6 +2727,25 @@ refreshButtonEl.addEventListener("click", async () => {
   environmentBannerDismissed = false;
   state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap?.activeTopicId);
   render();
+});
+
+profileFormEl?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  profileSaveStatusEl.textContent = "Saving...";
+  const updatedBootstrap = await window.dsaDesktop.updateProfile({
+    name: profileNameInputEl.value,
+    batch: profileBatchInputEl.value,
+    preferredLanguage: profileLanguageInputEl.value,
+    currentLevel: profileLevelInputEl.value
+  });
+  state.bootstrap = updatedBootstrap;
+  profileSaveStatusEl.textContent = "Saved";
+  render();
+  window.setTimeout(() => {
+    if (profileSaveStatusEl.textContent === "Saved") {
+      profileSaveStatusEl.textContent = "";
+    }
+  }, 1800);
 });
 
 environmentBannerGuideButtonEl?.addEventListener("click", async () => {
@@ -2507,7 +2791,8 @@ topicSwitcherButtonEl.addEventListener("click", () => {
   toggleTopicSwitcher();
 });
 
-homeStartButtonEl.addEventListener("click", async () => {
+homeStartButtonEl?.addEventListener("click", async () => {
+  await syncHomeQuickStartProfile();
   await launchPrimaryMission();
 });
 
@@ -2519,15 +2804,15 @@ homeLoginButtonEl?.addEventListener("click", () => {
   setCurrentView("practice");
 });
 
-heroTaskStartButtonEl.addEventListener("click", async () => {
+heroTaskStartButtonEl?.addEventListener("click", async () => {
   await launchPrimaryMission();
 });
 
-homeFinalCtaButtonEl.addEventListener("click", async () => {
+homeFinalCtaButtonEl?.addEventListener("click", async () => {
   await launchPrimaryMission();
 });
 
-homeDemoButtonEl.addEventListener("click", () => {
+homeDemoButtonEl?.addEventListener("click", () => {
   if (!homeShowcaseSectionEl) return;
   homeShowcaseSectionEl.scrollIntoView({
     behavior: "smooth",
@@ -2545,15 +2830,31 @@ document.querySelectorAll("[data-home-scroll]").forEach((button) => {
   });
 });
 
+headerPlayerChipEl.addEventListener("click", () => {
+  setCurrentView("profile");
+});
+
+headerMoreButtonEl.addEventListener("click", (event) => {
+  event.stopPropagation();
+  toggleHeaderMoreMenu();
+});
+
 resetLayoutButtonEl.addEventListener("click", async () => {
+  closeHeaderMoreMenu();
   await resetLayoutState();
 });
 
 resetPreferencesButtonEl.addEventListener("click", async () => {
+  closeHeaderMoreMenu();
   await resetDesktopPreferences();
 });
 
-toggleSidebarButtonEl.addEventListener("click", () => {
+syncContentButtonEl?.addEventListener("click", async () => {
+  closeHeaderMoreMenu();
+  await syncContent();
+});
+
+toggleSidebarButtonEl?.addEventListener("click", () => {
   toggleSidebar();
 });
 
@@ -2566,6 +2867,7 @@ toggleEditorFocusButtonEl.addEventListener("click", () => {
 });
 
 saveButtonEl.addEventListener("click", saveCurrentWorkspace);
+resetCodeButtonEl.addEventListener("click", resetCurrentWorkspaceCode);
 runButtonEl.addEventListener("click", runCurrentWorkspace);
 submitButtonEl.addEventListener("click", submitCurrentWorkspace);
 openFileButtonEl.addEventListener("click", openCurrentWorkspace);
@@ -2574,7 +2876,7 @@ languageSelectEl?.addEventListener("change", async () => {
   if (nextLanguage === state.selectedLanguage) return;
 
   if (state.currentProblem) {
-    await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage);
+    await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage, state.practiceMode);
   }
 
   state.selectedLanguage = nextLanguage;
@@ -2582,8 +2884,28 @@ languageSelectEl?.addEventListener("change", async () => {
   clearResultPanels();
 
   if (state.currentProblem) {
-    const session = await window.dsaDesktop.loadWorkspace(state.currentProblem.id, state.selectedLanguage);
-    loadWorkspaceSession(session);
+    const session = await window.dsaDesktop.loadWorkspace(state.currentProblem.id, state.selectedLanguage, state.practiceMode);
+    loadWorkspaceSession(session, { scrollTarget: "editor" });
+  } else {
+    applyEditorLanguage();
+    render();
+    await persistDesktopPreferences();
+  }
+});
+practiceModeSelectEl?.addEventListener("change", async () => {
+  const nextMode = practiceModeSelectEl.value === "pro" ? "pro" : "beginner";
+  if (nextMode === state.practiceMode) return;
+
+  if (state.currentProblem) {
+    await window.dsaDesktop.saveWorkspace(state.currentProblem.id, getEditorValue(), state.selectedLanguage, state.practiceMode);
+  }
+
+  state.practiceMode = nextMode;
+  clearResultPanels();
+
+  if (state.currentProblem) {
+    const session = await window.dsaDesktop.loadWorkspace(state.currentProblem.id, state.selectedLanguage, state.practiceMode);
+    loadWorkspaceSession(session, { scrollTarget: "editor" });
   } else {
     applyEditorLanguage();
     render();
@@ -2735,8 +3057,12 @@ if (typeof ResizeObserver !== "undefined") {
 document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof Node)) return;
-  if (topicSwitcherButtonEl.contains(target) || topicSwitcherMenuEl.contains(target)) return;
-  closeTopicSwitcher();
+  if (!topicSwitcherButtonEl.contains(target) && !topicSwitcherMenuEl.contains(target)) {
+    closeTopicSwitcher();
+  }
+  if (!headerMoreButtonEl.contains(target) && !headerMoreMenuEl.contains(target)) {
+    closeHeaderMoreMenu();
+  }
 });
 
 window.dsaDesktop.onUpdateStatus?.((status) => {
@@ -2764,6 +3090,7 @@ window.dsaDesktop.onUpdateStatus?.((status) => {
     }
     render();
     scheduleScrollReset();
+    void syncContent({ quiet: true });
   } catch (error) {
     setResultPanels(
       {

@@ -98,15 +98,29 @@ function createWindow() {
 }
 
 ipcMain.handle("desktop:bootstrap", async (_event, topicId) => getDesktopApi().getDesktopBootstrap(topicId));
+ipcMain.handle("desktop:update-profile", async (_event, profile) => getDesktopApi().updateDesktopProfile(profile));
 ipcMain.handle("desktop:switch-topic", async (_event, topicId) => getDesktopApi().switchDesktopTopic(topicId));
-ipcMain.handle("desktop:start-problem", async (_event, problemId, language) => getDesktopApi().startDesktopProblem(problemId, language));
-ipcMain.handle("desktop:load-workspace", async (_event, problemId, language) => getDesktopApi().loadDesktopWorkspace(problemId, language));
-ipcMain.handle("desktop:save-workspace", async (_event, problemId, code, language) => getDesktopApi().saveDesktopWorkspace(problemId, code, language));
+ipcMain.handle("desktop:start-problem", async (_event, problemId, language, practiceMode) =>
+  getDesktopApi().startDesktopProblem(problemId, language, practiceMode)
+);
+ipcMain.handle("desktop:load-workspace", async (_event, problemId, language, practiceMode) =>
+  getDesktopApi().loadDesktopWorkspace(problemId, language, practiceMode)
+);
+ipcMain.handle("desktop:save-workspace", async (_event, problemId, code, language, practiceMode) =>
+  getDesktopApi().saveDesktopWorkspace(problemId, code, language, practiceMode)
+);
+ipcMain.handle("desktop:reset-workspace", async (_event, problemId, language, practiceMode) =>
+  getDesktopApi().resetDesktopWorkspace(problemId, language, practiceMode)
+);
 ipcMain.handle("desktop:run-problem", async (_event, problemId, code, options) => getDesktopApi().runDesktopProblem(problemId, code, options));
-ipcMain.handle("desktop:submit-problem", async (_event, problemId, code, language) => getDesktopApi().submitDesktopProblem(problemId, code, language));
+ipcMain.handle("desktop:submit-problem", async (_event, problemId, code, language, practiceMode) =>
+  getDesktopApi().submitDesktopProblem(problemId, code, language, practiceMode)
+);
 ipcMain.handle("desktop:get-concept-name", async (_event, conceptId) => getDesktopApi().getDesktopConceptName(conceptId));
 ipcMain.handle("desktop:load-preferences", async () => getDesktopApi().loadDesktopPreferences());
 ipcMain.handle("desktop:save-preferences", async (_event, preferences) => getDesktopApi().saveDesktopPreferenceState(preferences));
+ipcMain.handle("desktop:get-content-sync-status", async () => getDesktopApi().getDesktopContentSyncStatus());
+ipcMain.handle("desktop:sync-content", async () => getDesktopApi().syncDesktopContent());
 ipcMain.handle("desktop:open-path", async (_event, targetPath) => {
   if (!targetPath) {
     return "No path provided.";

@@ -1,13 +1,9 @@
 import fs from "fs";
 import path from "path";
-import os from "os";
-import { Concept, DesktopPreferences, GameProfile, Problem, ProgrammingLanguage, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
-import { defaultTopicId, topicOrder, topicPacks } from "../data/topics";
+import { Concept, DesktopPreferences, GameProfile, PracticeMode, Problem, ProgrammingLanguage, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
+import { getActiveContentBundle } from "./catalog";
 import { createInitialGameProfile, rankFromLevel } from "./game";
-
-function resolveBaseDir(): string {
-  return process.env.DSA_SHEET_HOME ? path.resolve(process.env.DSA_SHEET_HOME) : path.join(os.homedir(), ".dsa-sheet");
-}
+import { resolveBaseDir } from "./paths";
 
 function getProfilePath(): string {
   return path.join(resolveBaseDir(), "profile.json");
@@ -34,17 +30,19 @@ export function getBaseDir(): string {
 }
 
 export function createInitialDesktopPreferences(): DesktopPreferences {
+  const defaultTopicId = getDefaultTopicId();
   return {
     splitRatio: 46,
     editorFontSize: 14,
     currentRunMode: "official",
     currentProblemView: "description",
-    currentView: "home",
+    currentView: "practice",
     sidebarCollapsed: false,
     editorFocusMode: false,
     lastOpenedTopicId: defaultTopicId,
     lastOpenedProblemId: null,
-    selectedLanguage: "java"
+    selectedLanguage: "java",
+    practiceMode: "beginner"
   };
 }
 
@@ -114,6 +112,7 @@ export function isInitialized(): boolean {
 export function getProfile(): StudentProfile | null {
   const profile = readJson<StudentProfile>(getProfilePath());
   if (!profile) return null;
+  const defaultTopicId = getDefaultTopicId();
   return {
     ...profile,
     activeTopicId: profile.activeTopicId ?? defaultTopicId
@@ -126,7 +125,7 @@ export function saveProfile(profile: StudentProfile): void {
 }
 
 export function getActiveTopicId(): string {
-  return getProfile()?.activeTopicId ?? defaultTopicId;
+  return getProfile()?.activeTopicId ?? getDefaultTopicId();
 }
 
 export function setActiveTopicId(topicId: string): void {
@@ -212,7 +211,8 @@ export function getDesktopPreferences(): DesktopPreferences {
     editorFocusMode: saved.editorFocusMode ?? defaults.editorFocusMode,
     lastOpenedTopicId: saved.lastOpenedTopicId ?? defaults.lastOpenedTopicId,
     lastOpenedProblemId: saved.lastOpenedProblemId ?? defaults.lastOpenedProblemId,
-    selectedLanguage: saved.selectedLanguage === "cpp" ? "cpp" : "java"
+    selectedLanguage: saved.selectedLanguage === "cpp" ? "cpp" : "java",
+    practiceMode: saved.practiceMode === "pro" ? "pro" : "beginner"
   };
 }
 
@@ -226,49 +226,50 @@ export function getProblems(): Problem[] {
 }
 
 export function getConcepts(): Concept[] {
-  return Object.values(topicPacks).flatMap((topicPack) => topicPack.concepts);
+  return Object.values(getActiveContentBundle().topicPacks).flatMap((topicPack) => topicPack.concepts);
 }
 
 export function getProblemById(problemId: string): Problem | undefined {
-  return Object.values(topicPacks)
+  return Object.values(getActiveContentBundle().topicPacks)
     .flatMap((topicPack) => topicPack.problems)
     .find((problem) => problem.id === problemId);
 }
 
 export function getConceptById(conceptId: string): Concept | undefined {
-  return Object.values(topicPacks)
+  return Object.values(getActiveContentBundle().topicPacks)
     .flatMap((topicPack) => topicPack.concepts)
     .find((concept) => concept.id === conceptId);
 }
 
 export function getDefaultTopicId(): string {
-  return defaultTopicId;
+  return getActiveContentBundle().defaultTopicId;
 }
 
 export function getTopicMetas(): TopicMeta[] {
-  return topicOrder
-    .map((topicId) => topicPacks[topicId]?.meta)
+  const bundle = getActiveContentBundle();
+  return bundle.topicOrder
+    .map((topicId) => bundle.topicPacks[topicId]?.meta)
     .filter((topicMeta): topicMeta is TopicMeta => Boolean(topicMeta));
 }
 
-export function getTopicMeta(topicId = defaultTopicId): TopicMeta | undefined {
-  return topicPacks[topicId]?.meta;
+export function getTopicMeta(topicId = getDefaultTopicId()): TopicMeta | undefined {
+  return getActiveContentBundle().topicPacks[topicId]?.meta;
 }
 
-export function getTopicProblems(topicId = defaultTopicId): Problem[] {
-  return topicPacks[topicId]?.problems ?? [];
+export function getTopicProblems(topicId = getDefaultTopicId()): Problem[] {
+  return getActiveContentBundle().topicPacks[topicId]?.problems ?? [];
 }
 
-export function getTopicConcepts(topicId = defaultTopicId): Concept[] {
-  return topicPacks[topicId]?.concepts ?? [];
+export function getTopicConcepts(topicId = getDefaultTopicId()): Concept[] {
+  return getActiveContentBundle().topicPacks[topicId]?.concepts ?? [];
 }
 
 export function getTopicIdForProblem(problemId: string): string | undefined {
-  return Object.entries(topicPacks).find(([, topicPack]) => topicPack.problems.some((problem) => problem.id === problemId))?.[0];
+  return Object.entries(getActiveContentBundle().topicPacks).find(([, topicPack]) => topicPack.problems.some((problem) => problem.id === problemId))?.[0];
 }
 
-export function getTopicRoadmap(topicId = defaultTopicId): string[] {
-  return topicPacks[topicId]?.meta.roadmap ?? [];
+export function getTopicRoadmap(topicId = getDefaultTopicId()): string[] {
+  return getActiveContentBundle().topicPacks[topicId]?.meta.roadmap ?? [];
 }
 
 export function copySubmission(problemId: string, filePath: string): string {
@@ -280,12 +281,16 @@ export function copySubmission(problemId: string, filePath: string): string {
 }
 
 export function getProblemWorkspaceDir(problem: Problem): string {
-  const topicId = getTopicIdForProblem(problem.id) ?? defaultTopicId;
+  const topicId = getTopicIdForProblem(problem.id) ?? getDefaultTopicId();
   return path.join(getWorkspaceDir(), topicId, problem.id);
 }
 
-export function getProblemStarterFilePath(problem: Problem, language: ProgrammingLanguage = "java"): string {
-  const functionMode = Boolean(problem.functionContract && problem.solutionMode !== "complete-program");
+export function getProblemStarterFilePath(
+  problem: Problem,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): string {
+  const functionMode = practiceMode === "beginner" && Boolean(problem.functionContract && problem.solutionMode !== "complete-program");
   const fileName = language === "cpp"
     ? functionMode ? "solution.cpp" : "main.cpp"
     : functionMode ? "Solution.java" : "Main.java";

@@ -1,5 +1,5 @@
 import { addFact, CodeFacts, createEmptyCodeFacts } from "../facts";
-import { detectOpposingPointerMovement } from "./pointerMovement";
+import { detectOpposingPointerMovement, detectSameDirectionDualPointers } from "./pointerMovement";
 import { normalizeBinarySearchRoles, normalizeCppLinkedListRoles } from "./semanticRoles";
 import {
   detectsKadaneRecurrence,
@@ -834,7 +834,7 @@ function detectFunctionNames(content: string): string[] {
 }
 
 function detectTwoPointerMovement(content: string): boolean {
-  return detectOpposingPointerMovement(content);
+  return detectOpposingPointerMovement(content) || detectSameDirectionDualPointers(content);
 }
 
 function estimateNestedLoopDepth(content: string): number {

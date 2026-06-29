@@ -72,6 +72,50 @@ test("two-pointer detection supports arbitrary names and assignment movement", (
   assert.equal(hasFact(cppFacts, "array-reversal"), true);
 });
 
+test("two-pointer detection recognizes same-direction compaction pointers", () => {
+  const javaFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public void moveZeroes(int[] nums) {
+          int left = 0;
+          int right = 0;
+          while (right < nums.length) {
+            if (nums[right] != 0) {
+              int temp = nums[left];
+              nums[left] = nums[right];
+              nums[right] = temp;
+              left++;
+            }
+            right++;
+          }
+        }
+      }
+    `
+  );
+  const cppFacts = analyzeCodeFacts(
+    "cpp",
+    `
+      void moveZeroes(vector<int>& nums) {
+        int left = 0;
+        int right = 0;
+        while (right < nums.size()) {
+          if (nums[right] != 0) {
+            swap(nums[left], nums[right]);
+            left++;
+          }
+          right++;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(javaFacts, "two-pointers"), true);
+  assert.equal(hasFact(javaFacts, "in-place-array-update"), true);
+  assert.equal(hasFact(cppFacts, "two-pointers"), true);
+  assert.equal(hasFact(cppFacts, "array-traversal"), true);
+});
+
 test("binary-search detection does not depend on conventional variable names", () => {
   const javaFacts = analyzeCodeFacts(
     "java",
@@ -887,6 +931,41 @@ test("java facts normalize bit-mask operations", () => {
   assert.equal(hasFact(facts, "bitwise-and"), true);
   assert.equal(hasFact(facts, "left-shift"), true);
   assert.equal(hasFact(facts, "bit-edge-check"), true);
+  assert.equal(hasFact(facts, "bit-hardcoding"), false);
+});
+
+test("java facts do not flag array scan literals as bit hardcoding", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+
+      public class Main {
+        public static void main(String[] args) {
+          Scanner sc = new Scanner(System.in);
+          int n = sc.nextInt();
+          int arr[] = new int[n];
+          for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+          }
+          boolean isSorted = true;
+          for (int i = 1; i < n; i++) {
+            if (arr[i - 1] > arr[i]) {
+              isSorted = false;
+            }
+          }
+          if (isSorted) {
+            System.out.println("Sorted");
+          } else {
+            System.out.println("Not Sorted");
+          }
+          sc.close();
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "array-traversal"), true);
   assert.equal(hasFact(facts, "bit-hardcoding"), false);
 });
 

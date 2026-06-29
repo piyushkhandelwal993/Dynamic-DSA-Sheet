@@ -20,9 +20,29 @@ function javaMethodStub(contract: FunctionContract): string {
       return `        return false;`;
     case "linked-list-reverse":
       return `        return head;`;
+    case "array-sorted-check":
+      return `        return false;`;
     case "array-maximum":
     case "tree-height":
       return `        return 0;`;
+    case "array-second-largest":
+    case "array-highest-frequency":
+    case "array-max-subarray":
+    case "array-remove-duplicates":
+    case "array-longest-sum-k-positive":
+    case "array-stock-profit":
+    case "array-count-positive":
+    case "array-max-consecutive-ones":
+      return `        return 0;`;
+    case "array-pair-sum-sorted":
+      return `        return false;`;
+    case "array-range-sum":
+      return `        return 0L;`;
+    case "array-product-except-self":
+    case "array-running-sum":
+      return `        return new int[0];`;
+    case "array-left-rotate-one":
+    case "array-move-zeroes":
     case "array-reverse":
       return `        // Write your code here.`;
     case "tree-preorder":
@@ -51,9 +71,29 @@ function cppMethodStub(contract: FunctionContract): string {
       return `        return false;`;
     case "linked-list-reverse":
       return `        return head;`;
+    case "array-sorted-check":
+      return `        return false;`;
     case "array-maximum":
     case "tree-height":
       return `        return 0;`;
+    case "array-second-largest":
+    case "array-highest-frequency":
+    case "array-max-subarray":
+    case "array-remove-duplicates":
+    case "array-longest-sum-k-positive":
+    case "array-stock-profit":
+    case "array-count-positive":
+    case "array-max-consecutive-ones":
+      return `        return 0;`;
+    case "array-pair-sum-sorted":
+      return `        return false;`;
+    case "array-range-sum":
+      return `        return 0LL;`;
+    case "array-product-except-self":
+    case "array-running-sum":
+      return `        return {};`;
+    case "array-left-rotate-one":
+    case "array-move-zeroes":
     case "array-reverse":
       return `        // Write your code here.`;
     case "tree-preorder":
@@ -279,6 +319,89 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
       break;
+    case "array-sorted-check":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values) ? "Sorted" : "Not Sorted");`;
+      break;
+    case "array-second-largest":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-range-sum":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int left = sc.nextInt();
+        int right = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, left, right));`;
+      break;
+    case "array-highest-frequency":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-max-subarray":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-move-zeroes":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        new Solution().${contract.functionName}(values);
+        printArray(values);`;
+      break;
+    case "array-remove-duplicates":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        int length = new Solution().${contract.functionName}(values);
+        System.out.println(length);
+        printArray(Arrays.copyOf(values, length));`;
+      break;
+    case "array-longest-sum-k-positive":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "array-stock-profit":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-product-except-self":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-count-positive":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-running-sum":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-pair-sum-sorted":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target) ? "Yes" : "No");`;
+      break;
+    case "array-left-rotate-one":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        new Solution().${contract.functionName}(values);
+        printArray(values);`;
+      break;
+    case "array-max-consecutive-ones":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
     case "array-reverse":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -486,6 +609,106 @@ void printValues(const vector<int>& values) {
       invocation = `    printList(Solution().${contract.functionName}(head));`;
       break;
     case "array-maximum":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-sorted-check":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(values) ? "Sorted" : "Not Sorted");`;
+      break;
+    case "array-second-largest":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-range-sum":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int left, right;
+    cin >> left >> right;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, left, right);`;
+      break;
+    case "array-highest-frequency":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-max-subarray":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-move-zeroes":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    Solution().${contract.functionName}(values);
+    printArray(values);`;
+      break;
+    case "array-remove-duplicates":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    int length = Solution().${contract.functionName}(values);
+    cout << length << "\\n";
+    printArray(vector<int>(values.begin(), values.begin() + length));`;
+      break;
+    case "array-longest-sum-k-positive":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "array-stock-profit":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-product-except-self":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "array-count-positive":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-running-sum":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "array-pair-sum-sorted":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << (Solution().${contract.functionName}(values, target) ? "Yes" : "No");`;
+      break;
+    case "array-left-rotate-one":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    Solution().${contract.functionName}(values);
+    printArray(values);`;
+      break;
+    case "array-max-consecutive-ones":
       inputSetup = `    int n;
     cin >> n;
     vector<int> values = readArray(n);`;

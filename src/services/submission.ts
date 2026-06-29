@@ -1,5 +1,5 @@
 import fs from "fs";
-import { AnalysisResult, ConceptDetectionResult, ExecutionResult, ExplainableAnalysisFeedback, Problem, ProgrammingLanguage, RecommendationResult, ScoreBreakdown } from "../types";
+import { AnalysisResult, ConceptDetectionResult, ExecutionResult, ExplainableAnalysisFeedback, PracticeMode, Problem, ProgrammingLanguage, RecommendationResult, ScoreBreakdown } from "../types";
 import {
   copySubmission,
   getGameProfile,
@@ -12,7 +12,7 @@ import {
   saveProgress,
   saveSkillProfile
 } from "./storage";
-import { resolveSubmissionPath } from "./workspace";
+import { effectiveProblemForPracticeMode, resolveSubmissionPath } from "./workspace";
 import { runJavaSubmission } from "./javaRunner";
 import { runCppSubmission } from "./cppRunner";
 import { analyzeFileForProblem } from "./analyzer";
@@ -40,13 +40,19 @@ export interface SubmissionOutcome {
   revisionDays: number;
 }
 
-export function submitProblemSolution(problemId: string, filePath?: string, language: ProgrammingLanguage = "java"): SubmissionOutcome {
-  const problem = getProblemById(problemId);
-  if (!problem) {
+export function submitProblemSolution(
+  problemId: string,
+  filePath?: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): SubmissionOutcome {
+  const catalogProblem = getProblemById(problemId);
+  if (!catalogProblem) {
     throw new Error(`Problem not found: ${problemId}`);
   }
+  const problem = effectiveProblemForPracticeMode(catalogProblem, practiceMode);
 
-  const resolvedPath = resolveSubmissionPath(problem, filePath, language);
+  const resolvedPath = resolveSubmissionPath(catalogProblem, filePath, language, practiceMode);
   if (!fs.existsSync(resolvedPath)) {
     throw new Error(`${language === "cpp" ? "C++" : "Java"} file not found: ${resolvedPath}.`);
   }

@@ -17,42 +17,11 @@
           <div>
             <div class="eyebrow">Adaptive DSA Arena</div>
             <h1>DSA SHEET</h1>
-            <p>Dynamic. Adaptive. Yours.</p>
           </div>
         </div>
 
-        <section class="flow-panel">
-          <h2>Primary Flow</h2>
-          <div class="flow-steps">
-            <div class="flow-step current">
-              <span class="flow-icon">□</span>
-              <span>Current Task</span>
-            </div>
-            <span class="flow-arrow">→</span>
-            <div class="flow-step">
-              <span class="flow-icon">▶</span>
-              <span>Solve</span>
-            </div>
-            <span class="flow-arrow">→</span>
-            <div class="flow-step">
-              <span class="flow-icon">✓</span>
-              <span>Submit</span>
-            </div>
-            <span class="flow-arrow">→</span>
-            <div class="flow-step">
-              <span class="flow-icon">↻</span>
-              <span>Next Task</span>
-            </div>
-          </div>
-        </section>
-
         <section class="nav-panel">
-          <h2>Navigation</h2>
           <div class="view-tabs sidebar-nav" id="view-tabs">
-            <button class="view-tab active" data-view="home" title="Home" aria-label="Home">
-              <span class="nav-icon">⌂</span>
-              <span class="nav-label">Home</span>
-            </button>
             <button class="view-tab active" data-view="practice" title="Practice" aria-label="Practice">
               <span class="nav-icon">&lt;/&gt;</span>
               <span class="nav-label">Practice</span>
@@ -69,16 +38,16 @@
               <span class="nav-icon">☰</span>
               <span class="nav-label">Problems</span>
             </button>
+            <button class="view-tab" data-view="profile" title="Profile" aria-label="Profile">
+              <span class="nav-icon">◉</span>
+              <span class="nav-label">Profile</span>
+            </button>
           </div>
         </section>
 
-        <section class="player-card">
-          <h2>Player</h2>
-          <div id="player-card"></div>
-        </section>
       </aside>
 
-      <button id="sidebar-edge-toggle-button" class="sidebar-edge-toggle" aria-label="Toggle sidebar">☰</button>
+      <button id="sidebar-edge-toggle-button" class="sidebar-edge-toggle" aria-label="Collapse sidebar">‹</button>
 
       <main class="workspace-shell">
         <header class="app-header panel">
@@ -96,17 +65,31 @@
               <div id="topic-switcher-menu" class="topic-switcher-menu is-hidden" role="listbox" aria-label="Select topic"></div>
             </div>
             <p id="topic-description" class="muted"></p>
+            <p id="content-sync-note" class="muted content-sync-note"></p>
           </div>
 
           <div class="header-actions">
             <div class="header-actions-main">
-              <div id="header-player-chip" class="header-player-chip">Player</div>
-              <button id="toggle-sidebar-button" class="ghost-button">☰ Sidebar</button>
-              <button id="refresh-button" class="ghost-button">Refresh</button>
-            </div>
-            <div class="header-actions-secondary">
-              <button id="reset-layout-button" class="ghost-button subtle-button">Reset Layout</button>
-              <button id="reset-preferences-button" class="ghost-button subtle-button">Reset Preferences</button>
+              <div class="header-stat-chip" title="Current streak">
+                <span class="header-stat-icon">🔥</span>
+                <strong id="streak-count">0</strong>
+                <span>streak</span>
+              </div>
+              <div class="header-stat-chip" title="Solved in this topic">
+                <span class="header-stat-ring"></span>
+                <strong id="solved-count">0/0</strong>
+                <span>solved</span>
+              </div>
+              <button id="header-player-chip" class="header-player-chip" type="button">Player</button>
+              <button id="refresh-button" class="ghost-button header-icon-button" type="button" aria-label="Refresh" title="Refresh">↻</button>
+              <div class="header-more-wrap">
+                <button id="header-more-button" class="ghost-button header-icon-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More options" title="More options">⋯</button>
+                <div id="header-more-menu" class="header-more-menu is-hidden" role="menu">
+                  <button id="sync-content-button" class="header-more-item" type="button" role="menuitem">Sync Content</button>
+                  <button id="reset-layout-button" class="header-more-item" type="button" role="menuitem">Reset Layout</button>
+                  <button id="reset-preferences-button" class="header-more-item" type="button" role="menuitem">Reset Preferences</button>
+                </div>
+              </div>
             </div>
           </div>
         </header>
@@ -150,47 +133,31 @@
             </div>
             <div class="home-nav-links">
               <button type="button" class="home-nav-link" data-home-scroll="home-engine-section">Features</button>
-              <button type="button" class="home-nav-link" data-home-scroll="home-timeline-section">How It Works</button>
               <button type="button" class="home-nav-link" data-home-scroll="home-roadmap-section">Roadmap</button>
-              <button type="button" class="home-nav-link" data-home-scroll="home-stats-section">Stats</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-timeline-section">How It Works</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-stats-section">Pricing</button>
+              <button type="button" class="home-nav-link" data-home-scroll="home-testimonials-section">About</button>
             </div>
             <div class="home-nav-actions">
-              <button id="home-login-button" class="ghost-button subtle-button" type="button">Open App</button>
-              <button id="home-nav-start-button" class="primary-button" type="button">Start Learning Free</button>
+              <button id="home-login-button" class="ghost-button subtle-button" type="button">Log in</button>
+              <button id="home-nav-start-button" class="primary-button" type="button">Start Journey</button>
             </div>
           </nav>
 
           <section class="home-hero">
             <div class="home-hero-copy">
               <div class="home-hero-pill">Adaptive learning that evolves with you</div>
-              <h1>Stop Guessing<br />What To <span>Solve Next.</span></h1>
+              <h1>Your DSA Journey<br />Starts <span>Now</span></h1>
               <p class="home-lead">
-                DSA Sheet analyzes your code, understands your strengths and gaps,
-                and gives you exactly the next problem you should solve.
+                No more guessing. DSA Sheet analyzes your code, understands your strengths and gaps,
+                and gives you the next best problem to solve.
               </p>
-              <div class="home-hero-actions">
-                <button id="home-start-button" class="primary-button">Start Learning Free</button>
-                <button id="home-demo-button" class="ghost-button">Watch Demo</button>
-              </div>
-              <div class="home-highlight-row">
-                <div class="home-highlight-pill">
-                  <span class="home-highlight-icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4C7.6 4 4 7.6 4 12s3.6 8 8 8 8-3.6 8-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                  </span>
-                  <span>Adaptive Roadmap</span>
-                </div>
-                <div class="home-highlight-pill">
-                  <span class="home-highlight-icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l6 3v5c0 4.2-2.6 7.4-6 8-3.4-.6-6-3.8-6-8V7l6-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9.5 12 1.8 1.8 3.7-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                  <span>Personalized Recommendations</span>
-                </div>
-                <div class="home-highlight-pill">
-                  <span class="home-highlight-icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8.5h7v7h-7z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 18V6h12v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                  </span>
-                  <span>Real Code Analysis</span>
-                </div>
+
+              <div class="home-quickstart-card">
+                <label class="home-quickstart-label" for="home-name-input">What should we call you?</label>
+                <input id="home-name-input" class="home-name-input" type="text" placeholder="Enter your name" />
+                <button id="home-start-button" class="primary-button home-journey-button">Start My DSA Journey</button>
+                <p class="home-quickstart-note">No credit card required • Start for free</p>
               </div>
             </div>
 
@@ -198,179 +165,123 @@
               <div class="hero-glow hero-glow-top"></div>
               <div class="hero-glow hero-glow-bottom"></div>
               <div class="hero-world-map" id="hero-path"></div>
-              <div class="hero-journey-card panel">
-                <div class="eyebrow">Your Learning Journey</div>
+              <div class="hero-portal-stage">
+                <div class="hero-portal-shell">
+                  <div class="hero-portal-banner">Begin Your Journey</div>
+                  <div class="hero-portal-core">&lt;/&gt;</div>
+                </div>
+                <div class="hero-owl-mentor">
+                  <img class="owl-illustration" src="./assets/owl-mentor.svg" alt="Owl mentor illustration" />
+                </div>
+              </div>
+              <div class="home-hero-data is-hidden">
                 <h3 id="hero-task-title">Loading task…</h3>
                 <div id="hero-journey-steps" class="hero-journey-steps"></div>
-                <div class="hero-task-why">
-                  <strong>Why this problem?</strong>
-                  <div id="hero-task-reasons" class="hero-task-reasons"></div>
-                </div>
-                <div class="hero-task-footer">
-                  <button id="hero-task-start-button" class="primary-button">Start Solving</button>
-                </div>
+                <div id="hero-task-reasons" class="hero-task-reasons"></div>
+                <button id="hero-task-start-button" class="primary-button">Start Solving</button>
               </div>
             </div>
           </section>
 
-          <section id="home-problem-section" class="home-problem-section panel">
+          <section id="home-engine-section" class="home-engine-section panel">
             <div class="section-intro centered-intro">
-              <h2>Most students don't fail DSA.<br />They fail because they don't know what to learn next.</h2>
-            </div>
-            <div class="compare-grid">
-              <article class="compare-card compare-card-bad">
-                <h3>Traditional Learning</h3>
-                <div class="compare-flow">
-                  <span><i></i>YouTube Playlist</span>
-                  <span>↓</span>
-                  <span><i></i>Striver Sheet</span>
-                  <span>↓</span>
-                  <span><i></i>LeetCode</span>
-                  <span>↓</span>
-                  <span><i></i>Random Problem</span>
-                  <span>↓</span>
-                  <span><i></i>Another Sheet</span>
-                </div>
-              </article>
-              <article class="compare-card compare-card-good">
-                <h3>DSA Sheet</h3>
-                <div class="compare-flow">
-                  <span><i></i>Current Task</span>
-                  <span>↓</span>
-                  <span><i></i>Solve</span>
-                  <span>↓</span>
-                  <span><i></i>Feedback</span>
-                  <span>↓</span>
-                  <span><i></i>Next Task</span>
-                </div>
-              </article>
-            </div>
-          </section>
-
-          <section id="home-engine-section" class="home-engine-section">
-            <div class="section-intro centered-intro">
-              <div class="eyebrow">Why DSA Sheet is different</div>
-              <h2>We don't just give problems. We build your skill graph.</h2>
+              <h2>What Makes DSA Sheet Different?</h2>
             </div>
             <div class="feature-grid">
               <article class="feature-card panel">
                 <div class="feature-card-icon">
                   <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M20 9c-5 0-9 3.8-9 8.5 0 1.7.5 3.2 1.5 4.5A8.8 8.8 0 0 0 11 27c0 4.4 3.5 8 8 8h2V9h-1Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M28 9c5 0 9 3.8 9 8.5 0 1.7-.5 3.2-1.5 4.5A8.8 8.8 0 0 1 37 27c0 4.4-3.5 8-8 8h-2V9h1Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M20 20h8M20 27h8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
                 </div>
-                <h3>Learns From Your Code</h3>
-                <p>We analyze correctness, complexity, mastered concepts, and missed concepts.</p>
-                <ul>
-                  <li>Code quality</li>
-                  <li>Time &amp; space complexity</li>
-                  <li>Concepts mastered</li>
-                  <li>Concepts missed</li>
-                </ul>
+                <h3>Adaptive Learning</h3>
+                <p>Personalized roadmap that adapts to your pace, skills, and progress.</p>
               </article>
               <article class="feature-card panel">
                 <div class="feature-card-icon">
-                  <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="14" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="24" r="2.8" fill="currentColor"/><path d="m31 17 8-8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m35 13 3 3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 16h20M14 24h14M14 32h9" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M33 10h5v5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m38 10-8 8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
                 </div>
-                <h3>Personalized Roadmap</h3>
-                <p>Two students solving the same problem can receive completely different next recommendations.</p>
-                <ul>
-                  <li>Adaptive path</li>
-                  <li>Focus on weak areas</li>
-                  <li>Optimized for you</li>
-                </ul>
+                <h3>AI Code Analysis</h3>
+                <p>Analyze your code for accuracy, concept usage, mistakes, and improvements.</p>
               </article>
               <article class="feature-card panel">
                 <div class="feature-card-icon">
-                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M27 4 12 27h10l-3 17 17-24H26l1-16Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/></svg>
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="13" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="24" cy="24" r="4" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="m24 24 9-9" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
                 </div>
-                <h3>No More Sheet Hopping</h3>
-                <p>The platform automatically picks the right next problem so you stay in flow.</p>
-                <ul>
-                  <li>No random jumps</li>
-                  <li>No wasted time</li>
-                  <li>Maximum progression</li>
-                </ul>
+                <h3>Smart Recommendations</h3>
+                <p>Always know the next best problem to solve without random practice.</p>
+              </article>
+              <article class="feature-card panel">
+                <div class="feature-card-icon">
+                  <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 32V16M22 32V10M32 32v-8" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m10 34 10-10 8 5 10-13" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3>Track &amp; Improve</h3>
+                <p>Beautiful analytics to visualize growth and keep your momentum every day.</p>
               </article>
             </div>
-          </section>
-
-          <section id="home-showcase-section" class="home-showcase-section">
-            <div class="section-intro centered-intro">
-              <h2>See DSA Sheet in Action</h2>
-            </div>
-            <div class="showcase-frame">
-              <div class="showcase-image-grid">
-                <figure class="showcase-shot showcase-shot-large">
-                  <img src="./assets/showcase/practice-view.png" alt="DSA Sheet practice view with current task, problem statement, and code editor" />
-                  <figcaption>
-                    <span class="showcase-caption-label">Practice View</span>
-                    <strong>Current task, problem statement, and Monaco editor in one focused workspace.</strong>
-                  </figcaption>
-                </figure>
-                <figure class="showcase-shot">
-                  <img src="./assets/showcase/practice-feedback.png" alt="DSA Sheet feedback view with execution result and adaptive recommendation" />
-                  <figcaption>
-                    <span class="showcase-caption-label">Adaptive Feedback</span>
-                    <strong>Execution results, concept signals, and the next recommendation after submit.</strong>
-                  </figcaption>
-                </figure>
-                <figure class="showcase-shot">
-                  <img src="./assets/showcase/home-landing.png" alt="DSA Sheet landing screen with adaptive learning journey and world map" />
-                  <figcaption>
-                    <span class="showcase-caption-label">Home Experience</span>
-                    <strong>The live desktop landing page rendered directly from the product.</strong>
-                  </figcaption>
-                </figure>
-              </div>
-            </div>
-          </section>
-
-          <section id="home-world-section" class="home-world-section panel">
-            <div class="section-intro centered-intro">
-              <div class="eyebrow">Learn DSA Like An Adventure</div>
-              <h2>Worlds unlock as your code gets stronger.</h2>
-            </div>
-            <div id="home-worlds" class="home-worlds"></div>
           </section>
 
           <section id="home-timeline-section" class="home-timeline-section panel">
             <div class="section-intro centered-intro">
-              <div class="eyebrow">How Learning Works</div>
-              <h2>Understand concept → solve → feedback → unlock the next challenge.</h2>
+              <h2>How It Works</h2>
             </div>
-            <div class="timeline-row">
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4C7.6 4 4 7.6 4 12s3.6 8 8 8 8-3.6 8-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 8v8M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><strong>Understand Concept</strong></div>
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><strong>Solve Problem</strong></div>
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><strong>Get Feedback</strong></div>
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v6h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Fill Knowledge Gaps</strong></div>
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 7h7v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><strong>Unlock Next Challenge</strong></div>
-              <div class="timeline-step panel"><span class="timeline-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 2.4 4.9 5.4.8-3.9 3.8.9 5.5-4.8-2.5-4.8 2.5.9-5.5L4.2 9.7l5.4-.8L12 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><strong>Master Topic</strong></div>
-            </div>
+            <div id="home-product-flow" class="timeline-row home-timeline-row"></div>
           </section>
 
           <section id="home-roadmap-section" class="home-roadmap-section panel">
             <div class="section-intro centered-intro">
-              <div class="eyebrow">DSA Roadmap</div>
-              <h2>Progression nodes built around the product journey.</h2>
+              <h2>Choose your path. Unlock the next world.</h2>
             </div>
             <div id="home-roadmap" class="home-roadmap"></div>
           </section>
 
           <section id="home-stats-section" class="home-stats-section panel">
             <div class="section-intro centered-intro">
-              <h2>Product momentum, shown clearly.</h2>
+              <h2>Your Journey, Your Progress</h2>
             </div>
             <div id="home-stats" class="home-stats"></div>
           </section>
 
-          <section class="home-final-cta panel">
-            <div class="final-cta-path"></div>
-            <div class="owl-mentor">
-              <img class="owl-illustration" src="./assets/owl-mentor.svg" alt="Owl mentor illustration" />
+          <section id="home-testimonials-section" class="home-testimonials-section panel">
+            <div class="section-intro centered-intro">
+              <h2>Loved by Learners</h2>
             </div>
+            <div class="testimonial-grid">
+              <article class="testimonial-card">
+                <p>DSA Sheet feels like a game that actually makes me better at DSA.</p>
+                <div class="testimonial-person">
+                  <div class="testimonial-avatar">RS</div>
+                  <div>
+                    <strong>Rishabh S.</strong>
+                    <span>SDE Intern</span>
+                  </div>
+                </div>
+              </article>
+              <article class="testimonial-card">
+                <p>The AI feedback is insanely good. It feels like having a mentor 24/7.</p>
+                <div class="testimonial-person">
+                  <div class="testimonial-avatar">AP</div>
+                  <div>
+                    <strong>Ananya P.</strong>
+                    <span>Final Year Student</span>
+                  </div>
+                </div>
+              </article>
+              <article class="testimonial-card">
+                <p>Finally, a platform that tells me exactly what to do next.</p>
+                <div class="testimonial-person">
+                  <div class="testimonial-avatar">KM</div>
+                  <div>
+                    <strong>Karthik M.</strong>
+                    <span>Software Engineer</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="home-final-cta panel">
             <div class="final-cta-copy">
-              <h2>Ready To Stop Guessing What To Solve Next?</h2>
-              <p>Start your adaptive DSA journey today.</p>
-              <button id="home-final-cta-button" class="primary-button">Start Learning Free</button>
+              <h2>Stop guessing. <span>Start progressing.</span></h2>
+              <button id="home-final-cta-button" class="primary-button">Start Journey</button>
             </div>
           </section>
         </section>
@@ -388,32 +299,16 @@
                 <div class="task-card-arrow">→</div>
               </div>
 
-              <div class="mission-actions">
-                <button id="mission-action-button" class="primary-button">Start Task</button>
-                <button id="mission-jump-button" class="ghost-button">Browse Problems</button>
+              <div id="task-help-inline" class="task-help-inline">
+                <span id="task-help-label" class="task-help-inline-label">Why this task?</span>
+                <span id="mission-steps" class="task-help-inline-copy">Start the recommended problem and submit it.</span>
               </div>
             </div>
 
             <aside class="practice-strip-side">
-              <div class="practice-strip-stats">
-                <div class="stat-card streak-card">
-                  <span class="stat-icon">🔥</span>
-                  <div>
-                    <strong id="streak-count">0</strong>
-                    <span class="stat-label">Day Streak</span>
-                  </div>
-                </div>
-                <div class="stat-card progress-card">
-                  <span class="stat-ring"></span>
-                  <div>
-                    <strong id="solved-count">0/0</strong>
-                    <span class="stat-label">Solved In This Topic</span>
-                  </div>
-                </div>
-              </div>
-              <div class="stat-card wide task-help-card">
-                <span class="stat-label">Why now</span>
-                <strong id="mission-steps">Start the recommended problem and submit it.</strong>
+              <div class="mission-actions mission-actions-vertical">
+                <button id="mission-action-button" class="primary-button">Start Task</button>
+                <button id="mission-jump-button" class="ghost-button">Browse Problems</button>
               </div>
             </aside>
           </section>
@@ -444,51 +339,53 @@
 
             <section class="panel editor-pane">
               <div class="panel-header">
-                <div>
-                  <div class="eyebrow">Code Editor</div>
+                <div class="editor-identity">
                   <h2 id="editor-problem-title">Workspace</h2>
                 </div>
                 <div class="editor-actions">
                   <label class="language-control" for="language-select">
-                    <span>Language</span>
+                    <span class="sr-only">Language</span>
                     <select id="language-select" disabled>
                       <option value="java">Java</option>
-                      <option value="cpp">C++17</option>
+                      <option value="cpp">C++</option>
                     </select>
                   </label>
-                  <button id="toggle-editor-focus-button" class="ghost-button" disabled>Focus Editor</button>
-                  <button id="editor-decrease-font-button" class="ghost-button" disabled>A-</button>
-                  <button id="editor-increase-font-button" class="ghost-button" disabled>A+</button>
-                  <button id="open-file-button" class="ghost-button" disabled>Open File</button>
-                  <button id="run-button" class="ghost-button" disabled>Run</button>
-                  <button id="save-button" class="ghost-button" disabled>Save</button>
-                  <button id="submit-button" class="primary-button" disabled>Submit</button>
+                  <label class="language-control practice-mode-control" for="practice-mode-select">
+                    <span class="sr-only">Mode</span>
+                    <select id="practice-mode-select" disabled>
+                      <option value="beginner">Beginner</option>
+                      <option value="pro">Pro</option>
+                    </select>
+                  </label>
+                  <button id="toggle-editor-focus-button" class="ghost-button" disabled>Focus</button>
+                  <button id="editor-decrease-font-button" class="ghost-button icon-button" type="button" aria-label="Decrease editor font size" title="Decrease font size" disabled>A-</button>
+                  <button id="editor-increase-font-button" class="ghost-button icon-button" type="button" aria-label="Increase editor font size" title="Increase font size" disabled>A+</button>
+                  <button id="open-file-button" class="ghost-button icon-button" type="button" aria-label="Open file" title="Open file" disabled>↗</button>
+                  <button id="reset-code-button" class="ghost-button icon-button" type="button" aria-label="Reset code to starter template" title="Reset code" disabled>↺</button>
+                  <button id="save-button" class="ghost-button icon-button" type="button" aria-label="Save code" title="Save code" disabled>✓</button>
                 </div>
               </div>
 
               <div id="problem-meta" class="problem-meta muted">Open a problem to load its starter file here.</div>
-              <div class="editor-toolbar">
-                <span id="save-status" class="pill gray">No file open</span>
-                <span class="editor-hint">Monaco editor. Cmd/Ctrl+S saves.</span>
-              </div>
               <div id="editor"></div>
-              <div class="editor-statusbar">
-                <span id="cursor-status">Ln 1, Col 1</span>
-                <span id="selection-status">0 selected</span>
-                <span id="line-status">0 lines</span>
-                <span id="font-status">14px</span>
-              </div>
-              <div class="custom-run-panel">
-                <div class="custom-run-header">
-                  <div>
-                    <div class="eyebrow">Run Mode</div>
-                    <p class="muted">Use official tests or try your own custom input before submitting.</p>
-                  </div>
-                  <div id="run-mode-tabs" class="run-mode-tabs">
-                    <button class="run-mode-tab active" data-run-mode="official">Official Tests</button>
-                    <button class="run-mode-tab" data-run-mode="custom">Custom Input</button>
-                  </div>
+              <div class="editor-action-bar">
+                <div class="editor-statusbar">
+                  <span id="save-status" class="pill gray">No file open</span>
+                  <span id="cursor-status">Ln 1, Col 1</span>
+                  <span id="selection-status" class="is-hidden">0 selected</span>
+                  <span id="line-status">0 lines</span>
+                  <span id="font-status" class="is-hidden">14px</span>
                 </div>
+                <div id="run-mode-tabs" class="run-mode-tabs">
+                  <button class="run-mode-tab active" data-run-mode="official">Official Tests</button>
+                  <button class="run-mode-tab" data-run-mode="custom">Custom Input</button>
+                </div>
+                <div class="editor-action-buttons">
+                  <button id="run-button" class="ghost-button" disabled>Run</button>
+                  <button id="submit-button" class="primary-button" disabled>Submit</button>
+                </div>
+              </div>
+              <div id="custom-run-panel" class="custom-run-panel is-hidden">
                 <div id="custom-input-section" class="custom-input-section is-hidden">
                   <label class="custom-input-label" for="custom-input">Custom stdin</label>
                   <textarea id="custom-input" class="custom-input" spellcheck="false" placeholder="Enter the exact stdin you want to test..."></textarea>
@@ -501,7 +398,7 @@
             <div class="result-section-header">
               <div class="result-section-title">
                 <div class="eyebrow">Results</div>
-                <strong>Run feedback and next step</strong>
+                <strong>Feedback Console</strong>
               </div>
             </div>
             <div id="result-tabs" class="result-tabs">
@@ -624,6 +521,71 @@
                 <span>Complexity</span>
               </div>
               <div id="problem-list" class="problem-library-body"></div>
+            </div>
+          </section>
+        </section>
+
+        <section id="profile-view" class="view-panel is-hidden">
+          <section class="panel profile-shell">
+            <div class="profile-hero">
+              <div class="profile-avatar" aria-hidden="true">◉</div>
+              <div>
+                <div class="eyebrow">Player Profile</div>
+                <h2 id="profile-display-name">Player</h2>
+                <p id="profile-display-meta" class="muted">Code Novice · Level 1</p>
+              </div>
+            </div>
+
+            <div class="profile-grid">
+              <form id="profile-form" class="profile-form panel">
+                <div>
+                  <div class="eyebrow">Editable Info</div>
+                  <h3>Update your learning identity</h3>
+                  <p class="muted">This stays on your machine and is used across the desktop app.</p>
+                </div>
+                <label class="profile-field">
+                  <span>Name</span>
+                  <input id="profile-name-input" type="text" autocomplete="name" placeholder="Player" />
+                </label>
+                <label class="profile-field">
+                  <span>Batch</span>
+                  <input id="profile-batch-input" type="text" placeholder="Self-paced" />
+                </label>
+                <label class="profile-field">
+                  <span>Preferred Language</span>
+                  <select id="profile-language-input">
+                    <option value="Java">Java</option>
+                    <option value="C++">C++</option>
+                    <option value="Python">Python</option>
+                    <option value="C">C</option>
+                  </select>
+                </label>
+                <label class="profile-field">
+                  <span>Current Level</span>
+                  <select id="profile-level-input">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </label>
+                <div class="profile-form-actions">
+                  <button id="profile-save-button" class="primary-button" type="submit">Save Profile</button>
+                  <span id="profile-save-status" class="muted" role="status"></span>
+                </div>
+              </form>
+
+              <aside class="profile-stats panel">
+                <div class="eyebrow">Learning Snapshot</div>
+                <div id="profile-stats-grid" class="profile-stats-grid"></div>
+                <div class="profile-note">
+                  <strong>Active Topic</strong>
+                  <p id="profile-active-topic" class="muted">Loading...</p>
+                </div>
+                <div class="profile-note">
+                  <strong>Created</strong>
+                  <p id="profile-created-at" class="muted">Loading...</p>
+                </div>
+              </aside>
             </div>
           </section>
         </section>

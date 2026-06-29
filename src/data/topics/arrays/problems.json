@@ -69,6 +69,14 @@
       { "input": "4\n3 2 4 5", "expectedOutput": "Not Sorted", "visibility": "sample" },
       { "input": "1\n7", "expectedOutput": "Sorted", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isSorted",
+      "javaSignature": "public boolean isSorted(int[] nums)",
+      "cppSignature": "bool isSorted(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-sorted-check"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.8,
     "variantGroup": "array-traversal-foundation",
@@ -143,6 +151,14 @@
       { "input": "5\n8 2 10 6 4", "expectedOutput": "8", "visibility": "sample" },
       { "input": "2\n3 9", "expectedOutput": "3", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "secondLargest",
+      "javaSignature": "public int secondLargest(int[] nums)",
+      "cppSignature": "int secondLargest(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-second-largest"
+    },
     "independenceMilestoneFor": ["array-traversal", "min-max-array"],
     "poolRole": "core",
     "masteryWeight": 1.1,
@@ -177,6 +193,14 @@
       { "input": "7\n4 1 4 2 2 2 4", "expectedOutput": "2", "visibility": "sample" },
       { "input": "5\n9 9 1 1 3", "expectedOutput": "1", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "highestFrequency",
+      "javaSignature": "public int highestFrequency(int[] nums)",
+      "cppSignature": "int highestFrequency(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-highest-frequency"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "array-frequency-practice",
@@ -210,6 +234,14 @@
       { "input": "5\n2 4 1 7 3\n1 3", "expectedOutput": "12", "visibility": "sample" },
       { "input": "4\n5 6 7 8\n0 0", "expectedOutput": "5", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rangeSum",
+      "javaSignature": "public long rangeSum(int[] nums, int left, int right)",
+      "cppSignature": "long long rangeSum(vector<int>& nums, int left, int right)",
+      "providedTypes": ["integer array", "range bounds"],
+      "driverStrategy": "array-range-sum"
+    },
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "array-prefix-foundation",
@@ -239,6 +271,14 @@
     "examples": [
       { "input": "8\n-2 -3 4 -1 -2 1 5 -3", "output": "7", "explanation": "The best subarray is 4 - 1 - 2 + 1 + 5 = 7." }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxSubarraySum",
+      "javaSignature": "public int maxSubarraySum(int[] nums)",
+      "cppSignature": "int maxSubarraySum(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-max-subarray"
+    },
     "poolRole": "challenge",
     "masteryWeight": 1.3,
     "variantGroup": "array-traversal-challenge",
@@ -272,6 +312,14 @@
       { "input": "5\n0 1 0 3 12", "expectedOutput": "1 3 12 0 0", "visibility": "sample" },
       { "input": "4\n0 0 4 5", "expectedOutput": "4 5 0 0", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "moveZeroes",
+      "javaSignature": "public void moveZeroes(int[] nums)",
+      "cppSignature": "void moveZeroes(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-move-zeroes"
+    },
     "independenceMilestoneFor": ["reverse-array", "two-pointers"],
     "poolRole": "core",
     "masteryWeight": 1.1,
@@ -302,6 +350,14 @@
     "examples": [
       { "input": "6\n1 1 2 2 3 4", "output": "4\n1 2 3 4", "explanation": "The unique prefix has length 4." }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeDuplicates",
+      "javaSignature": "public int removeDuplicates(int[] nums)",
+      "cppSignature": "int removeDuplicates(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-remove-duplicates"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "array-two-pointer-practice",
@@ -331,6 +387,14 @@
     "examples": [
       { "input": "5\n1 2 1 1 1\n3", "output": "3", "explanation": "The longest matching window is 1 1 1." }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "longestSubarraySumK",
+      "javaSignature": "public int longestSubarraySumK(int[] nums, int target)",
+      "cppSignature": "int longestSubarraySumK(vector<int>& nums, int target)",
+      "providedTypes": ["integer array", "target sum"],
+      "driverStrategy": "array-longest-sum-k-positive"
+    },
     "poolRole": "challenge",
     "masteryWeight": 1.25,
     "variantGroup": "array-window-challenge",
@@ -360,6 +424,14 @@
     "examples": [
       { "input": "6\n7 1 5 3 6 4", "output": "5", "explanation": "Buy at 1 and sell at 6." }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxProfit",
+      "javaSignature": "public int maxProfit(int[] prices)",
+      "cppSignature": "int maxProfit(vector<int>& prices)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-stock-profit"
+    },
     "poolRole": "review",
     "masteryWeight": 0.7,
     "variantGroup": "array-min-max-review",
@@ -389,6 +461,14 @@
     "examples": [
       { "input": "4\n1 2 3 4", "output": "24 12 8 6", "explanation": "Each answer multiplies all elements except the current one." }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "productExceptSelf",
+      "javaSignature": "public int[] productExceptSelf(int[] nums)",
+      "cppSignature": "vector<int> productExceptSelf(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-product-except-self"
+    },
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "array-prefix-challenge",
@@ -423,6 +503,14 @@
       { "input": "4\n0 -1 -2 -3", "expectedOutput": "0", "visibility": "hidden" },
       { "input": "3\n1 2 3", "expectedOutput": "3", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countPositive",
+      "javaSignature": "public int countPositive(int[] nums)",
+      "cppSignature": "int countPositive(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-count-positive"
+    },
     "poolRole": "review",
     "masteryWeight": 0.6,
     "variantGroup": "array-traversal-review",
@@ -456,6 +544,14 @@
       { "input": "5\n1 2 3 4 5", "expectedOutput": "1 3 6 10 15", "visibility": "sample" },
       { "input": "4\n3 -1 2 -2", "expectedOutput": "3 2 4 2", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "runningSum",
+      "javaSignature": "public int[] runningSum(int[] nums)",
+      "cppSignature": "vector<int> runningSum(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-running-sum"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.85,
     "variantGroup": "array-prefix-practice",
@@ -490,6 +586,14 @@
       { "input": "4\n-5 -2 3 8\n1", "expectedOutput": "Yes", "visibility": "hidden" },
       { "input": "4\n1 3 5 8\n20", "expectedOutput": "No", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "hasPairWithSum",
+      "javaSignature": "public boolean hasPairWithSum(int[] nums, int target)",
+      "cppSignature": "bool hasPairWithSum(vector<int>& nums, int target)",
+      "providedTypes": ["integer array", "target sum"],
+      "driverStrategy": "array-pair-sum-sorted"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.95,
     "variantGroup": "array-two-pointer-practice",
@@ -523,6 +627,14 @@
       { "input": "5\n10 20 30 40 50", "expectedOutput": "20 30 40 50 10", "visibility": "sample" },
       { "input": "1\n7", "expectedOutput": "7", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "leftRotateOne",
+      "javaSignature": "public void leftRotateOne(int[] nums)",
+      "cppSignature": "void leftRotateOne(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-left-rotate-one"
+    },
     "poolRole": "review",
     "masteryWeight": 0.7,
     "variantGroup": "array-in-place-review",
@@ -557,6 +669,14 @@
       { "input": "4\n0 0 0 0", "expectedOutput": "0", "visibility": "hidden" },
       { "input": "5\n1 1 1 1 1", "expectedOutput": "5", "visibility": "hidden" }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxConsecutiveOnes",
+      "javaSignature": "public int maxConsecutiveOnes(int[] nums)",
+      "cppSignature": "int maxConsecutiveOnes(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-max-consecutive-ones"
+    },
     "poolRole": "practice",
     "masteryWeight": 0.8,
     "variantGroup": "array-traversal-practice",

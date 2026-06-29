@@ -4,7 +4,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { getProblemById } from "../services/storage";
-import { ensureProblemWorkspace } from "../services/workspace";
+import { effectiveProblemForPracticeMode, ensureProblemWorkspace, resetProblemWorkspace } from "../services/workspace";
 
 test("start workspace generation creates a stable Main.java template", () => {
   const problem = getProblemById("bit-001");
@@ -97,6 +97,54 @@ test("guided function workspaces expose only the student solution file", () => {
   }
 });
 
+test("practice modes keep beginner function files and pro program files separate", () => {
+  const problem = getProblemById("arr-003");
+  assert.ok(problem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-practice-mode-workspace-"));
+
+  try {
+    const beginnerWorkspace = ensureProblemWorkspace(problem, "java", "beginner");
+    const proWorkspace = ensureProblemWorkspace(problem, "java", "pro");
+    const proProblem = effectiveProblemForPracticeMode(problem, "pro");
+
+    assert.match(beginnerWorkspace.filePath, /Solution\.java$/);
+    assert.match(proWorkspace.filePath, /Main\.java$/);
+    assert.notEqual(beginnerWorkspace.filePath, proWorkspace.filePath);
+    assert.match(fs.readFileSync(beginnerWorkspace.filePath, "utf-8"), /public void reverse\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(proWorkspace.filePath, "utf-8"), /public class Main/);
+    assert.equal(proProblem.solutionMode, "complete-program");
+    assert.equal(proProblem.functionContract, undefined);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
+test("workspace reset restores the starter template for the selected mode", () => {
+  const problem = getProblemById("arr-003");
+  assert.ok(problem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-reset-workspace-"));
+
+  try {
+    const workspace = ensureProblemWorkspace(problem, "java", "pro");
+    fs.writeFileSync(workspace.filePath, "public class Main { /* user code */ }", "utf-8");
+
+    const reset = resetProblemWorkspace(problem, "java", "pro");
+    const resetContent = fs.readFileSync(reset.filePath, "utf-8");
+
+    assert.equal(reset.filePath, workspace.filePath);
+    assert.equal(reset.workspaceCode, resetContent);
+    assert.match(resetContent, /public class Main/);
+    assert.match(resetContent, /Problem: Reverse the Array/);
+    assert.doesNotMatch(resetContent, /user code/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("array and tree function templates expose the expected signatures", () => {
   const arrayProblem = getProblemById("arr-003");
   const treeProblem = getProblemById("tr-001");
@@ -111,6 +159,78 @@ test("array and tree function templates expose the expected signatures", () => {
 
     assert.match(fs.readFileSync(arrayWorkspace.filePath, "utf-8"), /public void reverse\(int\[\] nums\)/);
     assert.match(fs.readFileSync(treeWorkspace.filePath, "utf-8"), /vector<int> preorder\(TreeNode\* root\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
+test("array beginner scaffolds cover traversal frequency prefix and two-pointer functions", () => {
+  const sortedProblem = getProblemById("arr-002");
+  const secondLargestProblem = getProblemById("arr-004");
+  const frequencyProblem = getProblemById("arr-005");
+  const rangeSumProblem = getProblemById("arr-006");
+  const maxSubarrayProblem = getProblemById("arr-007");
+  const moveZeroesProblem = getProblemById("arr-008");
+  const removeDuplicatesProblem = getProblemById("arr-009");
+  const longestSumProblem = getProblemById("arr-010");
+  const stockProfitProblem = getProblemById("arr-011");
+  const productExceptSelfProblem = getProblemById("arr-012");
+  const countPositiveProblem = getProblemById("arr-013");
+  const runningSumProblem = getProblemById("arr-014");
+  const pairSumProblem = getProblemById("arr-015");
+  const leftRotateProblem = getProblemById("arr-016");
+  const maxOnesProblem = getProblemById("arr-017");
+  assert.ok(sortedProblem);
+  assert.ok(secondLargestProblem);
+  assert.ok(frequencyProblem);
+  assert.ok(rangeSumProblem);
+  assert.ok(maxSubarrayProblem);
+  assert.ok(moveZeroesProblem);
+  assert.ok(removeDuplicatesProblem);
+  assert.ok(longestSumProblem);
+  assert.ok(stockProfitProblem);
+  assert.ok(productExceptSelfProblem);
+  assert.ok(countPositiveProblem);
+  assert.ok(runningSumProblem);
+  assert.ok(pairSumProblem);
+  assert.ok(leftRotateProblem);
+  assert.ok(maxOnesProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-array-beginner-workspace-"));
+
+  try {
+    const sortedWorkspace = ensureProblemWorkspace(sortedProblem, "java");
+    const secondLargestWorkspace = ensureProblemWorkspace(secondLargestProblem, "cpp");
+    const frequencyWorkspace = ensureProblemWorkspace(frequencyProblem, "java");
+    const rangeSumWorkspace = ensureProblemWorkspace(rangeSumProblem, "java");
+    const maxSubarrayWorkspace = ensureProblemWorkspace(maxSubarrayProblem, "cpp");
+    const moveZeroesWorkspace = ensureProblemWorkspace(moveZeroesProblem, "java");
+    const removeDuplicatesWorkspace = ensureProblemWorkspace(removeDuplicatesProblem, "cpp");
+    const longestSumWorkspace = ensureProblemWorkspace(longestSumProblem, "java");
+    const stockProfitWorkspace = ensureProblemWorkspace(stockProfitProblem, "cpp");
+    const productExceptSelfWorkspace = ensureProblemWorkspace(productExceptSelfProblem, "java");
+    const countPositiveWorkspace = ensureProblemWorkspace(countPositiveProblem, "cpp");
+    const runningSumWorkspace = ensureProblemWorkspace(runningSumProblem, "java");
+    const pairSumWorkspace = ensureProblemWorkspace(pairSumProblem, "java");
+    const leftRotateWorkspace = ensureProblemWorkspace(leftRotateProblem, "cpp");
+    const maxOnesWorkspace = ensureProblemWorkspace(maxOnesProblem, "java");
+
+    assert.match(fs.readFileSync(sortedWorkspace.filePath, "utf-8"), /boolean isSorted\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(secondLargestWorkspace.filePath, "utf-8"), /int secondLargest\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(frequencyWorkspace.filePath, "utf-8"), /int highestFrequency\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(rangeSumWorkspace.filePath, "utf-8"), /long rangeSum\(int\[\] nums, int left, int right\)/);
+    assert.match(fs.readFileSync(maxSubarrayWorkspace.filePath, "utf-8"), /int maxSubarraySum\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(moveZeroesWorkspace.filePath, "utf-8"), /void moveZeroes\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(removeDuplicatesWorkspace.filePath, "utf-8"), /int removeDuplicates\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(longestSumWorkspace.filePath, "utf-8"), /int longestSubarraySumK\(int\[\] nums, int target\)/);
+    assert.match(fs.readFileSync(stockProfitWorkspace.filePath, "utf-8"), /int maxProfit\(vector<int>& prices\)/);
+    assert.match(fs.readFileSync(productExceptSelfWorkspace.filePath, "utf-8"), /int\[\] productExceptSelf\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(countPositiveWorkspace.filePath, "utf-8"), /int countPositive\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(runningSumWorkspace.filePath, "utf-8"), /int\[\] runningSum\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(pairSumWorkspace.filePath, "utf-8"), /boolean hasPairWithSum\(int\[\] nums, int target\)/);
+    assert.match(fs.readFileSync(leftRotateWorkspace.filePath, "utf-8"), /void leftRotateOne\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(maxOnesWorkspace.filePath, "utf-8"), /int maxConsecutiveOnes\(int\[\] nums\)/);
   } finally {
     if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
     else process.env.DSA_SHEET_HOME = originalBaseDir;

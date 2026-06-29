@@ -15,8 +15,10 @@
     "test": "node scripts/run-tests.mjs",
     "benchmark:analyzer": "npm run build && node dist/benchmarks/run.js",
     "audit:test-cases": "npm run build && node dist/test-case-audit/run.js",
+    "audit:practice-modes": "npm run build && node scripts/practice-mode-readiness.mjs",
+    "content:export": "npm run build && node scripts/export-content-bundle.mjs",
     "release:validate": "npm run build && node scripts/release-readiness.mjs",
-    "release:check": "npm run typecheck && npm run build && npm test && npm run audit:test-cases && npm run benchmark:analyzer && node scripts/release-readiness.mjs",
+    "release:check": "npm run typecheck && npm run build && npm test && npm run audit:test-cases && npm run audit:practice-modes && npm run benchmark:analyzer && node scripts/release-readiness.mjs",
     "desktop": "electron desktop/main.js",
     "desktop:dev": "npm run build && electron desktop/main.js",
     "desktop:capture-showcase": "npm run build && electron desktop/capture-showcase.js",
@@ -35,6 +37,9 @@
     "node": ">=22.12 <23"
   },
   "license": "MIT",
+  "dsaSheetContent": {
+    "manifestUrl": "https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/content/manifest.json"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^12.1.0",

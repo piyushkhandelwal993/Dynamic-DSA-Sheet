@@ -1,11 +1,23 @@
 import fs from "fs";
 import path from "path";
-import { Problem, ProgrammingLanguage } from "../types";
+import { PracticeMode, Problem, ProgrammingLanguage } from "../types";
 import { ensureBaseStructure, getProblemStarterFilePath, getProblemWorkspaceDir } from "./storage";
 import { buildCppFunctionTemplate, buildJavaFunctionTemplate, usesFunctionHarness } from "./functionHarness";
 import { normalizeCppSource, PORTABLE_CPP_HEADERS } from "./cppSupport";
 
 export { normalizeCppSource, PORTABLE_CPP_HEADERS } from "./cppSupport";
+
+export function effectiveProblemForPracticeMode(problem: Problem, practiceMode: PracticeMode = "beginner"): Problem {
+  if (practiceMode !== "pro") {
+    return problem;
+  }
+
+  return {
+    ...problem,
+    solutionMode: "complete-program",
+    functionContract: undefined
+  };
+}
 
 function buildHeaderComment(problem: Problem): string {
   const lines = [
@@ -91,16 +103,19 @@ ${outputHints}
 `;
 }
 
-export function ensureProblemWorkspace(problem: Problem, language: ProgrammingLanguage = "java"): { filePath: string; created: boolean } {
+export function ensureProblemWorkspace(
+  problem: Problem,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): { filePath: string; created: boolean } {
   ensureBaseStructure();
+  const effectiveProblem = effectiveProblemForPracticeMode(problem, practiceMode);
   const workspacePath = getProblemWorkspaceDir(problem);
-  const filePath = getProblemStarterFilePath(problem, language);
+  const filePath = getProblemStarterFilePath(problem, language, practiceMode);
   fs.mkdirSync(workspacePath, { recursive: true });
 
   if (!fs.existsSync(filePath)) {
-    const template = usesFunctionHarness(problem)
-      ? language === "cpp" ? buildCppFunctionTemplate(problem) : buildJavaFunctionTemplate(problem)
-      : language === "cpp" ? buildCppStarterTemplate(problem) : buildJavaStarterTemplate(problem);
+    const template = buildWorkspaceTemplate(effectiveProblem, language);
     fs.writeFileSync(filePath, template, "utf-8");
     return { filePath, created: true };
   }
@@ -116,10 +131,37 @@ export function ensureProblemWorkspace(problem: Problem, language: ProgrammingLa
   return { filePath, created: false };
 }
 
-export function resolveSubmissionPath(problem: Problem, filePath?: string, language: ProgrammingLanguage = "java"): string {
+function buildWorkspaceTemplate(problem: Problem, language: ProgrammingLanguage): string {
+  return usesFunctionHarness(problem)
+    ? language === "cpp" ? buildCppFunctionTemplate(problem) : buildJavaFunctionTemplate(problem)
+    : language === "cpp" ? buildCppStarterTemplate(problem) : buildJavaStarterTemplate(problem);
+}
+
+export function resetProblemWorkspace(
+  problem: Problem,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): { filePath: string; workspaceCode: string } {
+  ensureBaseStructure();
+  const effectiveProblem = effectiveProblemForPracticeMode(problem, practiceMode);
+  const workspacePath = getProblemWorkspaceDir(problem);
+  const filePath = getProblemStarterFilePath(problem, language, practiceMode);
+  fs.mkdirSync(workspacePath, { recursive: true });
+
+  const workspaceCode = buildWorkspaceTemplate(effectiveProblem, language);
+  fs.writeFileSync(filePath, workspaceCode, "utf-8");
+  return { filePath, workspaceCode };
+}
+
+export function resolveSubmissionPath(
+  problem: Problem,
+  filePath?: string,
+  language: ProgrammingLanguage = "java",
+  practiceMode: PracticeMode = "beginner"
+): string {
   if (filePath) {
     return path.resolve(filePath);
   }
 
-  return getProblemStarterFilePath(problem, language);
+  return getProblemStarterFilePath(problem, language, practiceMode);
 }

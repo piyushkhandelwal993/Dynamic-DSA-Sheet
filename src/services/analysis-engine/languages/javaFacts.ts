@@ -1,5 +1,5 @@
 import { addFact, CodeFacts, createEmptyCodeFacts, hasFact } from "../facts";
-import { detectOpposingPointerMovement } from "./pointerMovement";
+import { detectOpposingPointerMovement, detectSameDirectionDualPointers } from "./pointerMovement";
 import { normalizeBinarySearchRoles, normalizeJavaLinkedListRoles } from "./semanticRoles";
 import {
   detectsKadaneRecurrence,
@@ -358,7 +358,7 @@ function extractVariableNames(content: string): string[] {
 }
 
 function detectTwoPointerMovement(content: string): boolean {
-  return detectOpposingPointerMovement(content);
+  return detectOpposingPointerMovement(content) || detectSameDirectionDualPointers(content);
 }
 
 function detectArrayTechniques(facts: CodeFacts, content: string): void {
@@ -996,6 +996,9 @@ function detectBitManipulation(content: string) {
   const hardcodedBranchCount = content.match(hardcodedBranchPattern)?.length ?? 0;
   const hardcodedAssignmentCount = content.match(hardcodedAssignmentPattern)?.length ?? 0;
   const usesBitwiseOperators = /[&|^~]|<<|>>/.test(content);
+  const hasBitDomainContext =
+    usesBitwiseOperators ||
+    /\b(bit|bits|binary|mask|shift|xor|power\s+of\s+two|set\s+bit|unset\s+bit|toggle)\b/i.test(content);
 
   return {
     usesAnd: /&/.test(content) && !/&&/.test(content),
@@ -1010,8 +1013,9 @@ function detectBitManipulation(content: string) {
       /(Integer\.toBinaryString|toString\(\s*n\s*,\s*2\s*\)|StringBuilder|StringBuffer)/.test(content),
     usesModuloDivision: /[%\/]\s*2/.test(content),
     hasBitHardcoding:
-      (!usesBitwiseOperators && hardcodedBranchCount >= 1) ||
-      (hardcodedAssignmentCount >= 2 && !normalBitMaskPattern.test(content)),
+      hasBitDomainContext &&
+      ((!usesBitwiseOperators && hardcodedBranchCount >= 1) ||
+        (hardcodedAssignmentCount >= 2 && !normalBitMaskPattern.test(content))),
     hasEdgeCaseHandling:
       /(n\s*<=?\s*0|n\s*==\s*0|if\s*\(\s*\w+\s*<\s*0|\bnull\b)/.test(content)
   };
