@@ -71,6 +71,10 @@ The desktop app provides:
 - in-app Java editor
 - save and submit flow powered by the same TypeScript engine as the CLI
 
+Latest download page:
+
+- [DSA Sheet Downloads](https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/)
+
 For deeper product docs, see:
 
 - [docs/desktop-app.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/desktop-app.md)

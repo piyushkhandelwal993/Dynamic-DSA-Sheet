@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSA Sheet Downloads</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070b16;
+        --panel: #111a2e;
+        --panel-2: #17233a;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: #24324d;
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(139, 92, 246, 0.2), transparent 35%),
+          linear-gradient(180deg, #0a1020 0%, var(--bg) 100%);
+        color: var(--text);
+      }
+
+      main {
+        width: min(1040px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0 72px;
+      }
+
+      .hero {
+        padding: 32px 0 24px;
+      }
+
+      .eyebrow {
+        color: #a78bfa;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 14px 0 14px;
+        font-size: clamp(42px, 8vw, 72px);
+        line-height: 0.95;
+      }
+
+      p.lead {
+        margin: 0;
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        margin-top: 34px;
+      }
+
+      .card {
+        background: linear-gradient(180deg, rgba(17, 26, 46, 0.96), rgba(11, 16, 32, 0.96));
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 22px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+      }
+
+      .card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(139, 92, 246, 0.35);
+        background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .button.secondary {
+        background: rgba(23, 35, 58, 0.88);
+        border-color: var(--border);
+      }
+
+      .meta {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .section {
+        margin-top: 30px;
+      }
+
+      .panel {
+        background: rgba(17, 26, 46, 0.88);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 22px;
+      }
+
+      ul {
+        margin: 10px 0 0;
+        padding-left: 20px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      code {
+        color: #ddd6fe;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">DSA Sheet Desktop</div>
+        <h1>Download The Latest App</h1>
+        <p class="lead">
+          Install DSA Sheet once, then let the desktop app handle future app updates while content and problem
+          updates sync separately in the background.
+        </p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Windows</h2>
+          <p>Recommended for most users. Installer includes the in-app updater flow for future releases.</p>
+          <a class="button" href="https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-windows-x64.exe">Download for Windows</a>
+          <div class="meta">File: <code>DSA-Sheet-windows-x64.exe</code></div>
+        </article>
+
+        <article class="card">
+          <h2>macOS Apple Silicon</h2>
+          <p>For M1, M2, M3, and newer Macs.</p>
+          <a class="button" href="https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-mac-arm64.dmg">Download for Apple Silicon</a>
+          <div class="meta">File: <code>DSA-Sheet-mac-arm64.dmg</code></div>
+        </article>
+
+        <article class="card">
+          <h2>macOS Intel</h2>
+          <p>For older Intel-based Macs.</p>
+          <a class="button" href="https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-mac-x64.dmg">Download for Intel Mac</a>
+          <div class="meta">File: <code>DSA-Sheet-mac-x64.dmg</code></div>
+        </article>
+
+        <article class="card">
+          <h2>Linux</h2>
+          <p>Portable AppImage build for Linux desktops.</p>
+          <a class="button secondary" href="https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-linux-x64.AppImage">Download for Linux</a>
+          <div class="meta">File: <code>DSA-Sheet-linux-x64.AppImage</code></div>
+        </article>
+      </section>
+
+      <section class="section panel">
+        <div class="eyebrow">How Updates Work</div>
+        <ul>
+          <li>App updates come through GitHub Releases and the in-app updater.</li>
+          <li>Problem, topic, and test-case updates come through the content sync manifest at <code>/content/manifest.json</code>.</li>
+          <li>User progress and workspaces stay local in <code>~/.dsa-sheet</code>.</li>
+        </ul>
+      </section>
+
+      <section class="section panel">
+        <div class="eyebrow">Need Help?</div>
+        <ul>
+          <li>GitHub Releases: <a href="https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases" style="color:#c4b5fd;">View all releases</a></li>
+          <li>Content manifest: <a href="./content/manifest.json" style="color:#c4b5fd;">Open current manifest</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

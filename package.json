@@ -76,6 +76,7 @@
     "mac": {
       "category": "public.app-category.developer-tools",
       "icon": "build/icon.icns",
+      "artifactName": "DSA-Sheet-mac-${arch}.${ext}",
       "target": [
         "dmg",
         "zip"
@@ -84,12 +85,14 @@
     },
     "win": {
       "icon": "build/icon.ico",
+      "artifactName": "DSA-Sheet-windows-${arch}.${ext}",
       "target": [
         "nsis"
       ]
     },
     "linux": {
       "icon": "build/icon.png",
+      "artifactName": "DSA-Sheet-linux-${arch}.${ext}",
       "target": [
         "AppImage"
       ],

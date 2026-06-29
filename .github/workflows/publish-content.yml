@@ -50,6 +50,7 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           mkdir -p .pages/content
+          cp -R site/. .pages/
           cp -R release/content/. .pages/content/
 
       - name: Configure GitHub Pages

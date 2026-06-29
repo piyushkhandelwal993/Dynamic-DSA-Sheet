@@ -112,11 +112,31 @@ The workflow will:
 6. publish installers and update metadata to the GitHub Release
 7. upload CI artifacts for debugging
 
+## Latest Download Links
+
+Once the release assets are published, users can always install the latest build from stable URLs:
+
+- Windows:
+  - `https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-windows-x64.exe`
+- macOS Apple Silicon:
+  - `https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-mac-arm64.dmg`
+- macOS Intel:
+  - `https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-mac-x64.dmg`
+- Linux:
+  - `https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/releases/latest/download/DSA-Sheet-linux-x64.AppImage`
+
+There is also a hosted download page on GitHub Pages:
+
+- `https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/`
+
+This page is better for users than sending them directly to the full release asset list.
+
 For an exact operator checklist, see:
 
 - [docs/first-release-checklist.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/first-release-checklist.md)
 - [docs/release-notes-template.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/release-notes-template.md)
 - [docs/versioning-and-updates.md](/Users/piyushkhandelwal/Documents/New%20project/dsa-sheet/docs/versioning-and-updates.md)
+- [docs/release-runbook.md](/Users/piyushkhandelwal/Documents/dsa-sheet/docs/release-runbook.md)
 - [docs/macos-preview-install.md](/Users/piyushkhandelwal/Documents/dsa-sheet/docs/macos-preview-install.md)
 - [docs/windows-preview-install.md](/Users/piyushkhandelwal/Documents/dsa-sheet/docs/windows-preview-install.md)
 
