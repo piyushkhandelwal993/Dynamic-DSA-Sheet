@@ -64,15 +64,15 @@ Do this:
 
 Example version:
 
-- `package.json`: `2.0.1`
-- git tag: `v2.0.1`
+- `package.json`: `2.0.3`
+- git tag: `v2.0.3`
 
 ### 1. Update version
 
 Edit [package.json](/Users/piyushkhandelwal/Documents/dsa-sheet/package.json) and set:
 
 ```json
-"version": "2.0.1"
+"version": "2.0.3"
 ```
 
 ### 2. Run local checks
@@ -88,7 +88,7 @@ CONTENT_BASE_URL='https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/conten
 
 ```bash
 git add .
-git commit -m "Release v2.0.1"
+git commit -m "Release v2.0.3"
 ```
 
 ### 4. Push main first
@@ -102,8 +102,8 @@ This is important because the content publishing workflow runs from `main`.
 ### 5. Create and push the tag
 
 ```bash
-git tag v2.0.1
-git push origin v2.0.1
+git tag v2.0.3
+git push origin v2.0.3
 ```
 
 ### 6. Watch two workflows
