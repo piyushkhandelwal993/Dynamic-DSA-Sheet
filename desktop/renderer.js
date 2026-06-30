@@ -186,6 +186,7 @@ const refreshButtonEl = document.getElementById("refresh-button");
 const resetLayoutButtonEl = document.getElementById("reset-layout-button");
 const resetPreferencesButtonEl = document.getElementById("reset-preferences-button");
 const successModalOverlayEl = document.getElementById("success-modal-overlay");
+const successModalEyebrowEl = document.getElementById("success-modal-eyebrow");
 const successModalTitleEl = document.getElementById("success-modal-title");
 const successModalXpEl = document.getElementById("success-modal-xp");
 const successModalStreakEl = document.getElementById("success-modal-streak");
@@ -451,6 +452,39 @@ function buildReviewMetricTile(label, value, tone = "primary") {
   `;
 }
 
+function getSubmissionProgressState(outcome) {
+  if (outcome.masteredSubmission) {
+    return {
+      label: "Mastered",
+      tone: "success",
+      reviewTone: "success",
+      message: outcome.execution.usedTestCases
+        ? `${outcome.execution.passedCount}/${outcome.execution.totalCount} test cases passed · Progress unlocked`
+        : "All available tests passed · Progress unlocked"
+    };
+  }
+
+  if (outcome.acceptedByExecution) {
+    return {
+      label: "Accepted",
+      tone: "warning",
+      reviewTone: "warning",
+      message: outcome.execution.usedTestCases
+        ? `${outcome.execution.passedCount}/${outcome.execution.totalCount} test cases passed · Solve accepted, concept retry needed`
+        : "All available tests passed · Concept retry needed before progression"
+    };
+  }
+
+  return {
+    label: "Needs Work",
+    tone: "danger",
+    reviewTone: "danger",
+    message: outcome.execution.usedTestCases
+      ? `${outcome.execution.passedCount}/${outcome.execution.totalCount} test cases passed`
+      : "Review the feedback below"
+  };
+}
+
 function renderConceptChips(concepts, color = "blue") {
   if (!concepts?.length) {
     return `<span class="pill gray">None</span>`;
@@ -691,12 +725,14 @@ async function resetDesktopPreferences() {
 
 function showSuccessModal(data) {
   state.successModal = data;
+  successModalEyebrowEl.textContent = data.eyebrow || "Quest Complete";
   successModalTitleEl.textContent = data.title;
   successModalXpEl.textContent = "+0 XP";
   successModalStreakEl.textContent = "+0 Day Streak";
   successModalNextTaskEl.textContent = data.nextTaskTitle || "Continue your journey";
   successModalNextReasonEl.textContent = data.nextTaskReason || "Take the next recommended problem when you're ready.";
   successModalReviewButtonEl.classList.toggle("is-hidden", !data.hasReview);
+  successModalStartButtonEl.classList.toggle("is-hidden", !data.hasNextTask);
   animateSuccessCounts(data.xp, data.streakGain);
   if (!successModalOverlayEl.open) {
     successModalOverlayEl.showModal();
@@ -2482,12 +2518,7 @@ async function submitCurrentWorkspace() {
     conceptName: detectedConceptNames[index]
   }));
   const nextProblem = state.bootstrap?.nextRecommendation?.problem;
-  const executionStatusText = outcome.execution.usedTestCases
-    ? `${outcome.execution.passedCount}/${outcome.execution.totalCount} test cases passed`
-    : outcome.solvedByExecution
-      ? "All available tests passed"
-      : "Review the feedback below";
-  const executionStatusTone = outcome.solvedByExecution ? "success" : "danger";
+  const progressState = getSubmissionProgressState(outcome);
   const optimizationItems = [
     ...outcome.analysisFeedback.improvements,
     ...outcome.analysisFeedback.antiPatterns.map((item) => conceptLabel(item.id))
@@ -2513,15 +2544,18 @@ async function submitCurrentWorkspace() {
               </div>
               <div class="review-score-content">
                 <div class="review-score-heading">
-                  <div>
-                    <div class="eyebrow">Submission Analysis</div>
-                    <h3>${escapeHtml(outcome.problem.title)}</h3>
-                    <div class="review-integrity-row ${executionStatusTone}">
+                    <div>
+                      <div class="eyebrow">Submission Analysis</div>
+                      <h3>${escapeHtml(outcome.problem.title)}</h3>
+                    <div class="review-integrity-row ${progressState.reviewTone}">
                       <span class="review-live-dot"></span>
-                      <span>${escapeHtml(executionStatusText)}</span>
+                      <span>${escapeHtml(progressState.message)}</span>
                     </div>
                   </div>
-                  <span class="review-id-chip">id: ${escapeHtml(outcome.problem.id)}</span>
+                  <div class="review-heading-chips">
+                    <span class="review-id-chip">id: ${escapeHtml(outcome.problem.id)}</span>
+                    <span class="pill ${progressState.tone === "success" ? "green" : progressState.tone === "warning" ? "yellow" : "red"}">${escapeHtml(progressState.label)}</span>
+                  </div>
                 </div>
                 <div class="review-metric-grid">
                   ${buildReviewMetricTile("Correctness", outcome.score.correctnessScore, "success")}
@@ -2619,14 +2653,20 @@ async function submitCurrentWorkspace() {
 
   saveLastSubmissionReview(outcome.problem, reviewPanels);
   setResultPanels(reviewPanels, true, "summary");
-  if (outcome.solvedByExecution) {
+  if (outcome.masteredSubmission || outcome.acceptedByExecution) {
     showSuccessModal({
-      title: outcome.rewardResult.questStatus === "quest-complete" ? "Great Work" : "Good Progress",
+      eyebrow: outcome.masteredSubmission ? "Progress Unlocked" : "Accepted · Retry Needed",
+      title: outcome.masteredSubmission
+        ? (outcome.rewardResult.questStatus === "quest-complete" ? "Great Work" : "Good Progress")
+        : "Accepted, Now Match The Approach",
       xp: outcome.rewardResult.xpGained,
       streakGain: Math.max(0, (state.bootstrap?.gameProfile?.streakDays ?? 0) - previousStreak),
-      nextTaskId: nextProblem?.id,
-      nextTaskTitle: nextProblem ? `${nextProblem.id} · ${nextProblem.title}` : "",
-      nextTaskReason: state.bootstrap?.nextRecommendation?.message ?? "",
+      nextTaskId: outcome.masteredSubmission ? nextProblem?.id : undefined,
+      nextTaskTitle: outcome.masteredSubmission && nextProblem ? `${nextProblem.id} · ${nextProblem.title}` : "Review this submission",
+      nextTaskReason: outcome.masteredSubmission
+        ? (state.bootstrap?.nextRecommendation?.message ?? "")
+        : "Your code passed the tests, but progression is paused until the intended concept is detected clearly.",
+      hasNextTask: Boolean(outcome.masteredSubmission && nextProblem),
       hasReview: true
     });
   }

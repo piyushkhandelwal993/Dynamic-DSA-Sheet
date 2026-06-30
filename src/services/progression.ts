@@ -1,5 +1,6 @@
 import { ActiveQuest, MasteryTier, Problem, ProgressState, SkillProfile, WorldZone } from "../types";
 import { recommendNextProblem } from "./recommendation";
+import { isProblemSolvedState } from "./progressionState";
 
 const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; description: string; subtopics: string[]; gateConcepts: string[] }>> = {
   "bit-manipulation": [
@@ -407,8 +408,7 @@ export function getMasterySummary(skillProfile: SkillProfile): Array<{
 }
 
 function isSolved(progress: ProgressState, problemId: string): boolean {
-  const state = progress.problems[problemId];
-  return Boolean(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
+  return isProblemSolvedState(progress.problems[problemId]);
 }
 
 export function buildWorldZones(

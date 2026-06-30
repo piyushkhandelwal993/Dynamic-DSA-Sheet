@@ -208,6 +208,24 @@ test("recommendAfterSubmission uses real progress for the next recommendation", 
   assert.notEqual(recommendation.suggestedProblemIds[0], "bit-001");
 });
 
+test("best score alone does not make a problem solved for future recommendations", () => {
+  const problems = [
+    makeProblem({ id: "arr-001", expectedConcepts: ["array-traversal"] }),
+    makeProblem({ id: "arr-002", expectedConcepts: ["array-traversal"] })
+  ];
+
+  const progress = makeProgress();
+  progress.problems["arr-001"] = {
+    problemId: "arr-001",
+    status: "submitted",
+    attempts: 1,
+    bestScore: 96
+  };
+
+  const recommendation = recommendNextProblem(problems, progress, makeSkillProfile());
+  assert.equal(recommendation.problem?.id, "arr-001");
+});
+
 test("strong mastery recommendation does not fall back to same-problem retry when no harder sibling exists", () => {
   const problems = getTopicProblems("bit-manipulation");
   const problem = problems.find((item) => item.id === "bit-003");

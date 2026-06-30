@@ -65,3 +65,16 @@ test("mastery summary sorts strongest concepts first", () => {
   assert.equal(summary[0].conceptId, "bitwise-and");
   assert.equal(summary[0].tier, "Strong");
 });
+
+test("world zones do not count accepted-but-unmastered submissions as solved", () => {
+  const progress = createInitialProgress();
+  progress.problems["bit-001"] = {
+    problemId: "bit-001",
+    status: "submitted",
+    attempts: 1,
+    bestScore: 98
+  };
+
+  const zones = buildWorldZones(getTopicProblems("bit-manipulation"), progress, createInitialSkillProfile());
+  assert.equal(zones[0].solvedCount, 0);
+});

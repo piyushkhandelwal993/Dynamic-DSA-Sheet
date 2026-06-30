@@ -3452,6 +3452,13 @@ button:disabled {
   text-transform: uppercase;
 }
 
+.review-heading-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .review-live-dot {
   width: 7px;
   height: 7px;
@@ -3462,6 +3469,15 @@ button:disabled {
 
 .review-integrity-row.danger {
   color: #fca5a5;
+}
+
+.review-integrity-row.warning {
+  color: #fde68a;
+}
+
+.review-integrity-row.warning .review-live-dot {
+  background: var(--warning);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.5);
 }
 
 .review-integrity-row.danger .review-live-dot {

@@ -2,6 +2,7 @@ import { AnalysisResult, Problem, ProblemPoolRole, ProgressState, Recommendation
 import { isRevisionDue } from "./revision";
 import { isConceptMastered } from "./skillProfile";
 import { isNonBitwiseFoundationSolve } from "./approachRules";
+import { isProblemSolvedState } from "./progressionState";
 import { effectiveProblemForPracticeMode } from "./workspace";
 
 const difficultyRank: Record<string, number> = {
@@ -17,8 +18,7 @@ function hasWeakPrerequisite(problem: Problem, skillProfile: SkillProfile): bool
 }
 
 function isSolved(progress: ProgressState, problemId: string): boolean {
-  const state = progress.problems[problemId];
-  return Boolean(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
+  return isProblemSolvedState(progress.problems[problemId]);
 }
 
 function getProblemPoolRole(problem: Problem): ProblemPoolRole {

@@ -1,5 +1,5 @@
 import fs from "fs";
-import { AnalysisResult, ConceptDetectionResult, ExecutionResult, ExplainableAnalysisFeedback, PracticeMode, Problem, ProgrammingLanguage, RecommendationResult, ScoreBreakdown } from "../types";
+import { AnalysisResult, ConceptDetectionResult, ExecutionResult, ExplainableAnalysisFeedback, PracticeMode, Problem, ProblemProgress, ProgrammingLanguage, RecommendationResult, ScoreBreakdown } from "../types";
 import {
   copySubmission,
   getGameProfile,
@@ -23,6 +23,7 @@ import { scoreSubmissionFromFacts } from "./analysis-engine/factScoring";
 import { chooseRevisionDays, buildRevisionDate } from "./revision";
 import { isNonBitwiseFoundationSolve } from "./approachRules";
 import { recommendAfterSubmission } from "./recommendation";
+import { clearsMasteryGate, isProblemSolvedState } from "./progressionState";
 import { updateSkillProfileFromSubmission } from "./skillProfile";
 import { applySubmissionRewards, RewardResult } from "./game";
 
@@ -36,6 +37,8 @@ export interface SubmissionOutcome {
   analysisFeedback: ExplainableAnalysisFeedback;
   recommendation: RecommendationResult;
   rewardResult: RewardResult;
+  acceptedByExecution: boolean;
+  masteredSubmission: boolean;
   solvedByExecution: boolean;
   revisionDays: number;
 }
@@ -74,19 +77,24 @@ export function submitProblemSolution(
     attempts: 0,
     bestScore: 0
   };
+  const solutionMode = problem.solutionMode ?? "complete-program";
+  const previouslyCompletedModes = current.completedSolutionModes ?? [];
 
   const passedAllTests = execution.usedTestCases && execution.compileSucceeded && execution.passedCount === execution.totalCount;
   const solvedByExecution = execution.usedTestCases ? passedAllTests : score.finalScore >= 70;
+  const improvedSolvedSubmission =
+    isProblemSolvedState(current) &&
+    score.finalScore > current.bestScore;
   const revisionDays = chooseRevisionDays(score.finalScore);
 
-  progress.problems[problemId] = {
+  const nextProgressEntry: ProblemProgress = {
     ...current,
-    status: solvedByExecution ? "solved" : "submitted",
+    status: isProblemSolvedState(current) ? "solved" : "submitted",
     attempts: current.attempts + 1,
     lastScore: score.finalScore,
     bestScore: Math.max(current.bestScore, score.finalScore),
     lastSubmittedAt: new Date().toISOString(),
-    completedAt: solvedByExecution ? new Date().toISOString() : current.completedAt,
+    completedAt: current.completedAt,
     nextRevisionDate: buildRevisionDate(revisionDays),
     analysisSummary: [...analysis.detected, ...analysis.warnings],
     approachTags: isNonBitwiseFoundationSolve(problem, analysis) ? ["non-bitwise-foundation"] : [],
@@ -97,10 +105,9 @@ export function submitProblemSolution(
       current.bestImplementationScore ?? 0,
       Math.min(score.finalScore, problem.solutionMode === "guided-function" ? 60 : problem.solutionMode === "function" ? 72 : problem.solutionMode === "partial-program" ? 85 : 100)
     ),
-    completedSolutionModes: solvedByExecution
-      ? Array.from(new Set([...(current.completedSolutionModes ?? []), problem.solutionMode ?? "complete-program"]))
-      : current.completedSolutionModes ?? []
+    completedSolutionModes: current.completedSolutionModes ?? []
   };
+  progress.problems[problemId] = nextProgressEntry;
 
   const skillProfile = getSkillProfile();
   const topicId = getTopicIdForProblem(problem.id);
@@ -116,6 +123,14 @@ export function submitProblemSolution(
   } else {
     progress.problems[problemId].approachTags = [];
   }
+
+  const masteredSubmission = solvedByExecution && clearsMasteryGate(score, Boolean(progress.problems[problemId].retryRequired));
+  const newSolveMilestone = masteredSubmission && !previouslyCompletedModes.includes(solutionMode);
+  progress.problems[problemId].status = masteredSubmission || isProblemSolvedState(current) ? "solved" : "submitted";
+  progress.problems[problemId].completedAt = newSolveMilestone ? new Date().toISOString() : current.completedAt;
+  progress.problems[problemId].completedSolutionModes = newSolveMilestone
+    ? Array.from(new Set([...previouslyCompletedModes, solutionMode]))
+    : current.completedSolutionModes ?? [];
   saveProgress(progress);
 
   const updatedSkillProfile = updateSkillProfileFromSubmission(skillProfile, problem, detection, score, analysis);
@@ -125,7 +140,11 @@ export function submitProblemSolution(
     problemId,
     score,
     firstSolvedAttempt: current.attempts === 0 && solvedByExecution,
-    retryRequired: Boolean(progress.problems[problemId].retryRequired)
+    retryRequired: Boolean(progress.problems[problemId].retryRequired),
+    solvedByExecution: masteredSubmission,
+    newSolveMilestone,
+    improvedSolvedSubmission: masteredSubmission && improvedSolvedSubmission,
+    previousBestScore: current.bestScore
   });
   saveGameProfile(rewardResult.updatedProfile);
 
@@ -139,7 +158,9 @@ export function submitProblemSolution(
     analysisFeedback,
     recommendation,
     rewardResult,
-    solvedByExecution,
+    acceptedByExecution: solvedByExecution,
+    masteredSubmission,
+    solvedByExecution: masteredSubmission,
     revisionDays
   };
 }

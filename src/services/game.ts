@@ -5,6 +5,10 @@ interface RewardInput {
   score: ScoreBreakdown;
   firstSolvedAttempt: boolean;
   retryRequired: boolean;
+  solvedByExecution: boolean;
+  newSolveMilestone: boolean;
+  improvedSolvedSubmission: boolean;
+  previousBestScore?: number;
 }
 
 export interface RewardResult {
@@ -102,27 +106,34 @@ export function applySubmissionRewards(profile: GameProfile, input: RewardInput)
   }
   updatedProfile.lastActiveDate = today;
 
-  let xpGained = 10;
-  xpGained += Math.round(input.score.finalScore / 5);
-  if (input.score.conceptMatchScore >= 80) xpGained += 10;
-  if (input.score.qualityScore >= 85) xpGained += 8;
-  if (input.score.complexityScore >= 85) xpGained += 5;
-  if (input.firstSolvedAttempt) xpGained += 7;
-  if (updatedProfile.streakDays >= 3) xpGained += 5;
-  if (input.retryRequired) xpGained = Math.max(12, xpGained - 8);
+  let xpGained = 0;
+  if (input.newSolveMilestone) {
+    xpGained = 10;
+    xpGained += Math.round(input.score.finalScore / 5);
+    if (input.score.conceptMatchScore >= 80) xpGained += 10;
+    if (input.score.qualityScore >= 85) xpGained += 8;
+    if (input.score.complexityScore >= 85) xpGained += 5;
+    if (input.firstSolvedAttempt) xpGained += 7;
+    if (updatedProfile.streakDays >= 3) xpGained += 5;
+    if (input.retryRequired) xpGained = Math.max(12, xpGained - 8);
+  } else if (input.improvedSolvedSubmission) {
+    const previousBest = input.previousBestScore ?? 0;
+    const improvementDelta = Math.max(0, input.score.finalScore - previousBest);
+    xpGained = Math.min(20, 6 + Math.round(improvementDelta / 4));
+  }
 
   updatedProfile.xp += xpGained;
   const previousLevel = updatedProfile.level;
   updatedProfile.level = levelFromXp(updatedProfile.xp);
   updatedProfile.rankTitle = rankFromLevel(updatedProfile.level);
 
-  if (!input.retryRequired && input.score.finalScore >= 70) {
+  if (input.newSolveMilestone && !input.retryRequired && input.score.finalScore >= 70) {
     updatedProfile.questsCompleted += 1;
   }
-  if (input.score.qualityScore >= 85) {
+  if (input.newSolveMilestone && input.score.qualityScore >= 85) {
     updatedProfile.highQualitySubmissions += 1;
   }
-  if (input.score.conceptMatchScore === 100) {
+  if (input.newSolveMilestone && input.score.conceptMatchScore === 100) {
     updatedProfile.perfectConceptMatches += 1;
   }
 
