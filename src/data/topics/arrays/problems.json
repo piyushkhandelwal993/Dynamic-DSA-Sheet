@@ -149,7 +149,11 @@
     ],
     "testCases": [
       { "input": "5\n8 2 10 6 4", "expectedOutput": "8", "visibility": "sample" },
-      { "input": "2\n3 9", "expectedOutput": "3", "visibility": "hidden" }
+      { "input": "2\n3 9", "expectedOutput": "3", "visibility": "hidden", "explanation": "Smallest valid array size." },
+      { "input": "6\n11 4 9 2 7 5", "expectedOutput": "9", "visibility": "hidden", "explanation": "Largest value appears at the beginning, so the running second maximum must still update correctly." },
+      { "input": "5\n1 12 3 8 10", "expectedOutput": "10", "visibility": "hidden", "explanation": "Largest value appears in the middle, and the second largest arrives later." },
+      { "input": "5\n-7 -2 -11 -4 -9", "expectedOutput": "-4", "visibility": "hidden", "explanation": "Negative values still require tracking the two greatest numbers by value." },
+      { "input": "7\n6 14 3 12 9 1 10", "expectedOutput": "12", "visibility": "hidden", "explanation": "Multiple late updates ensure one-pass max and second-max tracking stays correct." }
     ],
     "solutionMode": "guided-function",
     "functionContract": {
