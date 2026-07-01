@@ -14,6 +14,11 @@ on:
       - "scripts/export-contribution-status.mjs"
       - "package.json"
       - ".github/workflows/publish-content.yml"
+  workflow_run:
+    workflows:
+      - Process Contribution Issues
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -27,6 +32,7 @@ concurrency:
 
 jobs:
   publish-content:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
