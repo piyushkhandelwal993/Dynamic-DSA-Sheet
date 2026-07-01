@@ -1,12 +1,11 @@
 {
-  "generatedAt": "2026-07-01T17:47:00.752Z",
+  "generatedAt": "2026-07-01T17:49:52.848Z",
   "items": [
     {
       "id": "contrib_20260701173209_hmw9pt",
-      "status": "published",
-      "reviewedAt": "2026-07-01T17:47:00.752Z",
-      "note": "Published from GitHub issue #3.",
-      "publishedAt": "2026-07-01T17:47:00.752Z"
+      "status": "rejected",
+      "reviewedAt": "2026-07-01T17:49:52.848Z",
+      "note": "Closed or rejected in GitHub issue #3."
     }
   ]
 }
