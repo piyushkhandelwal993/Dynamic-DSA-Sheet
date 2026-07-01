@@ -535,6 +535,11 @@
         "explanation": "The tail connects back to the second node."
       }
     ],
+    "video": {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=gjqx93lTgls",
+      "title": "Detect Cycle in Linked List"
+    },
     "remedialProblems": [
       "ll-007"
     ],

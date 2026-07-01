@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: file: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: file: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
     <title>dsa-sheet desktop</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -309,6 +309,7 @@
               <div class="mission-actions mission-actions-vertical">
                 <button id="mission-action-button" class="primary-button">Start Task</button>
                 <button id="mission-jump-button" class="ghost-button">Browse Problems</button>
+                <button id="mission-video-button" class="ghost-button is-hidden" type="button">Watch Video</button>
               </div>
             </aside>
           </section>
@@ -320,6 +321,7 @@
                   <div class="eyebrow">Problem</div>
                   <h2 id="problem-pane-title">Choose a problem</h2>
                 </div>
+                <button id="problem-contribute-button" class="ghost-button icon-button" type="button" aria-label="Contribute test cases or video" title="Contribute" disabled>＋</button>
               </div>
 
               <div id="problem-tabs" class="problem-tabs">
@@ -587,6 +589,23 @@
                 </div>
               </aside>
             </div>
+
+            <section class="panel profile-contributions">
+              <div class="panel-header">
+                <div>
+                  <div class="eyebrow">Contribution History</div>
+                  <h3>Your content contributions</h3>
+                </div>
+                <div class="contribution-toolbar">
+                  <button id="profile-sync-contribution-statuses-button" class="ghost-button" type="button">Refresh Review Status</button>
+                  <button id="profile-open-contribution-outbox-button" class="ghost-button" type="button">Open Queue Folder</button>
+                </div>
+              </div>
+              <p class="muted">Track local drafts, validated submissions, and items queued for the review pipeline.</p>
+              <div id="profile-contribution-sync-note" class="muted"></div>
+              <div id="profile-contribution-summary" class="profile-contribution-summary"></div>
+              <div id="profile-contributions-list" class="profile-contributions-list muted">No contributions yet.</div>
+            </section>
           </section>
         </section>
       </main>
@@ -624,6 +643,150 @@
           <button id="success-modal-start-button" class="primary-button">Start Next Task</button>
           <button id="success-modal-review-button" class="ghost-button">Review Submission</button>
           <button id="success-modal-close-button" class="ghost-button">Close</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="video-modal-overlay" class="modal-overlay">
+      <div class="success-modal video-modal">
+        <div class="video-modal-header">
+          <div class="eyebrow">Video Walkthrough</div>
+          <h2 id="video-modal-title">Problem video</h2>
+          <p id="video-modal-problem" class="muted"></p>
+        </div>
+        <div class="video-modal-frame-shell">
+          <iframe
+            id="video-modal-frame"
+            class="video-modal-frame"
+            src="about:blank"
+            title="Problem video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+        <div class="success-actions">
+          <button id="video-modal-open-youtube" class="primary-button" type="button">Open In YouTube</button>
+          <button id="video-modal-close-button" class="ghost-button" type="button">Close</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="contribution-modal-overlay" class="modal-overlay">
+      <div class="success-modal contribution-modal">
+        <div class="video-modal-header">
+          <div class="eyebrow">Contribute</div>
+          <h2 id="contribution-modal-title">Share a better problem asset</h2>
+          <p id="contribution-modal-problem" class="muted">Choose what you want to contribute for this problem.</p>
+        </div>
+
+        <div id="contribution-type-tabs" class="problem-tabs contribution-type-tabs">
+          <button class="problem-tab active" data-contribution-type="test-case" type="button">Add Test Case</button>
+          <button class="problem-tab" data-contribution-type="bulk-test-cases" type="button">Bulk Test Cases</button>
+          <button class="problem-tab" data-contribution-type="video-link" type="button">Add Video Link</button>
+        </div>
+
+        <div id="contribution-form-panels" class="contribution-form-panels">
+          <section class="contribution-form-panel" data-contribution-panel="test-case">
+            <label class="profile-field">
+              <span>Input</span>
+              <textarea id="contribution-testcase-input" class="custom-input contribution-textarea" spellcheck="false" placeholder="Paste the stdin for this test case..."></textarea>
+            </label>
+            <label class="profile-field">
+              <span>Expected Output</span>
+              <textarea id="contribution-testcase-output" class="custom-input contribution-textarea" spellcheck="false" placeholder="Paste the exact expected output..."></textarea>
+            </label>
+            <div class="contribution-form-grid">
+              <label class="profile-field">
+                <span>Visibility Suggestion</span>
+                <select id="contribution-testcase-visibility">
+                  <option value="hidden">Hidden</option>
+                  <option value="sample">Sample</option>
+                </select>
+              </label>
+              <label class="profile-field">
+                <span>Reason</span>
+                <input id="contribution-testcase-reason" type="text" placeholder="Why should we add this case?" />
+              </label>
+            </div>
+          </section>
+
+          <section class="contribution-form-panel is-hidden" data-contribution-panel="bulk-test-cases">
+            <label class="profile-field">
+              <span>Bulk Cases JSON</span>
+              <textarea id="contribution-bulk-input" class="custom-input contribution-textarea contribution-bulk-textarea" spellcheck="false" placeholder='[{"input":"5\n1 2 3 4 5","expectedOutput":"5 4 3 2 1","visibilitySuggestion":"hidden","reason":"reverse flow"}]'></textarea>
+            </label>
+            <p class="muted contribution-help">Use an array of objects with <code>input</code>, <code>expectedOutput</code>, <code>visibilitySuggestion</code>, and <code>reason</code>.</p>
+          </section>
+
+          <section class="contribution-form-panel is-hidden" data-contribution-panel="video-link">
+            <label class="profile-field">
+              <span>YouTube URL</span>
+              <input id="contribution-video-url" type="url" placeholder="https://www.youtube.com/watch?v=..." />
+            </label>
+            <label class="profile-field">
+              <span>Video Title</span>
+              <input id="contribution-video-title" type="text" placeholder="Great walkthrough title" />
+            </label>
+            <div class="contribution-form-grid">
+              <label class="profile-field">
+                <span>Recommended For</span>
+                <select id="contribution-video-mode">
+                  <option value="">Any mode</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="pro">Pro</option>
+                </select>
+              </label>
+              <label class="profile-field">
+                <span>Language</span>
+                <input id="contribution-video-language" type="text" placeholder="English / Hindi / Java / General" />
+              </label>
+            </div>
+            <label class="profile-field">
+              <span>Reason</span>
+              <textarea id="contribution-video-reason" class="custom-input contribution-textarea" spellcheck="false" placeholder="Why does this video match the intended approach?"></textarea>
+            </label>
+          </section>
+        </div>
+
+        <div id="contribution-validation-box" class="contribution-validation-box muted">
+          Validate before you submit. Local checks run on your machine first.
+        </div>
+
+        <div class="success-actions contribution-actions">
+          <button id="contribution-validate-button" class="ghost-button" type="button">Validate</button>
+          <button id="contribution-save-draft-button" class="ghost-button" type="button">Save Draft</button>
+          <button id="contribution-submit-button" class="primary-button" type="button">Submit</button>
+          <button id="contribution-close-button" class="ghost-button" type="button">Close</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="contribution-detail-modal-overlay" class="modal-overlay">
+      <div class="success-modal contribution-modal contribution-detail-modal">
+        <div class="video-modal-header">
+          <div class="eyebrow">Contribution Detail</div>
+          <h2 id="contribution-detail-title">Contribution</h2>
+          <p id="contribution-detail-meta" class="muted">Review the saved payload and validation details.</p>
+        </div>
+
+        <div id="contribution-detail-status" class="contribution-validation-box muted"></div>
+
+        <section class="contribution-detail-section">
+          <div class="eyebrow">Payload</div>
+          <pre id="contribution-detail-payload" class="contribution-detail-pre"></pre>
+        </section>
+
+        <section class="contribution-detail-section">
+          <div class="eyebrow">Validation</div>
+          <div id="contribution-detail-validation" class="contribution-validation-box muted"></div>
+        </section>
+
+        <div class="success-actions contribution-actions">
+          <button id="contribution-detail-copy-payload-button" class="ghost-button" type="button">Copy Payload</button>
+          <button id="contribution-detail-open-github-button" class="ghost-button" type="button">Open GitHub Issue</button>
+          <button id="contribution-detail-open-file-button" class="ghost-button" type="button">Open Queue File</button>
+          <button id="contribution-detail-close-button" class="primary-button" type="button">Close</button>
         </div>
       </div>
     </dialog>

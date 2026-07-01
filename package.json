@@ -17,6 +17,7 @@
     "audit:test-cases": "npm run build && node dist/test-case-audit/run.js",
     "audit:practice-modes": "npm run build && node scripts/practice-mode-readiness.mjs",
     "content:export": "npm run build && node scripts/export-content-bundle.mjs",
+    "contributions:export-status": "npm run build && node scripts/export-contribution-status.mjs",
     "release:validate": "npm run build && node scripts/release-readiness.mjs",
     "release:check": "npm run typecheck && npm run build && npm test && npm run audit:test-cases && npm run audit:practice-modes && npm run benchmark:analyzer && node scripts/release-readiness.mjs",
     "desktop": "electron desktop/main.js",
@@ -39,6 +40,9 @@
   "license": "MIT",
   "dsaSheetContent": {
     "manifestUrl": "https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/content/manifest.json"
+  },
+  "dsaSheetContributions": {
+    "statusUrl": "https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/contributions/status.json"
   },
   "dependencies": {
     "chalk": "^4.1.2",

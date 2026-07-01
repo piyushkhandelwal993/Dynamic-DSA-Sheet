@@ -110,6 +110,11 @@
       { "input": "5\n1 2 3 4 5", "expectedOutput": "5 4 3 2 1", "visibility": "sample" },
       { "input": "4\n9 1 7 3", "expectedOutput": "3 7 1 9", "visibility": "hidden" }
     ],
+    "video": {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=5h1s2SojIRw",
+      "title": "Reverse the Array using Two Pointers"
+    },
     "solutionMode": "guided-function",
     "functionContract": {
       "functionName": "reverse",

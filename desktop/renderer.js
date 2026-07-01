@@ -17,6 +17,9 @@ const state = {
   activeResultView: "summary",
   showResult: false,
   successModal: null,
+  videoModal: null,
+  contributionModal: null,
+  contributionDetail: null,
   lastSubmissionReview: null,
   editorDirty: false,
   editorFontSize: 14,
@@ -122,6 +125,7 @@ const taskHelpLabelEl = document.getElementById("task-help-label");
 const missionStepsEl = document.getElementById("mission-steps");
 const missionActionButtonEl = document.getElementById("mission-action-button");
 const missionJumpButtonEl = document.getElementById("mission-jump-button");
+const missionVideoButtonEl = document.getElementById("mission-video-button");
 const streakCountEl = document.getElementById("streak-count");
 const solvedCountEl = document.getElementById("solved-count");
 const progressStreakValueEl = document.getElementById("progress-streak-value");
@@ -140,11 +144,17 @@ const profileSaveStatusEl = document.getElementById("profile-save-status");
 const profileStatsGridEl = document.getElementById("profile-stats-grid");
 const profileActiveTopicEl = document.getElementById("profile-active-topic");
 const profileCreatedAtEl = document.getElementById("profile-created-at");
+const profileContributionSummaryEl = document.getElementById("profile-contribution-summary");
+const profileContributionsListEl = document.getElementById("profile-contributions-list");
+const profileContributionSyncNoteEl = document.getElementById("profile-contribution-sync-note");
+const profileOpenContributionOutboxButtonEl = document.getElementById("profile-open-contribution-outbox-button");
+const profileSyncContributionStatusesButtonEl = document.getElementById("profile-sync-contribution-statuses-button");
 const streakSummaryEl = document.getElementById("streak-summary");
 const streakCalendarEl = document.getElementById("streak-calendar");
 const submissionTrendEl = document.getElementById("submission-trend");
 const topicProgressEl = document.getElementById("topic-progress");
 const problemPaneTitleEl = document.getElementById("problem-pane-title");
+const problemContributeButtonEl = document.getElementById("problem-contribute-button");
 const problemTabsEl = document.getElementById("problem-tabs");
 const problemPaneContentEl = document.getElementById("problem-pane-content");
 const splitterEl = document.getElementById("splitter");
@@ -195,6 +205,41 @@ const successModalNextReasonEl = document.getElementById("success-modal-next-rea
 const successModalStartButtonEl = document.getElementById("success-modal-start-button");
 const successModalReviewButtonEl = document.getElementById("success-modal-review-button");
 const successModalCloseButtonEl = document.getElementById("success-modal-close-button");
+const videoModalOverlayEl = document.getElementById("video-modal-overlay");
+const videoModalTitleEl = document.getElementById("video-modal-title");
+const videoModalProblemEl = document.getElementById("video-modal-problem");
+const videoModalFrameEl = document.getElementById("video-modal-frame");
+const videoModalOpenYoutubeEl = document.getElementById("video-modal-open-youtube");
+const videoModalCloseButtonEl = document.getElementById("video-modal-close-button");
+const contributionModalOverlayEl = document.getElementById("contribution-modal-overlay");
+const contributionModalTitleEl = document.getElementById("contribution-modal-title");
+const contributionModalProblemEl = document.getElementById("contribution-modal-problem");
+const contributionTypeTabsEl = document.getElementById("contribution-type-tabs");
+const contributionValidationBoxEl = document.getElementById("contribution-validation-box");
+const contributionValidateButtonEl = document.getElementById("contribution-validate-button");
+const contributionSaveDraftButtonEl = document.getElementById("contribution-save-draft-button");
+const contributionSubmitButtonEl = document.getElementById("contribution-submit-button");
+const contributionCloseButtonEl = document.getElementById("contribution-close-button");
+const contributionTestcaseInputEl = document.getElementById("contribution-testcase-input");
+const contributionTestcaseOutputEl = document.getElementById("contribution-testcase-output");
+const contributionTestcaseVisibilityEl = document.getElementById("contribution-testcase-visibility");
+const contributionTestcaseReasonEl = document.getElementById("contribution-testcase-reason");
+const contributionBulkInputEl = document.getElementById("contribution-bulk-input");
+const contributionVideoUrlEl = document.getElementById("contribution-video-url");
+const contributionVideoTitleEl = document.getElementById("contribution-video-title");
+const contributionVideoModeEl = document.getElementById("contribution-video-mode");
+const contributionVideoLanguageEl = document.getElementById("contribution-video-language");
+const contributionVideoReasonEl = document.getElementById("contribution-video-reason");
+const contributionDetailModalOverlayEl = document.getElementById("contribution-detail-modal-overlay");
+const contributionDetailTitleEl = document.getElementById("contribution-detail-title");
+const contributionDetailMetaEl = document.getElementById("contribution-detail-meta");
+const contributionDetailStatusEl = document.getElementById("contribution-detail-status");
+const contributionDetailPayloadEl = document.getElementById("contribution-detail-payload");
+const contributionDetailValidationEl = document.getElementById("contribution-detail-validation");
+const contributionDetailCopyPayloadButtonEl = document.getElementById("contribution-detail-copy-payload-button");
+const contributionDetailOpenGithubButtonEl = document.getElementById("contribution-detail-open-github-button");
+const contributionDetailOpenFileButtonEl = document.getElementById("contribution-detail-open-file-button");
+const contributionDetailCloseButtonEl = document.getElementById("contribution-detail-close-button");
 const viewTabsEl = document.getElementById("view-tabs");
 const viewEls = {
   home: document.getElementById("home-view"),
@@ -1208,6 +1253,313 @@ function currentMissionProblem() {
   return state.currentProblem ?? state.bootstrap?.nextRecommendation?.problem ?? null;
 }
 
+function currentMissionVideo(problem = currentMissionProblem()) {
+  if (!problem?.video?.url || problem.video.provider !== "youtube") return null;
+  return problem.video;
+}
+
+function getYouTubeEmbedUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    let videoId = "";
+
+    if (host === "youtu.be") {
+      videoId = parsed.pathname.replace(/^\//, "");
+    } else if (host === "youtube.com" || host === "m.youtube.com") {
+      if (parsed.pathname === "/watch") {
+        videoId = parsed.searchParams.get("v") ?? "";
+      } else if (parsed.pathname.startsWith("/embed/")) {
+        videoId = parsed.pathname.split("/")[2] ?? "";
+      } else if (parsed.pathname.startsWith("/shorts/")) {
+        videoId = parsed.pathname.split("/")[2] ?? "";
+      }
+    }
+
+    if (!videoId) return null;
+    return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?rel=0&modestbranding=1&autoplay=1`;
+  } catch {
+    return null;
+  }
+}
+
+function showVideoModal(problem) {
+  const video = currentMissionVideo(problem);
+  const embedUrl = video ? getYouTubeEmbedUrl(video.url) : null;
+  if (!video || !embedUrl) return;
+
+  state.videoModal = {
+    url: video.url,
+    title: video.title || `${problem.title} walkthrough`,
+    problemId: problem.id,
+    problemTitle: problem.title
+  };
+
+  videoModalTitleEl.textContent = state.videoModal.title;
+  videoModalProblemEl.textContent = `${problem.id} · ${problem.title}`;
+  videoModalFrameEl.src = embedUrl;
+  if (!videoModalOverlayEl.open) {
+    videoModalOverlayEl.showModal();
+  }
+}
+
+function hideVideoModal() {
+  state.videoModal = null;
+  videoModalFrameEl.src = "about:blank";
+  if (videoModalOverlayEl.open) {
+    videoModalOverlayEl.close();
+  }
+}
+
+function contributionTypeLabel(type) {
+  switch (type) {
+    case "test-case":
+      return "Test Case";
+    case "bulk-test-cases":
+      return "Bulk Test Cases";
+    case "video-link":
+      return "Video Link";
+    default:
+      return type;
+  }
+}
+
+function contributionStatusLabel(status) {
+  switch (status) {
+    case "draft":
+      return "Draft";
+    case "validated":
+      return "Validated";
+    case "submitted":
+      return "Submitted";
+    case "under-review":
+      return "Under Review";
+    case "approved":
+      return "Approved";
+    case "rejected":
+      return "Rejected";
+    case "published":
+      return "Published";
+    default:
+      return status;
+  }
+}
+
+function contributionStatusTone(status) {
+  switch (status) {
+    case "validated":
+    case "approved":
+    case "published":
+      return "green";
+    case "submitted":
+    case "under-review":
+      return "blue";
+    case "rejected":
+      return "red";
+    default:
+      return "gray";
+  }
+}
+
+function contributionPreview(record) {
+  if (record.type === "video-link") {
+    return record.payload.title || record.payload.url;
+  }
+  if (record.type === "bulk-test-cases") {
+    return `${record.payload.cases.length} cases added`;
+  }
+  return record.payload.reason || "Single test case";
+}
+
+function openContributionDetail(recordId) {
+  const record = state.bootstrap?.contributions?.find((item) => item.id === recordId);
+  if (!record) return;
+  state.contributionDetail = record;
+  renderContributionDetailModal();
+  if (!contributionDetailModalOverlayEl.open) {
+    contributionDetailModalOverlayEl.showModal();
+  }
+}
+
+function hideContributionDetail() {
+  state.contributionDetail = null;
+  if (contributionDetailModalOverlayEl.open) {
+    contributionDetailModalOverlayEl.close();
+  }
+}
+
+function resetContributionForm() {
+  contributionTestcaseInputEl.value = "";
+  contributionTestcaseOutputEl.value = "";
+  contributionTestcaseVisibilityEl.value = "hidden";
+  contributionTestcaseReasonEl.value = "";
+  contributionBulkInputEl.value = "";
+  contributionVideoUrlEl.value = "";
+  contributionVideoTitleEl.value = "";
+  contributionVideoModeEl.value = "";
+  contributionVideoLanguageEl.value = "";
+  contributionVideoReasonEl.value = "";
+}
+
+function renderContributionModal() {
+  const modalState = state.contributionModal;
+  const problem = modalState ? state.bootstrap?.problems.find((item) => item.id === modalState.problemId) ?? state.currentProblem : null;
+  const activeType = modalState?.type ?? "test-case";
+
+  contributionModalTitleEl.textContent = problem ? `Contribute to ${problem.title}` : "Share a better problem asset";
+  contributionModalProblemEl.textContent = problem
+    ? `${problem.id} · ${problem.subtopic}`
+    : "Choose a problem and add a useful asset for the learning journey.";
+
+  contributionTypeTabsEl.querySelectorAll("[data-contribution-type]").forEach((button) => {
+    button.classList.toggle("active", button.getAttribute("data-contribution-type") === activeType);
+  });
+  document.querySelectorAll("[data-contribution-panel]").forEach((panel) => {
+    panel.classList.toggle("is-hidden", panel.getAttribute("data-contribution-panel") !== activeType);
+  });
+
+  const validation = modalState?.validation;
+  if (!validation) {
+    contributionValidationBoxEl.className = "contribution-validation-box muted";
+    contributionValidationBoxEl.textContent = "Validate before you submit. Local checks run on your machine first.";
+    return;
+  }
+
+  contributionValidationBoxEl.className = `contribution-validation-box ${validation.passed ? "success" : "danger"}`;
+  contributionValidationBoxEl.innerHTML = [
+    `<strong>${validation.passed ? "Local validation passed." : "Please fix the following before submitting."}</strong>`,
+    validation.errors?.length ? `<ul>${validation.errors.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : "",
+    validation.warnings?.length ? `<div class="contribution-warnings">${validation.warnings.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</div>` : ""
+  ].filter(Boolean).join("");
+}
+
+function renderContributionDetailModal() {
+  const record = state.contributionDetail;
+  if (!record) {
+    contributionDetailStatusEl.className = "contribution-validation-box muted";
+    contributionDetailStatusEl.textContent = "";
+    contributionDetailPayloadEl.textContent = "";
+    contributionDetailValidationEl.className = "contribution-validation-box muted";
+    contributionDetailValidationEl.textContent = "";
+    contributionDetailCopyPayloadButtonEl.disabled = true;
+    contributionDetailOpenGithubButtonEl.disabled = true;
+    contributionDetailOpenFileButtonEl.disabled = true;
+    return;
+  }
+
+  contributionDetailTitleEl.textContent = `${record.problemId} · ${contributionTypeLabel(record.type)}`;
+  contributionDetailMetaEl.textContent = `${record.topicId} · ${new Date(record.updatedAt).toLocaleString()}`;
+  contributionDetailStatusEl.className = `contribution-validation-box ${record.localValidation?.passed ? "success" : "danger"}`;
+  contributionDetailStatusEl.innerHTML = `
+    <strong>${escapeHtml(contributionStatusLabel(record.status))}</strong>
+    <p>App version ${escapeHtml(record.appVersion)} · contribution id ${escapeHtml(record.id)}</p>
+  `;
+  contributionDetailPayloadEl.textContent = JSON.stringify(record.payload, null, 2);
+  contributionDetailValidationEl.className = `contribution-validation-box ${record.localValidation?.passed ? "success" : "danger"}`;
+  contributionDetailValidationEl.innerHTML = [
+    `<strong>${record.localValidation?.passed ? "Local validation passed" : "Local validation blocked submission quality checks"}</strong>`,
+    record.localValidation?.errors?.length ? `<ul>${record.localValidation.errors.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : "<p>No validation errors.</p>",
+    record.localValidation?.warnings?.length ? `<div class="contribution-warnings">${record.localValidation.warnings.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}</div>` : ""
+  ].join("");
+  contributionDetailCopyPayloadButtonEl.disabled = false;
+  contributionDetailOpenGithubButtonEl.disabled = record.status !== "submitted";
+  contributionDetailOpenFileButtonEl.disabled = !record.remoteRef?.reference;
+}
+
+function openContributionModal(problem = state.currentProblem) {
+  if (!problem) return;
+  state.contributionModal = {
+    problemId: problem.id,
+    type: "test-case",
+    validation: null
+  };
+  resetContributionForm();
+  renderContributionModal();
+  if (!contributionModalOverlayEl.open) {
+    contributionModalOverlayEl.showModal();
+  }
+}
+
+function hideContributionModal() {
+  state.contributionModal = null;
+  if (contributionModalOverlayEl.open) {
+    contributionModalOverlayEl.close();
+  }
+}
+
+function buildContributionInput() {
+  const modalState = state.contributionModal;
+  if (!modalState?.problemId) {
+    return { error: "Choose a problem before contributing." };
+  }
+
+  if (modalState.type === "test-case") {
+    return {
+      value: {
+        type: "test-case",
+        problemId: modalState.problemId,
+        payload: {
+          input: contributionTestcaseInputEl.value,
+          expectedOutput: contributionTestcaseOutputEl.value,
+          visibilitySuggestion: contributionTestcaseVisibilityEl.value === "sample" ? "sample" : "hidden",
+          reason: contributionTestcaseReasonEl.value
+        }
+      }
+    };
+  }
+
+  if (modalState.type === "bulk-test-cases") {
+    try {
+      const parsed = JSON.parse(contributionBulkInputEl.value || "[]");
+      return {
+        value: {
+          type: "bulk-test-cases",
+          problemId: modalState.problemId,
+          payload: { cases: parsed }
+        }
+      };
+    } catch {
+      return { error: "Bulk test cases must be valid JSON." };
+    }
+  }
+
+  return {
+    value: {
+      type: "video-link",
+      problemId: modalState.problemId,
+      payload: {
+        url: contributionVideoUrlEl.value,
+        title: contributionVideoTitleEl.value,
+        reason: contributionVideoReasonEl.value,
+        recommendedFor: contributionVideoModeEl.value ? [contributionVideoModeEl.value] : [],
+        language: contributionVideoLanguageEl.value
+      }
+    }
+  };
+}
+
+function applyContributionValidationResult(validation) {
+  if (!state.contributionModal) return;
+  state.contributionModal.validation = validation;
+  renderContributionModal();
+}
+
+function updateContributionList(contributions) {
+  if (!state.bootstrap) return;
+  state.bootstrap.contributions = contributions;
+}
+
+function contributionExportText(record) {
+  return JSON.stringify({
+    id: record.id,
+    problemId: record.problemId,
+    topicId: record.topicId,
+    type: record.type,
+    payload: record.payload,
+    localValidation: record.localValidation
+  }, null, 2);
+}
+
 function emptyEditorState() {
   setEditorValue("");
   editorEl.classList.add("is-disabled");
@@ -1583,7 +1935,7 @@ function animateHomeCounters() {
 }
 
 function renderProfilePage() {
-  const { profile, gameProfile, activeTopic } = state.bootstrap;
+  const { profile, gameProfile, activeTopic, contributions = [], contributionSync } = state.bootstrap;
   const name = profile?.name ?? "Player";
   const batch = profile?.batch ?? "Self-paced";
   const preferredLanguage = profile?.preferredLanguage ?? "Java";
@@ -1620,6 +1972,71 @@ function renderProfilePage() {
       </div>
     `)
     .join("");
+
+  const summary = {
+    total: contributions.length,
+    draft: contributions.filter((item) => item.status === "draft").length,
+    submitted: contributions.filter((item) => item.status === "submitted").length,
+    validated: contributions.filter((item) => item.status === "validated").length
+  };
+
+  profileContributionSummaryEl.innerHTML = `
+    <div class="profile-stat-card">
+      <span>Total</span>
+      <strong>${summary.total}</strong>
+    </div>
+    <div class="profile-stat-card">
+      <span>Drafts</span>
+      <strong>${summary.draft}</strong>
+    </div>
+    <div class="profile-stat-card">
+      <span>Validated</span>
+      <strong>${summary.validated}</strong>
+    </div>
+    <div class="profile-stat-card">
+      <span>Submitted</span>
+      <strong>${summary.submitted}</strong>
+    </div>
+  `;
+
+  profileContributionSyncNoteEl.textContent = contributionSync?.message ?? "Contribution review sync is not configured yet.";
+  profileSyncContributionStatusesButtonEl.disabled = !contributionSync?.enabled;
+
+  profileContributionsListEl.innerHTML = contributions.length
+    ? contributions
+        .slice(0, 12)
+        .map((record) => {
+          const updatedAt = new Date(record.updatedAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+          return `
+            <article class="contribution-history-card">
+              <div class="contribution-history-top">
+                <div>
+                  <strong>${escapeHtml(record.problemId)}</strong>
+                  <p>${escapeHtml(contributionTypeLabel(record.type))} · ${escapeHtml(contributionPreview(record))}</p>
+                </div>
+                <span class="pill ${contributionStatusTone(record.status)}">${escapeHtml(contributionStatusLabel(record.status))}</span>
+              </div>
+              <div class="contribution-history-meta">
+                <span>${escapeHtml(record.topicId)}</span>
+                <span>${escapeHtml(updatedAt)}</span>
+              </div>
+              <div class="contribution-history-actions">
+                <button class="ghost-button contribution-history-button" type="button" data-contribution-detail="${escapeHtml(record.id)}">View Detail</button>
+              </div>
+            </article>
+          `;
+        })
+        .join("")
+    : `<div class="contribution-history-empty">No contributions yet. Open a problem and use the contribute button to add test cases or video links.</div>`;
+
+  profileContributionsListEl.querySelectorAll("[data-contribution-detail]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const recordId = button.getAttribute("data-contribution-detail");
+      if (recordId) {
+        openContributionDetail(recordId);
+      }
+    });
+  });
 }
 
 function renderHeader() {
@@ -1770,6 +2187,9 @@ function renderPracticeStrip() {
   missionActionButtonEl.disabled = !missionProblem;
   missionJumpButtonEl.textContent = hasWorkspaceOpen ? "Browse Problems" : "Preview Problem";
   missionJumpButtonEl.disabled = !missionProblem;
+  const missionVideo = currentMissionVideo(missionProblem);
+  missionVideoButtonEl.classList.toggle("is-hidden", !missionVideo);
+  missionVideoButtonEl.disabled = !missionVideo;
 }
 
 function renderProblemList() {
@@ -1817,6 +2237,12 @@ function renderProblemList() {
 }
 
 function renderProblemPane(problem) {
+  if (problemContributeButtonEl) {
+    problemContributeButtonEl.disabled = !problem;
+    problemContributeButtonEl.title = problem ? `Contribute to ${problem.id}` : "Open a problem to contribute";
+    problemContributeButtonEl.setAttribute("aria-label", problem ? `Contribute to ${problem.id}` : "Open a problem to contribute");
+  }
+
   problemTabsEl.querySelectorAll("[data-problem-view]").forEach((button) => {
     button.classList.toggle("active", button.getAttribute("data-problem-view") === state.currentProblemView);
   });
@@ -2737,6 +3163,8 @@ function render() {
   renderPracticeStrip();
   renderProblemList();
   renderProblemPane(state.currentProblem);
+  renderContributionModal();
+  renderContributionDetailModal();
   renderEditorMeta(state.currentProblem, state.workspacePath);
   renderProgressSummary();
   renderStreakCalendar();
@@ -2981,6 +3409,14 @@ missionJumpButtonEl.addEventListener("click", async () => {
   }
   await startProblem(problem.id);
 });
+missionVideoButtonEl.addEventListener("click", () => {
+  const problem = currentMissionProblem();
+  if (!problem) return;
+  showVideoModal(problem);
+});
+problemContributeButtonEl?.addEventListener("click", () => {
+  openContributionModal(state.currentProblem);
+});
 successModalStartButtonEl.addEventListener("click", async () => {
   await startRecommendedNextProblem();
 });
@@ -2990,6 +3426,116 @@ successModalOverlayEl.addEventListener("click", (event) => {
   if (event.target === successModalOverlayEl) {
     hideSuccessModal();
   }
+});
+videoModalOpenYoutubeEl.addEventListener("click", async () => {
+  if (!state.videoModal?.url) return;
+  await window.dsaDesktop.openExternal(state.videoModal.url);
+});
+videoModalCloseButtonEl.addEventListener("click", hideVideoModal);
+videoModalOverlayEl.addEventListener("click", (event) => {
+  if (event.target === videoModalOverlayEl) {
+    hideVideoModal();
+  }
+});
+videoModalOverlayEl.addEventListener("close", () => {
+  videoModalFrameEl.src = "about:blank";
+});
+contributionTypeTabsEl?.querySelectorAll("[data-contribution-type]").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!state.contributionModal) return;
+    state.contributionModal.type = button.getAttribute("data-contribution-type") ?? "test-case";
+    state.contributionModal.validation = null;
+    renderContributionModal();
+  });
+});
+contributionValidateButtonEl?.addEventListener("click", async () => {
+  const built = buildContributionInput();
+  if (built.error) {
+    applyContributionValidationResult({ passed: false, errors: [built.error], warnings: [] });
+    return;
+  }
+  const validation = await window.dsaDesktop.validateContribution(built.value);
+  applyContributionValidationResult(validation);
+});
+contributionSaveDraftButtonEl?.addEventListener("click", async () => {
+  const built = buildContributionInput();
+  if (built.error) {
+    applyContributionValidationResult({ passed: false, errors: [built.error], warnings: [] });
+    return;
+  }
+  contributionSaveDraftButtonEl.disabled = true;
+  const result = await window.dsaDesktop.saveContributionDraft(built.value);
+  contributionSaveDraftButtonEl.disabled = false;
+  updateContributionList(result.contributions);
+  state.contributionModal.validation = result.record.localValidation;
+  render();
+});
+contributionSubmitButtonEl?.addEventListener("click", async () => {
+  const built = buildContributionInput();
+  if (built.error) {
+    applyContributionValidationResult({ passed: false, errors: [built.error], warnings: [] });
+    return;
+  }
+  contributionSubmitButtonEl.disabled = true;
+  const result = await window.dsaDesktop.submitContribution(built.value);
+  contributionSubmitButtonEl.disabled = false;
+  updateContributionList(result.contributions);
+  state.contributionModal.validation = result.record.localValidation;
+  render();
+  if (result.record.status === "submitted") {
+    hideContributionModal();
+    openContributionDetail(result.record.id);
+  }
+});
+contributionCloseButtonEl?.addEventListener("click", hideContributionModal);
+contributionModalOverlayEl?.addEventListener("click", (event) => {
+  if (event.target === contributionModalOverlayEl) {
+    hideContributionModal();
+  }
+});
+contributionModalOverlayEl?.addEventListener("close", () => {
+  state.contributionModal = null;
+});
+profileOpenContributionOutboxButtonEl?.addEventListener("click", async () => {
+  const outboxPath = await window.dsaDesktop.getContributionOutboxPath();
+  if (outboxPath) {
+    await window.dsaDesktop.openPath(outboxPath);
+  }
+});
+profileSyncContributionStatusesButtonEl?.addEventListener("click", async () => {
+  profileContributionSyncNoteEl.textContent = "Refreshing contribution review statuses...";
+  const result = await window.dsaDesktop.syncContributionStatuses();
+  updateContributionList(result.contributions);
+  if (state.bootstrap) {
+    state.bootstrap.contributionSync = result.status;
+  }
+  render();
+});
+contributionDetailOpenFileButtonEl?.addEventListener("click", async () => {
+  if (!state.contributionDetail?.remoteRef?.reference) return;
+  await window.dsaDesktop.openPath(state.contributionDetail.remoteRef.reference);
+});
+contributionDetailCopyPayloadButtonEl?.addEventListener("click", async () => {
+  if (!state.contributionDetail) return;
+  await window.dsaDesktop.copyText(contributionExportText(state.contributionDetail));
+  contributionDetailValidationEl.className = "contribution-validation-box success";
+  contributionDetailValidationEl.innerHTML = "<strong>Payload copied.</strong><p>Paste it into the GitHub issue body.</p>";
+});
+contributionDetailOpenGithubButtonEl?.addEventListener("click", async () => {
+  if (!state.contributionDetail) return;
+  const issueUrl = await window.dsaDesktop.getContributionIssueUrl(state.contributionDetail.id);
+  if (issueUrl) {
+    await window.dsaDesktop.openExternal(issueUrl);
+  }
+});
+contributionDetailCloseButtonEl?.addEventListener("click", hideContributionDetail);
+contributionDetailModalOverlayEl?.addEventListener("click", (event) => {
+  if (event.target === contributionDetailModalOverlayEl) {
+    hideContributionDetail();
+  }
+});
+contributionDetailModalOverlayEl?.addEventListener("close", () => {
+  state.contributionDetail = null;
 });
 
 viewTabsEl.querySelectorAll("[data-view]").forEach((button) => {

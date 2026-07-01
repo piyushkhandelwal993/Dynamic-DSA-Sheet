@@ -33,14 +33,33 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-stock-profit":
     case "array-count-positive":
     case "array-max-consecutive-ones":
+    case "bit-count-odd-array":
+    case "bit-single-number":
+    case "bit-missing-number":
+    case "bit-clear-rightmost-set-bit":
+    case "bit-set-query-batch":
+    case "bit-subset-sum-count":
+    case "bit-assignment-mask-count":
+    case "bit-reverse-bits":
+    case "bit-max-xor-pair":
+    case "bit-invert-all":
+    case "bit-base10-complement":
       return `        return 0;`;
     case "array-pair-sum-sorted":
       return `        return false;`;
     case "array-range-sum":
       return `        return 0L;`;
+    case "bit-binary-string":
+      return `        return "";`;
     case "array-product-except-self":
     case "array-running-sum":
+    case "bit-two-unique-numbers":
+    case "bit-swap-two-numbers":
+    case "bit-decode-xored-array":
+    case "bit-count-bits-dp":
       return `        return new int[0];`;
+    case "bit-generate-subsets":
+      return `        return new ArrayList<>();`;
     case "array-left-rotate-one":
     case "array-move-zeroes":
     case "array-reverse":
@@ -48,12 +67,32 @@ function javaMethodStub(contract: FunctionContract): string {
     case "tree-preorder":
       return `        return new ArrayList<>();`;
     case "stack-balanced-brackets":
+    case "bit-odd-even":
+    case "bit-power-of-two":
+    case "bit-power-of-four":
       return `        return false;`;
     case "queue-reverse-first-k":
       return `        return values;`;
     case "binary-search-exact":
       return `        return -1;`;
+    case "bit-xor-1-to-n":
     case "bit-check":
+    case "bit-count-set-bits":
+    case "bit-count-set-bits-kernighan":
+    case "bit-clear-rightmost-set-bit":
+    case "bit-hamming-distance":
+    case "bit-toggle-range":
+    case "bit-range-bitwise-and":
+    case "bit-sum-without-plus":
+    case "bit-min-bit-flips":
+    case "bit-single-number":
+    case "bit-missing-number":
+    case "bit-invert-all":
+    case "bit-base10-complement":
+    case "bit-set":
+    case "bit-clear":
+    case "bit-toggle":
+    case "bit-check-right-shift":
       return `        return 0;`;
     case "recursion-factorial":
     case "dp-fibonacci":
@@ -84,13 +123,32 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-stock-profit":
     case "array-count-positive":
     case "array-max-consecutive-ones":
+    case "bit-count-odd-array":
+    case "bit-single-number":
+    case "bit-missing-number":
+    case "bit-clear-rightmost-set-bit":
+    case "bit-set-query-batch":
+    case "bit-subset-sum-count":
+    case "bit-assignment-mask-count":
+    case "bit-reverse-bits":
+    case "bit-max-xor-pair":
+    case "bit-invert-all":
+    case "bit-base10-complement":
       return `        return 0;`;
     case "array-pair-sum-sorted":
       return `        return false;`;
     case "array-range-sum":
       return `        return 0LL;`;
+    case "bit-binary-string":
+      return `        return "";`;
     case "array-product-except-self":
     case "array-running-sum":
+    case "bit-two-unique-numbers":
+    case "bit-swap-two-numbers":
+    case "bit-decode-xored-array":
+    case "bit-count-bits-dp":
+      return `        return {};`;
+    case "bit-generate-subsets":
       return `        return {};`;
     case "array-left-rotate-one":
     case "array-move-zeroes":
@@ -99,12 +157,32 @@ function cppMethodStub(contract: FunctionContract): string {
     case "tree-preorder":
       return `        return {};`;
     case "stack-balanced-brackets":
+    case "bit-odd-even":
+    case "bit-power-of-two":
+    case "bit-power-of-four":
       return `        return false;`;
     case "queue-reverse-first-k":
       return `        return values;`;
     case "binary-search-exact":
       return `        return -1;`;
+    case "bit-xor-1-to-n":
     case "bit-check":
+    case "bit-count-set-bits":
+    case "bit-count-set-bits-kernighan":
+    case "bit-clear-rightmost-set-bit":
+    case "bit-hamming-distance":
+    case "bit-toggle-range":
+    case "bit-range-bitwise-and":
+    case "bit-sum-without-plus":
+    case "bit-min-bit-flips":
+    case "bit-single-number":
+    case "bit-missing-number":
+    case "bit-invert-all":
+    case "bit-base10-complement":
+    case "bit-set":
+    case "bit-clear":
+    case "bit-toggle":
+    case "bit-check-right-shift":
       return `        return 0;`;
     case "recursion-factorial":
     case "dp-fibonacci":
@@ -184,8 +262,23 @@ function isTreeStrategy(contract: FunctionContract): boolean {
   return contract.driverStrategy.startsWith("tree-");
 }
 
+function isMatrixStrategy(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "bit-assignment-mask-count";
+}
+
 function isArrayLikeStrategy(contract: FunctionContract): boolean {
   return isArrayStrategy(contract) ||
+    contract.driverStrategy === "bit-count-odd-array" ||
+    contract.driverStrategy === "bit-single-number" ||
+    contract.driverStrategy === "bit-two-unique-numbers" ||
+    contract.driverStrategy === "bit-swap-two-numbers" ||
+    contract.driverStrategy === "bit-missing-number" ||
+    contract.driverStrategy === "bit-decode-xored-array" ||
+    contract.driverStrategy === "bit-count-bits-dp" ||
+    contract.driverStrategy === "bit-set-query-batch" ||
+    contract.driverStrategy === "bit-subset-sum-count" ||
+    contract.driverStrategy === "bit-generate-subsets" ||
+    contract.driverStrategy === "bit-max-xor-pair" ||
     contract.driverStrategy === "queue-reverse-first-k" ||
     contract.driverStrategy === "binary-search-exact";
 }
@@ -221,6 +314,37 @@ function javaDriverSource(contract: FunctionContract): string {
             if (i > 0) System.out.print(" ");
             System.out.print(values[i]);
         }
+    }`;
+
+  const subsetHelpers = `    private static int[] readArray(Scanner sc, int n) {
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextInt();
+        return values;
+    }
+
+    private static void printNestedValues(List<List<Integer>> values) {
+        System.out.print("[");
+        for (int i = 0; i < values.size(); i++) {
+            if (i > 0) System.out.print(",");
+            List<Integer> subset = values.get(i);
+            System.out.print("[");
+            for (int j = 0; j < subset.size(); j++) {
+                if (j > 0) System.out.print(",");
+                System.out.print(subset.get(j));
+            }
+            System.out.print("]");
+        }
+        System.out.print("]");
+    }`;
+
+  const matrixHelpers = `    private static int[][] readMatrix(Scanner sc, int rows, int cols) {
+        int[][] values = new int[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                values[row][col] = sc.nextInt();
+            }
+        }
+        return values;
     }`;
 
   const treeHelpers = `    private static TreeNode readTree(Scanner sc, int n) {
@@ -287,8 +411,12 @@ function javaDriverSource(contract: FunctionContract): string {
 
   const helpers = isLinkedListStrategy(contract)
     ? linkedListHelpers
+    : contract.driverStrategy === "bit-generate-subsets"
+      ? subsetHelpers
     : isArrayLikeStrategy(contract)
       ? arrayHelpers
+      : isMatrixStrategy(contract)
+        ? matrixHelpers
       : isTreeStrategy(contract)
         ? treeHelpers
         : contract.driverStrategy === "graph-bfs"
@@ -318,6 +446,10 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-binary-string":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
       break;
     case "array-sorted-check":
       inputSetup = `        int n = sc.nextInt();
@@ -402,6 +534,45 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
       break;
+    case "bit-single-number":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-count-odd-array":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-two-unique-numbers":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-swap-two-numbers":
+      inputSetup = `        int a = sc.nextInt();
+        int b = sc.nextInt();`;
+      invocation = `        printArray(new Solution().${contract.functionName}(a, b));`;
+      break;
+    case "bit-missing-number":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-clear-rightmost-set-bit":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "bit-decode-xored-array":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int first = sc.nextInt();`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values, first));`;
+      break;
+    case "bit-count-bits-dp":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        printArray(new Solution().${contract.functionName}(n));`;
+      break;
     case "array-reverse":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -422,6 +593,10 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        String value = sc.next();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(value) ? "Balanced" : "Not Balanced");`;
       break;
+    case "bit-odd-even":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "Odd" : "Even");`;
+      break;
     case "queue-reverse-first-k":
       inputSetup = `        int n = sc.nextInt();
         int k = sc.nextInt();
@@ -434,10 +609,81 @@ function javaDriverSource(contract: FunctionContract): string {
         int target = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
       break;
+    case "bit-count-set-bits":
+    case "bit-count-set-bits-kernighan":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
     case "bit-check":
+    case "bit-set":
+    case "bit-clear":
+    case "bit-toggle":
+    case "bit-check-right-shift":
       inputSetup = `        int n = sc.nextInt();
         int index = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n, index));`;
+      break;
+    case "bit-set-query-batch":
+      inputSetup = `        int n = sc.nextInt();
+        int q = sc.nextInt();
+        int[] positions = readArray(sc, q);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, positions));`;
+      break;
+    case "bit-toggle-range":
+      inputSetup = `        int n = sc.nextInt();
+        int left = sc.nextInt();
+        int right = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, left, right));`;
+      break;
+    case "bit-subset-sum-count":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "bit-generate-subsets":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printNestedValues(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-assignment-mask-count":
+      inputSetup = `        int n = sc.nextInt();
+        int[][] values = readMatrix(sc, n, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-hamming-distance":
+    case "bit-range-bitwise-and":
+    case "bit-sum-without-plus":
+    case "bit-min-bit-flips":
+      inputSetup = `        int first = sc.nextInt();
+        int second = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second));`;
+      break;
+    case "bit-reverse-bits":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "bit-max-xor-pair":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-power-of-two":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "bit-power-of-four":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "bit-invert-all":
+    case "bit-base10-complement":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "bit-xor-1-to-n":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
       break;
     case "recursion-factorial":
     case "dp-fibonacci":
@@ -513,6 +759,36 @@ void printArray(const vector<int>& values) {
     }
 }`;
 
+  const subsetHelpers = `vector<int> readArray(int n) {
+    vector<int> values(n);
+    for (int& value : values) cin >> value;
+    return values;
+}
+
+void printNestedValues(const vector<vector<int>>& values) {
+    cout << "[";
+    for (size_t i = 0; i < values.size(); ++i) {
+        if (i > 0) cout << ",";
+        cout << "[";
+        for (size_t j = 0; j < values[i].size(); ++j) {
+            if (j > 0) cout << ",";
+            cout << values[i][j];
+        }
+        cout << "]";
+    }
+    cout << "]";
+}`;
+
+  const matrixHelpers = `vector<vector<int>> readMatrix(int rows, int cols) {
+    vector<vector<int>> values(rows, vector<int>(cols));
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            cin >> values[row][col];
+        }
+    }
+    return values;
+}`;
+
   const treeHelpers = `TreeNode* readTree(int n) {
     if (n == 0) return nullptr;
     int rootValue;
@@ -577,8 +853,12 @@ void printValues(const vector<int>& values) {
 
   const helpers = isLinkedListStrategy(contract)
     ? linkedListHelpers
+    : contract.driverStrategy === "bit-generate-subsets"
+      ? subsetHelpers
     : isArrayLikeStrategy(contract)
       ? arrayHelpers
+      : isMatrixStrategy(contract)
+        ? matrixHelpers
       : isTreeStrategy(contract)
         ? treeHelpers
         : contract.driverStrategy === "graph-bfs"
@@ -613,6 +893,11 @@ void printValues(const vector<int>& values) {
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-binary-string":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
       break;
     case "array-sorted-check":
       inputSetup = `    int n;
@@ -714,6 +999,53 @@ void printValues(const vector<int>& values) {
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
       break;
+    case "bit-single-number":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-count-odd-array":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-two-unique-numbers":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-swap-two-numbers":
+      inputSetup = `    int a, b;
+    cin >> a >> b;`;
+      invocation = `    printArray(Solution().${contract.functionName}(a, b));`;
+      break;
+    case "bit-missing-number":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-clear-rightmost-set-bit":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "bit-decode-xored-array":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int first;
+    cin >> first;`;
+      invocation = `    printArray(Solution().${contract.functionName}(values, first));`;
+      break;
+    case "bit-count-bits-dp":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    printArray(Solution().${contract.functionName}(n));`;
+      break;
     case "array-reverse":
       inputSetup = `    int n;
     cin >> n;
@@ -738,6 +1070,11 @@ void printValues(const vector<int>& values) {
     cin >> value;`;
       invocation = `    cout << (Solution().${contract.functionName}(value) ? "Balanced" : "Not Balanced");`;
       break;
+    case "bit-odd-even":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << (Solution().${contract.functionName}(n) ? "Odd" : "Even");`;
+      break;
     case "queue-reverse-first-k":
       inputSetup = `    int n, k;
     cin >> n >> k;
@@ -752,10 +1089,91 @@ void printValues(const vector<int>& values) {
     cin >> target;`;
       invocation = `    cout << Solution().${contract.functionName}(values, target);`;
       break;
+    case "bit-count-set-bits":
+    case "bit-count-set-bits-kernighan":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
     case "bit-check":
+    case "bit-set":
+    case "bit-clear":
+    case "bit-toggle":
+    case "bit-check-right-shift":
       inputSetup = `    int n, index;
     cin >> n >> index;`;
       invocation = `    cout << Solution().${contract.functionName}(n, index);`;
+      break;
+    case "bit-set-query-batch":
+      inputSetup = `    int n, q;
+    cin >> n >> q;
+    vector<int> positions = readArray(q);`;
+      invocation = `    cout << Solution().${contract.functionName}(n, positions);`;
+      break;
+    case "bit-toggle-range":
+      inputSetup = `    int n, left, right;
+    cin >> n >> left >> right;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, left, right);`;
+      break;
+    case "bit-subset-sum-count":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "bit-generate-subsets":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printNestedValues(Solution().${contract.functionName}(values));`;
+      break;
+    case "bit-assignment-mask-count":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<vector<int>> values = readMatrix(n, n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-hamming-distance":
+    case "bit-range-bitwise-and":
+    case "bit-sum-without-plus":
+    case "bit-min-bit-flips":
+      inputSetup = `    int first, second;
+    cin >> first >> second;`;
+      invocation = `    cout << Solution().${contract.functionName}(first, second);`;
+      break;
+    case "bit-reverse-bits":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "bit-max-xor-pair":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "bit-power-of-two":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << (Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "bit-power-of-four":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << (Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "bit-invert-all":
+    case "bit-base10-complement":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "bit-xor-1-to-n":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
       break;
     case "recursion-factorial":
     case "dp-fibonacci":

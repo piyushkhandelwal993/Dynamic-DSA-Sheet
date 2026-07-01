@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contribution Workflow Guide
+    url: https://github.com/piyushkhandelwal993/Dynamic-DSA-Sheet/blob/main/docs/github-only-contributions.md
+    about: Learn how desktop contributions flow through local validation, GitHub review, and status publishing.

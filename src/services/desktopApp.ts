@@ -1,6 +1,7 @@
 import fs from "fs";
 import { spawnSync } from "child_process";
 import {
+  ContributionInput,
   CppRuntimeStatus,
   DesktopBootstrap,
   DesktopPreferences,
@@ -31,6 +32,16 @@ import {
   setActiveTopicId
 } from "./storage";
 import { getContentSyncStatus, syncRemoteContent } from "./catalog";
+import {
+  buildContributionIssueUrl,
+  getContributionOutboxPath,
+  getContributionSyncStatus,
+  listContributions,
+  saveContributionDraft,
+  submitContribution,
+  syncContributionStatuses,
+  validateContribution
+} from "./contributions";
 import { effectiveProblemForPracticeMode, ensureProblemWorkspace, resetProblemWorkspace } from "./workspace";
 import { recommendNextProblem } from "./recommendation";
 import { buildWorldZones, buildActiveQuests, getMasterySummary } from "./progression";
@@ -197,7 +208,9 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     preferences: getDesktopPreferences(),
     javaRuntime: detectJavaRuntime(),
     cppRuntime: detectCppRuntime(),
-    contentSync: getContentSyncStatus()
+    contentSync: getContentSyncStatus(),
+    contributions: listContributions(),
+    contributionSync: getContributionSyncStatus()
   };
 }
 
@@ -418,4 +431,36 @@ export function loadDesktopPreferences(): DesktopPreferences {
 export function saveDesktopPreferenceState(preferences: DesktopPreferences): DesktopPreferences {
   saveDesktopPreferences(preferences);
   return preferences;
+}
+
+export function validateDesktopContribution(input: ContributionInput) {
+  return validateContribution(input);
+}
+
+export function saveDesktopContributionDraft(input: ContributionInput) {
+  return saveContributionDraft(input);
+}
+
+export function submitDesktopContribution(input: ContributionInput) {
+  return submitContribution(input);
+}
+
+export function getDesktopContributionOutboxPath() {
+  return getContributionOutboxPath();
+}
+
+export function getDesktopContributionIssueUrl(contributionId: string) {
+  const record = listContributions().find((item) => item.id === contributionId);
+  if (!record) {
+    return null;
+  }
+  return buildContributionIssueUrl(record);
+}
+
+export function getDesktopContributionSyncStatus() {
+  return getContributionSyncStatus();
+}
+
+export async function syncDesktopContributionStatuses() {
+  return syncContributionStatuses();
 }

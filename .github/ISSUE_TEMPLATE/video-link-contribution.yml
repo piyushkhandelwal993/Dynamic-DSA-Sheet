@@ -1,0 +1,39 @@
+name: Video Link Contribution
+description: Submit a video walkthrough for an existing problem.
+title: "[Contribution][Video] <problem-id> · <contribution-id>"
+labels:
+  - contribution
+  - video-link
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit exported contribution details from the desktop app. Use one issue per local contribution id.
+  - type: input
+    id: contribution_id
+    attributes:
+      label: Contribution ID
+      description: Paste the contribution id shown in the app detail view.
+      placeholder: contrib_20260701_abcd1234
+    validations:
+      required: true
+  - type: input
+    id: problem_id
+    attributes:
+      label: Problem ID
+      placeholder: arr-003
+    validations:
+      required: true
+  - type: textarea
+    id: exported_payload
+    attributes:
+      label: Exported Contribution Payload
+      description: Paste the JSON payload from the contribution detail modal or queued file.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Optional Notes
+      description: Add any review context, language info, or mode recommendation.

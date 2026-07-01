@@ -1,5 +1,5 @@
 const path = require("path");
-const { app, BrowserWindow, ipcMain, shell, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, dialog, clipboard } = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 let mainWindow = null;
@@ -121,6 +121,17 @@ ipcMain.handle("desktop:load-preferences", async () => getDesktopApi().loadDeskt
 ipcMain.handle("desktop:save-preferences", async (_event, preferences) => getDesktopApi().saveDesktopPreferenceState(preferences));
 ipcMain.handle("desktop:get-content-sync-status", async () => getDesktopApi().getDesktopContentSyncStatus());
 ipcMain.handle("desktop:sync-content", async () => getDesktopApi().syncDesktopContent());
+ipcMain.handle("desktop:validate-contribution", async (_event, input) => getDesktopApi().validateDesktopContribution(input));
+ipcMain.handle("desktop:save-contribution-draft", async (_event, input) => getDesktopApi().saveDesktopContributionDraft(input));
+ipcMain.handle("desktop:submit-contribution", async (_event, input) => getDesktopApi().submitDesktopContribution(input));
+ipcMain.handle("desktop:get-contribution-outbox-path", async () => getDesktopApi().getDesktopContributionOutboxPath());
+ipcMain.handle("desktop:get-contribution-issue-url", async (_event, contributionId) => getDesktopApi().getDesktopContributionIssueUrl(contributionId));
+ipcMain.handle("desktop:get-contribution-sync-status", async () => getDesktopApi().getDesktopContributionSyncStatus());
+ipcMain.handle("desktop:sync-contribution-statuses", async () => getDesktopApi().syncDesktopContributionStatuses());
+ipcMain.handle("desktop:copy-text", async (_event, value) => {
+  clipboard.writeText(typeof value === "string" ? value : "");
+  return true;
+});
 ipcMain.handle("desktop:open-path", async (_event, targetPath) => {
   if (!targetPath) {
     return "No path provided.";

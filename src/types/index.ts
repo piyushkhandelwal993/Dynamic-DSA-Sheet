@@ -5,6 +5,8 @@ export type ProgrammingLanguage = "java" | "cpp";
 export type PracticeMode = "beginner" | "pro";
 export type SolutionMode = "guided-function" | "function" | "partial-program" | "complete-program";
 export type ProblemPoolRole = "core" | "practice" | "review" | "challenge";
+export type ContributionType = "test-case" | "bulk-test-cases" | "video-link";
+export type ContributionStatus = "draft" | "validated" | "submitted" | "under-review" | "approved" | "rejected" | "published";
 export type FunctionDriverStrategy =
   | "linked-list-length"
   | "linked-list-search"
@@ -31,7 +33,39 @@ export type FunctionDriverStrategy =
   | "stack-balanced-brackets"
   | "queue-reverse-first-k"
   | "binary-search-exact"
+  | "bit-binary-string"
+  | "bit-odd-even"
   | "bit-check"
+  | "bit-count-set-bits"
+  | "bit-count-set-bits-kernighan"
+  | "bit-set"
+  | "bit-clear"
+  | "bit-toggle"
+  | "bit-check-right-shift"
+  | "bit-power-of-two"
+  | "bit-xor-1-to-n"
+  | "bit-single-number"
+  | "bit-two-unique-numbers"
+  | "bit-missing-number"
+  | "bit-decode-xored-array"
+  | "bit-invert-all"
+  | "bit-base10-complement"
+  | "bit-power-of-four"
+  | "bit-count-bits-dp"
+  | "bit-count-odd-array"
+  | "bit-swap-two-numbers"
+  | "bit-clear-rightmost-set-bit"
+  | "bit-set-query-batch"
+  | "bit-toggle-range"
+  | "bit-subset-sum-count"
+  | "bit-generate-subsets"
+  | "bit-assignment-mask-count"
+  | "bit-reverse-bits"
+  | "bit-max-xor-pair"
+  | "bit-range-bitwise-and"
+  | "bit-sum-without-plus"
+  | "bit-hamming-distance"
+  | "bit-min-bit-flips"
   | "recursion-factorial"
   | "graph-bfs"
   | "dp-fibonacci";
@@ -67,6 +101,119 @@ export interface ProblemTestCase {
   explanation?: string;
 }
 
+export interface ProblemVideo {
+  provider: "youtube";
+  url: string;
+  title?: string;
+}
+
+export interface ContributedTestCaseInput {
+  input: string;
+  expectedOutput: string;
+  visibilitySuggestion: "sample" | "hidden";
+  reason: string;
+  note?: string;
+}
+
+export interface TestCaseContributionPayload extends ContributedTestCaseInput {}
+
+export interface BulkTestCaseContributionPayload {
+  cases: ContributedTestCaseInput[];
+}
+
+export interface VideoLinkContributionPayload {
+  url: string;
+  title: string;
+  reason: string;
+  recommendedFor?: PracticeMode[];
+  language?: string;
+}
+
+export type ContributionPayload =
+  | TestCaseContributionPayload
+  | BulkTestCaseContributionPayload
+  | VideoLinkContributionPayload;
+
+export type ContributionInput =
+  | {
+      type: "test-case";
+      problemId: string;
+      topicId?: string;
+      payload: TestCaseContributionPayload;
+    }
+  | {
+      type: "bulk-test-cases";
+      problemId: string;
+      topicId?: string;
+      payload: BulkTestCaseContributionPayload;
+    }
+  | {
+      type: "video-link";
+      problemId: string;
+      topicId?: string;
+      payload: VideoLinkContributionPayload;
+    };
+
+export interface ContributionValidationResult {
+  passed: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
+export interface ContributionRemoteRef {
+  provider: "pending-automation";
+  reference: string;
+}
+
+export interface ContributionReviewUpdate {
+  id: string;
+  status: Exclude<ContributionStatus, "draft" | "validated">;
+  reviewedAt?: string;
+  note?: string;
+  publishedAt?: string;
+}
+
+export interface ContributionStatusFeed {
+  generatedAt: string;
+  items: ContributionReviewUpdate[];
+}
+
+export interface ContributionSyncStatus {
+  enabled: boolean;
+  lastCheckedAt?: string | null;
+  remoteGeneratedAt?: string | null;
+  updateCount?: number;
+  statusUrl?: string | null;
+  message: string;
+}
+
+export interface ContributionRecord {
+  id: string;
+  type: ContributionType;
+  problemId: string;
+  topicId: string;
+  appVersion: string;
+  createdAt: string;
+  updatedAt: string;
+  status: ContributionStatus;
+  payload: ContributionPayload;
+  localValidation: ContributionValidationResult;
+  remoteRef?: ContributionRemoteRef | null;
+  reviewNote?: string | null;
+  reviewedAt?: string | null;
+  publishedAt?: string | null;
+  lastSyncedAt?: string | null;
+}
+
+export interface ContributionStore {
+  items: ContributionRecord[];
+}
+
+export interface ContributionMutationResult {
+  record: ContributionRecord;
+  contributions: ContributionRecord[];
+}
+
 export interface Problem {
   id: string;
   topic: string;
@@ -98,6 +245,7 @@ export interface Problem {
   solutionMode?: SolutionMode;
   functionContract?: FunctionContract;
   independenceMilestoneFor?: string[];
+  video?: ProblemVideo;
 }
 
 export interface Concept {
@@ -385,6 +533,8 @@ export interface DesktopBootstrap {
   javaRuntime: JavaRuntimeStatus;
   cppRuntime: CppRuntimeStatus;
   contentSync: ContentSyncStatus;
+  contributions: ContributionRecord[];
+  contributionSync: ContributionSyncStatus;
 }
 
 export interface RecommendationResult {

@@ -8,7 +8,10 @@ on:
       - "src/data/**"
       - "src/types/**"
       - "src/services/catalog.ts"
+      - "src/services/contributions.ts"
+      - "contributions/**"
       - "scripts/export-content-bundle.mjs"
+      - "scripts/export-contribution-status.mjs"
       - "package.json"
       - ".github/workflows/publish-content.yml"
   workflow_dispatch:
@@ -47,11 +50,16 @@ jobs:
           CONTENT_BASE_URL: https://piyushkhandelwal993.github.io/Dynamic-DSA-Sheet/content/
         run: npm run content:export
 
+      - name: Export contribution status feed
+        run: npm run contributions:export-status
+
       - name: Prepare Pages artifact
         run: |
           mkdir -p .pages/content
+          mkdir -p .pages/contributions
           cp -R site/. .pages/
           cp -R release/content/. .pages/content/
+          cp -R release/contributions/. .pages/contributions/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
