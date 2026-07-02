@@ -1088,7 +1088,12 @@
     "remedialProblems": [
       "arr-006"
     ],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "video": {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=X52mmyGG7Ec",
+      "title": "Running Sum"
+    }
   },
   {
     "id": "arr-015",

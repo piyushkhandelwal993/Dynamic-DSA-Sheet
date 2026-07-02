@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-07-02T07:28:57.239Z",
+  "generatedAt": "2026-07-02T07:29:41.391Z",
   "items": [
     {
       "id": "contrib_20260702072822_fg7rnl",
-      "status": "submitted",
-      "reviewedAt": "2026-07-02T07:28:57.239Z",
-      "note": "Submitted via GitHub issue #6 for topic arrays."
+      "status": "published",
+      "reviewedAt": "2026-07-02T07:29:41.391Z",
+      "note": "Published from GitHub issue #6. Applied published contribution to src/data/topics/arrays/problems.json.",
+      "publishedAt": "2026-07-02T07:29:41.391Z"
     },
     {
       "id": "contrib_20260702021733_hmagrd",
