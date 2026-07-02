@@ -25,6 +25,14 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf-8");
 }
 
+function readProblemFile(topicId) {
+  const filePath = path.join(root, "src", "data", "topics", topicId, "problems.json");
+  return {
+    filePath,
+    problems: readJson(filePath)
+  };
+}
+
 function ensureFeedShape(feed) {
   if (!feed || typeof feed !== "object") {
     return { generatedAt: new Date().toISOString(), items: [] };
@@ -113,6 +121,104 @@ function validateContributionPayload(type, payload) {
 
   errors.push(`Unsupported contribution type: ${type}`);
   return errors;
+}
+
+function normalizeCaseValue(value) {
+  return typeof value === "string"
+    ? value.replace(/\r\n/g, "\n").trim()
+    : "";
+}
+
+function caseKey(testCase) {
+  return `${normalizeCaseValue(testCase?.input)}__${normalizeCaseValue(testCase?.expectedOutput)}`;
+}
+
+function applyPublishedContribution(parsed) {
+  const topicId = parsed.problemId ? getTopicIdForProblem(parsed.problemId) : null;
+  if (!topicId) {
+    return {
+      changed: false,
+      message: "No topic mapping found for this problem."
+    };
+  }
+
+  const { filePath, problems } = readProblemFile(topicId);
+  if (!Array.isArray(problems)) {
+    return {
+      changed: false,
+      message: `Problem file is invalid for topic ${topicId}.`
+    };
+  }
+
+  const problemIndex = problems.findIndex((problem) => problem?.id === parsed.problemId);
+  if (problemIndex < 0) {
+    return {
+      changed: false,
+      message: `Problem ${parsed.problemId} was not found in topic file ${topicId}.`
+    };
+  }
+
+  const nextProblems = [...problems];
+  const problem = { ...nextProblems[problemIndex] };
+  let changed = false;
+
+  if (parsed.contributionType === "video-link") {
+    const nextVideo = {
+      provider: "youtube",
+      url: normalizeText(parsed.payload?.url),
+      title: normalizeText(parsed.payload?.title) || problem.title
+    };
+    const currentVideo = problem.video ?? null;
+    const sameVideo = currentVideo
+      && normalizeText(currentVideo.url) === nextVideo.url
+      && normalizeText(currentVideo.title ?? "") === nextVideo.title;
+
+    if (!sameVideo) {
+      problem.video = nextVideo;
+      changed = true;
+    }
+  }
+
+  if (parsed.contributionType === "test-case" || parsed.contributionType === "bulk-test-cases") {
+    const existingCases = Array.isArray(problem.testCases) ? [...problem.testCases] : [];
+    const seen = new Set(existingCases.map((testCase) => caseKey(testCase)));
+    const incomingCases = parsed.contributionType === "test-case"
+      ? [parsed.payload]
+      : Array.isArray(parsed.payload?.cases) ? parsed.payload.cases : [];
+
+    for (const testCase of incomingCases) {
+      const key = caseKey(testCase);
+      if (!key || seen.has(key)) {
+        continue;
+      }
+      existingCases.push({
+        input: normalizeCaseValue(testCase.input),
+        expectedOutput: normalizeCaseValue(testCase.expectedOutput),
+        visibility: testCase.visibilitySuggestion === "sample" ? "sample" : "hidden",
+        explanation: normalizeText(testCase.note ?? "") || undefined
+      });
+      seen.add(key);
+      changed = true;
+    }
+
+    if (changed) {
+      problem.testCases = existingCases;
+    }
+  }
+
+  if (!changed) {
+    return {
+      changed: false,
+      message: "Published contribution was already present in problem content."
+    };
+  }
+
+  nextProblems[problemIndex] = problem;
+  writeJson(filePath, nextProblems);
+  return {
+    changed: true,
+    message: `Applied published contribution to ${path.relative(root, filePath)}.`
+  };
 }
 
 function parseContributionIssue(issue) {
@@ -261,12 +367,18 @@ function main() {
     throw new Error(`Unsupported computed status: ${status}`);
   }
 
+  let publishMessage = "";
+  if (status === "published" && parsed.errors.length === 0) {
+    const publishResult = applyPublishedContribution(parsed);
+    publishMessage = publishResult.message;
+  }
+
   const reviewedAt = new Date().toISOString();
   const item = {
     id: parsed.contributionId,
     status,
     reviewedAt,
-    note: computeNote(issue, parsed, status),
+    note: [computeNote(issue, parsed, status), publishMessage].filter(Boolean).join(" "),
     publishedAt: status === "published" ? reviewedAt : undefined
   };
 

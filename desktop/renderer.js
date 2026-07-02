@@ -3509,6 +3509,13 @@ profileSyncContributionStatusesButtonEl?.addEventListener("click", async () => {
   if (state.bootstrap) {
     state.bootstrap.contributionSync = result.status;
   }
+  await syncContent({ quiet: true });
+  if (profileContributionSyncNoteEl && result?.status?.message) {
+    const contentMessage = state.bootstrap?.contentSync?.message;
+    profileContributionSyncNoteEl.textContent = contentMessage
+      ? `${result.status.message} ${contentMessage}`
+      : result.status.message;
+  }
   render();
 });
 contributionDetailOpenFileButtonEl?.addEventListener("click", async () => {

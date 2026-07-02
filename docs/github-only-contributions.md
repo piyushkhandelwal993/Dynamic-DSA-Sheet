@@ -8,9 +8,9 @@ The flow is:
 2. The app runs local validation and saves a queued JSON file.
 3. The learner opens GitHub and creates a contribution issue using the matching template.
 4. Maintainers validate and review the contribution.
-5. Maintainers update `contributions/review-status.json`.
-6. GitHub Pages republishes `contributions/status.json`.
-7. The desktop app refreshes review status from that published JSON feed.
+5. GitHub Actions validates the issue payload, updates `contributions/review-status.json`, and for published contributions applies the accepted asset directly into `src/data/...`.
+6. GitHub Pages republishes both the content bundle and `contributions/status.json`.
+7. The desktop app refreshes review status and synced content from the published feeds.
 
 ## Supported contribution types
 
@@ -36,8 +36,8 @@ The flow is:
 
 1. Review the GitHub issue.
 2. Validate the payload and intended change.
-3. If accepted, merge the actual content update into `src/data/...`.
-4. Update `contributions/review-status.json` with the contribution id and latest status.
+3. Move the issue through labels such as `contribution-under-review`, `contribution-approved`, and `contribution-published`.
+4. When the contribution reaches `contribution-published`, automation updates both `contributions/review-status.json` and the target problem content in `src/data/...`.
 
 Example:
 
@@ -73,11 +73,10 @@ The desktop app reads:
 - GitHub Actions + GitHub Pages act as the automation and hosting layer.
 - The desktop app stays local-first and only needs a static JSON status feed.
 
-## Next upgrade path
+## Published content behavior
 
-Later, this can be improved with:
+- `video-link` contributions update the problem's `video` field.
+- `test-case` contributions append a unique test case if the same input/output pair is not already present.
+- `bulk-test-cases` contributions append each unique test case from the published batch.
 
-- GitHub Action validation of contribution issue payloads
-- automatic issue-to-status updates
-- auto-generated PRs for accepted contributions
-- direct issue links from the desktop app
+After the publish workflow completes, the desktop app can pick up both the new review state and the updated problem content.
