@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import crypto from "node:crypto";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
@@ -14,11 +15,23 @@ const versionStamp = [
   String(now.getUTCMonth() + 1).padStart(2, "0"),
   String(now.getUTCDate()).padStart(2, "0")
 ].join(".");
-
-const contentVersion = process.env.CONTENT_VERSION?.trim() || `${versionStamp}.1`;
 const outputDir = path.join(root, "release", "content");
-const bundleFileName = `catalog-${contentVersion}.json`;
 const baseUrl = process.env.CONTENT_BASE_URL?.trim() || "";
+
+function buildContentFingerprint() {
+  const hash = crypto.createHash("sha256");
+  hash.update(JSON.stringify({
+    version: packageJson.version,
+    defaultTopicId,
+    topicOrder,
+    topicPacks
+  }));
+  return hash.digest("hex").slice(0, 10);
+}
+
+const computedContentVersion = `${versionStamp}.${buildContentFingerprint()}`;
+const contentVersion = process.env.CONTENT_VERSION?.trim() || computedContentVersion;
+const bundleFileName = `catalog-${contentVersion}.json`;
 
 const bundle = {
   schemaVersion: 1,
