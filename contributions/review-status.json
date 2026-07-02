@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T02:31:18.771Z",
+  "generatedAt": "2026-07-02T02:32:28.938Z",
   "items": [
     {
       "id": "contrib_20260702021733_hmagrd",
@@ -10,10 +10,9 @@
     },
     {
       "id": "contrib_20260702015151_h56uan",
-      "status": "published",
-      "reviewedAt": "2026-07-02T02:31:18.771Z",
-      "note": "Published from GitHub issue #4. Applied published contribution to src/data/topics/arrays/problems.json.",
-      "publishedAt": "2026-07-02T02:31:18.771Z"
+      "status": "submitted",
+      "reviewedAt": "2026-07-02T02:32:28.938Z",
+      "note": "Submitted via GitHub issue #4 for topic arrays."
     },
     {
       "id": "contrib_20260701173209_hmw9pt",
