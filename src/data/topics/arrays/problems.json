@@ -1258,7 +1258,12 @@
     "remedialProblems": [
       "arr-008"
     ],
-    "skipIfMastered": []
+    "skipIfMastered": [],
+    "video": {
+      "provider": "youtube",
+      "url": "https://www.youtube.com/watch?v=X52mmyGG7Ec",
+      "title": "Left rotation"
+    }
   },
   {
     "id": "arr-017",
