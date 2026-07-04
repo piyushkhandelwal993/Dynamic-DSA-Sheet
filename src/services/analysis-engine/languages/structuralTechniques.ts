@@ -44,6 +44,7 @@ export function detectsStockProfit(content: string, language: "java" | "cpp"): b
 }
 
 export function detectsMemoizedRecurrence(content: string): boolean {
+  if (!/\b(?:memo|dp|cache|table)\b/i.test(content)) return false;
   const indexedCache = /\b([a-zA-Z_]\w*)\s*\[[^\]]+\]/g;
   const counts = new Map<string, number>();
   for (const match of content.matchAll(indexedCache)) {
@@ -60,6 +61,7 @@ export function detectsMemoizedRecurrence(content: string): boolean {
 
 export function detectsTabulation(content: string): boolean {
   if (!/\b(?:for|while)\s*\(/.test(content)) return false;
+  if (!/\b(?:dp|memo|table)\b/i.test(content)) return false;
   const assignment = /\b([a-zA-Z_]\w*)\s*\[([^\]]+)\]\s*=\s*([^;]+)/g;
   for (const match of content.matchAll(assignment)) {
     const escaped = match[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -70,6 +72,9 @@ export function detectsTabulation(content: string): boolean {
 
 export function detectsRollingState(content: string): boolean {
   if (!/\b(?:for|while)\s*\(/.test(content)) return false;
+  if (!/\b(?:prev|prev1|prev2|previous|curr|current|next|older|newer|rolling|oneD)\b/i.test(content) && !/\bdp\s*\[/.test(content)) {
+    return false;
+  }
   const assignments = Array.from(
     content.matchAll(/\b([a-zA-Z_]\w*)\s*=\s*([^;]+);/g),
     (match) => ({ target: match[1], expression: match[2] })
@@ -80,7 +85,8 @@ export function detectsRollingState(content: string): boolean {
         candidate.target !== assignment.target &&
         new RegExp(`\\b${candidate.target}\\b`).test(assignment.expression)
     );
-    return dependencies.length >= 2;
+    const looksLikeRecurrence = /Math\.(?:max|min)|[+\-*/]/.test(assignment.expression);
+    return dependencies.length >= 2 && looksLikeRecurrence;
   });
 }
 

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_c08211711faf",
+  "problemId": "rec-003",
+  "reviewedAt": "2026-07-04T08:18:00.647Z",
+  "satisfactory": false,
+  "bugType": "needs-investigation",
+  "reviewerNotes": "Rejected during training: does not represent the intended recursive learning target.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

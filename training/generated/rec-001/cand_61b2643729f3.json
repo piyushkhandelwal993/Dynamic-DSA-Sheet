@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_61b2643729f3",
+  "importedAt": "2026-07-04T07:38:37.543Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "off-by-one-stops-early",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (n <= 1) {\n            return;\n        }\n        System.out.println(name);\n        printNameNTimes(name, n - 1);\n    }\n}\n",
+  "notes": "Uses recursion but prints one fewer time because the base case triggers too early.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+}

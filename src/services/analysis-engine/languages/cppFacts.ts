@@ -367,11 +367,7 @@ function detectRecursion(facts: CodeFacts, content: string): void {
   if (hasRecursiveCall && new RegExp(`return\\s+[^;]*(?:${recursiveCallPattern})\\s*\\(`).test(content)) {
     addFact(facts, "algorithms", "functional-recursion", "high", ["recursive result returned or combined"]);
   }
-  if (
-    hasRecursiveCall &&
-    !hasFactInBuckets(facts, "functional-recursion") &&
-    new RegExp(`(?:${recursiveCallPattern})\\s*\\([^)]*,[^)]*\\)`).test(content)
-  ) {
+  if (hasRecursiveCall && new RegExp(`(?:${recursiveCallPattern})\\s*\\([^)]*,[^)]*\\)`).test(content)) {
     addFact(facts, "algorithms", "parameterized-recursion", "high", ["state or accumulator carried through recursive arguments"]);
   }
   if (hasRecursiveCall && (/\bstring\b|substr\s*\(/.test(content) || (/\w+\s*\[[^\]]+\]/.test(content) && /\bchar\b/.test(content)))) {

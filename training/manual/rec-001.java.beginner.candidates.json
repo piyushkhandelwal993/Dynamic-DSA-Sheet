@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "direct-recursion-base-zero",
+    "notes": "Simple direct recursion with n <= 0 as the base case.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (n <= 0) {\n            return;\n        }\n        System.out.println(name);\n        printNameNTimes(name, n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-counter-recursion",
+    "notes": "Uses a helper that tracks the current count instead of decrementing n directly.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        printFrom(name, 0, n);\n    }\n\n    private void printFrom(String name, int count, int n) {\n        if (count == n) {\n            return;\n        }\n        System.out.println(name);\n        printFrom(name, count + 1, n);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "notes": "Produces correct output but uses a loop instead of recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        for (int i = 0; i < n; i++) {\n            System.out.println(name);\n        }\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "notes": "Uses recursion but prints one fewer time because the base case triggers too early.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (n <= 1) {\n            return;\n        }\n        System.out.println(name);\n        printNameNTimes(name, n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "hardcoded-sample-shape",
+    "notes": "Cheats for the visible sample shape and falls back to a single print otherwise.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (\"Alex\".equals(name) && n == 3) {\n            System.out.println(name);\n            System.out.println(name);\n            System.out.println(name);\n            return;\n        }\n        if (n > 0) {\n            System.out.println(name);\n        }\n    }\n}\n"
+  }
+]

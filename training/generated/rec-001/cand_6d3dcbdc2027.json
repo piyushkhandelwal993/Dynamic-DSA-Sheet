@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_6d3dcbdc2027",
+  "importedAt": "2026-07-04T07:38:37.543Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "hardcoded-sample-shape",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (\"Alex\".equals(name) && n == 3) {\n            System.out.println(name);\n            System.out.println(name);\n            System.out.println(name);\n            return;\n        }\n        if (n > 0) {\n            System.out.println(name);\n        }\n    }\n}\n",
+  "notes": "Cheats for the visible sample shape and falls back to a single print otherwise.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+}

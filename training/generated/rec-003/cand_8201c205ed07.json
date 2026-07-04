@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_8201c205ed07",
+  "importedAt": "2026-07-04T08:12:38.956Z",
+  "problemId": "rec-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "direct-recursion-base-one",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n}\n",
+  "notes": "Classic factorial recursion with n <= 1 as the base case.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-003.java.beginner.candidates.json"
+}

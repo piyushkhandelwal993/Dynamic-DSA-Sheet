@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_ba96ede99b55",
+  "importedAt": "2026-07-04T07:52:52.308Z",
+  "problemId": "rec-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "reverse-order-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        if (n <= 0) {\n            return;\n        }\n        System.out.print(n);\n        if (n > 1) {\n            System.out.print(\" \");\n        }\n        printOneToN(n - 1);\n    }\n}\n",
+  "notes": "Uses recursion but prints before the recursive call, so it outputs n down to 1 instead of 1 to n.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-002.java.beginner.candidates.json"
+}

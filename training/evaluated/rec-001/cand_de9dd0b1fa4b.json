@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T07:41:31.881Z",
+  "sourceCandidate": "training/generated/rec-001/cand_de9dd0b1fa4b.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_de9dd0b1fa4b",
+    "importedAt": "2026-07-04T07:38:37.543Z",
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        for (int i = 0; i < n; i++) {\n            System.out.println(name);\n        }\n    }\n}\n",
+    "notes": "Produces correct output but uses a loop instead of recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 2,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "recursion-intro",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 68
+    },
+    "recommendationHints": [
+      "Demonstrate recursion intro explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-intro",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

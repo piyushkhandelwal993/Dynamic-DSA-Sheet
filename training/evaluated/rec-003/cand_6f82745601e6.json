@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T08:13:50.798Z",
+  "sourceCandidate": "training/generated/rec-003/cand_6f82745601e6.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_6f82745601e6",
+    "importedAt": "2026-07-04T08:12:38.963Z",
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-tail-style",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        return factorialFrom(n, 1);\n    }\n\n    private int factorialFrom(int n, int acc) {\n        if (n <= 1) {\n            return acc;\n        }\n        return factorialFrom(n - 1, acc * n);\n    }\n}\n",
+    "notes": "Uses a helper with an accumulator to model tail recursion style.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-003.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "recursive-base-case",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 93
+    },
+    "recommendationHints": [
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method factorialFrom",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

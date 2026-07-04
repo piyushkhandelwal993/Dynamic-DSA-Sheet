@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_1e51b5069976",
+  "importedAt": "2026-07-04T08:28:12.279Z",
+  "problemId": "rec-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-loop-no-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        int sum = 0;\n        for (int value = 1; value <= n; value++) {\n            sum += value;\n        }\n        return sum;\n    }\n}\n",
+  "notes": "Correct result, but uses iteration rather than recursion.\n",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+}

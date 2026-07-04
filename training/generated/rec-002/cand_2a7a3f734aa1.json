@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_2a7a3f734aa1",
+  "importedAt": "2026-07-04T07:52:52.307Z",
+  "problemId": "rec-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "helper-forward-print",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        printFrom(1, n);\n    }\n\n    private void printFrom(int current, int n) {\n        if (current > n) {\n            return;\n        }\n        if (current > 1) {\n            System.out.print(\" \");\n        }\n        System.out.print(current);\n        printFrom(current + 1, n);\n    }\n}\n",
+  "notes": "Uses a helper that prints from 1 upward until it passes n.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-002.java.beginner.candidates.json"
+}

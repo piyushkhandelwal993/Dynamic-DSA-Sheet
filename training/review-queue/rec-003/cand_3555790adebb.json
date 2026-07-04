@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T08:13:50.264Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-003/cand_3555790adebb.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_3555790adebb",
+    "importedAt": "2026-07-04T08:12:38.963Z",
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return factorial(n - 1);\n    }\n}\n",
+    "notes": "Uses recursion but stops one step too early, so it misses multiplying by n.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-003.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "5",
+        "expectedOutput": "120",
+        "actualOutput": "1",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "6",
+        "expectedOutput": "720",
+        "actualOutput": "1",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursive-base-case",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 85,
+      "qualityScore": 70,
+      "complexityScore": 80,
+      "finalScore": 54
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method factorial",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

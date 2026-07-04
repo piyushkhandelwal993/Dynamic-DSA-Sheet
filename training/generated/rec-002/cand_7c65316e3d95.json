@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_7c65316e3d95",
+  "importedAt": "2026-07-04T07:52:52.309Z",
+  "problemId": "rec-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "hardcoded-five",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        if (n == 5) {\n            System.out.print(\"1 2 3 4 5\");\n            return;\n        }\n        if (n > 0) {\n            System.out.print(1);\n        }\n    }\n}\n",
+  "notes": "Cheats for the sample-sized input and otherwise prints a single value.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-002.java.beginner.candidates.json"
+}

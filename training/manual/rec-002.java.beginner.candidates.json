@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "helper-forward-print",
+    "notes": "Uses a helper that prints from 1 upward until it passes n.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        printFrom(1, n);\n    }\n\n    private void printFrom(int current, int n) {\n        if (current > n) {\n            return;\n        }\n        if (current > 1) {\n            System.out.print(\" \");\n        }\n        System.out.print(current);\n        printFrom(current + 1, n);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "print-after-shrinking",
+    "notes": "Recurses down to 1 first, then prints while unwinding to produce increasing order.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        if (n <= 0) {\n            return;\n        }\n        printOneToN(n - 1);\n        if (n > 1) {\n            System.out.print(\" \");\n        }\n        System.out.print(n);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-for-loop",
+    "notes": "Prints the right output using a loop instead of recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        for (int i = 1; i <= n; i++) {\n            if (i > 1) {\n                System.out.print(\" \");\n            }\n            System.out.print(i);\n        }\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "reverse-order-recursion",
+    "notes": "Uses recursion but prints before the recursive call, so it outputs n down to 1 instead of 1 to n.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        if (n <= 0) {\n            return;\n        }\n        System.out.print(n);\n        if (n > 1) {\n            System.out.print(\" \");\n        }\n        printOneToN(n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "hardcoded-five",
+    "notes": "Cheats for the sample-sized input and otherwise prints a single value.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        if (n == 5) {\n            System.out.print(\"1 2 3 4 5\");\n            return;\n        }\n        if (n > 0) {\n            System.out.print(1);\n        }\n    }\n}\n"
+  }
+]

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T07:54:38.809Z",
+  "sourceCandidate": "training/generated/rec-002/cand_33353341a9a2.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_33353341a9a2",
+    "importedAt": "2026-07-04T07:52:52.308Z",
+    "problemId": "rec-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-for-loop",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printOneToN(int n) {\n        for (int i = 1; i <= n; i++) {\n            if (i > 1) {\n                System.out.print(\" \");\n            }\n            System.out.print(i);\n        }\n    }\n}\n",
+    "notes": "Prints the right output using a loop instead of recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-002.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "bottom-up-dp",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "parameterized-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 68
+    },
+    "recommendationHints": [
+      "Demonstrate parameterized recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "parameterized-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_8417ed1eb85e",
+  "problemId": "rec-004",
+  "reviewedAt": "2026-07-04T08:29:10.747Z",
+  "satisfactory": false,
+  "bugType": "failed-tests-high-concept-score",
+  "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
+  "resolution": null,
+  "expectedFacts": [
+    "parameterized-recursion",
+    "functional-recursion"
+  ],
+  "forbiddenFacts": [
+    "parameterized-recursion",
+    "functional-recursion"
+  ],
+  "inferredBugType": "needs-investigation"
+}

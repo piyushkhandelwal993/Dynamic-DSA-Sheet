@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_04a675a68349",
+  "problemId": "rec-004",
+  "reviewedAt": "2026-07-04T08:29:10.736Z",
+  "satisfactory": false,
+  "bugType": "passed-tests-but-concept-miss",
+  "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T08:28:15.002Z",
+  "sourceCandidate": "training/generated/rec-004/cand_957b422f2831.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_957b422f2831",
+    "importedAt": "2026-07-04T08:28:12.272Z",
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "parameterized-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        return sumUntil(n, 0);\n    }\n\n    private int sumUntil(int n, int currentSum) {\n        if (n <= 0) {\n            return currentSum;\n        }\n        return sumUntil(n - 1, currentSum + n);\n    }\n}\n",
+    "notes": "Accumulates the sum through a helper recursion pattern.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "recursive-base-case",
+      "bit-edge-check",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "parameterized-recursion",
+      "functional-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 85,
+      "complexityScore": 90,
+      "finalScore": 97
+    },
+    "recommendationHints": [
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP."
+    ],
+    "evidence": [
+      {
+        "conceptId": "parameterized-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

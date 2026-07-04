@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_e12300cdc3db",
+  "importedAt": "2026-07-04T07:38:37.543Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-counter-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        printFrom(name, 0, n);\n    }\n\n    private void printFrom(String name, int count, int n) {\n        if (count == n) {\n            return;\n        }\n        System.out.println(name);\n        printFrom(name, count + 1, n);\n    }\n}\n",
+  "notes": "Uses a helper that tracks the current count instead of decrementing n directly.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_6f82745601e6",
+  "importedAt": "2026-07-04T08:12:38.963Z",
+  "problemId": "rec-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-tail-style",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        return factorialFrom(n, 1);\n    }\n\n    private int factorialFrom(int n, int acc) {\n        if (n <= 1) {\n            return acc;\n        }\n        return factorialFrom(n - 1, acc * n);\n    }\n}\n",
+  "notes": "Uses a helper with an accumulator to model tail recursion style.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-003.java.beginner.candidates.json"
+}

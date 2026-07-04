@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_957b422f2831",
+  "problemId": "rec-004",
+  "reviewedAt": "2026-07-04T08:29:10.747Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Accepted as a valid recursion pattern for summing 1..N.",
+  "resolution": null,
+  "expectedFacts": [
+    "parameterized-recursion",
+    "functional-recursion"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_957b422f2831",
+  "importedAt": "2026-07-04T08:28:12.272Z",
+  "problemId": "rec-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "parameterized-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        return sumUntil(n, 0);\n    }\n\n    private int sumUntil(int n, int currentSum) {\n        if (n <= 0) {\n            return currentSum;\n        }\n        return sumUntil(n - 1, currentSum + n);\n    }\n}\n",
+  "notes": "Accumulates the sum through a helper recursion pattern.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+}

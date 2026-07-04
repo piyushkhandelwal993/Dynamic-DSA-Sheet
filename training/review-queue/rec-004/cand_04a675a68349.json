@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T08:28:13.207Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-004/cand_04a675a68349.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_04a675a68349",
+    "importedAt": "2026-07-04T08:28:12.279Z",
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n == 1) return 1;\n        if (n == 2) return 3;\n        if (n == 3) return 6;\n        if (n == 4) return 10;\n        return n * 2;\n    }\n}\n",
+    "notes": "Hardcodes a few visible values and falls back to a guessed formula.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "parameterized-recursion",
+      "functional-recursion"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 66
+    },
+    "recommendationHints": [
+      "Demonstrate parameterized recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Remove hardcoded outputs and derive the answer from the input.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "parameterized-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

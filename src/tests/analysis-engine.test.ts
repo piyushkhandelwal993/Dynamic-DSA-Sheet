@@ -112,6 +112,8 @@ test("two-pointer detection recognizes same-direction compaction pointers", () =
 
   assert.equal(hasFact(javaFacts, "two-pointers"), true);
   assert.equal(hasFact(javaFacts, "in-place-array-update"), true);
+  assert.equal(hasFact(javaFacts, "dp-memoization"), false);
+  assert.equal(hasFact(javaFacts, "bottom-up-dp"), false);
   assert.equal(hasFact(cppFacts, "two-pointers"), true);
   assert.equal(hasFact(cppFacts, "array-traversal"), true);
 });
@@ -425,7 +427,30 @@ test("java facts normalize recursion and base-case signals", () => {
 
   assert.equal(hasFact(facts, "recursive-call"), true);
   assert.equal(hasFact(facts, "base-case"), true);
+  assert.equal(hasFact(facts, "functional-recursion"), true);
+  assert.equal(hasFact(facts, "parameterized-recursion"), false);
   assert.equal(hasFact(facts, "multiple-recursive-calls"), false);
+});
+
+test("java facts recognize parameterized recursion with carried state", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      public class Demo {
+        static void sumFirstN(int n, int sum) {
+          if (n == 0) {
+            System.out.println(sum);
+            return;
+          }
+          sumFirstN(n - 1, sum + n);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "recursive-call"), true);
+  assert.equal(hasFact(facts, "parameterized-recursion"), true);
+  assert.equal(hasFact(facts, "functional-recursion"), false);
 });
 
 test("java facts normalize backtracking recursion signals", () => {

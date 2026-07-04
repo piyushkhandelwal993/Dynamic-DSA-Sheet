@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "direct-recursion-base-one",
+    "notes": "Classic factorial recursion with n <= 1 as the base case.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return n * factorial(n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-tail-style",
+    "notes": "Uses a helper with an accumulator to model tail recursion style.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        return factorialFrom(n, 1);\n    }\n\n    private int factorialFrom(int n, int acc) {\n        if (n <= 1) {\n            return acc;\n        }\n        return factorialFrom(n - 1, acc * n);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "notes": "Correct answer but uses a loop instead of the recursive style the topic expects.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        int answer = 1;\n        for (int value = 2; value <= n; value++) {\n            answer *= value;\n        }\n        return answer;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "notes": "Uses recursion but stops one step too early, so it misses multiplying by n.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return factorial(n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-value-cheat",
+    "notes": "Hardcodes a few small values and falls back to a partial answer.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n == 0 || n == 1) {\n            return 1;\n        }\n        if (n == 2) {\n            return 2;\n        }\n        if (n == 3) {\n            return 6;\n        }\n        return n;\n    }\n}\n"
+  }
+]

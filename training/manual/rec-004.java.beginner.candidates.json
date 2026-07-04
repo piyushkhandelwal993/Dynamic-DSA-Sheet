@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "parameterized-recursion",
+    "notes": "Accumulates the sum through a helper recursion pattern.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        return sumUntil(n, 0);\n    }\n\n    private int sumUntil(int n, int currentSum) {\n        if (n <= 0) {\n            return currentSum;\n        }\n        return sumUntil(n - 1, currentSum + n);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "functional-recursion",
+    "notes": "Pure functional recursion that returns the partial sum from each frame.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "notes": "Correct result, but uses iteration rather than recursion.\n",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        int sum = 0;\n        for (int value = 1; value <= n; value++) {\n            sum += value;\n        }\n        return sum;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "notes": "Recurses, but the base case returns too early and drops the final value.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few visible values and falls back to a guessed formula.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n == 1) return 1;\n        if (n == 2) return 3;\n        if (n == 3) return 6;\n        if (n == 4) return 10;\n        return n * 2;\n    }\n}\n"
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T08:28:14.461Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-004/cand_8417ed1eb85e.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_8417ed1eb85e",
+    "importedAt": "2026-07-04T08:28:12.279Z",
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n",
+    "notes": "Recurses, but the base case returns too early and drops the final value.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "0",
+        "expectedOutput": "0",
+        "actualOutput": "1",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursive-base-case",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "parameterized-recursion",
+      "functional-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 76
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "parameterized-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

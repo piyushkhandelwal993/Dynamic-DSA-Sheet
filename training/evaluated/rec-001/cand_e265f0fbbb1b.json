@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T07:41:32.914Z",
+  "sourceCandidate": "training/generated/rec-001/cand_e265f0fbbb1b.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_e265f0fbbb1b",
+    "importedAt": "2026-07-04T07:38:37.542Z",
+    "problemId": "rec-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "direct-recursion-base-zero",
+    "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (n <= 0) {\n            return;\n        }\n        System.out.println(name);\n        printNameNTimes(name, n - 1);\n    }\n}\n",
+    "notes": "Simple direct recursion with n <= 0 as the base case.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 2,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "parameterized-recursion",
+      "recursion-on-strings",
+      "recursive-base-case",
+      "bit-edge-check"
+    ],
+    "matchedConcepts": [
+      "recursion-intro",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 93
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-intro",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST call to printNameNTimes",
+          "printNameNTimes"
+        ],
+        "factIds": [
+          "recursive-call"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method printNameNTimes",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

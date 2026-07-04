@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-04T08:02:35.643Z",
+  "problemId": "rec-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "variantsRequested": 6,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-003\nTitle: Factorial of N\nTopic: Recursion\nSubtopic: Functional recursion\nLanguage: java\nMode: Complete the Function\nExpected Concepts: functional-recursion, base-case\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 6 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Factorial of N (rec-003)\n * Mode: Complete the function\n * Provided by DSA Sheet: integer input, output formatting, and test driver\n * Expected Complexity: O(n)\n */\nclass Solution {\n    public int factorial(int n) {\n        // TODO: implement factorial.\n        return 0;\n    }\n}\n"
+}

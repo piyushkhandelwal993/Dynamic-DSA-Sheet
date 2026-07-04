@@ -574,7 +574,7 @@ function detectAdvancedRecursion(facts: CodeFacts, content: string, methodNames:
   if (returnedRecursiveCall) {
     addFact(facts, "algorithms", "functional-recursion", "high", ["recursive result returned or combined"]);
   }
-  if (parameterizedCall && !returnedRecursiveCall) {
+  if (parameterizedCall) {
     addFact(facts, "algorithms", "parameterized-recursion", "high", ["state or accumulator carried through recursive arguments"]);
   }
   if (/\bString\b|charAt\s*\(|substring\s*\(/.test(content)) {

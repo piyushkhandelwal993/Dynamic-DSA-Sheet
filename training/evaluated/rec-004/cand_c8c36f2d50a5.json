@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T08:28:15.554Z",
+  "sourceCandidate": "training/generated/rec-004/cand_c8c36f2d50a5.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_c8c36f2d50a5",
+    "importedAt": "2026-07-04T08:28:12.279Z",
+    "problemId": "rec-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "functional-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n",
+    "notes": "Pure functional recursion that returns the partial sum from each frame.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursive-base-case",
+      "bit-edge-check",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "parameterized-recursion",
+      "functional-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 95
+    },
+    "recommendationHints": [
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "parameterized-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

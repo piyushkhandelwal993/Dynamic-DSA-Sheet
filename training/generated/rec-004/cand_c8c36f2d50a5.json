@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_c8c36f2d50a5",
+  "importedAt": "2026-07-04T08:28:12.279Z",
+  "problemId": "rec-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "functional-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 0) {\n            return 0;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n",
+  "notes": "Pure functional recursion that returns the partial sum from each frame.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-004.java.beginner.candidates.json"
+}

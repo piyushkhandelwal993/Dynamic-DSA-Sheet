@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_6f82745601e6",
+  "problemId": "rec-003",
+  "reviewedAt": "2026-07-04T08:18:00.646Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Accepted as a valid recursive solution for factorial.",
+  "resolution": null,
+  "expectedFacts": [
+    "functional-recursion",
+    "base-case"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

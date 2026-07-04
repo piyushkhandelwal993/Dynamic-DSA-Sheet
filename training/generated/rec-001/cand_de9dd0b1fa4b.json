@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_de9dd0b1fa4b",
+  "importedAt": "2026-07-04T07:38:37.543Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-loop-no-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        for (int i = 0; i < n; i++) {\n            System.out.println(name);\n        }\n    }\n}\n",
+  "notes": "Produces correct output but uses a loop instead of recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+}

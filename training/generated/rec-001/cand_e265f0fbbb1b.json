@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_e265f0fbbb1b",
+  "importedAt": "2026-07-04T07:38:37.542Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "direct-recursion-base-zero",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void printNameNTimes(String name, int n) {\n        if (n <= 0) {\n            return;\n        }\n        System.out.println(name);\n        printNameNTimes(name, n - 1);\n    }\n}\n",
+  "notes": "Simple direct recursion with n <= 0 as the base case.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-001.java.beginner.candidates.json"
+}

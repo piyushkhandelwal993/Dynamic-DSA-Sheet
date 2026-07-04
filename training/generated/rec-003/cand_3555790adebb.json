@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_3555790adebb",
+  "importedAt": "2026-07-04T08:12:38.963Z",
+  "problemId": "rec-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "off-by-one-stops-early",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return factorial(n - 1);\n    }\n}\n",
+  "notes": "Uses recursion but stops one step too early, so it misses multiplying by n.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-003.java.beginner.candidates.json"
+}
