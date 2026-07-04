@@ -59,6 +59,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "processQueries",
+      "javaSignature": "public int[] processQueries(String[] queries)",
+      "cppSignature": "vector<int> processQueries(vector<string>& queries)",
+      "providedTypes": [
+        "query lines"
+      ],
+      "driverStrategy": "stack-process-queries"
+    },
     "remedialProblems": [],
     "skipIfMastered": [],
     "poolRole": "core",
@@ -208,6 +218,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseWord",
+      "javaSignature": "public String reverseWord(String value)",
+      "cppSignature": "string reverseWord(string value)",
+      "providedTypes": [
+        "input string"
+      ],
+      "driverStrategy": "stack-reverse-word"
+    },
     "remedialProblems": [
       "st-001"
     ],
@@ -276,6 +296,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeAdjacentDuplicates",
+      "javaSignature": "public String removeAdjacentDuplicates(String value)",
+      "cppSignature": "string removeAdjacentDuplicates(string value)",
+      "providedTypes": [
+        "input string"
+      ],
+      "driverStrategy": "stack-remove-adjacent-duplicates"
+    },
     "remedialProblems": [
       "st-003"
     ],
@@ -344,6 +374,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "evaluatePostfix",
+      "javaSignature": "public int evaluatePostfix(String expression)",
+      "cppSignature": "int evaluatePostfix(string expression)",
+      "providedTypes": [
+        "expression string"
+      ],
+      "driverStrategy": "stack-evaluate-postfix"
+    },
     "remedialProblems": [
       "st-001",
       "st-003"
@@ -413,6 +453,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "evaluatePrefix",
+      "javaSignature": "public int evaluatePrefix(String expression)",
+      "cppSignature": "int evaluatePrefix(string expression)",
+      "providedTypes": [
+        "expression string"
+      ],
+      "driverStrategy": "stack-evaluate-prefix"
+    },
     "remedialProblems": [
       "st-005"
     ],
@@ -482,6 +532,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minStackQueries",
+      "javaSignature": "public int[] minStackQueries(String[] queries)",
+      "cppSignature": "vector<int> minStackQueries(vector<string>& queries)",
+      "providedTypes": [
+        "query lines"
+      ],
+      "driverStrategy": "stack-min-stack-queries"
+    },
     "remedialProblems": [
       "st-001"
     ],
@@ -551,6 +611,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "stockSpan",
+      "javaSignature": "public int[] stockSpan(int[] prices)",
+      "cppSignature": "vector<int> stockSpan(vector<int>& prices)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-stock-span"
+    },
     "remedialProblems": [
       "st-001",
       "st-003"
@@ -621,6 +691,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "nextGreaterRight",
+      "javaSignature": "public int[] nextGreaterRight(int[] nums)",
+      "cppSignature": "vector<int> nextGreaterRight(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-next-greater-right"
+    },
     "remedialProblems": [
       "st-008"
     ],
@@ -690,6 +770,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "previousSmallerLeft",
+      "javaSignature": "public int[] previousSmallerLeft(int[] nums)",
+      "cppSignature": "vector<int> previousSmallerLeft(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-previous-smaller-left"
+    },
     "remedialProblems": [
       "st-009"
     ],
@@ -759,6 +849,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "infixToPostfix",
+      "javaSignature": "public String infixToPostfix(String expression)",
+      "cppSignature": "string infixToPostfix(string expression)",
+      "providedTypes": [
+        "expression string"
+      ],
+      "driverStrategy": "stack-infix-to-postfix"
+    },
     "independenceMilestoneFor": [
       "stack-intro",
       "balanced-parentheses"
@@ -832,6 +932,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "dailyTemperatures",
+      "javaSignature": "public int[] dailyTemperatures(int[] temperatures)",
+      "cppSignature": "vector<int> dailyTemperatures(vector<int>& temperatures)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-daily-temperatures"
+    },
     "remedialProblems": [
       "st-009"
     ],
@@ -901,6 +1011,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "circularNextGreater",
+      "javaSignature": "public int[] circularNextGreater(int[] nums)",
+      "cppSignature": "vector<int> circularNextGreater(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-circular-next-greater"
+    },
     "remedialProblems": [
       "st-009",
       "st-012"
@@ -973,6 +1093,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "largestRectangleArea",
+      "javaSignature": "public long largestRectangleArea(int[] heights)",
+      "cppSignature": "long long largestRectangleArea(vector<int>& heights)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-largest-rectangle"
+    },
     "remedialProblems": [
       "st-010",
       "st-012"
@@ -1043,6 +1173,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maximalRectangle",
+      "javaSignature": "public int maximalRectangle(int[][] matrix)",
+      "cppSignature": "int maximalRectangle(vector<vector<int>>& matrix)",
+      "providedTypes": [
+        "binary matrix"
+      ],
+      "driverStrategy": "stack-maximal-rectangle"
+    },
     "remedialProblems": [
       "st-014"
     ],
@@ -1112,6 +1252,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "validateStackSequences",
+      "javaSignature": "public boolean validateStackSequences(int[] pushed, int[] popped)",
+      "cppSignature": "bool validateStackSequences(vector<int>& pushed, vector<int>& popped)",
+      "providedTypes": [
+        "two integer arrays"
+      ],
+      "driverStrategy": "stack-validate-sequences"
+    },
     "remedialProblems": [
       "st-001"
     ],
@@ -1182,6 +1332,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "asteroidCollision",
+      "javaSignature": "public int[] asteroidCollision(int[] asteroids)",
+      "cppSignature": "vector<int> asteroidCollision(vector<int>& asteroids)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-asteroid-collision"
+    },
     "remedialProblems": [
       "st-016"
     ],
@@ -1249,6 +1409,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "simplifyPath",
+      "javaSignature": "public String simplifyPath(String path)",
+      "cppSignature": "string simplifyPath(string path)",
+      "providedTypes": [
+        "path string"
+      ],
+      "driverStrategy": "stack-simplify-path"
+    },
     "remedialProblems": [
       "st-004",
       "st-016"
@@ -1326,6 +1496,17 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeDuplicatesK",
+      "javaSignature": "public String removeDuplicatesK(String s, int k)",
+      "cppSignature": "string removeDuplicatesK(string s, int k)",
+      "providedTypes": [
+        "string input",
+        "integer input"
+      ],
+      "driverStrategy": "stack-remove-adjacent-k"
+    },
     "remedialProblems": [
       "st-004"
     ],
@@ -1398,6 +1579,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxNestingDepth",
+      "javaSignature": "public int maxNestingDepth(String s)",
+      "cppSignature": "int maxNestingDepth(string s)",
+      "providedTypes": [
+        "parentheses string"
+      ],
+      "driverStrategy": "stack-max-nesting-depth"
+    },
     "remedialProblems": [
       "st-002"
     ],
@@ -1472,6 +1663,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "hasRedundantBrackets",
+      "javaSignature": "public boolean hasRedundantBrackets(String expression)",
+      "cppSignature": "bool hasRedundantBrackets(string expression)",
+      "providedTypes": [
+        "expression string"
+      ],
+      "driverStrategy": "stack-redundant-brackets"
+    },
     "remedialProblems": [
       "st-002",
       "st-011"
@@ -1547,6 +1748,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "findCelebrity",
+      "javaSignature": "public int findCelebrity(int[][] knows)",
+      "cppSignature": "int findCelebrity(vector<vector<int>>& knows)",
+      "providedTypes": [
+        "square matrix"
+      ],
+      "driverStrategy": "stack-celebrity"
+    },
     "remedialProblems": [
       "st-016"
     ],
@@ -1622,6 +1833,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "nextSmallerRight",
+      "javaSignature": "public int[] nextSmallerRight(int[] nums)",
+      "cppSignature": "vector<int> nextSmallerRight(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-next-smaller-right"
+    },
     "remedialProblems": [
       "st-010"
     ],
@@ -1698,6 +1919,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumSubarrayMinimums",
+      "javaSignature": "public long sumSubarrayMinimums(int[] nums)",
+      "cppSignature": "long long sumSubarrayMinimums(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-subarray-minimums"
+    },
     "remedialProblems": [
       "st-010",
       "st-014"
@@ -1774,6 +2005,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "calPoints",
+      "javaSignature": "public int calPoints(String[] operations)",
+      "cppSignature": "int calPoints(vector<string>& operations)",
+      "providedTypes": [
+        "token array"
+      ],
+      "driverStrategy": "stack-baseball-score"
+    },
     "remedialProblems": [
       "st-001",
       "st-016"
@@ -1849,6 +2090,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "backspaceCompare",
+      "javaSignature": "public boolean backspaceCompare(String s, String t)",
+      "cppSignature": "bool backspaceCompare(string s, string t)",
+      "providedTypes": [
+        "two strings"
+      ],
+      "driverStrategy": "stack-backspace-compare"
+    },
     "remedialProblems": [
       "st-004"
     ],
@@ -1921,6 +2172,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "nextGreaterElement",
+      "javaSignature": "public int[] nextGreaterElement(int[] nums1, int[] nums2)",
+      "cppSignature": "vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2)",
+      "providedTypes": [
+        "two integer arrays"
+      ],
+      "driverStrategy": "stack-next-greater-reference"
+    },
     "remedialProblems": [
       "st-009"
     ],
@@ -1991,6 +2252,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "onlineStockSpan",
+      "javaSignature": "public int[] onlineStockSpan(int[] prices)",
+      "cppSignature": "vector<int> onlineStockSpan(vector<int>& prices)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "stack-online-stock-span"
+    },
     "remedialProblems": [
       "st-008"
     ],
@@ -2066,6 +2337,16 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "postfixToInfix",
+      "javaSignature": "public String postfixToInfix(String expression)",
+      "cppSignature": "string postfixToInfix(string expression)",
+      "providedTypes": [
+        "expression string"
+      ],
+      "driverStrategy": "stack-postfix-to-infix"
+    },
     "remedialProblems": [
       "st-005",
       "st-011"
@@ -2142,6 +2423,17 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeKDigits",
+      "javaSignature": "public String removeKDigits(String number, int k)",
+      "cppSignature": "string removeKDigits(string number, int k)",
+      "providedTypes": [
+        "numeric string",
+        "integer input"
+      ],
+      "driverStrategy": "stack-remove-k-digits"
+    },
     "remedialProblems": [
       "st-009",
       "st-023"

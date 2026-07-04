@@ -57,6 +57,17 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "printNameNTimes",
+      "javaSignature": "public void printNameNTimes(String name, int n)",
+      "cppSignature": "void printNameNTimes(string name, int n)",
+      "providedTypes": [
+        "string input",
+        "integer input"
+      ],
+      "driverStrategy": "recursion-print-name-n-times"
+    },
     "remedialProblems": [],
     "skipIfMastered": [],
     "poolRole": "core",
@@ -111,6 +122,16 @@
         "explanation": "Each call prints one value and moves to the next integer."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "printOneToN",
+      "javaSignature": "public void printOneToN(int n)",
+      "cppSignature": "void printOneToN(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-print-1-to-n"
+    },
     "remedialProblems": [
       "rec-001"
     ],
@@ -250,6 +271,16 @@
         "explanation": "1 + 2 + 3 + 4 = 10."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumFirstN",
+      "javaSignature": "public int sumFirstN(int n)",
+      "cppSignature": "int sumFirstN(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-sum-first-n"
+    },
     "remedialProblems": [
       "rec-002"
     ],
@@ -308,6 +339,16 @@
         "explanation": "2^5 = 2 * 2 * 2 * 2 * 2."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "power",
+      "javaSignature": "public int power(int a, int b)",
+      "cppSignature": "int power(int a, int b)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-power"
+    },
     "remedialProblems": [
       "rec-003"
     ],
@@ -364,6 +405,16 @@
         "explanation": "The sequence is 0, 1, 1, 2, 3, 5, 8."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "fibonacci",
+      "javaSignature": "public int fibonacci(int n)",
+      "cppSignature": "int fibonacci(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-fibonacci-number"
+    },
     "remedialProblems": [
       "rec-003"
     ],
@@ -421,6 +472,16 @@
         "explanation": "The outer letters match at every step until the middle is reached."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isPalindrome",
+      "javaSignature": "public boolean isPalindrome(String s)",
+      "cppSignature": "bool isPalindrome(string s)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "recursion-palindrome"
+    },
     "remedialProblems": [
       "rec-001"
     ],
@@ -477,6 +538,16 @@
         "explanation": "The last character ends up first after recursive unwinding."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseString",
+      "javaSignature": "public String reverseString(String s)",
+      "cppSignature": "string reverseString(string s)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "recursion-reverse-string"
+    },
     "remedialProblems": [
       "rec-007"
     ],
@@ -533,6 +604,16 @@
         "explanation": "5 + 7 + 2 = 14."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumDigits",
+      "javaSignature": "public int sumDigits(int n)",
+      "cppSignature": "int sumDigits(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-sum-digits"
+    },
     "remedialProblems": [
       "rec-004"
     ],
@@ -588,6 +669,16 @@
         "explanation": "5072 contains four digits."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countDigits",
+      "javaSignature": "public int countDigits(int n)",
+      "cppSignature": "int countDigits(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-count-digits"
+    },
     "remedialProblems": [
       "rec-009"
     ],
@@ -646,6 +737,16 @@
         "explanation": "7 is found at index 3."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "binarySearch",
+      "javaSignature": "public int binarySearch(int[] nums, int target)",
+      "cppSignature": "int binarySearch(vector<int>& nums, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-binary-search"
+    },
     "remedialProblems": [
       "rec-002"
     ],
@@ -702,6 +803,16 @@
         "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "gcd",
+      "javaSignature": "public int gcd(int a, int b)",
+      "cppSignature": "int gcd(int a, int b)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-gcd"
+    },
     "independenceMilestoneFor": [
       "functional-recursion",
       "base-case"
@@ -762,6 +873,16 @@
         "explanation": "Each element can be either taken or skipped."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "generateSubsequences",
+      "javaSignature": "public List<List<Integer>> generateSubsequences(int[] nums)",
+      "cppSignature": "vector<vector<int>> generateSubsequences(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-generate-subsequences"
+    },
     "remedialProblems": [
       "rec-008"
     ],
@@ -820,6 +941,16 @@
         "explanation": "The subsequence [2,3] sums to 5."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "subsetSumExists",
+      "javaSignature": "public boolean subsetSumExists(int[] nums, int target)",
+      "cppSignature": "bool subsetSumExists(vector<int>& nums, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-subset-sum-exists"
+    },
     "remedialProblems": [
       "rec-013"
     ],
@@ -877,6 +1008,16 @@
         "explanation": "Both [2,2,3] and [7] sum to 7."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "combinationSum",
+      "javaSignature": "public List<List<Integer>> combinationSum(int[] candidates, int target)",
+      "cppSignature": "vector<vector<int>> combinationSum(vector<int>& candidates, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-combination-sum"
+    },
     "remedialProblems": [
       "rec-014"
     ],
@@ -932,6 +1073,16 @@
         "explanation": "Three distinct numbers produce 3! = 6 permutations."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "permute",
+      "javaSignature": "public List<List<Integer>> permute(int[] nums)",
+      "cppSignature": "vector<vector<int>> permute(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-generate-permutations"
+    },
     "remedialProblems": [
       "rec-013"
     ],
@@ -987,6 +1138,16 @@
         "explanation": "You first move the smaller disk, then the larger one, then restore the smaller disk on top."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "towerOfHanoi",
+      "javaSignature": "public List<String> towerOfHanoi(int n)",
+      "cppSignature": "vector<string> towerOfHanoi(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-tower-of-hanoi"
+    },
     "remedialProblems": [
       "rec-003"
     ],
@@ -1045,6 +1206,16 @@
         "explanation": "With 0-based indexing, person 2 survives."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "josephus",
+      "javaSignature": "public int josephus(int n, int k)",
+      "cppSignature": "int josephus(int n, int k)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-josephus"
+    },
     "remedialProblems": [
       "rec-004"
     ],
@@ -1101,6 +1272,16 @@
         "explanation": "The 5 ways are 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, and 2+2."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "climbStairs",
+      "javaSignature": "public int climbStairs(int n)",
+      "cppSignature": "int climbStairs(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-climbing-stairs"
+    },
     "remedialProblems": [
       "rec-006"
     ],
@@ -1158,6 +1339,16 @@
         "explanation": "If T0=0, T1=1, T2=1, then T3=2 and T4=4."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "tribonacci",
+      "javaSignature": "public int tribonacci(int n)",
+      "cppSignature": "int tribonacci(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-tribonacci"
+    },
     "remedialProblems": [
       "rec-019"
     ],
@@ -1215,6 +1406,16 @@
         "explanation": "Each half is sorted recursively, then the two sorted halves are merged."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeSort",
+      "javaSignature": "public int[] mergeSort(int[] nums)",
+      "cppSignature": "vector<int> mergeSort(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-merge-sort"
+    },
     "remedialProblems": [
       "rec-011"
     ],
@@ -1272,6 +1473,16 @@
         "explanation": "Each partition step places one pivot correctly and splits the remaining work."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "quickSort",
+      "javaSignature": "public int[] quickSort(int[] nums)",
+      "cppSignature": "vector<int> quickSort(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-quick-sort"
+    },
     "remedialProblems": [
       "rec-021"
     ],
@@ -1329,6 +1540,16 @@
         "explanation": "The solver explores valid candidate placements recursively until the board is complete."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "solveSudoku",
+      "javaSignature": "public void solveSudoku(int[][] board)",
+      "cppSignature": "void solveSudoku(vector<vector<int>>& board)",
+      "providedTypes": [
+        "9x9 integer matrix"
+      ],
+      "driverStrategy": "recursion-sudoku-solver"
+    },
     "remedialProblems": [
       "rec-016"
     ],
@@ -1387,6 +1608,16 @@
         "explanation": "There are exactly two distinct non-attacking arrangements for 4 queens."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "solveNQueens",
+      "javaSignature": "public List<List<String>> solveNQueens(int n)",
+      "cppSignature": "vector<vector<string>> solveNQueens(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "recursion-n-queens"
+    },
     "remedialProblems": [
       "rec-016"
     ],

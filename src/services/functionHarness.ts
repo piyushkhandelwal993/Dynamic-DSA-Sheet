@@ -90,9 +90,44 @@ function javaMethodStub(contract: FunctionContract): string {
     case "tree-preorder":
       return `        return new ArrayList<>();`;
     case "stack-balanced-brackets":
-    case "bit-odd-even":
-    case "bit-power-of-two":
-    case "bit-power-of-four":
+    case "stack-validate-sequences":
+    case "stack-backspace-compare":
+      case "bit-odd-even":
+      case "bit-power-of-two":
+      case "bit-power-of-four":
+      return `        return false;`;
+    case "stack-process-queries":
+    case "stack-min-stack-queries":
+    case "stack-stock-span":
+    case "stack-next-greater-right":
+    case "stack-previous-smaller-left":
+    case "stack-daily-temperatures":
+    case "stack-circular-next-greater":
+    case "stack-asteroid-collision":
+    case "stack-next-smaller-right":
+    case "stack-next-greater-reference":
+    case "stack-online-stock-span":
+      return `        return new int[0];`;
+    case "stack-reverse-word":
+    case "stack-remove-adjacent-duplicates":
+    case "stack-infix-to-postfix":
+    case "stack-simplify-path":
+    case "stack-remove-adjacent-k":
+    case "stack-postfix-to-infix":
+    case "stack-remove-k-digits":
+      return `        return "";`;
+    case "stack-evaluate-postfix":
+    case "stack-evaluate-prefix":
+    case "stack-max-nesting-depth":
+    case "stack-celebrity":
+    case "stack-baseball-score":
+      return `        return 0;`;
+    case "stack-largest-rectangle":
+    case "stack-subarray-minimums":
+      return `        return 0L;`;
+    case "stack-maximal-rectangle":
+      return `        return 0;`;
+    case "stack-redundant-brackets":
       return `        return false;`;
     case "queue-reverse-first-k":
       return `        return values;`;
@@ -117,6 +152,37 @@ function javaMethodStub(contract: FunctionContract): string {
     case "bit-toggle":
     case "bit-check-right-shift":
       return `        return 0;`;
+    case "recursion-print-name-n-times":
+    case "recursion-print-1-to-n":
+    case "recursion-tower-of-hanoi":
+    case "recursion-sudoku-solver":
+      return `        // Write your code here.`;
+    case "recursion-sum-first-n":
+    case "recursion-power":
+    case "recursion-fibonacci-number":
+    case "recursion-count-digits":
+    case "recursion-binary-search":
+    case "recursion-gcd":
+    case "recursion-josephus":
+    case "recursion-climbing-stairs":
+    case "recursion-tribonacci":
+      return `        return 0;`;
+    case "recursion-palindrome":
+    case "recursion-subset-sum-exists":
+      return `        return false;`;
+    case "recursion-reverse-string":
+      return `        return "";`;
+    case "recursion-sum-digits":
+      return `        return 0;`;
+    case "recursion-generate-subsequences":
+    case "recursion-combination-sum":
+    case "recursion-generate-permutations":
+      return `        return new ArrayList<>();`;
+    case "recursion-merge-sort":
+    case "recursion-quick-sort":
+      return `        return new int[0];`;
+    case "recursion-n-queens":
+      return `        return new ArrayList<>();`;
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
@@ -203,9 +269,44 @@ function cppMethodStub(contract: FunctionContract): string {
     case "tree-preorder":
       return `        return {};`;
     case "stack-balanced-brackets":
+    case "stack-validate-sequences":
+    case "stack-backspace-compare":
     case "bit-odd-even":
     case "bit-power-of-two":
     case "bit-power-of-four":
+      return `        return false;`;
+    case "stack-process-queries":
+    case "stack-min-stack-queries":
+    case "stack-stock-span":
+    case "stack-next-greater-right":
+    case "stack-previous-smaller-left":
+    case "stack-daily-temperatures":
+    case "stack-circular-next-greater":
+    case "stack-asteroid-collision":
+    case "stack-next-smaller-right":
+    case "stack-next-greater-reference":
+    case "stack-online-stock-span":
+      return `        return {};`;
+    case "stack-reverse-word":
+    case "stack-remove-adjacent-duplicates":
+    case "stack-infix-to-postfix":
+    case "stack-simplify-path":
+    case "stack-remove-adjacent-k":
+    case "stack-postfix-to-infix":
+    case "stack-remove-k-digits":
+      return `        return "";`;
+    case "stack-evaluate-postfix":
+    case "stack-evaluate-prefix":
+    case "stack-max-nesting-depth":
+    case "stack-celebrity":
+    case "stack-baseball-score":
+      return `        return 0;`;
+    case "stack-largest-rectangle":
+    case "stack-subarray-minimums":
+      return `        return 0LL;`;
+    case "stack-maximal-rectangle":
+      return `        return 0;`;
+    case "stack-redundant-brackets":
       return `        return false;`;
     case "queue-reverse-first-k":
       return `        return values;`;
@@ -230,6 +331,37 @@ function cppMethodStub(contract: FunctionContract): string {
     case "bit-toggle":
     case "bit-check-right-shift":
       return `        return 0;`;
+    case "recursion-print-name-n-times":
+    case "recursion-print-1-to-n":
+    case "recursion-tower-of-hanoi":
+    case "recursion-sudoku-solver":
+      return `        // Write your code here.`;
+    case "recursion-sum-first-n":
+    case "recursion-power":
+    case "recursion-fibonacci-number":
+    case "recursion-count-digits":
+    case "recursion-binary-search":
+    case "recursion-gcd":
+    case "recursion-josephus":
+    case "recursion-climbing-stairs":
+    case "recursion-tribonacci":
+      return `        return 0;`;
+    case "recursion-palindrome":
+    case "recursion-subset-sum-exists":
+      return `        return false;`;
+    case "recursion-reverse-string":
+      return `        return "";`;
+    case "recursion-sum-digits":
+      return `        return 0;`;
+    case "recursion-generate-subsequences":
+    case "recursion-combination-sum":
+    case "recursion-generate-permutations":
+      return `        return {};`;
+    case "recursion-merge-sort":
+    case "recursion-quick-sort":
+      return `        return {};`;
+    case "recursion-n-queens":
+      return `        return {};`;
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
@@ -309,11 +441,57 @@ function isTreeStrategy(contract: FunctionContract): boolean {
 }
 
 function isMatrixStrategy(contract: FunctionContract): boolean {
-  return contract.driverStrategy === "bit-assignment-mask-count";
+  return contract.driverStrategy === "bit-assignment-mask-count" || contract.driverStrategy === "recursion-sudoku-solver";
+}
+
+function isRecursionArrayStrategy(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "recursion-binary-search" ||
+    contract.driverStrategy === "recursion-subset-sum-exists" ||
+    contract.driverStrategy === "recursion-merge-sort" ||
+    contract.driverStrategy === "recursion-quick-sort";
+}
+
+function isStackArrayStrategy(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "stack-stock-span" ||
+    contract.driverStrategy === "stack-next-greater-right" ||
+    contract.driverStrategy === "stack-previous-smaller-left" ||
+    contract.driverStrategy === "stack-daily-temperatures" ||
+    contract.driverStrategy === "stack-circular-next-greater" ||
+    contract.driverStrategy === "stack-largest-rectangle" ||
+    contract.driverStrategy === "stack-asteroid-collision" ||
+    contract.driverStrategy === "stack-next-smaller-right" ||
+    contract.driverStrategy === "stack-subarray-minimums" ||
+    contract.driverStrategy === "stack-online-stock-span";
+}
+
+function usesTokenArrayHelpers(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "stack-baseball-score";
+}
+
+function usesLineArrayHelpers(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "stack-process-queries" ||
+    contract.driverStrategy === "stack-min-stack-queries";
+}
+
+function usesNestedIntegerHelpers(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "bit-generate-subsets" ||
+    contract.driverStrategy === "recursion-generate-subsequences" ||
+    contract.driverStrategy === "recursion-combination-sum" ||
+    contract.driverStrategy === "recursion-generate-permutations";
+}
+
+function usesStringListHelpers(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "recursion-tower-of-hanoi";
+}
+
+function usesNestedStringHelpers(contract: FunctionContract): boolean {
+  return contract.driverStrategy === "recursion-n-queens";
 }
 
 function isArrayLikeStrategy(contract: FunctionContract): boolean {
   return isArrayStrategy(contract) ||
+    isRecursionArrayStrategy(contract) ||
+    isStackArrayStrategy(contract) ||
     contract.driverStrategy === "bit-count-odd-array" ||
     contract.driverStrategy === "bit-single-number" ||
     contract.driverStrategy === "bit-two-unique-numbers" ||
@@ -397,6 +575,48 @@ function javaDriverSource(contract: FunctionContract): string {
         System.out.print("]");
     }`;
 
+  const stringListHelpers = `    private static void printStrings(List<String> values) {
+        for (int i = 0; i < values.size(); i++) {
+            if (i > 0) System.out.println();
+            System.out.print(values.get(i));
+        }
+    }`;
+
+  const tokenArrayHelpers = `    private static String[] readTokens(Scanner sc, int n) {
+        String[] values = new String[n];
+        for (int i = 0; i < n; i++) values[i] = sc.next();
+        return values;
+    }`;
+
+  const lineArrayHelpers = `    private static String[] readLines(Scanner sc, int n) {
+        sc.nextLine();
+        String[] values = new String[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextLine();
+        return values;
+    }
+
+    private static void printArray(int[] values) {
+        for (int i = 0; i < values.length; i++) {
+            if (i > 0) System.out.println();
+            System.out.print(values[i]);
+        }
+    }`;
+
+  const nestedStringHelpers = `    private static void printNestedStrings(List<List<String>> values) {
+        System.out.print("[");
+        for (int i = 0; i < values.size(); i++) {
+            if (i > 0) System.out.print(",");
+            List<String> board = values.get(i);
+            System.out.print("[");
+            for (int j = 0; j < board.size(); j++) {
+                if (j > 0) System.out.print(",");
+                System.out.print(board.get(j));
+            }
+            System.out.print("]");
+        }
+        System.out.print("]");
+    }`;
+
   const matrixHelpers = `    private static int[][] readMatrix(Scanner sc, int rows, int cols) {
         int[][] values = new int[rows][cols];
         for (int row = 0; row < rows; row++) {
@@ -405,6 +625,16 @@ function javaDriverSource(contract: FunctionContract): string {
             }
         }
         return values;
+    }
+
+    private static void printMatrix(int[][] values) {
+        for (int row = 0; row < values.length; row++) {
+            if (row > 0) System.out.println();
+            for (int col = 0; col < values[row].length; col++) {
+                if (col > 0) System.out.print(" ");
+                System.out.print(values[row][col]);
+            }
+        }
     }`;
 
   const treeHelpers = `    private static TreeNode readTree(Scanner sc, int n) {
@@ -471,8 +701,16 @@ function javaDriverSource(contract: FunctionContract): string {
 
   const helpers = isLinkedListStrategy(contract)
     ? linkedListHelpers
-    : contract.driverStrategy === "bit-generate-subsets"
+    : usesNestedIntegerHelpers(contract)
       ? subsetHelpers
+    : usesStringListHelpers(contract)
+      ? stringListHelpers
+    : usesTokenArrayHelpers(contract)
+      ? tokenArrayHelpers
+    : usesLineArrayHelpers(contract)
+      ? lineArrayHelpers
+    : usesNestedStringHelpers(contract)
+      ? nestedStringHelpers
     : isArrayLikeStrategy(contract)
       ? arrayHelpers
       : isMatrixStrategy(contract)
@@ -766,6 +1004,96 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        String value = sc.next();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(value) ? "Balanced" : "Not Balanced");`;
       break;
+    case "stack-process-queries":
+      inputSetup = `        int q = sc.nextInt();
+        String[] queries = readLines(sc, q);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(queries));`;
+      break;
+    case "stack-reverse-word":
+    case "stack-remove-adjacent-duplicates":
+    case "stack-infix-to-postfix":
+    case "stack-simplify-path":
+    case "stack-postfix-to-infix":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "stack-evaluate-postfix":
+    case "stack-evaluate-prefix":
+    case "stack-max-nesting-depth":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "stack-min-stack-queries":
+      inputSetup = `        int q = sc.nextInt();
+        String[] queries = readLines(sc, q);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(queries));`;
+      break;
+    case "stack-stock-span":
+    case "stack-next-greater-right":
+    case "stack-previous-smaller-left":
+    case "stack-daily-temperatures":
+    case "stack-circular-next-greater":
+    case "stack-asteroid-collision":
+    case "stack-next-smaller-right":
+    case "stack-online-stock-span":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "stack-largest-rectangle":
+    case "stack-subarray-minimums":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "stack-maximal-rectangle":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] values = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "stack-validate-sequences":
+      inputSetup = `        int n = sc.nextInt();
+        int[] pushed = readArray(sc, n);
+        int[] popped = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(pushed, popped) ? "Valid" : "Invalid");`;
+      break;
+    case "stack-remove-adjacent-k":
+      inputSetup = `        String value = sc.next();
+        int k = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value, k));`;
+      break;
+    case "stack-redundant-brackets":
+      inputSetup = `        String expression = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(expression) ? "Redundant" : "Useful");`;
+      break;
+    case "stack-celebrity":
+      inputSetup = `        int n = sc.nextInt();
+        int[][] matrix = readMatrix(sc, n, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(matrix));`;
+      break;
+    case "stack-baseball-score":
+      inputSetup = `        int n = sc.nextInt();
+        String[] operations = readTokens(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(operations));`;
+      break;
+    case "stack-backspace-compare":
+      inputSetup = `        String first = sc.next();
+        String second = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second) ? "Equal" : "Not Equal");`;
+      break;
+    case "stack-next-greater-reference":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] nums1 = readArray(sc, n);
+        int[] nums2 = readArray(sc, m);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(nums1, nums2));`;
+      break;
+    case "stack-remove-k-digits":
+      inputSetup = `        String number = sc.next();
+        int k = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(number, k));`;
+      break;
     case "bit-odd-even":
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "Odd" : "Even");`;
@@ -853,6 +1181,94 @@ function javaDriverSource(contract: FunctionContract): string {
     case "bit-base10-complement":
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "recursion-print-name-n-times":
+      inputSetup = `        String name = sc.next();
+        int n = sc.nextInt();`;
+      invocation = `        new Solution().${contract.functionName}(name, n);`;
+      break;
+    case "recursion-print-1-to-n":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        new Solution().${contract.functionName}(n);`;
+      break;
+    case "recursion-sum-first-n":
+    case "recursion-fibonacci-number":
+    case "recursion-sum-digits":
+    case "recursion-count-digits":
+    case "recursion-climbing-stairs":
+    case "recursion-tribonacci":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "recursion-power":
+      inputSetup = `        int a = sc.nextInt();
+        int b = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(a, b));`;
+      break;
+    case "recursion-palindrome":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value) ? "true" : "false");`;
+      break;
+    case "recursion-reverse-string":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "recursion-binary-search":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "recursion-gcd":
+      inputSetup = `        int a = sc.nextInt();
+        int b = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(a, b));`;
+      break;
+    case "recursion-josephus":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, k));`;
+      break;
+    case "recursion-generate-subsequences":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printNestedValues(new Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-subset-sum-exists":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target) ? "true" : "false");`;
+      break;
+    case "recursion-combination-sum":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        printNestedValues(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "recursion-generate-permutations":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printNestedValues(new Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-tower-of-hanoi":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        printStrings(new Solution().${contract.functionName}(n));`;
+      break;
+    case "recursion-merge-sort":
+    case "recursion-quick-sort":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-sudoku-solver":
+      inputSetup = `        int[][] board = readMatrix(sc, 9, 9);`;
+      invocation = `        new Solution().${contract.functionName}(board);
+        printMatrix(board);`;
+      break;
+    case "recursion-n-queens":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        printNestedStrings(new Solution().${contract.functionName}(n));`;
       break;
     case "bit-xor-1-to-n":
       inputSetup = `        int n = sc.nextInt();`;
@@ -966,6 +1382,48 @@ void printNestedValues(const vector<vector<int>>& values) {
     cout << "]";
 }`;
 
+  const stringListHelpers = `void printStrings(const vector<string>& values) {
+    for (size_t i = 0; i < values.size(); ++i) {
+        if (i > 0) cout << "\\n";
+        cout << values[i];
+    }
+}`;
+
+  const tokenArrayHelpers = `vector<string> readTokens(int n) {
+    vector<string> values(n);
+    for (string& value : values) cin >> value;
+    return values;
+}`;
+
+  const lineArrayHelpers = `vector<string> readLines(int n) {
+    string ignored;
+    getline(cin, ignored);
+    vector<string> values(n);
+    for (int i = 0; i < n; ++i) getline(cin, values[i]);
+    return values;
+}
+
+void printArray(const vector<int>& values) {
+    for (size_t i = 0; i < values.size(); ++i) {
+        if (i > 0) cout << "\\n";
+        cout << values[i];
+    }
+}`;
+
+  const nestedStringHelpers = `void printNestedStrings(const vector<vector<string>>& values) {
+    cout << "[";
+    for (size_t i = 0; i < values.size(); ++i) {
+        if (i > 0) cout << ",";
+        cout << "[";
+        for (size_t j = 0; j < values[i].size(); ++j) {
+            if (j > 0) cout << ",";
+            cout << values[i][j];
+        }
+        cout << "]";
+    }
+    cout << "]";
+}`;
+
   const matrixHelpers = `vector<vector<int>> readMatrix(int rows, int cols) {
     vector<vector<int>> values(rows, vector<int>(cols));
     for (int row = 0; row < rows; ++row) {
@@ -974,6 +1432,16 @@ void printNestedValues(const vector<vector<int>>& values) {
         }
     }
     return values;
+}
+
+void printMatrix(const vector<vector<int>>& values) {
+    for (size_t row = 0; row < values.size(); ++row) {
+        if (row > 0) cout << "\\n";
+        for (size_t col = 0; col < values[row].size(); ++col) {
+            if (col > 0) cout << " ";
+            cout << values[row][col];
+        }
+    }
 }`;
 
   const treeHelpers = `TreeNode* readTree(int n) {
@@ -1040,8 +1508,16 @@ void printValues(const vector<int>& values) {
 
   const helpers = isLinkedListStrategy(contract)
     ? linkedListHelpers
-    : contract.driverStrategy === "bit-generate-subsets"
+    : usesNestedIntegerHelpers(contract)
       ? subsetHelpers
+    : usesStringListHelpers(contract)
+      ? stringListHelpers
+    : usesTokenArrayHelpers(contract)
+      ? tokenArrayHelpers
+    : usesLineArrayHelpers(contract)
+      ? lineArrayHelpers
+    : usesNestedStringHelpers(contract)
+      ? nestedStringHelpers
     : isArrayLikeStrategy(contract)
       ? arrayHelpers
       : isMatrixStrategy(contract)
@@ -1392,6 +1868,108 @@ void printValues(const vector<int>& values) {
     cin >> value;`;
       invocation = `    cout << (Solution().${contract.functionName}(value) ? "Balanced" : "Not Balanced");`;
       break;
+    case "stack-process-queries":
+      inputSetup = `    int q;
+    cin >> q;
+    vector<string> queries = readLines(q);`;
+      invocation = `    printArray(Solution().${contract.functionName}(queries));`;
+      break;
+    case "stack-reverse-word":
+    case "stack-remove-adjacent-duplicates":
+    case "stack-infix-to-postfix":
+    case "stack-simplify-path":
+    case "stack-postfix-to-infix":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "stack-evaluate-postfix":
+    case "stack-evaluate-prefix":
+    case "stack-max-nesting-depth":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "stack-min-stack-queries":
+      inputSetup = `    int q;
+    cin >> q;
+    vector<string> queries = readLines(q);`;
+      invocation = `    printArray(Solution().${contract.functionName}(queries));`;
+      break;
+    case "stack-stock-span":
+    case "stack-next-greater-right":
+    case "stack-previous-smaller-left":
+    case "stack-daily-temperatures":
+    case "stack-circular-next-greater":
+    case "stack-asteroid-collision":
+    case "stack-next-smaller-right":
+    case "stack-online-stock-span":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "stack-largest-rectangle":
+    case "stack-subarray-minimums":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "stack-maximal-rectangle":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> values = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "stack-validate-sequences":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> pushed = readArray(n);
+    vector<int> popped = readArray(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(pushed, popped) ? "Valid" : "Invalid");`;
+      break;
+    case "stack-remove-adjacent-k":
+      inputSetup = `    string value;
+    int k;
+    cin >> value >> k;`;
+      invocation = `    cout << Solution().${contract.functionName}(value, k);`;
+      break;
+    case "stack-redundant-brackets":
+      inputSetup = `    string expression;
+    cin >> expression;`;
+      invocation = `    cout << (Solution().${contract.functionName}(expression) ? "Redundant" : "Useful");`;
+      break;
+    case "stack-celebrity":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<vector<int>> matrix = readMatrix(n, n);`;
+      invocation = `    cout << Solution().${contract.functionName}(matrix);`;
+      break;
+    case "stack-baseball-score":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<string> operations = readTokens(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(operations);`;
+      break;
+    case "stack-backspace-compare":
+      inputSetup = `    string first, second;
+    cin >> first >> second;`;
+      invocation = `    cout << (Solution().${contract.functionName}(first, second) ? "Equal" : "Not Equal");`;
+      break;
+    case "stack-next-greater-reference":
+      inputSetup = `    int n, m;
+    cin >> n >> m;
+    vector<int> nums1 = readArray(n);
+    vector<int> nums2 = readArray(m);`;
+      invocation = `    printArray(Solution().${contract.functionName}(nums1, nums2));`;
+      break;
+    case "stack-remove-k-digits":
+      inputSetup = `    string number;
+    int k;
+    cin >> number >> k;`;
+      invocation = `    cout << Solution().${contract.functionName}(number, k);`;
+      break;
     case "bit-odd-even":
       inputSetup = `    int n;
     cin >> n;`;
@@ -1491,6 +2069,102 @@ void printValues(const vector<int>& values) {
       inputSetup = `    int n;
     cin >> n;`;
       invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "recursion-print-name-n-times":
+      inputSetup = `    string name;
+    int n;
+    cin >> name >> n;`;
+      invocation = `    Solution().${contract.functionName}(name, n);`;
+      break;
+    case "recursion-print-1-to-n":
+    case "recursion-sum-first-n":
+    case "recursion-fibonacci-number":
+    case "recursion-sum-digits":
+    case "recursion-count-digits":
+    case "recursion-climbing-stairs":
+    case "recursion-tribonacci":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "recursion-power":
+    case "recursion-gcd":
+      inputSetup = `    int a, b;
+    cin >> a >> b;`;
+      invocation = `    cout << Solution().${contract.functionName}(a, b);`;
+      break;
+    case "recursion-palindrome":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << (Solution().${contract.functionName}(value) ? "true" : "false");`;
+      break;
+    case "recursion-reverse-string":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "recursion-binary-search":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "recursion-generate-subsequences":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printNestedValues(Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-subset-sum-exists":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << (Solution().${contract.functionName}(values, target) ? "true" : "false");`;
+      break;
+    case "recursion-combination-sum":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    printNestedValues(Solution().${contract.functionName}(values, target));`;
+      break;
+    case "recursion-generate-permutations":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printNestedValues(Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-tower-of-hanoi":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    printStrings(Solution().${contract.functionName}(n));`;
+      break;
+    case "recursion-josephus":
+      inputSetup = `    int n, k;
+    cin >> n >> k;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, k);`;
+      break;
+    case "recursion-merge-sort":
+    case "recursion-quick-sort":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "recursion-sudoku-solver":
+      inputSetup = `    vector<vector<int>> board = readMatrix(9, 9);`;
+      invocation = `    Solution().${contract.functionName}(board);
+    printMatrix(board);`;
+      break;
+    case "recursion-n-queens":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    printNestedStrings(Solution().${contract.functionName}(n));`;
       break;
     case "bit-xor-1-to-n":
       inputSetup = `    int n;

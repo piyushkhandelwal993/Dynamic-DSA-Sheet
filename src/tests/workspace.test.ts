@@ -7,14 +7,14 @@ import { getProblemById } from "../services/storage";
 import { effectiveProblemForPracticeMode, ensureProblemWorkspace, resetProblemWorkspace } from "../services/workspace";
 
 test("start workspace generation creates a stable Main.java template", () => {
-  const problem = getProblemById("rec-001");
-  assert.ok(problem);
   const originalBaseDir = process.env.DSA_SHEET_HOME;
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-workspace-test-"));
 
   try {
-    const first = ensureProblemWorkspace(problem);
-    const second = ensureProblemWorkspace(problem);
+    const problem = getProblemById("rec-001");
+    assert.ok(problem);
+    const first = ensureProblemWorkspace(problem, "java", "pro");
+    const second = ensureProblemWorkspace(problem, "java", "pro");
 
     assert.ok(fs.existsSync(first.filePath));
     assert.equal(first.filePath, second.filePath);
@@ -33,14 +33,14 @@ test("start workspace generation creates a stable Main.java template", () => {
 });
 
 test("workspace generation keeps Java and C++ solutions separately", () => {
-  const problem = getProblemById("rec-001");
-  assert.ok(problem);
   const originalBaseDir = process.env.DSA_SHEET_HOME;
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-workspace-language-test-"));
 
   try {
-    const javaWorkspace = ensureProblemWorkspace(problem, "java");
-    const cppWorkspace = ensureProblemWorkspace(problem, "cpp");
+    const problem = getProblemById("rec-001");
+    assert.ok(problem);
+    const javaWorkspace = ensureProblemWorkspace(problem, "java", "pro");
+    const cppWorkspace = ensureProblemWorkspace(problem, "cpp", "pro");
 
     assert.match(javaWorkspace.filePath, /Main\.java$/);
     assert.match(cppWorkspace.filePath, /main\.cpp$/);
@@ -131,6 +131,46 @@ test("linked-list beginner scaffolds cover insert delete middle cycle merge and 
     assert.match(fs.readFileSync(cycleWorkspace.filePath, "utf-8"), /public boolean hasCycle\(Node head\)/);
     assert.match(fs.readFileSync(mergeWorkspace.filePath, "utf-8"), /Node\* mergeSorted\(Node\* first, Node\* second\)/);
     assert.match(fs.readFileSync(dedupeWorkspace.filePath, "utf-8"), /public Node removeDuplicates\(Node head\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
+test("recursion beginner scaffolds cover print, string, backtracking, sorting, and board signatures", () => {
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-recursion-expanded-"));
+
+  try {
+    const printProblem = getProblemById("rec-001");
+    const palindromeProblem = getProblemById("rec-007");
+    const subsequenceProblem = getProblemById("rec-013");
+    const hanoiProblem = getProblemById("rec-017");
+    const mergeSortProblem = getProblemById("rec-021");
+    const sudokuProblem = getProblemById("rec-023");
+    const nQueensProblem = getProblemById("rec-024");
+    assert.ok(printProblem);
+    assert.ok(palindromeProblem);
+    assert.ok(subsequenceProblem);
+    assert.ok(hanoiProblem);
+    assert.ok(mergeSortProblem);
+    assert.ok(sudokuProblem);
+    assert.ok(nQueensProblem);
+    const printWorkspace = ensureProblemWorkspace(printProblem, "java");
+    const palindromeWorkspace = ensureProblemWorkspace(palindromeProblem, "cpp");
+    const subsequenceWorkspace = ensureProblemWorkspace(subsequenceProblem, "java");
+    const hanoiWorkspace = ensureProblemWorkspace(hanoiProblem, "cpp");
+    const mergeSortWorkspace = ensureProblemWorkspace(mergeSortProblem, "java");
+    const sudokuWorkspace = ensureProblemWorkspace(sudokuProblem, "cpp");
+    const nQueensWorkspace = ensureProblemWorkspace(nQueensProblem, "java");
+
+    assert.match(fs.readFileSync(printWorkspace.filePath, "utf-8"), /public void printNameNTimes\(String name, int n\)/);
+    assert.match(fs.readFileSync(palindromeWorkspace.filePath, "utf-8"), /bool isPalindrome\(string s\)/);
+    assert.match(fs.readFileSync(subsequenceWorkspace.filePath, "utf-8"), /public List<List<Integer>> generateSubsequences\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(hanoiWorkspace.filePath, "utf-8"), /vector<string> towerOfHanoi\(int n\)/);
+    assert.match(fs.readFileSync(mergeSortWorkspace.filePath, "utf-8"), /public int\[\] mergeSort\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(sudokuWorkspace.filePath, "utf-8"), /void solveSudoku\(vector<vector<int>>& board\)/);
+    assert.match(fs.readFileSync(nQueensWorkspace.filePath, "utf-8"), /public List<List<String>> solveNQueens\(int n\)/);
   } finally {
     if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
     else process.env.DSA_SHEET_HOME = originalBaseDir;
@@ -595,6 +635,43 @@ test("stack queue and binary-search templates expose focused function signatures
     assert.match(fs.readFileSync(stackWorkspace.filePath, "utf-8"), /boolean isBalanced\(String value\)/);
     assert.match(fs.readFileSync(queueWorkspace.filePath, "utf-8"), /vector<int> reverseFirstK\(vector<int>& values, int k\)/);
     assert.match(fs.readFileSync(searchWorkspace.filePath, "utf-8"), /int search\(int\[\] values, int target\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
+test("expanded stack beginner scaffolds cover queries strings arrays matrices and paired inputs", () => {
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-stack-expanded-"));
+
+  try {
+    const queryProblem = getProblemById("st-001");
+    const reverseProblem = getProblemById("st-003");
+    const spanProblem = getProblemById("st-008");
+    const matrixProblem = getProblemById("st-015");
+    const compareProblem = getProblemById("st-026");
+    const removeDigitsProblem = getProblemById("st-030");
+    assert.ok(queryProblem);
+    assert.ok(reverseProblem);
+    assert.ok(spanProblem);
+    assert.ok(matrixProblem);
+    assert.ok(compareProblem);
+    assert.ok(removeDigitsProblem);
+
+    const queryWorkspace = ensureProblemWorkspace(queryProblem, "java");
+    const reverseWorkspace = ensureProblemWorkspace(reverseProblem, "cpp");
+    const spanWorkspace = ensureProblemWorkspace(spanProblem, "java");
+    const matrixWorkspace = ensureProblemWorkspace(matrixProblem, "cpp");
+    const compareWorkspace = ensureProblemWorkspace(compareProblem, "java");
+    const removeDigitsWorkspace = ensureProblemWorkspace(removeDigitsProblem, "cpp");
+
+    assert.match(fs.readFileSync(queryWorkspace.filePath, "utf-8"), /public int\[\] processQueries\(String\[\] queries\)/);
+    assert.match(fs.readFileSync(reverseWorkspace.filePath, "utf-8"), /string reverseWord\(string value\)/);
+    assert.match(fs.readFileSync(spanWorkspace.filePath, "utf-8"), /public int\[\] stockSpan\(int\[\] prices\)/);
+    assert.match(fs.readFileSync(matrixWorkspace.filePath, "utf-8"), /int maximalRectangle\(vector<vector<int>>& matrix\)/);
+    assert.match(fs.readFileSync(compareWorkspace.filePath, "utf-8"), /public boolean backspaceCompare\(String s, String t\)/);
+    assert.match(fs.readFileSync(removeDigitsWorkspace.filePath, "utf-8"), /string removeKDigits\(string number, int k\)/);
   } finally {
     if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
     else process.env.DSA_SHEET_HOME = originalBaseDir;
