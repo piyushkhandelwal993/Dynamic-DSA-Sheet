@@ -42,6 +42,10 @@
               <span class="nav-icon">◉</span>
               <span class="nav-label">Profile</span>
             </button>
+            <button class="view-tab" data-view="training" title="Training" aria-label="Training">
+              <span class="nav-icon">⚗</span>
+              <span class="nav-label">Training</span>
+            </button>
           </div>
         </section>
 
@@ -608,6 +612,172 @@
             </section>
           </section>
         </section>
+
+        <section id="training-view" class="view-panel is-hidden">
+          <section class="panel training-shell">
+            <div class="panel-header">
+              <div>
+                <div class="eyebrow">Analyzer Training</div>
+                <h2>Candidate Review Lab</h2>
+                <p class="muted">Generate prompt batches, import model candidates, evaluate them, and mark analyzer outcomes as satisfactory or dissatisfactory.</p>
+              </div>
+            </div>
+
+            <div class="training-grid">
+              <section class="panel training-controls">
+                <div class="training-form-grid">
+                  <label class="profile-field">
+                    <span>Topic</span>
+                    <select id="training-topic-select"></select>
+                  </label>
+                  <label class="profile-field">
+                    <span>Problem</span>
+                    <select id="training-problem-select"></select>
+                  </label>
+                  <label class="profile-field">
+                    <span>Language</span>
+                    <select id="training-language-select">
+                      <option value="java">Java</option>
+                      <option value="cpp">C++</option>
+                    </select>
+                  </label>
+                  <label class="profile-field">
+                    <span>Mode</span>
+                    <select id="training-mode-select">
+                      <option value="beginner">Beginner</option>
+                      <option value="pro">Pro</option>
+                    </select>
+                  </label>
+                  <label class="profile-field">
+                    <span>Variants</span>
+                    <input id="training-variants-input" type="number" min="4" max="40" value="8" />
+                  </label>
+                </div>
+
+                <div class="training-actions">
+                  <button id="training-generate-button" class="primary-button" type="button">Generate Prompt Batch</button>
+                  <button id="training-refresh-button" class="ghost-button" type="button">Refresh Candidates</button>
+                  <button id="training-evaluate-button" class="ghost-button" type="button">Evaluate Current Problem</button>
+                </div>
+
+                <div id="training-status" class="muted" role="status">Choose a topic and problem to begin.</div>
+              </section>
+
+              <section class="panel training-prompts">
+                <div class="panel-header">
+                  <div>
+                    <div class="eyebrow">Prompt Batch</div>
+                    <h3>Generator Output</h3>
+                  </div>
+                  <button id="training-copy-prompt-button" class="ghost-button icon-button" type="button" aria-label="Copy prompt" title="Copy prompt">⧉</button>
+                </div>
+                <div id="training-prompt-list" class="training-prompt-list muted">No prompt batch generated yet.</div>
+                <textarea id="training-prompt-preview" class="training-json-input training-prompt-preview" spellcheck="false" readonly placeholder="The selected prompt will appear here."></textarea>
+              </section>
+            </div>
+
+            <div class="training-grid training-grid-bottom">
+              <section class="panel training-import-panel">
+                <div class="panel-header">
+                  <div>
+                    <div class="eyebrow">Import Candidates</div>
+                    <h3>Paste Model JSON</h3>
+                  </div>
+                  <button id="training-import-button" class="primary-button" type="button">Import Candidates</button>
+                </div>
+                <textarea id="training-import-input" class="training-json-input" spellcheck="false" placeholder='Paste the JSON array returned by your model here.'></textarea>
+                <p class="muted">The app normalizes IDs, attaches language and mode defaults, and stores every candidate under the selected problem.</p>
+              </section>
+
+              <section class="panel training-candidates-panel">
+                <div class="panel-header">
+                  <div>
+                    <div class="eyebrow">Candidates</div>
+                    <h3>Review Queue</h3>
+                  </div>
+                </div>
+                <div id="training-candidate-list" class="training-candidate-list muted">No candidates imported for this problem yet.</div>
+              </section>
+            </div>
+
+            <section class="panel training-backlog-panel">
+              <div class="panel-header">
+                <div>
+                  <div class="eyebrow">Reviewed Failures Backlog</div>
+                  <h3>What the analyzer keeps getting wrong</h3>
+                </div>
+                <div class="training-backlog-toolbar">
+                  <button id="training-export-regressions-button" class="ghost-button" type="button">Export Regressions</button>
+                  <button id="training-generate-regression-tests-button" class="ghost-button" type="button">Generate Tests</button>
+                </div>
+              </div>
+              <div id="training-backlog-summary" class="training-backlog-summary muted">No reviewed failures yet.</div>
+              <div id="training-backlog-list" class="training-backlog-list muted">Mark dissatisfactory candidates to build a bug backlog here.</div>
+            </section>
+
+            <section class="panel training-review-panel">
+              <div class="panel-header">
+                <div>
+                  <div class="eyebrow">Candidate Review</div>
+                  <h3 id="training-review-title">Select a candidate</h3>
+                </div>
+              </div>
+
+              <div id="training-review-meta" class="training-review-meta muted">Execution, analyzer output, and review controls will appear here.</div>
+
+              <div class="training-review-grid">
+                <article class="training-review-card panel">
+                  <div class="eyebrow">Code</div>
+                  <pre id="training-candidate-code" class="training-code-block muted">Pick a candidate from the queue to inspect its source code.</pre>
+                </article>
+
+                <article class="training-review-card panel">
+                  <div class="eyebrow">Analyzer Result</div>
+                  <div id="training-evaluation-summary" class="training-evaluation-summary muted">No evaluation loaded yet.</div>
+                </article>
+              </div>
+
+              <div class="training-review-grid">
+                <article class="training-review-card panel">
+                  <div class="eyebrow">Execution</div>
+                  <div id="training-execution-summary" class="training-evaluation-summary muted">Run evaluation to inspect compile and testcase behavior.</div>
+                </article>
+
+                <article class="training-review-card panel">
+                  <div class="eyebrow">Review Decision</div>
+                  <div class="training-review-actions">
+                    <button id="training-mark-satisfactory-button" class="primary-button" type="button" disabled>Satisfactory</button>
+                    <button id="training-mark-dissatisfactory-button" class="ghost-button" type="button" disabled>Dissatisfactory</button>
+                  </div>
+                  <label class="profile-field">
+                    <span>Bug Type</span>
+                    <select id="training-bug-type-select" disabled>
+                      <option value="concept-detector">Concept detector</option>
+                      <option value="scoring">Scoring</option>
+                      <option value="execution-or-template">Execution / template</option>
+                      <option value="metadata">Metadata / expectations</option>
+                      <option value="hardcoding-detection">Hardcoding detection</option>
+                      <option value="needs-investigation">Needs investigation</option>
+                    </select>
+                  </label>
+                  <label class="profile-field">
+                    <span>Reviewer Notes</span>
+                    <textarea id="training-review-notes" class="training-review-notes" spellcheck="false" placeholder="If this candidate is unsatisfactory, note the bug you found and why."></textarea>
+                  </label>
+                  <label class="profile-field">
+                    <span>Expected Facts (comma-separated)</span>
+                    <input id="training-expected-facts-input" type="text" placeholder="two-pointers, reverse-array" />
+                  </label>
+                  <label class="profile-field">
+                    <span>Forbidden Facts (comma-separated)</span>
+                    <input id="training-forbidden-facts-input" type="text" placeholder="hardcoded-output, left-shift" />
+                  </label>
+                  <div id="training-review-status" class="muted">No review saved yet.</div>
+                </article>
+              </div>
+            </section>
+          </section>
+        </section>
       </main>
     </div>
 
@@ -665,6 +835,9 @@
             referrerpolicy="strict-origin-when-cross-origin"
           ></iframe>
         </div>
+        <p id="video-modal-note" class="muted video-modal-note">
+          If YouTube blocks playback inside the desktop app, open the video directly in YouTube.
+        </p>
         <div class="success-actions">
           <button id="video-modal-open-youtube" class="primary-button" type="button">Open In YouTube</button>
           <button id="video-modal-close-button" class="ghost-button" type="button">Close</button>

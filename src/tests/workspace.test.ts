@@ -97,6 +97,46 @@ test("guided function workspaces expose only the student solution file", () => {
   }
 });
 
+test("linked-list beginner scaffolds cover insert delete middle cycle merge and cleanup signatures", () => {
+  const insertHeadProblem = getProblemById("ll-003");
+  const insertTailProblem = getProblemById("ll-004");
+  const deletePositionProblem = getProblemById("ll-005");
+  const middleProblem = getProblemById("ll-007");
+  const cycleProblem = getProblemById("ll-008");
+  const mergeProblem = getProblemById("ll-009");
+  const dedupeProblem = getProblemById("ll-010");
+  assert.ok(insertHeadProblem);
+  assert.ok(insertTailProblem);
+  assert.ok(deletePositionProblem);
+  assert.ok(middleProblem);
+  assert.ok(cycleProblem);
+  assert.ok(mergeProblem);
+  assert.ok(dedupeProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-linked-list-expanded-"));
+
+  try {
+    const insertHeadWorkspace = ensureProblemWorkspace(insertHeadProblem, "java");
+    const insertTailWorkspace = ensureProblemWorkspace(insertTailProblem, "cpp");
+    const deletePositionWorkspace = ensureProblemWorkspace(deletePositionProblem, "java");
+    const middleWorkspace = ensureProblemWorkspace(middleProblem, "cpp");
+    const cycleWorkspace = ensureProblemWorkspace(cycleProblem, "java");
+    const mergeWorkspace = ensureProblemWorkspace(mergeProblem, "cpp");
+    const dedupeWorkspace = ensureProblemWorkspace(dedupeProblem, "java");
+
+    assert.match(fs.readFileSync(insertHeadWorkspace.filePath, "utf-8"), /public Node insertAtHead\(Node head, int value\)/);
+    assert.match(fs.readFileSync(insertTailWorkspace.filePath, "utf-8"), /Node\* insertAtTail\(Node\* head, int value\)/);
+    assert.match(fs.readFileSync(deletePositionWorkspace.filePath, "utf-8"), /public Node deleteAtPosition\(Node head, int position\)/);
+    assert.match(fs.readFileSync(middleWorkspace.filePath, "utf-8"), /int middleValue\(Node\* head\)/);
+    assert.match(fs.readFileSync(cycleWorkspace.filePath, "utf-8"), /public boolean hasCycle\(Node head\)/);
+    assert.match(fs.readFileSync(mergeWorkspace.filePath, "utf-8"), /Node\* mergeSorted\(Node\* first, Node\* second\)/);
+    assert.match(fs.readFileSync(dedupeWorkspace.filePath, "utf-8"), /public Node removeDuplicates\(Node head\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("practice modes keep beginner function files and pro program files separate", () => {
   const problem = getProblemById("arr-003");
   assert.ok(problem);
@@ -159,6 +199,42 @@ test("array and tree function templates expose the expected signatures", () => {
 
     assert.match(fs.readFileSync(arrayWorkspace.filePath, "utf-8"), /public void reverse\(int\[\] nums\)/);
     assert.match(fs.readFileSync(treeWorkspace.filePath, "utf-8"), /vector<int> preorder\(TreeNode\* root\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
+test("new array beginner scaffolds cover int, boolean, long, array, void, and double signatures", () => {
+  const minLenProblem = getProblemById("arr-018");
+  const zeroSumProblem = getProblemById("arr-021");
+  const sortedSquaresProblem = getProblemById("arr-023");
+  const rotateRightProblem = getProblemById("arr-026");
+  const countSubarraysProblem = getProblemById("arr-027");
+  const maxAverageProblem = getProblemById("arr-030");
+  assert.ok(minLenProblem);
+  assert.ok(zeroSumProblem);
+  assert.ok(sortedSquaresProblem);
+  assert.ok(rotateRightProblem);
+  assert.ok(countSubarraysProblem);
+  assert.ok(maxAverageProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-array-beginner-expanded-"));
+
+  try {
+    const minLenWorkspace = ensureProblemWorkspace(minLenProblem, "java");
+    const zeroSumWorkspace = ensureProblemWorkspace(zeroSumProblem, "cpp");
+    const sortedSquaresWorkspace = ensureProblemWorkspace(sortedSquaresProblem, "java");
+    const rotateRightWorkspace = ensureProblemWorkspace(rotateRightProblem, "cpp");
+    const countSubarraysWorkspace = ensureProblemWorkspace(countSubarraysProblem, "java");
+    const maxAverageWorkspace = ensureProblemWorkspace(maxAverageProblem, "cpp");
+
+    assert.match(fs.readFileSync(minLenWorkspace.filePath, "utf-8"), /public int minSubarrayLen\(int\[\] nums, int target\)/);
+    assert.match(fs.readFileSync(zeroSumWorkspace.filePath, "utf-8"), /bool hasZeroSumSubarray\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(sortedSquaresWorkspace.filePath, "utf-8"), /public int\[\] sortedSquares\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(rotateRightWorkspace.filePath, "utf-8"), /void rotateRight\(vector<int>& nums, int k\)/);
+    assert.match(fs.readFileSync(countSubarraysWorkspace.filePath, "utf-8"), /public long countSubarraysWithSumK\(int\[\] nums, int k\)/);
+    assert.match(fs.readFileSync(maxAverageWorkspace.filePath, "utf-8"), /double maxAverageSubarray\(vector<int>& nums, int k\)/);
   } finally {
     if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
     else process.env.DSA_SHEET_HOME = originalBaseDir;

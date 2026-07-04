@@ -8,7 +8,12 @@
       "Forgetting to reduce the problem size",
       "Calling the same function with unchanged parameters"
     ],
-    "practiceProblems": ["rec-001", "rec-002"]
+    "practiceProblems": [
+      "rec-001",
+      "rec-017"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "base-case",
@@ -19,7 +24,15 @@
       "Missing the stopping condition",
       "Writing a base case that never matches"
     ],
-    "practiceProblems": ["rec-003", "rec-004"]
+    "practiceProblems": [
+      "rec-001",
+      "rec-003",
+      "rec-012"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "recursion-intro"
+    ]
   },
   {
     "id": "parameterized-recursion",
@@ -30,7 +43,15 @@
       "Mutating the wrong accumulator",
       "Not updating parameters before the next call"
     ],
-    "practiceProblems": ["rec-002", "rec-004"]
+    "practiceProblems": [
+      "rec-002",
+      "rec-004"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "recursion-intro",
+      "base-case"
+    ]
   },
   {
     "id": "functional-recursion",
@@ -41,7 +62,19 @@
       "Forgetting to return the recursive result",
       "Combining values in the wrong order"
     ],
-    "practiceProblems": ["rec-003", "rec-005"]
+    "practiceProblems": [
+      "rec-003",
+      "rec-004",
+      "rec-005",
+      "rec-009",
+      "rec-012",
+      "rec-018"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "recursion-intro",
+      "base-case"
+    ]
   },
   {
     "id": "recursion-on-strings",
@@ -52,18 +85,14 @@
       "Using the wrong stopping indices",
       "Not handling empty or single-character strings"
     ],
-    "practiceProblems": ["rec-007", "rec-008"]
-  },
-  {
-    "id": "recursion-on-arrays",
-    "name": "Recursion on Arrays",
-    "description": "Arrays can be processed recursively by moving an index or splitting the range.",
-    "exampleJava": "return arr[i] + sum(arr, i + 1);",
-    "commonMistakes": [
-      "Stepping past array bounds",
-      "Not updating the index"
+    "practiceProblems": [
+      "rec-007",
+      "rec-008"
     ],
-    "practiceProblems": ["rec-009", "rec-011"]
+    "progressionOrder": 5,
+    "dependsOn": [
+      "functional-recursion"
+    ]
   },
   {
     "id": "tree-recursion",
@@ -74,7 +103,34 @@
       "Ignoring the exponential growth of calls",
       "Missing one of the base cases"
     ],
-    "practiceProblems": ["rec-006", "rec-019"]
+    "practiceProblems": [
+      "rec-006",
+      "rec-019",
+      "rec-020"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "functional-recursion"
+    ]
+  },
+  {
+    "id": "recursion-on-arrays",
+    "name": "Recursion on Arrays",
+    "description": "Arrays can be processed recursively by moving an index or splitting the range.",
+    "exampleJava": "return arr[i] + sum(arr, i + 1);",
+    "commonMistakes": [
+      "Stepping past array bounds",
+      "Not updating the index"
+    ],
+    "practiceProblems": [
+      "rec-011",
+      "rec-021",
+      "rec-022"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "functional-recursion"
+    ]
   },
   {
     "id": "backtracking-basics",
@@ -85,7 +141,19 @@
       "Forgetting to undo the last choice",
       "Sharing mutable state incorrectly"
     ],
-    "practiceProblems": ["rec-013", "rec-014"]
+    "practiceProblems": [
+      "rec-013",
+      "rec-014",
+      "rec-015",
+      "rec-016",
+      "rec-023",
+      "rec-024"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "recursion-intro",
+      "base-case"
+    ]
   },
   {
     "id": "subsequence-generation",
@@ -96,7 +164,15 @@
       "Missing one branch of the decision tree",
       "Appending answers too early"
     ],
-    "practiceProblems": ["rec-013", "rec-014"]
+    "practiceProblems": [
+      "rec-013",
+      "rec-014",
+      "rec-015"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "backtracking-basics"
+    ]
   },
   {
     "id": "permutations",
@@ -107,7 +183,15 @@
       "Reusing an element without marking it",
       "Not restoring used state on backtrack"
     ],
-    "practiceProblems": ["rec-016", "rec-024"]
+    "practiceProblems": [
+      "rec-016",
+      "rec-024"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "backtracking-basics",
+      "subsequence-generation"
+    ]
   },
   {
     "id": "memoization",
@@ -118,7 +202,14 @@
       "Caching under the wrong key",
       "Not initializing the memo table properly"
     ],
-    "practiceProblems": ["rec-019", "rec-020"]
+    "practiceProblems": [
+      "rec-019",
+      "rec-020"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "tree-recursion"
+    ]
   },
   {
     "id": "divide-and-conquer",
@@ -129,7 +220,15 @@
       "Wrong range boundaries",
       "Forgetting the merge/combine step"
     ],
-    "practiceProblems": ["rec-021", "rec-022"]
+    "practiceProblems": [
+      "rec-011",
+      "rec-021",
+      "rec-022"
+    ],
+    "progressionOrder": 12,
+    "dependsOn": [
+      "recursion-on-arrays"
+    ]
   },
   {
     "id": "recursive-search",
@@ -140,6 +239,14 @@
       "Not pruning impossible states",
       "Failing to restore state after exploration"
     ],
-    "practiceProblems": ["rec-023", "rec-024"]
+    "practiceProblems": [
+      "rec-023",
+      "rec-024"
+    ],
+    "progressionOrder": 13,
+    "dependsOn": [
+      "backtracking-basics",
+      "permutations"
+    ]
   }
 ]

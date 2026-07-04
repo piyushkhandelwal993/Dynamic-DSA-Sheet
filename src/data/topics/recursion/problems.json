@@ -61,7 +61,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "recursion-foundation"
+    "variantGroup": "recursion-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-002",
@@ -116,7 +117,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.8,
-    "variantGroup": "recursion-parameter-practice"
+    "variantGroup": "recursion-parameter-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-003",
@@ -198,7 +200,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "recursion-functional-foundation"
+    "variantGroup": "recursion-functional-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-004",
@@ -253,7 +256,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "recursion-parameter-practice"
+    "variantGroup": "recursion-parameter-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-005",
@@ -310,7 +314,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "recursion-functional-practice"
+    "variantGroup": "recursion-functional-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-006",
@@ -365,7 +370,8 @@
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "recursion-foundation-review"
+    "variantGroup": "recursion-foundation-review",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-007",
@@ -421,7 +427,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "recursion-string-foundation"
+    "variantGroup": "recursion-string-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-008",
@@ -476,7 +483,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "recursion-string-practice"
+    "variantGroup": "recursion-string-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-009",
@@ -531,7 +539,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.8,
-    "variantGroup": "recursion-number-practice"
+    "variantGroup": "recursion-number-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-010",
@@ -585,7 +594,8 @@
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "recursion-number-review"
+    "variantGroup": "recursion-number-review",
+    "learningRole": "review"
   },
   {
     "id": "rec-011",
@@ -642,7 +652,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.15,
-    "variantGroup": "recursion-search-challenge"
+    "variantGroup": "recursion-search-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-012",
@@ -701,7 +712,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "recursion-functional-independence"
+    "variantGroup": "recursion-functional-independence",
+    "learningRole": "mastery"
   },
   {
     "id": "rec-013",
@@ -756,7 +768,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "backtracking-foundation"
+    "variantGroup": "backtracking-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-014",
@@ -813,7 +826,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "backtracking-subset-practice"
+    "variantGroup": "backtracking-subset-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-015",
@@ -869,7 +883,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "backtracking-combination-challenge"
+    "variantGroup": "backtracking-combination-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "rec-016",
@@ -923,7 +938,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
-    "variantGroup": "backtracking-permutation-challenge"
+    "variantGroup": "backtracking-permutation-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-017",
@@ -977,7 +993,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "recursion-classic-practice"
+    "variantGroup": "recursion-classic-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-018",
@@ -1034,7 +1051,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.15,
-    "variantGroup": "recursion-search-challenge"
+    "variantGroup": "recursion-search-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "rec-019",
@@ -1089,7 +1107,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "recursion-memo-foundation"
+    "variantGroup": "recursion-memo-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-020",
@@ -1145,7 +1164,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "recursion-memo-practice"
+    "variantGroup": "recursion-memo-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "rec-021",
@@ -1201,7 +1221,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "recursion-divide-foundation"
+    "variantGroup": "recursion-divide-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-022",
@@ -1257,7 +1278,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
-    "variantGroup": "recursion-divide-challenge"
+    "variantGroup": "recursion-divide-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "rec-023",
@@ -1313,7 +1335,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.45,
-    "variantGroup": "backtracking-grid-challenge"
+    "variantGroup": "backtracking-grid-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "rec-024",
@@ -1370,6 +1393,7 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.4,
-    "variantGroup": "backtracking-grid-challenge"
+    "variantGroup": "backtracking-grid-challenge",
+    "learningRole": "mastery"
   }
 ]

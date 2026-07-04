@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_60c1dccec5db",
+  "problemId": "arr-001",
+  "reviewedAt": "2026-07-03T14:41:35.651Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Quadratic maximum search is a valid alternate but should stay below intended min/max tracking mastery.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

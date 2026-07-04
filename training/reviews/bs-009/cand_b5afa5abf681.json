@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_b5afa5abf681",
+  "problemId": "bs-009",
+  "reviewedAt": "2026-07-03T14:46:53.762Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "The detector is correct to credit answer-space binary search and capacity-search structure; execution correctly fails because the ceil-hours predicate is wrong.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

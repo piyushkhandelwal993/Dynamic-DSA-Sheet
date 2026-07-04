@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_60c1dccec5db",
+  "importedAt": "2026-07-03T01:01:55.323Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "nested-comparison",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        for (int i = 0; i < nums.length; i++) {\n            boolean isMaximum = true;\n\n            for (int j = 0; j < nums.length; j++) {\n                if (nums[j] > nums[i]) {\n                    isMaximum = false;\n                    break;\n                }\n            }\n\n            if (isMaximum) {\n                return nums[i];\n            }\n        }\n\n        return nums[0];\n    }\n}",
+  "notes": "Correct but inefficient O(n^2) approach that checks whether each element is maximum.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

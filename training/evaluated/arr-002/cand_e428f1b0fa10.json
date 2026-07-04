@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:08.538Z",
+  "sourceCandidate": "training/generated/arr-002/cand_e428f1b0fa10.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_e428f1b0fa10",
+    "importedAt": "2026-07-03T01:17:31.761Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "nested-verification",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = i + 1; j < nums.length; j++) {\n                if (nums[i] > nums[j]) {\n                    return false;\n                }\n            }\n        }\n\n        return true;\n    }\n}",
+    "notes": "Correct but unnecessarily compares every pair, making it O(n²).",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "nested-loop",
+      "array",
+      "array-traversal",
+      "interval-dp",
+      "quadratic-candidate"
+    ],
+    "matchedConcepts": [
+      "array-traversal"
+    ],
+    "missingConcepts": [
+      "sorted-check"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 50,
+      "qualityScore": 70,
+      "complexityScore": 35,
+      "finalScore": 79
+    },
+    "recommendationHints": [
+      "Demonstrate sorted check explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[i]",
+          "[j]",
+          "int[] nums",
+          "JDK AST: 2 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

@@ -63,7 +63,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "stack-foundation"
+    "variantGroup": "stack-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "st-002",
@@ -146,7 +147,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "stack-bracket-foundation"
+    "variantGroup": "stack-bracket-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "st-003",
@@ -212,7 +214,8 @@
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "stack-operations-review"
+    "variantGroup": "stack-operations-review",
+    "learningRole": "introduce"
   },
   {
     "id": "st-004",
@@ -279,7 +282,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "stack-simulation-practice"
+    "variantGroup": "stack-simulation-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "st-005",
@@ -347,7 +351,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "stack-expression-foundation"
+    "variantGroup": "stack-expression-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "st-006",
@@ -414,7 +419,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "stack-expression-practice"
+    "variantGroup": "stack-expression-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-007",
@@ -482,7 +488,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "stack-simulation-challenge"
+    "variantGroup": "stack-simulation-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "st-008",
@@ -551,7 +558,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "monotonic-stack-foundation"
+    "variantGroup": "monotonic-stack-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "st-009",
@@ -619,7 +627,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "monotonic-stack-foundation"
+    "variantGroup": "monotonic-stack-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "st-010",
@@ -687,7 +696,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "monotonic-stack-practice"
+    "variantGroup": "monotonic-stack-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "st-011",
@@ -760,7 +770,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "stack-expression-independence"
+    "variantGroup": "stack-expression-independence",
+    "learningRole": "introduce"
   },
   {
     "id": "st-012",
@@ -827,7 +838,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "monotonic-stack-practice"
+    "variantGroup": "monotonic-stack-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-013",
@@ -896,7 +908,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
-    "variantGroup": "monotonic-stack-challenge"
+    "variantGroup": "monotonic-stack-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-014",
@@ -967,7 +980,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.4,
-    "variantGroup": "stack-histogram-challenge"
+    "variantGroup": "stack-histogram-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "st-015",
@@ -1035,7 +1049,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.45,
-    "variantGroup": "stack-histogram-challenge"
+    "variantGroup": "stack-histogram-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-016",
@@ -1103,7 +1118,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "stack-sequence-practice"
+    "variantGroup": "stack-sequence-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-017",
@@ -1172,7 +1188,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "stack-simulation-challenge"
+    "variantGroup": "stack-simulation-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-018",
@@ -1239,7 +1256,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "stack-simulation-practice"
+    "variantGroup": "stack-simulation-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-019",
@@ -1249,31 +1267,73 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["stack-operations", "stack-simulation"],
-    "prerequisiteConcepts": ["stack-operations"],
+    "expectedConcepts": [
+      "stack-operations",
+      "stack-simulation"
+    ],
+    "prerequisiteConcepts": [
+      "stack-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given a string s and integer k, repeatedly remove k adjacent equal characters. Print the final string, or Empty if no characters remain.",
-    "constraints": ["1 <= s.length <= 10^5", "2 <= k <= 10^5"],
-    "inputFormat": ["A string s", "An integer k"],
-    "outputFormat": ["Print the reduced string or Empty"],
-    "edgeCases": ["Entire string removed", "New groups form after removal", "No group reaches k"],
+    "constraints": [
+      "1 <= s.length <= 10^5",
+      "2 <= k <= 10^5"
+    ],
+    "inputFormat": [
+      "A string s",
+      "An integer k"
+    ],
+    "outputFormat": [
+      "Print the reduced string or Empty"
+    ],
+    "edgeCases": [
+      "Entire string removed",
+      "New groups form after removal",
+      "No group reaches k"
+    ],
     "intendedApproachSummary": "Use a stack of character-count pairs. Increment the top count for repeats and pop when the count reaches k.",
-    "wrongApproachHints": ["Repeated string deletion can become too slow.", "Keep counts so you do not push the same character many times unnecessarily."],
-    "hints": ["Store pairs of character and count.", "When count becomes k, remove that pair."],
+    "wrongApproachHints": [
+      "Repeated string deletion can become too slow.",
+      "Keep counts so you do not push the same character many times unnecessarily."
+    ],
+    "hints": [
+      "Store pairs of character and count.",
+      "When count becomes k, remove that pair."
+    ],
     "examples": [
-      { "input": "deeedbbcccbdaa\n3", "output": "aa", "explanation": "eee, ccc, and bbb are removed through cascading reductions." }
+      {
+        "input": "deeedbbcccbdaa\n3",
+        "output": "aa",
+        "explanation": "eee, ccc, and bbb are removed through cascading reductions."
+      }
     ],
     "testCases": [
-      { "input": "deeedbbcccbdaa\n3", "expectedOutput": "aa", "visibility": "sample" },
-      { "input": "pbbcggttciiippooaais\n2", "expectedOutput": "ps", "visibility": "hidden" },
-      { "input": "aaa\n3", "expectedOutput": "Empty", "visibility": "hidden" }
+      {
+        "input": "deeedbbcccbdaa\n3",
+        "expectedOutput": "aa",
+        "visibility": "sample"
+      },
+      {
+        "input": "pbbcggttciiippooaais\n2",
+        "expectedOutput": "ps",
+        "visibility": "hidden"
+      },
+      {
+        "input": "aaa\n3",
+        "expectedOutput": "Empty",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-004"],
+    "remedialProblems": [
+      "st-004"
+    ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "stack-simulation-challenge"
+    "variantGroup": "stack-simulation-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-020",
@@ -1283,31 +1343,69 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["balanced-parentheses"],
-    "prerequisiteConcepts": ["balanced-parentheses"],
+    "expectedConcepts": [
+      "balanced-parentheses"
+    ],
+    "prerequisiteConcepts": [
+      "balanced-parentheses"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 12,
     "description": "Given a valid parentheses string containing only '(' and ')', print the maximum nesting depth.",
-    "constraints": ["1 <= s.length <= 10^5"],
-    "inputFormat": ["A valid parentheses string s"],
-    "outputFormat": ["Print the maximum nesting depth"],
-    "edgeCases": ["No nesting beyond one level", "Deeply nested string"],
+    "constraints": [
+      "1 <= s.length <= 10^5"
+    ],
+    "inputFormat": [
+      "A valid parentheses string s"
+    ],
+    "outputFormat": [
+      "Print the maximum nesting depth"
+    ],
+    "edgeCases": [
+      "No nesting beyond one level",
+      "Deeply nested string"
+    ],
     "intendedApproachSummary": "Track the current open-parenthesis depth and update the best depth whenever an opening parenthesis appears.",
-    "wrongApproachHints": ["You do not need to store every parenthesis if only depth is required.", "Decrease depth after closing parentheses."],
-    "hints": ["Increment on '(' and decrement on ')'.", "Update best after incrementing."],
+    "wrongApproachHints": [
+      "You do not need to store every parenthesis if only depth is required.",
+      "Decrease depth after closing parentheses."
+    ],
+    "hints": [
+      "Increment on '(' and decrement on ')'.",
+      "Update best after incrementing."
+    ],
     "examples": [
-      { "input": "(()(()))", "output": "3", "explanation": "The deepest nested position reaches depth 3." }
+      {
+        "input": "(()(()))",
+        "output": "3",
+        "explanation": "The deepest nested position reaches depth 3."
+      }
     ],
     "testCases": [
-      { "input": "(()(()))", "expectedOutput": "3", "visibility": "sample" },
-      { "input": "()()()", "expectedOutput": "1", "visibility": "hidden" },
-      { "input": "((()))", "expectedOutput": "3", "visibility": "hidden" }
+      {
+        "input": "(()(()))",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "()()()",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "((()))",
+        "expectedOutput": "3",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-002"],
+    "remedialProblems": [
+      "st-002"
+    ],
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.65,
-    "variantGroup": "stack-bracket-review"
+    "variantGroup": "stack-bracket-review",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-021",
@@ -1317,31 +1415,72 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["balanced-parentheses", "stack-operations"],
-    "prerequisiteConcepts": ["balanced-parentheses"],
+    "expectedConcepts": [
+      "balanced-parentheses",
+      "stack-operations"
+    ],
+    "prerequisiteConcepts": [
+      "balanced-parentheses"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given a valid arithmetic expression with parentheses and operators +, -, *, /, print Redundant if any pair of parentheses encloses no operator, otherwise print Useful.",
-    "constraints": ["1 <= expression.length <= 10^5"],
-    "inputFormat": ["An expression string"],
-    "outputFormat": ["Print Redundant or Useful"],
-    "edgeCases": ["Single variable inside parentheses", "Nested useful parentheses", "Operator directly inside parentheses"],
+    "constraints": [
+      "1 <= expression.length <= 10^5"
+    ],
+    "inputFormat": [
+      "An expression string"
+    ],
+    "outputFormat": [
+      "Print Redundant or Useful"
+    ],
+    "edgeCases": [
+      "Single variable inside parentheses",
+      "Nested useful parentheses",
+      "Operator directly inside parentheses"
+    ],
     "intendedApproachSummary": "Push characters until ')'. Then pop until '(' and check whether an operator appeared inside that pair.",
-    "wrongApproachHints": ["Balanced parentheses alone is not enough.", "A pair is redundant when no operator is found before its matching '('."],
-    "hints": ["On ')', inspect everything until '('.", "Look for +, -, *, or / inside that pair."],
+    "wrongApproachHints": [
+      "Balanced parentheses alone is not enough.",
+      "A pair is redundant when no operator is found before its matching '('."
+    ],
+    "hints": [
+      "On ')', inspect everything until '('.",
+      "Look for +, -, *, or / inside that pair."
+    ],
     "examples": [
-      { "input": "((a+b))", "output": "Redundant", "explanation": "The outer parentheses do not add an operator grouping." }
+      {
+        "input": "((a+b))",
+        "output": "Redundant",
+        "explanation": "The outer parentheses do not add an operator grouping."
+      }
     ],
     "testCases": [
-      { "input": "((a+b))", "expectedOutput": "Redundant", "visibility": "sample" },
-      { "input": "(a+(b*c))", "expectedOutput": "Useful", "visibility": "hidden" },
-      { "input": "(a)", "expectedOutput": "Redundant", "visibility": "hidden" }
+      {
+        "input": "((a+b))",
+        "expectedOutput": "Redundant",
+        "visibility": "sample"
+      },
+      {
+        "input": "(a+(b*c))",
+        "expectedOutput": "Useful",
+        "visibility": "hidden"
+      },
+      {
+        "input": "(a)",
+        "expectedOutput": "Redundant",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-002", "st-011"],
+    "remedialProblems": [
+      "st-002",
+      "st-011"
+    ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "stack-bracket-practice"
+    "variantGroup": "stack-bracket-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-022",
@@ -1351,31 +1490,71 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["stack-simulation"],
-    "prerequisiteConcepts": ["stack-operations"],
+    "expectedConcepts": [
+      "stack-simulation"
+    ],
+    "prerequisiteConcepts": [
+      "stack-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 22,
     "description": "Given an n x n matrix where knows[i][j] is 1 if person i knows person j, print the celebrity index or -1. A celebrity is known by everyone and knows nobody.",
-    "constraints": ["1 <= n <= 500"],
-    "inputFormat": ["An integer n", "n lines each containing n binary values"],
-    "outputFormat": ["Print the celebrity index, or -1"],
-    "edgeCases": ["No celebrity", "Single person", "Candidate fails final verification"],
+    "constraints": [
+      "1 <= n <= 500"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n lines each containing n binary values"
+    ],
+    "outputFormat": [
+      "Print the celebrity index, or -1"
+    ],
+    "edgeCases": [
+      "No celebrity",
+      "Single person",
+      "Candidate fails final verification"
+    ],
     "intendedApproachSummary": "Eliminate candidates pairwise using a stack, then verify the last remaining candidate against every person.",
-    "wrongApproachHints": ["Elimination only finds a candidate; final verification is still required.", "Do not check every pair if a linear elimination works."],
-    "hints": ["If a knows b, a cannot be celebrity; otherwise b cannot be celebrity.", "Verify row and column conditions for the candidate."],
+    "wrongApproachHints": [
+      "Elimination only finds a candidate; final verification is still required.",
+      "Do not check every pair if a linear elimination works."
+    ],
+    "hints": [
+      "If a knows b, a cannot be celebrity; otherwise b cannot be celebrity.",
+      "Verify row and column conditions for the candidate."
+    ],
     "examples": [
-      { "input": "3\n0 1 1\n0 0 1\n0 0 0", "output": "2", "explanation": "Everyone knows person 2 and person 2 knows nobody." }
+      {
+        "input": "3\n0 1 1\n0 0 1\n0 0 0",
+        "output": "2",
+        "explanation": "Everyone knows person 2 and person 2 knows nobody."
+      }
     ],
     "testCases": [
-      { "input": "3\n0 1 1\n0 0 1\n0 0 0", "expectedOutput": "2", "visibility": "sample" },
-      { "input": "3\n0 1 0\n0 0 1\n1 0 0", "expectedOutput": "-1", "visibility": "hidden" },
-      { "input": "1\n0", "expectedOutput": "0", "visibility": "hidden" }
+      {
+        "input": "3\n0 1 1\n0 0 1\n0 0 0",
+        "expectedOutput": "2",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n0 1 0\n0 0 1\n1 0 0",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "1\n0",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-016"],
+    "remedialProblems": [
+      "st-016"
+    ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "stack-simulation-challenge"
+    "variantGroup": "stack-simulation-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-023",
@@ -1385,31 +1564,72 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["monotonic-stack", "previous-smaller-element"],
-    "prerequisiteConcepts": ["monotonic-stack"],
+    "expectedConcepts": [
+      "monotonic-stack",
+      "previous-smaller-element"
+    ],
+    "prerequisiteConcepts": [
+      "monotonic-stack"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 18,
     "description": "For each array element, print the nearest smaller element to its right, or -1 if none exists.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n space-separated integers"],
-    "outputFormat": ["Print n answers"],
-    "edgeCases": ["Strictly increasing array", "Strictly decreasing array", "Duplicate values"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print n answers"
+    ],
+    "edgeCases": [
+      "Strictly increasing array",
+      "Strictly decreasing array",
+      "Duplicate values"
+    ],
     "intendedApproachSummary": "Traverse from right to left while maintaining an increasing stack of possible smaller answers.",
-    "wrongApproachHints": ["Nested right scans are too slow.", "Pop values that are greater than or equal to the current value."],
-    "hints": ["Process from the end.", "While top >= current, pop it."],
+    "wrongApproachHints": [
+      "Nested right scans are too slow.",
+      "Pop values that are greater than or equal to the current value."
+    ],
+    "hints": [
+      "Process from the end.",
+      "While top >= current, pop it."
+    ],
     "examples": [
-      { "input": "5\n4 8 5 2 25", "output": "2 5 2 -1 -1", "explanation": "Each answer is the first smaller value to the right." }
+      {
+        "input": "5\n4 8 5 2 25",
+        "output": "2 5 2 -1 -1",
+        "explanation": "Each answer is the first smaller value to the right."
+      }
     ],
     "testCases": [
-      { "input": "5\n4 8 5 2 25", "expectedOutput": "2 5 2 -1 -1", "visibility": "sample" },
-      { "input": "4\n1 2 3 4", "expectedOutput": "-1 -1 -1 -1", "visibility": "hidden" },
-      { "input": "4\n4 3 2 1", "expectedOutput": "3 2 1 -1", "visibility": "hidden" }
+      {
+        "input": "5\n4 8 5 2 25",
+        "expectedOutput": "2 5 2 -1 -1",
+        "visibility": "sample"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expectedOutput": "-1 -1 -1 -1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4\n4 3 2 1",
+        "expectedOutput": "3 2 1 -1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-010"],
+    "remedialProblems": [
+      "st-010"
+    ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "monotonic-stack-practice"
+    "variantGroup": "monotonic-stack-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-024",
@@ -1419,31 +1639,74 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["monotonic-stack"],
-    "prerequisiteConcepts": ["monotonic-stack", "previous-smaller-element"],
+    "expectedConcepts": [
+      "monotonic-stack"
+    ],
+    "prerequisiteConcepts": [
+      "monotonic-stack",
+      "previous-smaller-element"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 30,
     "description": "Given an array, print the sum of the minimum value of every contiguous subarray modulo 1000000007.",
-    "constraints": ["1 <= n <= 10^5", "1 <= arr[i] <= 10^9"],
-    "inputFormat": ["An integer n", "n space-separated integers"],
-    "outputFormat": ["Print the sum modulo 1000000007"],
-    "edgeCases": ["Duplicate values", "Strictly increasing array", "Strictly decreasing array"],
+    "constraints": [
+      "1 <= n <= 10^5",
+      "1 <= arr[i] <= 10^9"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the sum modulo 1000000007"
+    ],
+    "edgeCases": [
+      "Duplicate values",
+      "Strictly increasing array",
+      "Strictly decreasing array"
+    ],
     "intendedApproachSummary": "Use monotonic stacks to find how many subarrays choose each element as the minimum, then add value * leftChoices * rightChoices.",
-    "wrongApproachHints": ["Enumerating all subarrays is too slow.", "Handle equal values consistently on one side to avoid double counting."],
-    "hints": ["Find previous strictly smaller and next smaller-or-equal boundaries.", "Each element contributes to left * right subarrays."],
+    "wrongApproachHints": [
+      "Enumerating all subarrays is too slow.",
+      "Handle equal values consistently on one side to avoid double counting."
+    ],
+    "hints": [
+      "Find previous strictly smaller and next smaller-or-equal boundaries.",
+      "Each element contributes to left * right subarrays."
+    ],
     "examples": [
-      { "input": "4\n3 1 2 4", "output": "17", "explanation": "The subarray minimums sum to 17." }
+      {
+        "input": "4\n3 1 2 4",
+        "output": "17",
+        "explanation": "The subarray minimums sum to 17."
+      }
     ],
     "testCases": [
-      { "input": "4\n3 1 2 4", "expectedOutput": "17", "visibility": "sample" },
-      { "input": "3\n11 81 94", "expectedOutput": "444", "visibility": "hidden" },
-      { "input": "3\n2 2 2", "expectedOutput": "12", "visibility": "hidden" }
+      {
+        "input": "4\n3 1 2 4",
+        "expectedOutput": "17",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n11 81 94",
+        "expectedOutput": "444",
+        "visibility": "hidden"
+      },
+      {
+        "input": "3\n2 2 2",
+        "expectedOutput": "12",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-010", "st-014"],
+    "remedialProblems": [
+      "st-010",
+      "st-014"
+    ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.4,
-    "variantGroup": "stack-histogram-challenge"
+    "variantGroup": "stack-histogram-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-025",
@@ -1453,31 +1716,73 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["stack-simulation", "stack-operations"],
-    "prerequisiteConcepts": ["stack-operations"],
+    "expectedConcepts": [
+      "stack-simulation",
+      "stack-operations"
+    ],
+    "prerequisiteConcepts": [
+      "stack-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 14,
     "description": "Given a sequence of scoring operations, print the final score. Integers add a score, C removes the previous score, D adds double the previous score, and + adds the sum of the previous two scores.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n space-separated operations"],
-    "outputFormat": ["Print the final score"],
-    "edgeCases": ["Cancel operation", "Double operation after cancel", "Plus uses two previous valid scores"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated operations"
+    ],
+    "outputFormat": [
+      "Print the final score"
+    ],
+    "edgeCases": [
+      "Cancel operation",
+      "Double operation after cancel",
+      "Plus uses two previous valid scores"
+    ],
     "intendedApproachSummary": "Use a stack of valid scores and apply each operation to the current stack state.",
-    "wrongApproachHints": ["Do not keep canceled scores in the final total.", "The + operation uses the last two valid scores, not the last two raw operations."],
-    "hints": ["Push integers.", "For C pop, for D peek and double, for + inspect the top two values."],
+    "wrongApproachHints": [
+      "Do not keep canceled scores in the final total.",
+      "The + operation uses the last two valid scores, not the last two raw operations."
+    ],
+    "hints": [
+      "Push integers.",
+      "For C pop, for D peek and double, for + inspect the top two values."
+    ],
     "examples": [
-      { "input": "5\n5 2 C D +", "output": "30", "explanation": "The valid scores become 5, 10, and 15." }
+      {
+        "input": "5\n5 2 C D +",
+        "output": "30",
+        "explanation": "The valid scores become 5, 10, and 15."
+      }
     ],
     "testCases": [
-      { "input": "5\n5 2 C D +", "expectedOutput": "30", "visibility": "sample" },
-      { "input": "8\n5 -2 4 C D 9 + +", "expectedOutput": "27", "visibility": "hidden" },
-      { "input": "1\n7", "expectedOutput": "7", "visibility": "hidden" }
+      {
+        "input": "5\n5 2 C D +",
+        "expectedOutput": "30",
+        "visibility": "sample"
+      },
+      {
+        "input": "8\n5 -2 4 C D 9 + +",
+        "expectedOutput": "27",
+        "visibility": "hidden"
+      },
+      {
+        "input": "1\n7",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-001", "st-016"],
+    "remedialProblems": [
+      "st-001",
+      "st-016"
+    ],
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "stack-simulation-review"
+    "variantGroup": "stack-simulation-review",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-026",
@@ -1487,31 +1792,71 @@
     "difficulty": "Easy",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["stack-simulation"],
-    "prerequisiteConcepts": ["stack-operations"],
+    "expectedConcepts": [
+      "stack-simulation"
+    ],
+    "prerequisiteConcepts": [
+      "stack-operations"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Given two strings where # means backspace, print Equal if both strings are equal after applying backspaces, otherwise print Not Equal.",
-    "constraints": ["1 <= s.length, t.length <= 10^5"],
-    "inputFormat": ["A string s", "A string t"],
-    "outputFormat": ["Print Equal or Not Equal"],
-    "edgeCases": ["Backspace on empty text", "Multiple backspaces", "Both become empty"],
+    "constraints": [
+      "1 <= s.length, t.length <= 10^5"
+    ],
+    "inputFormat": [
+      "A string s",
+      "A string t"
+    ],
+    "outputFormat": [
+      "Print Equal or Not Equal"
+    ],
+    "edgeCases": [
+      "Backspace on empty text",
+      "Multiple backspaces",
+      "Both become empty"
+    ],
     "intendedApproachSummary": "Process each string with a stack of characters, popping for # when possible, then compare the final strings.",
-    "wrongApproachHints": ["Do not treat # as a normal character.", "Backspace on an empty stack should do nothing."],
-    "hints": ["Build a helper that returns the processed string.", "Use pop only when the stack is not empty."],
+    "wrongApproachHints": [
+      "Do not treat # as a normal character.",
+      "Backspace on an empty stack should do nothing."
+    ],
+    "hints": [
+      "Build a helper that returns the processed string.",
+      "Use pop only when the stack is not empty."
+    ],
     "examples": [
-      { "input": "ab#c\nad#c", "output": "Equal", "explanation": "Both strings become ac." }
+      {
+        "input": "ab#c\nad#c",
+        "output": "Equal",
+        "explanation": "Both strings become ac."
+      }
     ],
     "testCases": [
-      { "input": "ab#c\nad#c", "expectedOutput": "Equal", "visibility": "sample" },
-      { "input": "a#c\nb", "expectedOutput": "Not Equal", "visibility": "hidden" },
-      { "input": "a##\n#", "expectedOutput": "Equal", "visibility": "hidden" }
+      {
+        "input": "ab#c\nad#c",
+        "expectedOutput": "Equal",
+        "visibility": "sample"
+      },
+      {
+        "input": "a#c\nb",
+        "expectedOutput": "Not Equal",
+        "visibility": "hidden"
+      },
+      {
+        "input": "a##\n#",
+        "expectedOutput": "Equal",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-004"],
+    "remedialProblems": [
+      "st-004"
+    ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "stack-simulation-practice"
+    "variantGroup": "stack-simulation-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-027",
@@ -1521,30 +1866,69 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["monotonic-stack", "next-greater-element"],
-    "prerequisiteConcepts": ["next-greater-element"],
+    "expectedConcepts": [
+      "monotonic-stack",
+      "next-greater-element"
+    ],
+    "prerequisiteConcepts": [
+      "next-greater-element"
+    ],
     "expectedComplexity": "O(n + m)",
     "estimatedMinutes": 20,
     "description": "Given query values nums1 and a reference array nums2 with distinct values, print the next greater element in nums2 for each value in nums1.",
-    "constraints": ["1 <= n, m <= 10^5", "All nums2 values are distinct", "Every nums1 value appears in nums2"],
-    "inputFormat": ["Two integers n and m", "n query values", "m reference values"],
-    "outputFormat": ["Print n answers"],
-    "edgeCases": ["No greater element", "Query value near the end"],
+    "constraints": [
+      "1 <= n, m <= 10^5",
+      "All nums2 values are distinct",
+      "Every nums1 value appears in nums2"
+    ],
+    "inputFormat": [
+      "Two integers n and m",
+      "n query values",
+      "m reference values"
+    ],
+    "outputFormat": [
+      "Print n answers"
+    ],
+    "edgeCases": [
+      "No greater element",
+      "Query value near the end"
+    ],
     "intendedApproachSummary": "Precompute next greater values for nums2 using a monotonic stack, then answer nums1 from a map.",
-    "wrongApproachHints": ["Do not scan nums2 for every query.", "Store next greater by value because nums2 values are distinct."],
-    "hints": ["Traverse nums2 from right to left.", "Map value to its next greater value."],
+    "wrongApproachHints": [
+      "Do not scan nums2 for every query.",
+      "Store next greater by value because nums2 values are distinct."
+    ],
+    "hints": [
+      "Traverse nums2 from right to left.",
+      "Map value to its next greater value."
+    ],
     "examples": [
-      { "input": "3 4\n4 1 2\n1 3 4 2", "output": "-1 3 -1", "explanation": "4 and 2 have no greater value to the right; 1 maps to 3." }
+      {
+        "input": "3 4\n4 1 2\n1 3 4 2",
+        "output": "-1 3 -1",
+        "explanation": "4 and 2 have no greater value to the right; 1 maps to 3."
+      }
     ],
     "testCases": [
-      { "input": "3 4\n4 1 2\n1 3 4 2", "expectedOutput": "-1 3 -1", "visibility": "sample" },
-      { "input": "2 4\n2 4\n1 2 3 4", "expectedOutput": "3 -1", "visibility": "hidden" }
+      {
+        "input": "3 4\n4 1 2\n1 3 4 2",
+        "expectedOutput": "-1 3 -1",
+        "visibility": "sample"
+      },
+      {
+        "input": "2 4\n2 4\n1 2 3 4",
+        "expectedOutput": "3 -1",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-009"],
+    "remedialProblems": [
+      "st-009"
+    ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "monotonic-stack-practice"
+    "variantGroup": "monotonic-stack-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-028",
@@ -1554,30 +1938,67 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["monotonic-stack", "stock-span"],
-    "prerequisiteConcepts": ["stock-span"],
+    "expectedConcepts": [
+      "monotonic-stack",
+      "stock-span"
+    ],
+    "prerequisiteConcepts": [
+      "stock-span"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 22,
     "description": "Given a stream of stock prices, print the span for each price as it arrives.",
-    "constraints": ["1 <= n <= 10^5"],
-    "inputFormat": ["An integer n", "n space-separated prices"],
-    "outputFormat": ["Print n span values"],
-    "edgeCases": ["Strictly increasing stream", "Strictly decreasing stream", "Equal prices"],
+    "constraints": [
+      "1 <= n <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated prices"
+    ],
+    "outputFormat": [
+      "Print n span values"
+    ],
+    "edgeCases": [
+      "Strictly increasing stream",
+      "Strictly decreasing stream",
+      "Equal prices"
+    ],
     "intendedApproachSummary": "Maintain a stack of pairs (price, span). Merge spans while previous prices are less than or equal to the current price.",
-    "wrongApproachHints": ["Do not scan backward for every price.", "When popping smaller prices, add their stored spans to the current span."],
-    "hints": ["Each stack entry stores compressed span information.", "Pop while top price <= current price."],
+    "wrongApproachHints": [
+      "Do not scan backward for every price.",
+      "When popping smaller prices, add their stored spans to the current span."
+    ],
+    "hints": [
+      "Each stack entry stores compressed span information.",
+      "Pop while top price <= current price."
+    ],
     "examples": [
-      { "input": "7\n100 80 60 70 60 75 85", "output": "1 1 1 2 1 4 6", "explanation": "The online form produces the same spans one price at a time." }
+      {
+        "input": "7\n100 80 60 70 60 75 85",
+        "output": "1 1 1 2 1 4 6",
+        "explanation": "The online form produces the same spans one price at a time."
+      }
     ],
     "testCases": [
-      { "input": "7\n100 80 60 70 60 75 85", "expectedOutput": "1 1 1 2 1 4 6", "visibility": "sample" },
-      { "input": "5\n10 10 10 10 10", "expectedOutput": "1 2 3 4 5", "visibility": "hidden" }
+      {
+        "input": "7\n100 80 60 70 60 75 85",
+        "expectedOutput": "1 1 1 2 1 4 6",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n10 10 10 10 10",
+        "expectedOutput": "1 2 3 4 5",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-008"],
+    "remedialProblems": [
+      "st-008"
+    ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "monotonic-stack-challenge"
+    "variantGroup": "monotonic-stack-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "st-029",
@@ -1587,31 +2008,73 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["expression-conversion", "stack-operations"],
-    "prerequisiteConcepts": ["postfix-evaluation", "expression-conversion"],
+    "expectedConcepts": [
+      "expression-conversion",
+      "stack-operations"
+    ],
+    "prerequisiteConcepts": [
+      "postfix-evaluation",
+      "expression-conversion"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
     "description": "Given a postfix expression with single-letter operands and operators +, -, *, /, convert it to a fully parenthesized infix expression.",
-    "constraints": ["1 <= expression.length <= 10^5"],
-    "inputFormat": ["A postfix expression string"],
-    "outputFormat": ["Print the fully parenthesized infix expression"],
-    "edgeCases": ["Single operand", "Nested operations", "Operand order matters"],
+    "constraints": [
+      "1 <= expression.length <= 10^5"
+    ],
+    "inputFormat": [
+      "A postfix expression string"
+    ],
+    "outputFormat": [
+      "Print the fully parenthesized infix expression"
+    ],
+    "edgeCases": [
+      "Single operand",
+      "Nested operations",
+      "Operand order matters"
+    ],
     "intendedApproachSummary": "Push operands as strings. On an operator, pop right then left, combine as (left operator right), and push back.",
-    "wrongApproachHints": ["Popping operands in the wrong order changes the expression.", "Do not omit parentheses for this problem."],
-    "hints": ["For operator op, right = pop(), left = pop().", "Push '(' + left + op + right + ')'."],
+    "wrongApproachHints": [
+      "Popping operands in the wrong order changes the expression.",
+      "Do not omit parentheses for this problem."
+    ],
+    "hints": [
+      "For operator op, right = pop(), left = pop().",
+      "Push '(' + left + op + right + ')'."
+    ],
     "examples": [
-      { "input": "ab+c*", "output": "((a+b)*c)", "explanation": "a+b is formed first, then multiplied by c." }
+      {
+        "input": "ab+c*",
+        "output": "((a+b)*c)",
+        "explanation": "a+b is formed first, then multiplied by c."
+      }
     ],
     "testCases": [
-      { "input": "ab+c*", "expectedOutput": "((a+b)*c)", "visibility": "sample" },
-      { "input": "abc*+", "expectedOutput": "(a+(b*c))", "visibility": "hidden" },
-      { "input": "a", "expectedOutput": "a", "visibility": "hidden" }
+      {
+        "input": "ab+c*",
+        "expectedOutput": "((a+b)*c)",
+        "visibility": "sample"
+      },
+      {
+        "input": "abc*+",
+        "expectedOutput": "(a+(b*c))",
+        "visibility": "hidden"
+      },
+      {
+        "input": "a",
+        "expectedOutput": "a",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-005", "st-011"],
+    "remedialProblems": [
+      "st-005",
+      "st-011"
+    ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "stack-expression-practice"
+    "variantGroup": "stack-expression-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "st-030",
@@ -1621,30 +2084,72 @@
     "difficulty": "Hard",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["monotonic-stack"],
-    "prerequisiteConcepts": ["monotonic-stack"],
+    "expectedConcepts": [
+      "monotonic-stack"
+    ],
+    "prerequisiteConcepts": [
+      "monotonic-stack"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 28,
     "description": "Given a non-negative integer as a string and an integer k, remove exactly k digits so the remaining number is as small as possible. Print 0 if nothing remains.",
-    "constraints": ["1 <= number.length <= 10^5", "0 <= k <= number.length"],
-    "inputFormat": ["A numeric string", "An integer k"],
-    "outputFormat": ["Print the smallest possible number"],
-    "edgeCases": ["Leading zeroes after removal", "k equals length", "Already increasing digits"],
+    "constraints": [
+      "1 <= number.length <= 10^5",
+      "0 <= k <= number.length"
+    ],
+    "inputFormat": [
+      "A numeric string",
+      "An integer k"
+    ],
+    "outputFormat": [
+      "Print the smallest possible number"
+    ],
+    "edgeCases": [
+      "Leading zeroes after removal",
+      "k equals length",
+      "Already increasing digits"
+    ],
     "intendedApproachSummary": "Use a monotonic increasing stack of digits. While the current digit is smaller than the top and removals remain, pop the top.",
-    "wrongApproachHints": ["Do not greedily remove the largest digit without considering order.", "Trim leading zeroes from the final answer."],
-    "hints": ["Pop while stack top > current digit and k > 0.", "If k remains after the scan, remove from the end."],
+    "wrongApproachHints": [
+      "Do not greedily remove the largest digit without considering order.",
+      "Trim leading zeroes from the final answer."
+    ],
+    "hints": [
+      "Pop while stack top > current digit and k > 0.",
+      "If k remains after the scan, remove from the end."
+    ],
     "examples": [
-      { "input": "1432219\n3", "output": "1219", "explanation": "Removing 4, 3, and 2 gives the smallest result." }
+      {
+        "input": "1432219\n3",
+        "output": "1219",
+        "explanation": "Removing 4, 3, and 2 gives the smallest result."
+      }
     ],
     "testCases": [
-      { "input": "1432219\n3", "expectedOutput": "1219", "visibility": "sample" },
-      { "input": "10200\n1", "expectedOutput": "200", "visibility": "hidden" },
-      { "input": "10\n2", "expectedOutput": "0", "visibility": "hidden" }
+      {
+        "input": "1432219\n3",
+        "expectedOutput": "1219",
+        "visibility": "sample"
+      },
+      {
+        "input": "10200\n1",
+        "expectedOutput": "200",
+        "visibility": "hidden"
+      },
+      {
+        "input": "10\n2",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
     ],
-    "remedialProblems": ["st-009", "st-023"],
+    "remedialProblems": [
+      "st-009",
+      "st-023"
+    ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
-    "variantGroup": "monotonic-stack-challenge"
+    "variantGroup": "monotonic-stack-challenge",
+    "learningRole": "mastery"
   }
 ]

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_76dd5045d1e5",
+  "problemId": "arr-001",
+  "reviewedAt": "2026-07-03T01:08:00.740Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

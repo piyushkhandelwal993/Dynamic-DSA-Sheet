@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_c04fb6c66695",
+  "problemId": "arr-001",
+  "reviewedAt": "2026-07-03T14:41:35.653Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "The detector is correct to see max-tracking; the hidden negative cases now catch the bad initialization.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

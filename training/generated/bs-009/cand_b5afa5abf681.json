@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_b5afa5abf681",
+  "importedAt": "2026-07-03T10:18:32.013Z",
+  "problemId": "bs-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "wrong-hour-division",
+  "code": "import java.util.*;\npublic class Main {\n    static long hoursNeeded(int[] piles, int speed) {\n        long hours = 0;\n        for (int pile : piles) {\n            hours += pile / speed;\n        }\n        return hours;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int high = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            high = Math.max(high, piles[i]);\n        }\n        int low = 1;\n        int answer = high;\n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            if (hoursNeeded(piles, mid) <= h) {\n                answer = mid;\n                high = mid - 1;\n            } else {\n                low = mid + 1;\n            }\n        }\n        System.out.println(answer);\n        sc.close();\n    }\n}",
+  "notes": "Uses floor division instead of ceil hours per pile.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_ba6875efaa4f",
+  "problemId": "q-008",
+  "reviewedAt": "2026-07-03T10:23:05.447Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Deque code without expiry eviction is being fully credited as sliding-window deque logic. The detector should require out-of-window removal evidence.",
+  "resolution": "Require explicit window-expiry handling before granting full sliding-window/deque concept credit.",
+  "expectedFacts": [],
+  "forbiddenFacts": [
+    "sliding-window-queue"
+  ],
+  "inferredBugType": "needs-investigation"
+}

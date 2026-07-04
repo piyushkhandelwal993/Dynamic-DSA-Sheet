@@ -8,7 +8,12 @@
       "Using binary search on unsorted data",
       "Updating the wrong side after comparing with mid"
     ],
-    "practiceProblems": ["bs-001", "bs-002"]
+    "practiceProblems": [
+      "bs-001",
+      "bs-003"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "sorted-mid-check",
@@ -19,7 +24,14 @@
       "Forgetting the equality case",
       "Moving both pointers incorrectly"
     ],
-    "practiceProblems": ["bs-001", "bs-005"]
+    "practiceProblems": [
+      "bs-001",
+      "bs-005"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "binary-search-intro"
+    ]
   },
   {
     "id": "lower-bound",
@@ -30,7 +42,16 @@
       "Stopping at any match instead of the first valid index",
       "Returning the wrong insertion position when target is absent"
     ],
-    "practiceProblems": ["bs-002", "bs-004"]
+    "practiceProblems": [
+      "bs-002",
+      "bs-003",
+      "bs-004"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "binary-search-intro",
+      "sorted-mid-check"
+    ]
   },
   {
     "id": "upper-bound",
@@ -41,7 +62,13 @@
       "Using >= instead of >",
       "Confusing upper bound with last occurrence"
     ],
-    "practiceProblems": ["bs-003", "bs-004"]
+    "practiceProblems": [
+      "bs-003"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "lower-bound"
+    ]
   },
   {
     "id": "first-last-occurrence",
@@ -52,7 +79,14 @@
       "Returning the same boundary for both ends",
       "Not handling target absence cleanly"
     ],
-    "practiceProblems": ["bs-003"]
+    "practiceProblems": [
+      "bs-003"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "lower-bound",
+      "upper-bound"
+    ]
   },
   {
     "id": "search-insert-position",
@@ -63,7 +97,13 @@
       "Returning -1 when the target is absent",
       "Returning right instead of the insertion index"
     ],
-    "practiceProblems": ["bs-004"]
+    "practiceProblems": [
+      "bs-004"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "lower-bound"
+    ]
   },
   {
     "id": "rotated-array-search",
@@ -74,7 +114,14 @@
       "Assuming the whole array is globally sorted",
       "Not identifying which half is currently sorted"
     ],
-    "practiceProblems": ["bs-005", "bs-006"]
+    "practiceProblems": [
+      "bs-005",
+      "bs-006"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "sorted-mid-check"
+    ]
   },
   {
     "id": "peak-element",
@@ -85,7 +132,13 @@
       "Using a normal exact-match binary search template",
       "Accessing neighbors without boundary care"
     ],
-    "practiceProblems": ["bs-007"]
+    "practiceProblems": [
+      "bs-007"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "binary-search-intro"
+    ]
   },
   {
     "id": "answer-binary-search",
@@ -96,7 +149,16 @@
       "Searching the input array instead of the answer range",
       "Using a feasibility check that is not monotonic"
     ],
-    "practiceProblems": ["bs-008", "bs-009", "bs-010", "bs-011"]
+    "practiceProblems": [
+      "bs-008",
+      "bs-009",
+      "bs-010",
+      "bs-011"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "binary-search-intro"
+    ]
   },
   {
     "id": "sqrt-binary-search",
@@ -107,7 +169,13 @@
       "Overflowing int when squaring mid",
       "Returning the first larger square instead of the floor"
     ],
-    "practiceProblems": ["bs-008"]
+    "practiceProblems": [
+      "bs-008"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "answer-binary-search"
+    ]
   },
   {
     "id": "capacity-search",
@@ -118,7 +186,15 @@
       "Searching the wrong numeric range",
       "Using a non-monotonic helper"
     ],
-    "practiceProblems": ["bs-009", "bs-010", "bs-011"]
+    "practiceProblems": [
+      "bs-009",
+      "bs-010",
+      "bs-011"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "answer-binary-search"
+    ]
   },
   {
     "id": "partition-binary-search",
@@ -129,6 +205,13 @@
       "Binary searching the larger array instead of the smaller one",
       "Using wrong partition boundaries when one side is empty"
     ],
-    "practiceProblems": ["bs-012"]
+    "practiceProblems": [
+      "bs-012"
+    ],
+    "progressionOrder": 12,
+    "dependsOn": [
+      "lower-bound",
+      "capacity-search"
+    ]
   }
 ]

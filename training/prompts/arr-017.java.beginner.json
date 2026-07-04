@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T16:05:10.722Z",
+  "problemId": "arr-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: arr-017\nTitle: Maximum Consecutive Ones\nTopic: Arrays\nSubtopic: Traversal basics\nLanguage: java\nMode: Complete the Function\nExpected Concepts: array-traversal\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Maximum Consecutive Ones (arr-017)\n * Mode: Complete the function\n * Provided by DSA Sheet: integer array, output formatting, and test driver\n * Expected Complexity: O(n)\n */\nclass Solution {\n    public int maxConsecutiveOnes(int[] nums) {\n        // TODO: implement maxConsecutiveOnes.\n        return 0;\n    }\n}\n"
+}

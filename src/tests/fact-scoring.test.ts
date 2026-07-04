@@ -140,6 +140,67 @@ test("facts-native array scoring gives Java and C++ two-pointer parity", () => {
   assert.equal(javaScore.conceptMatchScore, 100);
 });
 
+test("array matcher recognizes second-largest tracking with enhanced for-loop", () => {
+  const problem = getProblemById("arr-004");
+  assert.ok(problem);
+
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int secondLargest(int[] nums) {
+          int largest = Integer.MIN_VALUE;
+          int secondLargest = Integer.MIN_VALUE;
+
+          for (int value : nums) {
+            if (value > largest) {
+              secondLargest = largest;
+              largest = value;
+            } else if (value > secondLargest && value != largest) {
+              secondLargest = value;
+            }
+          }
+
+          return secondLargest;
+        }
+      }
+    `
+  );
+
+  const expectation = matchProblemExpectations(problem, facts);
+  assert.deepEqual(expectation.detection.missingConcepts, []);
+  assert.equal(expectation.conceptMatchScore, 100);
+});
+
+test("array matcher recognizes sorted-check when comparing against a carried previous value", () => {
+  const problem = getProblemById("arr-002");
+  assert.ok(problem);
+
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public boolean isSorted(int[] nums) {
+          int previous = nums[0];
+
+          for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < previous) {
+              return false;
+            }
+            previous = nums[i];
+          }
+
+          return true;
+        }
+      }
+    `
+  );
+
+  const expectation = matchProblemExpectations(problem, facts);
+  assert.deepEqual(expectation.detection.missingConcepts, []);
+  assert.equal(expectation.conceptMatchScore, 100);
+});
+
 test("array matcher recognizes frequency counting in Java and C++", () => {
   const problem = getProblemById("arr-005");
   assert.ok(problem);

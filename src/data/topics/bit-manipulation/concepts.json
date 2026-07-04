@@ -8,7 +8,12 @@
       "Forgetting to reverse collected remainders",
       "Not handling n = 0"
     ],
-    "practiceProblems": ["bit-001", "bit-002"]
+    "practiceProblems": [
+      "bit-001",
+      "bit-033"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "bitwise-and",
@@ -19,7 +24,15 @@
       "Using logical && instead of bitwise &",
       "Forgetting operator precedence in combined expressions"
     ],
-    "practiceProblems": ["bit-003", "bit-004"]
+    "practiceProblems": [
+      "bit-002",
+      "bit-003",
+      "bit-035"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "binary-representation"
+    ]
   },
   {
     "id": "bitwise-or",
@@ -30,7 +43,14 @@
       "Using OR where XOR was intended",
       "Not building the mask first"
     ],
-    "practiceProblems": ["bit-005", "bit-006"]
+    "practiceProblems": [
+      "bit-004",
+      "bit-019"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "binary-representation"
+    ]
   },
   {
     "id": "bitwise-xor",
@@ -41,7 +61,15 @@
       "Using XOR without understanding cancellation",
       "Mixing XOR and OR in the same trick"
     ],
-    "practiceProblems": ["bit-012", "bit-020"]
+    "practiceProblems": [
+      "bit-011",
+      "bit-020",
+      "bit-038"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "binary-representation"
+    ]
   },
   {
     "id": "bitwise-not",
@@ -52,7 +80,15 @@
       "Forgetting signed integer representation",
       "Expecting only positive outputs"
     ],
-    "practiceProblems": ["bit-015", "bit-016"]
+    "practiceProblems": [
+      "bit-015",
+      "bit-016",
+      "bit-033"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "binary-representation"
+    ]
   },
   {
     "id": "left-shift",
@@ -63,7 +99,15 @@
       "Using Math.pow instead of shift",
       "Confusing bit position from 0-based and 1-based indexing"
     ],
-    "practiceProblems": ["bit-003", "bit-004"]
+    "practiceProblems": [
+      "bit-003",
+      "bit-004",
+      "bit-034"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "binary-representation"
+    ]
   },
   {
     "id": "right-shift",
@@ -74,7 +118,16 @@
       "Using the wrong shift count",
       "Forgetting to mask with 1"
     ],
-    "practiceProblems": ["bit-003", "bit-007"]
+    "practiceProblems": [
+      "bit-007",
+      "bit-008",
+      "bit-034"
+    ],
+    "progressionOrder": 12,
+    "dependsOn": [
+      "binary-representation",
+      "check-ith-bit"
+    ]
   },
   {
     "id": "odd-even-check",
@@ -85,7 +138,15 @@
       "Using modulo even when the exercise expects bitwise practice",
       "Comparing against true instead of 1"
     ],
-    "practiceProblems": ["bit-002", "bit-017"]
+    "practiceProblems": [
+      "bit-002",
+      "bit-017"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "binary-representation",
+      "bitwise-and"
+    ]
   },
   {
     "id": "check-ith-bit",
@@ -96,7 +157,16 @@
       "Using 1-based indexing accidentally",
       "Shifting the mask in the wrong direction"
     ],
-    "practiceProblems": ["bit-003", "bit-018"]
+    "practiceProblems": [
+      "bit-003",
+      "bit-007",
+      "bit-018"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "bitwise-and",
+      "left-shift"
+    ]
   },
   {
     "id": "set-ith-bit",
@@ -107,7 +177,15 @@
       "Using XOR instead of OR",
       "Forgetting to save the updated number"
     ],
-    "practiceProblems": ["bit-004", "bit-019"]
+    "practiceProblems": [
+      "bit-004",
+      "bit-019"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "check-ith-bit",
+      "bitwise-or"
+    ]
   },
   {
     "id": "clear-ith-bit",
@@ -118,7 +196,16 @@
       "Negating the number instead of the mask",
       "Missing parentheses around the shift"
     ],
-    "practiceProblems": ["bit-005", "bit-021"]
+    "practiceProblems": [
+      "bit-005",
+      "bit-021"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "set-ith-bit",
+      "bitwise-not",
+      "bitwise-and"
+    ]
   },
   {
     "id": "toggle-ith-bit",
@@ -129,7 +216,15 @@
       "Using OR so the bit never flips back",
       "Building the wrong mask"
     ],
-    "practiceProblems": ["bit-006", "bit-022"]
+    "practiceProblems": [
+      "bit-006",
+      "bit-022"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "check-ith-bit",
+      "bitwise-xor"
+    ]
   },
   {
     "id": "count-set-bits",
@@ -140,7 +235,17 @@
       "Looping forever on negative numbers",
       "Using string conversion for an intended bit solution"
     ],
-    "practiceProblems": ["bit-008", "bit-009"]
+    "practiceProblems": [
+      "bit-008",
+      "bit-009",
+      "bit-039"
+    ],
+    "progressionOrder": 13,
+    "dependsOn": [
+      "odd-even-check",
+      "right-shift",
+      "bitwise-and"
+    ]
   },
   {
     "id": "brian-kernighan",
@@ -151,7 +256,15 @@
       "Using it without understanding why one bit disappears",
       "Forgetting to increment the counter"
     ],
-    "practiceProblems": ["bit-009", "bit-023"]
+    "practiceProblems": [
+      "bit-009",
+      "bit-023"
+    ],
+    "progressionOrder": 14,
+    "dependsOn": [
+      "count-set-bits",
+      "bitwise-and"
+    ]
   },
   {
     "id": "power-of-two",
@@ -162,7 +275,15 @@
       "Not guarding against n <= 0",
       "Using loops when constant time is expected"
     ],
-    "practiceProblems": ["bit-010", "bit-024"]
+    "practiceProblems": [
+      "bit-010",
+      "bit-024"
+    ],
+    "progressionOrder": 15,
+    "dependsOn": [
+      "count-set-bits",
+      "brian-kernighan"
+    ]
   },
   {
     "id": "xor-tricks",
@@ -173,7 +294,15 @@
       "Not initializing accumulator to 0",
       "Trying XOR on problems where counts are not paired"
     ],
-    "practiceProblems": ["bit-011", "bit-012"]
+    "practiceProblems": [
+      "bit-011",
+      "bit-012",
+      "bit-020"
+    ],
+    "progressionOrder": 16,
+    "dependsOn": [
+      "bitwise-xor"
+    ]
   },
   {
     "id": "single-number",
@@ -184,7 +313,14 @@
       "Sorting first and missing the intended O(1) extra space trick",
       "Using hash maps for a bitwise practice question"
     ],
-    "practiceProblems": ["bit-012", "bit-025"]
+    "practiceProblems": [
+      "bit-012",
+      "bit-025"
+    ],
+    "progressionOrder": 17,
+    "dependsOn": [
+      "xor-tricks"
+    ]
   },
   {
     "id": "two-unique-numbers",
@@ -195,7 +331,15 @@
       "Choosing the wrong distinguishing mask",
       "Forgetting to split into two XOR groups"
     ],
-    "practiceProblems": ["bit-013", "bit-026"]
+    "practiceProblems": [
+      "bit-013",
+      "bit-026"
+    ],
+    "progressionOrder": 19,
+    "dependsOn": [
+      "single-number",
+      "bitwise-and"
+    ]
   },
   {
     "id": "missing-number",
@@ -206,7 +350,15 @@
       "Using sum formula when the exercise wants XOR practice",
       "Forgetting to XOR with n at the end"
     ],
-    "practiceProblems": ["bit-014", "bit-027"]
+    "practiceProblems": [
+      "bit-014",
+      "bit-026",
+      "bit-027"
+    ],
+    "progressionOrder": 18,
+    "dependsOn": [
+      "xor-tricks"
+    ]
   },
   {
     "id": "subsets-using-bits",
@@ -217,7 +369,15 @@
       "Using the wrong upper bound for masks",
       "Reading the wrong bit while building a subset"
     ],
-    "practiceProblems": ["bit-028", "bit-029"]
+    "practiceProblems": [
+      "bit-028",
+      "bit-029"
+    ],
+    "progressionOrder": 20,
+    "dependsOn": [
+      "check-ith-bit",
+      "left-shift"
+    ]
   },
   {
     "id": "bitmasking-basics",
@@ -228,6 +388,16 @@
       "Mutating the wrong state variable",
       "Forgetting to clear a bit during backtracking"
     ],
-    "practiceProblems": ["bit-030", "bit-031"]
+    "practiceProblems": [
+      "bit-030",
+      "bit-025",
+      "bit-031"
+    ],
+    "progressionOrder": 21,
+    "dependsOn": [
+      "subsets-using-bits",
+      "set-ith-bit",
+      "check-ith-bit"
+    ]
   }
 ]

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_c04fb6c66695",
+  "importedAt": "2026-07-03T01:01:55.323Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "starts-from-zero",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int maximum = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] > maximum) {\n                maximum = nums[i];\n            }\n        }\n\n        return maximum;\n    }\n}",
+  "notes": "Incorrect for arrays containing only negative numbers because it initializes maximum to 0.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

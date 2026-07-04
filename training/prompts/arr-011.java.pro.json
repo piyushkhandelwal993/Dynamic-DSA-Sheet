@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T16:05:10.721Z",
+  "problemId": "arr-011",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: arr-011\nTitle: Best Time to Buy and Sell Stock\nTopic: Arrays\nSubtopic: Min and max\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: stock-profit, min-max-array\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Best Time to Buy and Sell Stock (arr-011)\n * Topic: Arrays\n * Subtopic: Min and max\n * Difficulty: Easy\n * Expected Concepts: stock-profit, min-max-array\n * Input:\n * - An integer n\n * - n space-separated stock prices\n * Output:\n * - Print the maximum profit\n * Approach: Track the minimum price seen so far and the best profit seen so far.\n * Sample Input: 6\n7 1 5 3 6 4\n * Sample Output: 5\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n        // TODO: n space-separated stock prices\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Update the minimum first.\n\n        // TODO: Print the maximum profit\n\n        sc.close();\n    }\n}\n"
+}

@@ -5,12 +5,20 @@ export type ProgrammingLanguage = "java" | "cpp";
 export type PracticeMode = "beginner" | "pro";
 export type SolutionMode = "guided-function" | "function" | "partial-program" | "complete-program";
 export type ProblemPoolRole = "core" | "practice" | "review" | "challenge";
+export type ProblemLearningRole = "introduce" | "reinforce" | "mastery";
 export type ContributionType = "test-case" | "bulk-test-cases" | "video-link";
 export type ContributionStatus = "draft" | "validated" | "submitted" | "under-review" | "approved" | "rejected" | "published";
 export type FunctionDriverStrategy =
   | "linked-list-length"
   | "linked-list-search"
   | "linked-list-reverse"
+  | "linked-list-insert-head"
+  | "linked-list-insert-tail"
+  | "linked-list-delete-position"
+  | "linked-list-middle-value"
+  | "linked-list-cycle-detect"
+  | "linked-list-merge-sorted"
+  | "linked-list-remove-duplicates"
   | "array-maximum"
   | "array-sorted-check"
   | "array-second-largest"
@@ -27,6 +35,19 @@ export type FunctionDriverStrategy =
   | "array-pair-sum-sorted"
   | "array-left-rotate-one"
   | "array-max-consecutive-ones"
+  | "array-min-subarray-len"
+  | "array-first-repeating"
+  | "array-equilibrium-index"
+  | "array-zero-sum-exists"
+  | "array-majority-element"
+  | "array-sorted-squares"
+  | "array-max-window-sum"
+  | "array-min-adjacent-diff"
+  | "array-right-rotate-k"
+  | "array-count-subarrays-sum-k"
+  | "array-contains-duplicate"
+  | "array-max-circular-subarray"
+  | "array-max-average-window"
   | "array-reverse"
   | "tree-height"
   | "tree-preorder"
@@ -239,6 +260,7 @@ export interface Problem {
   remedialProblems: string[];
   skipIfMastered: string[];
   poolRole?: ProblemPoolRole;
+  learningRole?: ProblemLearningRole;
   masteryWeight?: number;
   variantGroup?: string;
   selectionTags?: string[];
@@ -255,6 +277,8 @@ export interface Concept {
   exampleJava: string;
   commonMistakes: string[];
   practiceProblems: string[];
+  progressionOrder?: number;
+  dependsOn?: string[];
 }
 
 export interface ProblemProgress {
@@ -347,6 +371,10 @@ export interface AnalysisResult {
     usesStackStructure: boolean;
     usesPushPop: boolean;
     usesMonotonicStack: boolean;
+    usesNextGreaterElement: boolean;
+    usesPreviousSmallerElement: boolean;
+    usesStockSpanPattern: boolean;
+    usesLargestRectangleHistogram: boolean;
     usesParenthesisMatching: boolean;
     usesExpressionConversion: boolean;
     usesMinStackPattern: boolean;
@@ -471,7 +499,7 @@ export interface CppRuntimeStatus {
 
 export type DesktopProblemView = "description" | "examples" | "hints";
 export type DesktopRunMode = "official" | "custom";
-export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "profile";
+export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "profile" | "training";
 
 export interface DesktopPreferences {
   splitRatio: number;
@@ -647,4 +675,182 @@ export interface ProblemSessionResult {
   created: boolean;
   language: ProgrammingLanguage;
   practiceMode: PracticeMode;
+}
+
+export type TrainingCandidateType =
+  | "correct-optimal"
+  | "correct-alternate"
+  | "suboptimal"
+  | "incorrect"
+  | "hardcoded"
+  | "unspecified";
+
+export interface TrainingPromptRecord {
+  schemaVersion: number;
+  generatedAt: string;
+  problemId: string;
+  language: ProgrammingLanguage;
+  practiceMode: PracticeMode;
+  variantsRequested: number;
+  promptVersion: string;
+  prompt: string;
+  fileName: string;
+  filePath: string;
+}
+
+export interface TrainingCandidateRecord {
+  schemaVersion: number;
+  id: string;
+  importedAt: string;
+  problemId: string;
+  language: ProgrammingLanguage;
+  practiceMode: PracticeMode;
+  candidateType: TrainingCandidateType;
+  label: string;
+  code: string;
+  notes: string;
+  model: string;
+  promptVersion: string;
+  sourceFile?: string;
+}
+
+export interface TrainingCandidateEvaluation {
+  schemaVersion: number;
+  evaluatedAt: string;
+  sourceCandidate: string;
+  candidate: TrainingCandidateRecord;
+  execution: ExecutionResult;
+  analyzer: {
+    factIds: string[];
+    matchedConcepts: string[];
+    missingConcepts: string[];
+    conceptMatchScore: number;
+    score: ScoreBreakdown;
+    recommendationHints: string[];
+    evidence: {
+      conceptId: string;
+      matched: boolean;
+      confidence: number;
+      evidence: string[];
+      factIds: string[];
+    }[];
+  };
+  suspicious: boolean;
+  suspiciousReasons: string[];
+}
+
+export type TrainingBugType =
+  | "concept-detector"
+  | "scoring"
+  | "execution-or-template"
+  | "metadata"
+  | "hardcoding-detection"
+  | "needs-investigation";
+
+export interface TrainingReviewRecord {
+  schemaVersion: number;
+  candidateId: string;
+  problemId: string;
+  reviewedAt: string;
+  satisfactory: boolean;
+  bugType: TrainingBugType | null;
+  reviewerNotes: string;
+  resolution: string | null;
+  expectedFacts: string[];
+  forbiddenFacts: string[];
+  inferredBugType: TrainingBugType | null;
+}
+
+export interface TrainingCandidateListItem {
+  candidate: TrainingCandidateRecord;
+  evaluation: TrainingCandidateEvaluation | null;
+  review: TrainingReviewRecord | null;
+}
+
+export interface TrainingProblemSummary {
+  problem: Problem;
+  promptFiles: TrainingPromptRecord[];
+  candidates: TrainingCandidateListItem[];
+}
+
+export interface TrainingBacklogItem {
+  bugType: TrainingBugType;
+  total: number;
+  problemIds: string[];
+  conceptIds: string[];
+  candidateIds: string[];
+  reasons: string[];
+  suggestedFix: string;
+  latestReviewedAt: string;
+}
+
+export interface TrainingBacklogSummary {
+  totalReviewed: number;
+  satisfactoryCount: number;
+  dissatisfactoryCount: number;
+  openBugCount: number;
+  items: TrainingBacklogItem[];
+}
+
+export interface TrainingRegressionCase {
+  candidateId: string;
+  problemId: string;
+  language: ProgrammingLanguage;
+  practiceMode: PracticeMode;
+  bugType: TrainingBugType;
+  candidateType: TrainingCandidateType;
+  code: string;
+  matchedConcepts: string[];
+  missingConcepts: string[];
+  suspiciousReasons: string[];
+  reviewerNotes: string;
+  expectedFacts: string[];
+  forbiddenFacts: string[];
+}
+
+export interface TrainingRegressionBundle {
+  schemaVersion: number;
+  generatedAt: string;
+  totalCases: number;
+  outputPath: string;
+  cases: TrainingRegressionCase[];
+}
+
+export interface TrainingRegressionTestGeneration {
+  schemaVersion: number;
+  generatedAt: string;
+  outputPath: string;
+  activeTests: number;
+  todoTests: number;
+}
+
+export interface TrainingGenerateRequest {
+  problemId?: string;
+  problemIds?: string[];
+  topicId?: string;
+  languages?: ProgrammingLanguage[];
+  modes?: PracticeMode[];
+  variants?: number;
+  supportedOnly?: boolean;
+}
+
+export interface TrainingImportRequest {
+  jsonText: string;
+  problemId?: string;
+  language?: ProgrammingLanguage;
+  practiceMode?: PracticeMode;
+  model?: string;
+  promptVersion?: string;
+  sourceLabel?: string;
+}
+
+export interface TrainingReviewRequest {
+  candidateId: string;
+  problemId: string;
+  satisfactory: boolean;
+  bugType?: TrainingBugType | null;
+  reviewerNotes?: string;
+  resolution?: string | null;
+  expectedFacts?: string[];
+  forbiddenFacts?: string[];
 }

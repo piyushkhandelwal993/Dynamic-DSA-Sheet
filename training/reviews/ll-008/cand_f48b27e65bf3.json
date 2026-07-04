@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_f48b27e65bf3",
+  "problemId": "ll-008",
+  "reviewedAt": "2026-07-03T14:51:18.251Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Visited-set detection is a valid alternate but should not count as fast-slow pointer mastery for this lesson.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

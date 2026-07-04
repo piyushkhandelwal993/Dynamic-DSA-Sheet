@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T10:12:39.948Z",
+  "problemId": "rec-019",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-019\nTitle: Climbing Stairs with Memoization\nTopic: Recursion\nSubtopic: Memoization\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: memoization, tree-recursion\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Climbing Stairs with Memoization (rec-019)\n * Topic: Recursion\n * Subtopic: Memoization\n * Difficulty: Medium\n * Expected Concepts: memoization, tree-recursion\n * Input:\n * - An integer n\n * Output:\n * - Return the total number of ways\n * Approach: The state repeats like Fibonacci. Use a memo table so each stair count is solved only once.\n * Sample Input: 4\n * Sample Output: 5\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: ways(n) depends on ways(n-1) and ways(n-2).\n\n        // TODO: Return the total number of ways\n\n        sc.close();\n    }\n}\n"
+}

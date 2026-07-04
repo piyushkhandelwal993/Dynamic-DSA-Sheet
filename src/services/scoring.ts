@@ -153,9 +153,13 @@ function scoreStackSubmission(
     complexityScore = 25;
   } else if (problem.expectedConcepts.includes("monotonic-stack") && !analysis.signals.usesMonotonicStack) {
     complexityScore = 55;
-  } else if (problem.expectedConcepts.includes("stock-span") && !analysis.signals.usesMonotonicStack) {
+  } else if (problem.expectedConcepts.includes("stock-span") && !analysis.signals.usesStockSpanPattern) {
     complexityScore = 55;
-  } else if (problem.expectedConcepts.includes("next-greater-element") && !analysis.signals.usesMonotonicStack) {
+  } else if (problem.expectedConcepts.includes("next-greater-element") && !analysis.signals.usesNextGreaterElement) {
+    complexityScore = 55;
+  } else if (problem.expectedConcepts.includes("previous-smaller-element") && !analysis.signals.usesPreviousSmallerElement) {
+    complexityScore = 55;
+  } else if (problem.expectedConcepts.includes("largest-rectangle-histogram") && !analysis.signals.usesLargestRectangleHistogram) {
     complexityScore = 55;
   } else if (problem.expectedConcepts.includes("balanced-parentheses") && !analysis.signals.usesParenthesisMatching) {
     complexityScore = 60;

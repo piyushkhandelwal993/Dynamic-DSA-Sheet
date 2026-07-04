@@ -108,7 +108,10 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
     addFact(facts, "algorithms", "min-max-tracking", "high", ["running minimum/maximum update"]);
   }
 
-  if (/\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*-\s*1\s*\]|\w+\s*\[\s*\w+\s*-\s*1\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*\]/.test(content)) {
+  if (
+    /\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*-\s*1\s*\]|\w+\s*\[\s*\w+\s*-\s*1\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*\]/.test(content) ||
+    /if\s*\(\s*\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\)\s*\{?[\s\S]{0,180}\breturn\s+(?:true|false)\b|\w+\s*=\s*\w+\s*\[\s*\w+\s*\]\s*;/.test(content)
+  ) {
     addFact(facts, "algorithms", "adjacent-order-check", "high", ["adjacent array elements compared"]);
   }
 
@@ -270,6 +273,8 @@ function detectStackAndQueue(facts: CodeFacts, content: string): void {
 function detectAdvancedStackTechniques(facts: CodeFacts, content: string): void {
   const hasOperations = hasFactInBuckets(facts, "stack-operations");
   const hasStack = hasFactInBuckets(facts, "stack-like") || hasOperations;
+  const hasRightToLeftTraversal =
+    /for\s*\(\s*(?:int\s+)?\w+\s*=\s*(?:[^;]*size\s*\(\)|[^;]*length|\w+)\s*-\s*1\s*;[\s\S]{0,80}\w+\s*>=\s*0\s*;[\s\S]{0,80}(?:--\w+|\w+--|\w+\s*[-+]=\s*1)\s*\)/.test(content);
 
   if (
     /\btop\s*=\s*-1\b/.test(content) &&
@@ -310,6 +315,7 @@ function detectAdvancedStackTechniques(facts: CodeFacts, content: string): void 
       addFact(facts, "algorithms", "stock-span", "high", ["span derived from previous greater index"]);
     }
     if (
+      hasRightToLeftTraversal &&
       /(?:nextGreater|dailyTemperatures|warmer|answer|ans)\w*/i.test(content) &&
       /(?:<=|<)[\s\S]{0,100}(?:top|back)\s*\(|(?:top|back)\s*\(\)[\s\S]{0,100}(?:<=|<)/.test(content)
     ) {

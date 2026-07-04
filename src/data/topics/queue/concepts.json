@@ -8,18 +8,11 @@
       "Treating a queue like a stack",
       "Removing from the wrong end"
     ],
-    "practiceProblems": ["q-001", "q-002"]
-  },
-  {
-    "id": "queue-operations",
-    "name": "Enqueue Dequeue",
-    "description": "Core queue operations should insert at the rear and remove from the front in O(1).",
-    "exampleJava": "q.offer(x); int y = q.poll();",
-    "commonMistakes": [
-      "Using remove(0) on an ArrayList",
-      "Forgetting empty checks before poll or peek"
+    "practiceProblems": [
+      "q-001"
     ],
-    "practiceProblems": ["q-001", "q-003"]
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "array-queue-implementation",
@@ -30,7 +23,32 @@
       "Not handling capacity limits",
       "Letting front and rear grow without control"
     ],
-    "practiceProblems": ["q-001", "q-002"]
+    "practiceProblems": [
+      "q-001",
+      "q-002"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "queue-intro"
+    ]
+  },
+  {
+    "id": "queue-operations",
+    "name": "Enqueue Dequeue",
+    "description": "Core queue operations should insert at the rear and remove from the front in O(1).",
+    "exampleJava": "q.offer(x); int y = q.poll();",
+    "commonMistakes": [
+      "Using remove(0) on an ArrayList",
+      "Forgetting empty checks before poll or peek"
+    ],
+    "practiceProblems": [
+      "q-001"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "queue-intro",
+      "array-queue-implementation"
+    ]
   },
   {
     "id": "circular-queue",
@@ -41,7 +59,15 @@
       "Confusing full and empty states",
       "Applying modulo in only one pointer update"
     ],
-    "practiceProblems": ["q-002", "q-004"]
+    "practiceProblems": [
+      "q-002",
+      "q-004"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "array-queue-implementation",
+      "queue-operations"
+    ]
   },
   {
     "id": "queue-simulation",
@@ -52,7 +78,14 @@
       "Skipping intermediate queue states",
       "Removing multiple elements without checking availability"
     ],
-    "practiceProblems": ["q-003", "q-005"]
+    "practiceProblems": [
+      "q-003",
+      "q-005"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "queue-operations"
+    ]
   },
   {
     "id": "generate-binary-numbers",
@@ -63,7 +96,13 @@
       "Appending to the wrong parent string",
       "Using recursion instead of queue layering"
     ],
-    "practiceProblems": ["q-005"]
+    "practiceProblems": [
+      "q-005"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "queue-simulation"
+    ]
   },
   {
     "id": "bfs-on-grid",
@@ -74,18 +113,13 @@
       "Revisiting states repeatedly",
       "Mixing DFS recursion with BFS intent"
     ],
-    "practiceProblems": ["q-006", "q-007"]
-  },
-  {
-    "id": "sliding-window-queue",
-    "name": "Sliding Window with Deque",
-    "description": "Use a deque to keep only useful candidates for the current window.",
-    "exampleJava": "while (!dq.isEmpty() && arr[dq.peekLast()] <= arr[i]) dq.pollLast();",
-    "commonMistakes": [
-      "Forgetting to remove out-of-window indices",
-      "Storing values instead of indices when positions matter"
+    "practiceProblems": [
+      "q-006"
     ],
-    "practiceProblems": ["q-008", "q-009"]
+    "progressionOrder": 7,
+    "dependsOn": [
+      "queue-simulation"
+    ]
   },
   {
     "id": "deque-technique",
@@ -96,7 +130,32 @@
       "Removing from the wrong end",
       "Using a plain queue where a deque is required"
     ],
-    "practiceProblems": ["q-008", "q-009", "q-010"]
+    "practiceProblems": [
+      "q-008",
+      "q-009",
+      "q-010"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "queue-operations"
+    ]
+  },
+  {
+    "id": "sliding-window-queue",
+    "name": "Sliding Window with Deque",
+    "description": "Use a deque to keep only useful candidates for the current window.",
+    "exampleJava": "while (!dq.isEmpty() && arr[dq.peekLast()] <= arr[i]) dq.pollLast();",
+    "commonMistakes": [
+      "Forgetting to remove out-of-window indices",
+      "Storing values instead of indices when positions matter"
+    ],
+    "practiceProblems": [
+      "q-008"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "deque-technique"
+    ]
   },
   {
     "id": "top-k-elements",
@@ -107,7 +166,14 @@
       "Using a full sort when K is much smaller than n",
       "Choosing the wrong heap direction"
     ],
-    "practiceProblems": ["q-011", "q-012"]
+    "practiceProblems": [
+      "q-011",
+      "q-012"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "queue-intro"
+    ]
   },
   {
     "id": "task-scheduling-queue",
@@ -118,6 +184,14 @@
       "Not releasing cooled tasks back in time",
       "Using only one structure when two phases are needed"
     ],
-    "practiceProblems": ["q-012", "q-013"]
+    "practiceProblems": [
+      "q-012",
+      "q-013"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "queue-simulation",
+      "top-k-elements"
+    ]
   }
 ]

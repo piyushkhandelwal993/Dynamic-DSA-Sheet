@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_d981eaf82461",
+  "problemId": "arr-002",
+  "reviewedAt": "2026-07-03T14:41:35.655Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Correct O(n) sorted check using a carried previous value should still count as sorted-check.",
+  "resolution": "Extend adjacent-order detection to recognize previous-value comparisons updated each iteration.",
+  "expectedFacts": [
+    "adjacent-order-check"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

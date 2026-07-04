@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:20.674Z",
+  "sourceCandidate": "training/generated/rec-019/cand_710197f4c856.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_710197f4c856",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-n-shortcut",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 1) System.out.println(1);\n        else if (n == 2) System.out.println(2);\n        else if (n == 3) System.out.println(3);\n        else if (n == 4) System.out.println(5);\n        else System.out.println(n);\n        sc.close();\n    }\n}",
+    "notes": "Handles only a few small values directly.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 1,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "array"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "memoization",
+      "tree-recursion"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 45,
+      "finalScore": 67
+    },
+    "recommendationHints": [
+      "Demonstrate memoization explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate tree recursion explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "memoization",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "tree-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

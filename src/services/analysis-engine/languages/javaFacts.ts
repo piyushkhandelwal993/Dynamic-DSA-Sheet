@@ -23,6 +23,8 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   const loopMatches = content.match(/\b(for|while)\s*\(/g) ?? [];
   const methodMatches = content.match(/\b(?:public|private|protected)?\s*(?:static\s+)?(?:void|int|long|boolean|String|char|double|float|List<[^>]+>|Map<[^>]+>|Set<[^>]+>)\s+[a-zA-Z_]\w*\s*\(/g) ?? [];
   const arrayAccessMatches = content.match(/\[[^\]]+\]/g) ?? [];
+  const arrayParameterMatches = content.match(/\b(?:int|long|boolean|char|String|double|float|Integer)\s*\[\]\s*[a-zA-Z_]\w*/g) ?? [];
+  const enhancedForArrayLoop = /for\s*\(\s*(?:final\s+)?(?:int|long|double|float|boolean|char|String|Integer)\s+[a-zA-Z_]\w*\s*:\s*[a-zA-Z_]\w*\s*\)/.test(content);
 
   facts.metrics.loopCount = loopMatches.length;
   facts.metrics.methodCount = methodMatches.length;
@@ -40,8 +42,16 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
     addFact(facts, "complexitySignals", "single-pass", "medium", ["one loop"]);
   }
 
-  if (arrayAccessMatches.length > 0 || /\bnew\s+(?:int|long|boolean|char|String)\s*\[/.test(content)) {
-    addFact(facts, "dataStructures", "array", "high", arrayAccessMatches.slice(0, 4));
+  if (arrayAccessMatches.length > 0 || arrayParameterMatches.length > 0 || enhancedForArrayLoop || /\bnew\s+(?:int|long|boolean|char|String)\s*\[/.test(content)) {
+    addFact(
+      facts,
+      "dataStructures",
+      "array",
+      "high",
+      [...arrayAccessMatches.slice(0, 4), ...arrayParameterMatches.slice(0, 2), ...(enhancedForArrayLoop ? ["enhanced for-loop over array"] : [])]
+    );
+  }
+  if (arrayAccessMatches.length > 0) {
     addFact(facts, "structures", "indexed-access", "high", arrayAccessMatches.slice(0, 4));
   }
   if (/\b(?:HashMap|Map<)/.test(content)) addFact(facts, "dataStructures", "hash-map", "high", ["HashMap/Map"]);
@@ -376,7 +386,10 @@ function detectArrayTechniques(facts: CodeFacts, content: string): void {
     addFact(facts, "algorithms", "min-max-tracking", "high", ["running minimum/maximum update"]);
   }
 
-  if (/\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*-\s*1\s*\]|\w+\s*\[\s*\w+\s*-\s*1\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*\]/.test(content)) {
+  if (
+    /\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*-\s*1\s*\]|\w+\s*\[\s*\w+\s*-\s*1\s*\]\s*[<>]=?\s*\w+\s*\[\s*\w+\s*\]/.test(content) ||
+    /if\s*\(\s*\w+\s*\[\s*\w+\s*\]\s*[<>]=?\s*\w+\s*\)\s*\{?[\s\S]{0,180}\breturn\s+(?:true|false)\b|\w+\s*=\s*\w+\s*\[\s*\w+\s*\]\s*;/.test(content)
+  ) {
     addFact(facts, "algorithms", "adjacent-order-check", "high", ["adjacent array elements compared"]);
   }
 
@@ -449,6 +462,8 @@ function detectMonotonicStack(content: string): boolean {
 function detectAdvancedStackTechniques(facts: CodeFacts, content: string): void {
   const hasOperations = hasFact(facts, "stack-operations");
   const hasStack = hasFact(facts, "stack-like") || hasOperations;
+  const hasRightToLeftTraversal =
+    /for\s*\(\s*(?:int\s+)?\w+\s*=\s*(?:[^;]*length|[^;]*size\s*\(\)|\w+)\s*-\s*1\s*;[\s\S]{0,80}\w+\s*>=\s*0\s*;[\s\S]{0,80}(?:--\w+|\w+--|\w+\s*[-+]=\s*1)\s*\)/.test(content);
 
   if (
     /\btop\s*=\s*-1\b/.test(content) &&
@@ -489,6 +504,7 @@ function detectAdvancedStackTechniques(facts: CodeFacts, content: string): void 
       addFact(facts, "algorithms", "stock-span", "high", ["span derived from previous greater index"]);
     }
     if (
+      hasRightToLeftTraversal &&
       /(?:nextGreater|dailyTemperatures|warmer|answer|ans)\w*/i.test(content) &&
       /(?:<=|<)[\s\S]{0,100}(?:peek|getLast|peekLast)\s*\(|(?:peek|getLast|peekLast)\s*\(\)[\s\S]{0,100}(?:<=|<)/.test(content)
     ) {
@@ -684,9 +700,14 @@ function detectLinkedList(content: string) {
 function detectQueue(content: string) {
   const hasQueueStructure = /\b(?:Queue<|Deque<|ArrayDeque<|LinkedList<|PriorityQueue<)/.test(content);
   const usesEnqueueDequeue = /\.(offer|poll|add|remove|peek|addLast|removeFirst|offerLast|pollFirst|peekFirst)\s*\(/.test(content);
-  const usesDequeWindowPattern =
-    /(while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,120}(peekFirst|peekLast)\s*\(\)|removeFirst\(\)|removeLast\(\)|pollFirst\(\)|pollLast\(\))/.test(content) &&
-    /\b(?:Deque<|ArrayDeque<)/.test(content);
+  const hasDequeStructure = /\b(?:Deque<|ArrayDeque<)/.test(content);
+  const hasWindowExpiry =
+    /(?:peekFirst\s*\(\)\s*(?:<=|<)\s*\w+\s*-\s*\w+|\w+\s*-\s*\w+\s*(?:>=|>)\s*\w+\.peekFirst\s*\(\)|peekFirst\s*\(\)\s*==\s*\w+\s*-\s*\w+)/.test(content) &&
+    /\.(?:pollFirst|removeFirst)\s*\(\)/.test(content);
+  const hasBackDominanceCleanup =
+    /(while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,160}(?:peekLast|getLast)\s*\(\)[\s\S]{0,100}(?:<=|<|>=|>)|while\s*\(\s*!?\w+\.isEmpty\(\)\s*&&[\s\S]{0,160}(?:<=|<|>=|>)[\s\S]{0,100}(?:peekLast|getLast)\s*\(\))/.test(content) &&
+    /\.(?:pollLast|removeLast)\s*\(\)/.test(content);
+  const usesDequeWindowPattern = hasDequeStructure && hasWindowExpiry && hasBackDominanceCleanup;
 
   return {
     usesEnqueueDequeue,

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T16:05:10.722Z",
+  "problemId": "arr-016",
+  "language": "java",
+  "practiceMode": "beginner",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: arr-016\nTitle: Left Rotate Array by One\nTopic: Arrays\nSubtopic: Two pointers\nLanguage: java\nMode: Complete the Function\nExpected Concepts: array-traversal, in-place-array-update\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Left Rotate Array by One (arr-016)\n * Mode: Complete the function\n * Provided by DSA Sheet: integer array, output formatting, and test driver\n * Expected Complexity: O(n)\n */\nclass Solution {\n    public void leftRotateOne(int[] nums) {\n        // TODO: implement leftRotateOne.\n        // Write your code here.\n    }\n}\n"
+}

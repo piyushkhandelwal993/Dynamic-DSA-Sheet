@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_68a470c0769d",
+  "importedAt": "2026-07-03T10:18:32.011Z",
+  "problemId": "q-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "deque-of-indices",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        Deque<Integer> deque = new ArrayDeque<>();\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && deque.peekFirst() <= i - k) {\n                deque.pollFirst();\n            }\n            while (!deque.isEmpty() && values[deque.peekLast()] <= values[i]) {\n                deque.pollLast();\n            }\n            deque.offerLast(i);\n            if (i >= k - 1) {\n                answer.add(values[deque.peekFirst()]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+  "notes": "Canonical deque-based sliding window maximum.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

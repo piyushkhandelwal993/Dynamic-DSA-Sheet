@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:05.770Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/arr-002/cand_78caed243082.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_78caed243082",
+    "importedAt": "2026-07-03T01:17:31.761Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "copy-and-sort",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int[] copy = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(copy);\n\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] != copy[i]) {\n                return false;\n            }\n        }\n\n        return true;\n    }\n}",
+    "notes": "Correct but uses sorting, resulting in O(n log n) time and O(n) space.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "sorting",
+      "array-traversal",
+      "interval-dp",
+      "single-pass",
+      "n-log-n-candidate"
+    ],
+    "matchedConcepts": [
+      "array-traversal"
+    ],
+    "missingConcepts": [
+      "sorted-check"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 50,
+      "qualityScore": 80,
+      "complexityScore": 55,
+      "finalScore": 83
+    },
+    "recommendationHints": [
+      "Demonstrate sorted check explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[i]",
+          "int[] nums",
+          "int[] copy",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

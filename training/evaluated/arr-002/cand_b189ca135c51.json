@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:07.429Z",
+  "sourceCandidate": "training/generated/arr-002/cand_b189ca135c51.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_b189ca135c51",
+    "importedAt": "2026-07-03T01:17:31.763Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-array-check",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        if (nums.length == 5 && nums[0] == 1 && nums[1] == 2 && nums[2] == 3 && nums[3] == 4 && nums[4] == 5) {\n            return true;\n        }\n\n        return false;\n    }\n}",
+    "notes": "Cheating-style solution that only recognizes one expected sample input.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "5\n1 2 2 4 9",
+        "expectedOutput": "Sorted",
+        "actualOutput": "Not Sorted",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "1\n7",
+        "expectedOutput": "Sorted",
+        "actualOutput": "Not Sorted",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "array",
+      "dp-memoization",
+      "dp-state-transition"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "array-traversal",
+      "sorted-check"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 0,
+      "qualityScore": 80,
+      "complexityScore": 55,
+      "finalScore": 36
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass.",
+      "Demonstrate array traversal explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate sorted check explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

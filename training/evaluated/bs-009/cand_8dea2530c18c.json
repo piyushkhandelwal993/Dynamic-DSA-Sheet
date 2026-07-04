@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:15.112Z",
+  "sourceCandidate": "training/generated/bs-009/cand_8dea2530c18c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_8dea2530c18c",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "left-closed-right-open-style",
+    "code": "import java.util.*;\npublic class Main {\n    static long canFinishAt(int[] piles, int speed) {\n        long hours = 0;\n        for (int pile : piles) {\n            hours += (pile + speed - 1L) / speed;\n        }\n        return hours;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int low = 1;\n        int high = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            high = Math.max(high, piles[i]);\n        }\n        while (low < high) {\n            int mid = low + (high - low) / 2;\n            if (canFinishAt(piles, mid) <= h) {\n                high = mid;\n            } else {\n                low = mid + 1;\n            }\n        }\n        System.out.println(low);\n        sc.close();\n    }\n}",
+    "notes": "Uses a low<high variant of answer-space binary search.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 2,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "loop",
+      "recursive-call",
+      "base-case",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "parameterized-recursion",
+      "recursion-on-strings",
+      "recursion-on-arrays",
+      "binary-search",
+      "answer-space-search",
+      "capacity-search",
+      "tree-construction",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "logarithmic-search",
+      "reduced-dp-space",
+      "recursive-base-case",
+      "modulo-division-by-two"
+    ],
+    "matchedConcepts": [
+      "answer-binary-search",
+      "capacity-search"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 80,
+      "complexityScore": 80,
+      "finalScore": 92
+    },
+    "recommendationHints": [
+      "Use the intended bitwise operation instead of repeated modulo or division."
+    ],
+    "evidence": [
+      {
+        "conceptId": "answer-binary-search",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "predicate search over answer range"
+        ],
+        "factIds": [
+          "answer-space-search"
+        ]
+      },
+      {
+        "conceptId": "capacity-search",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "monotonic feasibility predicate tested at middle answer"
+        ],
+        "factIds": [
+          "capacity-search"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

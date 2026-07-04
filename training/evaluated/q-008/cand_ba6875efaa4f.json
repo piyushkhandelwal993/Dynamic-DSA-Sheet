@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:19.667Z",
+  "sourceCandidate": "training/generated/q-008/cand_ba6875efaa4f.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_ba6875efaa4f",
+    "importedAt": "2026-07-03T10:18:32.011Z",
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "no-window-expiry",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        Deque<Integer> deque = new ArrayDeque<>();\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && values[deque.peekLast()] <= values[i]) {\n                deque.pollLast();\n            }\n            deque.offerLast(i);\n            if (i >= k - 1) {\n                answer.add(values[deque.peekFirst()]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+    "notes": "Forgets to remove expired indices from the front.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 2,
+    "failedCases": [
+      {
+        "input": "5 2\n4 2 12 3 8",
+        "expectedOutput": "4 12 12 8",
+        "actualOutput": "4 12 12 12",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "stack-operations",
+      "head-update",
+      "head-tail-update",
+      "queue-operations",
+      "loop",
+      "nested-loop",
+      "array",
+      "stack-like",
+      "queue-like",
+      "array-traversal",
+      "monotonic-stack",
+      "parenthesis-matching",
+      "previous-smaller-element",
+      "queue-simulation",
+      "quadratic-candidate",
+      "linear-amortized",
+      "queue-edge-check",
+      "empty-or-null-check",
+      "binary-string-conversion",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "sliding-window-queue",
+      "deque-technique"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 50,
+      "conceptMatchScore": 0,
+      "qualityScore": 85,
+      "complexityScore": 45,
+      "finalScore": 45
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/2 currently pass.",
+      "Demonstrate sliding window queue explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate deque technique explicitly; it is expected for this problem but was not detected.",
+      "Use direct bit operations instead of converting the value to a string."
+    ],
+    "evidence": [
+      {
+        "conceptId": "sliding-window-queue",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "deque-technique",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

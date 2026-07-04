@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_4d89191498a1",
+  "problemId": "st-009",
+  "reviewedAt": "2026-07-03T10:23:05.446Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Left-to-right previous-greater logic is being over-credited as next-greater-element. The detector should require right-to-left candidate maintenance or equivalent next-greater evidence.",
+  "resolution": "Tighten next-greater detection so previous-greater style scans do not fully match.",
+  "expectedFacts": [],
+  "forbiddenFacts": [
+    "next-greater-element"
+  ],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_32726b18fd45",
+  "problemId": "ll-008",
+  "reviewedAt": "2026-07-03T14:51:18.249Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "This shortcut exploits the problem construction detail instead of demonstrating cycle detection, so it should stay below progression-ready even though it passes the current contract.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

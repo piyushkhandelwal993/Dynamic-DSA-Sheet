@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:09.995Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/arr-004/cand_827782467221.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_827782467221",
+    "importedAt": "2026-07-03T10:18:32.009Z",
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "sort-and-scan-distinct",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        Arrays.sort(nums);\n        int largest = nums[nums.length - 1];\n        for (int i = nums.length - 2; i >= 0; i--) {\n            if (nums[i] != largest) {\n                return nums[i];\n            }\n        }\n        return Integer.MIN_VALUE;\n    }\n}",
+    "notes": "Sorts then scans backward for second distinct value.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 7,
+    "totalCount": 7,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "sorting",
+      "array-traversal",
+      "second-extreme-tracking",
+      "interval-dp",
+      "single-pass",
+      "n-log-n-candidate"
+    ],
+    "matchedConcepts": [
+      "second-largest"
+    ],
+    "missingConcepts": [
+      "min-max-array"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 50,
+      "qualityScore": 80,
+      "complexityScore": 55,
+      "finalScore": 83
+    },
+    "recommendationHints": [
+      "Demonstrate min max array explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "second-largest",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "largest and second-largest state"
+        ],
+        "factIds": [
+          "second-extreme-tracking"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

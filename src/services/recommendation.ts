@@ -3,7 +3,14 @@ import { isRevisionDue } from "./revision";
 import { isConceptMastered } from "./skillProfile";
 import { isNonBitwiseFoundationSolve } from "./approachRules";
 import { isProblemSolvedState } from "./progressionState";
+import { getTopicConcepts, getTopicIdForProblem } from "./storage";
 import { effectiveProblemForPracticeMode } from "./workspace";
+import {
+  buildTopicConceptProgression,
+  getNextUnlockedConceptId,
+  getProblemLearningRole,
+  learningRolePriority
+} from "./learningProgression";
 
 const difficultyRank: Record<string, number> = {
   Easy: 1,
@@ -58,6 +65,14 @@ function stableStudentTieBreak(problem: Problem, skillProfile: SkillProfile): nu
   return hash;
 }
 
+function targetConceptRank(problem: Problem, targetConceptId: string | undefined): number {
+  if (!targetConceptId) {
+    return 1;
+  }
+
+  return problem.expectedConcepts.includes(targetConceptId) || problem.independenceMilestoneFor?.includes(targetConceptId) ? 0 : 1;
+}
+
 function rolePriority(problem: Problem, mode: RecommendationMode): number {
   const role = getProblemPoolRole(problem);
   const priorities: Record<RecommendationMode, Record<ProblemPoolRole, number>> = {
@@ -86,6 +101,10 @@ function rolePriority(problem: Problem, mode: RecommendationMode): number {
 
 function hasMasteredAnyExpectedConcept(problem: Problem, skillProfile: SkillProfile): boolean {
   return problem.expectedConcepts.some((conceptId) => isConceptMastered(skillProfile, conceptId));
+}
+
+function hasMasteredAllExpectedConcepts(problem: Problem, skillProfile: SkillProfile): boolean {
+  return problem.expectedConcepts.every((conceptId) => isConceptMastered(skillProfile, conceptId));
 }
 
 function findIndependenceMilestone(
@@ -240,6 +259,11 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
   }
 
   const weakConceptSet = new Set(skillProfile.weakConcepts);
+  const topicId = problems[0] ? getTopicIdForProblem(problems[0].id) : undefined;
+  const concepts = topicId ? getTopicConcepts(topicId) : [];
+  const progression = buildTopicConceptProgression(problems, concepts);
+  const preferredConceptIds = progression.orderedConceptIds.filter((conceptId) => weakConceptSet.has(conceptId));
+  const targetConceptId = getNextUnlockedConceptId(progression, skillProfile, preferredConceptIds);
   const unsolved = problems.filter((problem) => !isSolved(progress, problem.id));
 
   const sorted = unsolved
@@ -248,8 +272,8 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
         return false;
       }
 
-      const mastered = hasMasteredAnyExpectedConcept(problem, skillProfile);
-      if (mastered && problem.difficulty === "Easy" && getProblemPoolRole(problem) !== "challenge") {
+      const fullyMastered = hasMasteredAllExpectedConcepts(problem, skillProfile);
+      if (fullyMastered && problem.difficulty === "Easy" && getProblemPoolRole(problem) !== "challenge") {
         return false;
       }
 
@@ -257,6 +281,16 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
     })
     .sort((a, b) => {
       const mode = recommendationMode(skillProfile);
+      const aTarget = targetConceptRank(a, targetConceptId);
+      const bTarget = targetConceptRank(b, targetConceptId);
+      if (aTarget !== bTarget) return aTarget - bTarget;
+
+      const aLearningRole = getProblemLearningRole(a, targetConceptId, progression);
+      const bLearningRole = getProblemLearningRole(b, targetConceptId, progression);
+      const aLearningPriority = learningRolePriority(aLearningRole, targetConceptId, skillProfile);
+      const bLearningPriority = learningRolePriority(bLearningRole, targetConceptId, skillProfile);
+      if (aLearningPriority !== bLearningPriority) return aLearningPriority - bLearningPriority;
+
       const aRole = rolePriority(a, mode);
       const bRole = rolePriority(b, mode);
       if (aRole !== bRole) return aRole - bRole;
@@ -285,7 +319,7 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
       (problem) =>
         problem.difficulty === "Easy" &&
         getProblemPoolRole(problem) !== "challenge" &&
-        problem.expectedConcepts.some((conceptId) => isConceptMastered(skillProfile, conceptId))
+        hasMasteredAllExpectedConcepts(problem, skillProfile)
     )
     .map((problem) => problem.id)
     .slice(0, 3);
@@ -297,7 +331,7 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
       problem: chosen,
       reasons: ["Three strong submissions on the same concept allow skipping similar basics."],
       suggestedProblemIds: [chosen.id, ...masteredToSkip],
-      conceptIds: chosen.expectedConcepts
+      conceptIds: targetConceptId ? [targetConceptId] : chosen.expectedConcepts
     };
   }
 
@@ -306,13 +340,17 @@ export function recommendNextProblem(problems: Problem[], progress: ProgressStat
     message: `Recommended next problem: ${chosen.title}.`,
     problem: chosen,
     reasons: [
-      weakConceptSet.size > 0 ? "Weak concepts are being prioritized." : "Progression is unlocked based on solved prerequisites.",
+      targetConceptId
+        ? `Next unlocked concept: ${targetConceptId}.`
+        : weakConceptSet.size > 0
+          ? "Weak concepts are being prioritized."
+          : "Progression is unlocked based on solved prerequisites.",
       weakConceptSet.size > 0
         ? "Review and practice pool problems are preferred when a concept is weak."
-        : "Core path problems are preferred first, with practice and challenge pools used for personalization."
+        : "Concept introduction, reinforcement, and mastery roles decide the next step before pool personalization."
     ],
     suggestedProblemIds: [chosen.id, ...chosen.remedialProblems.slice(0, 2)],
-    conceptIds: chosen.expectedConcepts
+    conceptIds: targetConceptId ? [targetConceptId] : chosen.expectedConcepts
   };
 }
 

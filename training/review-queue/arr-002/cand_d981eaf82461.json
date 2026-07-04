@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T14:32:59.312Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/arr-002/cand_d981eaf82461.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_d981eaf82461",
+    "importedAt": "2026-07-03T01:17:31.760Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "previous-value-check",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int previous = nums[0];\n\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < previous) {\n                return false;\n            }\n            previous = nums[i];\n        }\n\n        return true;\n    }\n}",
+    "notes": "Uses a previous-value variable instead of indexing twice.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "bottom-up-dp",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal"
+    ],
+    "missingConcepts": [
+      "sorted-check"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 50,
+      "qualityScore": 80,
+      "complexityScore": 80,
+      "finalScore": 85
+    },
+    "recommendationHints": [
+      "Demonstrate sorted check explicitly; it is expected for this problem but was not detected."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[0]",
+          "[i]",
+          "int[] nums",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

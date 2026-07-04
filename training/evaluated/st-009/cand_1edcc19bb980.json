@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:22.507Z",
+  "sourceCandidate": "training/generated/st-009/cand_1edcc19bb980.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_1edcc19bb980",
+    "importedAt": "2026-07-03T10:18:32.011Z",
+    "problemId": "st-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-shape-only",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        if (n == 4 && values[0] == 4 && values[1] == 5 && values[2] == 2 && values[3] == 10) {\n            System.out.println(\"5 10 10 -1\");\n        } else {\n            StringBuilder out = new StringBuilder();\n            for (int i = 0; i < n; i++) {\n                if (i > 0) out.append(' ');\n                out.append(-1);\n            }\n            System.out.println(out);\n        }\n        sc.close();\n    }\n}",
+    "notes": "Recognizes the sample and otherwise prints -1 everywhere.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 2,
+    "failedCases": [
+      {
+        "input": "5\n13 7 6 12 10",
+        "expectedOutput": "-1 12 12 -1 -1",
+        "actualOutput": "-1 -1 -1 -1 -1",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "loop",
+      "array",
+      "array-traversal",
+      "dp-memoization",
+      "bottom-up-dp",
+      "dp-state-transition",
+      "dp-space-optimization",
+      "reduced-dp-space",
+      "binary-string-conversion",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "monotonic-stack",
+      "next-greater-element"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 50,
+      "conceptMatchScore": 0,
+      "qualityScore": 60,
+      "complexityScore": 45,
+      "finalScore": 41
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/2 currently pass.",
+      "Demonstrate monotonic stack explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate next greater element explicitly; it is expected for this problem but was not detected.",
+      "Use direct bit operations instead of converting the value to a string."
+    ],
+    "evidence": [
+      {
+        "conceptId": "monotonic-stack",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "next-greater-element",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

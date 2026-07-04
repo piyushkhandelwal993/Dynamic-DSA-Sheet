@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:17.373Z",
+  "sourceCandidate": "training/generated/ll-008/cand_7438d974c414.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_7438d974c414",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "compare-values-not-nodes",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Node slow = head;\n        Node fast = head;\n        boolean cycle = false;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow != null && fast != null && slow.data == fast.data) {\n                cycle = true;\n                break;\n            }\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+    "notes": "Incorrectly compares node values instead of node references.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 4,
+    "failedCases": [
+      {
+        "input": "5\n7 1 7 3 7\n0",
+        "expectedOutput": "No Cycle",
+        "actualOutput": "Cycle",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "linked-list-traversal",
+      "head-tail-update",
+      "loop",
+      "array",
+      "tree-node",
+      "array-traversal",
+      "fast-slow-pointers",
+      "tree-construction",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "reduced-dp-space",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [
+      "ll-fast-slow"
+    ],
+    "missingConcepts": [
+      "ll-cycle-detection"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 75,
+      "conceptMatchScore": 50,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 72
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 3/4 currently pass.",
+      "Demonstrate ll cycle detection explicitly; it is expected for this problem but was not detected.",
+      "Replace literal bit cases with a general mask-based operation."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-fast-slow",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "slow advances once while fast advances twice"
+        ],
+        "factIds": [
+          "fast-slow-pointers"
+        ]
+      },
+      {
+        "conceptId": "ll-cycle-detection",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

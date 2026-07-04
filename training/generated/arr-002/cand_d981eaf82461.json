@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_d981eaf82461",
+  "importedAt": "2026-07-03T01:17:31.760Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "previous-value-check",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int previous = nums[0];\n\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < previous) {\n                return false;\n            }\n            previous = nums[i];\n        }\n\n        return true;\n    }\n}",
+  "notes": "Uses a previous-value variable instead of indexing twice.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

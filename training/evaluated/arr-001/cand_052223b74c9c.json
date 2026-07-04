@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:00.438Z",
+  "sourceCandidate": "training/generated/arr-001/cand_052223b74c9c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_052223b74c9c",
+    "importedAt": "2026-07-03T01:01:55.321Z",
+    "problemId": "arr-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "enhanced-for-loop",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int largestValue = nums[0];\n\n        for (int currentValue : nums) {\n            if (currentValue > largestValue) {\n                largestValue = currentValue;\n            }\n        }\n\n        return largestValue;\n    }\n}",
+    "notes": "Correct O(n) solution using an enhanced for loop.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "adjacent-order-check",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal",
+      "min-max-array"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 96
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[0]",
+          "int[] nums",
+          "enhanced for-loop over array",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "running minimum/maximum update"
+        ],
+        "factIds": [
+          "min-max-tracking"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

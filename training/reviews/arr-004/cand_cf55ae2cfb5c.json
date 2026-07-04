@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_cf55ae2cfb5c",
+  "problemId": "arr-004",
+  "reviewedAt": "2026-07-03T14:41:35.657Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "The duplicate-largest hidden case now catches this execution bug; remaining high concept evidence is acceptable.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

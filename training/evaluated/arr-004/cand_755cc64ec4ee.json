@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:09.258Z",
+  "sourceCandidate": "training/generated/arr-004/cand_755cc64ec4ee.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_755cc64ec4ee",
+    "importedAt": "2026-07-03T10:18:32.009Z",
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "one-pass-second-largest",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value > largest) {\n                secondLargest = largest;\n                largest = value;\n            } else if (value > secondLargest && value != largest) {\n                secondLargest = value;\n            }\n        }\n        return secondLargest;\n    }\n}",
+    "notes": "Tracks largest and second largest distinctly in one pass.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 7,
+    "totalCount": 7,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "second-extreme-tracking",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "single-pass",
+      "reduced-dp-space"
+    ],
+    "matchedConcepts": [
+      "second-largest",
+      "min-max-array"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 96
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "second-largest",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "largest and second-largest state"
+        ],
+        "factIds": [
+          "second-extreme-tracking"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "running minimum/maximum update"
+        ],
+        "factIds": [
+          "min-max-tracking"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

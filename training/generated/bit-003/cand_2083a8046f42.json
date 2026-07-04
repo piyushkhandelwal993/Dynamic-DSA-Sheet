@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_2083a8046f42",
+  "importedAt": "2026-07-03T10:18:32.010Z",
+  "problemId": "bit-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "parity-shortcut",
+  "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        if (index == 0) {\n            return n % 2 != 0 ? 1 : 0;\n        }\n        return 0;\n    }\n}",
+  "notes": "Pretends bit 0 means odd-even and guesses 0 otherwise.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

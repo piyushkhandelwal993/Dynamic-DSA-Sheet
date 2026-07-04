@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_755cc64ec4ee",
+  "importedAt": "2026-07-03T10:18:32.009Z",
+  "problemId": "arr-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass-second-largest",
+  "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value > largest) {\n                secondLargest = largest;\n                largest = value;\n            } else if (value > secondLargest && value != largest) {\n                secondLargest = value;\n            }\n        }\n        return secondLargest;\n    }\n}",
+  "notes": "Tracks largest and second largest distinctly in one pass.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

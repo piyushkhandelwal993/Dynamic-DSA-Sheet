@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:05.233Z",
+  "sourceCandidate": "training/generated/arr-002/cand_488dcdb575a1.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_488dcdb575a1",
+    "importedAt": "2026-07-03T01:17:31.761Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "while-loop-version",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int index = 1;\n\n        while (index < nums.length) {\n            if (nums[index] < nums[index - 1]) {\n                return false;\n            }\n            index++;\n        }\n\n        return true;\n    }\n}",
+    "notes": "Correct O(n) solution using a while loop.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "adjacent-order-check",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal",
+      "sorted-check"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 96
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[index]",
+          "[index - 1]",
+          "int[] nums",
+          "JDK AST: 1 loop statement(s)",
+          "while ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "adjacent array elements compared"
+        ],
+        "factIds": [
+          "adjacent-order-check"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

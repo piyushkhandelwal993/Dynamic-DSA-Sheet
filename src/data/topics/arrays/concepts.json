@@ -8,7 +8,13 @@
       "Using the wrong loop boundary",
       "Skipping the first or last element"
     ],
-    "practiceProblems": ["arr-001", "arr-002"]
+    "practiceProblems": [
+      "arr-001",
+      "arr-013",
+      "arr-017"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "min-max-array",
@@ -19,7 +25,15 @@
       "Initializing from 0 when array can contain negatives",
       "Forgetting to handle a single-element array"
     ],
-    "practiceProblems": ["arr-001", "arr-004"]
+    "practiceProblems": [
+      "arr-001",
+      "arr-025",
+      "arr-004"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "array-traversal"
+    ]
   },
   {
     "id": "sorted-check",
@@ -30,7 +44,13 @@
       "Using > instead of < for ascending checks",
       "Not handling arrays of length 0 or 1"
     ],
-    "practiceProblems": ["arr-002"]
+    "practiceProblems": [
+      "arr-002"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "array-traversal"
+    ]
   },
   {
     "id": "reverse-array",
@@ -41,7 +61,14 @@
       "Not moving both pointers",
       "Using extra memory when in-place reversal is expected"
     ],
-    "practiceProblems": ["arr-003"]
+    "practiceProblems": [
+      "arr-003",
+      "arr-026"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "array-traversal"
+    ]
   },
   {
     "id": "second-largest",
@@ -52,7 +79,13 @@
       "Not handling duplicates carefully",
       "Using sorting for a problem that expects one pass"
     ],
-    "practiceProblems": ["arr-004"]
+    "practiceProblems": [
+      "arr-004"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "min-max-array"
+    ]
   },
   {
     "id": "frequency-counting",
@@ -63,7 +96,15 @@
       "Forgetting to initialize missing counts",
       "Using nested loops unnecessarily"
     ],
-    "practiceProblems": ["arr-005"]
+    "practiceProblems": [
+      "arr-028",
+      "arr-019",
+      "arr-005"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "array-traversal"
+    ]
   },
   {
     "id": "prefix-sum",
@@ -74,7 +115,15 @@
       "Off-by-one errors in prefix indexing",
       "Forgetting the extra 0 at the front"
     ],
-    "practiceProblems": ["arr-006", "arr-012"]
+    "practiceProblems": [
+      "arr-006",
+      "arr-014",
+      "arr-020"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "array-traversal"
+    ]
   },
   {
     "id": "kadane-algorithm",
@@ -85,7 +134,15 @@
       "Resetting to 0 incorrectly when all values are negative",
       "Confusing current sum and best sum"
     ],
-    "practiceProblems": ["arr-007"]
+    "practiceProblems": [
+      "arr-007",
+      "arr-029"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "array-traversal",
+      "min-max-array"
+    ]
   },
   {
     "id": "two-pointers",
@@ -96,7 +153,16 @@
       "Moving only one pointer",
       "Breaking sorted-array assumptions"
     ],
-    "practiceProblems": ["arr-008", "arr-009"]
+    "practiceProblems": [
+      "arr-015",
+      "arr-008",
+      "arr-009"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "sorted-check",
+      "reverse-array"
+    ]
   },
   {
     "id": "in-place-array-update",
@@ -107,7 +173,15 @@
       "Overwriting values too early",
       "Returning the wrong final length"
     ],
-    "practiceProblems": ["arr-008", "arr-009"]
+    "practiceProblems": [
+      "arr-008",
+      "arr-009",
+      "arr-016"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "two-pointers"
+    ]
   },
   {
     "id": "sliding-window",
@@ -118,7 +192,16 @@
       "Forgetting to shrink the window",
       "Using this trick on arrays with negative numbers when it does not apply"
     ],
-    "practiceProblems": ["arr-010"]
+    "practiceProblems": [
+      "arr-024",
+      "arr-030",
+      "arr-010"
+    ],
+    "progressionOrder": 12,
+    "dependsOn": [
+      "prefix-sum",
+      "two-pointers"
+    ]
   },
   {
     "id": "stock-profit",
@@ -129,6 +212,12 @@
       "Buying after selling in the scan logic",
       "Resetting the minimum incorrectly"
     ],
-    "practiceProblems": ["arr-011"]
+    "practiceProblems": [
+      "arr-011"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "min-max-array"
+    ]
   }
 ]

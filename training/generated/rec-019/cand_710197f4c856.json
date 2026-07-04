@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_710197f4c856",
+  "importedAt": "2026-07-03T10:18:32.012Z",
+  "problemId": "rec-019",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "small-n-shortcut",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 1) System.out.println(1);\n        else if (n == 2) System.out.println(2);\n        else if (n == 3) System.out.println(3);\n        else if (n == 4) System.out.println(5);\n        else System.out.println(n);\n        sc.close();\n    }\n}",
+  "notes": "Handles only a few small values directly.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

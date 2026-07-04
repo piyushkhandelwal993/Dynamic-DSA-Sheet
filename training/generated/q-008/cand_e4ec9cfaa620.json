@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_e4ec9cfaa620",
+  "importedAt": "2026-07-03T10:18:32.011Z",
+  "problemId": "q-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "priority-queue-window-max",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            pq.offer(new int[] { values[i], i });\n            while (!pq.isEmpty() && pq.peek()[1] <= i - k) {\n                pq.poll();\n            }\n            if (i >= k - 1) {\n                answer.add(pq.peek()[0]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+  "notes": "Valid O(n log n) max-heap solution instead of a deque.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

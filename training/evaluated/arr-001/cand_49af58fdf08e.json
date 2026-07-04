@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:00.975Z",
+  "sourceCandidate": "training/generated/arr-001/cand_49af58fdf08e.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_49af58fdf08e",
+    "importedAt": "2026-07-03T01:01:55.322Z",
+    "problemId": "arr-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "sort-and-return-last",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        Arrays.sort(nums);\n        return nums[nums.length - 1];\n    }\n}",
+    "notes": "Valid result but suboptimal because sorting takes O(n log n).",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "array",
+      "sorting",
+      "n-log-n-candidate"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "array-traversal",
+      "min-max-array"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 80,
+      "complexityScore": 55,
+      "finalScore": 73
+    },
+    "recommendationHints": [
+      "Demonstrate array traversal explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate min max array explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

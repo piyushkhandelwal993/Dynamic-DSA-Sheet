@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_78caed243082",
+  "importedAt": "2026-07-03T01:17:31.761Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "copy-and-sort",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int[] copy = Arrays.copyOf(nums, nums.length);\n        Arrays.sort(copy);\n\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] != copy[i]) {\n                return false;\n            }\n        }\n\n        return true;\n    }\n}",
+  "notes": "Correct but uses sorting, resulting in O(n log n) time and O(n) space.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

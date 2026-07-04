@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T16:05:10.723Z",
+  "problemId": "arr-022",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: arr-022\nTitle: Majority Element\nTopic: Arrays\nSubtopic: Counting and frequency\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: frequency-counting\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Majority Element (arr-022)\n * Topic: Arrays\n * Subtopic: Counting and frequency\n * Difficulty: Medium\n * Expected Concepts: frequency-counting\n * Input:\n * - An integer n\n * - n space-separated integers\n * Output:\n * - Print the majority element, or -1\n * Approach: Count occurrences with a map and return the first value whose count becomes greater than n/2.\n * Sample Input: 7\n2 2 1 2 3 2 2\n * Sample Output: 2\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n        // TODO: n space-separated integers\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Use a HashMap of counts.\n\n        // TODO: Print the majority element, or -1\n\n        sc.close();\n    }\n}\n"
+}

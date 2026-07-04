@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:22.003Z",
+  "sourceCandidate": "training/generated/rec-019/cand_f3d7753fecdf.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f3d7753fecdf",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "bottom-up-tabulation",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int prev2 = 1;\n        int prev1 = 2;\n        for (int step = 3; step <= n; step++) {\n            int current = prev1 + prev2;\n            prev2 = prev1;\n            prev1 = current;\n        }\n        System.out.println(prev1);\n        sc.close();\n    }\n}",
+    "notes": "Correct iterative DP that avoids recursion altogether.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 1,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "array",
+      "array-traversal",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "dp-state-transition",
+      "single-pass",
+      "reduced-dp-space"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "memoization",
+      "tree-recursion"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 45,
+      "finalScore": 67
+    },
+    "recommendationHints": [
+      "Demonstrate memoization explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate tree recursion explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "memoization",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "tree-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

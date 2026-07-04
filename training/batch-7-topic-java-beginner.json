@@ -1,0 +1,254 @@
+[
+  {
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "one-pass-second-largest",
+    "notes": "Tracks largest and second largest distinctly in one pass.",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value > largest) {\n                secondLargest = largest;\n                largest = value;\n            } else if (value > secondLargest && value != largest) {\n                secondLargest = value;\n            }\n        }\n        return secondLargest;\n    }\n}"
+  },
+  {
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "sort-and-scan-distinct",
+    "notes": "Sorts then scans backward for second distinct value.",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        Arrays.sort(nums);\n        int largest = nums[nums.length - 1];\n        for (int i = nums.length - 2; i >= 0; i--) {\n            if (nums[i] != largest) {\n                return nums[i];\n            }\n        }\n        return Integer.MIN_VALUE;\n    }\n}"
+  },
+  {
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "duplicate-bug",
+    "notes": "Fails when the largest value appears more than once.",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value >= largest) {\n                secondLargest = largest;\n                largest = value;\n            } else if (value > secondLargest) {\n                secondLargest = value;\n            }\n        }\n        return secondLargest;\n    }\n}"
+  },
+  {
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-driven-returns",
+    "notes": "Mostly hardcodes tiny cases and falls back to the first element.",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        if (nums.length == 5 && nums[0] == 1 && nums[1] == 2 && nums[2] == 4 && nums[3] == 5 && nums[4] == 5) {\n            return 4;\n        }\n        if (nums.length == 4 && nums[0] == 9 && nums[1] == 7 && nums[2] == 3 && nums[3] == 1) {\n            return 7;\n        }\n        return nums.length > 1 ? nums[0] : Integer.MIN_VALUE;\n    }\n}"
+  },
+  {
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "mask-and-check",
+    "notes": "Classic left-shift mask plus bitwise AND.",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        int mask = 1 << index;\n        return (n & mask) != 0 ? 1 : 0;\n    }\n}"
+  },
+  {
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "right-shift-and-one",
+    "notes": "Uses right shift instead of an explicit left-shift mask.",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        return (n >> index) & 1;\n    }\n}"
+  },
+  {
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "and-index-directly",
+    "notes": "Incorrectly ANDs with index instead of a shifted mask.",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        return (n & index) != 0 ? 1 : 0;\n    }\n}"
+  },
+  {
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "parity-shortcut",
+    "notes": "Pretends bit 0 means odd-even and guesses 0 otherwise.",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        if (index == 0) {\n            return n % 2 != 0 ? 1 : 0;\n        }\n        return 0;\n    }\n}"
+  },
+  {
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "floyd-cycle-detection",
+    "notes": "Builds optional cycle and uses fast/slow pointers.",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Node slow = head;\n        Node fast = head;\n        boolean cycle = false;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) {\n                cycle = true;\n                break;\n            }\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "visited-set-detection",
+    "notes": "Uses HashSet of node references instead of fast/slow pointers.",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Set<Node> seen = new HashSet<>();\n        Node current = head;\n        boolean cycle = false;\n        while (current != null) {\n            if (!seen.add(current)) {\n                cycle = true;\n                break;\n            }\n            current = current.next;\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "compare-values-not-nodes",
+    "notes": "Incorrectly compares node values instead of node references.",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Node slow = head;\n        Node fast = head;\n        boolean cycle = false;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow != null && fast != null && slow.data == fast.data) {\n                cycle = true;\n                break;\n            }\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "pos-means-cycle-shortcut",
+    "notes": "Uses the construction detail directly instead of actually detecting a cycle.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        for (int i = 0; i < n; i++) {\n            sc.nextInt();\n        }\n        int pos = sc.nextInt();\n        System.out.println(pos > 0 ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "st-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "value-stack-right-to-left",
+    "notes": "Uses a decreasing stack of values scanning from right to left.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!stack.isEmpty() && stack.peek() <= values[i]) {\n                stack.pop();\n            }\n            answer[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(values[i]);\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < n; i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer[i]);\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "st-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "index-stack-right-to-left",
+    "notes": "Uses a decreasing stack of indices instead of raw values.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!stack.isEmpty() && values[stack.peek()] <= values[i]) {\n                stack.pop();\n            }\n            answer[i] = stack.isEmpty() ? -1 : values[stack.peek()];\n            stack.push(i);\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < n; i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer[i]);\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "st-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "previous-greater-confusion",
+    "notes": "Scans from left to right and accidentally computes a previous-greater style answer.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && stack.peek() <= values[i]) {\n                stack.pop();\n            }\n            answer[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(values[i]);\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < n; i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer[i]);\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "st-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-shape-only",
+    "notes": "Recognizes the sample and otherwise prints -1 everywhere.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        if (n == 4 && values[0] == 4 && values[1] == 5 && values[2] == 2 && values[3] == 10) {\n            System.out.println(\"5 10 10 -1\");\n        } else {\n            StringBuilder out = new StringBuilder();\n            for (int i = 0; i < n; i++) {\n                if (i > 0) out.append(' ');\n                out.append(-1);\n            }\n            System.out.println(out);\n        }\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "deque-of-indices",
+    "notes": "Canonical deque-based sliding window maximum.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        Deque<Integer> deque = new ArrayDeque<>();\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && deque.peekFirst() <= i - k) {\n                deque.pollFirst();\n            }\n            while (!deque.isEmpty() && values[deque.peekLast()] <= values[i]) {\n                deque.pollLast();\n            }\n            deque.offerLast(i);\n            if (i >= k - 1) {\n                answer.add(values[deque.peekFirst()]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "priority-queue-window-max",
+    "notes": "Valid O(n log n) max-heap solution instead of a deque.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            pq.offer(new int[] { values[i], i });\n            while (!pq.isEmpty() && pq.peek()[1] <= i - k) {\n                pq.poll();\n            }\n            if (i >= k - 1) {\n                answer.add(pq.peek()[0]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "no-window-expiry",
+    "notes": "Forgets to remove expired indices from the front.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        Deque<Integer> deque = new ArrayDeque<>();\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && values[deque.peekLast()] <= values[i]) {\n                deque.pollLast();\n            }\n            deque.offerLast(i);\n            if (i >= k - 1) {\n                answer.add(values[deque.peekFirst()]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "window-sample-only",
+    "notes": "Returns the sample output when the sample input shape appears.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        if (n == 8 && k == 3 && values[0] == 1 && values[1] == 3) {\n            System.out.println(\"3 3 5 5 6 7\");\n        } else {\n            for (int i = 0; i + k <= n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(values[i]);\n            }\n            System.out.println();\n        }\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "memoized-recursion",
+    "notes": "Uses top-down recursion with memoization.",
+    "code": "import java.util.*;\npublic class Main {\n    static int solve(int n, int[] memo) {\n        if (n <= 2) {\n            return n;\n        }\n        if (memo[n] != -1) {\n            return memo[n];\n        }\n        memo[n] = solve(n - 1, memo) + solve(n - 2, memo);\n        return memo[n];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int[] memo = new int[n + 1];\n        Arrays.fill(memo, -1);\n        memo[1] = 1;\n        memo[2] = 2;\n        System.out.println(solve(n, memo));\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "bottom-up-tabulation",
+    "notes": "Correct iterative DP that avoids recursion altogether.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int prev2 = 1;\n        int prev1 = 2;\n        for (int step = 3; step <= n; step++) {\n            int current = prev1 + prev2;\n            prev2 = prev1;\n            prev1 = current;\n        }\n        System.out.println(prev1);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "wrong-base-cases",
+    "notes": "Incorrectly treats n=2 as one way.",
+    "code": "import java.util.*;\npublic class Main {\n    static int solve(int n) {\n        if (n <= 2) {\n            return 1;\n        }\n        return solve(n - 1) + solve(n - 2);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(solve(n));\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-n-shortcut",
+    "notes": "Handles only a few small values directly.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n == 1) System.out.println(1);\n        else if (n == 2) System.out.println(2);\n        else if (n == 3) System.out.println(3);\n        else if (n == 4) System.out.println(5);\n        else System.out.println(n);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "answer-space-binary-search",
+    "notes": "Binary-searches speed with a monotonic feasibility helper.",
+    "code": "import java.util.*;\npublic class Main {\n    static long hoursNeeded(int[] piles, int speed) {\n        long hours = 0;\n        for (int pile : piles) {\n            hours += (pile + speed - 1L) / speed;\n        }\n        return hours;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int high = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            high = Math.max(high, piles[i]);\n        }\n        int low = 1;\n        int answer = high;\n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            if (hoursNeeded(piles, mid) <= h) {\n                answer = mid;\n                high = mid - 1;\n            } else {\n                low = mid + 1;\n            }\n        }\n        System.out.println(answer);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "left-closed-right-open-style",
+    "notes": "Uses a low<high variant of answer-space binary search.",
+    "code": "import java.util.*;\npublic class Main {\n    static long canFinishAt(int[] piles, int speed) {\n        long hours = 0;\n        for (int pile : piles) {\n            hours += (pile + speed - 1L) / speed;\n        }\n        return hours;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int low = 1;\n        int high = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            high = Math.max(high, piles[i]);\n        }\n        while (low < high) {\n            int mid = low + (high - low) / 2;\n            if (canFinishAt(piles, mid) <= h) {\n                high = mid;\n            } else {\n                low = mid + 1;\n            }\n        }\n        System.out.println(low);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "wrong-hour-division",
+    "notes": "Uses floor division instead of ceil hours per pile.",
+    "code": "import java.util.*;\npublic class Main {\n    static long hoursNeeded(int[] piles, int speed) {\n        long hours = 0;\n        for (int pile : piles) {\n            hours += pile / speed;\n        }\n        return hours;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int high = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            high = Math.max(high, piles[i]);\n        }\n        int low = 1;\n        int answer = high;\n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            if (hoursNeeded(piles, mid) <= h) {\n                answer = mid;\n                high = mid - 1;\n            } else {\n                low = mid + 1;\n            }\n        }\n        System.out.println(answer);\n        sc.close();\n    }\n}"
+  },
+  {
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-speed-shortcut",
+    "notes": "Recognizes the sample and otherwise falls back to the maximum pile.",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int max = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            max = Math.max(max, piles[i]);\n        }\n        if (n == 4 && h == 8 && piles[0] == 3 && piles[1] == 6 && piles[2] == 7 && piles[3] == 11) {\n            System.out.println(4);\n        } else {\n            System.out.println(max);\n        }\n        sc.close();\n    }\n}"
+  }
+]

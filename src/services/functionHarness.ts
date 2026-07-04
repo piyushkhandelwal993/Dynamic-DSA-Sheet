@@ -19,7 +19,16 @@ function javaMethodStub(contract: FunctionContract): string {
     case "linked-list-search":
       return `        return false;`;
     case "linked-list-reverse":
+    case "linked-list-insert-head":
+    case "linked-list-insert-tail":
+    case "linked-list-delete-position":
+    case "linked-list-merge-sorted":
+    case "linked-list-remove-duplicates":
       return `        return head;`;
+    case "linked-list-middle-value":
+      return `        return 0;`;
+    case "linked-list-cycle-detect":
+      return `        return false;`;
     case "array-sorted-check":
       return `        return false;`;
     case "array-maximum":
@@ -28,11 +37,18 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-second-largest":
     case "array-highest-frequency":
     case "array-max-subarray":
+    case "array-min-subarray-len":
+    case "array-first-repeating":
+    case "array-equilibrium-index":
+    case "array-majority-element":
     case "array-remove-duplicates":
     case "array-longest-sum-k-positive":
     case "array-stock-profit":
+    case "array-max-window-sum":
+    case "array-min-adjacent-diff":
     case "array-count-positive":
     case "array-max-consecutive-ones":
+    case "array-max-circular-subarray":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -46,12 +62,18 @@ function javaMethodStub(contract: FunctionContract): string {
     case "bit-base10-complement":
       return `        return 0;`;
     case "array-pair-sum-sorted":
+    case "array-zero-sum-exists":
+    case "array-contains-duplicate":
       return `        return false;`;
     case "array-range-sum":
+    case "array-count-subarrays-sum-k":
       return `        return 0L;`;
+    case "array-max-average-window":
+      return `        return 0.0;`;
     case "bit-binary-string":
       return `        return "";`;
     case "array-product-except-self":
+    case "array-sorted-squares":
     case "array-running-sum":
     case "bit-two-unique-numbers":
     case "bit-swap-two-numbers":
@@ -61,6 +83,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "bit-generate-subsets":
       return `        return new ArrayList<>();`;
     case "array-left-rotate-one":
+    case "array-right-rotate-k":
     case "array-move-zeroes":
     case "array-reverse":
       return `        // Write your code here.`;
@@ -109,7 +132,16 @@ function cppMethodStub(contract: FunctionContract): string {
     case "linked-list-search":
       return `        return false;`;
     case "linked-list-reverse":
+    case "linked-list-insert-head":
+    case "linked-list-insert-tail":
+    case "linked-list-delete-position":
+    case "linked-list-merge-sorted":
+    case "linked-list-remove-duplicates":
       return `        return head;`;
+    case "linked-list-middle-value":
+      return `        return 0;`;
+    case "linked-list-cycle-detect":
+      return `        return false;`;
     case "array-sorted-check":
       return `        return false;`;
     case "array-maximum":
@@ -118,11 +150,18 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-second-largest":
     case "array-highest-frequency":
     case "array-max-subarray":
+    case "array-min-subarray-len":
+    case "array-first-repeating":
+    case "array-equilibrium-index":
+    case "array-majority-element":
     case "array-remove-duplicates":
     case "array-longest-sum-k-positive":
     case "array-stock-profit":
+    case "array-max-window-sum":
+    case "array-min-adjacent-diff":
     case "array-count-positive":
     case "array-max-consecutive-ones":
+    case "array-max-circular-subarray":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -136,12 +175,18 @@ function cppMethodStub(contract: FunctionContract): string {
     case "bit-base10-complement":
       return `        return 0;`;
     case "array-pair-sum-sorted":
+    case "array-zero-sum-exists":
+    case "array-contains-duplicate":
       return `        return false;`;
     case "array-range-sum":
+    case "array-count-subarrays-sum-k":
       return `        return 0LL;`;
+    case "array-max-average-window":
+      return `        return 0.0;`;
     case "bit-binary-string":
       return `        return "";`;
     case "array-product-except-self":
+    case "array-sorted-squares":
     case "array-running-sum":
     case "bit-two-unique-numbers":
     case "bit-swap-two-numbers":
@@ -151,6 +196,7 @@ function cppMethodStub(contract: FunctionContract): string {
     case "bit-generate-subsets":
       return `        return {};`;
     case "array-left-rotate-one":
+    case "array-right-rotate-k":
     case "array-move-zeroes":
     case "array-reverse":
       return `        // Write your code here.`;
@@ -301,6 +347,20 @@ function javaDriverSource(contract: FunctionContract): string {
             System.out.print(current.data);
             first = false;
         }
+    }
+
+    private static Node connectCycle(Node head, int pos) {
+        if (head == null || pos <= 0) return head;
+        Node cycleNode = null;
+        Node tail = head;
+        int index = 1;
+        for (Node current = head; current != null; current = current.next) {
+            if (index == pos) cycleNode = current;
+            tail = current;
+            index++;
+        }
+        if (tail != null) tail.next = cycleNode;
+        return head;
     }`;
 
   const arrayHelpers = `    private static int[] readArray(Scanner sc, int n) {
@@ -442,6 +502,48 @@ function javaDriverSource(contract: FunctionContract): string {
         Node head = readList(sc, n);`;
       invocation = `        printList(new Solution().${contract.functionName}(head));`;
       break;
+    case "linked-list-insert-head":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);
+        int value = sc.nextInt();`;
+      invocation = `        printList(new Solution().${contract.functionName}(head, value));`;
+      break;
+    case "linked-list-insert-tail":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);
+        int value = sc.nextInt();`;
+      invocation = `        printList(new Solution().${contract.functionName}(head, value));`;
+      break;
+    case "linked-list-delete-position":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);
+        int position = sc.nextInt();`;
+      invocation = `        printList(new Solution().${contract.functionName}(head, position));`;
+      break;
+    case "linked-list-middle-value":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(head));`;
+      break;
+    case "linked-list-cycle-detect":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);
+        int pos = sc.nextInt();
+        head = connectCycle(head, pos);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(head) ? "Cycle" : "No Cycle");`;
+      break;
+    case "linked-list-merge-sorted":
+      inputSetup = `        int n = sc.nextInt();
+        Node first = readList(sc, n);
+        int m = sc.nextInt();
+        Node second = readList(sc, m);`;
+      invocation = `        printList(new Solution().${contract.functionName}(first, second));`;
+      break;
+    case "linked-list-remove-duplicates":
+      inputSetup = `        int n = sc.nextInt();
+        Node head = readList(sc, n);`;
+      invocation = `        printList(new Solution().${contract.functionName}(head));`;
+      break;
     case "array-maximum":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -478,6 +580,37 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
       break;
+    case "array-min-subarray-len":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "array-first-repeating":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-equilibrium-index":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-zero-sum-exists":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values) ? "Yes" : "No");`;
+      break;
+    case "array-majority-element":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-sorted-squares":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
     case "array-move-zeroes":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -498,6 +631,17 @@ function javaDriverSource(contract: FunctionContract): string {
       invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
       break;
     case "array-stock-profit":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-max-window-sum":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "array-min-adjacent-diff":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
@@ -529,10 +673,39 @@ function javaDriverSource(contract: FunctionContract): string {
       invocation = `        new Solution().${contract.functionName}(values);
         printArray(values);`;
       break;
+    case "array-right-rotate-k":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        new Solution().${contract.functionName}(values, k);
+        printArray(values);`;
+      break;
     case "array-max-consecutive-ones":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-count-subarrays-sum-k":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "array-contains-duplicate":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values) ? "Yes" : "No");`;
+      break;
+    case "array-max-circular-subarray":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-max-average-window":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(String.format(java.util.Locale.US, "%.1f", new Solution().${contract.functionName}(values, k)));`;
       break;
     case "bit-single-number":
       inputSetup = `        int n = sc.nextInt();
@@ -744,6 +917,20 @@ void printList(Node* head) {
         cout << current->data;
         first = false;
     }
+}
+
+Node* connectCycle(Node* head, int pos) {
+    if (head == nullptr || pos <= 0) return head;
+    Node* cycleNode = nullptr;
+    Node* tail = nullptr;
+    int index = 1;
+    for (Node* current = head; current != nullptr; current = current->next) {
+        if (index == pos) cycleNode = current;
+        tail = current;
+        ++index;
+    }
+    if (tail != nullptr) tail->next = cycleNode;
+    return head;
 }`;
 
   const arrayHelpers = `vector<int> readArray(int n) {
@@ -888,6 +1075,60 @@ void printValues(const vector<int>& values) {
     Node* head = readList(n);`;
       invocation = `    printList(Solution().${contract.functionName}(head));`;
       break;
+    case "linked-list-insert-head":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);
+    int value;
+    cin >> value;`;
+      invocation = `    printList(Solution().${contract.functionName}(head, value));`;
+      break;
+    case "linked-list-insert-tail":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);
+    int value;
+    cin >> value;`;
+      invocation = `    printList(Solution().${contract.functionName}(head, value));`;
+      break;
+    case "linked-list-delete-position":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);
+    int position;
+    cin >> position;`;
+      invocation = `    printList(Solution().${contract.functionName}(head, position));`;
+      break;
+    case "linked-list-middle-value":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(head);`;
+      break;
+    case "linked-list-cycle-detect":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);
+    int pos;
+    cin >> pos;
+    head = connectCycle(head, pos);`;
+      invocation = `    cout << (Solution().${contract.functionName}(head) ? "Cycle" : "No Cycle");`;
+      break;
+    case "linked-list-merge-sorted":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* first = readList(n);
+    int m;
+    cin >> m;
+    Node* second = readList(m);`;
+      invocation = `    printList(Solution().${contract.functionName}(first, second));`;
+      break;
+    case "linked-list-remove-duplicates":
+      inputSetup = `    int n;
+    cin >> n;
+    Node* head = readList(n);`;
+      invocation = `    printList(Solution().${contract.functionName}(head));`;
+      break;
     case "array-maximum":
       inputSetup = `    int n;
     cin >> n;
@@ -931,6 +1172,44 @@ void printValues(const vector<int>& values) {
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
       break;
+    case "array-min-subarray-len":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "array-first-repeating":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-equilibrium-index":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-zero-sum-exists":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(values) ? "Yes" : "No");`;
+      break;
+    case "array-majority-element":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-sorted-squares":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
     case "array-move-zeroes":
       inputSetup = `    int n;
     cin >> n;
@@ -955,6 +1234,18 @@ void printValues(const vector<int>& values) {
       invocation = `    cout << Solution().${contract.functionName}(values, target);`;
       break;
     case "array-stock-profit":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-max-window-sum":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
+    case "array-min-adjacent-diff":
       inputSetup = `    int n;
     cin >> n;
     vector<int> values = readArray(n);`;
@@ -993,11 +1284,42 @@ void printValues(const vector<int>& values) {
       invocation = `    Solution().${contract.functionName}(values);
     printArray(values);`;
       break;
+    case "array-right-rotate-k":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    Solution().${contract.functionName}(values, k);
+    printArray(values);`;
+      break;
     case "array-max-consecutive-ones":
       inputSetup = `    int n;
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-count-subarrays-sum-k":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
+    case "array-contains-duplicate":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(values) ? "Yes" : "No");`;
+      break;
+    case "array-max-circular-subarray":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-max-average-window":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << fixed << setprecision(1) << Solution().${contract.functionName}(values, k);`;
       break;
     case "bit-single-number":
       inputSetup = `    int n;

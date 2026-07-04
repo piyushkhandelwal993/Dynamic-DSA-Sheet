@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_7438d974c414",
+  "problemId": "ll-008",
+  "reviewedAt": "2026-07-03T10:23:05.446Z",
+  "satisfactory": false,
+  "bugType": "execution-or-template",
+  "reviewerNotes": "Incorrect candidate passed because the suite lacks a repeated-value acyclic list where comparing node values would false-positive.",
+  "resolution": "Add a hidden no-cycle case with duplicate node values.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

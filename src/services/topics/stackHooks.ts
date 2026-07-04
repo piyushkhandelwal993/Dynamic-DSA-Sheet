@@ -19,6 +19,10 @@ export function analyzeStackJavaContent(content: string): AnalysisResult {
     usesStackStructure: hasFact(facts, "stack-like"),
     usesPushPop: hasFact(facts, "stack-operations"),
     usesMonotonicStack: hasFact(facts, "monotonic-stack"),
+    usesNextGreaterElement: hasFact(facts, "next-greater-element"),
+    usesPreviousSmallerElement: hasFact(facts, "previous-smaller-element"),
+    usesStockSpanPattern: hasFact(facts, "stock-span"),
+    usesLargestRectangleHistogram: hasFact(facts, "largest-rectangle-histogram"),
     usesParenthesisMatching: hasFact(facts, "parenthesis-matching"),
     usesExpressionConversion: hasFact(facts, "expression-conversion"),
     usesMinStackPattern: hasFact(facts, "min-stack")
@@ -30,6 +34,10 @@ export function analyzeStackJavaContent(content: string): AnalysisResult {
   if (signals.usesStackStructure) detected.push("Used stack-style data structure");
   if (signals.usesPushPop) detected.push("Used push/pop or equivalent stack operations");
   if (signals.usesMonotonicStack) detected.push("Used monotonic stack pattern");
+  if (signals.usesNextGreaterElement) detected.push("Resolved next greater elements");
+  if (signals.usesPreviousSmallerElement) detected.push("Resolved previous smaller elements");
+  if (signals.usesStockSpanPattern) detected.push("Computed stock span from stack state");
+  if (signals.usesLargestRectangleHistogram) detected.push("Used histogram width and height stack logic");
   if (signals.usesParenthesisMatching) detected.push("Used stack for bracket matching");
   if (signals.usesExpressionConversion) detected.push("Used expression-conversion logic");
   if (signals.usesMinStackPattern) detected.push("Tracked stack minimum alongside values");
@@ -61,10 +69,10 @@ export function detectStackConcepts(problem: Problem, analysis: AnalysisResult):
     if (concept === "postfix-evaluation") return analysis.signals.usesPushPop || analysis.signals.usesExpressionConversion;
     if (concept === "min-stack") return analysis.signals.usesMinStackPattern;
     if (concept === "monotonic-stack") return analysis.signals.usesMonotonicStack;
-    if (concept === "stock-span") return analysis.signals.usesMonotonicStack;
-    if (concept === "next-greater-element") return analysis.signals.usesMonotonicStack;
-    if (concept === "previous-smaller-element") return analysis.signals.usesMonotonicStack;
-    if (concept === "largest-rectangle-histogram") return analysis.signals.usesMonotonicStack;
+    if (concept === "stock-span") return analysis.signals.usesStockSpanPattern;
+    if (concept === "next-greater-element") return analysis.signals.usesNextGreaterElement;
+    if (concept === "previous-smaller-element") return analysis.signals.usesPreviousSmallerElement;
+    if (concept === "largest-rectangle-histogram") return analysis.signals.usesLargestRectangleHistogram;
     if (concept === "expression-conversion") return analysis.signals.usesExpressionConversion;
     if (concept === "stack-simulation") return analysis.signals.usesPushPop || analysis.signals.usesStackStructure;
     return false;

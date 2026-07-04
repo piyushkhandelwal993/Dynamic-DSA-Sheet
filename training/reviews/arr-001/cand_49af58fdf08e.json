@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_49af58fdf08e",
+  "problemId": "arr-001",
+  "reviewedAt": "2026-07-03T14:41:35.648Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Sorting reaches the right answer but should remain below progression-ready concept match for max-tracking.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

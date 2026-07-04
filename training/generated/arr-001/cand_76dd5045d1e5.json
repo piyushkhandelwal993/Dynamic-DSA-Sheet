@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_76dd5045d1e5",
+  "importedAt": "2026-07-03T01:01:55.323Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-specific-answer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        if (nums.length == 5 && nums[0] == 1 && nums[1] == 2 && nums[2] == 3 && nums[3] == 4 && nums[4] == 5) {\n            return 5;\n        }\n\n        return nums[0];\n    }\n}",
+  "notes": "Cheating-style solution that handles one likely sample and fails most other cases.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_d34b76c1e888",
+  "problemId": "bit-003",
+  "reviewedAt": "2026-07-03T14:44:32.512Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Right-shift plus AND is a correct alternate for checking the ith bit. It is acceptable for this training pass to leave left-shift unmatched because the lesson specifically teaches the mask-building form.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

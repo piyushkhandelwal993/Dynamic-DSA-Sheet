@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_7256ef742681",
+  "importedAt": "2026-07-03T01:01:55.320Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "single-pass-max",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int maximum = nums[0];\n\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] > maximum) {\n                maximum = nums[i];\n            }\n        }\n\n        return maximum;\n    }\n}",
+  "notes": "Standard O(n) traversal using the first element as the initial maximum.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

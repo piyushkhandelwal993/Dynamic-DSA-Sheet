@@ -3,6 +3,7 @@ export const PORTABLE_CPP_HEADERS = `#include <algorithm>
 #include <cmath>
 #include <deque>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <map>

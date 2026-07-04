@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:10.726Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/arr-004/cand_cf55ae2cfb5c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_cf55ae2cfb5c",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "duplicate-bug",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int secondLargest = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value >= largest) {\n                secondLargest = largest;\n                largest = value;\n            } else if (value > secondLargest) {\n                secondLargest = value;\n            }\n        }\n        return secondLargest;\n    }\n}",
+    "notes": "Fails when the largest value appears more than once.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 6,
+    "totalCount": 7,
+    "failedCases": [
+      {
+        "input": "6\n9 9 4 7 5 2",
+        "expectedOutput": "7",
+        "actualOutput": "9",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "second-extreme-tracking",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "single-pass",
+      "reduced-dp-space"
+    ],
+    "matchedConcepts": [
+      "second-largest",
+      "min-max-array"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 86,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 89
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 6/7 currently pass."
+    ],
+    "evidence": [
+      {
+        "conceptId": "second-largest",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "largest and second-largest state"
+        ],
+        "factIds": [
+          "second-extreme-tracking"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "running minimum/maximum update"
+        ],
+        "factIds": [
+          "min-max-tracking"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_ad8aebc684bf",
+  "importedAt": "2026-07-03T10:18:32.012Z",
+  "problemId": "rec-019",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "memoized-recursion",
+  "code": "import java.util.*;\npublic class Main {\n    static int solve(int n, int[] memo) {\n        if (n <= 2) {\n            return n;\n        }\n        if (memo[n] != -1) {\n            return memo[n];\n        }\n        memo[n] = solve(n - 1, memo) + solve(n - 2, memo);\n        return memo[n];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int[] memo = new int[n + 1];\n        Arrays.fill(memo, -1);\n        memo[1] = 1;\n        memo[2] = 2;\n        System.out.println(solve(n, memo));\n        sc.close();\n    }\n}",
+  "notes": "Uses top-down recursion with memoization.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

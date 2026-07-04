@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:21.127Z",
+  "sourceCandidate": "training/generated/rec-019/cand_ad8aebc684bf.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_ad8aebc684bf",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "memoized-recursion",
+    "code": "import java.util.*;\npublic class Main {\n    static int solve(int n, int[] memo) {\n        if (n <= 2) {\n            return n;\n        }\n        if (memo[n] != -1) {\n            return memo[n];\n        }\n        memo[n] = solve(n - 1, memo) + solve(n - 2, memo);\n        return memo[n];\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int[] memo = new int[n + 1];\n        Arrays.fill(memo, -1);\n        memo[1] = 1;\n        memo[2] = 2;\n        System.out.println(solve(n, memo));\n        sc.close();\n    }\n}",
+    "notes": "Uses top-down recursion with memoization.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 1,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "tree-recursion",
+      "memoization",
+      "parameterized-recursion",
+      "recursion-on-strings",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "dp-memoization",
+      "dp-state-transition",
+      "recursive-base-case"
+    ],
+    "matchedConcepts": [
+      "memoization",
+      "tree-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 93
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "memoization",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive state cached in a table or map"
+        ],
+        "factIds": [
+          "dp-memoization"
+        ]
+      },
+      {
+        "conceptId": "tree-recursion",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST branching recursion in solve",
+          "method called more than once"
+        ],
+        "factIds": [
+          "tree-recursion"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

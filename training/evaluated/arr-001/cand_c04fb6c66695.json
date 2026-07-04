@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:04.170Z",
+  "sourceCandidate": "training/generated/arr-001/cand_c04fb6c66695.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_c04fb6c66695",
+    "importedAt": "2026-07-03T01:01:55.323Z",
+    "problemId": "arr-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "starts-from-zero",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int maximum = 0;\n\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] > maximum) {\n                maximum = nums[i];\n            }\n        }\n\n        return maximum;\n    }\n}",
+    "notes": "Incorrect for arrays containing only negative numbers because it initializes maximum to 0.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "1\n-4",
+        "expectedOutput": "-4",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "4\n-3 -8 -1 -5",
+        "expectedOutput": "-1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "adjacent-order-check",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal",
+      "min-max-array"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 59
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[i]",
+          "int[] nums",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "running minimum/maximum update"
+        ],
+        "factIds": [
+          "min-max-tracking"
+        ]
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:11.999Z",
+  "sourceCandidate": "training/generated/bit-003/cand_119f5e8b622a.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_119f5e8b622a",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "and-index-directly",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        return (n & index) != 0 ? 1 : 0;\n    }\n}",
+    "notes": "Incorrectly ANDs with index instead of a shifted mask.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "10 1",
+        "expectedOutput": "1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "bitwise-and"
+    ],
+    "matchedConcepts": [
+      "bitwise-and"
+    ],
+    "missingConcepts": [
+      "check-ith-bit",
+      "left-shift"
+    ],
+    "conceptMatchScore": 33,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 33,
+      "qualityScore": 75,
+      "complexityScore": 85,
+      "finalScore": 63
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass.",
+      "Demonstrate check ith bit explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate left shift explicitly; it is expected for this problem but was not detected."
+    ],
+    "evidence": [
+      {
+        "conceptId": "check-ith-bit",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "bitwise-and",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST operator AND",
+          "single & operator"
+        ],
+        "factIds": [
+          "bitwise-and"
+        ]
+      },
+      {
+        "conceptId": "left-shift",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

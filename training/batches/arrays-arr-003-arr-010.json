@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-07-03T16:06:00.000Z",
+  "topicId": "arrays",
+  "label": "Arrays arr-003 to arr-010",
+  "problemIds": [
+    "arr-003",
+    "arr-004",
+    "arr-005",
+    "arr-006",
+    "arr-007",
+    "arr-008",
+    "arr-009",
+    "arr-010"
+  ],
+  "languages": [
+    "java",
+    "cpp"
+  ],
+  "modes": [
+    "beginner",
+    "pro"
+  ],
+  "supportedOnly": true,
+  "variantsPerPrompt": 8,
+  "status": {
+    "promptGeneration": "complete",
+    "candidateGeneration": "pending",
+    "import": "pending",
+    "evaluation": "pending",
+    "review": "pending",
+    "regressions": "pending"
+  },
+  "artifacts": {
+    "promptFileCount": 32,
+    "promptDirectory": "training/prompts"
+  },
+  "notes": [
+    "Use beginner mode only where function harness support exists.",
+    "Review suspicious cases problem-by-problem after evaluation."
+  ]
+}

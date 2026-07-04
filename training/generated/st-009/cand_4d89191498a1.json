@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_4d89191498a1",
+  "importedAt": "2026-07-03T10:18:32.011Z",
+  "problemId": "st-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "previous-greater-confusion",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && stack.peek() <= values[i]) {\n                stack.pop();\n            }\n            answer[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(values[i]);\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < n; i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer[i]);\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+  "notes": "Scans from left to right and accidentally computes a previous-greater style answer.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

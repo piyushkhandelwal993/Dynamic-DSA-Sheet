@@ -48,6 +48,17 @@ import { buildWorldZones, buildActiveQuests, getMasterySummary } from "./progres
 import { submitProblemSolution } from "./submission";
 import { runJavaSubmission, runJavaWithCustomInput } from "./javaRunner";
 import { runCppSubmission, runCppWithCustomInput } from "./cppRunner";
+import {
+  evaluateTrainingCandidates,
+  exportTrainingRegressionBundle,
+  generateTrainingRegressionTests,
+  generateTrainingPrompts,
+  getTrainingBacklogSummary,
+  getTrainingProblemSummary,
+  importTrainingCandidates,
+  listTrainingCatalog,
+  saveTrainingReview
+} from "./analyzerTraining";
 
 function buildStreakCalendar() {
   const skillProfile = getSkillProfile();
@@ -463,4 +474,63 @@ export function getDesktopContributionSyncStatus() {
 
 export async function syncDesktopContributionStatuses() {
   return syncContributionStatuses();
+}
+
+export function getDesktopTrainingCatalog() {
+  return listTrainingCatalog();
+}
+
+export function getDesktopTrainingProblemSummary(problemId: string) {
+  return getTrainingProblemSummary(problemId);
+}
+
+export function getDesktopTrainingBacklogSummary() {
+  return getTrainingBacklogSummary();
+}
+
+export function exportDesktopTrainingRegressionBundle() {
+  return exportTrainingRegressionBundle();
+}
+
+export function generateDesktopTrainingRegressionTests() {
+  return generateTrainingRegressionTests();
+}
+
+export function generateDesktopTrainingPrompts(input: {
+  problemId?: string;
+  topicId?: string;
+  languages?: ProgrammingLanguage[];
+  modes?: PracticeMode[];
+  variants?: number;
+}) {
+  return generateTrainingPrompts(input);
+}
+
+export function importDesktopTrainingCandidates(input: {
+  jsonText: string;
+  problemId?: string;
+  language?: ProgrammingLanguage;
+  practiceMode?: PracticeMode;
+  model?: string;
+  promptVersion?: string;
+  sourceLabel?: string;
+}) {
+  return importTrainingCandidates(input);
+}
+
+export function evaluateDesktopTrainingCandidates(filters: { problemId?: string; candidateId?: string } = {}) {
+  return evaluateTrainingCandidates(filters);
+}
+
+export function saveDesktopTrainingReview(input: {
+  candidateId: string;
+  problemId: string;
+  satisfactory: boolean;
+  bugType?: "concept-detector" | "scoring" | "execution-or-template" | "metadata" | "hardcoding-detection" | "needs-investigation" | null;
+  reviewerNotes?: string;
+  resolution?: string | null;
+  expectedFacts?: string[];
+  forbiddenFacts?: string[];
+}) {
+  return saveTrainingReview(input);
 }

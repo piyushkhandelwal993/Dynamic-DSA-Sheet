@@ -128,6 +128,15 @@ ipcMain.handle("desktop:get-contribution-outbox-path", async () => getDesktopApi
 ipcMain.handle("desktop:get-contribution-issue-url", async (_event, contributionId) => getDesktopApi().getDesktopContributionIssueUrl(contributionId));
 ipcMain.handle("desktop:get-contribution-sync-status", async () => getDesktopApi().getDesktopContributionSyncStatus());
 ipcMain.handle("desktop:sync-contribution-statuses", async () => getDesktopApi().syncDesktopContributionStatuses());
+ipcMain.handle("desktop:get-training-catalog", async () => getDesktopApi().getDesktopTrainingCatalog());
+ipcMain.handle("desktop:get-training-problem-summary", async (_event, problemId) => getDesktopApi().getDesktopTrainingProblemSummary(problemId));
+ipcMain.handle("desktop:get-training-backlog-summary", async () => getDesktopApi().getDesktopTrainingBacklogSummary());
+ipcMain.handle("desktop:export-training-regression-bundle", async () => getDesktopApi().exportDesktopTrainingRegressionBundle());
+ipcMain.handle("desktop:generate-training-regression-tests", async () => getDesktopApi().generateDesktopTrainingRegressionTests());
+ipcMain.handle("desktop:generate-training-prompts", async (_event, input) => getDesktopApi().generateDesktopTrainingPrompts(input));
+ipcMain.handle("desktop:import-training-candidates", async (_event, input) => getDesktopApi().importDesktopTrainingCandidates(input));
+ipcMain.handle("desktop:evaluate-training-candidates", async (_event, filters) => getDesktopApi().evaluateDesktopTrainingCandidates(filters));
+ipcMain.handle("desktop:save-training-review", async (_event, input) => getDesktopApi().saveDesktopTrainingReview(input));
 ipcMain.handle("desktop:copy-text", async (_event, value) => {
   clipboard.writeText(typeof value === "string" ? value : "");
   return true;

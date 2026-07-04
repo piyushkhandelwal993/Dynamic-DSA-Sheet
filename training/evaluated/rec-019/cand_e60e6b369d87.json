@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:21.555Z",
+  "sourceCandidate": "training/generated/rec-019/cand_e60e6b369d87.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_e60e6b369d87",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "rec-019",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "wrong-base-cases",
+    "code": "import java.util.*;\npublic class Main {\n    static int solve(int n) {\n        if (n <= 2) {\n            return 1;\n        }\n        return solve(n - 1) + solve(n - 2);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(solve(n));\n        sc.close();\n    }\n}",
+    "notes": "Incorrectly treats n=2 as one way.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "4",
+        "expectedOutput": "5",
+        "actualOutput": "3",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "tree-recursion",
+      "functional-recursion",
+      "recursion-on-strings",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "tree-recursion"
+    ],
+    "missingConcepts": [
+      "memoization"
+    ],
+    "conceptMatchScore": 35,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 35,
+      "qualityScore": 70,
+      "complexityScore": 45,
+      "finalScore": 22
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Demonstrate memoization explicitly; it is expected for this problem but was not detected.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "memoization",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "tree-recursion",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST branching recursion in solve",
+          "method called more than once"
+        ],
+        "factIds": [
+          "tree-recursion"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

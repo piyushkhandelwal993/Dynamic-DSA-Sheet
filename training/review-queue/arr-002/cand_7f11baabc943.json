@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:06.319Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/arr-002/cand_7f11baabc943.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_7f11baabc943",
+    "importedAt": "2026-07-03T01:17:31.762Z",
+    "problemId": "arr-002",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "strictly-increasing-only",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] <= nums[i - 1]) {\n                return false;\n            }\n        }\n\n        return true;\n    }\n}",
+    "notes": "Incorrect because it rejects arrays containing equal adjacent elements.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "5\n1 2 2 4 9",
+        "expectedOutput": "Sorted",
+        "actualOutput": "Not Sorted",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "adjacent-order-check",
+      "bottom-up-dp",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal",
+      "sorted-check"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 78
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[i]",
+          "[i - 1]",
+          "int[] nums",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "sorted-check",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "adjacent array elements compared"
+        ],
+        "factIds": [
+          "adjacent-order-check"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_e428f1b0fa10",
+  "importedAt": "2026-07-03T01:17:31.761Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "nested-verification",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        for (int i = 0; i < nums.length; i++) {\n            for (int j = i + 1; j < nums.length; j++) {\n                if (nums[i] > nums[j]) {\n                    return false;\n                }\n            }\n        }\n\n        return true;\n    }\n}",
+  "notes": "Correct but unnecessarily compares every pair, making it O(n²).",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

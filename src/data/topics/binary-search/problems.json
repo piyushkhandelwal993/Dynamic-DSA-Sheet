@@ -72,7 +72,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "binary-search-foundation"
+    "variantGroup": "binary-search-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-002",
@@ -139,7 +140,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "binary-search-boundary-foundation"
+    "variantGroup": "binary-search-boundary-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-003",
@@ -213,7 +215,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "binary-search-boundary-independence"
+    "variantGroup": "binary-search-boundary-independence",
+    "learningRole": "mastery"
   },
   {
     "id": "bs-004",
@@ -281,7 +284,8 @@
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "binary-search-boundary-review"
+    "variantGroup": "binary-search-boundary-review",
+    "learningRole": "reinforce"
   },
   {
     "id": "bs-005",
@@ -350,7 +354,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "binary-search-rotated-foundation"
+    "variantGroup": "binary-search-rotated-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-006",
@@ -416,7 +421,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "binary-search-rotated-practice"
+    "variantGroup": "binary-search-rotated-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "bs-007",
@@ -484,7 +490,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "binary-search-peak-practice"
+    "variantGroup": "binary-search-peak-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-008",
@@ -551,7 +558,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "binary-search-answer-foundation"
+    "variantGroup": "binary-search-answer-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-009",
@@ -619,7 +627,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "binary-search-capacity-foundation"
+    "variantGroup": "binary-search-capacity-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "bs-010",
@@ -687,7 +696,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "binary-search-capacity-practice"
+    "variantGroup": "binary-search-capacity-practice",
+    "learningRole": "reinforce"
   },
   {
     "id": "bs-011",
@@ -754,7 +764,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
-    "variantGroup": "binary-search-capacity-challenge"
+    "variantGroup": "binary-search-capacity-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "bs-012",
@@ -824,6 +835,7 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.45,
-    "variantGroup": "binary-search-partition-challenge"
+    "variantGroup": "binary-search-partition-challenge",
+    "learningRole": "mastery"
   }
 ]

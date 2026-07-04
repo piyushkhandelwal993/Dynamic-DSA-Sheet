@@ -656,6 +656,26 @@ test("java facts normalize deque sliding-window processing", () => {
   assert.equal(hasFact(facts, "linear-amortized"), true);
 });
 
+test("java facts do not label deque cleanup without expiry as deque-window", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      public class Main {
+        static void maximums(int[] values, int windowSize) {
+          Deque<Integer> deque = new ArrayDeque<>();
+          for (int index = 0; index < values.length; index++) {
+            while (!deque.isEmpty() && values[deque.peekLast()] <= values[index]) deque.pollLast();
+            deque.offerLast(index);
+          }
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "deque-window"), false);
+});
+
 test("java facts normalize recursive tree traversal", () => {
   const facts = analyzeCodeFacts(
     "java",

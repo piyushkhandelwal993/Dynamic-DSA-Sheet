@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:19.147Z",
+  "sourceCandidate": "training/generated/q-008/cand_771a28a20c24.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_771a28a20c24",
+    "importedAt": "2026-07-03T10:18:32.012Z",
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "window-sample-only",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        if (n == 8 && k == 3 && values[0] == 1 && values[1] == 3) {\n            System.out.println(\"3 3 5 5 6 7\");\n        } else {\n            for (int i = 0; i + k <= n; i++) {\n                if (i > 0) System.out.print(\" \");\n                System.out.print(values[i]);\n            }\n            System.out.println();\n        }\n        sc.close();\n    }\n}",
+    "notes": "Returns the sample output when the sample input shape appears.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 2,
+    "failedCases": [
+      {
+        "input": "5 2\n4 2 12 3 8",
+        "expectedOutput": "4 12 12 8",
+        "actualOutput": "4 2 12 3",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "loop",
+      "array",
+      "array-traversal",
+      "dp-memoization",
+      "bottom-up-dp",
+      "dp-state-transition",
+      "dp-space-optimization",
+      "reduced-dp-space",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "sliding-window-queue",
+      "deque-technique"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 50,
+      "conceptMatchScore": 0,
+      "qualityScore": 60,
+      "complexityScore": 45,
+      "finalScore": 41
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/2 currently pass.",
+      "Demonstrate sliding window queue explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate deque technique explicitly; it is expected for this problem but was not detected.",
+      "Replace literal bit cases with a general mask-based operation."
+    ],
+    "evidence": [
+      {
+        "conceptId": "sliding-window-queue",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "deque-technique",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

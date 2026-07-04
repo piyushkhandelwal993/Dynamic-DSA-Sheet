@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_8066b9266ec1",
+  "importedAt": "2026-07-03T01:17:31.759Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "forward-traversal",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < nums[i - 1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
+  "notes": "Standard O(n) solution that checks adjacent elements.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

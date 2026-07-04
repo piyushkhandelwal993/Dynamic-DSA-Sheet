@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_827782467221",
+  "importedAt": "2026-07-03T10:18:32.009Z",
+  "problemId": "arr-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "sort-and-scan-distinct",
+  "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        Arrays.sort(nums);\n        int largest = nums[nums.length - 1];\n        for (int i = nums.length - 2; i >= 0; i--) {\n            if (nums[i] != largest) {\n                return nums[i];\n            }\n        }\n        return Integer.MIN_VALUE;\n    }\n}",
+  "notes": "Sorts then scans backward for second distinct value.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

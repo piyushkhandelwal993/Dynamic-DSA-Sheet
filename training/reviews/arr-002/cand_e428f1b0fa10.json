@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_e428f1b0fa10",
+  "problemId": "arr-002",
+  "reviewedAt": "2026-07-03T14:41:35.655Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "All-pairs order verification is valid but intentionally below the intended adjacent linear pattern.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

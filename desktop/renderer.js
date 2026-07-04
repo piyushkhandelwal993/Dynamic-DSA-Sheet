@@ -28,7 +28,24 @@ const state = {
   practiceMode: "beginner",
   monacoReady: false,
   updateStatus: null,
-  updateDismissed: false
+  updateDismissed: false,
+  training: {
+    catalog: [],
+    topicId: "",
+    problemId: "",
+    language: "java",
+    mode: "beginner",
+    variants: 8,
+    prompts: [],
+    selectedPromptIndex: 0,
+    candidates: [],
+    backlog: null,
+    selectedCandidateId: "",
+    reviewDraftBugType: "needs-investigation",
+    reviewDraftNotes: "",
+    reviewDraftExpectedFacts: "",
+    reviewDraftForbiddenFacts: ""
+  }
 };
 
 const DEFAULT_PREFERENCES = {
@@ -149,6 +166,37 @@ const profileContributionsListEl = document.getElementById("profile-contribution
 const profileContributionSyncNoteEl = document.getElementById("profile-contribution-sync-note");
 const profileOpenContributionOutboxButtonEl = document.getElementById("profile-open-contribution-outbox-button");
 const profileSyncContributionStatusesButtonEl = document.getElementById("profile-sync-contribution-statuses-button");
+const trainingTopicSelectEl = document.getElementById("training-topic-select");
+const trainingProblemSelectEl = document.getElementById("training-problem-select");
+const trainingLanguageSelectEl = document.getElementById("training-language-select");
+const trainingModeSelectEl = document.getElementById("training-mode-select");
+const trainingVariantsInputEl = document.getElementById("training-variants-input");
+const trainingGenerateButtonEl = document.getElementById("training-generate-button");
+const trainingRefreshButtonEl = document.getElementById("training-refresh-button");
+const trainingEvaluateButtonEl = document.getElementById("training-evaluate-button");
+const trainingCopyPromptButtonEl = document.getElementById("training-copy-prompt-button");
+const trainingStatusEl = document.getElementById("training-status");
+const trainingPromptListEl = document.getElementById("training-prompt-list");
+const trainingPromptPreviewEl = document.getElementById("training-prompt-preview");
+const trainingImportInputEl = document.getElementById("training-import-input");
+const trainingImportButtonEl = document.getElementById("training-import-button");
+const trainingCandidateListEl = document.getElementById("training-candidate-list");
+const trainingBacklogSummaryEl = document.getElementById("training-backlog-summary");
+const trainingBacklogListEl = document.getElementById("training-backlog-list");
+const trainingExportRegressionsButtonEl = document.getElementById("training-export-regressions-button");
+const trainingGenerateRegressionTestsButtonEl = document.getElementById("training-generate-regression-tests-button");
+const trainingReviewTitleEl = document.getElementById("training-review-title");
+const trainingReviewMetaEl = document.getElementById("training-review-meta");
+const trainingCandidateCodeEl = document.getElementById("training-candidate-code");
+const trainingEvaluationSummaryEl = document.getElementById("training-evaluation-summary");
+const trainingExecutionSummaryEl = document.getElementById("training-execution-summary");
+const trainingMarkSatisfactoryButtonEl = document.getElementById("training-mark-satisfactory-button");
+const trainingMarkDissatisfactoryButtonEl = document.getElementById("training-mark-dissatisfactory-button");
+const trainingBugTypeSelectEl = document.getElementById("training-bug-type-select");
+const trainingReviewNotesEl = document.getElementById("training-review-notes");
+const trainingExpectedFactsInputEl = document.getElementById("training-expected-facts-input");
+const trainingForbiddenFactsInputEl = document.getElementById("training-forbidden-facts-input");
+const trainingReviewStatusEl = document.getElementById("training-review-status");
 const streakSummaryEl = document.getElementById("streak-summary");
 const streakCalendarEl = document.getElementById("streak-calendar");
 const submissionTrendEl = document.getElementById("submission-trend");
@@ -209,6 +257,7 @@ const videoModalOverlayEl = document.getElementById("video-modal-overlay");
 const videoModalTitleEl = document.getElementById("video-modal-title");
 const videoModalProblemEl = document.getElementById("video-modal-problem");
 const videoModalFrameEl = document.getElementById("video-modal-frame");
+const videoModalNoteEl = document.getElementById("video-modal-note");
 const videoModalOpenYoutubeEl = document.getElementById("video-modal-open-youtube");
 const videoModalCloseButtonEl = document.getElementById("video-modal-close-button");
 const contributionModalOverlayEl = document.getElementById("contribution-modal-overlay");
@@ -247,7 +296,8 @@ const viewEls = {
   progress: document.getElementById("progress-view"),
   world: document.getElementById("world-view"),
   problems: document.getElementById("problems-view"),
-  profile: document.getElementById("profile-view")
+  profile: document.getElementById("profile-view"),
+  training: document.getElementById("training-view")
 };
 
 function resetAppScrollPosition() {
@@ -1277,7 +1327,7 @@ function getYouTubeEmbedUrl(url) {
     }
 
     if (!videoId) return null;
-    return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?rel=0&modestbranding=1&autoplay=1`;
+    return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?rel=0&modestbranding=1&playsinline=1&autoplay=1`;
   } catch {
     return null;
   }
@@ -1297,6 +1347,9 @@ function showVideoModal(problem) {
 
   videoModalTitleEl.textContent = state.videoModal.title;
   videoModalProblemEl.textContent = `${problem.id} · ${problem.title}`;
+  if (videoModalNoteEl) {
+    videoModalNoteEl.textContent = "If YouTube blocks playback inside the desktop app, open the video directly in YouTube.";
+  }
   videoModalFrameEl.src = embedUrl;
   if (!videoModalOverlayEl.open) {
     videoModalOverlayEl.showModal();
@@ -2039,6 +2092,321 @@ function renderProfilePage() {
   });
 }
 
+async function ensureTrainingCatalogLoaded() {
+  if (state.training.catalog.length > 0) {
+    return;
+  }
+
+  state.training.catalog = await window.dsaDesktop.getTrainingCatalog();
+  state.training.backlog = await window.dsaDesktop.getTrainingBacklogSummary();
+  const fallbackTopicId = state.bootstrap?.activeTopicId ?? state.training.catalog[0]?.id ?? "";
+  state.training.topicId = state.training.catalog.some((topic) => topic.id === state.training.topicId)
+    ? state.training.topicId
+    : fallbackTopicId;
+
+  syncTrainingSelections();
+  if (state.training.problemId) {
+    await refreshTrainingProblemSummary({ preserveCandidate: false });
+  }
+}
+
+function trainingProblems() {
+  return state.training.catalog.find((topic) => topic.id === state.training.topicId)?.problems ?? [];
+}
+
+function syncTrainingSelections() {
+  if (!state.training.catalog.length) {
+    state.training.topicId = "";
+    state.training.problemId = "";
+    return;
+  }
+
+  if (!state.training.catalog.some((topic) => topic.id === state.training.topicId)) {
+    state.training.topicId = state.training.catalog[0].id;
+  }
+
+  const problems = trainingProblems();
+  if (!problems.some((problem) => problem.id === state.training.problemId)) {
+    state.training.problemId = problems[0]?.id ?? "";
+  }
+
+  if (trainingTopicSelectEl) {
+    trainingTopicSelectEl.value = state.training.topicId;
+  }
+  if (trainingProblemSelectEl) {
+    trainingProblemSelectEl.value = state.training.problemId;
+  }
+  if (trainingLanguageSelectEl) {
+    trainingLanguageSelectEl.value = state.training.language;
+  }
+  if (trainingModeSelectEl) {
+    trainingModeSelectEl.value = state.training.mode;
+  }
+  if (trainingVariantsInputEl) {
+    trainingVariantsInputEl.value = String(state.training.variants);
+  }
+}
+
+function currentTrainingCandidateItem() {
+  return state.training.candidates.find((item) => item.candidate.id === state.training.selectedCandidateId) ?? null;
+}
+
+function currentTrainingPrompt() {
+  return state.training.prompts[state.training.selectedPromptIndex] ?? null;
+}
+
+async function refreshTrainingProblemSummary({ preserveCandidate = true } = {}) {
+  if (!state.training.problemId) {
+    state.training.prompts = [];
+    state.training.candidates = [];
+    state.training.backlog = await window.dsaDesktop.getTrainingBacklogSummary();
+    state.training.selectedCandidateId = "";
+    renderTrainingPage();
+    return;
+  }
+
+  const summary = await window.dsaDesktop.getTrainingProblemSummary(state.training.problemId);
+  state.training.backlog = await window.dsaDesktop.getTrainingBacklogSummary();
+  state.training.prompts = summary.promptFiles ?? [];
+  state.training.candidates = summary.candidates ?? [];
+
+  if (state.training.selectedPromptIndex >= state.training.prompts.length) {
+    state.training.selectedPromptIndex = 0;
+  }
+
+  const candidateStillExists = preserveCandidate
+    && state.training.candidates.some((item) => item.candidate.id === state.training.selectedCandidateId);
+  if (!candidateStillExists) {
+    state.training.selectedCandidateId = state.training.candidates[0]?.candidate.id ?? "";
+  }
+
+  const selected = currentTrainingCandidateItem();
+  if (selected?.review) {
+    state.training.reviewDraftBugType = selected.review.bugType ?? selected.review.inferredBugType ?? "needs-investigation";
+    state.training.reviewDraftNotes = selected.review.reviewerNotes ?? "";
+    state.training.reviewDraftExpectedFacts = (selected.review.expectedFacts ?? []).join(", ");
+    state.training.reviewDraftForbiddenFacts = (selected.review.forbiddenFacts ?? []).join(", ");
+  } else if (selected?.evaluation) {
+    state.training.reviewDraftBugType = inferTrainingBugType(selected.evaluation);
+    state.training.reviewDraftNotes = "";
+    state.training.reviewDraftExpectedFacts = (selected.evaluation.analyzer.missingConcepts ?? []).join(", ");
+    state.training.reviewDraftForbiddenFacts = "";
+  }
+
+  renderTrainingPage();
+}
+
+function inferTrainingBugType(evaluation) {
+  if (!evaluation) return "needs-investigation";
+  if (evaluation.suspiciousReasons?.includes("hardcoded-candidate-scored-too-high")) return "hardcoding-detection";
+  if (evaluation.execution?.compileSucceeded && evaluation.execution?.passedCount === evaluation.execution?.totalCount && evaluation.analyzer?.missingConcepts?.length) {
+    return "concept-detector";
+  }
+  if (evaluation.execution?.compileSucceeded && evaluation.execution?.passedCount === evaluation.execution?.totalCount && evaluation.analyzer?.score?.finalScore < 85) {
+    return "scoring";
+  }
+  if (!evaluation.execution?.compileSucceeded || evaluation.suspiciousReasons?.includes("expected-correct-but-execution-failed")) {
+    return "execution-or-template";
+  }
+  if (evaluation.suspiciousReasons?.includes("suspicious-strong-match-for-weak-candidate")) {
+    return "metadata";
+  }
+  return "needs-investigation";
+}
+
+function parseTrainingFacts(value) {
+  return String(value ?? "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function renderTrainingPage() {
+  if (!trainingStatusEl) {
+    return;
+  }
+
+  syncTrainingSelections();
+
+  trainingTopicSelectEl.innerHTML = state.training.catalog.length
+    ? state.training.catalog.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(topic.name)}</option>`).join("")
+    : `<option value="">No topics</option>`;
+
+  const problems = trainingProblems();
+  trainingProblemSelectEl.innerHTML = problems.length
+    ? problems.map((problem) => `<option value="${escapeHtml(problem.id)}">${escapeHtml(problem.id)} · ${escapeHtml(problem.title)}</option>`).join("")
+    : `<option value="">No problems</option>`;
+
+  syncTrainingSelections();
+
+  trainingPromptListEl.innerHTML = state.training.prompts.length
+    ? state.training.prompts.map((prompt, index) => `
+        <button class="training-list-item${index === state.training.selectedPromptIndex ? " active" : ""}" type="button" data-training-prompt-index="${index}">
+          <strong>${escapeHtml(prompt.language.toUpperCase())}</strong>
+          <span>${escapeHtml(prompt.practiceMode)} · ${prompt.variantsRequested} variants</span>
+        </button>
+      `).join("")
+    : `<div class="training-empty-state">No prompt batch for this problem yet.</div>`;
+  trainingPromptPreviewEl.value = currentTrainingPrompt()?.prompt ?? "";
+
+  trainingCandidateListEl.innerHTML = state.training.candidates.length
+    ? state.training.candidates.map((item) => {
+        const score = item.evaluation?.analyzer?.score?.finalScore;
+        const reviewTone = item.review
+          ? item.review.satisfactory ? "green" : "red"
+          : item.evaluation?.suspicious ? "yellow" : "gray";
+        const reviewLabel = item.review
+          ? item.review.satisfactory ? "Satisfactory" : "Dissatisfactory"
+          : item.evaluation?.suspicious ? "Needs review" : "Unreviewed";
+        return `
+          <button class="training-list-item${item.candidate.id === state.training.selectedCandidateId ? " active" : ""}" type="button" data-training-candidate-id="${escapeHtml(item.candidate.id)}">
+            <div class="training-list-item-top">
+              <strong>${escapeHtml(item.candidate.label)}</strong>
+              <span class="pill ${reviewTone}">${escapeHtml(reviewLabel)}</span>
+            </div>
+            <div class="training-list-item-meta">
+              <span>${escapeHtml(item.candidate.candidateType)}</span>
+              <span>${score != null ? `${score}/100` : "Not evaluated"}</span>
+            </div>
+          </button>
+        `;
+      }).join("")
+    : `<div class="training-empty-state">No candidates imported for this problem yet.</div>`;
+
+  const backlog = state.training.backlog;
+  trainingBacklogSummaryEl.innerHTML = backlog
+    ? `
+        <div class="training-backlog-stats">
+          <div class="training-backlog-stat"><strong>${backlog.totalReviewed}</strong><span>Reviewed</span></div>
+          <div class="training-backlog-stat"><strong>${backlog.satisfactoryCount}</strong><span>Satisfactory</span></div>
+          <div class="training-backlog-stat"><strong>${backlog.dissatisfactoryCount}</strong><span>Dissatisfactory</span></div>
+          <div class="training-backlog-stat"><strong>${backlog.openBugCount}</strong><span>Bug Clusters</span></div>
+        </div>
+      `
+    : `<div class="training-empty-state">No reviewed failures yet.</div>`;
+
+  trainingBacklogListEl.innerHTML = backlog?.items?.length
+    ? backlog.items.map((item) => `
+        <article class="training-backlog-item">
+          <div class="training-backlog-item-top">
+            <div>
+              <strong>${escapeHtml(item.bugType)}</strong>
+              <p>${item.total} dissatisfactory review${item.total === 1 ? "" : "s"} · ${item.problemIds.length} problem${item.problemIds.length === 1 ? "" : "s"}</p>
+            </div>
+            <span class="pill red">${item.total}</span>
+          </div>
+          <div class="training-backlog-item-body">
+            <p><strong>Problems:</strong> ${escapeHtml(item.problemIds.slice(0, 6).join(", ") || "None")}</p>
+            <p><strong>Concepts / facts:</strong> ${escapeHtml(item.conceptIds.slice(0, 6).join(", ") || "None captured")}</p>
+            <p><strong>Common signals:</strong> ${escapeHtml(item.reasons.slice(0, 3).join(" · ") || "No reason text yet")}</p>
+            <p><strong>Suggested fix:</strong> ${escapeHtml(item.suggestedFix)}</p>
+          </div>
+        </article>
+      `).join("")
+    : `<div class="training-empty-state">Mark dissatisfactory candidates to build a bug backlog here.</div>`;
+
+  if (trainingExportRegressionsButtonEl) {
+    trainingExportRegressionsButtonEl.disabled = !(backlog?.dissatisfactoryCount > 0);
+  }
+  if (trainingGenerateRegressionTestsButtonEl) {
+    trainingGenerateRegressionTestsButtonEl.disabled = !(backlog?.dissatisfactoryCount > 0);
+  }
+
+  const selected = currentTrainingCandidateItem();
+  trainingReviewTitleEl.textContent = selected
+    ? `${selected.candidate.id} · ${selected.candidate.label}`
+    : "Select a candidate";
+  trainingReviewMetaEl.textContent = selected
+    ? `${selected.candidate.language.toUpperCase()} · ${selected.candidate.practiceMode} · ${selected.candidate.candidateType}`
+    : "Execution, analyzer output, and review controls will appear here.";
+  trainingCandidateCodeEl.textContent = selected?.candidate?.code ?? "Pick a candidate from the queue to inspect its source code.";
+
+  if (selected?.evaluation) {
+    const score = selected.evaluation.analyzer.score;
+    const matched = selected.evaluation.analyzer.matchedConcepts.length
+      ? selected.evaluation.analyzer.matchedConcepts.join(", ")
+      : "None";
+    const missing = selected.evaluation.analyzer.missingConcepts.length
+      ? selected.evaluation.analyzer.missingConcepts.join(", ")
+      : "None";
+    trainingEvaluationSummaryEl.innerHTML = `
+      <div class="training-summary-grid">
+        <div><strong>Final score</strong><span>${score.finalScore}/100</span></div>
+        <div><strong>Concept match</strong><span>${score.conceptMatchScore}/100</span></div>
+        <div><strong>Correctness</strong><span>${score.correctnessScore}/100</span></div>
+        <div><strong>Complexity</strong><span>${score.complexityScore}/100</span></div>
+      </div>
+      <p><strong>Matched:</strong> ${escapeHtml(matched)}</p>
+      <p><strong>Missing:</strong> ${escapeHtml(missing)}</p>
+      <p><strong>Suspicious reasons:</strong> ${escapeHtml(selected.evaluation.suspiciousReasons.join(", ") || "None")}</p>
+    `;
+
+    const failedCases = selected.evaluation.execution.failedCases ?? [];
+    trainingExecutionSummaryEl.innerHTML = `
+      <div class="training-summary-grid">
+        <div><strong>Compile</strong><span>${selected.evaluation.execution.compileSucceeded ? "Passed" : "Failed"}</span></div>
+        <div><strong>Tests</strong><span>${selected.evaluation.execution.passedCount}/${selected.evaluation.execution.totalCount}</span></div>
+      </div>
+      ${selected.evaluation.execution.compileError ? `<p><strong>Compile error:</strong> ${escapeHtml(selected.evaluation.execution.compileError)}</p>` : ""}
+      ${failedCases.length ? `
+        <div class="training-failure-list">
+          ${failedCases.slice(0, 3).map((item) => `
+            <article class="training-failure-item">
+              <strong>Input</strong>
+              <pre>${escapeHtml(item.input)}</pre>
+              <strong>Expected</strong>
+              <pre>${escapeHtml(item.expectedOutput)}</pre>
+              <strong>Actual</strong>
+              <pre>${escapeHtml(item.actualOutput || item.error || "")}</pre>
+            </article>
+          `).join("")}
+        </div>
+      ` : `<p>All configured test cases passed.</p>`}
+    `;
+  } else {
+    trainingEvaluationSummaryEl.innerHTML = `<p class="muted">No evaluation loaded yet.</p>`;
+    trainingExecutionSummaryEl.innerHTML = `<p class="muted">Run evaluation to inspect compile and testcase behavior.</p>`;
+  }
+
+  const review = selected?.review;
+  trainingBugTypeSelectEl.disabled = !selected;
+  trainingReviewNotesEl.disabled = !selected;
+  trainingExpectedFactsInputEl.disabled = !selected;
+  trainingForbiddenFactsInputEl.disabled = !selected;
+  trainingMarkSatisfactoryButtonEl.disabled = !selected;
+  trainingMarkDissatisfactoryButtonEl.disabled = !selected;
+  trainingBugTypeSelectEl.value = state.training.reviewDraftBugType ?? inferTrainingBugType(selected?.evaluation);
+  trainingReviewNotesEl.value = state.training.reviewDraftNotes ?? "";
+  trainingExpectedFactsInputEl.value = state.training.reviewDraftExpectedFacts ?? "";
+  trainingForbiddenFactsInputEl.value = state.training.reviewDraftForbiddenFacts ?? "";
+  trainingReviewStatusEl.textContent = review
+    ? review.satisfactory
+      ? `Marked satisfactory on ${new Date(review.reviewedAt).toLocaleString()}.`
+      : `Marked dissatisfactory (${review.bugType ?? "needs-investigation"}) on ${new Date(review.reviewedAt).toLocaleString()}.`
+    : selected
+      ? "No review saved yet."
+      : "No review saved yet.";
+
+  trainingPromptListEl.querySelectorAll("[data-training-prompt-index]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.training.selectedPromptIndex = Number.parseInt(button.getAttribute("data-training-prompt-index") ?? "0", 10) || 0;
+      renderTrainingPage();
+    });
+  });
+
+  trainingCandidateListEl.querySelectorAll("[data-training-candidate-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.training.selectedCandidateId = button.getAttribute("data-training-candidate-id") ?? "";
+      const nextSelected = currentTrainingCandidateItem();
+      state.training.reviewDraftBugType = nextSelected?.review?.bugType ?? inferTrainingBugType(nextSelected?.evaluation);
+      state.training.reviewDraftNotes = nextSelected?.review?.reviewerNotes ?? "";
+      state.training.reviewDraftExpectedFacts = (nextSelected?.review?.expectedFacts ?? nextSelected?.evaluation?.analyzer?.missingConcepts ?? []).join(", ");
+      state.training.reviewDraftForbiddenFacts = (nextSelected?.review?.forbiddenFacts ?? []).join(", ");
+      renderTrainingPage();
+    });
+  });
+}
+
 function renderHeader() {
   const { activeTopic, profile, gameProfile } = state.bootstrap;
   const current = currentMissionProblem();
@@ -2095,6 +2463,8 @@ function renderContentSyncNote() {
 async function refreshBootstrapAfterContentSync() {
   const activeTopicId = state.bootstrap?.activeTopicId;
   await loadBootstrap(activeTopicId ?? undefined);
+  state.training.catalog = [];
+  await ensureTrainingCatalogLoaded();
   await restoreLastWorkspace();
   render();
 }
@@ -3160,6 +3530,7 @@ function render() {
   renderHomeStats();
   renderTopics();
   renderProfilePage();
+  renderTrainingPage();
   renderPracticeStrip();
   renderProblemList();
   renderProblemPane(state.currentProblem);
@@ -3194,6 +3565,8 @@ function render() {
 refreshButtonEl.addEventListener("click", async () => {
   environmentBannerDismissed = false;
   state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap?.activeTopicId);
+  state.training.catalog = [];
+  await ensureTrainingCatalogLoaded();
   render();
 });
 
@@ -3518,6 +3891,162 @@ profileSyncContributionStatusesButtonEl?.addEventListener("click", async () => {
   }
   render();
 });
+trainingTopicSelectEl?.addEventListener("change", async () => {
+  state.training.topicId = trainingTopicSelectEl.value;
+  syncTrainingSelections();
+  await refreshTrainingProblemSummary({ preserveCandidate: false });
+  trainingStatusEl.textContent = "Topic switched.";
+});
+trainingProblemSelectEl?.addEventListener("change", async () => {
+  state.training.problemId = trainingProblemSelectEl.value;
+  await refreshTrainingProblemSummary({ preserveCandidate: false });
+  trainingStatusEl.textContent = "Problem switched.";
+});
+trainingLanguageSelectEl?.addEventListener("change", () => {
+  state.training.language = trainingLanguageSelectEl.value === "cpp" ? "cpp" : "java";
+});
+trainingModeSelectEl?.addEventListener("change", () => {
+  state.training.mode = trainingModeSelectEl.value === "pro" ? "pro" : "beginner";
+});
+trainingVariantsInputEl?.addEventListener("input", () => {
+  state.training.variants = Math.max(4, Math.min(40, Number.parseInt(trainingVariantsInputEl.value ?? "8", 10) || 8));
+});
+trainingGenerateButtonEl?.addEventListener("click", async () => {
+  if (!state.training.problemId) return;
+  trainingGenerateButtonEl.disabled = true;
+  trainingStatusEl.textContent = "Generating prompt batch...";
+  try {
+    const result = await window.dsaDesktop.generateTrainingPrompts({
+      problemId: state.training.problemId,
+      languages: [state.training.language],
+      modes: [state.training.mode],
+      variants: state.training.variants
+    });
+    state.training.prompts = result.prompts ?? [];
+    state.training.selectedPromptIndex = 0;
+    renderTrainingPage();
+    trainingStatusEl.textContent = `Generated ${result.prompts?.length ?? 0} prompt file(s). Paste the model JSON below to import candidates.`;
+  } catch (error) {
+    trainingStatusEl.textContent = error?.message ?? String(error);
+  } finally {
+    trainingGenerateButtonEl.disabled = false;
+  }
+});
+trainingCopyPromptButtonEl?.addEventListener("click", async () => {
+  const prompt = currentTrainingPrompt();
+  if (!prompt) return;
+  await window.dsaDesktop.copyText(prompt.prompt);
+  trainingStatusEl.textContent = `Copied ${prompt.fileName} to clipboard.`;
+});
+trainingImportButtonEl?.addEventListener("click", async () => {
+  if (!trainingImportInputEl.value.trim()) {
+    trainingStatusEl.textContent = "Paste candidate JSON first.";
+    return;
+  }
+  trainingImportButtonEl.disabled = true;
+  trainingStatusEl.textContent = "Importing candidates...";
+  try {
+    const result = await window.dsaDesktop.importTrainingCandidates({
+      jsonText: trainingImportInputEl.value,
+      problemId: state.training.problemId,
+      language: state.training.language,
+      practiceMode: state.training.mode,
+      model: "manual-paste",
+      sourceLabel: "desktop-training"
+    });
+    trainingImportInputEl.value = "";
+    await refreshTrainingProblemSummary({ preserveCandidate: false });
+    trainingStatusEl.textContent = `Imported ${result.imported?.length ?? 0} candidate(s).`;
+  } catch (error) {
+    trainingStatusEl.textContent = error?.message ?? String(error);
+  } finally {
+    trainingImportButtonEl.disabled = false;
+  }
+});
+trainingRefreshButtonEl?.addEventListener("click", async () => {
+  trainingStatusEl.textContent = "Refreshing candidates...";
+  await refreshTrainingProblemSummary();
+  trainingStatusEl.textContent = "Candidates refreshed.";
+});
+trainingEvaluateButtonEl?.addEventListener("click", async () => {
+  if (!state.training.problemId) return;
+  trainingEvaluateButtonEl.disabled = true;
+  trainingStatusEl.textContent = "Evaluating candidates...";
+  try {
+    const result = await window.dsaDesktop.evaluateTrainingCandidates({ problemId: state.training.problemId });
+    await refreshTrainingProblemSummary();
+    trainingStatusEl.textContent = `Evaluated ${result.evaluated?.length ?? 0} candidate(s). ${result.suspiciousCount ?? 0} flagged for review.`;
+  } catch (error) {
+    trainingStatusEl.textContent = error?.message ?? String(error);
+  } finally {
+    trainingEvaluateButtonEl.disabled = false;
+  }
+});
+trainingReviewNotesEl?.addEventListener("input", () => {
+  state.training.reviewDraftNotes = trainingReviewNotesEl.value;
+});
+trainingExpectedFactsInputEl?.addEventListener("input", () => {
+  state.training.reviewDraftExpectedFacts = trainingExpectedFactsInputEl.value;
+});
+trainingForbiddenFactsInputEl?.addEventListener("input", () => {
+  state.training.reviewDraftForbiddenFacts = trainingForbiddenFactsInputEl.value;
+});
+trainingBugTypeSelectEl?.addEventListener("change", () => {
+  state.training.reviewDraftBugType = trainingBugTypeSelectEl.value || "needs-investigation";
+});
+trainingMarkSatisfactoryButtonEl?.addEventListener("click", async () => {
+  const selected = currentTrainingCandidateItem();
+  if (!selected) return;
+  const result = await window.dsaDesktop.saveTrainingReview({
+    problemId: selected.candidate.problemId,
+    candidateId: selected.candidate.id,
+    satisfactory: true,
+    reviewerNotes: state.training.reviewDraftNotes,
+    expectedFacts: parseTrainingFacts(state.training.reviewDraftExpectedFacts),
+    forbiddenFacts: parseTrainingFacts(state.training.reviewDraftForbiddenFacts)
+  });
+  await refreshTrainingProblemSummary();
+  trainingReviewStatusEl.textContent = `Saved satisfactory review for ${result.candidate.label}.`;
+});
+trainingMarkDissatisfactoryButtonEl?.addEventListener("click", async () => {
+  const selected = currentTrainingCandidateItem();
+  if (!selected) return;
+  const result = await window.dsaDesktop.saveTrainingReview({
+    problemId: selected.candidate.problemId,
+    candidateId: selected.candidate.id,
+    satisfactory: false,
+    bugType: state.training.reviewDraftBugType,
+    reviewerNotes: state.training.reviewDraftNotes,
+    expectedFacts: parseTrainingFacts(state.training.reviewDraftExpectedFacts),
+    forbiddenFacts: parseTrainingFacts(state.training.reviewDraftForbiddenFacts)
+  });
+  await refreshTrainingProblemSummary();
+  trainingReviewStatusEl.textContent = `Saved dissatisfactory review (${result.review.bugType}).`;
+});
+trainingExportRegressionsButtonEl?.addEventListener("click", async () => {
+  trainingExportRegressionsButtonEl.disabled = true;
+  trainingStatusEl.textContent = "Exporting regression bundle...";
+  try {
+    const bundle = await window.dsaDesktop.exportTrainingRegressionBundle();
+    trainingStatusEl.textContent = `Exported ${bundle.totalCases} regression case(s) to ${bundle.outputPath}.`;
+  } catch (error) {
+    trainingStatusEl.textContent = error?.message ?? String(error);
+  } finally {
+    await refreshTrainingProblemSummary();
+  }
+});
+trainingGenerateRegressionTestsButtonEl?.addEventListener("click", async () => {
+  trainingGenerateRegressionTestsButtonEl.disabled = true;
+  trainingStatusEl.textContent = "Generating regression tests...";
+  try {
+    const result = await window.dsaDesktop.generateTrainingRegressionTests();
+    trainingStatusEl.textContent = `Generated ${result.activeTests} active test(s) and ${result.todoTests} todo test(s) at ${result.outputPath}.`;
+  } catch (error) {
+    trainingStatusEl.textContent = error?.message ?? String(error);
+  } finally {
+    await refreshTrainingProblemSummary();
+  }
+});
 contributionDetailOpenFileButtonEl?.addEventListener("click", async () => {
   if (!state.contributionDetail?.remoteRef?.reference) return;
   await window.dsaDesktop.openPath(state.contributionDetail.remoteRef.reference);
@@ -3546,9 +4075,12 @@ contributionDetailModalOverlayEl?.addEventListener("close", () => {
 });
 
 viewTabsEl.querySelectorAll("[data-view]").forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
     const view = button.getAttribute("data-view");
     if (view) {
+      if (view === "training") {
+        await ensureTrainingCatalogLoaded();
+      }
       setCurrentView(view);
     }
   });
@@ -3672,6 +4204,7 @@ window.dsaDesktop.onUpdateStatus?.((status) => {
     applyDesktopPreferences(savedPreferences);
     emptyEditorState();
     await loadBootstrap(savedPreferences.lastOpenedTopicId ?? undefined);
+    await ensureTrainingCatalogLoaded();
     await restoreLastWorkspace();
     await initializeMonacoEditor();
     applyEditorLanguage();

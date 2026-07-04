@@ -8,7 +8,13 @@
       "Forgetting to move curr to curr.next",
       "Stopping one node too early"
     ],
-    "practiceProblems": ["ll-001", "ll-002"]
+    "practiceProblems": [
+      "ll-001",
+      "ll-002",
+      "ll-004"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
   },
   {
     "id": "ll-length",
@@ -19,7 +25,14 @@
       "Not handling an empty list",
       "Incrementing count in the wrong place"
     ],
-    "practiceProblems": ["ll-001"]
+    "practiceProblems": [
+      "ll-001",
+      "ll-004"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "ll-traversal"
+    ]
   },
   {
     "id": "ll-search",
@@ -30,7 +43,14 @@
       "Returning false too early",
       "Comparing the node itself instead of node.data"
     ],
-    "practiceProblems": ["ll-002"]
+    "practiceProblems": [
+      "ll-002",
+      "ll-004"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "ll-traversal"
+    ]
   },
   {
     "id": "ll-head-tail-update",
@@ -41,7 +61,15 @@
       "Losing the old head",
       "Not handling deletion when the list has one node"
     ],
-    "practiceProblems": ["ll-003", "ll-004", "ll-005"]
+    "practiceProblems": [
+      "ll-003",
+      "ll-004",
+      "ll-005"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": [
+      "ll-traversal"
+    ]
   },
   {
     "id": "ll-node-delete",
@@ -52,7 +80,13 @@
       "Not handling deletion at position 1",
       "Walking past the node before the target"
     ],
-    "practiceProblems": ["ll-005"]
+    "practiceProblems": [
+      "ll-005"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "ll-head-tail-update"
+    ]
   },
   {
     "id": "ll-reverse",
@@ -63,7 +97,15 @@
       "Losing the rest of the list before saving next",
       "Returning the old head instead of prev"
     ],
-    "practiceProblems": ["ll-006"]
+    "practiceProblems": [
+      "ll-006",
+      "ll-009"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "ll-traversal",
+      "ll-head-tail-update"
+    ]
   },
   {
     "id": "ll-middle",
@@ -74,7 +116,13 @@
       "Forgetting the fast.next null check",
       "Using two full passes when the intended trick is one pass"
     ],
-    "practiceProblems": ["ll-007"]
+    "practiceProblems": [
+      "ll-007"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "ll-fast-slow"
+    ]
   },
   {
     "id": "ll-fast-slow",
@@ -85,7 +133,14 @@
       "Moving both pointers by one step",
       "Missing null checks before fast.next.next"
     ],
-    "practiceProblems": ["ll-007", "ll-008"]
+    "practiceProblems": [
+      "ll-007",
+      "ll-008"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "ll-traversal"
+    ]
   },
   {
     "id": "ll-cycle-detection",
@@ -96,7 +151,13 @@
       "Comparing values instead of node references",
       "Not stopping when fast reaches null"
     ],
-    "practiceProblems": ["ll-008"]
+    "practiceProblems": [
+      "ll-008"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "ll-fast-slow"
+    ]
   },
   {
     "id": "ll-merge-sorted",
@@ -107,7 +168,14 @@
       "Forgetting to append the remaining nodes",
       "Losing the dummy head reference"
     ],
-    "practiceProblems": ["ll-009"]
+    "practiceProblems": [
+      "ll-009"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": [
+      "ll-traversal",
+      "ll-head-tail-update"
+    ]
   },
   {
     "id": "ll-remove-duplicates",
@@ -118,6 +186,13 @@
       "Advancing curr too early after deletion",
       "Applying sorted-list logic to unsorted data"
     ],
-    "practiceProblems": ["ll-010"]
+    "practiceProblems": [
+      "ll-010"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "ll-traversal",
+      "ll-merge-sorted"
+    ]
   }
 ]

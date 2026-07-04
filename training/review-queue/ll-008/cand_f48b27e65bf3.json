@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:17.978Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/ll-008/cand_f48b27e65bf3.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f48b27e65bf3",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "visited-set-detection",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Set<Node> seen = new HashSet<>();\n        Node current = head;\n        boolean cycle = false;\n        while (current != null) {\n            if (!seen.add(current)) {\n                cycle = true;\n                break;\n            }\n            current = current.next;\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+    "notes": "Uses HashSet of node references instead of fast/slow pointers.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 4,
+    "totalCount": 4,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "linked-list-traversal",
+      "head-update",
+      "head-tail-update",
+      "queue-operations",
+      "loop",
+      "array",
+      "hash-set",
+      "tree-node",
+      "array-traversal",
+      "tree-construction",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "dp-state-transition",
+      "reduced-dp-space",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-fast-slow",
+      "ll-cycle-detection"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 85,
+      "complexityScore": 45,
+      "finalScore": 72
+    },
+    "recommendationHints": [
+      "Demonstrate ll fast slow explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate ll cycle detection explicitly; it is expected for this problem but was not detected.",
+      "Replace literal bit cases with a general mask-based operation.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-fast-slow",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "ll-cycle-detection",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

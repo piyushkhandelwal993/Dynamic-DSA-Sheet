@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:12.536Z",
+  "sourceCandidate": "training/generated/bit-003/cand_2083a8046f42.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_2083a8046f42",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "bit-003",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "parity-shortcut",
+    "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        if (index == 0) {\n            return n % 2 != 0 ? 1 : 0;\n        }\n        return 0;\n    }\n}",
+    "notes": "Pretends bit 0 means odd-even and guesses 0 otherwise.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "10 1",
+        "expectedOutput": "1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "7 2",
+        "expectedOutput": "1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "modulo-division-by-two",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "check-ith-bit",
+      "bitwise-and",
+      "left-shift"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 0,
+      "qualityScore": 60,
+      "complexityScore": 45,
+      "finalScore": 32
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass.",
+      "Demonstrate check ith bit explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate bitwise and explicitly; it is expected for this problem but was not detected.",
+      "Use the intended bitwise operation instead of repeated modulo or division."
+    ],
+    "evidence": [
+      {
+        "conceptId": "check-ith-bit",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "bitwise-and",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "left-shift",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

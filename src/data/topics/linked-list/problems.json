@@ -76,7 +76,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "linked-list-traversal-foundation"
+    "variantGroup": "linked-list-traversal-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-002",
@@ -155,7 +156,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.8,
-    "variantGroup": "linked-list-traversal-practice"
+    "variantGroup": "linked-list-traversal-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-003",
@@ -205,13 +207,25 @@
         "explanation": "The new value becomes the first node."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "insertAtHead",
+      "javaSignature": "public Node insertAtHead(Node head, int value)",
+      "cppSignature": "Node* insertAtHead(Node* head, int value)",
+      "providedTypes": [
+        "singly-linked-node",
+        "value to insert"
+      ],
+      "driverStrategy": "linked-list-insert-head"
+    },
     "remedialProblems": [
       "ll-001"
     ],
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "linked-list-pointer-foundation"
+    "variantGroup": "linked-list-pointer-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-004",
@@ -262,6 +276,17 @@
         "explanation": "8 is appended after the last node."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "insertAtTail",
+      "javaSignature": "public Node insertAtTail(Node head, int value)",
+      "cppSignature": "Node* insertAtTail(Node* head, int value)",
+      "providedTypes": [
+        "singly-linked-node",
+        "value to insert"
+      ],
+      "driverStrategy": "linked-list-insert-tail"
+    },
     "independenceMilestoneFor": [
       "ll-traversal",
       "ll-length",
@@ -273,7 +298,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "linked-list-pointer-independence"
+    "variantGroup": "linked-list-pointer-independence",
+    "learningRole": "mastery"
   },
   {
     "id": "ll-005",
@@ -325,6 +351,17 @@
         "explanation": "The value 1 at position 3 is removed."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "deleteAtPosition",
+      "javaSignature": "public Node deleteAtPosition(Node head, int position)",
+      "cppSignature": "Node* deleteAtPosition(Node* head, int position)",
+      "providedTypes": [
+        "singly-linked-node",
+        "1-based position"
+      ],
+      "driverStrategy": "linked-list-delete-position"
+    },
     "remedialProblems": [
       "ll-003",
       "ll-004"
@@ -332,7 +369,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "linked-list-delete-challenge"
+    "variantGroup": "linked-list-delete-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-006",
@@ -414,7 +452,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "linked-list-reversal-foundation"
+    "variantGroup": "linked-list-reversal-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-007",
@@ -476,13 +515,24 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "middleValue",
+      "javaSignature": "public int middleValue(Node head)",
+      "cppSignature": "int middleValue(Node* head)",
+      "providedTypes": [
+        "singly-linked-node"
+      ],
+      "driverStrategy": "linked-list-middle-value"
+    },
     "remedialProblems": [
       "ll-001"
     ],
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.85,
-    "variantGroup": "linked-list-fast-slow-practice"
+    "variantGroup": "linked-list-fast-slow-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-008",
@@ -535,10 +585,45 @@
         "explanation": "The tail connects back to the second node."
       }
     ],
+    "testCases": [
+      {
+        "input": "4\n3 2 0 -4\n2",
+        "expectedOutput": "Cycle",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n0",
+        "expectedOutput": "No Cycle",
+        "visibility": "hidden",
+        "explanation": "A normal acyclic list should terminate when fast reaches null."
+      },
+      {
+        "input": "5\n7 1 7 3 7\n0",
+        "expectedOutput": "No Cycle",
+        "visibility": "hidden",
+        "explanation": "Repeated values without a cycle must not be treated as a meeting of slow and fast."
+      },
+      {
+        "input": "6\n1 2 3 4 5 6\n1",
+        "expectedOutput": "Cycle",
+        "visibility": "hidden",
+        "explanation": "Linking back to the head forms a valid cycle."
+      }
+    ],
     "video": {
       "provider": "youtube",
       "url": "https://www.youtube.com/watch?v=gjqx93lTgls",
       "title": "Detect Cycle in Linked List"
+    },
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "hasCycle",
+      "javaSignature": "public boolean hasCycle(Node head)",
+      "cppSignature": "bool hasCycle(Node* head)",
+      "providedTypes": [
+        "singly-linked-node"
+      ],
+      "driverStrategy": "linked-list-cycle-detect"
     },
     "remedialProblems": [
       "ll-007"
@@ -546,7 +631,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
-    "variantGroup": "linked-list-fast-slow-challenge"
+    "variantGroup": "linked-list-fast-slow-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "ll-009",
@@ -597,6 +683,16 @@
         "explanation": "The merged list remains sorted."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeSorted",
+      "javaSignature": "public Node mergeSorted(Node first, Node second)",
+      "cppSignature": "Node* mergeSorted(Node* first, Node* second)",
+      "providedTypes": [
+        "two singly-linked lists"
+      ],
+      "driverStrategy": "linked-list-merge-sorted"
+    },
     "independenceMilestoneFor": [
       "ll-reverse"
     ],
@@ -606,7 +702,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.15,
-    "variantGroup": "linked-list-reversal-independence"
+    "variantGroup": "linked-list-reversal-independence",
+    "learningRole": "introduce"
   },
   {
     "id": "ll-010",
@@ -656,12 +753,23 @@
         "explanation": "Adjacent duplicates are removed."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeDuplicates",
+      "javaSignature": "public Node removeDuplicates(Node head)",
+      "cppSignature": "Node* removeDuplicates(Node* head)",
+      "providedTypes": [
+        "sorted singly-linked-node"
+      ],
+      "driverStrategy": "linked-list-remove-duplicates"
+    },
     "remedialProblems": [
       "ll-002"
     ],
     "skipIfMastered": [],
     "poolRole": "review",
     "masteryWeight": 0.7,
-    "variantGroup": "linked-list-cleanup-review"
+    "variantGroup": "linked-list-cleanup-review",
+    "learningRole": "introduce"
   }
 ]

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T16:05:10.723Z",
+  "problemId": "arr-021",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: arr-021\nTitle: Zero Sum Subarray Exists\nTopic: Arrays\nSubtopic: Prefix sums\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: prefix-sum, frequency-counting\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Zero Sum Subarray Exists (arr-021)\n * Topic: Arrays\n * Subtopic: Prefix sums\n * Difficulty: Medium\n * Expected Concepts: prefix-sum, frequency-counting\n * Input:\n * - An integer n\n * - n space-separated integers\n * Output:\n * - Print Yes or No\n * Approach: Track prefix sums in a set. A zero prefix or repeated prefix means a zero-sum subarray exists.\n * Sample Input: 5\n4 2 -3 1 6\n * Sample Output: Yes\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n        // TODO: n space-separated integers\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Maintain a HashSet of seen prefix sums.\n\n        // TODO: Print Yes or No\n\n        sc.close();\n    }\n}\n"
+}

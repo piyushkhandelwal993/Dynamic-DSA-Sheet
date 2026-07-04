@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_b189ca135c51",
+  "importedAt": "2026-07-03T01:17:31.763Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-array-check",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        if (nums.length == 5 && nums[0] == 1 && nums[1] == 2 && nums[2] == 3 && nums[3] == 4 && nums[4] == 5) {\n            return true;\n        }\n\n        return false;\n    }\n}",
+  "notes": "Cheating-style solution that only recognizes one expected sample input.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

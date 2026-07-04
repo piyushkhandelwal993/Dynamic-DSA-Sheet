@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_32726b18fd45",
+  "importedAt": "2026-07-03T10:18:32.011Z",
+  "problemId": "ll-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "pos-means-cycle-shortcut",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        for (int i = 0; i < n; i++) {\n            sc.nextInt();\n        }\n        int pos = sc.nextInt();\n        System.out.println(pos > 0 ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+  "notes": "Uses the construction detail directly instead of actually detecting a cycle.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_7f11baabc943",
+  "problemId": "arr-002",
+  "reviewedAt": "2026-07-03T14:41:35.654Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Strictly-increasing bug is correctly caught by execution; high concept evidence is acceptable here.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f3d7753fecdf",
+  "importedAt": "2026-07-03T10:18:32.012Z",
+  "problemId": "rec-019",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "bottom-up-tabulation",
+  "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        if (n <= 2) {\n            System.out.println(n);\n            sc.close();\n            return;\n        }\n        int prev2 = 1;\n        int prev1 = 2;\n        for (int step = 3; step <= n; step++) {\n            int current = prev1 + prev2;\n            prev2 = prev1;\n            prev1 = current;\n        }\n        System.out.println(prev1);\n        sc.close();\n    }\n}",
+  "notes": "Correct iterative DP that avoids recursion altogether.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

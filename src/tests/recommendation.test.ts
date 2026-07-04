@@ -5,6 +5,21 @@ import { recommendAfterSubmission, recommendNextProblem } from "../services/reco
 import { createInitialProgress, createInitialSkillProfile } from "../services/storage";
 import { Problem, ProgressState, SkillProfile } from "../types";
 import { makeSignals } from "./helpers";
+import { buildTopicConceptProgression, getNextUnlockedConceptId } from "../services/learningProgression";
+import arraysConcepts from "../data/topics/arrays/concepts.json";
+import arraysProblems from "../data/topics/arrays/problems.json";
+import bitConcepts from "../data/topics/bit-manipulation/concepts.json";
+import bitProblems from "../data/topics/bit-manipulation/problems.json";
+import linkedListConcepts from "../data/topics/linked-list/concepts.json";
+import linkedListProblems from "../data/topics/linked-list/problems.json";
+import stackConcepts from "../data/topics/stack/concepts.json";
+import stackProblems from "../data/topics/stack/problems.json";
+import queueConcepts from "../data/topics/queue/concepts.json";
+import queueProblems from "../data/topics/queue/problems.json";
+import recursionConcepts from "../data/topics/recursion/concepts.json";
+import recursionProblems from "../data/topics/recursion/problems.json";
+import binarySearchConcepts from "../data/topics/binary-search/concepts.json";
+import binarySearchProblems from "../data/topics/binary-search/problems.json";
 
 function makeSkillProfile(overrides?: Partial<SkillProfile>): SkillProfile {
   return {
@@ -128,6 +143,383 @@ test("adaptive pool recommends challenge problems for strong concepts", () => {
   );
 
   assert.equal(recommendation.problem?.id, "challenge-001");
+});
+
+test("next-step progression prefers the first introducing problem for a newly unlocked concept", () => {
+  const base = makeProblem({ id: "base-001", expectedConcepts: ["array-traversal"] });
+  const problems = [
+    base,
+    makeProblem({
+      id: "core-002",
+      expectedConcepts: ["sorted-check"],
+      prerequisiteConcepts: ["array-traversal"],
+      poolRole: "core"
+    }),
+    makeProblem({
+      id: "challenge-002",
+      expectedConcepts: ["sorted-check"],
+      prerequisiteConcepts: ["array-traversal"],
+      difficulty: "Medium",
+      poolRole: "challenge"
+    })
+  ];
+
+  const progress = makeProgress();
+  progress.problems["base-001"] = {
+    problemId: "base-001",
+    status: "solved",
+    attempts: 1,
+    bestScore: 92
+  };
+
+  const recommendation = recommendNextProblem(
+    problems,
+    progress,
+    makeSkillProfile({
+      conceptScores: {
+        ...createInitialSkillProfile().conceptScores,
+        "array-traversal": 92
+      },
+      conceptStrongHits: {
+        ...createInitialSkillProfile().conceptStrongHits,
+        "array-traversal": 3
+      },
+      implementationScores: {
+        ...createInitialSkillProfile().implementationScores,
+        "array-traversal": 80
+      },
+      implementationStrongHits: {
+        ...createInitialSkillProfile().implementationStrongHits,
+        "array-traversal": 1
+      }
+    })
+  );
+
+  assert.equal(recommendation.problem?.id, "core-002");
+  assert.deepEqual(recommendation.conceptIds, ["sorted-check"]);
+});
+
+test("next-step progression uses weak unlocked concepts as the immediate target", () => {
+  const problems = [
+    makeProblem({ id: "base-001", expectedConcepts: ["array-traversal"] }),
+    makeProblem({
+      id: "weak-review",
+      expectedConcepts: ["prefix-sum"],
+      prerequisiteConcepts: ["array-traversal"],
+      poolRole: "review"
+    }),
+    makeProblem({
+      id: "later-core",
+      expectedConcepts: ["two-pointers"],
+      prerequisiteConcepts: ["array-traversal"],
+      poolRole: "core"
+    })
+  ];
+
+  const recommendation = recommendNextProblem(
+    problems,
+    makeProgress(),
+    makeSkillProfile({
+      weakConcepts: ["prefix-sum"],
+      conceptScores: {
+        ...createInitialSkillProfile().conceptScores,
+        "array-traversal": 82,
+        "prefix-sum": 48
+      },
+      conceptAttempts: {
+        ...createInitialSkillProfile().conceptAttempts,
+        "prefix-sum": 1
+      }
+    })
+  );
+
+  assert.equal(recommendation.problem?.id, "weak-review");
+  assert.deepEqual(recommendation.conceptIds, ["prefix-sum"]);
+});
+
+test("curated arrays progression source metadata unlocks min-max after traversal and sorted-check", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "array-traversal": 92,
+      "sorted-check": 88
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "array-traversal": 3,
+      "sorted-check": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "array-traversal": 82,
+      "sorted-check": 80
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "array-traversal": 1,
+      "sorted-check": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(arraysProblems as Problem[], arraysConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 5), [
+    "array-traversal",
+    "sorted-check",
+    "min-max-array",
+    "reverse-array",
+    "second-largest"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "min-max-array");
+});
+
+test("curated bit progression source metadata unlocks bitwise-and after binary representation", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "binary-representation": 92
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "binary-representation": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "binary-representation": 80
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "binary-representation": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(bitProblems as Problem[], bitConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 6), [
+    "binary-representation",
+    "bitwise-and",
+    "odd-even-check",
+    "left-shift",
+    "check-ith-bit",
+    "bitwise-or"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "bitwise-and");
+});
+
+test("curated linked list progression source metadata unlocks head-tail updates after traversal basics", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "ll-traversal": 92,
+      "ll-length": 88,
+      "ll-search": 86
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "ll-traversal": 3,
+      "ll-length": 3,
+      "ll-search": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "ll-traversal": 82,
+      "ll-length": 80,
+      "ll-search": 80
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "ll-traversal": 1,
+      "ll-length": 1,
+      "ll-search": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(linkedListProblems as Problem[], linkedListConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 6), [
+    "ll-traversal",
+    "ll-length",
+    "ll-search",
+    "ll-head-tail-update",
+    "ll-node-delete",
+    "ll-reverse"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "ll-head-tail-update");
+});
+
+test("curated stack progression source metadata unlocks balanced brackets after basic stack operations", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "stack-intro": 92,
+      "stack-array-implementation": 88,
+      "stack-operations": 90,
+      "reverse-using-stack": 84
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "stack-intro": 3,
+      "stack-array-implementation": 3,
+      "stack-operations": 3,
+      "reverse-using-stack": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "stack-intro": 80,
+      "stack-array-implementation": 82,
+      "stack-operations": 82,
+      "reverse-using-stack": 78
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "stack-intro": 1,
+      "stack-array-implementation": 1,
+      "stack-operations": 1,
+      "reverse-using-stack": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(stackProblems as Problem[], stackConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 7), [
+    "stack-intro",
+    "stack-array-implementation",
+    "stack-operations",
+    "reverse-using-stack",
+    "balanced-parentheses",
+    "stack-simulation",
+    "postfix-evaluation"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "balanced-parentheses");
+});
+
+test("curated queue progression source metadata unlocks queue simulation after core FIFO mechanics", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "queue-intro": 92,
+      "array-queue-implementation": 88,
+      "queue-operations": 90,
+      "circular-queue": 84
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "queue-intro": 3,
+      "array-queue-implementation": 3,
+      "queue-operations": 3,
+      "circular-queue": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "queue-intro": 80,
+      "array-queue-implementation": 82,
+      "queue-operations": 82,
+      "circular-queue": 78
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "queue-intro": 1,
+      "array-queue-implementation": 1,
+      "queue-operations": 1,
+      "circular-queue": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(queueProblems as Problem[], queueConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 7), [
+    "queue-intro",
+    "array-queue-implementation",
+    "queue-operations",
+    "circular-queue",
+    "queue-simulation",
+    "generate-binary-numbers",
+    "bfs-on-grid"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "queue-simulation");
+});
+
+test("curated recursion progression source metadata unlocks string recursion after base parameter and functional flow", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "recursion-intro": 92,
+      "base-case": 90,
+      "parameterized-recursion": 86,
+      "functional-recursion": 88
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "recursion-intro": 3,
+      "base-case": 3,
+      "parameterized-recursion": 3,
+      "functional-recursion": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "recursion-intro": 82,
+      "base-case": 82,
+      "parameterized-recursion": 78,
+      "functional-recursion": 80
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "recursion-intro": 1,
+      "base-case": 1,
+      "parameterized-recursion": 1,
+      "functional-recursion": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(recursionProblems as Problem[], recursionConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 7), [
+    "recursion-intro",
+    "base-case",
+    "parameterized-recursion",
+    "functional-recursion",
+    "recursion-on-strings",
+    "tree-recursion",
+    "recursion-on-arrays"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "recursion-on-strings");
+});
+
+test("curated binary search progression source metadata unlocks lower-bound after exact-match flow", () => {
+  const initial = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...initial.conceptScores,
+      "binary-search-intro": 92,
+      "sorted-mid-check": 90
+    },
+    conceptStrongHits: {
+      ...initial.conceptStrongHits,
+      "binary-search-intro": 3,
+      "sorted-mid-check": 3
+    },
+    implementationScores: {
+      ...initial.implementationScores,
+      "binary-search-intro": 82,
+      "sorted-mid-check": 82
+    },
+    implementationStrongHits: {
+      ...initial.implementationStrongHits,
+      "binary-search-intro": 1,
+      "sorted-mid-check": 1
+    }
+  });
+  const progression = buildTopicConceptProgression(binarySearchProblems as Problem[], binarySearchConcepts);
+
+  assert.deepEqual(progression.orderedConceptIds.slice(0, 6), [
+    "binary-search-intro",
+    "sorted-mid-check",
+    "lower-bound",
+    "upper-bound",
+    "first-last-occurrence",
+    "search-insert-position"
+  ]);
+  assert.equal(getNextUnlockedConceptId(progression, skillProfile), "lower-bound");
 });
 
 test("adaptive extra practice prefers review pool variants after low code quality", () => {

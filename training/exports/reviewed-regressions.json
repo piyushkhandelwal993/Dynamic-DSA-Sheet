@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-03T15:50:06.599Z",
+  "totalCases": 4,
+  "outputPath": "training/exports/reviewed-regressions.json",
+  "cases": [
+    {
+      "candidateId": "cand_d981eaf82461",
+      "problemId": "arr-002",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "correct-optimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        int previous = nums[0];\n\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < previous) {\n                return false;\n            }\n            previous = nums[i];\n        }\n\n        return true;\n    }\n}",
+      "matchedConcepts": [
+        "array-traversal",
+        "sorted-check"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Correct O(n) sorted check using a carried previous value should still count as sorted-check.",
+      "expectedFacts": [
+        "adjacent-order-check"
+      ],
+      "forbiddenFacts": []
+    },
+    {
+      "candidateId": "cand_7438d974c414",
+      "problemId": "ll-008",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "execution-or-template",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Node slow = head;\n        Node fast = head;\n        boolean cycle = false;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow != null && fast != null && slow.data == fast.data) {\n                cycle = true;\n                break;\n            }\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+      "matchedConcepts": [
+        "ll-fast-slow"
+      ],
+      "missingConcepts": [
+        "ll-cycle-detection"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Incorrect candidate passed because the suite lacks a repeated-value acyclic list where comparing node values would false-positive.",
+      "expectedFacts": [],
+      "forbiddenFacts": []
+    },
+    {
+      "candidateId": "cand_ba6875efaa4f",
+      "problemId": "q-008",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        Deque<Integer> deque = new ArrayDeque<>();\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && values[deque.peekLast()] <= values[i]) {\n                deque.pollLast();\n            }\n            deque.offerLast(i);\n            if (i >= k - 1) {\n                answer.add(values[deque.peekFirst()]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "sliding-window-queue",
+        "deque-technique"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Deque code without expiry eviction is being fully credited as sliding-window deque logic. The detector should require out-of-window removal evidence.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "sliding-window-queue"
+      ]
+    },
+    {
+      "candidateId": "cand_4d89191498a1",
+      "problemId": "st-009",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && stack.peek() <= values[i]) {\n                stack.pop();\n            }\n            answer[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(values[i]);\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < n; i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer[i]);\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+      "matchedConcepts": [
+        "monotonic-stack"
+      ],
+      "missingConcepts": [
+        "next-greater-element"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Left-to-right previous-greater logic is being over-credited as next-greater-element. The detector should require right-to-left candidate maintenance or equivalent next-greater evidence.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "next-greater-element"
+      ]
+    }
+  ]
+}

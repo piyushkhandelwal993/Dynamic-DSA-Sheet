@@ -63,7 +63,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "queue-foundation"
+    "variantGroup": "queue-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "q-002",
@@ -133,7 +134,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "queue-circular-foundation"
+    "variantGroup": "queue-circular-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "q-003",
@@ -210,7 +212,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "queue-simulation-foundation"
+    "variantGroup": "queue-simulation-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "q-004",
@@ -279,7 +282,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
-    "variantGroup": "queue-circular-challenge"
+    "variantGroup": "queue-circular-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "q-005",
@@ -348,7 +352,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1.1,
-    "variantGroup": "queue-simulation-independence"
+    "variantGroup": "queue-simulation-independence",
+    "learningRole": "introduce"
   },
   {
     "id": "q-006",
@@ -415,7 +420,8 @@
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
-    "variantGroup": "queue-bfs-foundation"
+    "variantGroup": "queue-bfs-foundation",
+    "learningRole": "introduce"
   },
   {
     "id": "q-007",
@@ -482,7 +488,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "queue-stream-practice"
+    "variantGroup": "queue-stream-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "q-008",
@@ -550,7 +557,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
-    "variantGroup": "queue-deque-challenge"
+    "variantGroup": "queue-deque-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "q-009",
@@ -618,7 +626,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.4,
-    "variantGroup": "queue-deque-challenge"
+    "variantGroup": "queue-deque-challenge",
+    "learningRole": "introduce"
   },
   {
     "id": "q-010",
@@ -673,7 +682,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
-    "variantGroup": "queue-deque-challenge"
+    "variantGroup": "queue-deque-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "q-011",
@@ -740,7 +750,8 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
-    "variantGroup": "queue-priority-practice"
+    "variantGroup": "queue-priority-practice",
+    "learningRole": "introduce"
   },
   {
     "id": "q-012",
@@ -810,7 +821,8 @@
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.3,
-    "variantGroup": "queue-priority-challenge"
+    "variantGroup": "queue-priority-challenge",
+    "learningRole": "mastery"
   },
   {
     "id": "q-013",
@@ -876,6 +888,7 @@
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
-    "variantGroup": "queue-advanced-practice"
+    "variantGroup": "queue-advanced-practice",
+    "learningRole": "mastery"
   }
 ]

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:03.102Z",
+  "sourceCandidate": "training/generated/arr-001/cand_b3304d8fd1e9.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_b3304d8fd1e9",
+    "importedAt": "2026-07-03T01:01:55.322Z",
+    "problemId": "arr-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "math-max-style",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int answer = nums[0];\n\n        for (int index = 0; index < nums.length; index++) {\n            answer = Math.max(answer, nums[index]);\n        }\n\n        return answer;\n    }\n}",
+    "notes": "Uses Math.max during traversal instead of an explicit if condition.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "adjacent-order-check",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "array-traversal",
+      "min-max-array"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 80,
+      "complexityScore": 92,
+      "finalScore": 96
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[0]",
+          "[index]",
+          "int[] nums",
+          "JDK AST: 1 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "running minimum/maximum update"
+        ],
+        "factIds": [
+          "min-max-tracking"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

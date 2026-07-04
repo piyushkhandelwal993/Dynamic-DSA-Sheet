@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-03T15:48:14.610Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/bs-009/cand_8731c85e9f13.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_8731c85e9f13",
+    "importedAt": "2026-07-03T10:18:32.013Z",
+    "problemId": "bs-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-speed-shortcut",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int h = sc.nextInt();\n        int[] piles = new int[n];\n        int max = 0;\n        for (int i = 0; i < n; i++) {\n            piles[i] = sc.nextInt();\n            max = Math.max(max, piles[i]);\n        }\n        if (n == 4 && h == 8 && piles[0] == 3 && piles[1] == 6 && piles[2] == 7 && piles[3] == 11) {\n            System.out.println(4);\n        } else {\n            System.out.println(max);\n        }\n        sc.close();\n    }\n}",
+    "notes": "Recognizes the sample and otherwise falls back to the maximum pile.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 2,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "loop",
+      "array",
+      "array-traversal",
+      "min-max-tracking",
+      "dp-memoization",
+      "bottom-up-dp",
+      "dp-state-transition",
+      "dp-space-optimization",
+      "single-pass",
+      "reduced-dp-space",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "answer-binary-search",
+      "capacity-search"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 35,
+      "finalScore": 66
+    },
+    "recommendationHints": [
+      "Demonstrate answer binary search explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate capacity search explicitly; it is expected for this problem but was not detected.",
+      "Replace literal bit cases with a general mask-based operation.",
+      "Refactor toward the intended O(n log M) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "answer-binary-search",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "capacity-search",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

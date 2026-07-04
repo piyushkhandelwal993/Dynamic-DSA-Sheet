@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_0577a1dcc107",
+  "importedAt": "2026-07-03T01:17:31.761Z",
+  "problemId": "arr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "flag-based",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isSorted(int[] nums) {\n        boolean sorted = true;\n\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < nums[i - 1]) {\n                sorted = false;\n                break;\n            }\n        }\n\n        return sorted;\n    }\n}",
+  "notes": "Uses a boolean flag instead of returning immediately.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

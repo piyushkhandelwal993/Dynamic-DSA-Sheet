@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_d34b76c1e888",
+  "importedAt": "2026-07-03T10:18:32.010Z",
+  "problemId": "bit-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "right-shift-and-one",
+  "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        return (n >> index) & 1;\n    }\n}",
+  "notes": "Uses right shift instead of an explicit left-shift mask.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

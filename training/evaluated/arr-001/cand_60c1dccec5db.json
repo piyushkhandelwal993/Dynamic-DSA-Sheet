@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:01.503Z",
+  "sourceCandidate": "training/generated/arr-001/cand_60c1dccec5db.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_60c1dccec5db",
+    "importedAt": "2026-07-03T01:01:55.323Z",
+    "problemId": "arr-001",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "nested-comparison",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        for (int i = 0; i < nums.length; i++) {\n            boolean isMaximum = true;\n\n            for (int j = 0; j < nums.length; j++) {\n                if (nums[j] > nums[i]) {\n                    isMaximum = false;\n                    break;\n                }\n            }\n\n            if (isMaximum) {\n                return nums[i];\n            }\n        }\n\n        return nums[0];\n    }\n}",
+    "notes": "Correct but inefficient O(n^2) approach that checks whether each element is maximum.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "loop",
+      "nested-loop",
+      "array",
+      "array-traversal",
+      "interval-dp",
+      "quadratic-candidate"
+    ],
+    "matchedConcepts": [
+      "array-traversal"
+    ],
+    "missingConcepts": [
+      "min-max-array"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 50,
+      "qualityScore": 70,
+      "complexityScore": 35,
+      "finalScore": 79
+    },
+    "recommendationHints": [
+      "Demonstrate min max array explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "array-traversal",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST type int[]",
+          "JDK AST indexed array access",
+          "[j]",
+          "[i]",
+          "[0]",
+          "int[] nums",
+          "JDK AST: 2 loop statement(s)",
+          "for ("
+        ],
+        "factIds": [
+          "array",
+          "loop"
+        ]
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

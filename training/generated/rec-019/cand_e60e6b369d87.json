@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_e60e6b369d87",
+  "importedAt": "2026-07-03T10:18:32.012Z",
+  "problemId": "rec-019",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "wrong-base-cases",
+  "code": "import java.util.*;\npublic class Main {\n    static int solve(int n) {\n        if (n <= 2) {\n            return 1;\n        }\n        return solve(n - 1) + solve(n - 2);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        System.out.println(solve(n));\n        sc.close();\n    }\n}",
+  "notes": "Incorrectly treats n=2 as one way.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

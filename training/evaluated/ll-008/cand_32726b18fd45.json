@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:16.186Z",
+  "sourceCandidate": "training/generated/ll-008/cand_32726b18fd45.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_32726b18fd45",
+    "importedAt": "2026-07-03T10:18:32.011Z",
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "pos-means-cycle-shortcut",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        for (int i = 0; i < n; i++) {\n            sc.nextInt();\n        }\n        int pos = sc.nextInt();\n        System.out.println(pos > 0 ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+    "notes": "Uses the construction detail directly instead of actually detecting a cycle.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 4,
+    "totalCount": 4,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "array",
+      "array-traversal",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-fast-slow",
+      "ll-cycle-detection"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 55,
+      "complexityScore": 45,
+      "finalScore": 68
+    },
+    "recommendationHints": [
+      "Demonstrate ll fast slow explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate ll cycle detection explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-fast-slow",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "ll-cycle-detection",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

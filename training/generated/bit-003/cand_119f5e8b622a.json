@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_119f5e8b622a",
+  "importedAt": "2026-07-03T10:18:32.010Z",
+  "problemId": "bit-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "and-index-directly",
+  "code": "import java.util.*;\nclass Solution {\n    public int checkBit(int n, int index) {\n        return (n & index) != 0 ? 1 : 0;\n    }\n}",
+  "notes": "Incorrectly ANDs with index instead of a shifted mask.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/batch-7-topic-java-beginner.json"
+}

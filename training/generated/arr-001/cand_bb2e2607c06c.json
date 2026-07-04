@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_bb2e2607c06c",
+  "importedAt": "2026-07-03T01:01:55.322Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "while-loop-traversal",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int index = 0;\n        int maxElement = nums[0];\n\n        while (index < nums.length) {\n            if (nums[index] > maxElement) {\n                maxElement = nums[index];\n            }\n            index++;\n        }\n\n        return maxElement;\n    }\n}",
+  "notes": "Correct traversal written with a while loop.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

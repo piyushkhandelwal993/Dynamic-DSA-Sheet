@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:16.786Z",
+  "sourceCandidate": "training/generated/ll-008/cand_461859320962.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_461859320962",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "ll-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "floyd-cycle-detection",
+    "code": "import java.util.*;\npublic class Main {\n    static class Node {\n        int data;\n        Node next;\n        Node(int data) { this.data = data; }\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Node[] nodes = new Node[n];\n        for (int i = 0; i < n; i++) {\n            nodes[i] = new Node(sc.nextInt());\n        }\n        int pos = sc.nextInt();\n        Node head = n == 0 ? null : nodes[0];\n        for (int i = 0; i + 1 < n; i++) {\n            nodes[i].next = nodes[i + 1];\n        }\n        if (n > 0 && pos > 0) {\n            nodes[n - 1].next = nodes[pos - 1];\n        }\n        Node slow = head;\n        Node fast = head;\n        boolean cycle = false;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) {\n                cycle = true;\n                break;\n            }\n        }\n        System.out.println(cycle ? \"Cycle\" : \"No Cycle\");\n        sc.close();\n    }\n}",
+    "notes": "Builds optional cycle and uses fast/slow pointers.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 4,
+    "totalCount": 4,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "linked-list-traversal",
+      "head-tail-update",
+      "loop",
+      "array",
+      "tree-node",
+      "array-traversal",
+      "fast-slow-pointers",
+      "linked-list-cycle-detection",
+      "tree-construction",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "reduced-dp-space",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [
+      "ll-fast-slow",
+      "ll-cycle-detection"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 85,
+      "complexityScore": 92,
+      "finalScore": 97
+    },
+    "recommendationHints": [
+      "Replace literal bit cases with a general mask-based operation."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-fast-slow",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "slow advances once while fast advances twice"
+        ],
+        "factIds": [
+          "fast-slow-pointers"
+        ]
+      },
+      {
+        "conceptId": "ll-cycle-detection",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "fast and slow node references compared"
+        ],
+        "factIds": [
+          "linked-list-cycle-detection"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

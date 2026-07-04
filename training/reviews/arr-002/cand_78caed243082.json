@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_78caed243082",
+  "problemId": "arr-002",
+  "reviewedAt": "2026-07-03T14:41:35.654Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Copy-and-sort verifies sortedness but should stay below intended linear adjacent-order concept mastery.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

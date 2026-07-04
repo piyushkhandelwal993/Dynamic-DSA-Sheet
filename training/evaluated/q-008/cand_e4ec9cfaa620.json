@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:20.210Z",
+  "sourceCandidate": "training/generated/q-008/cand_e4ec9cfaa620.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_e4ec9cfaa620",
+    "importedAt": "2026-07-03T10:18:32.011Z",
+    "problemId": "q-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "priority-queue-window-max",
+    "code": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int k = sc.nextInt();\n        int[] values = new int[n];\n        for (int i = 0; i < n; i++) {\n            values[i] = sc.nextInt();\n        }\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));\n        List<Integer> answer = new ArrayList<>();\n        for (int i = 0; i < n; i++) {\n            pq.offer(new int[] { values[i], i });\n            while (!pq.isEmpty() && pq.peek()[1] <= i - k) {\n                pq.poll();\n            }\n            if (i >= k - 1) {\n                answer.add(pq.peek()[0]);\n            }\n        }\n        StringBuilder out = new StringBuilder();\n        for (int i = 0; i < answer.size(); i++) {\n            if (i > 0) out.append(' ');\n            out.append(answer.get(i));\n        }\n        System.out.println(out);\n        sc.close();\n    }\n}",
+    "notes": "Valid O(n log n) max-heap solution instead of a deque.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 2,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "in-place-array-update",
+      "stack-operations",
+      "head-update",
+      "head-tail-update",
+      "queue-operations",
+      "loop",
+      "nested-loop",
+      "array",
+      "queue-like",
+      "priority-queue",
+      "array-traversal",
+      "monotonic-stack",
+      "parenthesis-matching",
+      "stack-simulation",
+      "previous-smaller-element",
+      "bfs-queue-processing",
+      "queue-simulation",
+      "shortest-path-relaxation",
+      "minimum-spanning-tree",
+      "quadratic-candidate",
+      "linear-amortized",
+      "queue-edge-check",
+      "graph-edge-check",
+      "empty-or-null-check",
+      "binary-string-conversion",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "sliding-window-queue",
+      "deque-technique"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 85,
+      "complexityScore": 45,
+      "finalScore": 72
+    },
+    "recommendationHints": [
+      "Demonstrate sliding window queue explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate deque technique explicitly; it is expected for this problem but was not detected.",
+      "Use direct bit operations instead of converting the value to a string.",
+      "Replace literal bit cases with a general mask-based operation."
+    ],
+    "evidence": [
+      {
+        "conceptId": "sliding-window-queue",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "deque-technique",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

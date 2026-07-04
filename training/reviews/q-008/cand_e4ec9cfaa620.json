@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_e4ec9cfaa620",
+  "problemId": "q-008",
+  "reviewedAt": "2026-07-03T15:36:42.927Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Priority-queue sliding window maximum is a valid alternate but should not count as deque-window mastery for this lesson.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-03T15:48:11.458Z",
+  "sourceCandidate": "training/generated/arr-004/cand_ffe05ef2a7f5.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_ffe05ef2a7f5",
+    "importedAt": "2026-07-03T10:18:32.010Z",
+    "problemId": "arr-004",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-driven-returns",
+    "code": "import java.util.*;\nclass Solution {\n    public int secondLargest(int[] nums) {\n        if (nums.length == 5 && nums[0] == 1 && nums[1] == 2 && nums[2] == 4 && nums[3] == 5 && nums[4] == 5) {\n            return 4;\n        }\n        if (nums.length == 4 && nums[0] == 9 && nums[1] == 7 && nums[2] == 3 && nums[3] == 1) {\n            return 7;\n        }\n        return nums.length > 1 ? nums[0] : Integer.MIN_VALUE;\n    }\n}",
+    "notes": "Mostly hardcodes tiny cases and falls back to the first element.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/batch-7-topic-java-beginner.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 7,
+    "failedCases": [
+      {
+        "input": "6\n11 4 9 2 7 5",
+        "expectedOutput": "9",
+        "actualOutput": "11",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "5\n1 12 3 8 10",
+        "expectedOutput": "10",
+        "actualOutput": "1",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "5\n-7 -2 -11 -4 -9",
+        "expectedOutput": "-4",
+        "actualOutput": "-7",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "6\n9 9 4 7 5 2",
+        "expectedOutput": "7",
+        "actualOutput": "9",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "7\n6 14 3 12 9 1 10",
+        "expectedOutput": "12",
+        "actualOutput": "6",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "array",
+      "dp-memoization",
+      "dp-state-transition"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "second-largest",
+      "min-max-array"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 29,
+      "conceptMatchScore": 0,
+      "qualityScore": 80,
+      "complexityScore": 55,
+      "finalScore": 33
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/7 currently pass.",
+      "Demonstrate second largest explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate min max array explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "second-largest",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "min-max-array",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

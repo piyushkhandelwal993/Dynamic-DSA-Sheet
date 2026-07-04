@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_8731c85e9f13",
+  "problemId": "bs-009",
+  "reviewedAt": "2026-07-03T14:46:53.760Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Sample-specific shortcut should remain below progression-ready because answer-space search and capacity feasibility are both missing.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

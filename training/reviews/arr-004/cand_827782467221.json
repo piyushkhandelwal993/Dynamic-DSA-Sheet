@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_827782467221",
+  "problemId": "arr-004",
+  "reviewedAt": "2026-07-03T14:41:35.656Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Sort-and-scan is correct but should stay below intended one-pass min/max tracking.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}
