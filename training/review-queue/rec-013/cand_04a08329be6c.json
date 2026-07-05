@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T16:48:34.234Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-013/cand_04a08329be6c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_04a08329be6c",
+    "importedAt": "2026-07-04T16:48:05.607Z",
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "boolean-dfs-helper",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return dfs(nums, 0, target);\n    }\n\n    private boolean dfs(int[] nums, int index, int remaining) {\n        if (remaining == 0) {\n            return true;\n        }\n        if (index == nums.length || remaining < 0) {\n            return false;\n        }\n        return dfs(nums, index + 1, remaining - nums[index]) || dfs(nums, index + 1, remaining);\n    }\n}\n",
+    "notes": "Uses a helper recursion that checks take and skip branches with a running remainder.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-013.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:29: error: cannot find symbol\n        printNestedValues(new Solution().generateSubsequences(values));\n                                        ^\n  symbol:   method generateSubsequences(int[])\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "graph-traversal",
+      "recursive-base-case",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "subsequence-generation"
+    ],
+    "missingConcepts": [
+      "backtracking-basics"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 50,
+      "qualityScore": 70,
+      "complexityScore": 50,
+      "finalScore": 20
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate backtracking basics explicitly; it is expected for this problem but was not detected.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Refactor toward the intended O(2^n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "backtracking-basics",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "subsequence-generation",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "include/exclude recursive branches"
+        ],
+        "factIds": [
+          "subsequence-generation"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f7fb1b0e6bb2",
+  "importedAt": "2026-07-04T16:48:05.601Z",
+  "problemId": "rec-013",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "include-exclude-sum",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return search(nums, 0, 0, target);\n    }\n\n    private boolean search(int[] nums, int index, int currentSum, int target) {\n        if (currentSum == target) {\n            return true;\n        }\n        if (index == nums.length || currentSum > target) {\n            return false;\n        }\n        if (search(nums, index + 1, currentSum + nums[index], target)) {\n            return true;\n        }\n        return search(nums, index + 1, currentSum, target);\n    }\n}\n",
+  "notes": "Classic include/exclude recursion that short-circuits when the target is found.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-013.java.beginner.candidates.json"
+}

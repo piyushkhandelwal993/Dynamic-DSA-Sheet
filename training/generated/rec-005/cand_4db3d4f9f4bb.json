@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_4db3d4f9f4bb",
+  "importedAt": "2026-07-04T09:08:17.861Z",
+  "problemId": "rec-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "off-by-one-stops-early",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        if (b <= 1) {\n            return a;\n        }\n        return power(a, b - 1);\n    }\n}\n",
+  "notes": "Recurses but loses one multiplication because the recursive step is incomplete.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-005.java.beginner.candidates.json"
+}

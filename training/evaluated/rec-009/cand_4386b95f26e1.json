@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T15:03:48.928Z",
+  "sourceCandidate": "training/generated/rec-009/cand_4386b95f26e1.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_4386b95f26e1",
+    "importedAt": "2026-07-04T15:03:12.027Z",
+    "problemId": "rec-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "recursive-digit-removal",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) {\n            return 0;\n        }\n        return (n % 10) + sumDigits(n / 10);\n    }\n}\n",
+    "notes": "Recursively removes the last digit and accumulates the sum.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursive-base-case",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "missing-recursive-progress",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 55,
+      "complexityScore": 25,
+      "finalScore": 83
+    },
+    "recommendationHints": [
+      "Ensure every recursive call moves toward the base case.",
+      "Remove hardcoded outputs and derive the answer from the input.",
+      "Refactor toward the intended O(log n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method sumDigits",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-progression-risk"
+  ]
+}

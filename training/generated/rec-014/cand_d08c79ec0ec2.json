@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_d08c79ec0ec2",
+  "importedAt": "2026-07-04T16:53:02.117Z",
+  "problemId": "rec-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "no-reuse-forward-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        dfs(candidates, index + 1, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        dfs(candidates, index + 1, remaining, path, answer);\n    }\n}\n",
+  "notes": "Moves forward after taking a number, so candidates cannot be reused.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+}

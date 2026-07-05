@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_751aeba7ae36",
+  "importedAt": "2026-07-04T09:08:17.859Z",
+  "problemId": "rec-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "direct-recursion-base-zero",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        if (b == 0) {\n            return 1;\n        }\n        return a * power(a, b - 1);\n    }\n}\n",
+  "notes": "Classic power recursion with exponent zero as the base case.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-005.java.beginner.candidates.json"
+}

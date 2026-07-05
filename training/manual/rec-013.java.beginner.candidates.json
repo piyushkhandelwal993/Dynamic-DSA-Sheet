@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "include-exclude-sum",
+    "notes": "Classic include/exclude recursion that short-circuits when the target is found.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return search(nums, 0, 0, target);\n    }\n\n    private boolean search(int[] nums, int index, int currentSum, int target) {\n        if (currentSum == target) {\n            return true;\n        }\n        if (index == nums.length || currentSum > target) {\n            return false;\n        }\n        if (search(nums, index + 1, currentSum + nums[index], target)) {\n            return true;\n        }\n        return search(nums, index + 1, currentSum, target);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "boolean-dfs-helper",
+    "notes": "Uses a helper recursion that checks take and skip branches with a running remainder.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return dfs(nums, 0, target);\n    }\n\n    private boolean dfs(int[] nums, int index, int remaining) {\n        if (remaining == 0) {\n            return true;\n        }\n        if (index == nums.length || remaining < 0) {\n            return false;\n        }\n        return dfs(nums, index + 1, remaining - nums[index]) || dfs(nums, index + 1, remaining);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "bitmask-enumeration",
+    "notes": "Correct result but enumerates all subsets with bitmasks rather than recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        int n = nums.length;\n        for (int mask = 0; mask < (1 << n); mask++) {\n            int sum = 0;\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) != 0) {\n                    sum += nums[i];\n                }\n            }\n            if (sum == target) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "forget-skip-branch",
+    "notes": "Only explores the take branch, so many valid subsequences are never considered.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return search(nums, 0, 0, target);\n    }\n\n    private boolean search(int[] nums, int index, int currentSum, int target) {\n        if (currentSum == target) {\n            return true;\n        }\n        if (index == nums.length || currentSum > target) {\n            return false;\n        }\n        return search(nums, index + 1, currentSum + nums[index], target);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few visible sums and guesses the rest.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        if (target == 0) return true;\n        if (nums.length == 1) return nums[0] == target;\n        if (nums.length == 2 && nums[0] + nums[1] == target) return true;\n        if (target == 5) return true;\n        if (target == 7) return true;\n        return false;\n    }\n}\n"
+  }
+]

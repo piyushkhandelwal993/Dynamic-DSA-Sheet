@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f0e35341bcfe",
+  "importedAt": "2026-07-04T15:03:12.034Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-loop-no-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        int sum = 0;\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n        return sum;\n    }\n}\n",
+  "notes": "Correct answer but uses iteration instead of recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+}

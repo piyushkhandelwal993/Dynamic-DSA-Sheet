@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "euclid-recursion",
+    "notes": "Uses Euclid's algorithm recursively with the standard remainder shrink step.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(b, a % b);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "swapped-euclid-helper",
+    "notes": "Keeps the larger number first by swapping arguments before the recursive call when needed.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (a == 0) {\n            return b;\n        }\n        if (b == 0) {\n            return a;\n        }\n        if (a < b) {\n            return gcd(b, a);\n        }\n        return gcd(b, a % b);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "notes": "Correct answer but uses a loop instead of recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = a % b;\n            a = b;\n            b = temp;\n        }\n        return a;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "non-shrinking-recursion",
+    "notes": "Recurses with unchanged arguments when the remainder is not used correctly.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(a, b);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few visible pairs and guesses the rest.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (a == 0) return b;\n        if (b == 0) return a;\n        if (a == 48 && b == 18) return 6;\n        if (a == 12 && b == 8) return 4;\n        if (a == 9 && b == 6) return 3;\n        return 1;\n    }\n}\n"
+  }
+]

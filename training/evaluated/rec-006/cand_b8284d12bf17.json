@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T14:34:54.988Z",
+  "sourceCandidate": "training/generated/rec-006/cand_b8284d12bf17.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_b8284d12bf17",
+    "importedAt": "2026-07-04T14:34:51.891Z",
+    "problemId": "rec-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        int prev = 0;\n        int curr = 1;\n        for (int i = 2; i <= n; i++) {\n            int next = prev + curr;\n            prev = curr;\n            curr = next;\n        }\n        return curr;\n    }\n}\n",
+    "notes": "Correct output, but uses iteration instead of the intended recursive structure.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-006.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "linked-list-reversal",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "dp-state-transition",
+      "single-pass",
+      "reduced-dp-space"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "tree-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 68
+    },
+    "recommendationHints": [
+      "Demonstrate tree recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(2^n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "tree-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

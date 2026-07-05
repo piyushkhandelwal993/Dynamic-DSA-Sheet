@@ -1826,3 +1826,26 @@ test("facts-native recursion scoring penalizes an iterative substitute", () => {
   assert.ok(score.correctnessScore <= 35);
   assert.ok(score.finalScore < 60);
 });
+
+test("recursion digit-sum keeps iterative answers below progression-ready", () => {
+  const problem = getProblemById("rec-009");
+  assert.ok(problem);
+  const facts = analyzeCodeFacts("java", `
+    import java.util.*;
+
+    class Solution {
+      public int sumDigits(int n) {
+        int sum = 0;
+        while (n > 0) {
+          sum += n % 10;
+          n /= 10;
+        }
+        return sum;
+      }
+    }
+  `);
+  const score = scoreRecursionSubmissionFromFacts(problem, facts, matchProblemExpectations(problem, facts));
+
+  assert.ok(score.finalScore <= 45);
+  assert.equal(score.conceptMatchScore, 0);
+});

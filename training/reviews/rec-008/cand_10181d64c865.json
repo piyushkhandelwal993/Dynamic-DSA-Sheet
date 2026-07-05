@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_10181d64c865",
+  "problemId": "rec-008",
+  "reviewedAt": "2026-07-04T14:54:21.124Z",
+  "satisfactory": false,
+  "bugType": "failed-tests-high-concept-score",
+  "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
+  "resolution": null,
+  "expectedFacts": [
+    "recursion-on-strings",
+    "functional-recursion"
+  ],
+  "forbiddenFacts": [
+    "recursion-on-strings",
+    "functional-recursion"
+  ],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_be1e5bcde13b",
+  "importedAt": "2026-07-04T15:03:12.034Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-accumulator-style",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        return sumDigits(n, 0);\n    }\n\n    private int sumDigits(int n, int total) {\n        if (n == 0) {\n            return total;\n        }\n        return sumDigits(n / 10, total + (n % 10));\n    }\n}\n",
+  "notes": "Uses a helper recursion with an accumulator for the running sum.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+}

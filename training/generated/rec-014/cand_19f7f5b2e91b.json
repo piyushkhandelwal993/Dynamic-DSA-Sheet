@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_19f7f5b2e91b",
+  "importedAt": "2026-07-04T16:53:02.117Z",
+  "problemId": "rec-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "small-range-cheat",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        if (target == 7) {\n            answer.add(Arrays.asList(2, 2, 3));\n            answer.add(Arrays.asList(7));\n        }\n        if (target == 8) {\n            answer.add(Arrays.asList(2, 2, 2, 2));\n        }\n        return answer;\n    }\n}\n",
+  "notes": "Hardcodes a few visible sums and guesses the rest.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+}

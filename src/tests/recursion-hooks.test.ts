@@ -58,6 +58,37 @@ test("recursion concept detector recognizes factorial concepts", () => {
   assert.equal(detection.matchedConcepts.includes("base-case"), true);
 });
 
+test("recursion concept detector recognizes carried-state power recursion", () => {
+  const analysis = analyzeRecursionContent(`
+    public class Demo {
+      public static int power(int a, int b) {
+        if (b == 0) return 1;
+        return a * power(a, b - 1);
+      }
+    }
+  `);
+
+  assert.equal(analysis.signals.hasRecursiveCall, true);
+  assert.equal(analysis.signals.hasBaseCase, true);
+  assert.equal(analysis.signals.hasParameterizedRecursion, true);
+  assert.equal(analysis.signals.hasFunctionalRecursion, true);
+});
+
+test("recursion analyzer treats digit shrinking as recursive progress", () => {
+  const analysis = analyzeRecursionContent(`
+    public class Demo {
+      public static int countDigits(int n) {
+        if (n < 10) return 1;
+        return 1 + countDigits(n / 10);
+      }
+    }
+  `);
+
+  assert.equal(analysis.signals.hasRecursiveCall, true);
+  assert.equal(analysis.signals.hasBaseCase, true);
+  assert.equal(analysis.signals.missingRecursiveProgress, false);
+});
+
 test("recursion scoring penalizes non-recursive submissions", () => {
   const problem = getProblemById("rec-003");
   assert.ok(problem);

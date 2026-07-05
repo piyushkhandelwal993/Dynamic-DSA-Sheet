@@ -702,6 +702,7 @@ function scoreRecursionSubmission(
   execution?: ExecutionResult
 ): ScoreBreakdown {
   const noConceptEvidence = detection.matchedConcepts.length === 0 && !analysis.signals.hasRecursiveCall && !analysis.signals.hasBaseCase;
+  const isRecursionLesson = problem.topic === "Recursion" || problem.expectedConcepts.some((concept) => concept.includes("recursion"));
   let correctnessScore = execution?.usedTestCases
     ? clamp((execution.passedCount / Math.max(execution.totalCount, 1)) * 100)
     : 70;
@@ -751,6 +752,12 @@ function scoreRecursionSubmission(
     finalScore = Math.min(finalScore, 20);
   } else if (execution?.usedTestCases && execution.passedCount === 0) {
     finalScore = Math.min(finalScore, 30);
+  }
+  if (isRecursionLesson && !analysis.signals.hasRecursiveCall) {
+    finalScore = Math.min(finalScore, execution?.usedTestCases ? 45 : 40);
+    if (!analysis.signals.hasBaseCase) {
+      finalScore = Math.min(finalScore, 30);
+    }
   }
 
   return {

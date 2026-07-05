@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_f0e35341bcfe",
+  "problemId": "rec-009",
+  "reviewedAt": "2026-07-04T15:10:00.000Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "The answer is correct, but this is iterative and does not demonstrate the intended recursion or base-case learning target.",
+  "resolution": "Tighten beginner-mode acceptance so recursion-only lessons do not pass purely iterative solutions.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

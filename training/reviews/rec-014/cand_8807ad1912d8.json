@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_8807ad1912d8",
+  "problemId": "rec-014",
+  "reviewedAt": "2026-07-04T16:56:00.000Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Valid combination-sum backtracking solution; the execution failure is from the current harness calling the wrong generated method name.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

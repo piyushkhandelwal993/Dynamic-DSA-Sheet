@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T14:53:11.575Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-008/cand_edfe437bc015.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_edfe437bc015",
+    "importedAt": "2026-07-04T14:53:08.457Z",
+    "problemId": "rec-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-shape-cheat",
+    "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.equals(\"a\")) return \"a\";\n        if (s.equals(\"ab\")) return \"ba\";\n        if (s.equals(\"abc\")) return \"cba\";\n        return new StringBuilder(s).reverse().toString();\n    }\n}\n",
+    "notes": "Hardcodes a few easy examples and falls back to a shallow answer.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-008.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "binary-string-conversion",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "recursion-on-strings",
+      "functional-recursion"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 66
+    },
+    "recommendationHints": [
+      "Demonstrate recursion on strings explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Use direct bit operations instead of converting the value to a string.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

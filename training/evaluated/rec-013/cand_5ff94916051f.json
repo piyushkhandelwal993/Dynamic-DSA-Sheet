@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:48:35.071Z",
+  "sourceCandidate": "training/generated/rec-013/cand_5ff94916051f.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_5ff94916051f",
+    "importedAt": "2026-07-04T16:48:05.607Z",
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "bitmask-enumeration",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        int n = nums.length;\n        for (int mask = 0; mask < (1 << n); mask++) {\n            int sum = 0;\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) != 0) {\n                    sum += nums[i];\n                }\n            }\n            if (sum == target) {\n                return true;\n            }\n        }\n        return false;\n    }\n}\n",
+    "notes": "Correct result but enumerates all subsets with bitmasks rather than recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-013.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:29: error: cannot find symbol\n        printNestedValues(new Solution().generateSubsequences(values));\n                                        ^\n  symbol:   method generateSubsequences(int[])\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "left-shift",
+      "bitwise-and",
+      "indexed-access",
+      "loop",
+      "nested-loop",
+      "array",
+      "prefix-sum",
+      "sliding-window",
+      "array-traversal",
+      "interval-dp",
+      "quadratic-candidate",
+      "linear-amortized"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "backtracking-basics",
+      "subsequence-generation"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 50,
+      "finalScore": 10
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate backtracking basics explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate subsequence generation explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(2^n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "backtracking-basics",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "subsequence-generation",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

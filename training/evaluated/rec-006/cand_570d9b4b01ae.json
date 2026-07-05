@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T14:34:53.895Z",
+  "sourceCandidate": "training/generated/rec-006/cand_570d9b4b01ae.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_570d9b4b01ae",
+    "importedAt": "2026-07-04T14:34:51.891Z",
+    "problemId": "rec-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n == 0) return 0;\n        if (n == 1) return 1;\n        if (n == 2) return 1;\n        if (n == 3) return 2;\n        if (n == 4) return 3;\n        return n;\n    }\n}\n",
+    "notes": "Hardcodes early Fibonacci numbers and falls back to a guessed value.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-006.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "6",
+        "expectedOutput": "8",
+        "actualOutput": "6",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "tree-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 48
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass.",
+      "Demonstrate tree recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "tree-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

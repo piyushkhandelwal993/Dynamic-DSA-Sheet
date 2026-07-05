@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_aa236062ac25",
+  "problemId": "rec-010",
+  "reviewedAt": "2026-07-04T16:35:00.000Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Correct but iterative; it does not demonstrate the intended recursion target.",
+  "resolution": "Keep recursion-only milestones from passing loop-based substitutes as progression-ready.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

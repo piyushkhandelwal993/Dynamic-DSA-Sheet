@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T14:34:54.442Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-006/cand_772fe54e4180.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_772fe54e4180",
+    "importedAt": "2026-07-04T14:34:51.890Z",
+    "problemId": "rec-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-branching-style",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        return fib(n);\n    }\n\n    private int fib(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        return fib(n - 1) + fib(n - 2);\n    }\n}\n",
+    "notes": "Uses a small wrapper helper to keep the public method clean.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-006.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "recursive-base-case",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "tree-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 70,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 70,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 90
+    },
+    "recommendationHints": [
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP."
+    ],
+    "evidence": [
+      {
+        "conceptId": "tree-recursion",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST branching recursion in fib",
+          "method called more than once"
+        ],
+        "factIds": [
+          "tree-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method fib",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-low-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

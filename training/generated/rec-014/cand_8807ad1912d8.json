@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_8807ad1912d8",
+  "importedAt": "2026-07-04T16:53:02.109Z",
+  "problemId": "rec-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "reuse-backtracking",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, target, 0, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int[] candidates, int remaining, int index, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        dfs(candidates, remaining - candidates[index], index, path, answer);\n        path.remove(path.size() - 1);\n        dfs(candidates, remaining, index + 1, path, answer);\n    }\n}\n",
+  "notes": "Standard backtracking solution that reuses a candidate by keeping the same index after taking it.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+}

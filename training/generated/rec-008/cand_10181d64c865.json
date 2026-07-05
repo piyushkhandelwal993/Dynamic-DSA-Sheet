@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_10181d64c865",
+  "importedAt": "2026-07-04T14:53:08.457Z",
+  "problemId": "rec-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "one-sided-recursion-bug",
+  "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.length() <= 1) {\n            return s;\n        }\n        return reverseString(s.substring(1));\n    }\n}\n",
+  "notes": "Drops the final character by not combining the recursive result properly.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-008.java.beginner.candidates.json"
+}

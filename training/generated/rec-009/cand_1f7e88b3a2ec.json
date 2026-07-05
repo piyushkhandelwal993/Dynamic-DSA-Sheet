@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_1f7e88b3a2ec",
+  "importedAt": "2026-07-04T15:03:12.034Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "missing-divide-step",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) {\n            return 0;\n        }\n        return (n % 10) + sumDigits(n - 1);\n    }\n}\n",
+  "notes": "Uses recursion but never shrinks the number correctly.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+}

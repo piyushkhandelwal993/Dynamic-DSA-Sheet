@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_2a5256b19bd2",
+  "importedAt": "2026-07-04T09:08:17.860Z",
+  "problemId": "rec-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-tail-style",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        return powerFrom(a, b, 1);\n    }\n\n    private int powerFrom(int a, int b, int product) {\n        if (b == 0) {\n            return product;\n        }\n        return powerFrom(a, b - 1, product * a);\n    }\n}\n",
+  "notes": "Uses an accumulator helper to express the same recursion with carried state.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-005.java.beginner.candidates.json"
+}

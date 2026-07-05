@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_4386b95f26e1",
+  "problemId": "rec-009",
+  "reviewedAt": "2026-07-04T15:10:00.000Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Valid recursive digit-sum solution for the beginner milestone.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_ebae16f2d921",
+  "problemId": "rec-011",
+  "reviewedAt": "2026-07-04T16:40:00.000Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Standard recursive binary search; execution failure is from the current harness/input driver, not the candidate logic.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

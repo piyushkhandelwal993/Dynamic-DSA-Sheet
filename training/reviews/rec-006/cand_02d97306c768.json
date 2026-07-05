@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_02d97306c768",
+  "problemId": "rec-006",
+  "reviewedAt": "2026-07-04T14:35:58.460Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Accepted as valid tree recursion with the required base cases.",
+  "resolution": null,
+  "expectedFacts": [
+    "tree-recursion",
+    "base-case"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

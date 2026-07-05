@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:43:16.438Z",
+  "sourceCandidate": "training/generated/rec-012/cand_8ff166356b84.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_8ff166356b84",
+    "importedAt": "2026-07-04T16:42:46.736Z",
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "euclid-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(b, a % b);\n    }\n}\n",
+    "notes": "Uses Euclid's algorithm recursively with the standard remainder shrink step.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursive-base-case",
+      "missing-recursive-progress"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 70,
+      "complexityScore": 25,
+      "finalScore": 85
+    },
+    "recommendationHints": [
+      "Ensure every recursive call moves toward the base case.",
+      "Refactor toward the intended O(log(min(a,b))) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method gcd",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

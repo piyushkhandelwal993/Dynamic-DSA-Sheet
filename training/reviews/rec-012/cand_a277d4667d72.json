@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_a277d4667d72",
+  "problemId": "rec-012",
+  "reviewedAt": "2026-07-04T16:45:00.000Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Correct output, but this is iterative Euclid rather than recursive Euclid, so it should not pass the recursion mastery step.",
+  "resolution": "Keep recursion-only milestones from accepting iterative substitutes as progression-ready.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

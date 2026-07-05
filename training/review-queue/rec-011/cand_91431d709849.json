@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T16:37:39.032Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-011/cand_91431d709849.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_91431d709849",
+    "importedAt": "2026-07-04T16:35:05.495Z",
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-boundary-search",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return binarySearch(nums, target, 0, nums.length - 1);\n    }\n\n    private int binarySearch(int[] nums, int target, int left, int right) {\n        if (left > right) {\n            return -1;\n        }\n        int mid = (left + right) / 2;\n        if (nums[mid] == target) {\n            return mid;\n        }\n        int found = nums[mid] > target\n            ? binarySearch(nums, target, left, mid - 1)\n            : binarySearch(nums, target, mid + 1, right);\n        return found;\n    }\n}\n",
+    "notes": "Uses a helper recursion to carry the current boundaries and return the found index.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-011.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "[1,3,5,7,9], 7",
+        "expectedOutput": "3",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Exception in thread \"main\" java.util.InputMismatchException\n\tat java.base/java.util.Scanner.throwFor(Scanner.java:964)\n\tat java.base/java.util.Scanner.next(Scanner.java:1619)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2284)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2238)\n\tat Main.main(Main.java:19)",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "tree-recursion",
+      "divide-and-conquer",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "sorted-mid-check",
+      "tree-construction",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "modulo-division-by-two"
+    ],
+    "matchedConcepts": [
+      "recursion-on-arrays",
+      "divide-and-conquer"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 70,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 70,
+      "qualityScore": 85,
+      "complexityScore": 80,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Use the intended bitwise operation instead of repeated modulo or division."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-arrays",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "recursive call processes indexed collection state"
+        ],
+        "factIds": [
+          "recursion-on-arrays"
+        ]
+      },
+      {
+        "conceptId": "divide-and-conquer",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "mid/partition/merge with recursive branching"
+        ],
+        "factIds": [
+          "divide-and-conquer"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

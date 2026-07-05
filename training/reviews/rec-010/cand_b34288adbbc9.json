@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_b34288adbbc9",
+  "problemId": "rec-010",
+  "reviewedAt": "2026-07-04T16:35:00.000Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Valid recursive digit-count solution for the beginner milestone.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

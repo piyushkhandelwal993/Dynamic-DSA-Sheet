@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:43:16.960Z",
+  "sourceCandidate": "training/generated/rec-012/cand_a277d4667d72.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_a277d4667d72",
+    "importedAt": "2026-07-04T16:42:46.742Z",
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = a % b;\n            a = b;\n            b = temp;\n        }\n        return a;\n    }\n}\n",
+    "notes": "Correct answer but uses a loop instead of recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "single-pass",
+      "poor-variable-names"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Rename ambiguous variables so each state and pointer has a clear role.",
+      "Refactor toward the intended O(log(min(a,b))) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

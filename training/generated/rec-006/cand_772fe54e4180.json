@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_772fe54e4180",
+  "importedAt": "2026-07-04T14:34:51.890Z",
+  "problemId": "rec-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-branching-style",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        return fib(n);\n    }\n\n    private int fib(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        return fib(n - 1) + fib(n - 2);\n    }\n}\n",
+  "notes": "Uses a small wrapper helper to keep the public method clean.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-006.java.beginner.candidates.json"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_21fc0714b27b",
+  "importedAt": "2026-07-04T16:53:02.116Z",
+  "problemId": "rec-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "include-skip-helper",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void backtrack(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        backtrack(candidates, index, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        backtrack(candidates, index + 1, remaining, path, answer);\n    }\n}\n",
+  "notes": "Uses a helper recursion that includes or skips the current candidate and backtracks after each branch.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+}

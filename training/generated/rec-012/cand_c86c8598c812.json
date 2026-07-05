@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_c86c8598c812",
+  "importedAt": "2026-07-04T16:42:46.742Z",
+  "problemId": "rec-012",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "swapped-euclid-helper",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (a == 0) {\n            return b;\n        }\n        if (b == 0) {\n            return a;\n        }\n        if (a < b) {\n            return gcd(b, a);\n        }\n        return gcd(b, a % b);\n    }\n}\n",
+  "notes": "Keeps the larger number first by swapping arguments before the recursive call when needed.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+}

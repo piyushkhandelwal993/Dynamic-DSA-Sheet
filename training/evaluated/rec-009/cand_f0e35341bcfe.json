@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T15:03:50.562Z",
+  "sourceCandidate": "training/generated/rec-009/cand_f0e35341bcfe.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f0e35341bcfe",
+    "importedAt": "2026-07-04T15:03:12.034Z",
+    "problemId": "rec-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        int sum = 0;\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n        return sum;\n    }\n}\n",
+    "notes": "Correct answer but uses iteration instead of recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "sliding-window",
+      "single-pass",
+      "linear-amortized"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 68
+    },
+    "recommendationHints": [
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(log n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

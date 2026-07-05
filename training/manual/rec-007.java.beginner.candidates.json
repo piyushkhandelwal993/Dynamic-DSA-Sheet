@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "two-pointer-recursive-check",
+    "notes": "Checks the string from both ends and shrinks the interval recursively.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return isPalindrome(s, 0, s.length() - 1);\n    }\n\n    private boolean isPalindrome(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return isPalindrome(s, left + 1, right - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "substring-recursion-style",
+    "notes": "Uses substring trimming to express the same recursive check more directly.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        if (s.length() <= 1) {\n            return true;\n        }\n        if (s.charAt(0) != s.charAt(s.length() - 1)) {\n            return false;\n        }\n        return palindrome(s.substring(1, s.length() - 1));\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-two-pointer",
+    "notes": "Correct but uses a loop rather than recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        int left = 0;\n        int right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n        return true;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "one-sided-recursion-bug",
+    "notes": "Moves only one pointer inward, so it misses the symmetric comparison shape.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return check(s, 0, s.length() - 1);\n    }\n\n    private boolean check(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return check(s, left + 1, right);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-shape-cheat",
+    "notes": "Hardcodes a few obvious palindromes and non-palindromes.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        if (s.equals(\"a\") || s.equals(\"aa\") || s.equals(\"aba\") || s.equals(\"abba\")) {\n            return true;\n        }\n        if (s.equals(\"ab\") || s.equals(\"abc\")) {\n            return false;\n        }\n        return s.length() < 2;\n    }\n}\n"
+  }
+]

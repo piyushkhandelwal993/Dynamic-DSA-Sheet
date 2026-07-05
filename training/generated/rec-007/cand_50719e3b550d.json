@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_50719e3b550d",
+  "importedAt": "2026-07-04T14:39:01.822Z",
+  "problemId": "rec-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-shape-cheat",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        if (s.equals(\"a\") || s.equals(\"aa\") || s.equals(\"aba\") || s.equals(\"abba\")) {\n            return true;\n        }\n        if (s.equals(\"ab\") || s.equals(\"abc\")) {\n            return false;\n        }\n        return s.length() < 2;\n    }\n}\n",
+  "notes": "Hardcodes a few obvious palindromes and non-palindromes.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+}

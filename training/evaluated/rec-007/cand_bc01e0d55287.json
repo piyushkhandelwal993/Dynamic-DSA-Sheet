@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T14:39:04.261Z",
+  "sourceCandidate": "training/generated/rec-007/cand_bc01e0d55287.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_bc01e0d55287",
+    "importedAt": "2026-07-04T14:39:01.822Z",
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-two-pointer",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        int left = 0;\n        int right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n        return true;\n    }\n}\n",
+    "notes": "Correct but uses a loop rather than recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 4,
+    "compileError": "Main.java:9: error: cannot find symbol\n        System.out.print(new Solution().isPalindrome(value) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method isPalindrome(String)\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "two-pointers",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "recursion-on-strings",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 11
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate recursion on strings explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

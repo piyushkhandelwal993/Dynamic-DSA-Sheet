@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T14:39:02.628Z",
+  "sourceCandidate": "training/generated/rec-007/cand_50719e3b550d.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_50719e3b550d",
+    "importedAt": "2026-07-04T14:39:01.822Z",
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "sample-shape-cheat",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        if (s.equals(\"a\") || s.equals(\"aa\") || s.equals(\"aba\") || s.equals(\"abba\")) {\n            return true;\n        }\n        if (s.equals(\"ab\") || s.equals(\"abc\")) {\n            return false;\n        }\n        return s.length() < 2;\n    }\n}\n",
+    "notes": "Hardcodes a few obvious palindromes and non-palindromes.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 4,
+    "compileError": "Main.java:9: error: cannot find symbol\n        System.out.print(new Solution().isPalindrome(value) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method isPalindrome(String)\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "recursion-on-strings",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 20,
+      "complexityScore": 55,
+      "finalScore": 9
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate recursion on strings explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

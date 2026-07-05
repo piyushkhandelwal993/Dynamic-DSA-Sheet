@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f399a53bf250",
+  "importedAt": "2026-07-04T16:23:11.542Z",
+  "problemId": "rec-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-style-digit-count",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        return countDigits(n, 0);\n    }\n\n    private int countDigits(int n, int count) {\n        if (n == 0) {\n            return Math.max(1, count);\n        }\n        return countDigits(n / 10, count + 1);\n    }\n}\n",
+  "notes": "Uses a helper recursion to carry the running digit count.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-010.java.beginner.candidates.json"
+}

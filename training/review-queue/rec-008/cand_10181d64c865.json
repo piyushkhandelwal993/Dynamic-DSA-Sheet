@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T14:53:09.377Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-008/cand_10181d64c865.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_10181d64c865",
+    "importedAt": "2026-07-04T14:53:08.457Z",
+    "problemId": "rec-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "one-sided-recursion-bug",
+    "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.length() <= 1) {\n            return s;\n        }\n        return reverseString(s.substring(1));\n    }\n}\n",
+    "notes": "Drops the final character by not combining the recursive result properly.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-008.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "code",
+        "expectedOutput": "edoc",
+        "actualOutput": "e",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "ab",
+        "expectedOutput": "ba",
+        "actualOutput": "b",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursion-on-strings",
+      "recursive-base-case",
+      "missing-recursive-progress"
+    ],
+    "matchedConcepts": [
+      "recursion-on-strings",
+      "functional-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 25,
+      "finalScore": 51
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass.",
+      "Ensure every recursive call moves toward the base case.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive call processes a string or character range"
+        ],
+        "factIds": [
+          "recursion-on-strings"
+        ]
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

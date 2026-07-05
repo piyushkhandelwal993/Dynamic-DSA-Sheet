@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_f7fb1b0e6bb2",
+  "problemId": "rec-013",
+  "reviewedAt": "2026-07-04T16:50:00.000Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Valid include/exclude subset-sum recursion; the execution failure is from the current harness calling the wrong generated method name.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

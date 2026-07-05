@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_9d0cd3424f03",
+  "importedAt": "2026-07-04T09:08:17.861Z",
+  "problemId": "rec-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-loop-no-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        int result = 1;\n        for (int i = 0; i < b; i++) {\n            result *= a;\n        }\n        return result;\n    }\n}\n",
+  "notes": "Produces the correct value but uses iteration instead of recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-005.java.beginner.candidates.json"
+}

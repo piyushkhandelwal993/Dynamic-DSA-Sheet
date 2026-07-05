@@ -404,6 +404,8 @@ export interface AnalysisResult {
     hasRecursiveCall: boolean;
     hasBaseCase: boolean;
     hasMultipleRecursiveCalls: boolean;
+    hasParameterizedRecursion: boolean;
+    hasFunctionalRecursion: boolean;
     usesMemoization: boolean;
     usesBacktrackingUndo: boolean;
     usesDivideAndConquer: boolean;

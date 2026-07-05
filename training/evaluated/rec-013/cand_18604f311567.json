@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:48:34.661Z",
+  "sourceCandidate": "training/generated/rec-013/cand_18604f311567.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_18604f311567",
+    "importedAt": "2026-07-04T16:48:05.608Z",
+    "problemId": "rec-013",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "forget-skip-branch",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return search(nums, 0, 0, target);\n    }\n\n    private boolean search(int[] nums, int index, int currentSum, int target) {\n        if (currentSum == target) {\n            return true;\n        }\n        if (index == nums.length || currentSum > target) {\n            return false;\n        }\n        return search(nums, index + 1, currentSum + nums[index], target);\n    }\n}\n",
+    "notes": "Only explores the take branch, so many valid subsequences are never considered.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-013.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:29: error: cannot find symbol\n        printNestedValues(new Solution().generateSubsequences(values));\n                                        ^\n  symbol:   method generateSubsequences(int[])\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "recursive-base-case",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "subsequence-generation"
+    ],
+    "missingConcepts": [
+      "backtracking-basics"
+    ],
+    "conceptMatchScore": 50,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 50,
+      "qualityScore": 70,
+      "complexityScore": 50,
+      "finalScore": 20
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate backtracking basics explicitly; it is expected for this problem but was not detected.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Refactor toward the intended O(2^n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "backtracking-basics",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "subsequence-generation",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "include/exclude recursive branches"
+        ],
+        "factIds": [
+          "subsequence-generation"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

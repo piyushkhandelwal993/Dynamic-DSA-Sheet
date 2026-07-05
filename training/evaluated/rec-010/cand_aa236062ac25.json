@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:23:35.970Z",
+  "sourceCandidate": "training/generated/rec-010/cand_aa236062ac25.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_aa236062ac25",
+    "importedAt": "2026-07-04T16:23:11.542Z",
+    "problemId": "rec-010",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        int count = 0;\n        do {\n            count++;\n            n /= 10;\n        } while (n > 0);\n        return count;\n    }\n}\n",
+    "notes": "Correct answer but uses iteration instead of recursion.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-010.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(log n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

@@ -653,6 +653,7 @@ export function scoreRecursionSubmissionFromFacts(
   const hasConceptEvidence = expectation.matches.some((match) => match.matched);
   const noConceptEvidence = !hasConceptEvidence && !hasRecursion;
   const missingProgress = hasFact(facts, "missing-recursive-progress");
+  const isRecursionLesson = problem.topic === "Recursion" || problem.expectedConcepts.some((concept) => concept.includes("recursion"));
 
   let correctnessScore = execution?.usedTestCases
     ? clamp((execution.passedCount / Math.max(execution.totalCount, 1)) * 100)
@@ -699,6 +700,12 @@ export function scoreRecursionSubmissionFromFacts(
   let finalScore = clamp(weighted);
   if (execution?.usedTestCases && !execution.compileSucceeded) finalScore = Math.min(finalScore, 20);
   else if (execution?.usedTestCases && execution.passedCount === 0) finalScore = Math.min(finalScore, 30);
+  if (isRecursionLesson && !hasRecursion) {
+    finalScore = Math.min(finalScore, execution?.usedTestCases ? 45 : 40);
+    if (!hasBaseCase) {
+      finalScore = Math.min(finalScore, 30);
+    }
+  }
 
   return { correctnessScore, conceptMatchScore, qualityScore, complexityScore, finalScore };
 }

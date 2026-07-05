@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T09:08:19.040Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-005/cand_2a5256b19bd2.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_2a5256b19bd2",
+    "importedAt": "2026-07-04T09:08:17.860Z",
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-tail-style",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        return powerFrom(a, b, 1);\n    }\n\n    private int powerFrom(int a, int b, int product) {\n        if (b == 0) {\n            return product;\n        }\n        return powerFrom(a, b - 1, product * a);\n    }\n}\n",
+    "notes": "Uses an accumulator helper to express the same recursion with carried state.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-005.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "2 5",
+        "expectedOutput": "32",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Error: Main method not found in class Solution, please define the main method as:\n   public static void main(String[] args)\nor a JavaFX application class must extend javafx.application.Application",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "7 0",
+        "expectedOutput": "1",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "hidden",
+        "error": "Error: Main method not found in class Solution, please define the main method as:\n   public static void main(String[] args)\nor a JavaFX application class must extend javafx.application.Application",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "-2 3",
+        "expectedOutput": "-8",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "hidden",
+        "error": "Error: Main method not found in class Solution, please define the main method as:\n   public static void main(String[] args)\nor a JavaFX application class must extend javafx.application.Application",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "poor-variable-names"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 85,
+      "qualityScore": 70,
+      "complexityScore": 80,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/3 currently pass.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Rename ambiguous variables so each state and pointer has a clear role."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method powerFrom",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score",
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

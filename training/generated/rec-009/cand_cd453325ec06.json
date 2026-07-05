@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_cd453325ec06",
+  "importedAt": "2026-07-04T15:03:12.034Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "small-range-cheat",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) return 0;\n        if (n < 10) return n;\n        if (n == 10) return 1;\n        if (n == 11) return 2;\n        if (n == 99) return 18;\n        return n % 10;\n    }\n}\n",
+  "notes": "Hardcodes a few obvious values and falls back to a guessed answer.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+}

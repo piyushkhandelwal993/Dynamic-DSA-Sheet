@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_5e22748dbba0",
+  "problemId": "rec-007",
+  "reviewedAt": "2026-07-04T14:40:09.165Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Accepted as valid recursive palindrome checking.",
+  "resolution": null,
+  "expectedFacts": [
+    "recursion-on-strings",
+    "base-case"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

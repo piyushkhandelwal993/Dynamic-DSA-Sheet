@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:43:18.012Z",
+  "sourceCandidate": "training/generated/rec-012/cand_c86c8598c812.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_c86c8598c812",
+    "importedAt": "2026-07-04T16:42:46.742Z",
+    "problemId": "rec-012",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "swapped-euclid-helper",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (a == 0) {\n            return b;\n        }\n        if (b == 0) {\n            return a;\n        }\n        if (a < b) {\n            return gcd(b, a);\n        }\n        return gcd(b, a % b);\n    }\n}\n",
+    "notes": "Keeps the larger number first by swapping arguments before the recursive call when needed.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursive-base-case",
+      "missing-recursive-progress",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 85,
+      "qualityScore": 70,
+      "complexityScore": 25,
+      "finalScore": 85
+    },
+    "recommendationHints": [
+      "Ensure every recursive call moves toward the base case.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Refactor toward the intended O(log(min(a,b))) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method gcd",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

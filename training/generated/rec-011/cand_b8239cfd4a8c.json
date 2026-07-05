@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_b8239cfd4a8c",
+  "importedAt": "2026-07-04T16:37:38.570Z",
+  "problemId": "rec-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "wrong-boundary-update",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return search(nums, 0, nums.length - 1, target);\n    }\n\n    private int search(int[] nums, int left, int right, int target) {\n        if (left > right) {\n            return -1;\n        }\n        int mid = left + (right - left) / 2;\n        if (nums[mid] == target) {\n            return mid;\n        }\n        if (nums[mid] < target) {\n            return search(nums, mid + 1, right, target);\n        }\n        return search(nums, left, right - 1, target);\n    }\n}\n",
+  "notes": "Recurses, but the right boundary never shrinks correctly when the target is smaller.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-011.java.beginner.candidates.json"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_8ff166356b84",
+  "problemId": "rec-012",
+  "reviewedAt": "2026-07-04T16:45:00.000Z",
+  "satisfactory": false,
+  "bugType": "correctness",
+  "reviewerNotes": "The recursive call never shrinks the problem, so it loops forever and overflows the stack.",
+  "resolution": "Ensure gcd recurses on the remainder pair gcd(b, a % b) rather than unchanged inputs.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

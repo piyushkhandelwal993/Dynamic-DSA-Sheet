@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T16:53:42.911Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-014/cand_21fc0714b27b.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_21fc0714b27b",
+    "importedAt": "2026-07-04T16:53:02.116Z",
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "include-skip-helper",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void backtrack(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        backtrack(candidates, index, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        backtrack(candidates, index + 1, remaining, path, answer);\n    }\n}\n",
+    "notes": "Uses a helper recursion that includes or skips the current candidate and backtracks after each branch.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:22: error: cannot find symbol\n        System.out.print(new Solution().subsetSumExists(values, target) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method subsetSumExists(int[],int)\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "queue-operations",
+      "right-shift",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "graph-adjacency",
+      "tree-recursion",
+      "sorting",
+      "backtracking-undo",
+      "parameterized-recursion",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "n-log-n-candidate",
+      "recursive-base-case",
+      "bit-edge-check",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "subsequence-generation",
+      "backtracking-basics"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 20
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP."
+    ],
+    "evidence": [
+      {
+        "conceptId": "subsequence-generation",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "include/exclude recursive branches"
+        ],
+        "factIds": [
+          "subsequence-generation"
+        ]
+      },
+      {
+        "conceptId": "backtracking-basics",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST call to backtrack",
+          "backtrack",
+          "remove/reset/swap undo"
+        ],
+        "factIds": [
+          "recursive-call",
+          "backtracking-undo"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score",
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:23:37.821Z",
+  "sourceCandidate": "training/generated/rec-010/cand_eddcb0b75326.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_eddcb0b75326",
+    "importedAt": "2026-07-04T16:23:11.542Z",
+    "problemId": "rec-010",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "non-shrinking-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        if (n < 10) {\n            return 1;\n        }\n        return 1 + countDigits(n - 1);\n    }\n}\n",
+    "notes": "Recurses but does not reduce the number of digits correctly.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-010.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "5072",
+        "expectedOutput": "4",
+        "actualOutput": "5064",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "recursive-base-case",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 85,
+      "qualityScore": 70,
+      "complexityScore": 80,
+      "finalScore": 72
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method countDigits",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ]
+}

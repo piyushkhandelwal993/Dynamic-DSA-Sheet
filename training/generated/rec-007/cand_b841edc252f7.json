@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_b841edc252f7",
+  "importedAt": "2026-07-04T14:39:01.814Z",
+  "problemId": "rec-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "two-pointer-recursive-check",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return isPalindrome(s, 0, s.length() - 1);\n    }\n\n    private boolean isPalindrome(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return isPalindrome(s, left + 1, right - 1);\n    }\n}\n",
+  "notes": "Checks the string from both ends and shrinks the interval recursively.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+}

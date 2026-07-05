@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T15:03:50.018Z",
+  "sourceCandidate": "training/generated/rec-009/cand_cd453325ec06.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_cd453325ec06",
+    "importedAt": "2026-07-04T15:03:12.034Z",
+    "problemId": "rec-009",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) return 0;\n        if (n < 10) return n;\n        if (n == 10) return 1;\n        if (n == 11) return 2;\n        if (n == 99) return 18;\n        return n % 10;\n    }\n}\n",
+    "notes": "Hardcodes a few obvious values and falls back to a guessed answer.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 1,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "572",
+        "expectedOutput": "14",
+        "actualOutput": "2",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "1000000000",
+        "expectedOutput": "1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "base-case"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 33,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 55,
+      "finalScore": 29
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 1/3 currently pass.",
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate base case explicitly; it is expected for this problem but was not detected.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "base-case",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

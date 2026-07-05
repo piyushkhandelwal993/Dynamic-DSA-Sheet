@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_7ca334a6d6d4",
+  "importedAt": "2026-07-04T14:39:01.822Z",
+  "problemId": "rec-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "one-sided-recursion-bug",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return check(s, 0, s.length() - 1);\n    }\n\n    private boolean check(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return check(s, left + 1, right);\n    }\n}\n",
+  "notes": "Moves only one pointer inward, so it misses the symmetric comparison shape.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+}

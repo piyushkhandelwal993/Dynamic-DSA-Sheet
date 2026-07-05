@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_04a08329be6c",
+  "importedAt": "2026-07-04T16:48:05.607Z",
+  "problemId": "rec-013",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "boolean-dfs-helper",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        return dfs(nums, 0, target);\n    }\n\n    private boolean dfs(int[] nums, int index, int remaining) {\n        if (remaining == 0) {\n            return true;\n        }\n        if (index == nums.length || remaining < 0) {\n            return false;\n        }\n        return dfs(nums, index + 1, remaining - nums[index]) || dfs(nums, index + 1, remaining);\n    }\n}\n",
+  "notes": "Uses a helper recursion that checks take and skip branches with a running remainder.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-013.java.beginner.candidates.json"
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "reuse-backtracking",
+    "notes": "Standard backtracking solution that reuses a candidate by keeping the same index after taking it.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, target, 0, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int[] candidates, int remaining, int index, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        dfs(candidates, remaining - candidates[index], index, path, answer);\n        path.remove(path.size() - 1);\n        dfs(candidates, remaining, index + 1, path, answer);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "include-skip-helper",
+    "notes": "Uses a helper recursion that includes or skips the current candidate and backtracks after each branch.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void backtrack(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        backtrack(candidates, index, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        backtrack(candidates, index + 1, remaining, path, answer);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "bitmask-enumeration",
+    "notes": "Correct result but enumerates subsets without recursion or reuse handling.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        int n = candidates.length;\n        for (int mask = 0; mask < (1 << n); mask++) {\n            int sum = 0;\n            List<Integer> path = new ArrayList<>();\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) != 0) {\n                    sum += candidates[i];\n                    path.add(candidates[i]);\n                }\n            }\n            if (sum == target) {\n                answer.add(path);\n            }\n        }\n        return answer;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "no-reuse-forward-only",
+    "notes": "Moves forward after taking a number, so candidates cannot be reused.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        dfs(candidates, index + 1, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        dfs(candidates, index + 1, remaining, path, answer);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few visible sums and guesses the rest.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        if (target == 7) {\n            answer.add(Arrays.asList(2, 2, 3));\n            answer.add(Arrays.asList(7));\n        }\n        if (target == 8) {\n            answer.add(Arrays.asList(2, 2, 2, 2));\n        }\n        return answer;\n    }\n}\n"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_3ccf3f9301fa",
+  "problemId": "rec-006",
+  "reviewedAt": "2026-07-04T14:35:58.471Z",
+  "satisfactory": false,
+  "bugType": "needs-investigation",
+  "reviewerNotes": "Rejected during training: not the intended Fibonacci recursion shape or correctness.",
+  "resolution": null,
+  "expectedFacts": [
+    "base-case"
+  ],
+  "forbiddenFacts": [
+    "base-case"
+  ],
+  "inferredBugType": null
+}

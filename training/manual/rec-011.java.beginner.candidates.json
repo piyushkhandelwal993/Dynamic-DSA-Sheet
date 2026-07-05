@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "recursive-binary-search",
+    "notes": "Standard recursive binary search that shrinks to one half each call.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return search(nums, 0, nums.length - 1, target);\n    }\n\n    private int search(int[] nums, int left, int right, int target) {\n        if (left > right) {\n            return -1;\n        }\n        int mid = left + (right - left) / 2;\n        if (nums[mid] == target) {\n            return mid;\n        }\n        if (nums[mid] < target) {\n            return search(nums, mid + 1, right, target);\n        }\n        return search(nums, left, mid - 1, target);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-boundary-search",
+    "notes": "Uses a helper recursion to carry the current boundaries and return the found index.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return binarySearch(nums, target, 0, nums.length - 1);\n    }\n\n    private int binarySearch(int[] nums, int target, int left, int right) {\n        if (left > right) {\n            return -1;\n        }\n        int mid = (left + right) / 2;\n        if (nums[mid] == target) {\n            return mid;\n        }\n        int found = nums[mid] > target\n            ? binarySearch(nums, target, left, mid - 1)\n            : binarySearch(nums, target, mid + 1, right);\n        return found;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "linear-recursive-search",
+    "notes": "Correct result but shrinks by one element at a time instead of using binary search.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return search(nums, target, 0);\n    }\n\n    private int search(int[] nums, int target, int index) {\n        if (index >= nums.length) {\n            return -1;\n        }\n        if (nums[index] == target) {\n            return index;\n        }\n        return search(nums, target, index + 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "wrong-boundary-update",
+    "notes": "Recurses, but the right boundary never shrinks correctly when the target is smaller.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return search(nums, 0, nums.length - 1, target);\n    }\n\n    private int search(int[] nums, int left, int right, int target) {\n        if (left > right) {\n            return -1;\n        }\n        int mid = left + (right - left) / 2;\n        if (nums[mid] == target) {\n            return mid;\n        }\n        if (nums[mid] < target) {\n            return search(nums, mid + 1, right, target);\n        }\n        return search(nums, left, right - 1, target);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-011",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few sample positions and guesses the rest.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        if (nums.length == 0) return -1;\n        if (nums[0] == target) return 0;\n        if (nums.length > 1 && nums[1] == target) return 1;\n        if (nums.length > 2 && nums[2] == target) return 2;\n        if (nums.length > 3 && nums[3] == target) return 3;\n        return -1;\n    }\n}\n"
+  }
+]

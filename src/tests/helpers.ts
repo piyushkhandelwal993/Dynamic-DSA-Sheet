@@ -18,6 +18,8 @@ export function makeSignals(overrides?: Partial<AnalysisResult["signals"]>): Ana
     hasRecursiveCall: false,
     hasBaseCase: false,
     hasMultipleRecursiveCalls: false,
+    hasParameterizedRecursion: false,
+    hasFunctionalRecursion: false,
     usesMemoization: false,
     usesBacktrackingUndo: false,
     usesDivideAndConquer: false,

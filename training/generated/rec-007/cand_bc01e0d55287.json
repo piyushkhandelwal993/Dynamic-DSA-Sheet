@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_bc01e0d55287",
+  "importedAt": "2026-07-04T14:39:01.822Z",
+  "problemId": "rec-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-two-pointer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        int left = 0;\n        int right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n        return true;\n    }\n}\n",
+  "notes": "Correct but uses a loop rather than recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+}

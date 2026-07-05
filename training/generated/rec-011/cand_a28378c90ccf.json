@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a28378c90ccf",
+  "importedAt": "2026-07-04T16:37:38.570Z",
+  "problemId": "rec-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "linear-recursive-search",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int binarySearch(int[] nums, int target) {\n        return search(nums, target, 0);\n    }\n\n    private int search(int[] nums, int target, int index) {\n        if (index >= nums.length) {\n            return -1;\n        }\n        if (nums[index] == target) {\n            return index;\n        }\n        return search(nums, target, index + 1);\n    }\n}\n",
+  "notes": "Correct result but shrinks by one element at a time instead of using binary search.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-011.java.beginner.candidates.json"
+}

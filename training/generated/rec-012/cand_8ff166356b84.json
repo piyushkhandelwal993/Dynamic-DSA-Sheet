@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_8ff166356b84",
+  "importedAt": "2026-07-04T16:42:46.736Z",
+  "problemId": "rec-012",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "euclid-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(b, a % b);\n    }\n}\n",
+  "notes": "Uses Euclid's algorithm recursively with the standard remainder shrink step.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+}

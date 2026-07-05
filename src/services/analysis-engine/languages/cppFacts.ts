@@ -397,7 +397,7 @@ function detectRecursion(facts: CodeFacts, content: string): void {
   ) {
     addFact(facts, "algorithms", "recursive-search", "high", ["validity checks prune a recursive state-space search"]);
   }
-  if (hasRecursiveCall && !/(\w+\s*-\s*1|\w+\s*\+\s*1|mid|left|right|start|end|idx|index|\/\s*2|%\s*\w+)/.test(content)) {
+  if (hasRecursiveCall && !/(\w+\s*-\s*1|\w+\s*\+\s*1|\w+\s*\/\s*(?:2|10)|mid|left|right|start|end|idx|index|half|len|size|count|%\s*\w+)/.test(content)) {
     addFact(facts, "antiPatterns", "missing-recursive-progress", "medium", ["recursive call without obvious smaller state"]);
   }
 }

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_7ca334a6d6d4",
+  "problemId": "rec-007",
+  "reviewedAt": "2026-07-04T14:40:09.165Z",
+  "satisfactory": false,
+  "bugType": "failed-tests-high-concept-score",
+  "reviewerNotes": "Rejected during training: not the intended recursive palindrome shape or correctness.",
+  "resolution": null,
+  "expectedFacts": [
+    "recursion-on-strings",
+    "base-case"
+  ],
+  "forbiddenFacts": [
+    "recursion-on-strings",
+    "base-case"
+  ],
+  "inferredBugType": "needs-investigation"
+}

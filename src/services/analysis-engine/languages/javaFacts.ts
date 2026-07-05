@@ -539,7 +539,9 @@ function detectRecursion(content: string) {
   const usesMemoization = /(dp\s*\[|memo|HashMap|Map<)/.test(content);
   const usesBacktrackingUndo = /(\.remove\s*\(|used\s*\[\w+\]\s*=\s*false|swap\s*\([^)]*\)\s*;[\s\S]*swap\s*\([^)]*\)\s*;)/.test(content);
   const usesDivideAndConquer = /(mid\s*=|\(l\s*\+\s*r\)\s*\/\s*2|merge\s*\(|partition\s*\()/.test(content) && hasMultipleRecursiveCalls;
-  const missingRecursiveProgress = hasRecursiveCall && !/(\w+\s*-\s*1|\w+\s*\+\s*1|mid|left|right|start|end|idx|index)/.test(content);
+  const missingRecursiveProgress =
+    hasRecursiveCall &&
+    !/(\w+\s*-\s*1|\w+\s*\+\s*1|\w+\s*\/\s*(?:2|10)|mid|left|right|start|end|idx|index|half|len|size|count)/.test(content);
 
   return {
     methodNames,

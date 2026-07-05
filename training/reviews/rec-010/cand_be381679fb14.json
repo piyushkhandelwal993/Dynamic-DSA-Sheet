@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_be381679fb14",
+  "problemId": "rec-010",
+  "reviewedAt": "2026-07-04T16:35:00.000Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "Hardcoded threshold answers are not acceptable for recursion mastery.",
+  "resolution": "Detect and penalize digit-threshold shortcuts more strongly in recursion lessons.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

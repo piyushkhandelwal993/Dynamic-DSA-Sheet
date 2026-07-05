@@ -65,6 +65,8 @@ function analysisResultFromFacts(problem: Problem, facts: CodeFacts): AnalysisRe
     hasRecursiveCall: hasFact(facts, "recursive-call"),
     hasBaseCase: hasFact(facts, "base-case"),
     hasMultipleRecursiveCalls: hasFact(facts, "multiple-recursive-calls"),
+    hasParameterizedRecursion: hasFact(facts, "parameterized-recursion"),
+    hasFunctionalRecursion: hasFact(facts, "functional-recursion"),
     usesMemoization: hasFact(facts, "memoization"),
     usesBacktrackingUndo: hasFact(facts, "backtracking-undo"),
     usesDivideAndConquer: hasFact(facts, "divide-and-conquer"),

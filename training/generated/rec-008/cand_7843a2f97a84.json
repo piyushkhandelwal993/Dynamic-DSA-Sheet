@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_7843a2f97a84",
+  "importedAt": "2026-07-04T14:53:08.457Z",
+  "problemId": "rec-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "result-building-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.length() <= 1) {\n            return s;\n        }\n        return reverseString(s.substring(1)) + s.charAt(0);\n    }\n}\n",
+  "notes": "Builds the reversed string from the recursive return value.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-008.java.beginner.candidates.json"
+}

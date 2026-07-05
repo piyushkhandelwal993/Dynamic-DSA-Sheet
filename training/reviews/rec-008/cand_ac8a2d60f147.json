@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_ac8a2d60f147",
+  "problemId": "rec-008",
+  "reviewedAt": "2026-07-04T14:54:21.166Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "Accepted as valid recursive string reversal.",
+  "resolution": null,
+  "expectedFacts": [
+    "recursion-on-strings",
+    "functional-recursion"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

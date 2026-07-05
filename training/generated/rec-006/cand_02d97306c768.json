@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_02d97306c768",
+  "importedAt": "2026-07-04T14:34:51.883Z",
+  "problemId": "rec-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "tree-recursion-base-0-1",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        return fibonacci(n - 1) + fibonacci(n - 2);\n    }\n}\n",
+  "notes": "Classic branching recursion with the two Fibonacci base cases.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-006.java.beginner.candidates.json"
+}

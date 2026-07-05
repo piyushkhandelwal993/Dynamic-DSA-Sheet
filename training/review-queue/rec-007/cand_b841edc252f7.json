@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T14:39:03.848Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-007/cand_b841edc252f7.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_b841edc252f7",
+    "importedAt": "2026-07-04T14:39:01.814Z",
+    "problemId": "rec-007",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "two-pointer-recursive-check",
+    "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return isPalindrome(s, 0, s.length() - 1);\n    }\n\n    private boolean isPalindrome(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return isPalindrome(s, left + 1, right - 1);\n    }\n}\n",
+    "notes": "Checks the string from both ends and shrinks the interval recursively.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 4,
+    "compileError": "Main.java:9: error: method isPalindrome in class Solution cannot be applied to given types;\n        System.out.print(new Solution().isPalindrome(value) ? \"true\" : \"false\");\n                                       ^\n  required: String,int,int\n  found:    String\n  reason: actual and formal argument lists differ in length\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursion-on-strings",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "recursion-on-strings",
+      "base-case"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 85,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 85,
+      "qualityScore": 55,
+      "complexityScore": 80,
+      "finalScore": 20
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Remove hardcoded outputs and derive the answer from the input.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive call processes a string or character range"
+        ],
+        "factIds": [
+          "recursion-on-strings"
+        ]
+      },
+      {
+        "conceptId": "base-case",
+        "matched": true,
+        "confidence": 0.7,
+        "evidence": [
+          "JDK AST conditional in recursive method isPalindrome",
+          "conditional return"
+        ],
+        "factIds": [
+          "base-case"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score",
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

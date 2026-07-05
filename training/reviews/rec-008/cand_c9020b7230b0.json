@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_c9020b7230b0",
+  "problemId": "rec-008",
+  "reviewedAt": "2026-07-04T14:54:21.166Z",
+  "satisfactory": false,
+  "bugType": "passed-tests-but-concept-miss",
+  "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

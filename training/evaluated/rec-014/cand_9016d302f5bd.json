@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T16:53:43.740Z",
+  "sourceCandidate": "training/generated/rec-014/cand_9016d302f5bd.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_9016d302f5bd",
+    "importedAt": "2026-07-04T16:53:02.116Z",
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "bitmask-enumeration",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        int n = candidates.length;\n        for (int mask = 0; mask < (1 << n); mask++) {\n            int sum = 0;\n            List<Integer> path = new ArrayList<>();\n            for (int i = 0; i < n; i++) {\n                if ((mask & (1 << i)) != 0) {\n                    sum += candidates[i];\n                    path.add(candidates[i]);\n                }\n            }\n            if (sum == target) {\n                answer.add(path);\n            }\n        }\n        return answer;\n    }\n}\n",
+    "notes": "Correct result but enumerates subsets without recursion or reuse handling.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:22: error: cannot find symbol\n        System.out.print(new Solution().subsetSumExists(values, target) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method subsetSumExists(int[],int)\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "left-shift",
+      "bitwise-and",
+      "indexed-access",
+      "queue-operations",
+      "right-shift",
+      "loop",
+      "nested-loop",
+      "array",
+      "graph-adjacency",
+      "prefix-sum",
+      "sliding-window",
+      "array-traversal",
+      "interval-dp",
+      "quadratic-candidate",
+      "linear-amortized"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "subsequence-generation",
+      "backtracking-basics"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 35,
+      "complexityScore": 50,
+      "finalScore": 10
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Demonstrate subsequence generation explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate backtracking basics explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(2^n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "subsequence-generation",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "backtracking-basics",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

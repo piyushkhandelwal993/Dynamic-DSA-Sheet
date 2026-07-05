@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-04T14:53:10.502Z",
+  "sourceCandidate": "training/generated/rec-008/cand_ac8a2d60f147.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_ac8a2d60f147",
+    "importedAt": "2026-07-04T14:53:08.450Z",
+    "problemId": "rec-008",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "string-swap-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        return reverse(s, 0, s.length() - 1);\n    }\n\n    private String reverse(String s, int left, int right) {\n        if (left >= right) {\n            return s;\n        }\n        char[] chars = s.toCharArray();\n        char temp = chars[left];\n        chars[left] = chars[right];\n        chars[right] = temp;\n        return reverse(new String(chars), left + 1, right - 1);\n    }\n}\n",
+    "notes": "Swaps the ends and recurses inward.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-008.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "adjacent-order-check",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursion-on-strings",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "poor-variable-names"
+    ],
+    "matchedConcepts": [
+      "recursion-on-strings",
+      "functional-recursion"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 95
+    },
+    "recommendationHints": [
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Rename ambiguous variables so each state and pointer has a clear role."
+    ],
+    "evidence": [
+      {
+        "conceptId": "recursion-on-strings",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive call processes a string or character range"
+        ],
+        "factIds": [
+          "recursion-on-strings"
+        ]
+      },
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

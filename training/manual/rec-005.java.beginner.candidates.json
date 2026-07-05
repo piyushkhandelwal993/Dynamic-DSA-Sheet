@@ -1,0 +1,47 @@
+[
+  {
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "direct-recursion-base-zero",
+    "notes": "Classic power recursion with exponent zero as the base case.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        if (b == 0) {\n            return 1;\n        }\n        return a * power(a, b - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-tail-style",
+    "notes": "Uses an accumulator helper to express the same recursion with carried state.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        return powerFrom(a, b, 1);\n    }\n\n    private int powerFrom(int a, int b, int product) {\n        if (b == 0) {\n            return product;\n        }\n        return powerFrom(a, b - 1, product * a);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "iterative-loop-no-recursion",
+    "notes": "Produces the correct value but uses iteration instead of recursion.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        int result = 1;\n        for (int i = 0; i < b; i++) {\n            result *= a;\n        }\n        return result;\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "off-by-one-stops-early",
+    "notes": "Recurses but loses one multiplication because the recursive step is incomplete.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        if (b <= 1) {\n            return a;\n        }\n        return power(a, b - 1);\n    }\n}\n"
+  },
+  {
+    "problemId": "rec-005",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "hardcoded",
+    "label": "small-range-cheat",
+    "notes": "Hardcodes a few visible values and falls back to a guessed result.",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int power(int a, int b) {\n        if (b == 0) return 1;\n        if (b == 1) return a;\n        if (b == 2) return a * a;\n        if (b == 3) return a * a * a;\n        return a;\n    }\n}\n"
+  }
+]

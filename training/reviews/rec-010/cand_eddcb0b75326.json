@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_eddcb0b75326",
+  "problemId": "rec-010",
+  "reviewedAt": "2026-07-04T16:35:00.000Z",
+  "satisfactory": false,
+  "bugType": "correctness",
+  "reviewerNotes": "The recursive step subtracts 1 instead of removing a digit, so the logic is wrong.",
+  "resolution": "Require the recursive call to shrink by dividing by 10 for digit-count problems.",
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

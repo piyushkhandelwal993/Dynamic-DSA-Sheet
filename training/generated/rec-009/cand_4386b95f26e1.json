@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_4386b95f26e1",
+  "importedAt": "2026-07-04T15:03:12.027Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "recursive-digit-removal",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) {\n            return 0;\n        }\n        return (n % 10) + sumDigits(n / 10);\n    }\n}\n",
+  "notes": "Recursively removes the last digit and accumulates the sum.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-009.java.beginner.candidates.json"
+}

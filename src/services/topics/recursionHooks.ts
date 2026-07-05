@@ -26,6 +26,8 @@ export function analyzeRecursionJavaContent(content: string): AnalysisResult {
     hasRecursiveCall: hasFact(facts, "recursive-call"),
     hasBaseCase: hasFact(facts, "base-case"),
     hasMultipleRecursiveCalls: hasFact(facts, "multiple-recursive-calls"),
+    hasParameterizedRecursion: hasFact(facts, "parameterized-recursion"),
+    hasFunctionalRecursion: hasFact(facts, "functional-recursion"),
     usesMemoization: hasFact(facts, "memoization"),
     usesBacktrackingUndo: hasFact(facts, "backtracking-undo"),
     usesDivideAndConquer: hasFact(facts, "divide-and-conquer"),
@@ -54,8 +56,10 @@ export function detectRecursionConcepts(problem: Problem, analysis: AnalysisResu
   const matchedConcepts = problem.expectedConcepts.filter((concept) => {
     if (concept === "recursion-intro") return analysis.signals.hasRecursiveCall;
     if (concept === "base-case") return analysis.signals.hasBaseCase;
-    if (concept === "parameterized-recursion") return analysis.signals.hasRecursiveCall;
-    if (concept === "functional-recursion") return analysis.signals.hasRecursiveCall && analysis.signals.hasBaseCase;
+    if (concept === "parameterized-recursion") {
+      return analysis.signals.hasParameterizedRecursion || (analysis.signals.hasRecursiveCall && !analysis.signals.hasFunctionalRecursion);
+    }
+    if (concept === "functional-recursion") return analysis.signals.hasFunctionalRecursion || (analysis.signals.hasRecursiveCall && analysis.signals.hasBaseCase);
     if (concept === "recursion-on-strings") return analysis.signals.hasRecursiveCall;
     if (concept === "recursion-on-arrays") return analysis.signals.hasRecursiveCall;
     if (concept === "tree-recursion") return analysis.signals.hasMultipleRecursiveCalls;

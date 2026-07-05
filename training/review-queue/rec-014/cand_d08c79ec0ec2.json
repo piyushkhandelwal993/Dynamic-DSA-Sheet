@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-04T16:53:44.168Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-014/cand_d08c79ec0ec2.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_d08c79ec0ec2",
+    "importedAt": "2026-07-04T16:53:02.117Z",
+    "problemId": "rec-014",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "no-reuse-forward-only",
+    "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        Arrays.sort(candidates);\n        dfs(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (remaining < 0 || index == candidates.length) {\n            return;\n        }\n        path.add(candidates[index]);\n        dfs(candidates, index + 1, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        dfs(candidates, index + 1, remaining, path, answer);\n    }\n}\n",
+    "notes": "Moves forward after taking a number, so candidates cannot be reused.",
+    "model": "manual-import",
+    "promptVersion": "v1",
+    "sourceFile": "training/manual/rec-014.java.beginner.candidates.json"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": false,
+    "passedCount": 0,
+    "totalCount": 1,
+    "compileError": "Main.java:22: error: cannot find symbol\n        System.out.print(new Solution().subsetSumExists(values, target) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method subsetSumExists(int[],int)\n  location: class Solution\n1 error",
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "indexed-access",
+      "queue-operations",
+      "right-shift",
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "array",
+      "graph-adjacency",
+      "tree-recursion",
+      "sorting",
+      "backtracking-undo",
+      "parameterized-recursion",
+      "recursion-on-arrays",
+      "subsequence-generation",
+      "graph-traversal",
+      "graph-dfs",
+      "n-log-n-candidate",
+      "recursive-base-case",
+      "bit-edge-check",
+      "exponential-dp-recursion"
+    ],
+    "matchedConcepts": [
+      "subsequence-generation",
+      "backtracking-basics"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 20
+    },
+    "recommendationHints": [
+      "Fix the compiler errors first, then submit again to run the problem test cases.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP."
+    ],
+    "evidence": [
+      {
+        "conceptId": "subsequence-generation",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "include/exclude recursive branches"
+        ],
+        "factIds": [
+          "subsequence-generation"
+        ]
+      },
+      {
+        "conceptId": "backtracking-basics",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST call to dfs",
+          "dfs",
+          "remove/reset/swap undo"
+        ],
+        "factIds": [
+          "recursive-call",
+          "backtracking-undo"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "needs-investigation"
+}

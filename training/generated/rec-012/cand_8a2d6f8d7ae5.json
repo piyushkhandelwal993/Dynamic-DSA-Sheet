@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_8a2d6f8d7ae5",
+  "importedAt": "2026-07-04T16:42:46.742Z",
+  "problemId": "rec-012",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "non-shrinking-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(a, b);\n    }\n}\n",
+  "notes": "Recurses with unchanged arguments when the remainder is not used correctly.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "training/manual/rec-012.java.beginner.candidates.json"
+}
