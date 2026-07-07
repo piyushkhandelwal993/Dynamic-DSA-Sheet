@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-07T08:41:09.911Z",
+  "sourceCandidate": "training/generated/bit-015/cand_f4f7fd9d749f.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f4f7fd9d749f",
+    "importedAt": "2026-07-07T08:40:42.260Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "flip-each-bit",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int result = n;\n\n        for (int bit = 0; bit < 32; bit++) {\n            result ^= (1 << bit);\n        }\n\n        return result;\n    }\n}",
+    "notes": "Correct but unnecessarily flips all 32 bits one by one.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "left-shift",
+      "bitwise-xor",
+      "loop",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "bitwise-not"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 65,
+      "complexityScore": 45,
+      "finalScore": 69
+    },
+    "recommendationHints": [
+      "Demonstrate bitwise not explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(1) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

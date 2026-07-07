@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_0cde179c4a51",
+  "importedAt": "2026-07-07T02:57:26.145Z",
+  "problemId": "rec-018",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "linkedlist-simulation",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        LinkedList<Integer> circle = new LinkedList<>();\n\n        for (int person = 1; person <= n; person++) {\n            circle.add(person);\n        }\n\n        int currentIndex = 0;\n\n        while (circle.size() > 1) {\n            for (int steps = 1; steps < k; steps++) {\n                currentIndex++;\n                if (currentIndex == circle.size()) {\n                    currentIndex = 0;\n                }\n            }\n\n            circle.remove(currentIndex);\n\n            if (currentIndex == circle.size() && circle.size() > 0) {\n                currentIndex = 0;\n            }\n        }\n\n        return circle.getFirst();\n    }\n}",
+  "notes": "Valid but suboptimal simulation that advances step-by-step before each removal.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

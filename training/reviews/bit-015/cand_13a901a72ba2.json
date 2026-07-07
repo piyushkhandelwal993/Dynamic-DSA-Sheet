@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_13a901a72ba2",
+  "problemId": "bit-015",
+  "reviewedAt": "2026-07-07T08:44:17.001Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [
+    "bitwise-not"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}

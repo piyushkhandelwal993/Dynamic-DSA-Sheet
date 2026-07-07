@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-07T03:11:49.751Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-018/cand_9c202174d916.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_9c202174d916",
+    "importedAt": "2026-07-07T02:57:26.144Z",
+    "problemId": "rec-018",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "helper-zero-based-recursion",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        return solveZeroBased(n, k) + 1;\n    }\n\n    private int solveZeroBased(int peopleCount, int stepSize) {\n        if (peopleCount == 1) {\n            return 0;\n        }\n\n        return (solveZeroBased(peopleCount - 1, stepSize) + stepSize) % peopleCount;\n    }\n}",
+    "notes": "Uses a private helper to keep the recursive formula clean and explicit.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "5, 2",
+        "expectedOutput": "2",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Exception in thread \"main\" java.util.InputMismatchException\n\tat java.base/java.util.Scanner.throwFor(Scanner.java:964)\n\tat java.base/java.util.Scanner.next(Scanner.java:1619)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2284)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2238)\n\tat Main.main(Main.java:8)",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "multiple-recursive-calls",
+      "tree-recursion",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursive-base-case",
+      "exponential-dp-recursion",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "recursion-intro"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "recursion-intro",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST call to solveZeroBased",
+          "josephus",
+          "solveZeroBased"
+        ],
+        "factIds": [
+          "recursive-call"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score",
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-07T03:11:48.874Z",
+  "sourceCandidate": "training/generated/rec-018/cand_0cde179c4a51.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_0cde179c4a51",
+    "importedAt": "2026-07-07T02:57:26.145Z",
+    "problemId": "rec-018",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "linkedlist-simulation",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        LinkedList<Integer> circle = new LinkedList<>();\n\n        for (int person = 1; person <= n; person++) {\n            circle.add(person);\n        }\n\n        int currentIndex = 0;\n\n        while (circle.size() > 1) {\n            for (int steps = 1; steps < k; steps++) {\n                currentIndex++;\n                if (currentIndex == circle.size()) {\n                    currentIndex = 0;\n                }\n            }\n\n            circle.remove(currentIndex);\n\n            if (currentIndex == circle.size() && circle.size() > 0) {\n                currentIndex = 0;\n            }\n        }\n\n        return circle.getFirst();\n    }\n}",
+    "notes": "Valid but suboptimal simulation that advances step-by-step before each removal.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "5, 2",
+        "expectedOutput": "2",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Exception in thread \"main\" java.util.InputMismatchException\n\tat java.base/java.util.Scanner.throwFor(Scanner.java:964)\n\tat java.base/java.util.Scanner.next(Scanner.java:1619)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2284)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2238)\n\tat Main.main(Main.java:8)",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "queue-operations",
+      "loop",
+      "nested-loop",
+      "array",
+      "stack-like",
+      "queue-like",
+      "backtracking-undo",
+      "queue-simulation",
+      "bottom-up-dp",
+      "dp-state-transition",
+      "dp-space-optimization",
+      "quadratic-candidate",
+      "reduced-dp-space",
+      "bit-hardcoding"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "recursion-intro"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 13
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate recursion intro explicitly; it is expected for this problem but was not detected.",
+      "Replace literal bit cases with a general mask-based operation."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "recursion-intro",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

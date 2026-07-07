@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-07T08:41:06.350Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/bit-015/cand_04fe0d087d05.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_04fe0d087d05",
+    "importedAt": "2026-07-07T08:40:42.261Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "binary-string-flip",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int result = n;\n\n        for (int position = 0; position < Integer.SIZE; position++) {\n            if (((result >> position) & 1) == 1) {\n                result &= ~(1 << position);\n            } else {\n                result |= (1 << position);\n            }\n        }\n\n        return result;\n    }\n}",
+    "notes": "Correct but verbose implementation that flips each bit individually.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "bitwise-and",
+      "right-shift",
+      "bitwise-not",
+      "left-shift",
+      "bitwise-or",
+      "loop",
+      "single-pass"
+    ],
+    "matchedConcepts": [
+      "bitwise-not"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 65,
+      "complexityScore": 45,
+      "finalScore": 89
+    },
+    "recommendationHints": [
+      "Refactor toward the intended O(1) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST operator BITWISE_COMPLEMENT",
+          "~ operator"
+        ],
+        "factIds": [
+          "bitwise-not"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "suspicious-strong-match-for-weak-candidate"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "metadata"
+}

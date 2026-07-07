@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f89c44f8f896",
+  "importedAt": "2026-07-07T02:57:26.144Z",
+  "problemId": "rec-018",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "iterative-one-based",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        int survivor = 0;\n\n        for (int peopleCount = 2; peopleCount <= n; peopleCount++) {\n            survivor = (survivor + k) % peopleCount;\n        }\n\n        return survivor + 1;\n    }\n}",
+  "notes": "O(n) iterative version using zero-based recurrence internally and converting to 1-based answer.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

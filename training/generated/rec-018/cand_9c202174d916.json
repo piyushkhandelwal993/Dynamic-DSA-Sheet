@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_9c202174d916",
+  "importedAt": "2026-07-07T02:57:26.144Z",
+  "problemId": "rec-018",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "helper-zero-based-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        return solveZeroBased(n, k) + 1;\n    }\n\n    private int solveZeroBased(int peopleCount, int stepSize) {\n        if (peopleCount == 1) {\n            return 0;\n        }\n\n        return (solveZeroBased(peopleCount - 1, stepSize) + stepSize) % peopleCount;\n    }\n}",
+  "notes": "Uses a private helper to keep the recursive formula clean and explicit.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

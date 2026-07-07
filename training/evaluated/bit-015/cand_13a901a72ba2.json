@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-07T08:41:06.867Z",
+  "sourceCandidate": "training/generated/bit-015/cand_13a901a72ba2.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_13a901a72ba2",
+    "importedAt": "2026-07-07T08:40:42.261Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "negation-instead-of-not",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        return -n;\n    }\n}",
+    "notes": "Incorrect because arithmetic negation is different from bitwise inversion.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "5",
+        "expectedOutput": "-6",
+        "actualOutput": "-5",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "0",
+        "expectedOutput": "-1",
+        "actualOutput": "0",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      },
+      {
+        "input": "-1",
+        "expectedOutput": "0",
+        "actualOutput": "1",
+        "passed": false,
+        "visibility": "hidden",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "bitwise-not"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 55,
+      "complexityScore": 85,
+      "finalScore": 17
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/3 currently pass.",
+      "Demonstrate bitwise not explicitly; it is expected for this problem but was not detected.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

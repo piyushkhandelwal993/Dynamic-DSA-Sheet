@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_13a901a72ba2",
+  "importedAt": "2026-07-07T08:40:42.261Z",
+  "problemId": "bit-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "negation-instead-of-not",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        return -n;\n    }\n}",
+  "notes": "Incorrect because arithmetic negation is different from bitwise inversion.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

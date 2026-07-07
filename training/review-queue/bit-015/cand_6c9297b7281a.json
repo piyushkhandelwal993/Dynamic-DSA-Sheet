@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-07T08:41:07.878Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/bit-015/cand_6c9297b7281a.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_6c9297b7281a",
+    "importedAt": "2026-07-07T08:40:42.260Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "mask-complement",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int allOnes = -1;\n        return n ^ allOnes;\n    }\n}",
+    "notes": "Uses XOR with an all-ones mask instead of the NOT operator.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "bitwise-xor"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "bitwise-not"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 75,
+      "complexityScore": 85,
+      "finalScore": 75
+    },
+    "recommendationHints": [
+      "Demonstrate bitwise not explicitly; it is expected for this problem but was not detected."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

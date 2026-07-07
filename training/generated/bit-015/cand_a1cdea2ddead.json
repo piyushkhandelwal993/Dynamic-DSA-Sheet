@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a1cdea2ddead",
+  "importedAt": "2026-07-07T08:40:42.259Z",
+  "problemId": "bit-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "store-and-return",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int invertedValue = ~n;\n        return invertedValue;\n    }\n}",
+  "notes": "Same optimal approach with an intermediate variable.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

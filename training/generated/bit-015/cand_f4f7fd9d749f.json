@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_f4f7fd9d749f",
+  "importedAt": "2026-07-07T08:40:42.260Z",
+  "problemId": "bit-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "flip-each-bit",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int result = n;\n\n        for (int bit = 0; bit < 32; bit++) {\n            result ^= (1 << bit);\n        }\n\n        return result;\n    }\n}",
+  "notes": "Correct but unnecessarily flips all 32 bits one by one.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

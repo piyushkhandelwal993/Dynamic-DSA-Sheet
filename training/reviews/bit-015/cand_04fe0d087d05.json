@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_04fe0d087d05",
+  "problemId": "bit-015",
+  "reviewedAt": "2026-07-07T08:43:40.604Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "metadata"
+}

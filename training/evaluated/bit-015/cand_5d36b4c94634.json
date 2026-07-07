@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-07T08:41:07.362Z",
+  "sourceCandidate": "training/generated/bit-015/cand_5d36b4c94634.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_5d36b4c94634",
+    "importedAt": "2026-07-07T08:40:42.258Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "direct-bitwise-not",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        return ~n;\n    }\n}",
+    "notes": "Uses the bitwise NOT operator directly. Optimal O(1) solution.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "bitwise-not"
+    ],
+    "matchedConcepts": [
+      "bitwise-not"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 75,
+      "complexityScore": 90,
+      "finalScore": 95
+    },
+    "recommendationHints": [
+      "The approach is strong. Review the next recommendation and continue to the next challenge."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST operator BITWISE_COMPLEMENT",
+          "~ operator"
+        ],
+        "factIds": [
+          "bitwise-not"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

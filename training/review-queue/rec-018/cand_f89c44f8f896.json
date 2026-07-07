@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-07T03:11:50.902Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-018/cand_f89c44f8f896.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f89c44f8f896",
+    "importedAt": "2026-07-07T02:57:26.144Z",
+    "problemId": "rec-018",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "iterative-one-based",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        int survivor = 0;\n\n        for (int peopleCount = 2; peopleCount <= n; peopleCount++) {\n            survivor = (survivor + k) % peopleCount;\n        }\n\n        return survivor + 1;\n    }\n}",
+    "notes": "O(n) iterative version using zero-based recurrence internally and converting to 1-based answer.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "5, 2",
+        "expectedOutput": "2",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Exception in thread \"main\" java.util.InputMismatchException\n\tat java.base/java.util.Scanner.throwFor(Scanner.java:964)\n\tat java.base/java.util.Scanner.next(Scanner.java:1619)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2284)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2238)\n\tat Main.main(Main.java:8)",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "single-pass"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "functional-recursion",
+      "recursion-intro"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 0,
+      "qualityScore": 50,
+      "complexityScore": 55,
+      "finalScore": 13
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Demonstrate functional recursion explicitly; it is expected for this problem but was not detected.",
+      "Demonstrate recursion intro explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      },
+      {
+        "conceptId": "recursion-intro",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

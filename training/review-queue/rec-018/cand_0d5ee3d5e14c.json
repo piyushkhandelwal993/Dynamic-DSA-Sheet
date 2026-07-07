@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-07T03:11:49.159Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/rec-018/cand_0d5ee3d5e14c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_0d5ee3d5e14c",
+    "importedAt": "2026-07-07T02:57:26.142Z",
+    "problemId": "rec-018",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "recursive-zero-based-plus-one",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int josephus(int n, int k) {\n        if (n == 1) {\n            return 1;\n        }\n\n        return (josephus(n - 1, k) + k - 1) % n + 1;\n    }\n}",
+    "notes": "Standard O(n) recursive Josephus solution returning 1-based position.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 0,
+    "totalCount": 1,
+    "failedCases": [
+      {
+        "input": "5, 2",
+        "expectedOutput": "2",
+        "actualOutput": "",
+        "passed": false,
+        "visibility": "sample",
+        "error": "Exception in thread \"main\" java.util.InputMismatchException\n\tat java.base/java.util.Scanner.throwFor(Scanner.java:964)\n\tat java.base/java.util.Scanner.next(Scanner.java:1619)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2284)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2238)\n\tat Main.main(Main.java:8)",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "functional-recursion",
+      "parameterized-recursion",
+      "recursive-base-case",
+      "hardcoded-output"
+    ],
+    "matchedConcepts": [
+      "functional-recursion",
+      "recursion-intro"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 0,
+      "conceptMatchScore": 100,
+      "qualityScore": 70,
+      "complexityScore": 90,
+      "finalScore": 30
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 0/1 currently pass.",
+      "Remove hardcoded outputs and derive the answer from the input."
+    ],
+    "evidence": [
+      {
+        "conceptId": "functional-recursion",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "recursive result returned or combined"
+        ],
+        "factIds": [
+          "functional-recursion"
+        ]
+      },
+      {
+        "conceptId": "recursion-intro",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "JDK AST call to josephus",
+          "josephus"
+        ],
+        "factIds": [
+          "recursive-call"
+        ]
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "failed-tests-high-concept-score",
+    "expected-correct-but-execution-failed"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "execution-or-template"
+}

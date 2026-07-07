@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-07T08:41:09.407Z",
+  "sourceCandidate": "training/generated/bit-015/cand_f267ded70847.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_f267ded70847",
+    "importedAt": "2026-07-07T08:40:42.260Z",
+    "problemId": "bit-015",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "xor-with-all-ones",
+    "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        return n ^ -1;\n    }\n}",
+    "notes": "Correct alternate solution since -1 has all bits set in two's complement.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "bitwise-xor"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "bitwise-not"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 75,
+      "complexityScore": 85,
+      "finalScore": 75
+    },
+    "recommendationHints": [
+      "Demonstrate bitwise not explicitly; it is expected for this problem but was not detected."
+    ],
+    "evidence": [
+      {
+        "conceptId": "bitwise-not",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}
