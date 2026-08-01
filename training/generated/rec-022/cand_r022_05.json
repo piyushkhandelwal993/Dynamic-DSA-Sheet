@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r022_05",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-022",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "unchanged",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] quickSort(int[] nums) {\n        return nums;\n    }\n}",
+  "notes": "No sorting at all.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a013_04",
+  "importedAt": "2026-07-10T03:07:52.282Z",
+  "problemId": "arr-013",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "hardcoded-shortcut",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int countPositive(int[] nums) {\n        return 1;\n    }\n}",
+  "notes": "Shortcut candidate for anti-pattern training.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

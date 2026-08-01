@@ -89,7 +89,7 @@ function main() {
   const options = parseArgs(process.argv.slice(2));
   const scriptDir = path.dirname(fileURLToPath(import.meta.url));
   const appRoot = path.resolve(scriptDir, "..");
-  const workspaceRoot = path.resolve(appRoot, "..");
+  const workspaceRoot = appRoot;
   const generatedDir = path.resolve(workspaceRoot, "training", "generated", options.problem);
   const queueDir = path.resolve(workspaceRoot, "training", "review-queue", options.problem);
   const problem = loadProblem(appRoot, options.problem);

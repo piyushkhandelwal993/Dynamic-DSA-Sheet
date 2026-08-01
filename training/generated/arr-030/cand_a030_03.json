@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a030_03",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-030",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "naive-wrong",
+  "code": "import java.util.*;\n\nclass Solution {\n    public double maxAverageSubarray(int[] nums, int k) {\n        return 0.0;\n    }\n}",
+  "notes": "Too simple / incorrect baseline.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

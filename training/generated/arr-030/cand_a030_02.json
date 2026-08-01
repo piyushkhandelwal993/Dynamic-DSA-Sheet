@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a030_02",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-030",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public double maxAverageSubarray(int[] nums, int k) {\n        int sum = 0;\n        for (int i = 0; i < k && i < nums.length; i++) sum += nums[i];\n        int best = sum;\n        for (int i = k; i < nums.length; i++) {\n            sum += nums[i] - nums[i - k];\n            best = Math.max(best, sum);\n        }\n        return (double) best / k;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

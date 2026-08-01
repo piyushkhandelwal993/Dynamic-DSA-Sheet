@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a023_01",
+  "importedAt": "2026-07-10T03:07:52.285Z",
+  "problemId": "arr-023",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] sortedSquares(int[] nums) {\n        int left = 0, right = nums.length - 1, write = nums.length - 1;\n        int[] result = new int[nums.length];\n        while (left <= right) {\n            int leftSq = nums[left] * nums[left];\n            int rightSq = nums[right] * nums[right];\n            if (leftSq > rightSq) {\n                result[write--] = leftSq;\n                left++;\n            } else {\n                result[write--] = rightSq;\n                right--;\n            }\n        }\n        return result;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

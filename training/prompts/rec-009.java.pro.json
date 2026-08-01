@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-10T02:36:14.683Z",
+  "problemId": "rec-009",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-009\nTitle: Sum of Digits\nTopic: Recursion\nSubtopic: Recursion on arrays\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: functional-recursion, base-case\nExpected Complexity: O(log n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Sum of Digits (rec-009)\n * Topic: Recursion\n * Subtopic: Recursion on arrays\n * Difficulty: Easy\n * Expected Concepts: functional-recursion, base-case\n * Input:\n * - An integer n\n * Output:\n * - Return the sum of digits\n * Approach: Take the last digit with n % 10, then recurse on n / 10 until the number becomes 0.\n * Sample Input: 572\n * Sample Output: 14\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Split into last digit and remaining prefix.\n\n        // TODO: Return the sum of digits\n\n        sc.close();\n    }\n}\n"
+}

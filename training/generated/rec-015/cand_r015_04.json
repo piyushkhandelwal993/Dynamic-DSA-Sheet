@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r015_04",
+  "importedAt": "2026-07-10T02:51:30.940Z",
+  "problemId": "rec-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "no-reuse-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        helper(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void helper(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        if (index == candidates.length || remaining < 0) return;\n        path.add(candidates[index]);\n        helper(candidates, index + 1, remaining - candidates[index], path, answer);\n        path.remove(path.size() - 1);\n        helper(candidates, index + 1, remaining, path, answer);\n    }\n}",
+  "notes": "Forgets reuse and misses valid repeated picks.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

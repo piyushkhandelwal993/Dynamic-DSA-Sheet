@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a018_02",
+  "importedAt": "2026-07-10T03:07:52.284Z",
+  "problemId": "arr-018",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int minSubarrayLen(int[] nums, int target) {\n        int best = Integer.MAX_VALUE, left = 0, sum = 0;\n        for (int right = 0; right < nums.length; right++) {\n            sum += nums[right];\n            while (sum >= target) {\n                best = Math.min(best, right - left + 1);\n                sum -= nums[left++];\n            }\n        }\n        return best == Integer.MAX_VALUE ? 0 : best;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

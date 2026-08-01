@@ -64,7 +64,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "queue-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "processQueueQueries",
+      "javaSignature": "public int[] processQueueQueries(int[][] queries)",
+      "cppSignature": "vector<int> processQueueQueries(vector<vector<int>>& queries)",
+      "providedTypes": [
+        "queue operations encoded as query pairs"
+      ],
+      "driverStrategy": "queue-process-queries"
+    }
   },
   {
     "id": "q-002",
@@ -135,7 +145,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "queue-circular-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "designCircularQueue",
+      "javaSignature": "public int[] designCircularQueue(int capacity, int[][] queries)",
+      "cppSignature": "vector<int> designCircularQueue(int capacity, vector<vector<int>>& queries)",
+      "providedTypes": [
+        "circular queue query stream"
+      ],
+      "driverStrategy": "queue-circular-queries"
+    }
   },
   {
     "id": "q-003",
@@ -283,7 +303,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.2,
     "variantGroup": "queue-circular-challenge",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "petrolPumpTour",
+      "javaSignature": "public int petrolPumpTour(int[] petrol, int[] distance)",
+      "cppSignature": "int petrolPumpTour(vector<int>& petrol, vector<int>& distance)",
+      "providedTypes": [
+        "integer arrays"
+      ],
+      "driverStrategy": "queue-petrol-pump"
+    }
   },
   {
     "id": "q-005",
@@ -353,7 +383,18 @@
     "poolRole": "core",
     "masteryWeight": 1.1,
     "variantGroup": "queue-simulation-independence",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "generateBinaryNumbers",
+      "javaSignature": "public String[] generateBinaryNumbers(int n)",
+      "cppSignature": "vector<string> generateBinaryNumbers(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "queue-generate-binary"
+    }
   },
   {
     "id": "q-006",
@@ -421,7 +462,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "queue-bfs-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rottenOranges",
+      "javaSignature": "public int rottenOranges(int[][] grid)",
+      "cppSignature": "int rottenOranges(vector<vector<int>>& grid)",
+      "providedTypes": [
+        "2D integer grid"
+      ],
+      "driverStrategy": "queue-rotten-oranges"
+    }
   },
   {
     "id": "q-007",
@@ -489,7 +540,17 @@
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "queue-stream-practice",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "firstNonRepeatingCharacter",
+      "javaSignature": "public String firstNonRepeatingCharacter(String s)",
+      "cppSignature": "string firstNonRepeatingCharacter(string s)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "queue-first-non-repeating-stream"
+    }
   },
   {
     "id": "q-008",
@@ -558,7 +619,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "queue-deque-challenge",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "slidingWindowMaximum",
+      "javaSignature": "public int[] slidingWindowMaximum(int[] nums, int k)",
+      "cppSignature": "vector<int> slidingWindowMaximum(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "queue-sliding-window-maximum"
+    }
   },
   {
     "id": "q-009",
@@ -627,7 +698,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.4,
     "variantGroup": "queue-deque-challenge",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "shortestSubarrayAtLeastK",
+      "javaSignature": "public int shortestSubarrayAtLeastK(int[] nums, int k)",
+      "cppSignature": "int shortestSubarrayAtLeastK(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "queue-shortest-subarray-at-least-k"
+    }
   },
   {
     "id": "q-010",
@@ -683,7 +764,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "queue-deque-challenge",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "jumpGameVI",
+      "javaSignature": "public int jumpGameVI(int[] nums, int k)",
+      "cppSignature": "int jumpGameVI(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "queue-jump-game-vi"
+    }
   },
   {
     "id": "q-011",
@@ -751,7 +842,17 @@
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "queue-priority-practice",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kLargestElements",
+      "javaSignature": "public int[] kLargestElements(int[] nums, int k)",
+      "cppSignature": "vector<int> kLargestElements(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "queue-k-largest-elements"
+    }
   },
   {
     "id": "q-012",
@@ -822,7 +923,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.3,
     "variantGroup": "queue-priority-challenge",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "taskScheduler",
+      "javaSignature": "public int taskScheduler(String tasks, int n)",
+      "cppSignature": "int taskScheduler(string tasks, int n)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "queue-task-scheduler"
+    }
   },
   {
     "id": "q-013",
@@ -889,6 +1000,16 @@
     "poolRole": "practice",
     "masteryWeight": 0.95,
     "variantGroup": "queue-advanced-practice",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "dota2Senate",
+      "javaSignature": "public String dota2Senate(String senate)",
+      "cppSignature": "string dota2Senate(string senate)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "queue-dota2-senate"
+    }
   }
 ]

@@ -118,6 +118,14 @@
         "explanation": "Inorder visits left, root, right."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "inorder",
+      "javaSignature": "public List<Integer> inorder(TreeNode root)",
+      "cppSignature": "vector<int> inorder(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-inorder"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 -1 -1 4 5",
@@ -188,6 +196,14 @@
         "explanation": "Postorder visits children before the parent."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "postorder",
+      "javaSignature": "public List<Integer> postorder(TreeNode root)",
+      "cppSignature": "vector<int> postorder(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-postorder"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 -1 -1 4 5",
@@ -254,6 +270,14 @@
         "explanation": "Level order visits breadth-first."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "levelOrder",
+      "javaSignature": "public List<Integer> levelOrder(TreeNode root)",
+      "cppSignature": "vector<int> levelOrder(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-level-order"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 -1 -1 4 5",
@@ -398,6 +422,14 @@
         "explanation": "The longest path is 4 -> 2 -> 1 -> 3."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "diameter",
+      "javaSignature": "public int diameter(TreeNode root)",
+      "cppSignature": "int diameter(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-diameter"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 4 5 -1 -1",
@@ -467,6 +499,14 @@
         "explanation": "Every node still satisfies the balance condition."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isBalanced",
+      "javaSignature": "public boolean isBalanced(TreeNode root)",
+      "cppSignature": "bool isBalanced(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-balanced-check"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 4 -1 -1 -1",
@@ -534,6 +574,14 @@
         "explanation": "5 lies in the right subtree of 4 and the left subtree of 6."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "searchBST",
+      "javaSignature": "public boolean searchBST(TreeNode root, int target)",
+      "cppSignature": "bool searchBST(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-search"
+    },
     "testCases": [
       {
         "input": "7\n4 2 6 1 3 5 7\n5",
@@ -602,6 +650,14 @@
         "explanation": "From the left side, these are the first visible nodes per level."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "leftView",
+      "javaSignature": "public List<Integer> leftView(TreeNode root)",
+      "cppSignature": "vector<int> leftView(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-left-view"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 4 5 -1 6",
@@ -670,6 +726,14 @@
         "explanation": "8 becomes the right child of 7."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "insertBST",
+      "javaSignature": "public TreeNode insertBST(TreeNode root, int x)",
+      "cppSignature": "TreeNode* insertBST(TreeNode* root, int x)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-insert"
+    },
     "testCases": [
       {
         "input": "7\n4 2 6 1 3 5 7\n8",
@@ -739,6 +803,14 @@
         "explanation": "3 is replaced while preserving BST order."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "deleteBST",
+      "javaSignature": "public TreeNode deleteBST(TreeNode root, int key)",
+      "cppSignature": "TreeNode* deleteBST(TreeNode* root, int key)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-delete"
+    },
     "testCases": [
       {
         "input": "7\n5 3 6 2 4 -1 7\n3",
@@ -807,6 +879,14 @@
         "explanation": "These nodes are visible from the top."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "topView",
+      "javaSignature": "public List<Integer> topView(TreeNode root)",
+      "cppSignature": "vector<int> topView(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-top-view"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 4 5 6 7",
@@ -875,6 +955,14 @@
         "explanation": "5 and 1 split at root 3."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lowestCommonAncestor",
+      "javaSignature": "public int lowestCommonAncestor(TreeNode root, int p, int q)",
+      "cppSignature": "int lowestCommonAncestor(TreeNode* root, int p, int q)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-lca"
+    },
     "testCases": [
       {
         "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 1",
@@ -943,6 +1031,14 @@
         "explanation": "That is the postorder traversal of the reconstructed tree."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "buildTree",
+      "javaSignature": "public TreeNode buildTree(int[] preorder, int[] inorder)",
+      "cppSignature": "TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "tree-build-from-traversals"
+    },
     "testCases": [
       {
         "input": "5\n3 9 20 15 7\n9 3 15 20 7",
@@ -1011,6 +1107,14 @@
         "explanation": "The null children of node 2 must be preserved to keep the shape."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "serializeLevelOrder",
+      "javaSignature": "public List<String> serializeLevelOrder(TreeNode root)",
+      "cppSignature": "vector<string> serializeLevelOrder(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-serialize-level-order"
+    },
     "testCases": [
       {
         "input": "7\n1 2 3 -1 -1 4 5",

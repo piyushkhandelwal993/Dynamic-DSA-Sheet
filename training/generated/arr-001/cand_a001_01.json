@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a001_01",
+  "importedAt": "2026-07-10T03:07:52.273Z",
+  "problemId": "arr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int findMaximum(int[] nums) {\n        int best = nums[0];\n        for (int value : nums) best = Math.max(best, value);\n        return best;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

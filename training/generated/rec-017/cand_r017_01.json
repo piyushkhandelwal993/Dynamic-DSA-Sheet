@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r017_01",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "recursive-moves",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<String> towerOfHanoi(int n) {\n        List<String> moves = new ArrayList<>();\n        solve(n, 'A', 'B', 'C', moves);\n        return moves;\n    }\n\n    private void solve(int n, char source, char auxiliary, char destination, List<String> moves) {\n        if (n == 0) return;\n        solve(n - 1, source, destination, auxiliary, moves);\n        moves.add(source + \"->\" + destination);\n        solve(n - 1, auxiliary, source, destination, moves);\n    }\n}",
+  "notes": "Classic recursive move construction.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

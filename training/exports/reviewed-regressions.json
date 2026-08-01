@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-03T15:50:06.599Z",
-  "totalCases": 4,
+  "generatedAt": "2026-07-10T03:16:07.178Z",
+  "totalCases": 27,
   "outputPath": "training/exports/reviewed-regressions.json",
   "cases": [
     {
@@ -25,6 +25,29 @@
       "forbiddenFacts": []
     },
     {
+      "candidateId": "cand_04fe0d087d05",
+      "problemId": "bit-015",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int invertBits(int n) {\n        int result = n;\n\n        for (int position = 0; position < Integer.SIZE; position++) {\n            if (((result >> position) & 1) == 1) {\n                result &= ~(1 << position);\n            } else {\n                result |= (1 << position);\n            }\n        }\n\n        return result;\n    }\n}",
+      "matchedConcepts": [
+        "bitwise-not"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "suspicious-strong-match-for-weak-candidate"
+      ],
+      "reviewerNotes": "",
+      "expectedFacts": [
+        "bitwise-not"
+      ],
+      "forbiddenFacts": [
+        "bit-hardcoding"
+      ]
+    },
+    {
       "candidateId": "cand_7438d974c414",
       "problemId": "ll-008",
       "language": "java",
@@ -40,8 +63,12 @@
       ],
       "suspiciousReasons": [],
       "reviewerNotes": "Incorrect candidate passed because the suite lacks a repeated-value acyclic list where comparing node values would false-positive.",
-      "expectedFacts": [],
-      "forbiddenFacts": []
+      "expectedFacts": [
+        "fast-slow-pointers"
+      ],
+      "forbiddenFacts": [
+        "linked-list-cycle-detection"
+      ]
     },
     {
       "candidateId": "cand_ba6875efaa4f",
@@ -61,6 +88,534 @@
       "expectedFacts": [],
       "forbiddenFacts": [
         "sliding-window-queue"
+      ]
+    },
+    {
+      "candidateId": "cand_3555790adebb",
+      "problemId": "rec-003",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "failed-tests-high-concept-score",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return factorial(n - 1);\n    }\n}\n",
+      "matchedConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "Rejected during training: does not represent the intended recursive learning target.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": []
+    },
+    {
+      "candidateId": "cand_8f1e72128a9a",
+      "problemId": "rec-003",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        int answer = 1;\n        for (int value = 2; value <= n; value++) {\n            answer *= value;\n        }\n        return answer;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: does not represent the intended recursive learning target.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "functional-recursion",
+        "base-case"
+      ]
+    },
+    {
+      "candidateId": "cand_c08211711faf",
+      "problemId": "rec-003",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "needs-investigation",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int factorial(int n) {\n        if (n == 0 || n == 1) {\n            return 1;\n        }\n        if (n == 2) {\n            return 2;\n        }\n        if (n == 3) {\n            return 6;\n        }\n        return n;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Rejected during training: does not represent the intended recursive learning target.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "functional-recursion",
+        "base-case"
+      ]
+    },
+    {
+      "candidateId": "cand_04a675a68349",
+      "problemId": "rec-004",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n == 1) return 1;\n        if (n == 2) return 3;\n        if (n == 3) return 6;\n        if (n == 4) return 10;\n        return n * 2;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "parameterized-recursion",
+        "functional-recursion"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "parameterized-recursion",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_1e51b5069976",
+      "problemId": "rec-004",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        int sum = 0;\n        for (int value = 1; value <= n; value++) {\n            sum += value;\n        }\n        return sum;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "parameterized-recursion",
+        "functional-recursion"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "parameterized-recursion",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_8417ed1eb85e",
+      "problemId": "rec-004",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "failed-tests-high-concept-score",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int sumFirstN(int n) {\n        if (n <= 1) {\n            return 1;\n        }\n        return n + sumFirstN(n - 1);\n    }\n}\n",
+      "matchedConcepts": [
+        "parameterized-recursion",
+        "functional-recursion"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_3ccf3f9301fa",
+      "problemId": "rec-006",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "needs-investigation",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        return fibonacci(n - 1);\n    }\n}\n",
+      "matchedConcepts": [
+        "base-case"
+      ],
+      "missingConcepts": [
+        "tree-recursion"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Rejected during training: not the intended Fibonacci recursion shape or correctness.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "tree-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_570d9b4b01ae",
+      "problemId": "rec-006",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "needs-investigation",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n == 0) return 0;\n        if (n == 1) return 1;\n        if (n == 2) return 1;\n        if (n == 3) return 2;\n        if (n == 4) return 3;\n        return n;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "tree-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Rejected during training: not the intended Fibonacci recursion shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "tree-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_b8284d12bf17",
+      "problemId": "rec-006",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int fibonacci(int n) {\n        if (n <= 1) {\n            return n;\n        }\n        int prev = 0;\n        int curr = 1;\n        for (int i = 2; i <= n; i++) {\n            int next = prev + curr;\n            prev = curr;\n            curr = next;\n        }\n        return curr;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "tree-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended Fibonacci recursion shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "tree-recursion",
+        "base-case"
+      ]
+    },
+    {
+      "candidateId": "cand_50719e3b550d",
+      "problemId": "rec-007",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "needs-investigation",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        if (s.equals(\"a\") || s.equals(\"aa\") || s.equals(\"aba\") || s.equals(\"abba\")) {\n            return true;\n        }\n        if (s.equals(\"ab\") || s.equals(\"abc\")) {\n            return false;\n        }\n        return s.length() < 2;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "recursion-on-strings",
+        "base-case"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Rejected during training: not the intended recursive palindrome shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_7ca334a6d6d4",
+      "problemId": "rec-007",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "failed-tests-high-concept-score",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        return check(s, 0, s.length() - 1);\n    }\n\n    private boolean check(String s, int left, int right) {\n        if (left >= right) {\n            return true;\n        }\n        if (s.charAt(left) != s.charAt(right)) {\n            return false;\n        }\n        return check(s, left + 1, right);\n    }\n}\n",
+      "matchedConcepts": [
+        "recursion-on-strings",
+        "base-case"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursive palindrome shape or correctness.",
+      "expectedFacts": [
+        "recursion-on-strings",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_bc01e0d55287",
+      "problemId": "rec-007",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "needs-investigation",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public boolean palindrome(String s) {\n        int left = 0;\n        int right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n        return true;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "recursion-on-strings",
+        "base-case"
+      ],
+      "suspiciousReasons": [],
+      "reviewerNotes": "Rejected during training: not the intended recursive palindrome shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_10181d64c865",
+      "problemId": "rec-008",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "failed-tests-high-concept-score",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.length() <= 1) {\n            return s;\n        }\n        return reverseString(s.substring(1));\n    }\n}\n",
+      "matchedConcepts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
+      "expectedFacts": [
+        "recursion-on-strings",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_c9020b7230b0",
+      "problemId": "rec-008",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        StringBuilder builder = new StringBuilder();\n        for (int i = s.length() - 1; i >= 0; i--) {\n            builder.append(s.charAt(i));\n        }\n        return builder.toString();\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_edfe437bc015",
+      "problemId": "rec-008",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "passed-tests-but-concept-miss",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public String reverseString(String s) {\n        if (s.equals(\"a\")) return \"a\";\n        if (s.equals(\"ab\")) return \"ba\";\n        if (s.equals(\"abc\")) return \"cba\";\n        return new StringBuilder(s).reverse().toString();\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "recursion-on-strings",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_1f7e88b3a2ec",
+      "problemId": "rec-009",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "correctness",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        if (n == 0) {\n            return 0;\n        }\n        return (n % 10) + sumDigits(n - 1);\n    }\n}\n",
+      "matchedConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "Recursion shrinks by n - 1 instead of n / 10, so the solution is incorrect and overflows on larger inputs.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_f0e35341bcfe",
+      "problemId": "rec-009",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int sumDigits(int n) {\n        int sum = 0;\n        while (n > 0) {\n            sum += n % 10;\n            n /= 10;\n        }\n        return sum;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "The answer is correct, but this is iterative and does not demonstrate the intended recursion or base-case learning target.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "functional-recursion",
+        "base-case"
+      ]
+    },
+    {
+      "candidateId": "cand_aa236062ac25",
+      "problemId": "rec-010",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        int count = 0;\n        do {\n            count++;\n            n /= 10;\n        } while (n > 0);\n        return count;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Correct but iterative; it does not demonstrate the intended recursion target.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "base-case",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_be381679fb14",
+      "problemId": "rec-010",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "hardcoded",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        if (n < 10) return 1;\n        if (n < 100) return 2;\n        if (n < 1000) return 3;\n        if (n < 10000) return 4;\n        if (n < 100000) return 5;\n        return 6;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Hardcoded threshold answers are not acceptable for recursion mastery.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "base-case",
+        "functional-recursion"
+      ]
+    },
+    {
+      "candidateId": "cand_eddcb0b75326",
+      "problemId": "rec-010",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "correctness",
+      "candidateType": "incorrect",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int countDigits(int n) {\n        if (n < 10) {\n            return 1;\n        }\n        return 1 + countDigits(n - 1);\n    }\n}\n",
+      "matchedConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [
+        "failed-tests-high-concept-score"
+      ],
+      "reviewerNotes": "The recursive step subtracts 1 instead of removing a digit, so the logic is wrong.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_8ff166356b84",
+      "problemId": "rec-012",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "correctness",
+      "candidateType": "correct-optimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        if (b == 0) {\n            return a;\n        }\n        return gcd(b, a % b);\n    }\n}\n",
+      "matchedConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "missingConcepts": [],
+      "suspiciousReasons": [],
+      "reviewerNotes": "The recursive call never shrinks the problem, so it loops forever and overflows the stack.",
+      "expectedFacts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "forbiddenFacts": [
+        "recursive-progress"
+      ]
+    },
+    {
+      "candidateId": "cand_a277d4667d72",
+      "problemId": "rec-012",
+      "language": "java",
+      "practiceMode": "beginner",
+      "bugType": "concept-detector",
+      "candidateType": "suboptimal",
+      "code": "import java.util.*;\n\nclass Solution {\n    public int gcd(int a, int b) {\n        while (b != 0) {\n            int temp = a % b;\n            a = b;\n            b = temp;\n        }\n        return a;\n    }\n}\n",
+      "matchedConcepts": [],
+      "missingConcepts": [
+        "functional-recursion",
+        "base-case"
+      ],
+      "suspiciousReasons": [
+        "passed-tests-but-concept-miss",
+        "passed-tests-low-concept-score",
+        "passed-tests-but-progression-risk"
+      ],
+      "reviewerNotes": "Correct output, but this is iterative Euclid rather than recursive Euclid, so it should not pass the recursion mastery step.",
+      "expectedFacts": [],
+      "forbiddenFacts": [
+        "memoization",
+        "tree-recursion"
       ]
     },
     {

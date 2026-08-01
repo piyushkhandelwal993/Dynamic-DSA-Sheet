@@ -933,7 +933,7 @@ test("java runner reports compilation failure cleanly", () => {
 });
 
 test("java runner stops infinite loops", () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-runner-timeout-"));
   const filePath = path.join(tempDir, "Main.java");
@@ -954,7 +954,7 @@ test("java runner stops infinite loops", () => {
 });
 
 test("java runner stops excessive output", () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-runner-output-"));
   const filePath = path.join(tempDir, "Main.java");

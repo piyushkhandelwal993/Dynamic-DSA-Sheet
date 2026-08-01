@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-23T05:06:05.054Z",
+  "sourceCandidate": "training/generated/ll-006/cand_ddc846825690.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_ddc846825690",
+    "importedAt": "2026-07-23T05:05:39.537Z",
+    "problemId": "ll-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "dummy-front-insert",
+    "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        Node dummy = new Node(0);\n        Node curr = head;\n        while (curr != null) {\n            Node next = curr.next;\n            curr.next = dummy.next;\n            dummy.next = curr;\n            curr = next;\n        }\n        return dummy.next;\n    }\n}",
+    "notes": "Builds reversed list by repeatedly inserting at the front of a dummy node.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "linked-list-traversal",
+      "dummy-node",
+      "loop",
+      "tree-node",
+      "tree-construction",
+      "bottom-up-dp",
+      "dp-state-transition",
+      "dp-space-optimization",
+      "single-pass",
+      "reduced-dp-space",
+      "queue-edge-check",
+      "graph-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-reverse"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 75,
+      "complexityScore": 55,
+      "finalScore": 72
+    },
+    "recommendationHints": [
+      "Demonstrate ll reverse explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-reverse",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": true,
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ]
+}

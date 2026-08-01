@@ -8,6 +8,6 @@
   "reviewerNotes": "Correct output, but this is iterative Euclid rather than recursive Euclid, so it should not pass the recursion mastery step.",
   "resolution": "Keep recursion-only milestones from accepting iterative substitutes as progression-ready.",
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["memoization", "tree-recursion"],
   "inferredBugType": "concept-detector"
 }

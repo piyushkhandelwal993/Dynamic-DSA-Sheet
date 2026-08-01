@@ -46,6 +46,16 @@
         "explanation": "Each vertex lists the nodes directly connected to it."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "buildAdjacencyList",
+      "javaSignature": "public List<List<Integer>> buildAdjacencyList(int n, int[][] edges)",
+      "cppSignature": "vector<vector<int>> buildAdjacencyList(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-build-adjacency-list"
+    },
     "testCases": [
       {
         "input": "4 3\n0 1\n0 2\n1 3",
@@ -112,6 +122,16 @@
         "explanation": "DFS dives down one branch before backtracking."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "dfsTraversal",
+      "javaSignature": "public List<Integer> dfsTraversal(int n, List<List<Integer>> graph)",
+      "cppSignature": "vector<int> dfsTraversal(int n, const vector<vector<int>>& graph)",
+      "providedTypes": [
+        "adjacency list"
+      ],
+      "driverStrategy": "graph-dfs"
+    },
     "testCases": [
       {
         "input": "5 4\n0 1\n0 2\n1 3\n2 4",
@@ -257,6 +277,16 @@
         "explanation": "Components are {0,1}, {2}, and {3,4}."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countConnectedComponents",
+      "javaSignature": "public int countConnectedComponents(int n, int[][] edges)",
+      "cppSignature": "int countConnectedComponents(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-connected-components"
+    },
     "testCases": [
       {
         "input": "5 2\n0 1\n3 4",
@@ -325,6 +355,16 @@
         "explanation": "0-1-2-0 forms a cycle."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "hasCycleUndirected",
+      "javaSignature": "public boolean hasCycleUndirected(int n, int[][] edges)",
+      "cppSignature": "bool hasCycleUndirected(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-cycle-undirected"
+    },
     "testCases": [
       {
         "input": "4 4\n0 1\n1 2\n2 0\n2 3",
@@ -392,6 +432,16 @@
         "explanation": "0 -> 1 -> 2 -> 0 is a directed cycle."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "hasCycleDirected",
+      "javaSignature": "public boolean hasCycleDirected(int n, int[][] edges)",
+      "cppSignature": "bool hasCycleDirected(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-cycle-directed"
+    },
     "testCases": [
       {
         "input": "4 4\n0 1\n1 2\n2 0\n2 3",
@@ -460,6 +510,16 @@
         "explanation": "There are 4 separate land components."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "numIslands",
+      "javaSignature": "public int numIslands(int[][] grid)",
+      "cppSignature": "int numIslands(vector<vector<int>>& grid)",
+      "providedTypes": [
+        "2D integer grid"
+      ],
+      "driverStrategy": "graph-num-islands"
+    },
     "testCases": [
       {
         "input": "4 5\n1 1 0 0 0\n1 1 0 0 1\n0 0 1 0 1\n0 0 0 1 1",
@@ -527,6 +587,16 @@
         "explanation": "The shortest valid 4-direction path has length 5 nodes."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "shortestPathBinaryMatrix",
+      "javaSignature": "public int shortestPathBinaryMatrix(int[][] grid)",
+      "cppSignature": "int shortestPathBinaryMatrix(vector<vector<int>>& grid)",
+      "providedTypes": [
+        "2D integer grid"
+      ],
+      "driverStrategy": "graph-shortest-path-binary-matrix"
+    },
     "testCases": [
       {
         "input": "3 3\n0 0 0\n1 1 0\n0 0 0",
@@ -594,6 +664,16 @@
         "explanation": "This is one valid topological ordering."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "topologicalSort",
+      "javaSignature": "public int[] topologicalSort(int n, int[][] edges)",
+      "cppSignature": "vector<int> topologicalSort(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-topological-sort"
+    },
     "testCases": [
       {
         "input": "6 6\n5 2\n5 0\n4 0\n4 1\n2 3\n3 1",
@@ -660,6 +740,16 @@
         "explanation": "Take course 0 before 1."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "canFinish",
+      "javaSignature": "public boolean canFinish(int numCourses, int[][] prerequisites)",
+      "cppSignature": "bool canFinish(int numCourses, vector<vector<int>>& prerequisites)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-course-schedule"
+    },
     "testCases": [
       {
         "input": "2 1\n1 0",
@@ -728,6 +818,16 @@
         "explanation": "Each value is the minimum number of edges from source 0."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "shortestPathUnweighted",
+      "javaSignature": "public int[] shortestPathUnweighted(int n, int[][] edges, int s)",
+      "cppSignature": "vector<int> shortestPathUnweighted(int n, vector<vector<int>>& edges, int s)",
+      "providedTypes": [
+        "edge list"
+      ],
+      "driverStrategy": "graph-shortest-path-unweighted"
+    },
     "testCases": [
       {
         "input": "6 5\n0 1\n0 2\n1 3\n2 4\n4 5\n0",
@@ -816,6 +916,16 @@
     "remedialProblems": [
       "gr-011"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "dijkstraShortestPath",
+      "javaSignature": "public int[] dijkstraShortestPath(int n, int[][] edges, int s)",
+      "cppSignature": "vector<int> dijkstraShortestPath(int n, vector<vector<int>>& edges, int s)",
+      "providedTypes": [
+        "weighted edge list"
+      ],
+      "driverStrategy": "graph-dijkstra"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.3,
@@ -870,6 +980,16 @@
     "remedialProblems": [
       "gr-012"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "networkDelayTime",
+      "javaSignature": "public int networkDelayTime(int n, int[][] edges, int k)",
+      "cppSignature": "int networkDelayTime(int n, vector<vector<int>>& edges, int k)",
+      "providedTypes": [
+        "weighted edge list"
+      ],
+      "driverStrategy": "graph-network-delay-time"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
@@ -922,6 +1042,16 @@
         "explanation": "Cities 0 and 1 form one province, city 2 forms another."
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "numberOfProvinces",
+      "javaSignature": "public int numberOfProvinces(int[][] matrix)",
+      "cppSignature": "int numberOfProvinces(vector<vector<int>>& matrix)",
+      "providedTypes": [
+        "adjacency matrix"
+      ],
+      "driverStrategy": "graph-number-of-provinces"
+    },
     "testCases": [
       {
         "input": "3\n1 1 0\n1 1 0\n0 0 1",
@@ -1004,6 +1134,16 @@
     "remedialProblems": [
       "gr-014"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kruskalMST",
+      "javaSignature": "public int kruskalMST(int n, int[][] edges)",
+      "cppSignature": "int kruskalMST(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "weighted edge list"
+      ],
+      "driverStrategy": "graph-kruskal-mst"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
@@ -1060,6 +1200,16 @@
     "remedialProblems": [
       "gr-015"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "primMST",
+      "javaSignature": "public int primMST(int n, int[][] edges)",
+      "cppSignature": "int primMST(int n, vector<vector<int>>& edges)",
+      "providedTypes": [
+        "weighted edge list"
+      ],
+      "driverStrategy": "graph-prim-mst"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,

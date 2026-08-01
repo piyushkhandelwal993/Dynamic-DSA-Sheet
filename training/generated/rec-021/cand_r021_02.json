@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r021_02",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-021",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "inplace-buffer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] mergeSort(int[] nums) {\n        int[] temp = new int[nums.length];\n        sort(nums, temp, 0, nums.length - 1);\n        return nums;\n    }\n\n    private void sort(int[] nums, int[] temp, int left, int right) {\n        if (left >= right) return;\n        int mid = left + (right - left) / 2;\n        sort(nums, temp, left, mid);\n        sort(nums, temp, mid + 1, right);\n        int i = left, j = mid + 1, k = left;\n        while (i <= mid && j <= right) temp[k++] = nums[i] <= nums[j] ? nums[i++] : nums[j++];\n        while (i <= mid) temp[k++] = nums[i++];\n        while (j <= right) temp[k++] = nums[j++];\n        for (int p = left; p <= right; p++) nums[p] = temp[p];\n    }\n}",
+  "notes": "In-place merge sort with temp buffer.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

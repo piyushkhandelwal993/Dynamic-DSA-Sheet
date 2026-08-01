@@ -79,3 +79,34 @@ test("scoring drops clearly wrong recursion submissions with no recursion eviden
   assert.equal(score.complexityScore, 25);
   assert.ok(score.finalScore < 30);
 });
+
+test("scoring keeps recursion lessons from looking progression-ready without recursion", () => {
+  const problem = getTopicProblems("recursion").find((item) => item.id === "rec-009");
+  assert.ok(problem);
+
+  const score = scoreSubmission(
+    problem,
+    {
+      detected: [],
+      warnings: [],
+      signals: makeSignals({
+        hasUnnecessaryLoop: true,
+        missingEdgeCaseHandling: true
+      })
+    },
+    {
+      matchedConcepts: [],
+      missingConcepts: problem.expectedConcepts
+    },
+    {
+      usedTestCases: true,
+      compileSucceeded: true,
+      passedCount: 8,
+      totalCount: 8,
+      failedCases: []
+    }
+  );
+
+  assert.equal(score.correctnessScore, 100);
+  assert.ok(score.finalScore <= 35);
+});

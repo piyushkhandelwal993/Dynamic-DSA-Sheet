@@ -23,8 +23,8 @@ export interface ProcessFailure {
 export function classifyProcessFailure(result: SpawnSyncReturns<string>, language: "java" | "cpp"): ProcessFailure {
   const errorCode = (result.error as NodeJS.ErrnoException | undefined)?.code;
   const combined = `${result.stderr ?? ""}\n${result.error?.message ?? ""}`;
-  const timedOut = errorCode === "ETIMEDOUT" || result.signal === "SIGTERM";
   const outputLimitExceeded = errorCode === "ENOBUFS";
+  const timedOut = errorCode === "ETIMEDOUT" || (!outputLimitExceeded && (result.signal === "SIGTERM" || result.signal === "SIGKILL"));
   const memoryLimitExceeded =
     /OutOfMemoryError|Java heap space|Cannot reserve enough space|bad_alloc|cannot allocate memory/i.test(combined) ||
     (!timedOut && !outputLimitExceeded && language === "cpp" && result.signal === "SIGKILL");

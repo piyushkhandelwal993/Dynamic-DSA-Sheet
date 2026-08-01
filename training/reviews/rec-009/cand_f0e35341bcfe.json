@@ -8,6 +8,6 @@
   "reviewerNotes": "The answer is correct, but this is iterative and does not demonstrate the intended recursion or base-case learning target.",
   "resolution": "Tighten beginner-mode acceptance so recursion-only lessons do not pass purely iterative solutions.",
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["functional-recursion", "base-case"],
   "inferredBugType": "concept-detector"
 }

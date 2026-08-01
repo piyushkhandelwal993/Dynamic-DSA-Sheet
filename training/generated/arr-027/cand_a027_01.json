@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a027_01",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-027",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public long countSubarraysWithSumK(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        count.put(0, 1);\n        int sum = 0, answer = 0;\n        for (int value : nums) {\n            sum += value;\n            answer += count.getOrDefault(sum - k, 0);\n            count.put(sum, count.getOrDefault(sum, 0) + 1);\n        }\n        return answer;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

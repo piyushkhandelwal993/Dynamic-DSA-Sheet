@@ -8,6 +8,6 @@
   "reviewerNotes": "Rejected during training: does not represent the intended recursive learning target.",
   "resolution": null,
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["functional-recursion", "base-case"],
   "inferredBugType": "concept-detector"
 }

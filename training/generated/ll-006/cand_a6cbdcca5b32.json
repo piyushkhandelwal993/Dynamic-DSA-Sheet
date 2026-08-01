@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a6cbdcca5b32",
+  "importedAt": "2026-07-23T05:05:39.537Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "fake-no-op",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null) return null;\n        if (head.next == null) return head;\n        return head;\n    }\n}",
+  "notes": "Cheating solution that simply returns the original list unchanged.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

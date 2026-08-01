@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_a17a72584d8c",
+  "problemId": "ll-006",
+  "reviewedAt": "2026-07-23T05:07:37.246Z",
+  "satisfactory": false,
+  "bugType": "concept-detector",
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [
+    "ll-reverse"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

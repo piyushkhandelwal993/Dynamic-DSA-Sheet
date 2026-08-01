@@ -137,6 +137,16 @@
       "memoization",
       "tabulation"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "climbingStairs",
+      "javaSignature": "public int climbingStairs(int n)",
+      "cppSignature": "int climbingStairs(int n)",
+      "providedTypes": [
+        "integer input"
+      ],
+      "driverStrategy": "dp-climbing-stairs"
+    },
     "remedialProblems": [
       "dp-001"
     ],
@@ -208,6 +218,16 @@
     "remedialProblems": [
       "dp-002"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "houseRobber",
+      "javaSignature": "public int houseRobber(int[] nums)",
+      "cppSignature": "int houseRobber(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-house-robber"
+    },
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
@@ -275,6 +295,16 @@
     "remedialProblems": [
       "dp-003"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxNonAdjacentSum",
+      "javaSignature": "public int maxNonAdjacentSum(int[] nums)",
+      "cppSignature": "int maxNonAdjacentSum(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-max-non-adjacent-sum"
+    },
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
@@ -341,6 +371,16 @@
     "remedialProblems": [
       "dp-002"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minCostClimbingStairs",
+      "javaSignature": "public int minCostClimbingStairs(int[] cost)",
+      "cppSignature": "int minCostClimbingStairs(vector<int>& cost)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-min-cost-climbing-stairs"
+    },
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.9,
@@ -407,6 +447,16 @@
     "remedialProblems": [
       "dp-001"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "uniquePaths",
+      "javaSignature": "public int uniquePaths(int n, int m)",
+      "cppSignature": "int uniquePaths(int n, int m)",
+      "providedTypes": [
+        "grid dimensions"
+      ],
+      "driverStrategy": "dp-unique-paths"
+    },
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
@@ -474,6 +524,16 @@
     "remedialProblems": [
       "dp-006"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minPathSum",
+      "javaSignature": "public int minPathSum(int[][] grid)",
+      "cppSignature": "int minPathSum(vector<vector<int>>& grid)",
+      "providedTypes": [
+        "2D integer grid"
+      ],
+      "driverStrategy": "dp-min-path-sum"
+    },
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
@@ -543,6 +603,16 @@
     "remedialProblems": [
       "dp-004"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "subsetSumEqualToTarget",
+      "javaSignature": "public boolean subsetSumEqualToTarget(int[] nums, int k)",
+      "cppSignature": "bool subsetSumEqualToTarget(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-subset-sum"
+    },
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
@@ -613,6 +683,16 @@
     "remedialProblems": [
       "dp-008"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "knapsack01",
+      "javaSignature": "public int knapsack01(int[] weights, int[] values, int w)",
+      "cppSignature": "int knapsack01(vector<int>& weights, vector<int>& values, int w)",
+      "providedTypes": [
+        "integer arrays"
+      ],
+      "driverStrategy": "dp-knapsack-01"
+    },
     "skipIfMastered": [],
     "poolRole": "practice",
     "masteryWeight": 0.95,
@@ -682,6 +762,16 @@
     "remedialProblems": [
       "dp-008"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "coinChangeMinCoins",
+      "javaSignature": "public int coinChangeMinCoins(int[] coins, int amount)",
+      "cppSignature": "int coinChangeMinCoins(vector<int>& coins, int amount)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-coin-change-min-coins"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.15,
@@ -750,6 +840,16 @@
     "remedialProblems": [
       "dp-004"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lisLength",
+      "javaSignature": "public int lisLength(int[] nums)",
+      "cppSignature": "int lisLength(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-lis-length"
+    },
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
@@ -817,6 +917,16 @@
     "remedialProblems": [
       "dp-011"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "longestBitonicSubsequence",
+      "javaSignature": "public int longestBitonicSubsequence(int[] nums)",
+      "cppSignature": "int longestBitonicSubsequence(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-bitonic-subsequence"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
@@ -885,6 +995,16 @@
     "remedialProblems": [
       "dp-006"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lcsLength",
+      "javaSignature": "public int lcsLength(String a, String b)",
+      "cppSignature": "int lcsLength(string a, string b)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "dp-lcs-length"
+    },
     "skipIfMastered": [],
     "poolRole": "core",
     "masteryWeight": 1,
@@ -952,6 +1072,16 @@
     "remedialProblems": [
       "dp-013"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "editDistance",
+      "javaSignature": "public int editDistance(String word1, String word2)",
+      "cppSignature": "int editDistance(string word1, string word2)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "dp-edit-distance"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
@@ -1019,6 +1149,16 @@
     "remedialProblems": [
       "dp-014"
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "matrixChainMultiplication",
+      "javaSignature": "public int matrixChainMultiplication(int[] dims)",
+      "cppSignature": "int matrixChainMultiplication(vector<int>& dims)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "dp-matrix-chain-multiplication"
+    },
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.4,

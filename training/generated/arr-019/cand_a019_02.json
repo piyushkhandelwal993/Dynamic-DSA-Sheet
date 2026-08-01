@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a019_02",
+  "importedAt": "2026-07-10T03:07:52.284Z",
+  "problemId": "arr-019",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int firstRepeatingValue(int[] nums) {\n        Set<Integer> seen = new HashSet<>();\n        for (int value : nums) {\n            if (seen.contains(value)) return value;\n            seen.add(value);\n        }\n        return -1;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

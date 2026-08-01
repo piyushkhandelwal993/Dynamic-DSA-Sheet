@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r022_04",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-022",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "partition-then-sort",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] quickSort(int[] nums) {\n        if (nums.length <= 1) return nums;\n        int pivot = nums[0];\n        List<Integer> left = new ArrayList<>();\n        List<Integer> right = new ArrayList<>();\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < pivot) left.add(nums[i]);\n            else right.add(nums[i]);\n        }\n        Collections.sort(left);\n        Collections.sort(right);\n        int[] result = new int[nums.length];\n        int k = 0;\n        for (int value : left) result[k++] = value;\n        result[k++] = pivot;\n        for (int value : right) result[k++] = value;\n        return result;\n    }\n}",
+  "notes": "Uses partitioning but resorts halves.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

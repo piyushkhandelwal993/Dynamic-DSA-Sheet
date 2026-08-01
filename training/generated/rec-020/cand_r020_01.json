@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r020_01",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-020",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "memo-topdown",
+  "code": "import java.util.*;\n\nclass Solution {\n    private Integer[] memo;\n\n    public int tribonacci(int n) {\n        memo = new Integer[n + 1];\n        return solve(n);\n    }\n\n    private int solve(int n) {\n        if (n == 0) return 0;\n        if (n == 1 || n == 2) return 1;\n        if (memo[n] != null) return memo[n];\n        memo[n] = solve(n - 1) + solve(n - 2) + solve(n - 3);\n        return memo[n];\n    }\n}",
+  "notes": "Memoized tree recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

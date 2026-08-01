@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r022_02",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-022",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "lomuto-partition",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] quickSort(int[] nums) {\n        quickSort(nums, 0, nums.length - 1);\n        return nums;\n    }\n\n    private void quickSort(int[] nums, int low, int high) {\n        if (low >= high) return;\n        int pivotIndex = partition(nums, low, high);\n        quickSort(nums, low, pivotIndex - 1);\n        quickSort(nums, pivotIndex + 1, high);\n    }\n\n    private int partition(int[] nums, int low, int high) {\n        int pivot = nums[high];\n        int i = low;\n        for (int j = low; j < high; j++) {\n            if (nums[j] <= pivot) {\n                int temp = nums[i];\n                nums[i] = nums[j];\n                nums[j] = temp;\n                i++;\n            }\n        }\n        int temp = nums[i];\n        nums[i] = nums[high];\n        nums[high] = temp;\n        return i;\n    }\n}",
+  "notes": "Lomuto partition variant.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

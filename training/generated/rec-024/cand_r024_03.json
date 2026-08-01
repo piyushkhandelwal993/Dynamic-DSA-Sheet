@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r024_03",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-024",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "set-based",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<String>> solveNQueens(int n) {\n        List<List<String>> answer = new ArrayList<>();\n        char[][] board = new char[n][n];\n        for (char[] row : board) Arrays.fill(row, '.');\n        dfs(0, board, new HashSet<>(), new HashSet<>(), new HashSet<>(), answer);\n        return answer;\n    }\n\n    private void dfs(int row, char[][] board, Set<Integer> cols, Set<Integer> d1, Set<Integer> d2, List<List<String>> answer) {\n        if (row == board.length) {\n            List<String> solution = new ArrayList<>();\n            for (char[] current : board) solution.add(new String(current));\n            answer.add(solution);\n            return;\n        }\n        for (int col = 0; col < board.length; col++) {\n            int a = row - col, b = row + col;\n            if (cols.contains(col) || d1.contains(a) || d2.contains(b)) continue;\n            board[row][col] = 'Q';\n            cols.add(col); d1.add(a); d2.add(b);\n            dfs(row + 1, board, cols, d1, d2, answer);\n            board[row][col] = '.';\n            cols.remove(col); d1.remove(a); d2.remove(b);\n        }\n    }\n}",
+  "notes": "Set-based constraint tracking.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

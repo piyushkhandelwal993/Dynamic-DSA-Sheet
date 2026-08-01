@@ -8,12 +8,11 @@
   "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
   "resolution": null,
   "expectedFacts": [
-    "parameterized-recursion",
-    "functional-recursion"
+    "functional-recursion",
+    "base-case"
   ],
   "forbiddenFacts": [
-    "parameterized-recursion",
-    "functional-recursion"
+    "recursive-progress"
   ],
   "inferredBugType": "needs-investigation"
 }

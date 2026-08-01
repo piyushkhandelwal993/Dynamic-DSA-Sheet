@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a011_02",
+  "importedAt": "2026-07-10T03:07:52.279Z",
+  "problemId": "arr-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int maxProfit(int[] prices) {\n        int minPrice = nums[0], best = 0;\n        for (int price : nums) {\n            best = Math.max(best, price - minPrice);\n            minPrice = Math.min(minPrice, price);\n        }\n        return best;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

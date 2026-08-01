@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a016_03",
+  "importedAt": "2026-07-10T03:07:52.283Z",
+  "problemId": "arr-016",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "naive-wrong",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void leftRotateOne(int[] nums) {\n        return ;\n    }\n}",
+  "notes": "Too simple / incorrect baseline.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

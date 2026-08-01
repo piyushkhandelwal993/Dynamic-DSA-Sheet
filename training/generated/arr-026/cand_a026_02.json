@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a026_02",
+  "importedAt": "2026-07-10T03:07:52.286Z",
+  "problemId": "arr-026",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void rotateRight(int[] nums, int k) {\n        if (nums.length == 0) return;\n        k %= nums.length;\n        if (k == 0) return;\n        reverse(nums, 0, nums.length - 1);\n        reverse(nums, 0, k - 1);\n        reverse(nums, k, nums.length - 1);\n    }\n\n    private void reverse(int[] nums, int left, int right) {\n        while (left < right) {\n            int temp = nums[left];\n            nums[left] = nums[right];\n            nums[right] = temp;\n            left++;\n            right--;\n        }\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

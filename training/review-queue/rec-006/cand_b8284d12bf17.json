@@ -80,6 +80,6 @@
   "reviewerNotes": "",
   "resolution": null,
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["tree-recursion", "base-case"],
   "inferredBugType": "concept-detector"
 }

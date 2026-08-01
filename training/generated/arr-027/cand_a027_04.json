@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a027_04",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-027",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "hardcoded-shortcut",
+  "code": "import java.util.*;\n\nclass Solution {\n    public long countSubarraysWithSumK(int[] nums, int k) {\n        return 1L;\n    }\n}",
+  "notes": "Shortcut candidate for anti-pattern training.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

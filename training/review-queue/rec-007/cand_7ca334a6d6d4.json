@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "queuedAt": "2026-07-04T14:39:03.440Z",
+  "queuedAt": "2026-07-10T02:45:20.385Z",
   "reviewStatus": "needs-review",
   "reviewType": "analyzer-training",
   "sourceCandidate": "training/generated/rec-007/cand_7ca334a6d6d4.json",
@@ -19,78 +19,103 @@
     "promptVersion": "v1",
     "sourceFile": "training/manual/rec-007.java.beginner.candidates.json"
   },
-  "execution": {
-    "usedTestCases": true,
-    "compileSucceeded": false,
-    "passedCount": 0,
-    "totalCount": 4,
-    "compileError": "Main.java:9: error: cannot find symbol\n        System.out.print(new Solution().isPalindrome(value) ? \"true\" : \"false\");\n                                       ^\n  symbol:   method isPalindrome(String)\n  location: class Solution\n1 error",
-    "failedCases": []
-  },
   "analyzer": {
-    "factIds": [
-      "recursive-call",
-      "base-case",
-      "multiple-recursive-calls",
-      "tree-recursion",
-      "functional-recursion",
-      "parameterized-recursion",
-      "recursion-on-strings",
-      "recursive-base-case",
-      "exponential-dp-recursion",
-      "hardcoded-output"
+    "detected": [
+      "Used recursion",
+      "Defined a base case",
+      "Used tree recursion or branching recursion"
     ],
+    "warnings": [
+      "Did not handle edge cases clearly."
+    ],
+    "signals": {
+      "usesAnd": false,
+      "usesOr": false,
+      "usesXor": false,
+      "usesLeftShift": false,
+      "usesRightShift": false,
+      "usesNot": false,
+      "usesPowerOfTwoPattern": false,
+      "usesStringConversion": false,
+      "usesModuloDivision": false,
+      "hasUnnecessaryLoop": false,
+      "hasHardcoding": false,
+      "hasPoorVariableNames": false,
+      "missingEdgeCaseHandling": true,
+      "hasRecursiveCall": true,
+      "hasBaseCase": true,
+      "hasMultipleRecursiveCalls": true,
+      "hasParameterizedRecursion": false,
+      "hasFunctionalRecursion": false,
+      "usesMemoization": false,
+      "usesBacktrackingUndo": false,
+      "usesDivideAndConquer": false,
+      "missingRecursiveProgress": false,
+      "usesArrayTraversal": false,
+      "usesSorting": false,
+      "usesHashMap": false,
+      "usesPrefixSum": false,
+      "usesTwoPointers": false,
+      "usesSlidingWindow": false,
+      "usesLinkedListTraversal": false,
+      "usesHeadUpdate": false,
+      "usesNodeDeletion": false,
+      "usesLinkedListReverse": false,
+      "usesFastSlowPointers": false,
+      "usesDummyNode": false,
+      "usesStackStructure": false,
+      "usesPushPop": false,
+      "usesMonotonicStack": false,
+      "usesNextGreaterElement": false,
+      "usesPreviousSmallerElement": false,
+      "usesStockSpanPattern": false,
+      "usesLargestRectangleHistogram": false,
+      "usesParenthesisMatching": false,
+      "usesExpressionConversion": false,
+      "usesMinStackPattern": false,
+      "usesQueueStructure": false,
+      "usesEnqueueDequeue": false,
+      "usesCircularQueuePattern": false,
+      "usesDequeWindowPattern": false,
+      "usesBfsStyleQueue": false,
+      "usesPriorityQueue": false,
+      "usesBinarySearch": false,
+      "usesLowerUpperBoundPattern": false,
+      "usesAnswerBinarySearch": false,
+      "usesSortedMidCheck": false,
+      "usesPartitionBinarySearch": false,
+      "usesTreeNodePattern": false,
+      "usesRecursiveTraversal": false,
+      "usesQueueTraversal": false,
+      "usesBstLogic": false,
+      "usesTreeConstruction": false,
+      "usesLcaPattern": false,
+      "usesGraphAdjacency": false,
+      "usesGraphTraversal": false,
+      "usesTopologicalSort": false,
+      "usesShortestPath": false,
+      "usesDisjointSet": false,
+      "usesMstLogic": false,
+      "usesMemoTable": false,
+      "usesBottomUpDp": false,
+      "usesStateTransition": false,
+      "usesSpaceOptimization": false,
+      "usesKnapsackPattern": false,
+      "usesIntervalDp": false
+    },
     "matchedConcepts": [
       "recursion-on-strings",
       "base-case"
     ],
     "missingConcepts": [],
-    "conceptMatchScore": 85,
-    "score": {
-      "correctnessScore": 0,
-      "conceptMatchScore": 85,
-      "qualityScore": 55,
-      "complexityScore": 80,
-      "finalScore": 20
-    },
-    "recommendationHints": [
-      "Fix the compiler errors first, then submit again to run the problem test cases.",
-      "Cache repeated recursive states or convert the recurrence to bottom-up DP.",
-      "Remove hardcoded outputs and derive the answer from the input.",
-      "Clarify variable names and make boundary handling explicit."
-    ],
-    "evidence": [
-      {
-        "conceptId": "recursion-on-strings",
-        "matched": true,
-        "confidence": 1,
-        "evidence": [
-          "recursive call processes a string or character range"
-        ],
-        "factIds": [
-          "recursion-on-strings"
-        ]
-      },
-      {
-        "conceptId": "base-case",
-        "matched": true,
-        "confidence": 0.7,
-        "evidence": [
-          "JDK AST conditional in recursive method check",
-          "conditional return"
-        ],
-        "factIds": [
-          "base-case"
-        ]
-      }
-    ]
+    "conceptMatchScore": 100
   },
   "suspiciousReasons": [
-    "failed-tests-high-concept-score"
+    "wrong-candidate-full-concept-match",
+    "incorrect-candidate-no-missing-concepts"
   ],
   "reviewerNotes": "",
   "resolution": null,
-  "expectedFacts": [],
-  "forbiddenFacts": [],
-  "inferredBugType": "needs-investigation"
+  "expectedFacts": ["recursion-on-strings", "base-case"],
+  "forbiddenFacts": ["recursive-progress"]
 }

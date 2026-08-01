@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a028_01",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-028",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean containsDuplicate(int[] nums) {\n        Set<Integer> seen = new HashSet<>();\n        for (int value : nums) {\n            if (!seen.add(value)) return true;\n        }\n        return false;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a029_02",
+  "importedAt": "2026-07-10T03:07:52.287Z",
+  "problemId": "arr-029",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int maxCircularSubarraySum(int[] nums) {\n        int maxEnd = nums[0], maxSoFar = nums[0];\n        int minEnd = nums[0], minSoFar = nums[0], total = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            int value = nums[i];\n            maxEnd = Math.max(value, maxEnd + value);\n            maxSoFar = Math.max(maxSoFar, maxEnd);\n            minEnd = Math.min(value, minEnd + value);\n            minSoFar = Math.min(minSoFar, minEnd);\n            total += value;\n        }\n        return Math.max(maxSoFar, total == minSoFar ? maxSoFar : Math.max(maxSoFar, total - minSoFar));\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

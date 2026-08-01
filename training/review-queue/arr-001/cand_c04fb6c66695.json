@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "queuedAt": "2026-07-03T15:48:04.170Z",
+  "queuedAt": "2026-07-10T03:07:58.858Z",
   "reviewStatus": "needs-review",
   "reviewType": "analyzer-training",
   "sourceCandidate": "training/generated/arr-001/cand_c04fb6c66695.json",
@@ -19,97 +19,99 @@
     "promptVersion": "v1",
     "sourceFile": "desktop-training"
   },
-  "execution": {
-    "usedTestCases": true,
-    "compileSucceeded": true,
-    "passedCount": 1,
-    "totalCount": 3,
-    "failedCases": [
-      {
-        "input": "1\n-4",
-        "expectedOutput": "-4",
-        "actualOutput": "0",
-        "passed": false,
-        "visibility": "sample",
-        "timedOut": false,
-        "outputLimitExceeded": false,
-        "memoryLimitExceeded": false
-      },
-      {
-        "input": "4\n-3 -8 -1 -5",
-        "expectedOutput": "-1",
-        "actualOutput": "0",
-        "passed": false,
-        "visibility": "hidden",
-        "timedOut": false,
-        "outputLimitExceeded": false,
-        "memoryLimitExceeded": false
-      }
-    ]
-  },
   "analyzer": {
-    "factIds": [
-      "indexed-access",
-      "loop",
-      "array",
-      "array-traversal",
-      "min-max-tracking",
-      "adjacent-order-check",
-      "single-pass"
+    "detected": [
+      "Used array traversal"
     ],
+    "warnings": [
+      "Did not handle edge cases clearly."
+    ],
+    "signals": {
+      "usesAnd": false,
+      "usesOr": false,
+      "usesXor": false,
+      "usesLeftShift": false,
+      "usesRightShift": false,
+      "usesNot": false,
+      "usesPowerOfTwoPattern": false,
+      "usesStringConversion": false,
+      "usesModuloDivision": false,
+      "hasUnnecessaryLoop": false,
+      "hasHardcoding": false,
+      "hasPoorVariableNames": false,
+      "missingEdgeCaseHandling": true,
+      "hasRecursiveCall": false,
+      "hasBaseCase": false,
+      "hasMultipleRecursiveCalls": false,
+      "hasParameterizedRecursion": false,
+      "hasFunctionalRecursion": false,
+      "usesMemoization": false,
+      "usesBacktrackingUndo": false,
+      "usesDivideAndConquer": false,
+      "missingRecursiveProgress": false,
+      "usesArrayTraversal": true,
+      "usesSorting": false,
+      "usesHashMap": false,
+      "usesPrefixSum": false,
+      "usesTwoPointers": false,
+      "usesSlidingWindow": false,
+      "usesLinkedListTraversal": false,
+      "usesHeadUpdate": false,
+      "usesNodeDeletion": false,
+      "usesLinkedListReverse": false,
+      "usesFastSlowPointers": false,
+      "usesDummyNode": false,
+      "usesStackStructure": false,
+      "usesPushPop": false,
+      "usesMonotonicStack": false,
+      "usesNextGreaterElement": false,
+      "usesPreviousSmallerElement": false,
+      "usesStockSpanPattern": false,
+      "usesLargestRectangleHistogram": false,
+      "usesParenthesisMatching": false,
+      "usesExpressionConversion": false,
+      "usesMinStackPattern": false,
+      "usesQueueStructure": false,
+      "usesEnqueueDequeue": false,
+      "usesCircularQueuePattern": false,
+      "usesDequeWindowPattern": false,
+      "usesBfsStyleQueue": false,
+      "usesPriorityQueue": false,
+      "usesBinarySearch": false,
+      "usesLowerUpperBoundPattern": false,
+      "usesAnswerBinarySearch": false,
+      "usesSortedMidCheck": false,
+      "usesPartitionBinarySearch": false,
+      "usesTreeNodePattern": false,
+      "usesRecursiveTraversal": false,
+      "usesQueueTraversal": false,
+      "usesBstLogic": false,
+      "usesTreeConstruction": false,
+      "usesLcaPattern": false,
+      "usesGraphAdjacency": false,
+      "usesGraphTraversal": false,
+      "usesTopologicalSort": false,
+      "usesShortestPath": false,
+      "usesDisjointSet": false,
+      "usesMstLogic": false,
+      "usesMemoTable": false,
+      "usesBottomUpDp": false,
+      "usesStateTransition": false,
+      "usesSpaceOptimization": false,
+      "usesKnapsackPattern": false,
+      "usesIntervalDp": false
+    },
     "matchedConcepts": [
       "array-traversal",
       "min-max-array"
     ],
     "missingConcepts": [],
-    "conceptMatchScore": 100,
-    "score": {
-      "correctnessScore": 33,
-      "conceptMatchScore": 100,
-      "qualityScore": 80,
-      "complexityScore": 92,
-      "finalScore": 59
-    },
-    "recommendationHints": [
-      "Review the failed test cases: 1/3 currently pass."
-    ],
-    "evidence": [
-      {
-        "conceptId": "array-traversal",
-        "matched": true,
-        "confidence": 1,
-        "evidence": [
-          "JDK AST type int[]",
-          "JDK AST indexed array access",
-          "[i]",
-          "int[] nums",
-          "JDK AST: 1 loop statement(s)",
-          "for ("
-        ],
-        "factIds": [
-          "array",
-          "loop"
-        ]
-      },
-      {
-        "conceptId": "min-max-array",
-        "matched": true,
-        "confidence": 1,
-        "evidence": [
-          "running minimum/maximum update"
-        ],
-        "factIds": [
-          "min-max-tracking"
-        ]
-      }
-    ]
+    "conceptMatchScore": 100
   },
   "suspiciousReasons": [
-    "failed-tests-high-concept-score"
+    "wrong-candidate-full-concept-match",
+    "incorrect-candidate-no-missing-concepts"
   ],
   "reviewerNotes": "",
-  "resolution": null,
-  "expectedFacts": [],
-  "forbiddenFacts": [],
-  "inferredBugType": "needs-investigation"
+  "resolution": null
 }

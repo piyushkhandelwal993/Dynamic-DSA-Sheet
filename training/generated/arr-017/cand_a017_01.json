@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a017_01",
+  "importedAt": "2026-07-10T03:07:52.283Z",
+  "problemId": "arr-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int maxConsecutiveOnes(int[] nums) {\n        int best = 0, current = 0;\n        for (int value : nums) {\n            if (value == 1) {\n                current++;\n                best = Math.max(best, current);\n            } else {\n                current = 0;\n            }\n        }\n        return best;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

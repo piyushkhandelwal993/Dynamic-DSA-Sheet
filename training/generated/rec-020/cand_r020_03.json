@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r020_03",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-020",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "fibonacci-mistake",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int tribonacci(int n) {\n        if (n <= 1) return n;\n        return tribonacci(n - 1) + tribonacci(n - 2);\n    }\n}",
+  "notes": "Wrong recurrence omits the third branch.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

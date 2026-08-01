@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r022_03",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-022",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "single-pivot-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] quickSort(int[] nums) {\n        Arrays.sort(nums);\n        return new int[] { nums[0] };\n    }\n}",
+  "notes": "Returns only one value.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

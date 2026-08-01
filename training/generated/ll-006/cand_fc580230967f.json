@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_fc580230967f",
+  "importedAt": "2026-07-23T05:05:39.536Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "iterative-for-loop",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        Node ans = null;\n        for (Node temp = head; temp != null;) {\n            Node nxt = temp.next;\n            temp.next = ans;\n            ans = temp;\n            temp = nxt;\n        }\n        return ans;\n    }\n}",
+  "notes": "Same optimal algorithm expressed using a for loop.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

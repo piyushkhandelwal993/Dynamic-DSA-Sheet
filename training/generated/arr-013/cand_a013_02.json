@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a013_02",
+  "importedAt": "2026-07-10T03:07:52.282Z",
+  "problemId": "arr-013",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int countPositive(int[] nums) {\n        int count = 0;\n        for (int value : nums) if (value > 0) count++;\n        return count;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

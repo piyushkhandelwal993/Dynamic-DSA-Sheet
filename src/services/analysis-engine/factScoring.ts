@@ -654,6 +654,8 @@ export function scoreRecursionSubmissionFromFacts(
   const noConceptEvidence = !hasConceptEvidence && !hasRecursion;
   const missingProgress = hasFact(facts, "missing-recursive-progress");
   const isRecursionLesson = problem.topic === "Recursion" || problem.expectedConcepts.some((concept) => concept.includes("recursion"));
+  const missingRequiredRecursion = isRecursionLesson && !hasRecursion;
+  const missingRequiredBaseCase = isRecursionLesson && !hasBaseCase;
 
   let correctnessScore = execution?.usedTestCases
     ? clamp((execution.passedCount / Math.max(execution.totalCount, 1)) * 100)
@@ -663,6 +665,8 @@ export function scoreRecursionSubmissionFromFacts(
   else if (!execution?.usedTestCases && !hasRecursion) correctnessScore = 35;
   else if (!execution?.usedTestCases && !hasBaseCase) correctnessScore = 50;
   else if (!execution?.usedTestCases && missingProgress) correctnessScore = 55;
+  if (missingRequiredRecursion) correctnessScore = Math.min(correctnessScore, execution?.usedTestCases ? 35 : 30);
+  if (missingRequiredBaseCase) correctnessScore = Math.min(correctnessScore, execution?.usedTestCases ? 45 : 35);
 
   const conceptMatchScore = clamp(expectation.conceptMatchScore);
   let qualityScore = 85;
@@ -672,10 +676,13 @@ export function scoreRecursionSubmissionFromFacts(
   if (hasFact(facts, "hardcoded-output")) qualityScore -= 15;
   if (!hasBaseCase) qualityScore -= 15;
   if (missingProgress) qualityScore -= 15;
+  if (missingRequiredRecursion) qualityScore -= 20;
   qualityScore = clamp(qualityScore);
 
   let complexityScore = 80;
   if (!execution?.usedTestCases && noConceptEvidence) {
+    complexityScore = 25;
+  } else if (missingRequiredRecursion) {
     complexityScore = 25;
   } else if (missingProgress) {
     complexityScore = 25;
@@ -701,10 +708,16 @@ export function scoreRecursionSubmissionFromFacts(
   if (execution?.usedTestCases && !execution.compileSucceeded) finalScore = Math.min(finalScore, 20);
   else if (execution?.usedTestCases && execution.passedCount === 0) finalScore = Math.min(finalScore, 30);
   if (isRecursionLesson && !hasRecursion) {
-    finalScore = Math.min(finalScore, execution?.usedTestCases ? 45 : 40);
+    finalScore = Math.min(finalScore, execution?.usedTestCases ? 28 : 24);
     if (!hasBaseCase) {
-      finalScore = Math.min(finalScore, 30);
+      finalScore = Math.min(finalScore, execution?.usedTestCases ? 22 : 18);
     }
+  }
+  if (isRecursionLesson && missingRequiredRecursion) {
+    finalScore = Math.min(finalScore, execution?.usedTestCases ? 30 : 25);
+  }
+  if (isRecursionLesson && missingRequiredBaseCase) {
+    finalScore = Math.min(finalScore, execution?.usedTestCases ? 35 : 28);
   }
 
   return { correctnessScore, conceptMatchScore, qualityScore, complexityScore, finalScore };

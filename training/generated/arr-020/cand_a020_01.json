@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a020_01",
+  "importedAt": "2026-07-10T03:07:52.285Z",
+  "problemId": "arr-020",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int equilibriumIndex(int[] nums) {\n        Map<Integer, Integer> firstIndex = new HashMap<>();\n        firstIndex.put(0, -1);\n        int sum = 0, best = -1;\n        for (int i = 0; i < nums.length; i++) {\n            sum += nums[i];\n            if (firstIndex.containsKey(sum)) {\n                best = Math.max(best, i - firstIndex.get(sum));\n            } else {\n                firstIndex.put(sum, i);\n            }\n        }\n        return best;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

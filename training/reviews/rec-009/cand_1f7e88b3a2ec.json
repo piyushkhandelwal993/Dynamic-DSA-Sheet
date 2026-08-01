@@ -7,7 +7,7 @@
   "bugType": "correctness",
   "reviewerNotes": "Recursion shrinks by n - 1 instead of n / 10, so the solution is incorrect and overflows on larger inputs.",
   "resolution": "Require the recursive step to reduce the number by dividing by 10 so the call moves toward the base case.",
-  "expectedFacts": [],
-  "forbiddenFacts": [],
+  "expectedFacts": ["functional-recursion", "base-case"],
+  "forbiddenFacts": ["recursive-progress"],
   "inferredBugType": "needs-investigation"
 }

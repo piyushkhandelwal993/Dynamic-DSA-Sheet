@@ -8,6 +8,6 @@
   "reviewerNotes": "Rejected during training: not the intended recursive string reversal shape or correctness.",
   "resolution": null,
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["recursion-on-strings", "functional-recursion"],
   "inferredBugType": "concept-detector"
 }

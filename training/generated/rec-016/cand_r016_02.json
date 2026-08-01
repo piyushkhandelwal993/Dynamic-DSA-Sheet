@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r016_02",
+  "importedAt": "2026-07-10T02:51:30.940Z",
+  "problemId": "rec-016",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "swap-recursion",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> answer = new ArrayList<>();\n        permute(nums, 0, answer);\n        return answer;\n    }\n\n    private void permute(int[] nums, int index, List<List<Integer>> answer) {\n        if (index == nums.length) {\n            List<Integer> current = new ArrayList<>();\n            for (int value : nums) current.add(value);\n            answer.add(current);\n            return;\n        }\n        for (int i = index; i < nums.length; i++) {\n            swap(nums, index, i);\n            permute(nums, index + 1, answer);\n            swap(nums, index, i);\n        }\n    }\n\n    private void swap(int[] nums, int i, int j) {\n        int temp = nums[i];\n        nums[i] = nums[j];\n        nums[j] = temp;\n    }\n}",
+  "notes": "In-place swap permutation style.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

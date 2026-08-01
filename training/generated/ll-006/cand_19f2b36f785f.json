@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_19f2b36f785f",
+  "importedAt": "2026-07-23T05:05:39.537Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "one-pass-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null || head.next == null) return head;\n        Node second = head.next;\n        head.next = null;\n        second.next = head;\n        return second;\n    }\n}",
+  "notes": "Only swaps the first two nodes and fails for longer lists.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

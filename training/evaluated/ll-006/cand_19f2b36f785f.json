@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-23T05:06:01.889Z",
+  "sourceCandidate": "training/generated/ll-006/cand_19f2b36f785f.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_19f2b36f785f",
+    "importedAt": "2026-07-23T05:05:39.537Z",
+    "problemId": "ll-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "incorrect",
+    "label": "one-pass-only",
+    "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null || head.next == null) return head;\n        Node second = head.next;\n        head.next = null;\n        second.next = head;\n        return second;\n    }\n}",
+    "notes": "Only swaps the first two nodes and fails for longer lists.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 2,
+    "totalCount": 3,
+    "failedCases": [
+      {
+        "input": "4\n1 2 3 4",
+        "expectedOutput": "4 3 2 1",
+        "actualOutput": "2 1",
+        "passed": false,
+        "visibility": "sample",
+        "timedOut": false,
+        "outputLimitExceeded": false,
+        "memoryLimitExceeded": false
+      }
+    ]
+  },
+  "analyzer": {
+    "factIds": [
+      "tree-node",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-reverse"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 67,
+      "conceptMatchScore": 0,
+      "qualityScore": 65,
+      "complexityScore": 55,
+      "finalScore": 52
+    },
+    "recommendationHints": [
+      "Review the failed test cases: 2/3 currently pass.",
+      "Demonstrate ll reverse explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-reverse",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

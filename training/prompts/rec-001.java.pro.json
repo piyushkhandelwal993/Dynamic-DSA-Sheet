@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-10T02:36:14.677Z",
+  "problemId": "rec-001",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-001\nTitle: Print Name N Times\nTopic: Recursion\nSubtopic: What recursion is\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: recursion-intro, base-case\nExpected Complexity: O(n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Print Name N Times (rec-001)\n * Topic: Recursion\n * Subtopic: What recursion is\n * Difficulty: Easy\n * Expected Concepts: recursion-intro, base-case\n * Input:\n * - A string name\n * - An integer n\n * Output:\n * - Print the name on n lines\n * Approach: Stop when the printed count reaches n. Otherwise print once and recurse on the smaller remaining count.\n * Sample Input: Alex, 3\n * Sample Output: Alex\nAlex\nAlex\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: A string name\n        // TODO: An integer n\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Think about what the function should do once.\n\n        // TODO: Print the name on n lines\n\n        sc.close();\n    }\n}\n"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r021_04",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-021",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "recursive-partition-without-merge",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] mergeSort(int[] nums) {\n        if (nums.length <= 1) return nums;\n        int mid = nums.length / 2;\n        int[] left = mergeSort(Arrays.copyOfRange(nums, 0, mid));\n        int[] right = mergeSort(Arrays.copyOfRange(nums, mid, nums.length));\n        int[] combined = new int[nums.length];\n        System.arraycopy(left, 0, combined, 0, left.length);\n        System.arraycopy(right, 0, combined, left.length, right.length);\n        Arrays.sort(combined);\n        return combined;\n    }\n}",
+  "notes": "Recurses then re-sorts instead of merging.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -9,11 +9,10 @@
   "resolution": null,
   "expectedFacts": [
     "recursion-on-strings",
-    "functional-recursion"
+    "base-case"
   ],
   "forbiddenFacts": [
-    "recursion-on-strings",
-    "functional-recursion"
+    "recursive-progress"
   ],
   "inferredBugType": "needs-investigation"
 }

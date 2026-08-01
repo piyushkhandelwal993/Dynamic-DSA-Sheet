@@ -7,7 +7,7 @@
   "bugType": "correctness",
   "reviewerNotes": "The recursive call never shrinks the problem, so it loops forever and overflows the stack.",
   "resolution": "Ensure gcd recurses on the remainder pair gcd(b, a % b) rather than unchanged inputs.",
-  "expectedFacts": [],
-  "forbiddenFacts": [],
+  "expectedFacts": ["functional-recursion", "base-case"],
+  "forbiddenFacts": ["recursive-progress"],
   "inferredBugType": "needs-investigation"
 }

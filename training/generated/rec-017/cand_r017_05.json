@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r017_05",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "n2-sample",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<String> towerOfHanoi(int n) {\n        List<String> moves = new ArrayList<>();\n        if (n == 2) {\n            moves.add(\"A->B\");\n            moves.add(\"A->C\");\n            moves.add(\"B->C\");\n        }\n        return moves;\n    }\n}",
+  "notes": "Hardcoded sample output.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -8,6 +8,6 @@
   "reviewerNotes": "Rejected during training: not the intended recursion style or correctness.",
   "resolution": null,
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["parameterized-recursion", "functional-recursion"],
   "inferredBugType": "concept-detector"
 }

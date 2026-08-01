@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-23T05:06:04.003Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/ll-006/cand_d541de8a1abc.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_d541de8a1abc",
+    "importedAt": "2026-07-23T05:05:39.536Z",
+    "problemId": "ll-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-alternate",
+    "label": "recursive-reverse",
+    "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null || head.next == null) return head;\n        Node rest = reverse(head.next);\n        head.next.next = head;\n        head.next = null;\n        return rest;\n    }\n}",
+    "notes": "Recursive reversal with O(n) time and O(n) recursion stack.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "recursive-call",
+      "base-case",
+      "tree-node",
+      "recursive-base-case",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-reverse"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 65,
+      "complexityScore": 55,
+      "finalScore": 70
+    },
+    "recommendationHints": [
+      "Demonstrate ll reverse explicitly; it is expected for this problem but was not detected.",
+      "Refactor toward the intended O(n) approach.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-reverse",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

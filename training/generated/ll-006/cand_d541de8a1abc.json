@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_d541de8a1abc",
+  "importedAt": "2026-07-23T05:05:39.536Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "recursive-reverse",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null || head.next == null) return head;\n        Node rest = reverse(head.next);\n        head.next.next = head;\n        head.next = null;\n        return rest;\n    }\n}",
+  "notes": "Recursive reversal with O(n) time and O(n) recursion stack.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

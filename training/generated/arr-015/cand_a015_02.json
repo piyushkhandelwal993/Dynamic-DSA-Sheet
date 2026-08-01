@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a015_02",
+  "importedAt": "2026-07-10T03:07:52.282Z",
+  "problemId": "arr-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean hasPairWithSum(int[] nums, int target) {\n        int left = 0, right = nums.length - 1;\n        while (left < right) {\n            int sum = nums[left] + nums[right];\n            if (sum == target) return true;\n            if (sum < target) left++;\n            else right--;\n        }\n        return false;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

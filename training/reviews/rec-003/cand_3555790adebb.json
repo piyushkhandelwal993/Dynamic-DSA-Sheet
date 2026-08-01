@@ -11,9 +11,6 @@
     "functional-recursion",
     "base-case"
   ],
-  "forbiddenFacts": [
-    "functional-recursion",
-    "base-case"
-  ],
+  "forbiddenFacts": [],
   "inferredBugType": "needs-investigation"
 }

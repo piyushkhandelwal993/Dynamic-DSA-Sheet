@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a022_02",
+  "importedAt": "2026-07-10T03:07:52.285Z",
+  "problemId": "arr-022",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int majorityElement(int[] nums) {\n        int candidate = 0, count = 0;\n        for (int value : nums) {\n            if (count == 0) candidate = value;\n            count += (value == candidate) ? 1 : -1;\n        }\n        return candidate;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r021_01",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-021",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "merge-sort-recursive",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] mergeSort(int[] nums) {\n        if (nums.length <= 1) return nums;\n        int mid = nums.length / 2;\n        int[] left = Arrays.copyOfRange(nums, 0, mid);\n        int[] right = Arrays.copyOfRange(nums, mid, nums.length);\n        return merge(mergeSort(left), mergeSort(right));\n    }\n\n    private int[] merge(int[] left, int[] right) {\n        int[] result = new int[left.length + right.length];\n        int i = 0, j = 0, k = 0;\n        while (i < left.length && j < right.length) {\n            result[k++] = left[i] <= right[j] ? left[i++] : right[j++];\n        }\n        while (i < left.length) result[k++] = left[i++];\n        while (j < right.length) result[k++] = right[j++];\n        return result;\n    }\n}",
+  "notes": "Straightforward merge sort.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

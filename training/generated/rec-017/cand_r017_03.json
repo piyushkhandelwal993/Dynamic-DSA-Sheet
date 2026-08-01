@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r017_03",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "single-move-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<String> towerOfHanoi(int n) {\n        List<String> moves = new ArrayList<>();\n        moves.add(\"A->C\");\n        return moves;\n    }\n}",
+  "notes": "Only prints the final move.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

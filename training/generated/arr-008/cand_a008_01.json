@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a008_01",
+  "importedAt": "2026-07-10T03:07:52.276Z",
+  "problemId": "arr-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void moveZeroes(int[] nums) {\n        int write = 0;\n        for (int value : nums) if (value != 0) nums[write++] = value;\n        while (write < nums.length) nums[write++] = 0;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

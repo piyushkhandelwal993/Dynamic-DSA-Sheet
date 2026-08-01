@@ -8,6 +8,6 @@
   "reviewerNotes": "Hardcoded threshold answers are not acceptable for recursion mastery.",
   "resolution": "Detect and penalize digit-threshold shortcuts more strongly in recursion lessons.",
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["base-case", "functional-recursion"],
   "inferredBugType": "concept-detector"
 }

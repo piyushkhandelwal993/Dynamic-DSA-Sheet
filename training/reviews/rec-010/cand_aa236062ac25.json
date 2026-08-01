@@ -8,6 +8,6 @@
   "reviewerNotes": "Correct but iterative; it does not demonstrate the intended recursion target.",
   "resolution": "Keep recursion-only milestones from passing loop-based substitutes as progression-ready.",
   "expectedFacts": [],
-  "forbiddenFacts": [],
+  "forbiddenFacts": ["base-case", "functional-recursion"],
   "inferredBugType": "concept-detector"
 }

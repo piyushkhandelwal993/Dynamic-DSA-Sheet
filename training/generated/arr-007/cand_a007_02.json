@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a007_02",
+  "importedAt": "2026-07-10T03:07:52.276Z",
+  "problemId": "arr-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int maxSubarraySum(int[] nums) {\n        int best = nums[0];\n        int current = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            current = Math.max(nums[i], current + nums[i]);\n            best = Math.max(best, current);\n        }\n        return best;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

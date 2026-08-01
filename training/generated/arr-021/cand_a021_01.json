@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a021_01",
+  "importedAt": "2026-07-10T03:07:52.285Z",
+  "problemId": "arr-021",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean hasZeroSumSubarray(int[] nums) {\n        Set<Integer> seen = new HashSet<>();\n        int sum = 0;\n        seen.add(0);\n        for (int value : nums) {\n            sum += value;\n            if (seen.contains(sum)) return true;\n            seen.add(sum);\n        }\n        return false;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

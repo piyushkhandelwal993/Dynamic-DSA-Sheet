@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r023_02",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-023",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "fill-row-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void solveSudoku(int[][] board) {\n        for (int row = 0; row < 9; row++) {\n            for (int col = 0; col < 9; col++) {\n                if (board[row][col] == 0) board[row][col] = row + 1;\n            }\n        }\n    }\n}",
+  "notes": "Does not solve the puzzle.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

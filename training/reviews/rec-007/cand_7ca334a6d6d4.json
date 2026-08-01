@@ -12,8 +12,7 @@
     "base-case"
   ],
   "forbiddenFacts": [
-    "recursion-on-strings",
-    "base-case"
+    "recursive-progress"
   ],
   "inferredBugType": "needs-investigation"
 }

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r017_02",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "string-builder-moves",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<String> towerOfHanoi(int n) {\n        List<String> moves = new ArrayList<>();\n        hanoi(n, \"A\", \"B\", \"C\", moves);\n        return moves;\n    }\n\n    private void hanoi(int n, String source, String auxiliary, String destination, List<String> moves) {\n        if (n == 1) {\n            moves.add(source + \"->\" + destination);\n            return;\n        }\n        hanoi(n - 1, source, destination, auxiliary, moves);\n        moves.add(source + \"->\" + destination);\n        hanoi(n - 1, auxiliary, source, destination, moves);\n    }\n}",
+  "notes": "String-parameter variation.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

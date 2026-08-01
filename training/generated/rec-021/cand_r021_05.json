@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r021_05",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-021",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "already-sorted",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] mergeSort(int[] nums) {\n        return nums;\n    }\n}",
+  "notes": "Does nothing.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

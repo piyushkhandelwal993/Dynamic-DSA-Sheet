@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a17a72584d8c",
+  "importedAt": "2026-07-23T05:05:39.537Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "arraylist-rebuild",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null) return null;\n        ArrayList<Node> list = new ArrayList<>();\n        Node temp = head;\n        while (temp != null) {\n            list.add(temp);\n            temp = temp.next;\n        }\n        for (int i = list.size() - 1; i > 0; i--) {\n            list.get(i).next = list.get(i - 1);\n        }\n        list.get(0).next = null;\n        return list.get(list.size() - 1);\n    }\n}",
+  "notes": "Uses extra O(n) space to store node references before reconnecting.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

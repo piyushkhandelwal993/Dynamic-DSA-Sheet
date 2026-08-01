@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r016_05",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-016",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "single-order",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> answer = new ArrayList<>();\n        answer.add(new ArrayList<>());\n        for (int value : nums) answer.get(0).add(value);\n        return answer;\n    }\n}",
+  "notes": "Returns only one arrangement.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r023_01",
+  "importedAt": "2026-07-10T02:51:30.942Z",
+  "problemId": "rec-023",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "backtracking-board",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void solveSudoku(int[][] board) {\n        solve(board);\n    }\n\n    private boolean solve(int[][] board) {\n        for (int row = 0; row < 9; row++) {\n            for (int col = 0; col < 9; col++) {\n                if (board[row][col] == 0) {\n                    for (int digit = 1; digit <= 9; digit++) {\n                        if (isValid(board, row, col, digit)) {\n                            board[row][col] = digit;\n                            if (solve(board)) return true;\n                            board[row][col] = 0;\n                        }\n                    }\n                    return false;\n                }\n            }\n        }\n        return true;\n    }\n\n    private boolean isValid(int[][] board, int row, int col, int digit) {\n        for (int i = 0; i < 9; i++) {\n            if (board[row][i] == digit || board[i][col] == digit) return false;\n        }\n        int startRow = (row / 3) * 3;\n        int startCol = (col / 3) * 3;\n        for (int r = startRow; r < startRow + 3; r++) {\n            for (int c = startCol; c < startCol + 3; c++) {\n                if (board[r][c] == digit) return false;\n            }\n        }\n        return true;\n    }\n}",
+  "notes": "Classic recursive Sudoku solver.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

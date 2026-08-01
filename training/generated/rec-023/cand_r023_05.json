@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r023_05",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-023",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "constraint-sets",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void solveSudoku(int[][] board) {\n        boolean[][] rows = new boolean[9][10];\n        boolean[][] cols = new boolean[9][10];\n        boolean[][] boxes = new boolean[9][10];\n        for (int row = 0; row < 9; row++) {\n            for (int col = 0; col < 9; col++) {\n                int value = board[row][col];\n                if (value != 0) mark(rows, cols, boxes, row, col, value, true);\n            }\n        }\n        solve(board, rows, cols, boxes);\n    }\n\n    private boolean solve(int[][] board, boolean[][] rows, boolean[][] cols, boolean[][] boxes) {\n        for (int row = 0; row < 9; row++) {\n            for (int col = 0; col < 9; col++) {\n                if (board[row][col] == 0) {\n                    for (int digit = 1; digit <= 9; digit++) {\n                        int box = (row / 3) * 3 + col / 3;\n                        if (!rows[row][digit] && !cols[col][digit] && !boxes[box][digit]) {\n                            board[row][col] = digit;\n                            mark(rows, cols, boxes, row, col, digit, true);\n                            if (solve(board, rows, cols, boxes)) return true;\n                            mark(rows, cols, boxes, row, col, digit, false);\n                            board[row][col] = 0;\n                        }\n                    }\n                    return false;\n                }\n            }\n        }\n        return true;\n    }\n\n    private void mark(boolean[][] rows, boolean[][] cols, boolean[][] boxes, int row, int col, int digit, boolean value) {\n        rows[row][digit] = value;\n        cols[col][digit] = value;\n        boxes[(row / 3) * 3 + col / 3][digit] = value;\n    }\n}",
+  "notes": "Alternate constraint-tracking style.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

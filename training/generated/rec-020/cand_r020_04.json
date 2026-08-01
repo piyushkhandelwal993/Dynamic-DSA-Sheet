@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r020_04",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-020",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "recompute-tree",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int tribonacci(int n) {\n        if (n == 0) return 0;\n        if (n == 1 || n == 2) return 1;\n        return tribonacci(n - 1) + tribonacci(n - 2) + tribonacci(n - 3);\n    }\n}",
+  "notes": "Correct but exponential tree recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "queuedAt": "2026-07-23T05:06:02.428Z",
+  "reviewStatus": "needs-review",
+  "reviewType": "analyzer-training",
+  "sourceCandidate": "training/generated/ll-006/cand_a17a72584d8c.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_a17a72584d8c",
+    "importedAt": "2026-07-23T05:05:39.537Z",
+    "problemId": "ll-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "suboptimal",
+    "label": "arraylist-rebuild",
+    "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        if (head == null) return null;\n        ArrayList<Node> list = new ArrayList<>();\n        Node temp = head;\n        while (temp != null) {\n            list.add(temp);\n            temp = temp.next;\n        }\n        for (int i = list.size() - 1; i > 0; i--) {\n            list.get(i).next = list.get(i - 1);\n        }\n        list.get(0).next = null;\n        return list.get(list.size() - 1);\n    }\n}",
+    "notes": "Uses extra O(n) space to store node references before reconnecting.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "linked-list-traversal",
+      "queue-operations",
+      "loop",
+      "array",
+      "tree-node",
+      "bottom-up-dp",
+      "dp-space-optimization",
+      "reduced-dp-space",
+      "linked-list-edge-check",
+      "queue-edge-check",
+      "graph-edge-check",
+      "dp-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "poor-variable-names"
+    ],
+    "matchedConcepts": [],
+    "missingConcepts": [
+      "ll-reverse"
+    ],
+    "conceptMatchScore": 0,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 0,
+      "qualityScore": 70,
+      "complexityScore": 55,
+      "finalScore": 71
+    },
+    "recommendationHints": [
+      "Demonstrate ll reverse explicitly; it is expected for this problem but was not detected.",
+      "Rename ambiguous variables so each state and pointer has a clear role.",
+      "Refactor toward the intended O(n) approach."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-reverse",
+        "matched": false,
+        "confidence": 0,
+        "evidence": [],
+        "factIds": []
+      }
+    ]
+  },
+  "suspiciousReasons": [
+    "passed-tests-but-concept-miss",
+    "passed-tests-low-concept-score",
+    "passed-tests-but-progression-risk"
+  ],
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [],
+  "forbiddenFacts": [],
+  "inferredBugType": "concept-detector"
+}

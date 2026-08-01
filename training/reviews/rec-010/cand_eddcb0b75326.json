@@ -7,7 +7,7 @@
   "bugType": "correctness",
   "reviewerNotes": "The recursive step subtracts 1 instead of removing a digit, so the logic is wrong.",
   "resolution": "Require the recursive call to shrink by dividing by 10 for digit-count problems.",
-  "expectedFacts": [],
-  "forbiddenFacts": [],
+  "expectedFacts": ["functional-recursion", "base-case"],
+  "forbiddenFacts": ["recursive-progress"],
   "inferredBugType": "needs-investigation"
 }

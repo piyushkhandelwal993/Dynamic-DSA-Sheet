@@ -7,7 +7,11 @@
   "bugType": "execution-or-template",
   "reviewerNotes": "Incorrect candidate passed because the suite lacks a repeated-value acyclic list where comparing node values would false-positive.",
   "resolution": "Add a hidden no-cycle case with duplicate node values.",
-  "expectedFacts": [],
-  "forbiddenFacts": [],
+  "expectedFacts": [
+    "fast-slow-pointers"
+  ],
+  "forbiddenFacts": [
+    "linked-list-cycle-detection"
+  ],
   "inferredBugType": "concept-detector"
 }

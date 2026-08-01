@@ -49,7 +49,7 @@ function main() {
   const options = parseArgs(process.argv.slice(2));
   const scriptDir = path.dirname(fileURLToPath(import.meta.url));
   const appRoot = path.resolve(scriptDir, "..");
-  const workspaceRoot = path.resolve(appRoot, "..");
+  const workspaceRoot = appRoot;
   const inputPath = path.resolve(workspaceRoot, options.input);
   const outputDir = path.resolve(workspaceRoot, "training", "generated", options.problem);
 

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-10T02:47:05.192Z",
+  "problemId": "rec-023",
+  "language": "cpp",
+  "practiceMode": "beginner",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-023\nTitle: Sudoku Solver\nTopic: Recursion\nSubtopic: Recursive search problems\nLanguage: cpp\nMode: Complete the Function\nExpected Concepts: recursive-search, backtracking-basics\nExpected Complexity: Exponential\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\n/*\n * Problem: Sudoku Solver (rec-023)\n * Mode: Complete the function\n * Provided by DSA Sheet: 9x9 integer matrix, output formatting, and test driver\n * Expected Complexity: Exponential\n */\nclass Solution {\npublic:\n    void solveSudoku(vector<vector<int>>& board) {\n        // TODO: implement solveSudoku.\n        // Write your code here.\n    }\n};\n"
+}

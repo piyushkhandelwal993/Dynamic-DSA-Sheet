@@ -955,7 +955,7 @@ test("cpp runner reports compiler errors", { skip: !compilerAvailable }, () => {
 });
 
 test("cpp runner supports custom input", { skip: !compilerAvailable }, () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-runner-custom-"));
   const filePath = path.join(tempDir, "main.cpp");
@@ -964,22 +964,24 @@ test("cpp runner supports custom input", { skip: !compilerAvailable }, () => {
     `#include <iostream>
 using namespace std;
 int main() {
-  string name;
-  int n;
-  cin >> name >> n;
-  for (int i = 0; i < n; ++i) cout << name;
+  int n, m;
+  cin >> n >> m;
+  for (int i = 0; i < n; ++i) {
+    cout << i << ":";
+    if (i + 1 < n) cout << "\\n";
+  }
 }
 `,
     "utf-8"
   );
 
-  const result = runCppWithCustomInput(problem, filePath, "Alex\n2\n");
+  const result = runCppWithCustomInput(problem, filePath, "3 0\n");
   assert.equal(result.compileSucceeded, true);
-  assert.equal(result.actualOutput, "AlexAlex");
+  assert.equal(result.actualOutput, "0:\n1:\n2:");
 });
 
 test("cpp runner normalizes bits/stdc++.h for Apple Clang compatibility", { skip: !compilerAvailable }, () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-runner-portable-"));
   const filePath = path.join(tempDir, "main.cpp");
@@ -988,12 +990,19 @@ test("cpp runner normalizes bits/stdc++.h for Apple Clang compatibility", { skip
     `#include <bits/stdc++.h>
 using namespace std;
 int main() {
-  string name;
-  int n;
-  cin >> name >> n;
+  int n, m;
+  cin >> n >> m;
+  vector<vector<int>> graph(n);
+  for (int i = 0; i < m; ++i) {
+    int u, v;
+    cin >> u >> v;
+    graph[u].push_back(v);
+    graph[v].push_back(u);
+  }
   for (int i = 0; i < n; ++i) {
-    if (i > 0) cout << "\\n";
-    cout << name;
+    cout << i << ":";
+    for (int neighbor : graph[i]) cout << " " << neighbor;
+    if (i + 1 < n) cout << "\\n";
   }
 }
 `,
@@ -1006,7 +1015,7 @@ int main() {
 });
 
 test("cpp runner stops infinite loops", { skip: !compilerAvailable }, () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-runner-timeout-"));
   const filePath = path.join(tempDir, "main.cpp");
@@ -1019,7 +1028,7 @@ test("cpp runner stops infinite loops", { skip: !compilerAvailable }, () => {
 });
 
 test("cpp runner stops excessive output", { skip: !compilerAvailable }, () => {
-  const problem = getProblemById("rec-001");
+  const problem = getProblemById("gr-001");
   assert.ok(problem);
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-runner-output-"));
   const filePath = path.join(tempDir, "main.cpp");

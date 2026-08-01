@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a005_02",
+  "importedAt": "2026-07-10T03:07:52.275Z",
+  "problemId": "arr-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int highestFrequency(int[] nums) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        int bestValue = nums[0], bestCount = 0;\n        for (int value : nums) {\n            int count = freq.getOrDefault(value, 0) + 1;\n            freq.put(value, count);\n            if (count > bestCount || (count == bestCount && value < bestValue)) {\n                bestCount = count;\n                bestValue = value;\n            }\n        }\n        return bestValue;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

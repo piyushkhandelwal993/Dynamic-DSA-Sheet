@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r015_01",
+  "importedAt": "2026-07-10T02:51:30.939Z",
+  "problemId": "rec-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "reuse-backtrack",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        Arrays.sort(candidates);\n        List<List<Integer>> answer = new ArrayList<>();\n        backtrack(candidates, 0, target, new ArrayList<>(), answer);\n        return answer;\n    }\n\n    private void backtrack(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {\n        if (remaining == 0) {\n            answer.add(new ArrayList<>(path));\n            return;\n        }\n        for (int i = index; i < candidates.length; i++) {\n            if (candidates[i] > remaining) break;\n            path.add(candidates[i]);\n            backtrack(candidates, i, remaining - candidates[i], path, answer);\n            path.remove(path.size() - 1);\n        }\n    }\n}",
+  "notes": "Standard reuse-and-backtrack solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

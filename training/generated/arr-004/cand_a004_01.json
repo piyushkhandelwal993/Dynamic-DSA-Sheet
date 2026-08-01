@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a004_01",
+  "importedAt": "2026-07-10T03:07:52.275Z",
+  "problemId": "arr-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int secondLargest(int[] nums) {\n        int largest = Integer.MIN_VALUE;\n        int second = Integer.MIN_VALUE;\n        for (int value : nums) {\n            if (value > largest) {\n                second = largest;\n                largest = value;\n            } else if (value > second) {\n                second = value;\n            }\n        }\n        return second;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

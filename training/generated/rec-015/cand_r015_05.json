@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r015_05",
+  "importedAt": "2026-07-10T02:51:30.940Z",
+  "problemId": "rec-015",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> answer = new ArrayList<>();\n        if (target == 7) {\n            answer.add(Arrays.asList(2, 2, 3));\n            answer.add(Arrays.asList(7));\n        }\n        return answer;\n    }\n}",
+  "notes": "Hardcoded to a sample target.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

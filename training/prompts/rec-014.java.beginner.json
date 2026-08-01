@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-10T02:36:14.685Z",
+  "problemId": "rec-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-014\nTitle: Subset Sum Exists\nTopic: Recursion\nSubtopic: Subsequences and subsets\nLanguage: java\nMode: Complete the Function\nExpected Concepts: subsequence-generation, backtracking-basics\nExpected Complexity: O(2^n)\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: Subset Sum Exists (rec-014)\n * Mode: Complete the function\n * Provided by DSA Sheet: integer array, output formatting, and test driver\n * Expected Complexity: O(2^n)\n */\nclass Solution {\n    public boolean subsetSumExists(int[] nums, int target) {\n        // TODO: implement subsetSumExists.\n        return false;\n    }\n}\n"
+}

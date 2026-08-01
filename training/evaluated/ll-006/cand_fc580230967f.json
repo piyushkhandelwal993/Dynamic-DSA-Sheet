@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "evaluatedAt": "2026-07-23T05:06:05.589Z",
+  "sourceCandidate": "training/generated/ll-006/cand_fc580230967f.json",
+  "candidate": {
+    "schemaVersion": 1,
+    "id": "cand_fc580230967f",
+    "importedAt": "2026-07-23T05:05:39.536Z",
+    "problemId": "ll-006",
+    "language": "java",
+    "practiceMode": "beginner",
+    "candidateType": "correct-optimal",
+    "label": "iterative-for-loop",
+    "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        Node ans = null;\n        for (Node temp = head; temp != null;) {\n            Node nxt = temp.next;\n            temp.next = ans;\n            ans = temp;\n            temp = nxt;\n        }\n        return ans;\n    }\n}",
+    "notes": "Same optimal algorithm expressed using a for loop.",
+    "model": "manual-paste",
+    "promptVersion": "v1",
+    "sourceFile": "desktop-training"
+  },
+  "execution": {
+    "usedTestCases": true,
+    "compileSucceeded": true,
+    "passedCount": 3,
+    "totalCount": 3,
+    "failedCases": []
+  },
+  "analyzer": {
+    "factIds": [
+      "loop",
+      "tree-node",
+      "linked-list-reversal",
+      "single-pass",
+      "queue-edge-check",
+      "graph-edge-check",
+      "bit-edge-check",
+      "empty-or-null-check",
+      "poor-variable-names"
+    ],
+    "matchedConcepts": [
+      "ll-reverse"
+    ],
+    "missingConcepts": [],
+    "conceptMatchScore": 100,
+    "score": {
+      "correctnessScore": 100,
+      "conceptMatchScore": 100,
+      "qualityScore": 60,
+      "complexityScore": 92,
+      "finalScore": 93
+    },
+    "recommendationHints": [
+      "Rename ambiguous variables so each state and pointer has a clear role.",
+      "Clarify variable names and make boundary handling explicit."
+    ],
+    "evidence": [
+      {
+        "conceptId": "ll-reverse",
+        "matched": true,
+        "confidence": 1,
+        "evidence": [
+          "current node points to previous node"
+        ],
+        "factIds": [
+          "linked-list-reversal"
+        ]
+      }
+    ]
+  },
+  "suspicious": false,
+  "suspiciousReasons": []
+}

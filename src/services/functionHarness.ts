@@ -33,6 +33,16 @@ function javaMethodStub(contract: FunctionContract): string {
       return `        return false;`;
     case "array-maximum":
     case "tree-height":
+    case "tree-diameter":
+    case "tree-balanced-check":
+    case "tree-bst-search":
+    case "tree-left-view":
+    case "tree-bst-insert":
+    case "tree-bst-delete":
+    case "tree-top-view":
+    case "tree-lca":
+    case "tree-build-from-traversals":
+    case "tree-serialize-level-order":
       return `        return 0;`;
     case "array-second-largest":
     case "array-highest-frequency":
@@ -88,6 +98,19 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-reverse":
       return `        // Write your code here.`;
     case "tree-preorder":
+    case "tree-inorder":
+    case "tree-postorder":
+    case "tree-level-order":
+    case "tree-diameter":
+    case "tree-balanced-check":
+    case "tree-bst-search":
+    case "tree-left-view":
+    case "tree-bst-insert":
+    case "tree-bst-delete":
+    case "tree-top-view":
+    case "tree-lca":
+    case "tree-build-from-traversals":
+    case "tree-serialize-level-order":
       return `        return new ArrayList<>();`;
     case "stack-balanced-brackets":
     case "stack-validate-sequences":
@@ -129,10 +152,43 @@ function javaMethodStub(contract: FunctionContract): string {
       return `        return 0;`;
     case "stack-redundant-brackets":
       return `        return false;`;
+    case "queue-process-queries":
+    case "queue-circular-queries":
+      return `        return new int[0];`;
+    case "queue-petrol-pump":
+    case "queue-rotten-oranges":
+    case "queue-shortest-subarray-at-least-k":
+    case "queue-jump-game-vi":
+    case "queue-task-scheduler":
+      return `        return 0;`;
+    case "queue-generate-binary":
+    case "queue-first-non-repeating-stream":
+    case "queue-dota2-senate":
+      return `        return "";`;
+    case "queue-sliding-window-maximum":
+    case "queue-k-largest-elements":
+      return `        return new int[0];`;
     case "queue-reverse-first-k":
       return `        return values;`;
     case "binary-search-exact":
       return `        return -1;`;
+    case "binary-search-lower-bound":
+    case "binary-search-search-insert":
+    case "binary-search-rotated-search":
+      return `        return -1;`;
+    case "binary-search-first-last":
+      return `        return new int[0];`;
+    case "binary-search-min-rotated":
+    case "binary-search-peak":
+      return `        return 0;`;
+    case "binary-search-floor-sqrt":
+      return `        return 0L;`;
+    case "binary-search-capacity-speed":
+    case "binary-search-capacity-ship":
+    case "binary-search-capacity-bouquets":
+      return `        return 0;`;
+    case "binary-search-median-two-arrays":
+      return `        return 0.0;`;
     case "bit-xor-1-to-n":
     case "bit-check":
     case "bit-count-set-bits":
@@ -186,9 +242,39 @@ function javaMethodStub(contract: FunctionContract): string {
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
+    case "dp-climbing-stairs":
+    case "dp-house-robber":
+    case "dp-max-non-adjacent-sum":
+    case "dp-min-cost-climbing-stairs":
+    case "dp-unique-paths":
+    case "dp-min-path-sum":
+    case "dp-subset-sum":
+    case "dp-knapsack-01":
+    case "dp-coin-change-min-coins":
+    case "dp-lis-length":
+    case "dp-bitonic-subsequence":
+    case "dp-lcs-length":
+    case "dp-edit-distance":
+    case "dp-matrix-chain-multiplication":
+      return `        return 0;`;
     case "graph-bfs":
       return `        return new ArrayList<>();`;
+    case "graph-build-adjacency-list":
+    case "graph-dfs":
+    case "graph-connected-components":
+    case "graph-cycle-undirected":
+    case "graph-cycle-directed":
+    case "graph-num-islands":
+    case "graph-shortest-path-binary-matrix":
+    case "graph-topological-sort":
+    case "graph-course-schedule":
+    case "graph-shortest-path-unweighted":
+    case "graph-number-of-provinces":
+      return `        return new ArrayList<>();`;
+    default:
+      throw new Error(`Unsupported driver strategy: ${contract.driverStrategy}`);
   }
+  throw new Error(`Unsupported driver strategy: ${contract.driverStrategy}`);
 }
 
 function cppMethodStub(contract: FunctionContract): string {
@@ -308,10 +394,40 @@ function cppMethodStub(contract: FunctionContract): string {
       return `        return 0;`;
     case "stack-redundant-brackets":
       return `        return false;`;
+    case "queue-process-queries":
+    case "queue-circular-queries":
+    case "queue-petrol-pump":
+    case "queue-generate-binary":
+    case "queue-rotten-oranges":
+    case "queue-first-non-repeating-stream":
+    case "queue-sliding-window-maximum":
+    case "queue-shortest-subarray-at-least-k":
+    case "queue-jump-game-vi":
+    case "queue-k-largest-elements":
+    case "queue-task-scheduler":
+    case "queue-dota2-senate":
+      return `        return {};`;
     case "queue-reverse-first-k":
       return `        return values;`;
     case "binary-search-exact":
       return `        return -1;`;
+    case "binary-search-lower-bound":
+    case "binary-search-search-insert":
+    case "binary-search-rotated-search":
+      return `        return -1;`;
+    case "binary-search-first-last":
+      return `        return {};`;
+    case "binary-search-min-rotated":
+    case "binary-search-peak":
+      return `        return 0;`;
+    case "binary-search-floor-sqrt":
+      return `        return 0LL;`;
+    case "binary-search-capacity-speed":
+    case "binary-search-capacity-ship":
+    case "binary-search-capacity-bouquets":
+      return `        return 0;`;
+    case "binary-search-median-two-arrays":
+      return `        return 0.0;`;
     case "bit-xor-1-to-n":
     case "bit-check":
     case "bit-count-set-bits":
@@ -365,8 +481,37 @@ function cppMethodStub(contract: FunctionContract): string {
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
+    case "dp-climbing-stairs":
+    case "dp-house-robber":
+    case "dp-max-non-adjacent-sum":
+    case "dp-min-cost-climbing-stairs":
+    case "dp-unique-paths":
+    case "dp-min-path-sum":
+    case "dp-subset-sum":
+    case "dp-knapsack-01":
+    case "dp-coin-change-min-coins":
+    case "dp-lis-length":
+    case "dp-bitonic-subsequence":
+    case "dp-lcs-length":
+    case "dp-edit-distance":
+    case "dp-matrix-chain-multiplication":
+      return `        return 0;`;
     case "graph-bfs":
       return `        return {};`;
+    case "graph-build-adjacency-list":
+    case "graph-dfs":
+    case "graph-connected-components":
+    case "graph-cycle-undirected":
+    case "graph-cycle-directed":
+    case "graph-num-islands":
+    case "graph-shortest-path-binary-matrix":
+    case "graph-topological-sort":
+    case "graph-course-schedule":
+    case "graph-shortest-path-unweighted":
+    case "graph-number-of-provinces":
+      return `        return {};`;
+    default:
+      throw new Error(`Unsupported driver strategy: ${contract.driverStrategy}`);
   }
 }
 
@@ -503,6 +648,8 @@ function isArrayLikeStrategy(contract: FunctionContract): boolean {
     contract.driverStrategy === "bit-subset-sum-count" ||
     contract.driverStrategy === "bit-generate-subsets" ||
     contract.driverStrategy === "bit-max-xor-pair" ||
+    contract.driverStrategy === "queue-process-queries" ||
+    contract.driverStrategy === "queue-circular-queries" ||
     contract.driverStrategy === "queue-reverse-first-k" ||
     contract.driverStrategy === "binary-search-exact";
 }
@@ -690,6 +837,25 @@ function javaDriverSource(contract: FunctionContract): string {
             graph.get(to).add(from);
         }
         return graph;
+    }
+
+    private static int[][] readEdges(Scanner sc, int m, int cols) {
+        int[][] edges = new int[m][cols];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < cols; j++) edges[i][j] = sc.nextInt();
+        }
+        return edges;
+    }
+
+    private static void printAdjacencyList(List<List<Integer>> graph) {
+        for (int i = 0; i < graph.size(); i++) {
+            System.out.print(i + ":");
+            for (int j = 0; j < graph.get(i).size(); j++) {
+                System.out.print(j == 0 ? " " : " ");
+                System.out.print(graph.get(i).get(j));
+            }
+            if (i + 1 < graph.size()) System.out.println();
+        }
     }
 
     private static void printValues(List<Integer> values) {
@@ -996,9 +1162,56 @@ function javaDriverSource(contract: FunctionContract): string {
       invocation = `        System.out.print(new Solution().${contract.functionName}(root));`;
       break;
     case "tree-preorder":
+    case "tree-inorder":
+    case "tree-postorder":
+    case "tree-level-order":
+    case "tree-left-view":
+    case "tree-top-view":
+    case "tree-serialize-level-order":
       inputSetup = `        int n = sc.nextInt();
         TreeNode root = readTree(sc, n);`;
       invocation = `        printValues(new Solution().${contract.functionName}(root));`;
+      break;
+    case "tree-diameter":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root));`;
+      break;
+    case "tree-balanced-check":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root) ? "Balanced" : "Not Balanced");`;
+      break;
+    case "tree-bst-search":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-bst-insert":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int x = sc.nextInt();`;
+      invocation = `        printValues(new Solution().${contract.functionName}(root, x));`;
+      break;
+    case "tree-bst-delete":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int key = sc.nextInt();`;
+      invocation = `        printValues(new Solution().${contract.functionName}(root, key));`;
+      break;
+    case "tree-lca":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int p = sc.nextInt();
+        int q = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root, p, q));`;
+      break;
+    case "tree-build-from-traversals":
+      inputSetup = `        int n = sc.nextInt();
+        int[] preorder = readArray(sc, n);
+        int[] inorder = readArray(sc, n);`;
+      invocation = `        printValues(new Solution().${contract.functionName}(preorder, inorder));`;
       break;
     case "stack-balanced-brackets":
       inputSetup = `        String value = sc.next();`;
@@ -1098,6 +1311,78 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "Odd" : "Even");`;
       break;
+    case "queue-process-queries":
+      inputSetup = `        int q = sc.nextInt();
+        int[][] queries = new int[q][2];
+        for (int i = 0; i < q; i++) {
+            queries[i][0] = sc.nextInt();
+            queries[i][1] = queries[i][0] == 1 ? sc.nextInt() : 0;
+        }`;
+      invocation = `        printArray(new Solution().${contract.functionName}(queries));`;
+      break;
+    case "queue-circular-queries":
+      inputSetup = `        int capacity = sc.nextInt();
+        int q = sc.nextInt();
+        int[][] queries = new int[q][2];
+        for (int i = 0; i < q; i++) {
+            queries[i][0] = sc.nextInt();
+            queries[i][1] = (queries[i][0] == 1) ? sc.nextInt() : 0;
+        }`;
+      invocation = `        printArray(new Solution().${contract.functionName}(capacity, queries));`;
+      break;
+    case "queue-petrol-pump":
+      inputSetup = `        int n = sc.nextInt();
+        int[] petrol = readArray(sc, n);
+        int[] distance = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(petrol, distance));`;
+      break;
+    case "queue-generate-binary":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        printStrings(new Solution().${contract.functionName}(n));`;
+      break;
+    case "queue-rotten-oranges":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] grid = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(grid));`;
+      break;
+    case "queue-first-non-repeating-stream":
+      inputSetup = `        String s = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(s));`;
+      break;
+    case "queue-sliding-window-maximum":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-shortest-subarray-at-least-k":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-jump-game-vi":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-k-largest-elements":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-task-scheduler":
+      inputSetup = `        String tasks = sc.next();
+        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(tasks, n));`;
+      break;
+    case "queue-dota2-senate":
+      inputSetup = `        String senate = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(senate));`;
+      break;
     case "queue-reverse-first-k":
       inputSetup = `        int n = sc.nextInt();
         int k = sc.nextInt();
@@ -1109,6 +1394,56 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);
         int target = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "binary-search-lower-bound":
+    case "binary-search-search-insert":
+    case "binary-search-rotated-search":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "binary-search-first-last":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values, target));`;
+      break;
+    case "binary-search-min-rotated":
+    case "binary-search-peak":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "binary-search-floor-sqrt":
+      inputSetup = `        long x = sc.nextLong();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(x));`;
+      break;
+    case "binary-search-capacity-speed":
+      inputSetup = `        int n = sc.nextInt();
+        int hours = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, hours));`;
+      break;
+    case "binary-search-capacity-ship":
+      inputSetup = `        int n = sc.nextInt();
+        int days = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, days));`;
+      break;
+    case "binary-search-capacity-bouquets":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, m, k));`;
+      break;
+    case "binary-search-median-two-arrays":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] first = readArray(sc, n);
+        int[] second = readArray(sc, m);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second));`;
       break;
     case "bit-count-set-bits":
     case "bit-count-set-bits-kernighan":
@@ -1279,11 +1614,146 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
       break;
+    case "dp-climbing-stairs":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "dp-house-robber":
+    case "dp-max-non-adjacent-sum":
+    case "dp-min-cost-climbing-stairs":
+    case "dp-lis-length":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = contract.driverStrategy === "dp-lis-length"
+        ? `        System.out.print(new Solution().${contract.functionName}(values));`
+        : `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "dp-unique-paths":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, m));`;
+      break;
+    case "dp-min-path-sum":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] grid = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(grid));`;
+      break;
+    case "dp-subset-sum":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k) ? "Yes" : "No");`;
+      break;
+    case "dp-knapsack-01":
+      inputSetup = `        int n = sc.nextInt();
+        int w = sc.nextInt();
+        int[] weights = readArray(sc, n);
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(weights, values, w));`;
+      break;
+    case "dp-coin-change-min-coins":
+      inputSetup = `        int n = sc.nextInt();
+        int amount = sc.nextInt();
+        int[] coins = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(coins, amount));`;
+      break;
+    case "dp-bitonic-subsequence":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "dp-lcs-length":
+    case "dp-edit-distance":
+      inputSetup = `        String first = sc.next();
+        String second = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second));`;
+      break;
+    case "dp-matrix-chain-multiplication":
+      inputSetup = `        int n = sc.nextInt();
+        int[] dims = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(dims));`;
+      break;
     case "graph-bfs":
       inputSetup = `        int n = sc.nextInt();
         int m = sc.nextInt();
         List<List<Integer>> graph = readUndirectedGraph(sc, n, m);`;
       invocation = `        printValues(new Solution().${contract.functionName}(n, graph));`;
+      break;
+    case "graph-build-adjacency-list":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] edges = readEdges(sc, m, 2);`;
+      invocation = `        printAdjacencyList(new Solution().${contract.functionName}(n, edges));`;
+      break;
+    case "graph-dfs":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<List<Integer>> graph = readUndirectedGraph(sc, n, m);`;
+      invocation = `        printValues(new Solution().${contract.functionName}(n, graph));`;
+      break;
+    case "graph-connected-components":
+    case "graph-cycle-undirected":
+    case "graph-topological-sort":
+    case "graph-course-schedule":
+    case "graph-shortest-path-unweighted":
+    case "graph-dijkstra":
+    case "graph-network-delay-time":
+    case "graph-kruskal-mst":
+    case "graph-prim-mst":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();`;
+      if (contract.driverStrategy === "graph-course-schedule") {
+        inputSetup += `
+        int[][] edges = readEdges(sc, m, 2);`;
+      } else if (contract.driverStrategy === "graph-shortest-path-unweighted") {
+        inputSetup += `
+        int[][] edges = readEdges(sc, m, 2);
+        int s = sc.nextInt();`;
+      } else if (contract.driverStrategy === "graph-dijkstra" || contract.driverStrategy === "graph-network-delay-time" || contract.driverStrategy === "graph-kruskal-mst" || contract.driverStrategy === "graph-prim-mst") {
+        inputSetup += `
+        int[][] edges = readEdges(sc, m, 3);`;
+        if (contract.driverStrategy === "graph-dijkstra" || contract.driverStrategy === "graph-network-delay-time") inputSetup += `
+        int s = sc.nextInt();`;
+      } else {
+        inputSetup += `
+        int[][] edges = readEdges(sc, m, 2);`;
+      }
+      invocation = contract.driverStrategy === "graph-connected-components"
+        ? `        System.out.print(new Solution().${contract.functionName}(n, edges));`
+        : contract.driverStrategy === "graph-cycle-undirected"
+          ? `        System.out.print(new Solution().${contract.functionName}(n, edges) ? "Cycle" : "Acyclic");`
+          : contract.driverStrategy === "graph-topological-sort"
+            ? `        printArray(new Solution().${contract.functionName}(n, edges));`
+            : contract.driverStrategy === "graph-course-schedule"
+              ? `        System.out.print(new Solution().${contract.functionName}(n, edges) ? "Possible" : "Impossible");`
+              : contract.driverStrategy === "graph-shortest-path-unweighted"
+                ? `        printArray(new Solution().${contract.functionName}(n, edges, s));`
+                : contract.driverStrategy === "graph-network-delay-time"
+                  ? `        System.out.print(new Solution().${contract.functionName}(n, edges, s));`
+                  : `        System.out.print(new Solution().${contract.functionName}(n, edges));`;
+      break;
+    case "graph-cycle-directed":
+      inputSetup = `        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] edges = readEdges(sc, m, 2);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, edges) ? "Cycle" : "Acyclic");`;
+      break;
+    case "graph-num-islands":
+    case "graph-shortest-path-binary-matrix":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] grid = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(grid));`;
+      break;
+    case "graph-number-of-provinces":
+      inputSetup = `        int n = sc.nextInt();
+        int[][] matrix = readMatrix(sc, n, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(matrix));`;
+      break;
+    default:
+      inputSetup = `        throw new IllegalStateException("Unsupported driver strategy: ${contract.driverStrategy}");`;
+      invocation = ``;
       break;
   }
 
@@ -1852,16 +2322,68 @@ void printValues(const vector<int>& values) {
     printArray(values);`;
       break;
     case "tree-height":
+    case "tree-preorder":
+    case "tree-inorder":
+    case "tree-postorder":
+    case "tree-level-order":
+    case "tree-left-view":
+    case "tree-top-view":
+    case "tree-serialize-level-order":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);`;
+      invocation = `    printValues(Solution().${contract.functionName}(root));`;
+      break;
+    case "tree-diameter":
       inputSetup = `    int n;
     cin >> n;
     TreeNode* root = readTree(n);`;
       invocation = `    cout << Solution().${contract.functionName}(root);`;
       break;
-    case "tree-preorder":
+    case "tree-balanced-check":
       inputSetup = `    int n;
     cin >> n;
     TreeNode* root = readTree(n);`;
-      invocation = `    printValues(Solution().${contract.functionName}(root));`;
+      invocation = `    cout << (Solution().${contract.functionName}(root) ? "Balanced" : "Not Balanced");`;
+      break;
+    case "tree-bst-search":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << (Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-bst-insert":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int x;
+    cin >> x;`;
+      invocation = `    printValues(Solution().${contract.functionName}(root, x));`;
+      break;
+    case "tree-bst-delete":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int key;
+    cin >> key;`;
+      invocation = `    printValues(Solution().${contract.functionName}(root, key));`;
+      break;
+    case "tree-lca":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int p, q;
+    cin >> p >> q;`;
+      invocation = `    cout << Solution().${contract.functionName}(root, p, q);`;
+      break;
+    case "tree-build-from-traversals":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> preorder = readArray(n);
+    vector<int> inorder = readArray(n);`;
+      invocation = `    printValues(Solution().${contract.functionName}(preorder, inorder));`;
       break;
     case "stack-balanced-brackets":
       inputSetup = `    string value;
@@ -1975,6 +2497,84 @@ void printValues(const vector<int>& values) {
     cin >> n;`;
       invocation = `    cout << (Solution().${contract.functionName}(n) ? "Odd" : "Even");`;
       break;
+    case "queue-process-queries":
+      inputSetup = `    int q;
+    cin >> q;
+    vector<vector<int>> queries(q, vector<int>(2, 0));
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i][0];
+        if (queries[i][0] == 1) cin >> queries[i][1];
+    }`;
+      invocation = `    printArray(Solution().${contract.functionName}(queries));`;
+      break;
+    case "queue-circular-queries":
+      inputSetup = `    int capacity, q;
+    cin >> capacity >> q;
+    vector<vector<int>> queries(q, vector<int>(2, 0));
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i][0];
+        if (queries[i][0] == 1) cin >> queries[i][1];
+        }`;
+      invocation = `    printArray(Solution().${contract.functionName}(capacity, queries));`;
+      break;
+    case "queue-petrol-pump":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> petrol = readArray(n);
+    vector<int> distance = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(petrol, distance);`;
+      break;
+    case "queue-generate-binary":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    printStrings(Solution().${contract.functionName}(n));`;
+      break;
+    case "queue-rotten-oranges":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> grid = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(grid);`;
+      break;
+    case "queue-first-non-repeating-stream":
+      inputSetup = `    string s;
+    cin >> s;`;
+      invocation = `    cout << Solution().${contract.functionName}(s);`;
+      break;
+    case "queue-sliding-window-maximum":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-shortest-subarray-at-least-k":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
+    case "queue-jump-game-vi":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
+    case "queue-k-largest-elements":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values, k));`;
+      break;
+    case "queue-task-scheduler":
+      inputSetup = `    string tasks;
+    int n;
+    cin >> tasks >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(tasks, n);`;
+      break;
+    case "queue-dota2-senate":
+      inputSetup = `    string senate;
+    cin >> senate;`;
+      invocation = `    cout << Solution().${contract.functionName}(senate);`;
+      break;
     case "queue-reverse-first-k":
       inputSetup = `    int n, k;
     cin >> n >> k;
@@ -1988,6 +2588,61 @@ void printValues(const vector<int>& values) {
     int target;
     cin >> target;`;
       invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "binary-search-lower-bound":
+    case "binary-search-search-insert":
+    case "binary-search-rotated-search":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(values, target);`;
+      break;
+    case "binary-search-first-last":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int target;
+    cin >> target;`;
+      invocation = `    printArray(Solution().${contract.functionName}(values, target));`;
+      break;
+    case "binary-search-min-rotated":
+    case "binary-search-peak":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "binary-search-floor-sqrt":
+      inputSetup = `    long long x;
+    cin >> x;`;
+      invocation = `    cout << Solution().${contract.functionName}(x);`;
+      break;
+    case "binary-search-capacity-speed":
+      inputSetup = `    int n, hours;
+    cin >> n >> hours;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, hours);`;
+      break;
+    case "binary-search-capacity-ship":
+      inputSetup = `    int n, days;
+    cin >> n >> days;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, days);`;
+      break;
+    case "binary-search-capacity-bouquets":
+      inputSetup = `    int n, m, k;
+    cin >> n >> m >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, m, k);`;
+      break;
+    case "binary-search-median-two-arrays":
+      inputSetup = `    int n, m;
+    cin >> n >> m;
+    vector<int> first = readArray(n);
+    vector<int> second = readArray(m);`;
+      invocation = `    cout << Solution().${contract.functionName}(first, second);`;
       break;
     case "bit-count-set-bits":
     case "bit-count-set-bits-kernighan":
@@ -2177,11 +2832,142 @@ void printValues(const vector<int>& values) {
     cin >> n;`;
       invocation = `    cout << Solution().${contract.functionName}(n);`;
       break;
+    case "dp-climbing-stairs":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "dp-house-robber":
+    case "dp-max-non-adjacent-sum":
+    case "dp-min-cost-climbing-stairs":
+    case "dp-lis-length":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "dp-unique-paths":
+      inputSetup = `    int n, m;
+    cin >> n >> m;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, m);`;
+      break;
+    case "dp-min-path-sum":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> grid = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(grid);`;
+      break;
+    case "dp-subset-sum":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(values, k) ? "Yes" : "No");`;
+      break;
+    case "dp-knapsack-01":
+      inputSetup = `    int n, w;
+    cin >> n >> w;
+    vector<int> weights = readArray(n);
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(weights, values, w);`;
+      break;
+    case "dp-coin-change-min-coins":
+      inputSetup = `    int n, amount;
+    cin >> n >> amount;
+    vector<int> coins = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(coins, amount);`;
+      break;
+    case "dp-bitonic-subsequence":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "dp-lcs-length":
+    case "dp-edit-distance":
+      inputSetup = `    string first, second;
+    cin >> first >> second;`;
+      invocation = `    cout << Solution().${contract.functionName}(first, second);`;
+      break;
+    case "dp-matrix-chain-multiplication":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> dims = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(dims);`;
+      break;
     case "graph-bfs":
       inputSetup = `    int n, m;
     cin >> n >> m;
     vector<vector<int>> graph = readUndirectedGraph(n, m);`;
       invocation = `    printValues(Solution().${contract.functionName}(n, graph));`;
+      break;
+    case "graph-build-adjacency-list":
+      inputSetup = `    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> edges = readEdges(m, 2);`;
+      invocation = `    printAdjacencyList(Solution().${contract.functionName}(n, edges));`;
+      break;
+    case "graph-connected-components":
+    case "graph-cycle-undirected":
+    case "graph-topological-sort":
+    case "graph-course-schedule":
+    case "graph-shortest-path-unweighted":
+    case "graph-dijkstra":
+    case "graph-network-delay-time":
+    case "graph-kruskal-mst":
+    case "graph-prim-mst":
+      inputSetup = `    int n, m;
+    cin >> n >> m;`;
+      if (contract.driverStrategy === "graph-shortest-path-unweighted") {
+        inputSetup += `
+    vector<vector<int>> edges = readEdges(m, 2);
+    int s;
+    cin >> s;`;
+      } else if (contract.driverStrategy === "graph-dijkstra" || contract.driverStrategy === "graph-network-delay-time" || contract.driverStrategy === "graph-kruskal-mst" || contract.driverStrategy === "graph-prim-mst") {
+        inputSetup += `
+    vector<vector<int>> edges = readEdges(m, 3);`;
+        if (contract.driverStrategy === "graph-dijkstra" || contract.driverStrategy === "graph-network-delay-time") inputSetup += `
+    int s;
+    cin >> s;`;
+      } else {
+        inputSetup += `
+    vector<vector<int>> edges = readEdges(m, 2);`;
+      }
+      invocation = contract.driverStrategy === "graph-connected-components"
+        ? `    cout << Solution().${contract.functionName}(n, edges);`
+        : contract.driverStrategy === "graph-cycle-undirected"
+          ? `    cout << (Solution().${contract.functionName}(n, edges) ? "Cycle" : "Acyclic");`
+          : contract.driverStrategy === "graph-topological-sort"
+            ? `    printArray(Solution().${contract.functionName}(n, edges));`
+            : contract.driverStrategy === "graph-course-schedule"
+              ? `    cout << (Solution().${contract.functionName}(n, edges) ? "Possible" : "Impossible");`
+              : contract.driverStrategy === "graph-shortest-path-unweighted"
+                ? `    printArray(Solution().${contract.functionName}(n, edges, s));`
+                : contract.driverStrategy === "graph-network-delay-time"
+                  ? `    cout << Solution().${contract.functionName}(n, edges, s);`
+                  : `    cout << Solution().${contract.functionName}(n, edges);`;
+      break;
+    case "graph-cycle-directed":
+      inputSetup = `    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> edges = readEdges(m, 2);`;
+      invocation = `    cout << (Solution().${contract.functionName}(n, edges) ? "Cycle" : "Acyclic");`;
+      break;
+    case "graph-num-islands":
+    case "graph-shortest-path-binary-matrix":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> grid = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(grid);`;
+      break;
+    case "graph-number-of-provinces":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<vector<int>> matrix = readMatrix(n, n);`;
+      invocation = `    cout << Solution().${contract.functionName}(matrix);`;
+      break;
+    default:
+      inputSetup = `    throw runtime_error("Unsupported driver strategy: ${contract.driverStrategy}");`;
+      invocation = ``;
       break;
   }
 

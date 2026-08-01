@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a003_01",
+  "importedAt": "2026-07-10T03:07:52.274Z",
+  "problemId": "arr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void reverse(int[] nums) {\n        int left = 0, right = nums.length - 1;\n        while (left < right) {\n            int temp = nums[left];\n            nums[left] = nums[right];\n            nums[right] = temp;\n            left++;\n            right--;\n        }\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

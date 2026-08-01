@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a014_01",
+  "importedAt": "2026-07-10T03:07:52.282Z",
+  "problemId": "arr-014",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int[] runningSum(int[] nums) {\n        int[] result = new int[nums.length];\n        int sum = 0;\n        for (int i = 0; i < nums.length; i++) {\n            sum += nums[i];\n            result[i] = sum;\n        }\n        return result;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

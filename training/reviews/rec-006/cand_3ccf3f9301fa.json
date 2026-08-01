@@ -8,10 +8,11 @@
   "reviewerNotes": "Rejected during training: not the intended Fibonacci recursion shape or correctness.",
   "resolution": null,
   "expectedFacts": [
+    "functional-recursion",
     "base-case"
   ],
   "forbiddenFacts": [
-    "base-case"
+    "tree-recursion"
   ],
   "inferredBugType": null
 }

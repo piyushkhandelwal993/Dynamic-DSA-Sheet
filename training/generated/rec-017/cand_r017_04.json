@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r017_04",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-017",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-simulation",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<String> towerOfHanoi(int n) {\n        List<String> moves = new ArrayList<>();\n        for (int i = 0; i < (1 << n) - 1; i++) {\n            moves.add(\"A->C\");\n        }\n        return moves;\n    }\n}",
+  "notes": "Uses the right move count but not the right recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

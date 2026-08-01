@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r024_04",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-024",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "single-board",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<String>> solveNQueens(int n) {\n        List<List<String>> answer = new ArrayList<>();\n        if (n == 1) {\n            answer.add(Collections.singletonList(\"Q\"));\n        }\n        return answer;\n    }\n}",
+  "notes": "Only handles n=1.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

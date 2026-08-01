@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r023_04",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-023",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-grid-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void solveSudoku(int[][] board) {\n        if (board.length == 9) {\n            board[0][0] = 5;\n        }\n    }\n}",
+  "notes": "Only patches a sample cell.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r024_05",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-024",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "column-per-row",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<String>> solveNQueens(int n) {\n        int[] queenCol = new int[n];\n        Arrays.fill(queenCol, -1);\n        List<List<String>> answer = new ArrayList<>();\n        search(0, n, queenCol, answer);\n        return answer;\n    }\n\n    private void search(int row, int n, int[] queenCol, List<List<String>> answer) {\n        if (row == n) {\n            List<String> board = new ArrayList<>();\n            for (int r = 0; r < n; r++) {\n                char[] line = new char[n];\n                Arrays.fill(line, '.');\n                line[queenCol[r]] = 'Q';\n                board.add(new String(line));\n            }\n            answer.add(board);\n            return;\n        }\n        for (int col = 0; col < n; col++) {\n            if (safe(row, col, queenCol)) {\n                queenCol[row] = col;\n                search(row + 1, n, queenCol, answer);\n                queenCol[row] = -1;\n            }\n        }\n    }\n\n    private boolean safe(int row, int col, int[] queenCol) {\n        for (int r = 0; r < row; r++) {\n            int c = queenCol[r];\n            if (c == col || Math.abs(r - row) == Math.abs(c - col)) return false;\n        }\n        return true;\n    }\n}",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

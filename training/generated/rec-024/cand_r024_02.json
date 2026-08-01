@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r024_02",
+  "importedAt": "2026-07-10T02:51:30.943Z",
+  "problemId": "rec-024",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "first-row-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<List<String>> solveNQueens(int n) {\n        List<List<String>> answer = new ArrayList<>();\n        List<String> board = new ArrayList<>();\n        for (int row = 0; row < n; row++) {\n            char[] line = new char[n];\n            Arrays.fill(line, '.');\n            if (row == 0) line[0] = 'Q';\n            board.add(new String(line));\n        }\n        answer.add(board);\n        return answer;\n    }\n}",
+  "notes": "Does not search for all valid placements.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

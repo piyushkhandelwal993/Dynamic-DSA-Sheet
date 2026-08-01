@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_r020_02",
+  "importedAt": "2026-07-10T02:51:30.941Z",
+  "problemId": "rec-020",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "iterative-equivalent",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int tribonacci(int n) {\n        if (n == 0) return 0;\n        if (n == 1 || n == 2) return 1;\n        int a = 0, b = 1, c = 1;\n        for (int i = 3; i <= n; i++) {\n            int next = a + b + c;\n            a = b;\n            b = c;\n            c = next;\n        }\n        return c;\n    }\n}",
+  "notes": "Iterative equivalent, useful contrast candidate.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-recursion-candidate-batches.mjs"
+}

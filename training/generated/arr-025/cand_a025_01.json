@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a025_01",
+  "importedAt": "2026-07-10T03:07:52.286Z",
+  "problemId": "arr-025",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "one-pass",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int minAdjacentDiff(int[] nums) {\n        if (nums.length < 2) return 0;\n        int best = Integer.MAX_VALUE;\n        for (int i = 1; i < nums.length; i++) best = Math.min(best, nums[i] - nums[i - 1]);\n        return best;\n    }\n}\n",
+  "notes": "Standard intended solution.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

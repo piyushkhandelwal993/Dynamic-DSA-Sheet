@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_db37ec227c29",
+  "importedAt": "2026-07-23T05:05:39.537Z",
+  "problemId": "ll-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "missing-return-head",
+  "code": "import java.util.*;\n\nclass Solution {\n    public Node reverse(Node head) {\n        Node prev = null;\n        Node curr = head;\n        while (curr != null) {\n            Node next = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = next;\n        }\n        return head;\n    }\n}",
+  "notes": "Performs reversal correctly but mistakenly returns the original head.",
+  "model": "manual-paste",
+  "promptVersion": "v1",
+  "sourceFile": "desktop-training"
+}

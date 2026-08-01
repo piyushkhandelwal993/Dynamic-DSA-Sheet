@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-10T02:47:05.193Z",
+  "problemId": "rec-024",
+  "language": "java",
+  "practiceMode": "pro",
+  "variantsRequested": 8,
+  "promptVersion": "v1",
+  "prompt": "You are generating analyzer-training code samples for a DSA learning engine.\nProblem ID: rec-024\nTitle: N-Queens\nTopic: Recursion\nSubtopic: Recursive search problems\nLanguage: java\nMode: Write the Complete Program\nExpected Concepts: recursive-search, permutations, backtracking-basics\nExpected Complexity: Exponential\n\nGenerate diverse code candidates in JSON array format only.\nReturn 8 candidates with a mix of:\n- correct optimal solutions\n- correct alternate-style solutions\n- suboptimal but valid solutions\n- incorrect but realistic solutions\n- hardcoded or cheating solutions\n\nEach item must follow this JSON shape:\n{\"candidateType\":\"correct-optimal|correct-alternate|suboptimal|incorrect|hardcoded\",\"label\":\"short-label\",\"code\":\"full source code string\",\"notes\":\"brief explanation of style\"}\n\nRules:\n- Output valid JSON only.\n- For beginner mode, fill only the function/class template.\n- For pro mode, write the full runnable program.\n- Do not include markdown fences.\n- Keep solutions stylistically diverse.\n\nProblem starter/template:\nimport java.util.*;\n\n/*\n * Problem: N-Queens (rec-024)\n * Topic: Recursion\n * Subtopic: Recursive search problems\n * Difficulty: Hard\n * Expected Concepts: recursive-search, permutations, backtracking-basics\n * Input:\n * - An integer n\n * Output:\n * - Return all valid queen placements\n * Approach: Place one queen row by row, only continue with positions that are safe, and backtrack after exploring each choice.\n * Sample Input: 4\n * Sample Output: 2 valid boards\n */\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: An integer n\n\n        // TODO: implement the intended approach for this problem.\n        // Hint: Think row by row.\n\n        // TODO: Return all valid queen placements\n\n        sc.close();\n    }\n}\n"
+}

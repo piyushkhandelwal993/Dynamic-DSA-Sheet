@@ -141,7 +141,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "binary-search-boundary-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lowerBound",
+      "javaSignature": "public int lowerBound(int[] values, int target)",
+      "cppSignature": "int lowerBound(vector<int>& values, int target)",
+      "providedTypes": [
+        "sorted integer array"
+      ],
+      "driverStrategy": "binary-search-lower-bound"
+    }
   },
   {
     "id": "bs-003",
@@ -216,7 +226,17 @@
     "poolRole": "core",
     "masteryWeight": 1.1,
     "variantGroup": "binary-search-boundary-independence",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "firstLastOccurrence",
+      "javaSignature": "public int[] firstLastOccurrence(int[] values, int target)",
+      "cppSignature": "vector<int> firstLastOccurrence(vector<int>& values, int target)",
+      "providedTypes": [
+        "sorted integer array"
+      ],
+      "driverStrategy": "binary-search-first-last"
+    }
   },
   {
     "id": "bs-004",
@@ -285,7 +305,17 @@
     "poolRole": "review",
     "masteryWeight": 0.7,
     "variantGroup": "binary-search-boundary-review",
-    "learningRole": "reinforce"
+    "learningRole": "reinforce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "searchInsertPosition",
+      "javaSignature": "public int searchInsertPosition(int[] values, int target)",
+      "cppSignature": "int searchInsertPosition(vector<int>& values, int target)",
+      "providedTypes": [
+        "sorted integer array"
+      ],
+      "driverStrategy": "binary-search-search-insert"
+    }
   },
   {
     "id": "bs-005",
@@ -355,7 +385,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "binary-search-rotated-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "searchRotated",
+      "javaSignature": "public int searchRotated(int[] values, int target)",
+      "cppSignature": "int searchRotated(vector<int>& values, int target)",
+      "providedTypes": [
+        "rotated sorted integer array"
+      ],
+      "driverStrategy": "binary-search-rotated-search"
+    }
   },
   {
     "id": "bs-006",
@@ -422,7 +462,17 @@
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "binary-search-rotated-practice",
-    "learningRole": "reinforce"
+    "learningRole": "reinforce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minimumInRotated",
+      "javaSignature": "public int minimumInRotated(int[] values)",
+      "cppSignature": "int minimumInRotated(vector<int>& values)",
+      "providedTypes": [
+        "rotated sorted integer array"
+      ],
+      "driverStrategy": "binary-search-min-rotated"
+    }
   },
   {
     "id": "bs-007",
@@ -491,7 +541,17 @@
     "poolRole": "practice",
     "masteryWeight": 0.9,
     "variantGroup": "binary-search-peak-practice",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "findPeakElement",
+      "javaSignature": "public int findPeakElement(int[] values)",
+      "cppSignature": "int findPeakElement(vector<int>& values)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "binary-search-peak"
+    }
   },
   {
     "id": "bs-008",
@@ -559,7 +619,17 @@
     "poolRole": "core",
     "masteryWeight": 1,
     "variantGroup": "binary-search-answer-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "floorSqrt",
+      "javaSignature": "public long floorSqrt(long x)",
+      "cppSignature": "long long floorSqrt(long long x)",
+      "providedTypes": [
+        "single long value"
+      ],
+      "driverStrategy": "binary-search-floor-sqrt"
+    }
   },
   {
     "id": "bs-009",
@@ -628,7 +698,17 @@
     "poolRole": "core",
     "masteryWeight": 1.1,
     "variantGroup": "binary-search-capacity-foundation",
-    "learningRole": "introduce"
+    "learningRole": "introduce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minEatingSpeed",
+      "javaSignature": "public int minEatingSpeed(int[] piles, int hours)",
+      "cppSignature": "int minEatingSpeed(vector<int>& piles, int hours)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "binary-search-capacity-speed"
+    }
   },
   {
     "id": "bs-010",
@@ -697,7 +777,17 @@
     "poolRole": "practice",
     "masteryWeight": 0.95,
     "variantGroup": "binary-search-capacity-practice",
-    "learningRole": "reinforce"
+    "learningRole": "reinforce",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "shipWithinDays",
+      "javaSignature": "public int shipWithinDays(int[] weights, int days)",
+      "cppSignature": "int shipWithinDays(vector<int>& weights, int days)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "binary-search-capacity-ship"
+    }
   },
   {
     "id": "bs-011",
@@ -765,7 +855,17 @@
     "poolRole": "challenge",
     "masteryWeight": 1.25,
     "variantGroup": "binary-search-capacity-challenge",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "minDays",
+      "javaSignature": "public int minDays(int[] bloomDay, int m, int k)",
+      "cppSignature": "int minDays(vector<int>& bloomDay, int m, int k)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "binary-search-capacity-bouquets"
+    }
   },
   {
     "id": "bs-012",
@@ -836,6 +936,16 @@
     "poolRole": "challenge",
     "masteryWeight": 1.45,
     "variantGroup": "binary-search-partition-challenge",
-    "learningRole": "mastery"
+    "learningRole": "mastery",
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "medianOfTwoSortedArrays",
+      "javaSignature": "public double medianOfTwoSortedArrays(int[] first, int[] second)",
+      "cppSignature": "double medianOfTwoSortedArrays(vector<int>& first, vector<int>& second)",
+      "providedTypes": [
+        "two sorted integer arrays"
+      ],
+      "driverStrategy": "binary-search-median-two-arrays"
+    }
   }
 ]

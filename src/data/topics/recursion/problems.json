@@ -32,6 +32,17 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "printNameNTimes",
+      "javaSignature": "public void printNameNTimes(String name, int n)",
+      "cppSignature": "void printNameNTimes(string name, int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-print-name-n-times"
+    },
     "remedialProblems": [],
     "skipIfMastered": []
   },
@@ -56,6 +67,17 @@
     "wrongApproachHints": ["Printing after the recursive call changes the order.", "Do not forget to stop once the current value exceeds n."],
     "hints": ["Use a helper with the current index.", "Base case should stop after n.", "Decide whether to print before or after recursion based on order."],
     "examples": [{"input": "5", "output": "1 2 3 4 5", "explanation": "Each call prints one value and moves to the next integer."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "printOneToN",
+      "javaSignature": "public void printOneToN(int n)",
+      "cppSignature": "void printOneToN(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-print-1-to-n"
+    },
     "remedialProblems": ["rec-001"],
     "skipIfMastered": []
   },
@@ -97,6 +119,21 @@
         "visibility": "hidden"
       }
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "factorial",
+      "javaSignature": "public int factorial(int n)",
+      "cppSignature": "int factorial(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-factorial"
+    },
+    "independenceMilestoneFor": [
+      "functional-recursion",
+      "base-case"
+    ],
     "remedialProblems": ["rec-002"],
     "skipIfMastered": []
   },
@@ -121,6 +158,17 @@
     "wrongApproachHints": ["Do not combine both parameterized and functional styles incorrectly.", "A wrong base case will miss 0 or 1."],
     "hints": ["Try both recursion styles once.", "What should sum(0) return?"],
     "examples": [{"input": "4", "output": "10", "explanation": "1 + 2 + 3 + 4 = 10."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumFirstN",
+      "javaSignature": "public int sumFirstN(int n)",
+      "cppSignature": "int sumFirstN(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-sum-first-n"
+    },
     "remedialProblems": ["rec-002"],
     "skipIfMastered": []
   },
@@ -145,6 +193,17 @@
     "wrongApproachHints": ["Returning a when b = 0 is incorrect.", "Make sure the exponent decreases every call."],
     "hints": ["What is any number to the power 0?", "Build the answer one multiplication at a time."],
     "examples": [{"input": "2, 5", "output": "32", "explanation": "2^5 = 2 * 2 * 2 * 2 * 2."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "power",
+      "javaSignature": "public long power(int a, int b)",
+      "cppSignature": "long long power(int a, int b)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-power"
+    },
     "remedialProblems": ["rec-003"],
     "skipIfMastered": []
   },
@@ -169,6 +228,17 @@
     "wrongApproachHints": ["Without both base cases the recursion breaks.", "This version is intentionally inefficient to teach tree recursion."],
     "hints": ["What are the first two Fibonacci numbers?", "Each state branches into two smaller states."],
     "examples": [{"input": "6", "output": "8", "explanation": "The sequence is 0, 1, 1, 2, 3, 5, 8."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "fibonacciNumber",
+      "javaSignature": "public int fibonacciNumber(int n)",
+      "cppSignature": "int fibonacciNumber(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-fibonacci-number"
+    },
     "remedialProblems": ["rec-003"],
     "skipIfMastered": []
   },
@@ -193,6 +263,16 @@
     "wrongApproachHints": ["A wrong stopping condition causes index errors.", "Stop once the pointers cross or meet."],
     "hints": ["Compare the ends first.", "Move both pointers inward."],
     "examples": [{"input": "level", "output": "true", "explanation": "The outer letters match at every step until the middle is reached."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isPalindrome",
+      "javaSignature": "public boolean isPalindrome(String s)",
+      "cppSignature": "bool isPalindrome(string s)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "recursion-palindrome"
+    },
     "remedialProblems": ["rec-001"],
     "skipIfMastered": []
   },
@@ -217,6 +297,16 @@
     "wrongApproachHints": ["Be careful with substring boundaries.", "Appending in the wrong order returns the original string."],
     "hints": ["Shrink the string from the front.", "Think about what reverse(\"bc\") should return before adding 'a'."],
     "examples": [{"input": "code", "output": "edoc", "explanation": "The last character ends up first after recursive unwinding."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseString",
+      "javaSignature": "public String reverseString(String s)",
+      "cppSignature": "string reverseString(string s)",
+      "providedTypes": [
+        "string input"
+      ],
+      "driverStrategy": "recursion-reverse-string"
+    },
     "remedialProblems": ["rec-007"],
     "skipIfMastered": []
   },
@@ -241,6 +331,17 @@
     "wrongApproachHints": ["The stopping condition for 0 is important.", "Do not forget to add the current last digit to the recursive result."],
     "hints": ["Split into last digit and remaining prefix.", "Keep reducing n by dividing by 10."],
     "examples": [{"input": "572", "output": "14", "explanation": "5 + 7 + 2 = 14."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumDigits",
+      "javaSignature": "public int sumDigits(int n)",
+      "cppSignature": "int sumDigits(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-sum-digits"
+    },
     "remedialProblems": ["rec-004"],
     "skipIfMastered": []
   },
@@ -265,6 +366,17 @@
     "wrongApproachHints": ["0 has one digit, not zero digits.", "Make sure the recursion shrinks n each time."],
     "hints": ["What is the answer for a single digit?", "Every recursive step removes one digit."],
     "examples": [{"input": "5072", "output": "4", "explanation": "5072 contains four digits."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countDigits",
+      "javaSignature": "public int countDigits(int n)",
+      "cppSignature": "int countDigits(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-count-digits"
+    },
     "remedialProblems": ["rec-009"],
     "skipIfMastered": []
   },
@@ -289,6 +401,16 @@
     "wrongApproachHints": ["Using binary search requires sorted input.", "Watch your left/right boundaries carefully."],
     "hints": ["Stop when left becomes greater than right.", "Only one half needs further recursion."],
     "examples": [{"input": "[1,3,5,7,9], 7", "output": "3", "explanation": "7 is found at index 3."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "binarySearch",
+      "javaSignature": "public int binarySearch(int[] arr, int target)",
+      "cppSignature": "int binarySearch(vector<int>& arr, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-binary-search"
+    },
     "remedialProblems": ["rec-002"],
     "skipIfMastered": []
   },
@@ -313,6 +435,17 @@
     "wrongApproachHints": ["Do not recurse on unchanged arguments.", "The base case must trigger when the second value becomes 0."],
     "hints": ["Replace the larger problem with the remainder form.", "Look for the stopping condition when one number is exhausted."],
     "examples": [{"input": "48, 18", "output": "6", "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "gcd",
+      "javaSignature": "public int gcd(int a, int b)",
+      "cppSignature": "int gcd(int a, int b)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-gcd"
+    },
     "remedialProblems": ["rec-005"],
     "skipIfMastered": []
   },
@@ -337,6 +470,16 @@
     "wrongApproachHints": ["Missing one branch means half the subsequences disappear.", "If using a shared path list, undo the pick before exploring the exclude branch."],
     "hints": ["Every element creates a yes/no choice.", "Think of a decision tree."],
     "examples": [{"input": "[1,2]", "output": "[], [1], [2], [1,2]", "explanation": "Each element can be either taken or skipped."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "generateSubsequences",
+      "javaSignature": "public List<List<Integer>> generateSubsequences(int[] nums)",
+      "cppSignature": "vector<vector<int>> generateSubsequences(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-generate-subsequences"
+    },
     "remedialProblems": ["rec-008"],
     "skipIfMastered": []
   },
@@ -361,6 +504,16 @@
     "wrongApproachHints": ["Stopping too early can miss valid later combinations.", "Be careful not to mutate the running sum incorrectly across branches."],
     "hints": ["This is include/exclude again, but now you track a running sum.", "A true answer can short-circuit the search."],
     "examples": [{"input": "[1,2,3], 5", "output": "true", "explanation": "The subsequence [2,3] sums to 5."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "subsetSumExists",
+      "javaSignature": "public boolean subsetSumExists(int[] nums, int target)",
+      "cppSignature": "bool subsetSumExists(vector<int>& nums, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-subset-sum-exists"
+    },
     "remedialProblems": ["rec-013"],
     "skipIfMastered": []
   },
@@ -385,6 +538,16 @@
     "wrongApproachHints": ["If you always move forward after taking a number, you cannot reuse it.", "Remember to remove the last number after each recursive exploration."],
     "hints": ["This is a choice tree with reuse.", "Stop when the remaining target becomes negative or zero."],
     "examples": [{"input": "[2,3,6,7], 7", "output": "[[2,2,3],[7]]", "explanation": "Both [2,2,3] and [7] sum to 7."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "combinationSum",
+      "javaSignature": "public List<List<Integer>> combinationSum(int[] candidates, int target)",
+      "cppSignature": "vector<vector<int>> combinationSum(vector<int>& candidates, int target)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-combination-sum"
+    },
     "remedialProblems": ["rec-014"],
     "skipIfMastered": []
   },
@@ -409,6 +572,16 @@
     "wrongApproachHints": ["If you do not mark used elements, the same value may appear twice in one permutation.", "Undo both the path and used marker when backtracking."],
     "hints": ["Track which elements are already in the current path.", "A full path becomes one answer."],
     "examples": [{"input": "[1,2,3]", "output": "All 6 permutations", "explanation": "Three distinct numbers produce 3! = 6 permutations."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "generatePermutations",
+      "javaSignature": "public List<List<Integer>> generatePermutations(int[] nums)",
+      "cppSignature": "vector<vector<int>> generatePermutations(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-generate-permutations"
+    },
     "remedialProblems": ["rec-013"],
     "skipIfMastered": []
   },
@@ -433,6 +606,17 @@
     "wrongApproachHints": ["The auxiliary and destination rods swap roles between the two recursive calls.", "Do not try to move the largest disk before clearing smaller ones."],
     "hints": ["Think about how to free the largest disk first.", "The structure repeats on n - 1 disks."],
     "examples": [{"input": "2", "output": "A->B, A->C, B->C", "explanation": "You first move the smaller disk, then the larger one, then restore the smaller disk on top."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "towerOfHanoi",
+      "javaSignature": "public List<String> towerOfHanoi(int n)",
+      "cppSignature": "vector<string> towerOfHanoi(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-tower-of-hanoi"
+    },
     "remedialProblems": ["rec-003"],
     "skipIfMastered": []
   },
@@ -462,6 +646,17 @@
       {"input": "1 1", "expectedOutput": "0", "visibility": "hidden", "explanation": "Single person survives at index 0."},
       {"input": "7 3", "expectedOutput": "3", "visibility": "hidden", "explanation": "Standard zero-based Josephus example."}
     ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "josephus",
+      "javaSignature": "public int josephus(int n, int k)",
+      "cppSignature": "int josephus(int n, int k)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-josephus"
+    },
     "remedialProblems": ["rec-004"],
     "skipIfMastered": []
   },
@@ -486,6 +681,17 @@
     "wrongApproachHints": ["Plain recursion repeats the same states many times.", "Cache results before returning them."],
     "hints": ["ways(n) depends on ways(n-1) and ways(n-2).", "Memoization removes repeated work."],
     "examples": [{"input": "4", "output": "5", "explanation": "The 5 ways are 1+1+1+1, 1+1+2, 1+2+1, 2+1+1, and 2+2."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "climbingStairs",
+      "javaSignature": "public int climbingStairs(int n)",
+      "cppSignature": "int climbingStairs(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-climbing-stairs"
+    },
     "remedialProblems": ["rec-006"],
     "skipIfMastered": []
   },
@@ -510,6 +716,17 @@
     "wrongApproachHints": ["Do not recompute the same n repeatedly.", "Make sure the first three base cases are correct."],
     "hints": ["Define the first three values clearly.", "Cache once, reuse many times."],
     "examples": [{"input": "4", "output": "4", "explanation": "If T0=0, T1=1, T2=1, then T3=2 and T4=4."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "tribonacci",
+      "javaSignature": "public int tribonacci(int n)",
+      "cppSignature": "int tribonacci(int n)",
+      "providedTypes": [
+        "input parsing",
+        "output formatting"
+      ],
+      "driverStrategy": "recursion-tribonacci"
+    },
     "remedialProblems": ["rec-019"],
     "skipIfMastered": []
   },
@@ -534,6 +751,16 @@
     "wrongApproachHints": ["The merge step is required; recursion alone does not sort.", "Take care with mid and temporary storage."],
     "hints": ["Think in terms of left half, right half, then merge.", "A range of length 1 is already sorted."],
     "examples": [{"input": "[5,2,4,1]", "output": "[1,2,4,5]", "explanation": "Each half is sorted recursively, then the two sorted halves are merged."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeSort",
+      "javaSignature": "public int[] mergeSort(int[] nums)",
+      "cppSignature": "vector<int> mergeSort(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-merge-sort"
+    },
     "remedialProblems": ["rec-011"],
     "skipIfMastered": []
   },
@@ -558,6 +785,16 @@
     "wrongApproachHints": ["Partition boundaries are easy to get wrong.", "Do not recurse on invalid or empty ranges."],
     "hints": ["First get partitioning correct on small examples.", "The pivot ends in its final sorted position after partitioning."],
     "examples": [{"input": "[4,1,3,2]", "output": "[1,2,3,4]", "explanation": "Each partition step places one pivot correctly and splits the remaining work."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "quickSort",
+      "javaSignature": "public int[] quickSort(int[] nums)",
+      "cppSignature": "vector<int> quickSort(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "recursion-quick-sort"
+    },
     "remedialProblems": ["rec-021"],
     "skipIfMastered": []
   },
@@ -582,6 +819,16 @@
     "wrongApproachHints": ["If you forget to undo a placement, future branches start from a corrupted board.", "Validity checks should happen before recursing deeper."],
     "hints": ["Choose one empty cell at a time.", "Prune quickly when a digit violates row, column, or box rules."],
     "examples": [{"input": "A partially filled Sudoku grid", "output": "A solved Sudoku grid", "explanation": "The solver explores valid candidate placements recursively until the board is complete."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "solveSudoku",
+      "javaSignature": "public void solveSudoku(int[][] board)",
+      "cppSignature": "void solveSudoku(vector<vector<int>>& board)",
+      "providedTypes": [
+        "9x9 integer matrix"
+      ],
+      "driverStrategy": "recursion-sudoku-solver"
+    },
     "remedialProblems": ["rec-016"],
     "skipIfMastered": []
   },
@@ -606,6 +853,17 @@
     "wrongApproachHints": ["If you do not check diagonals, invalid boards slip through.", "Always remove the queen before trying the next column."],
     "hints": ["Think row by row.", "Columns and diagonals are the real safety checks."],
     "examples": [{"input": "4", "output": "2 valid boards", "explanation": "There are exactly two distinct non-attacking arrangements for 4 queens."}],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "solveNQueens",
+      "javaSignature": "public List<List<String>> solveNQueens(int n)",
+      "cppSignature": "vector<vector<string>> solveNQueens(int n)",
+      "providedTypes": [
+        "input parsing",
+        "nested string output formatting"
+      ],
+      "driverStrategy": "recursion-n-queens"
+    },
     "remedialProblems": ["rec-016"],
     "skipIfMastered": []
   }

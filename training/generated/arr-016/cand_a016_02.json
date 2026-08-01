@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_a016_02",
+  "importedAt": "2026-07-10T03:07:52.283Z",
+  "problemId": "arr-016",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "verbose-alternate",
+  "code": "import java.util.*;\n\nclass Solution {\n    public void leftRotateOne(int[] nums) {\n        if (nums.length == 0) return;\n        int first = nums[0];\n        for (int i = 0; i + 1 < nums.length; i++) nums[i] = nums[i + 1];\n        nums[nums.length - 1] = first;\n    }\n}\n",
+  "notes": "Valid but not always the cleanest approach.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "scripts/create-arrays-candidate-batches.mjs"
+}

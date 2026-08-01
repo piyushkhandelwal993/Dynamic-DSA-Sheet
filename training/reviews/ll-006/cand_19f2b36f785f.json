@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "cand_19f2b36f785f",
+  "problemId": "ll-006",
+  "reviewedAt": "2026-07-23T05:07:03.062Z",
+  "satisfactory": true,
+  "bugType": null,
+  "reviewerNotes": "",
+  "resolution": null,
+  "expectedFacts": [
+    "ll-reverse"
+  ],
+  "forbiddenFacts": [],
+  "inferredBugType": null
+}
