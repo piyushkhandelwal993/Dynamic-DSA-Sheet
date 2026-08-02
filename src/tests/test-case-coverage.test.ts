@@ -72,7 +72,7 @@ test("execution cases prefer authoritative configured or curated cases", () => {
   assert.ok(problem);
 
   const cases = getExecutionTestCases(problem);
-  assert.equal(cases.length, 3);
+  assert.equal(cases.length, 4);
   assert.equal(cases.filter((testCase) => testCase.visibility === "hidden").length, 2);
 });
 

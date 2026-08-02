@@ -31,10 +31,14 @@ function normalizeOutput(value: string): string {
     .trim();
 }
 
+function hasJavaMainMethod(content: string): boolean {
+  return /\bpublic\s+static\s+void\s+main\s*\(\s*String(?:\s*\[\s*\]|\s+\.\.\.)\s+\w+\s*\)/.test(content);
+}
+
 function prepareJavaRun(problem: Problem, sourcePath: string, runKey: string) {
   const content = fs.readFileSync(sourcePath, "utf-8");
   const runDir = fs.mkdtempSync(path.join(os.tmpdir(), `dsa-sheet-${sanitizeJavaIdentifier(runKey)}-`));
-  const harnessFiles = usesFunctionHarness(problem) ? buildJavaHarnessFiles(problem, content) : null;
+  const harnessFiles = usesFunctionHarness(problem) && !hasJavaMainMethod(content) ? buildJavaHarnessFiles(problem, content) : null;
   const className = harnessFiles ? "Main" : detectMainClassName(content);
   const files = harnessFiles ?? { [`${className}.java`]: content };
   Object.entries(files).forEach(([fileName, source]) => {

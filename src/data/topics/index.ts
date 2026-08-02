@@ -36,6 +36,50 @@ export interface TopicPack {
   concepts: Concept[];
 }
 
+function normalizeRecursionProblems(problems: Problem[]): Problem[] {
+  const fallbackPoolRoles: Array<Problem["poolRole"]> = [
+    "core",
+    "core",
+    "core",
+    "practice",
+    "practice",
+    "core",
+    "practice",
+    "practice",
+    "core",
+    "practice",
+    "challenge",
+    "challenge",
+    "practice",
+    "challenge",
+    "practice",
+    "challenge",
+    "challenge",
+    "practice",
+    "challenge",
+    "practice",
+    "practice",
+    "challenge",
+    "practice",
+    "challenge"
+  ];
+  const fallbackMasteryWeights = [
+    1, 1, 1.05, 0.95, 0.95, 1.1, 0.9, 0.9, 1, 0.95, 1.2, 1.2,
+    0.9, 1.25, 0.95, 1.3, 1.35, 0.9, 1.35, 0.95, 0.95, 1.4, 0.95, 1.45
+  ];
+
+  return problems.map((problem, index) => {
+    const poolRole = problem.poolRole ?? fallbackPoolRoles[index] ?? "core";
+    return {
+      ...problem,
+      poolRole,
+      masteryWeight: problem.masteryWeight ?? fallbackMasteryWeights[index] ?? 1,
+      variantGroup: problem.variantGroup ?? `recursion-${problem.subtopic.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+      learningRole: problem.learningRole ?? (poolRole === "challenge" ? "mastery" : poolRole === "practice" || poolRole === "review" ? "reinforce" : "introduce")
+    };
+  });
+}
+
 export const defaultTopicId = "bit-manipulation";
 
 export const topicOrder = [
@@ -84,7 +128,7 @@ export const topicPacks: Record<string, TopicPack> = {
   },
   recursion: {
     meta: recursionMeta as TopicMeta,
-    problems: recursionProblems as Problem[],
+    problems: normalizeRecursionProblems(recursionProblems as Problem[]),
     concepts: recursionConcepts as Concept[]
   },
   queue: {

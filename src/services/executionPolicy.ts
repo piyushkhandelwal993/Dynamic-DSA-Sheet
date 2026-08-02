@@ -78,6 +78,12 @@ export function cppRuntimeCommand(executableName: string): { command: string; ar
   if (process.platform === "win32") {
     return { command: executableName, args: [] };
   }
+  if (process.platform === "darwin") {
+    return {
+      command: "/bin/sh",
+      args: ["-c", `exec "./${executableName}"`]
+    };
+  }
   return {
     command: "/bin/sh",
     args: [

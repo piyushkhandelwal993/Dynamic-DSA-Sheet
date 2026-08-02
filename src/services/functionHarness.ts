@@ -1526,6 +1526,7 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        new Solution().${contract.functionName}(n);`;
       break;
+    case "recursion-factorial":
     case "recursion-sum-first-n":
     case "recursion-fibonacci-number":
     case "recursion-sum-digits":
@@ -2322,6 +2323,11 @@ void printValues(const vector<int>& values) {
     printArray(values);`;
       break;
     case "tree-height":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(root);`;
+      break;
     case "tree-preorder":
     case "tree-inorder":
     case "tree-postorder":

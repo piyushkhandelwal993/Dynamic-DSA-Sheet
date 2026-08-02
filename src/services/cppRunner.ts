@@ -8,6 +8,10 @@ import { classifyProcessFailure, cppRuntimeCommand, executionPolicy } from "./ex
 import { getExecutionTestCases } from "./problemTestCases";
 import { buildCppHarnessSource, usesFunctionHarness } from "./functionHarness";
 
+function hasCppMainFunction(source: string): boolean {
+  return /\b(?:int|auto)\s+main\s*\(/.test(source);
+}
+
 function normalizeOutput(value: string): string {
   return value
     .replace(/\r\n/g, "\n")
@@ -23,7 +27,8 @@ function prepareCppRun(problem: Problem, sourcePath: string, runKey: string) {
   const sourceFile = path.join(runDir, "main.cpp");
   const executableName = process.platform === "win32" ? "solution.exe" : "solution";
   const studentSource = normalizeCppSource(fs.readFileSync(sourcePath, "utf-8"));
-  fs.writeFileSync(sourceFile, usesFunctionHarness(problem) ? buildCppHarnessSource(problem, studentSource) : studentSource, "utf-8");
+  const shouldUseHarness = usesFunctionHarness(problem) && !hasCppMainFunction(studentSource);
+  fs.writeFileSync(sourceFile, shouldUseHarness ? buildCppHarnessSource(problem, studentSource) : studentSource, "utf-8");
   const compile = spawnSync("g++", ["-std=c++17", "-O2", "main.cpp", "-o", executableName], {
     cwd: runDir,
     encoding: "utf-8",

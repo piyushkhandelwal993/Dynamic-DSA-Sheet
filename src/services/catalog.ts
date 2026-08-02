@@ -92,6 +92,14 @@ function validateContentBundle(bundle: ContentBundle): void {
     if (!Array.isArray(pack.problems) || !Array.isArray(pack.concepts)) {
       throw new Error(`Topic pack for ${topicId} is incomplete.`);
     }
+    pack.problems.forEach((problem) => {
+      if (!problem || typeof problem !== "object" || !problem.id || !problem.title || !problem.solutionMode) {
+        throw new Error(`Problem metadata is incomplete for ${topicId}.`);
+      }
+      if (problem.solutionMode !== "complete-program" && !problem.functionContract?.driverStrategy) {
+        throw new Error(`Guided problem contract is incomplete for ${problem.id}.`);
+      }
+    });
   });
 }
 
