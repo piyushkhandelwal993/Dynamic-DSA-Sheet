@@ -32,6 +32,7 @@
     "desktop:package": "npm run build && electron-builder --dir",
     "desktop:dist": "npm run build && electron-builder",
     "desktop:publish": "npm run build && electron-builder --publish always",
+    "postinstall": "node scripts/patch-electron-builder-blockmap.mjs",
     "audit:recursion-progression": "npm run build && node scripts/audit-recursion-progression.mjs"
   },
   "keywords": [
@@ -61,7 +62,7 @@
     "@types/inquirer": "^9.0.7",
     "@types/node": "^22.15.30",
     "electron": "^42.4.1",
-    "electron-builder": "^26.15.3",
+    "electron-builder": "^26.15.7",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
