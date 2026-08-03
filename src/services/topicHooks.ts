@@ -17,7 +17,7 @@ export function analyzeJavaFileForProblem(problem: Problem, filePath: string): A
 }
 
 export function analyzeJavaContentForProblem(problem: Problem, content: string): AnalysisResult {
-  if (problem.topic === "Arrays") {
+  if (problem.topic === "Arrays" || problem.topic === "Sliding Window" || problem.topic === "Two Pointers" || problem.topic === "Prefix-Suffix") {
     return analyzeArraysJavaContent(content);
   }
   if (problem.topic === "Binary Search") {
@@ -48,7 +48,7 @@ export function analyzeJavaContentForProblem(problem: Problem, content: string):
 }
 
 export function detectConceptsForProblem(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {
-  if (problem.topic === "Arrays") {
+  if (problem.topic === "Arrays" || problem.topic === "Sliding Window" || problem.topic === "Two Pointers" || problem.topic === "Prefix-Suffix") {
     return detectArraysConcepts(problem, analysis);
   }
   if (problem.topic === "Binary Search") {

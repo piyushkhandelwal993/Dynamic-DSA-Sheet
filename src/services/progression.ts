@@ -93,25 +93,115 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       gateConcepts: ["array-traversal", "min-max-array"]
     },
     {
+      id: "profit-lookout",
+      name: "Profit Lookout",
+      description: "Track best-so-far values for one-pass gain and loss decisions.",
+      subtopics: ["Min and max"],
+      gateConcepts: ["min-max-array"]
+    },
+    {
+      id: "subarray-glen",
+      name: "Subarray Glen",
+      description: "Handle Kadane-style range scoring and circular subarray tradeoffs.",
+      subtopics: ["Traversal basics"],
+      gateConcepts: ["array-traversal", "min-max-array"]
+    },
+    {
+      id: "frequency-hollow",
+      name: "Frequency Hollow",
+      description: "Use maps and counts to detect repeats, majorities, and duplicate pressure points.",
+      subtopics: ["Counting and frequency"],
+      gateConcepts: ["frequency-counting"]
+    }
+  ],
+  "two-pointers": [
+    {
+      id: "mirror-bridge",
+      name: "Mirror Bridge",
+      description: "Learn opposite-end pointer movement through reversal and symmetric scans.",
+      subtopics: ["Traversal basics", "Two pointers"],
+      gateConcepts: []
+    },
+    {
+      id: "compaction-pass",
+      name: "Compaction Pass",
+      description: "Overwrite arrays safely while preserving the meaningful prefix.",
+      subtopics: ["Two pointers"],
+      gateConcepts: ["two-pointers", "reverse-array"]
+    },
+    {
+      id: "pair-harbor",
+      name: "Pair Harbor",
+      description: "Use sorted-order assumptions to find target pairs and transformed outputs quickly.",
+      subtopics: ["Two pointers"],
+      gateConcepts: ["sorted-check", "two-pointers"]
+    },
+    {
+      id: "rotation-ridge",
+      name: "Rotation Ridge",
+      description: "Combine reversal and in-place movement to rotate arrays efficiently.",
+      subtopics: ["Two pointers"],
+      gateConcepts: ["reverse-array", "in-place-array-update"]
+    }
+  ],
+  "sliding-window": [
+    {
+      id: "window-gate",
+      name: "Window Gate",
+      description: "Build the habit of expanding a contiguous segment while tracking its state incrementally.",
+      subtopics: ["Sliding window basics"],
+      gateConcepts: []
+    },
+    {
+      id: "fixed-span-camp",
+      name: "Fixed Span Camp",
+      description: "Master fixed-size windows for best-sum and best-average scans.",
+      subtopics: ["Sliding window basics"],
+      gateConcepts: ["sliding-window"]
+    },
+    {
+      id: "shrinking-span-cliff",
+      name: "Shrinking Span Cliff",
+      description: "Shrink windows precisely when a condition becomes satisfied or violated.",
+      subtopics: ["Sliding window basics"],
+      gateConcepts: ["sliding-window", "two-pointers"]
+    },
+    {
+      id: "window-mastery-peak",
+      name: "Window Mastery Peak",
+      description: "Tackle longer variable-window reasoning without falling back to quadratic scans.",
+      subtopics: ["Sliding window basics"],
+      gateConcepts: ["sliding-window", "prefix-sum"]
+    }
+  ],
+  "prefix-suffix": [
+    {
       id: "prefix-ridge",
       name: "Prefix Ridge",
-      description: "Precompute running information for faster range answers.",
+      description: "Precompute running sums for fast queries and range comparisons.",
       subtopics: ["Prefix sums"],
-      gateConcepts: ["array-traversal"]
+      gateConcepts: []
     },
     {
-      id: "pointer-pass",
-      name: "Pointer Pass",
-      description: "Use two moving indices to transform arrays in place.",
-      subtopics: ["Two pointers"],
-      gateConcepts: ["reverse-array", "sorted-check"]
+      id: "suffix-terrace",
+      name: "Suffix Terrace",
+      description: "Blend left and right accumulations to answer per-index array questions.",
+      subtopics: ["Prefix sums"],
+      gateConcepts: ["prefix-sum"]
     },
     {
-      id: "window-summit",
-      name: "Window Summit",
-      description: "Master linear-time window management and advanced scans.",
-      subtopics: ["Sliding window basics"],
-      gateConcepts: ["two-pointers", "prefix-sum"]
+      id: "balance-pass",
+      name: "Balance Pass",
+      description: "Use prefix and suffix balance to detect pivots and equilibrium points.",
+      subtopics: ["Prefix sums"],
+      gateConcepts: ["prefix-sum"]
+    },
+    {
+      id: "hash-cavern",
+      name: "Hash Cavern",
+      description: "Combine prefix accumulation with hashing to count or detect subarrays efficiently.",
+      subtopics: ["Prefix sums"],
+      gateConcepts: ["prefix-sum", "frequency-counting"]
     }
   ],
   "linked-list": [

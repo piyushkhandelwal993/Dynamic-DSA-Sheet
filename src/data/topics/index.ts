@@ -5,6 +5,9 @@ import bitManipulationConcepts from "./bit-manipulation/concepts.json";
 import arraysMeta from "./arrays/meta.json";
 import arraysProblems from "./arrays/problems.json";
 import arraysConcepts from "./arrays/concepts.json";
+import twoPointersMeta from "./two-pointers/meta.json";
+import slidingWindowMeta from "./sliding-window/meta.json";
+import prefixSuffixMeta from "./prefix-suffix/meta.json";
 import binarySearchMeta from "./binary-search/meta.json";
 import binarySearchProblems from "./binary-search/problems.json";
 import binarySearchConcepts from "./binary-search/concepts.json";
@@ -34,6 +37,38 @@ export interface TopicPack {
   meta: TopicMeta;
   problems: Problem[];
   concepts: Concept[];
+}
+
+const twoPointerProblemIds = new Set(["arr-003", "arr-008", "arr-009", "arr-015", "arr-016", "arr-023", "arr-026"]);
+const slidingWindowProblemIds = new Set(["arr-010", "arr-018", "arr-024", "arr-030"]);
+const prefixSuffixProblemIds = new Set(["arr-006", "arr-012", "arr-014", "arr-020", "arr-021", "arr-027"]);
+
+const twoPointerConceptIds = new Set(["array-traversal", "sorted-check", "reverse-array", "two-pointers", "in-place-array-update"]);
+const slidingWindowConceptIds = new Set(["array-traversal", "prefix-sum", "two-pointers", "sliding-window"]);
+const prefixSuffixConceptIds = new Set(["array-traversal", "prefix-sum", "frequency-counting"]);
+const remainingArrayConceptIds = new Set([
+  "array-traversal",
+  "min-max-array",
+  "sorted-check",
+  "second-largest",
+  "frequency-counting",
+  "kadane-algorithm",
+  "stock-profit"
+]);
+
+function cloneTopicProblems(problems: Problem[], ids: Set<string>, topic: string): Problem[] {
+  return problems
+    .filter((problem) => ids.has(problem.id))
+    .map((problem) => ({
+      ...problem,
+      topic
+    }));
+}
+
+function cloneTopicConcepts(concepts: Concept[], ids: Set<string>): Concept[] {
+  return concepts
+    .filter((concept) => ids.has(concept.id))
+    .map((concept) => ({ ...concept }));
 }
 
 function normalizeRecursionProblems(problems: Problem[]): Problem[] {
@@ -84,6 +119,9 @@ export const defaultTopicId = "bit-manipulation";
 
 export const topicOrder = [
   "arrays",
+  "two-pointers",
+  "sliding-window",
+  "prefix-suffix",
   "bit-manipulation",
   "linked-list",
   "stack",
@@ -95,6 +133,21 @@ export const topicOrder = [
   "dp"
 ] as const;
 
+const remainingArrayProblems = (arraysProblems as Problem[]).filter((problem) =>
+  !twoPointerProblemIds.has(problem.id) &&
+  !slidingWindowProblemIds.has(problem.id) &&
+  !prefixSuffixProblemIds.has(problem.id)
+);
+
+const arrayTwoPointerProblems = cloneTopicProblems(arraysProblems as Problem[], twoPointerProblemIds, "Two Pointers");
+const arraySlidingWindowProblems = cloneTopicProblems(arraysProblems as Problem[], slidingWindowProblemIds, "Sliding Window");
+const arrayPrefixSuffixProblems = cloneTopicProblems(arraysProblems as Problem[], prefixSuffixProblemIds, "Prefix-Suffix");
+
+const remainingArrayConcepts = cloneTopicConcepts(arraysConcepts as Concept[], remainingArrayConceptIds);
+const arrayTwoPointerConcepts = cloneTopicConcepts(arraysConcepts as Concept[], twoPointerConceptIds);
+const arraySlidingWindowConcepts = cloneTopicConcepts(arraysConcepts as Concept[], slidingWindowConceptIds);
+const arrayPrefixSuffixConcepts = cloneTopicConcepts(arraysConcepts as Concept[], prefixSuffixConceptIds);
+
 export const topicPacks: Record<string, TopicPack> = {
   "bit-manipulation": {
     meta: bitManipulationMeta as TopicMeta,
@@ -103,8 +156,23 @@ export const topicPacks: Record<string, TopicPack> = {
   },
   arrays: {
     meta: arraysMeta as TopicMeta,
-    problems: arraysProblems as Problem[],
-    concepts: arraysConcepts as Concept[]
+    problems: remainingArrayProblems,
+    concepts: remainingArrayConcepts
+  },
+  "two-pointers": {
+    meta: twoPointersMeta as TopicMeta,
+    problems: arrayTwoPointerProblems,
+    concepts: arrayTwoPointerConcepts
+  },
+  "sliding-window": {
+    meta: slidingWindowMeta as TopicMeta,
+    problems: arraySlidingWindowProblems,
+    concepts: arraySlidingWindowConcepts
+  },
+  "prefix-suffix": {
+    meta: prefixSuffixMeta as TopicMeta,
+    problems: arrayPrefixSuffixProblems,
+    concepts: arrayPrefixSuffixConcepts
   },
   "binary-search": {
     meta: binarySearchMeta as TopicMeta,

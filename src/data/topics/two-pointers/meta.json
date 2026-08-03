@@ -1,0 +1,14 @@
+{
+  "id": "two-pointers",
+  "name": "Two Pointers",
+  "description": "Practice opposite-end scans, in-place array transforms, and sorted-array pair reasoning with two moving indices.",
+  "roadmap": [
+    "Opposite-end pointers",
+    "Compaction and overwrite",
+    "Sorted pair search",
+    "Rotation by reversal"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Twin Pointer Trail",
+  "status": "active"
+}

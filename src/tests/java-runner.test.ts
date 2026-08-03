@@ -1138,6 +1138,97 @@ test("java function harness supports array plus target contracts", () => {
   assert.equal(result.passedCount, result.totalCount);
 });
 
+test("java function harness supports sliding-window, two-pointer, and prefix-suffix array contracts", () => {
+  const minLenProblem = getProblemById("arr-018");
+  const sortedSquaresProblem = getProblemById("arr-023");
+  const productExceptSelfProblem = getProblemById("arr-012");
+  assert.ok(minLenProblem);
+  assert.ok(sortedSquaresProblem);
+  assert.ok(productExceptSelfProblem);
+
+  const minLenDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-sliding-window-"));
+  const minLenFile = path.join(minLenDir, "Solution.java");
+  fs.writeFileSync(
+    minLenFile,
+    `class Solution {
+      public int minSubarrayLen(int[] nums, int target) {
+        int left = 0;
+        int sum = 0;
+        int answer = Integer.MAX_VALUE;
+        for (int right = 0; right < nums.length; right++) {
+          sum += nums[right];
+          while (sum >= target) {
+            answer = Math.min(answer, right - left + 1);
+            sum -= nums[left++];
+          }
+        }
+        return answer == Integer.MAX_VALUE ? 0 : answer;
+      }
+    }`,
+    "utf-8"
+  );
+
+  const sortedSquaresDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-two-pointer-"));
+  const sortedSquaresFile = path.join(sortedSquaresDir, "Solution.java");
+  fs.writeFileSync(
+    sortedSquaresFile,
+    `class Solution {
+      public int[] sortedSquares(int[] nums) {
+        int[] answer = new int[nums.length];
+        int left = 0;
+        int right = nums.length - 1;
+        int index = nums.length - 1;
+        while (left <= right) {
+          int leftSquare = nums[left] * nums[left];
+          int rightSquare = nums[right] * nums[right];
+          if (leftSquare > rightSquare) {
+            answer[index--] = leftSquare;
+            left++;
+          } else {
+            answer[index--] = rightSquare;
+            right--;
+          }
+        }
+        return answer;
+      }
+    }`,
+    "utf-8"
+  );
+
+  const productDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-prefix-suffix-"));
+  const productFile = path.join(productDir, "Solution.java");
+  fs.writeFileSync(
+    productFile,
+    `class Solution {
+      public int[] productExceptSelf(int[] nums) {
+        int[] answer = new int[nums.length];
+        int prefixProduct = 1;
+        for (int i = 0; i < nums.length; i++) {
+          answer[i] = prefixProduct;
+          prefixProduct *= nums[i];
+        }
+        int suffixProduct = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+          answer[i] *= suffixProduct;
+          suffixProduct *= nums[i];
+        }
+        return answer;
+      }
+    }`,
+    "utf-8"
+  );
+
+  const minLenResult = runJavaSubmission(minLenProblem, minLenFile);
+  const sortedSquaresResult = runJavaSubmission(sortedSquaresProblem, sortedSquaresFile);
+  const productResult = runJavaSubmission(productExceptSelfProblem, productFile);
+  assert.equal(minLenResult.compileSucceeded, true);
+  assert.equal(minLenResult.passedCount, minLenResult.totalCount);
+  assert.equal(sortedSquaresResult.compileSucceeded, true);
+  assert.equal(sortedSquaresResult.passedCount, sortedSquaresResult.totalCount);
+  assert.equal(productResult.compileSucceeded, true);
+  assert.equal(productResult.passedCount, productResult.totalCount);
+});
+
 test("java function harness supports recursive scalar contracts", () => {
   const problem = getProblemById("rec-003");
   assert.ok(problem);

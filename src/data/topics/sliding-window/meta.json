@@ -1,0 +1,14 @@
+{
+  "id": "sliding-window",
+  "name": "Sliding Window",
+  "description": "Master fixed-size and variable-size windows for linear-time subarray optimization problems.",
+  "roadmap": [
+    "Window intuition",
+    "Fixed-size windows",
+    "Shrinking windows",
+    "Window optimization"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Window Range",
+  "status": "active"
+}

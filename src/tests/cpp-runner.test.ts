@@ -1192,6 +1192,90 @@ test("cpp function harness supports binary search contracts", { skip: !compilerA
   assert.equal(result.passedCount, result.totalCount);
 });
 
+test("cpp function harness supports sliding-window, two-pointer, and prefix-suffix array contracts", { skip: !compilerAvailable }, () => {
+  const maxWindowProblem = getProblemById("arr-024");
+  const pairSumProblem = getProblemById("arr-015");
+  const productExceptSelfProblem = getProblemById("arr-012");
+  assert.ok(maxWindowProblem);
+  assert.ok(pairSumProblem);
+  assert.ok(productExceptSelfProblem);
+
+  const maxWindowDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-sliding-window-"));
+  const maxWindowFile = path.join(maxWindowDir, "solution.cpp");
+  fs.writeFileSync(
+    maxWindowFile,
+    `class Solution {
+    public:
+      int maxWindowSum(vector<int>& nums, int k) {
+        int window = 0;
+        for (int index = 0; index < k; index++) window += nums[index];
+        int answer = window;
+        for (int right = k; right < (int)nums.size(); right++) {
+          window += nums[right] - nums[right - k];
+          answer = max(answer, window);
+        }
+        return answer;
+      }
+    };`,
+    "utf-8"
+  );
+
+  const pairSumDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-two-pointer-"));
+  const pairSumFile = path.join(pairSumDir, "solution.cpp");
+  fs.writeFileSync(
+    pairSumFile,
+    `class Solution {
+    public:
+      bool hasPairWithSum(vector<int>& nums, int target) {
+        int left = 0;
+        int right = static_cast<int>(nums.size()) - 1;
+        while (left < right) {
+          int sum = nums[left] + nums[right];
+          if (sum == target) return true;
+          if (sum < target) left++;
+          else right--;
+        }
+        return false;
+      }
+    };`,
+    "utf-8"
+  );
+
+  const productDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-prefix-suffix-"));
+  const productFile = path.join(productDir, "solution.cpp");
+  fs.writeFileSync(
+    productFile,
+    `class Solution {
+    public:
+      vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int> answer(nums.size(), 1);
+        int prefixProduct = 1;
+        for (int i = 0; i < (int)nums.size(); i++) {
+          answer[i] = prefixProduct;
+          prefixProduct *= nums[i];
+        }
+        int suffixProduct = 1;
+        for (int i = (int)nums.size() - 1; i >= 0; i--) {
+          answer[i] *= suffixProduct;
+          suffixProduct *= nums[i];
+        }
+        return answer;
+      }
+    };`,
+    "utf-8"
+  );
+
+  const maxWindowResult = runCppSubmission(maxWindowProblem, maxWindowFile);
+  const pairSumResult = runCppSubmission(pairSumProblem, pairSumFile);
+  const productResult = runCppSubmission(productExceptSelfProblem, productFile);
+  assert.equal(maxWindowResult.compileSucceeded, true);
+  assert.equal(maxWindowResult.passedCount, maxWindowResult.totalCount);
+  assert.equal(pairSumResult.compileSucceeded, true);
+  assert.equal(pairSumResult.passedCount, pairSumResult.totalCount);
+  assert.equal(productResult.compileSucceeded, true);
+  assert.equal(productResult.passedCount, productResult.totalCount);
+});
+
 test("cpp graph harness provides adjacency construction", { skip: !compilerAvailable }, () => {
   const problem = getProblemById("gr-003");
   assert.ok(problem);

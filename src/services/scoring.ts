@@ -28,7 +28,7 @@ export function scoreSubmission(
   if (problem.topic === "Linked List") {
     return scoreLinkedListSubmission(problem, analysis, detection, execution);
   }
-  if (problem.topic === "Arrays") {
+  if (problem.topic === "Arrays" || problem.topic === "Sliding Window" || problem.topic === "Two Pointers" || problem.topic === "Prefix-Suffix") {
     return scoreArraysSubmission(problem, analysis, detection, execution);
   }
   if (problem.topic === "Binary Search") {

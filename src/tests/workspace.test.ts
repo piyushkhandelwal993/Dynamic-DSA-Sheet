@@ -281,6 +281,46 @@ test("new array beginner scaffolds cover int, boolean, long, array, void, and do
   }
 });
 
+test("array beginner scaffolds cover sliding-window, two-pointer, and prefix-suffix signatures", () => {
+  const minLenProblem = getProblemById("arr-018");
+  const windowSumProblem = getProblemById("arr-024");
+  const maxAverageProblem = getProblemById("arr-030");
+  const pairSumProblem = getProblemById("arr-015");
+  const sortedSquaresProblem = getProblemById("arr-023");
+  const productExceptSelfProblem = getProblemById("arr-012");
+  const equilibriumProblem = getProblemById("arr-020");
+  assert.ok(minLenProblem);
+  assert.ok(windowSumProblem);
+  assert.ok(maxAverageProblem);
+  assert.ok(pairSumProblem);
+  assert.ok(sortedSquaresProblem);
+  assert.ok(productExceptSelfProblem);
+  assert.ok(equilibriumProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-array-pattern-beginner-"));
+
+  try {
+    const minLenWorkspace = ensureProblemWorkspace(minLenProblem, "java");
+    const windowSumWorkspace = ensureProblemWorkspace(windowSumProblem, "cpp");
+    const maxAverageWorkspace = ensureProblemWorkspace(maxAverageProblem, "java");
+    const pairSumWorkspace = ensureProblemWorkspace(pairSumProblem, "cpp");
+    const sortedSquaresWorkspace = ensureProblemWorkspace(sortedSquaresProblem, "java");
+    const productExceptSelfWorkspace = ensureProblemWorkspace(productExceptSelfProblem, "cpp");
+    const equilibriumWorkspace = ensureProblemWorkspace(equilibriumProblem, "java");
+
+    assert.match(fs.readFileSync(minLenWorkspace.filePath, "utf-8"), /public int minSubarrayLen\(int\[\] nums, int target\)/);
+    assert.match(fs.readFileSync(windowSumWorkspace.filePath, "utf-8"), /int maxWindowSum\(vector<int>& nums, int k\)/);
+    assert.match(fs.readFileSync(maxAverageWorkspace.filePath, "utf-8"), /public double maxAverageSubarray\(int\[\] nums, int k\)/);
+    assert.match(fs.readFileSync(pairSumWorkspace.filePath, "utf-8"), /bool hasPairWithSum\(vector<int>& nums, int target\)/);
+    assert.match(fs.readFileSync(sortedSquaresWorkspace.filePath, "utf-8"), /public int\[\] sortedSquares\(int\[\] nums\)/);
+    assert.match(fs.readFileSync(productExceptSelfWorkspace.filePath, "utf-8"), /vector<int> productExceptSelf\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(equilibriumWorkspace.filePath, "utf-8"), /public int equilibriumIndex\(int\[\] nums\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("bit beginner scaffolds cover set clear toggle and right-shift extraction", () => {
   const setBitProblem = getProblemById("bit-004");
   const clearBitProblem = getProblemById("bit-005");

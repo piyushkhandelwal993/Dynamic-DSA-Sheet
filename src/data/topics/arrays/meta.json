@@ -1,14 +1,14 @@
 {
   "id": "arrays",
   "name": "Arrays",
-  "description": "Practice traversal, prefix ideas, and pattern recognition on linear collections.",
+  "description": "Practice traversal, counting, Kadane-style scans, and foundational array reasoning on linear collections.",
   "roadmap": [
     "Traversal basics",
     "Min and max",
     "Counting and frequency",
-    "Prefix sums",
-    "Two pointers",
-    "Sliding window basics"
+    "Kadane and subarray scans",
+    "Profit tracking",
+    "Circular array reasoning"
   ],
   "recommendedLanguage": "Java",
   "worldName": "Array Valley",

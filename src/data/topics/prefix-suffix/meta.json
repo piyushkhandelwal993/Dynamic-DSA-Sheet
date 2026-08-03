@@ -1,0 +1,14 @@
+{
+  "id": "prefix-suffix",
+  "name": "Prefix-Suffix",
+  "description": "Build depth with prefix sums, prefix-suffix accumulation, and prefix-hash subarray counting patterns.",
+  "roadmap": [
+    "Running sums",
+    "Prefix and suffix accumulation",
+    "Balance and pivot scans",
+    "Prefix-hash counting"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Prefix Suffix Peaks",
+  "status": "active"
+}

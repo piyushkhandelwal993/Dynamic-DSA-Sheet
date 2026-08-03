@@ -16,20 +16,26 @@ test("topic registry exposes roadmap metadata", () => {
   assert.equal(metas.some((meta) => meta.id === "dp"), true);
   assert.equal(metas.some((meta) => meta.id === "graphs"), true);
   assert.equal(metas.some((meta) => meta.id === "linked-list"), true);
+  assert.equal(metas.some((meta) => meta.id === "prefix-suffix"), true);
   assert.equal(metas.some((meta) => meta.id === "queue"), true);
   assert.equal(metas.some((meta) => meta.id === "recursion"), true);
+  assert.equal(metas.some((meta) => meta.id === "sliding-window"), true);
   assert.equal(metas.some((meta) => meta.id === "stack"), true);
   assert.equal(metas.some((meta) => meta.id === "trees"), true);
+  assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
   assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
   assert.ok(getTopicProblems("arrays").length >= 10);
   assert.ok(getTopicProblems("binary-search").length >= 10);
   assert.ok(getTopicProblems("dp").length >= 12);
   assert.ok(getTopicProblems("graphs").length >= 12);
   assert.ok(getTopicProblems("linked-list").length >= 10);
+  assert.ok(getTopicProblems("prefix-suffix").length >= 6);
   assert.ok(getTopicProblems("queue").length >= 10);
   assert.ok(getTopicProblems("recursion").length >= 20);
+  assert.ok(getTopicProblems("sliding-window").length >= 4);
   assert.ok(getTopicProblems("stack").length >= 15);
   assert.ok(getTopicProblems("trees").length >= 12);
+  assert.ok(getTopicProblems("two-pointers").length >= 7);
 });
 
 test("adaptive pool topics expose healthy role coverage", () => {
@@ -40,10 +46,13 @@ test("adaptive pool topics expose healthy role coverage", () => {
     "dp",
     "graphs",
     "linked-list",
+    "prefix-suffix",
     "queue",
     "recursion",
+    "sliding-window",
     "stack",
-    "trees"
+    "trees",
+    "two-pointers"
   ];
   const requiredRoles: ProblemPoolRole[] = ["core", "practice", "challenge"];
 
