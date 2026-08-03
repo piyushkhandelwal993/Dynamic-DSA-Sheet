@@ -18,6 +18,9 @@ export function scoreSubmissionFromFacts(
   > = {
     "Bit Manipulation": scoreBitSubmissionFromFacts,
     Arrays: scoreArraySubmissionFromFacts,
+    "Two Pointers": scoreArraySubmissionFromFacts,
+    "Sliding Window": scoreArraySubmissionFromFacts,
+    "Prefix-Suffix": scoreArraySubmissionFromFacts,
     Stack: scoreStackSubmissionFromFacts,
     "Linked List": scoreLinkedListSubmissionFromFacts,
     Queue: scoreQueueSubmissionFromFacts,

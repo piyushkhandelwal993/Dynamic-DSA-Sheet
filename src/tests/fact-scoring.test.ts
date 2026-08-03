@@ -10,6 +10,7 @@ import {
   scoreLinkedListSubmissionFromFacts,
   scoreQueueSubmissionFromFacts,
   scoreRecursionSubmissionFromFacts,
+  scoreSubmissionFromFacts,
   scoreStackSubmissionFromFacts
   ,scoreTreeSubmissionFromFacts
 } from "../services/analysis-engine/factScoring";
@@ -138,6 +139,63 @@ test("facts-native array scoring gives Java and C++ two-pointer parity", () => {
   assert.deepEqual(javaExpectation.detection.matchedConcepts, problem.expectedConcepts);
   assert.deepEqual(javaScore, cppScore);
   assert.equal(javaScore.conceptMatchScore, 100);
+});
+
+test("facts-native top-level scoring supports split array topics", () => {
+  const execution = {
+    usedTestCases: true,
+    compileSucceeded: true,
+    passedCount: 3,
+    totalCount: 3,
+    failedCases: []
+  };
+  const cases = [
+    { problemId: "arr-003", expectedTopic: "Two Pointers", code: javaReverseArray },
+    {
+      problemId: "arr-010",
+      expectedTopic: "Sliding Window",
+      code: `
+        class Main {
+          static int longestSubarray(int[] values, int target) {
+            int left = 0;
+            int sum = 0;
+            int best = 0;
+            for (int right = 0; right < values.length; right++) {
+              sum += values[right];
+              while (sum > target && left <= right) {
+                sum -= values[left++];
+              }
+              if (sum == target) {
+                best = Math.max(best, right - left + 1);
+              }
+            }
+            return best;
+          }
+        }
+      `
+    },
+    {
+      problemId: "arr-006",
+      expectedTopic: "Prefix-Suffix",
+      code: `
+        class Main {
+          static int rangeSum(int[] prefix, int left, int right) {
+            return prefix[right + 1] - prefix[left];
+          }
+        }
+      `
+    }
+  ];
+
+  for (const testCase of cases) {
+    const problem = getProblemById(testCase.problemId);
+    assert.ok(problem);
+    assert.equal(problem.topic, testCase.expectedTopic);
+    const facts = analyzeCodeFacts("java", testCase.code);
+    const expectation = matchProblemExpectations(problem, facts);
+    const score = scoreSubmissionFromFacts(problem, facts, expectation, execution);
+    assert.ok(score.finalScore >= 0);
+  }
 });
 
 test("array matcher recognizes second-largest tracking with enhanced for-loop", () => {

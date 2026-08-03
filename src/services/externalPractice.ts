@@ -24,6 +24,18 @@ const difficultyRank: Record<ExternalPracticeProblem["difficulty"], number> = {
   Medium: 2,
   Hard: 3
 };
+const topicFamilies: string[][] = [
+  ["arrays", "two-pointers", "sliding-window", "prefix-suffix"],
+  ["trees"],
+  ["graphs"],
+  ["dp"],
+  ["binary-search"],
+  ["stack"],
+  ["queue"],
+  ["linked-list"],
+  ["recursion"],
+  ["bit-manipulation"]
+];
 
 function getExternalPracticePath(): string {
   return path.join(getBaseDir(), "external-practice.json");
@@ -55,6 +67,27 @@ function isEligible(problem: ExternalPracticeProblem, progress: ProgressState, s
   const prerequisiteReady = problem.prerequisiteConceptIds.every((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 70);
   const mappedSolved = problem.mappedFromProblemIds.some((problemId) => isSolved(progress, problemId));
   return prerequisiteReady && mappedSolved;
+}
+
+function isPrerequisiteReady(problem: ExternalPracticeProblem, skillProfile: SkillProfile): boolean {
+  return problem.prerequisiteConceptIds.every((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 70);
+}
+
+function normalizeTopicId(topic: string): string {
+  return topic.toLowerCase().replace(/\s+/g, "-");
+}
+
+function topicFamilyFor(topicId: string): string[] {
+  return topicFamilies.find((family) => family.includes(topicId)) ?? [topicId];
+}
+
+function uniqueByProblemId<T extends { problem: ExternalPracticeProblem }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (seen.has(item.problem.id)) return false;
+    seen.add(item.problem.id);
+    return true;
+  });
 }
 
 function averageConceptScore(conceptIds: string[], skillProfile: SkillProfile): number {
@@ -187,6 +220,38 @@ function rankProblems(
     });
 }
 
+function choosePersonalizedRecommendations(
+  ranked: Array<{ problem: ExternalPracticeProblem; matchedConceptIds: string[]; readinessReason: string; score: number }>,
+  skillProfile: SkillProfile,
+  currentProblem?: Problem,
+  limit = 4
+): Array<{ problem: ExternalPracticeProblem; matchedConceptIds: string[]; readinessReason: string; score: number }> {
+  if (ranked.length <= limit) {
+    return ranked;
+  }
+
+  const currentConcepts = new Set(currentProblem?.expectedConcepts ?? []);
+  const weakConcepts = new Set(skillProfile.weakConcepts);
+  const preferred = preferredDifficulty(skillProfile, currentProblem?.expectedConcepts ?? []);
+
+  const transfer = ranked.filter(({ problem, matchedConceptIds }) =>
+    matchedConceptIds.length > 0 || problem.conceptIds.some((conceptId) => currentConcepts.has(conceptId))
+  );
+  const weakArea = ranked.filter(({ problem }) => problem.conceptIds.some((conceptId) => weakConcepts.has(conceptId)));
+  const confidence = ranked.filter(({ problem }) => difficultyRank[problem.difficulty] <= Math.max(1, difficultyRank[preferred] - 1));
+  const stretch = ranked.filter(({ problem }) => difficultyRank[problem.difficulty] >= Math.min(3, difficultyRank[preferred] + 1));
+
+  const orderedBuckets = [
+    transfer[0],
+    weakArea[0],
+    difficultyRank[preferred] === 1 ? confidence[0] ?? ranked.find(({ problem }) => problem.difficulty === "Easy") : confidence[0],
+    difficultyRank[preferred] >= 2 ? stretch[0] : ranked.find(({ problem }) => problem.difficulty === "Medium"),
+    ...ranked
+  ].filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+  return uniqueByProblemId(orderedBuckets).slice(0, limit);
+}
+
 export function getExternalPracticeCatalog(): ExternalPracticeProblem[] {
   return externalProblems;
 }
@@ -260,6 +325,43 @@ export function getExternalPracticeSnapshot(progress: ProgressState, skillProfil
   };
 }
 
+function collectUnlockCandidates(
+  currentProblem: Problem,
+  progress: ProgressState,
+  skillProfile: SkillProfile,
+  state: ExternalPracticeState
+): Array<{ problem: ExternalPracticeProblem; matchedConceptIds: string[]; readinessReason: string; score: number }> {
+  const directMatches = rankProblems(
+    externalProblems.filter(
+      (problem) =>
+        isEligible(problem, progress, skillProfile) &&
+        (problem.recommendedAfterProblemIds.includes(currentProblem.id) || problem.mappedFromProblemIds.includes(currentProblem.id))
+    ),
+    progress,
+    skillProfile,
+    state,
+    currentProblem
+  );
+  const directMatchIds = new Set(directMatches.map(({ problem }) => problem.id));
+  const normalizedCurrentTopicId = normalizeTopicId(currentProblem.topic ?? "");
+  const currentTopicFamily = topicFamilyFor(normalizedCurrentTopicId);
+  const fallbackMatches = rankProblems(
+    externalProblems.filter((problem) => {
+      if (!isPrerequisiteReady(problem, skillProfile)) return false;
+      if (directMatchIds.has(problem.id)) return false;
+      return (
+        currentTopicFamily.includes(problem.topicId) ||
+        problem.conceptIds.some((conceptId) => currentProblem.expectedConcepts.includes(conceptId))
+      );
+    }),
+    progress,
+    skillProfile,
+    state,
+    currentProblem
+  );
+  return choosePersonalizedRecommendations([...directMatches, ...fallbackMatches], skillProfile, currentProblem, 4);
+}
+
 export function getExternalPracticeUnlocksForSubmission(
   currentProblem: Problem,
   progress: ProgressState,
@@ -272,19 +374,9 @@ export function getExternalPracticeUnlocksForSubmission(
   }
 
   const state = readState();
-  const eligible = rankProblems(
-    externalProblems.filter(
-      (problem) =>
-        isEligible(problem, progress, skillProfile) &&
-        (problem.recommendedAfterProblemIds.includes(currentProblem.id) || problem.mappedFromProblemIds.includes(currentProblem.id))
-    ),
-    progress,
-    skillProfile,
-    state,
-    currentProblem
-  );
+  const eligible = collectUnlockCandidates(currentProblem, progress, skillProfile, state);
 
-  const unlocked = eligible.slice(0, 3).map(({ problem, matchedConceptIds, readinessReason }) => {
+  const unlocked = eligible.map(({ problem, matchedConceptIds, readinessReason }) => {
     const existing = state.records[problem.id];
     const timestamp = nowIso();
     state.records[problem.id] = {
@@ -315,5 +407,7 @@ export function getExternalPracticeUnlocksForSubmission(
 export const __testables = {
   rankProblems,
   scoreProblem,
-  preferredDifficulty
+  preferredDifficulty,
+  collectUnlockCandidates,
+  choosePersonalizedRecommendations
 };
