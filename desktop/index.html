@@ -42,6 +42,10 @@
               <span class="nav-icon">↗</span>
               <span class="nav-label">External</span>
             </button>
+            <button class="view-tab" data-view="roadmap" title="Target Roadmap" aria-label="Target Roadmap">
+              <span class="nav-icon">🧭</span>
+              <span class="nav-label">Roadmap</span>
+            </button>
             <button class="view-tab" data-view="profile" title="Profile" aria-label="Profile">
               <span class="nav-icon">◉</span>
               <span class="nav-label">Profile</span>
@@ -589,6 +593,53 @@
                   </div>
                 </div>
                 <div id="external-practice-completed-list" class="profile-contributions-list"></div>
+              </section>
+            </div>
+          </section>
+        </section>
+
+        <section id="roadmap-view" class="view-panel is-hidden">
+          <section class="panel external-shell">
+            <div class="section-header">
+              <div>
+                <div class="eyebrow">Target Problem Roadmap</div>
+                <h2>Check if you are ready for a target problem</h2>
+              </div>
+              <p class="muted">Paste a cataloged LeetCode URL and get an internal-first roadmap before you attempt it.</p>
+            </div>
+
+            <section class="panel training-controls">
+              <div class="training-form-grid">
+                <label class="profile-field" style="grid-column: 1 / -1;">
+                  <span>Problem URL</span>
+                  <input id="target-roadmap-url-input" type="url" placeholder="https://leetcode.com/problems/..." />
+                </label>
+              </div>
+              <div class="training-actions">
+                <button id="target-roadmap-evaluate-button" class="primary-button" type="button">Evaluate</button>
+                <button id="target-roadmap-generate-button" class="ghost-button" type="button">Create Roadmap</button>
+              </div>
+              <div id="target-roadmap-status" class="muted" role="status">Paste a problem URL to estimate readiness.</div>
+            </section>
+
+            <div class="profile-grid">
+              <section class="profile-stats">
+                <div class="external-section-heading">
+                  <div>
+                    <h3>Readiness</h3>
+                    <p class="muted">Verdict, strengths, and missing concepts for the target problem.</p>
+                  </div>
+                </div>
+                <div id="target-roadmap-assessment" class="profile-contributions-list muted">No target evaluated yet.</div>
+              </section>
+              <section class="profile-stats">
+                <div class="external-section-heading">
+                  <div>
+                    <h3>Roadmap</h3>
+                    <p class="muted">Internal problems come first, then transfer practice, then the target retry.</p>
+                  </div>
+                </div>
+                <div id="target-roadmap-plan" class="profile-contributions-list muted">Generate a roadmap after evaluation.</div>
               </section>
             </div>
           </section>

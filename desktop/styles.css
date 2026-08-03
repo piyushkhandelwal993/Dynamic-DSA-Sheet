@@ -2713,6 +2713,16 @@ textarea {
   color: var(--text-primary);
 }
 
+.roadmap-reason-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-primary);
+}
+
+.roadmap-reason-list li + li {
+  margin-top: 4px;
+}
+
 .external-reason-label {
   color: #93c5fd;
   font-size: 11px;

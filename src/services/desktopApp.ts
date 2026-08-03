@@ -67,6 +67,7 @@ import {
   openExternalPracticeProblem,
   saveExternalPracticeProblem
 } from "./externalPractice";
+import { assessTargetProblemReadiness, createTargetProblemRoadmap } from "./targetRoadmap";
 
 function buildStreakCalendar() {
   const skillProfile = getSkillProfile();
@@ -407,6 +408,14 @@ export function markDesktopExternalPractice(problemId: string, status: ExternalP
   if (status === "saved") return saveExternalPracticeProblem(problemId);
   if (status === "completed") return completeExternalPracticeProblem(problemId);
   return dismissExternalPracticeProblem(problemId);
+}
+
+export function evaluateDesktopTargetProblem(inputUrl: string) {
+  return assessTargetProblemReadiness(inputUrl);
+}
+
+export function createDesktopTargetProblemRoadmap(inputUrl: string) {
+  return createTargetProblemRoadmap(inputUrl);
 }
 
 export function runDesktopProblem(

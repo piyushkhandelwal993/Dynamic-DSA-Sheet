@@ -11,6 +11,8 @@ contextBridge.exposeInMainWorld("dsaDesktop", {
   runProblem: (problemId, code, options) => ipcRenderer.invoke("desktop:run-problem", problemId, code, options),
   submitProblem: (problemId, code, language, practiceMode) => ipcRenderer.invoke("desktop:submit-problem", problemId, code, language, practiceMode),
   markExternalPractice: (problemId, status) => ipcRenderer.invoke("desktop:mark-external-practice", problemId, status),
+  evaluateTargetProblem: (inputUrl) => ipcRenderer.invoke("desktop:evaluate-target-problem", inputUrl),
+  createTargetProblemRoadmap: (inputUrl) => ipcRenderer.invoke("desktop:create-target-problem-roadmap", inputUrl),
   getConceptName: (conceptId) => ipcRenderer.invoke("desktop:get-concept-name", conceptId),
   loadPreferences: () => ipcRenderer.invoke("desktop:load-preferences"),
   savePreferences: (preferences) => ipcRenderer.invoke("desktop:save-preferences", preferences),

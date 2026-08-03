@@ -45,6 +45,13 @@ const state = {
     reviewDraftNotes: "",
     reviewDraftExpectedFacts: "",
     reviewDraftForbiddenFacts: ""
+  },
+  targetRoadmap: {
+    inputUrl: "",
+    assessment: null,
+    roadmap: null,
+    loading: false,
+    status: "Paste a problem URL to estimate readiness."
   }
 };
 
@@ -172,6 +179,12 @@ const externalPracticeUnlockedListEl = document.getElementById("external-practic
 const externalPracticeSavedListEl = document.getElementById("external-practice-saved-list");
 const externalPracticeOpenedListEl = document.getElementById("external-practice-opened-list");
 const externalPracticeCompletedListEl = document.getElementById("external-practice-completed-list");
+const targetRoadmapUrlInputEl = document.getElementById("target-roadmap-url-input");
+const targetRoadmapEvaluateButtonEl = document.getElementById("target-roadmap-evaluate-button");
+const targetRoadmapGenerateButtonEl = document.getElementById("target-roadmap-generate-button");
+const targetRoadmapStatusEl = document.getElementById("target-roadmap-status");
+const targetRoadmapAssessmentEl = document.getElementById("target-roadmap-assessment");
+const targetRoadmapPlanEl = document.getElementById("target-roadmap-plan");
 const trainingTopicSelectEl = document.getElementById("training-topic-select");
 const trainingProblemSelectEl = document.getElementById("training-problem-select");
 const trainingLanguageSelectEl = document.getElementById("training-language-select");
@@ -303,6 +316,7 @@ const viewEls = {
   world: document.getElementById("world-view"),
   problems: document.getElementById("problems-view"),
   external: document.getElementById("external-view"),
+  roadmap: document.getElementById("roadmap-view"),
   profile: document.getElementById("profile-view"),
   training: document.getElementById("training-view")
 };
@@ -3044,9 +3058,155 @@ function renderExternalPractice() {
   renderExternalPracticeList(externalPracticeCompletedListEl, snapshot.completed, "Nothing marked completed yet.");
 }
 
+async function conceptNames(conceptIds) {
+  return Promise.all(
+    (conceptIds ?? []).map(async (conceptId) => ({
+      id: conceptId,
+      name: await window.dsaDesktop.getConceptName(conceptId)
+    }))
+  );
+}
+
+function verdictTone(verdict) {
+  if (verdict === "ready") return "green";
+  if (verdict === "close") return "yellow";
+  if (verdict === "unsupported") return "gray";
+  return "red";
+}
+
+function stepTone(type) {
+  if (type === "internal") return "green";
+  if (type === "external") return "blue";
+  return "yellow";
+}
+
+async function renderTargetRoadmap() {
+  if (targetRoadmapUrlInputEl && targetRoadmapUrlInputEl.value !== state.targetRoadmap.inputUrl) {
+    targetRoadmapUrlInputEl.value = state.targetRoadmap.inputUrl;
+  }
+
+  if (targetRoadmapStatusEl) {
+    targetRoadmapStatusEl.textContent = state.targetRoadmap.status;
+  }
+
+  if (targetRoadmapEvaluateButtonEl) {
+    targetRoadmapEvaluateButtonEl.disabled = state.targetRoadmap.loading;
+  }
+  if (targetRoadmapGenerateButtonEl) {
+    const disabled = state.targetRoadmap.loading
+      || !state.targetRoadmap.assessment
+      || state.targetRoadmap.assessment.verdict === "unsupported";
+    targetRoadmapGenerateButtonEl.disabled = disabled;
+  }
+
+  if (!state.targetRoadmap.assessment) {
+    if (targetRoadmapAssessmentEl) {
+      targetRoadmapAssessmentEl.innerHTML = `<p class="muted">No target evaluated yet.</p>`;
+    }
+  } else if (targetRoadmapAssessmentEl) {
+    const assessment = state.targetRoadmap.assessment;
+    const strengths = await conceptNames(assessment.strengthConceptIds);
+    const missing = await conceptNames(assessment.missingConceptIds);
+    const matchedTitle = assessment.matchedProblem
+      ? `${assessment.matchedProblem.title} · ${assessment.matchedProblem.difficulty}`
+      : "No matching catalog problem found";
+
+    targetRoadmapAssessmentEl.innerHTML = `
+      <article class="profile-note external-practice-card">
+        <div class="external-card-header">
+          <strong>${escapeHtml(matchedTitle)}</strong>
+          <div class="external-card-badges">
+            <span class="pill ${verdictTone(assessment.verdict)}">${escapeHtml(assessment.verdict)}</span>
+            <span class="pill blue">${assessment.readinessScore}/100</span>
+          </div>
+        </div>
+        <p class="muted">${escapeHtml(assessment.normalizedUrl)}</p>
+        <div class="external-card-meta">
+          <span class="pill blue">Strengths</span>
+          <span>${escapeHtml(strengths.map((item) => item.name).join(", ") || "None identified yet")}</span>
+        </div>
+        <div class="external-card-meta">
+          <span class="pill ${missing.length ? "yellow" : "green"}">Missing</span>
+          <span>${escapeHtml(missing.map((item) => item.name).join(", ") || "No missing prerequisites right now")}</span>
+        </div>
+        <div class="external-reason-block">
+          <span class="external-reason-label">Why this verdict</span>
+          <ul class="roadmap-reason-list">
+            ${assessment.reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("")}
+          </ul>
+        </div>
+      </article>
+    `;
+  }
+
+  if (!state.targetRoadmap.roadmap?.steps?.length) {
+    if (targetRoadmapPlanEl) {
+      targetRoadmapPlanEl.innerHTML = `<p class="muted">Generate a roadmap after evaluation.</p>`;
+    }
+    return;
+  }
+
+  if (targetRoadmapPlanEl) {
+    targetRoadmapPlanEl.innerHTML = state.targetRoadmap.roadmap.steps
+      .map((step, index) => `
+        <article class="profile-note external-practice-card">
+          <div class="external-card-header">
+            <strong>${index + 1}. ${escapeHtml(step.title)}</strong>
+            <div class="external-card-badges">
+              <span class="pill ${stepTone(step.type)}">${escapeHtml(step.type)}</span>
+            </div>
+          </div>
+          <p class="muted">${escapeHtml(step.reason)}</p>
+          <div class="external-card-meta">
+            <span class="pill blue">Concepts</span>
+            <span>${escapeHtml(step.conceptIds.join(", ") || "No concept tags")}</span>
+          </div>
+          <div class="profile-form-actions">
+            ${step.internalProblemId ? `<button class="ghost-button" type="button" data-roadmap-internal-problem="${escapeHtml(step.internalProblemId)}">Open Internal</button>` : ""}
+            ${step.url ? `<button class="primary-button" type="button" data-roadmap-external-url="${escapeHtml(step.url)}">Open Link</button>` : ""}
+          </div>
+        </article>
+      `)
+      .join("");
+  }
+}
+
 async function refreshBootstrapState() {
   state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap?.activeTopicId);
   render();
+}
+
+async function evaluateTargetRoadmap({ generateRoadmap = false } = {}) {
+  const inputUrl = targetRoadmapUrlInputEl?.value?.trim() ?? state.targetRoadmap.inputUrl;
+  state.targetRoadmap.inputUrl = inputUrl;
+  state.targetRoadmap.loading = true;
+  state.targetRoadmap.status = generateRoadmap ? "Building roadmap..." : "Evaluating readiness...";
+  render();
+
+  try {
+    const assessment = await window.dsaDesktop.evaluateTargetProblem(inputUrl);
+    state.targetRoadmap.assessment = assessment;
+    state.targetRoadmap.roadmap = null;
+
+    if (generateRoadmap) {
+      const roadmap = await window.dsaDesktop.createTargetProblemRoadmap(inputUrl);
+      state.targetRoadmap.roadmap = roadmap;
+      state.targetRoadmap.status = roadmap.steps.length
+        ? `Created ${roadmap.steps.length} roadmap step(s).`
+        : "This target is not cataloged yet, so roadmap generation is not available.";
+    } else {
+      state.targetRoadmap.status = assessment.readyNow
+        ? "You look ready to attempt this target now."
+        : `Verdict: ${assessment.verdict}. Generate a roadmap if you want a guided path first.`;
+    }
+  } catch (error) {
+    state.targetRoadmap.status = error?.message ?? String(error);
+    state.targetRoadmap.assessment = null;
+    state.targetRoadmap.roadmap = null;
+  } finally {
+    state.targetRoadmap.loading = false;
+    render();
+  }
 }
 
 function buildSubmissionExternalPracticeBlock(items) {
@@ -3690,6 +3850,7 @@ function render() {
   renderSkillBars();
   renderWorldZones();
   renderExternalPractice();
+  void renderTargetRoadmap();
   applyEditorLanguage();
   resultTabsEl.querySelectorAll("[data-result-view]").forEach((button) => {
     button.classList.toggle("active", button.getAttribute("data-result-view") === state.activeResultView);
@@ -4193,6 +4354,21 @@ trainingGenerateRegressionTestsButtonEl?.addEventListener("click", async () => {
     await refreshTrainingProblemSummary();
   }
 });
+targetRoadmapUrlInputEl?.addEventListener("input", () => {
+  state.targetRoadmap.inputUrl = targetRoadmapUrlInputEl.value;
+});
+targetRoadmapUrlInputEl?.addEventListener("keydown", async (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    await evaluateTargetRoadmap();
+  }
+});
+targetRoadmapEvaluateButtonEl?.addEventListener("click", async () => {
+  await evaluateTargetRoadmap();
+});
+targetRoadmapGenerateButtonEl?.addEventListener("click", async () => {
+  await evaluateTargetRoadmap({ generateRoadmap: true });
+});
 contributionDetailOpenFileButtonEl?.addEventListener("click", async () => {
   if (!state.contributionDetail?.remoteRef?.reference) return;
   await window.dsaDesktop.openPath(state.contributionDetail.remoteRef.reference);
@@ -4297,6 +4473,24 @@ resultPanelEl.addEventListener("click", async (event) => {
 });
 
 document.addEventListener("click", async (event) => {
+  const roadmapInternalButton = event.target.closest("[data-roadmap-internal-problem]");
+  if (roadmapInternalButton) {
+    const problemId = roadmapInternalButton.getAttribute("data-roadmap-internal-problem");
+    if (problemId) {
+      await startProblem(problemId);
+    }
+    return;
+  }
+
+  const roadmapExternalButton = event.target.closest("[data-roadmap-external-url]");
+  if (roadmapExternalButton) {
+    const targetUrl = roadmapExternalButton.getAttribute("data-roadmap-external-url");
+    if (targetUrl) {
+      await window.dsaDesktop.openExternal(targetUrl);
+    }
+    return;
+  }
+
   const button = event.target.closest("[data-external-action]");
   if (!button) return;
 

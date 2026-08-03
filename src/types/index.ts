@@ -631,7 +631,7 @@ export interface CppRuntimeStatus {
 
 export type DesktopProblemView = "description" | "examples" | "hints";
 export type DesktopRunMode = "official" | "custom";
-export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "external" | "profile" | "training";
+export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "external" | "roadmap" | "profile" | "training";
 
 export interface DesktopPreferences {
   splitRatio: number;
@@ -748,6 +748,38 @@ export interface ExternalPracticeSnapshot {
   saved: ExternalPracticeEntry[];
   opened: ExternalPracticeEntry[];
   completed: ExternalPracticeEntry[];
+}
+
+export type TargetProblemVerdict = "ready" | "close" | "not-ready" | "unsupported";
+
+export interface TargetProblemAssessment {
+  inputUrl: string;
+  normalizedUrl: string;
+  matchedProblem?: ExternalPracticeProblem;
+  readinessScore: number;
+  verdict: TargetProblemVerdict;
+  readyNow: boolean;
+  reasons: string[];
+  strengthConceptIds: string[];
+  missingConceptIds: string[];
+}
+
+export type TargetRoadmapStepType = "internal" | "external" | "target";
+
+export interface TargetProblemRoadmapStep {
+  id: string;
+  type: TargetRoadmapStepType;
+  title: string;
+  reason: string;
+  conceptIds: string[];
+  internalProblemId?: string;
+  externalProblemId?: string;
+  url?: string;
+}
+
+export interface TargetProblemRoadmapPlan {
+  assessment: TargetProblemAssessment;
+  steps: TargetProblemRoadmapStep[];
 }
 
 export interface Badge {
