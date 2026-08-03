@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("dsaDesktop", {
   resetWorkspace: (problemId, language, practiceMode) => ipcRenderer.invoke("desktop:reset-workspace", problemId, language, practiceMode),
   runProblem: (problemId, code, options) => ipcRenderer.invoke("desktop:run-problem", problemId, code, options),
   submitProblem: (problemId, code, language, practiceMode) => ipcRenderer.invoke("desktop:submit-problem", problemId, code, language, practiceMode),
+  markExternalPractice: (problemId, status) => ipcRenderer.invoke("desktop:mark-external-practice", problemId, status),
   getConceptName: (conceptId) => ipcRenderer.invoke("desktop:get-concept-name", conceptId),
   loadPreferences: () => ipcRenderer.invoke("desktop:load-preferences"),
   savePreferences: (preferences) => ipcRenderer.invoke("desktop:save-preferences", preferences),

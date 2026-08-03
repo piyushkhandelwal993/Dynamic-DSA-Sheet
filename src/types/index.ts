@@ -631,7 +631,7 @@ export interface CppRuntimeStatus {
 
 export type DesktopProblemView = "description" | "examples" | "hints";
 export type DesktopRunMode = "official" | "custom";
-export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "profile" | "training";
+export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "external" | "profile" | "training";
 
 export interface DesktopPreferences {
   splitRatio: number;
@@ -695,6 +695,7 @@ export interface DesktopBootstrap {
   contentSync: ContentSyncStatus;
   contributions: ContributionRecord[];
   contributionSync: ContributionSyncStatus;
+  externalPractice: ExternalPracticeSnapshot;
 }
 
 export interface RecommendationResult {
@@ -704,6 +705,49 @@ export interface RecommendationResult {
   reasons: string[];
   suggestedProblemIds: string[];
   conceptIds: string[];
+}
+
+export type ExternalPracticePlatform = "leetcode";
+export type ExternalPracticeStatus = "unseen" | "suggested" | "saved" | "opened" | "completed" | "dismissed";
+
+export interface ExternalPracticeProblem {
+  id: string;
+  platform: ExternalPracticePlatform;
+  title: string;
+  url: string;
+  difficulty: Difficulty;
+  topicId: string;
+  conceptIds: string[];
+  prerequisiteConceptIds: string[];
+  mappedFromProblemIds: string[];
+  recommendedAfterProblemIds: string[];
+  sourceQualityWeight: number;
+}
+
+export interface ExternalPracticeRecord {
+  problemId: string;
+  status: ExternalPracticeStatus;
+  firstSuggestedAt?: string;
+  lastSuggestedAt?: string;
+  openedAt?: string;
+  completedAt?: string;
+  savedAt?: string;
+  dismissedAt?: string;
+}
+
+export interface ExternalPracticeEntry {
+  problem: ExternalPracticeProblem;
+  status: ExternalPracticeStatus;
+  readinessReason: string;
+  matchedConceptIds: string[];
+  newlyUnlocked: boolean;
+}
+
+export interface ExternalPracticeSnapshot {
+  recommendedNow: ExternalPracticeEntry[];
+  saved: ExternalPracticeEntry[];
+  opened: ExternalPracticeEntry[];
+  completed: ExternalPracticeEntry[];
 }
 
 export interface Badge {

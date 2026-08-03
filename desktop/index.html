@@ -38,6 +38,10 @@
               <span class="nav-icon">☰</span>
               <span class="nav-label">Problems</span>
             </button>
+            <button class="view-tab" data-view="external" title="External Practice" aria-label="External Practice">
+              <span class="nav-icon">↗</span>
+              <span class="nav-label">External</span>
+            </button>
             <button class="view-tab" data-view="profile" title="Profile" aria-label="Profile">
               <span class="nav-icon">◉</span>
               <span class="nav-label">Profile</span>
@@ -527,6 +531,39 @@
                 <span>Complexity</span>
               </div>
               <div id="problem-list" class="problem-library-body"></div>
+            </div>
+          </section>
+        </section>
+
+        <section id="external-view" class="view-panel is-hidden">
+          <section class="panel progress-shell">
+            <div class="section-header">
+              <div>
+                <div class="eyebrow">External Practice</div>
+                <h2>Problems You Are Ready To Try Outside</h2>
+              </div>
+              <p class="muted">The system stays generic, but for now these links are curated from LeetCode only.</p>
+            </div>
+            <div id="external-practice-summary" class="profile-contribution-summary"></div>
+            <div class="profile-grid">
+              <section class="profile-stats">
+                <h3>Recommended Now</h3>
+                <div id="external-practice-ready-list" class="profile-contributions-list"></div>
+              </section>
+              <section class="profile-stats">
+                <h3>Saved For Later</h3>
+                <div id="external-practice-saved-list" class="profile-contributions-list"></div>
+              </section>
+            </div>
+            <div class="profile-grid">
+              <section class="profile-stats">
+                <h3>Opened</h3>
+                <div id="external-practice-opened-list" class="profile-contributions-list"></div>
+              </section>
+              <section class="profile-stats">
+                <h3>Completed</h3>
+                <div id="external-practice-completed-list" class="profile-contributions-list"></div>
+              </section>
             </div>
           </section>
         </section>

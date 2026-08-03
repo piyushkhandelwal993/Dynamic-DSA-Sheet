@@ -26,6 +26,8 @@ import { recommendAfterSubmission } from "./recommendation";
 import { clearsMasteryGate, isProblemSolvedState } from "./progressionState";
 import { updateSkillProfileFromSubmission } from "./skillProfile";
 import { applySubmissionRewards, RewardResult } from "./game";
+import { ExternalPracticeEntry } from "../types";
+import { getExternalPracticeUnlocksForSubmission } from "./externalPractice";
 
 export interface SubmissionOutcome {
   problem: Problem;
@@ -37,6 +39,7 @@ export interface SubmissionOutcome {
   analysisFeedback: ExplainableAnalysisFeedback;
   recommendation: RecommendationResult;
   rewardResult: RewardResult;
+  externalPractice: ExternalPracticeEntry[];
   acceptedByExecution: boolean;
   masteredSubmission: boolean;
   solvedByExecution: boolean;
@@ -135,6 +138,13 @@ export function submitProblemSolution(
 
   const updatedSkillProfile = updateSkillProfileFromSubmission(skillProfile, problem, detection, score, analysis);
   saveSkillProfile(updatedSkillProfile);
+  const externalPractice = getExternalPracticeUnlocksForSubmission(
+    problem,
+    progress,
+    updatedSkillProfile,
+    score,
+    masteredSubmission
+  );
 
   const rewardResult = applySubmissionRewards(getGameProfile(), {
     problemId,
@@ -158,6 +168,7 @@ export function submitProblemSolution(
     analysisFeedback,
     recommendation,
     rewardResult,
+    externalPractice,
     acceptedByExecution: solvedByExecution,
     masteredSubmission,
     solvedByExecution: masteredSubmission,

@@ -116,6 +116,9 @@ ipcMain.handle("desktop:run-problem", async (_event, problemId, code, options) =
 ipcMain.handle("desktop:submit-problem", async (_event, problemId, code, language, practiceMode) =>
   getDesktopApi().submitDesktopProblem(problemId, code, language, practiceMode)
 );
+ipcMain.handle("desktop:mark-external-practice", async (_event, problemId, status) =>
+  getDesktopApi().markDesktopExternalPractice(problemId, status)
+);
 ipcMain.handle("desktop:get-concept-name", async (_event, conceptId) => getDesktopApi().getDesktopConceptName(conceptId));
 ipcMain.handle("desktop:load-preferences", async () => getDesktopApi().loadDesktopPreferences());
 ipcMain.handle("desktop:save-preferences", async (_event, preferences) => getDesktopApi().saveDesktopPreferenceState(preferences));

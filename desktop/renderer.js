@@ -166,6 +166,11 @@ const profileContributionsListEl = document.getElementById("profile-contribution
 const profileContributionSyncNoteEl = document.getElementById("profile-contribution-sync-note");
 const profileOpenContributionOutboxButtonEl = document.getElementById("profile-open-contribution-outbox-button");
 const profileSyncContributionStatusesButtonEl = document.getElementById("profile-sync-contribution-statuses-button");
+const externalPracticeSummaryEl = document.getElementById("external-practice-summary");
+const externalPracticeReadyListEl = document.getElementById("external-practice-ready-list");
+const externalPracticeSavedListEl = document.getElementById("external-practice-saved-list");
+const externalPracticeOpenedListEl = document.getElementById("external-practice-opened-list");
+const externalPracticeCompletedListEl = document.getElementById("external-practice-completed-list");
 const trainingTopicSelectEl = document.getElementById("training-topic-select");
 const trainingProblemSelectEl = document.getElementById("training-problem-select");
 const trainingLanguageSelectEl = document.getElementById("training-language-select");
@@ -296,6 +301,7 @@ const viewEls = {
   progress: document.getElementById("progress-view"),
   world: document.getElementById("world-view"),
   problems: document.getElementById("problems-view"),
+  external: document.getElementById("external-view"),
   profile: document.getElementById("profile-view"),
   training: document.getElementById("training-view")
 };
@@ -2940,6 +2946,107 @@ function renderWorldZones() {
   `;
 }
 
+function renderExternalPracticeCard(item) {
+  const matched = item.matchedConceptIds?.length ? `<div class="muted">Concepts: ${escapeHtml(item.matchedConceptIds.join(", "))}</div>` : "";
+  const reason = item.readinessReason ? `<p class="muted">${escapeHtml(item.readinessReason)}</p>` : "";
+  return `
+    <div class="profile-note">
+      <div class="profile-contribution-summary">
+        <strong>${escapeHtml(item.problem.title)}</strong>
+        <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+      </div>
+      <p class="muted">${escapeHtml(item.problem.difficulty)} · ${escapeHtml(item.problem.topicId)}</p>
+      ${matched}
+      ${reason}
+      <div class="profile-form-actions">
+        <button class="primary-button" type="button" data-external-action="open" data-external-id="${escapeHtml(item.problem.id)}" data-external-url="${escapeHtml(item.problem.url)}">Open</button>
+        <button class="ghost-button" type="button" data-external-action="save" data-external-id="${escapeHtml(item.problem.id)}">Save</button>
+        <button class="ghost-button subtle-button" type="button" data-external-action="complete" data-external-id="${escapeHtml(item.problem.id)}">Mark Completed</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderExternalPracticeList(container, items, emptyMessage) {
+  if (!container) return;
+  if (!items.length) {
+    container.innerHTML = `<p class="muted">${escapeHtml(emptyMessage)}</p>`;
+    return;
+  }
+  container.innerHTML = items.map(renderExternalPracticeCard).join("");
+}
+
+function renderExternalPractice() {
+  const snapshot = state.bootstrap.externalPractice;
+  if (!snapshot) {
+    return;
+  }
+
+  if (externalPracticeSummaryEl) {
+    externalPracticeSummaryEl.innerHTML = `
+      <div class="profile-stat-card">
+        <span>Recommended Now</span>
+        <strong>${snapshot.recommendedNow.length}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Saved</span>
+        <strong>${snapshot.saved.length}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Opened</span>
+        <strong>${snapshot.opened.length}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Completed</span>
+        <strong>${snapshot.completed.length}</strong>
+      </div>
+    `;
+  }
+
+  renderExternalPracticeList(externalPracticeReadyListEl, snapshot.recommendedNow, "No external problems are unlocked yet. Strong solves will start filling this list.");
+  renderExternalPracticeList(externalPracticeSavedListEl, snapshot.saved, "Nothing saved yet.");
+  renderExternalPracticeList(externalPracticeOpenedListEl, snapshot.opened, "You have not opened any external problems yet.");
+  renderExternalPracticeList(externalPracticeCompletedListEl, snapshot.completed, "Nothing marked completed yet.");
+}
+
+async function refreshBootstrapState() {
+  state.bootstrap = await window.dsaDesktop.bootstrap(state.bootstrap?.activeTopicId);
+  render();
+}
+
+function buildSubmissionExternalPracticeBlock(items) {
+  if (!items?.length) {
+    return "";
+  }
+
+  return `
+    <section class="review-instrument-card review-optimization-card">
+      <div class="review-card-header">
+        <h4>External Practice Ready</h4>
+      </div>
+      <div class="compact-list">
+        ${items
+          .map(
+            (item) => `
+              <div class="profile-note">
+                <div class="profile-contribution-summary">
+                  <strong>${escapeHtml(item.problem.title)}</strong>
+                  <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+                </div>
+                <p class="muted">${escapeHtml(item.problem.difficulty)} · ${escapeHtml(item.readinessReason)}</p>
+                <div class="profile-form-actions">
+                  <button class="primary-button" data-external-action="open" data-external-id="${escapeHtml(item.problem.id)}" data-external-url="${escapeHtml(item.problem.url)}">Open</button>
+                  <button class="ghost-button" data-external-action="save" data-external-id="${escapeHtml(item.problem.id)}">Save</button>
+                </div>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
 function formatExecutionFeedback(execution) {
   const lines = [];
   lines.push(`<div class="result-detail-stack">`);
@@ -3404,6 +3511,7 @@ async function submitCurrentWorkspace() {
                   ? `<ul class="analysis-reason-list">${optimizationItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
                   : `<p class="muted">No immediate improvement is required. Keep the same approach and move forward.</p>`}
               </section>
+              ${buildSubmissionExternalPracticeBlock(outcome.externalPractice)}
             </div>
           </div>
         </div>
@@ -3544,6 +3652,7 @@ function render() {
   renderRecommendationInsights();
   renderSkillBars();
   renderWorldZones();
+  renderExternalPractice();
   applyEditorLanguage();
   resultTabsEl.querySelectorAll("[data-result-view]").forEach((button) => {
     button.classList.toggle("active", button.getAttribute("data-result-view") === state.activeResultView);
@@ -4147,6 +4256,36 @@ resultPanelEl.addEventListener("click", async (event) => {
   const action = button.getAttribute("data-result-action");
   if (action === "start-next-task") {
     await startRecommendedNextProblem();
+  }
+});
+
+document.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-external-action]");
+  if (!button) return;
+
+  const action = button.getAttribute("data-external-action");
+  const problemId = button.getAttribute("data-external-id");
+  const targetUrl = button.getAttribute("data-external-url");
+  if (!problemId) return;
+
+  if (action === "open") {
+    await window.dsaDesktop.markExternalPractice(problemId, "opened");
+    if (targetUrl) {
+      await window.dsaDesktop.openExternal(targetUrl);
+    }
+    await refreshBootstrapState();
+    return;
+  }
+
+  if (action === "save") {
+    await window.dsaDesktop.markExternalPractice(problemId, "saved");
+    await refreshBootstrapState();
+    return;
+  }
+
+  if (action === "complete") {
+    await window.dsaDesktop.markExternalPractice(problemId, "completed");
+    await refreshBootstrapState();
   }
 });
 

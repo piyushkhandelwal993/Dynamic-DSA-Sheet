@@ -5,6 +5,7 @@ import {
   CppRuntimeStatus,
   DesktopBootstrap,
   DesktopPreferences,
+  ExternalPracticeStatus,
   JavaRuntimeStatus,
   PracticeMode,
   Problem,
@@ -59,6 +60,13 @@ import {
   listTrainingCatalog,
   saveTrainingReview
 } from "./analyzerTraining";
+import {
+  completeExternalPracticeProblem,
+  dismissExternalPracticeProblem,
+  getExternalPracticeSnapshot,
+  openExternalPracticeProblem,
+  saveExternalPracticeProblem
+} from "./externalPractice";
 
 function buildStreakCalendar() {
   const skillProfile = getSkillProfile();
@@ -221,7 +229,8 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     cppRuntime: detectCppRuntime(),
     contentSync: getContentSyncStatus(),
     contributions: listContributions(),
-    contributionSync: getContributionSyncStatus()
+    contributionSync: getContributionSyncStatus(),
+    externalPractice: getExternalPracticeSnapshot(progress, skillProfile)
   };
 }
 
@@ -391,6 +400,13 @@ export function submitDesktopProblem(
     saveDesktopWorkspace(problemId, code, language, practiceMode);
   }
   return submitProblemSolution(problemId, undefined, language, practiceMode);
+}
+
+export function markDesktopExternalPractice(problemId: string, status: ExternalPracticeStatus) {
+  if (status === "opened") return openExternalPracticeProblem(problemId);
+  if (status === "saved") return saveExternalPracticeProblem(problemId);
+  if (status === "completed") return completeExternalPracticeProblem(problemId);
+  return dismissExternalPracticeProblem(problemId);
 }
 
 export function runDesktopProblem(
