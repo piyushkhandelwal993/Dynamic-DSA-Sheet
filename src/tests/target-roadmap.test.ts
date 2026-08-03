@@ -65,3 +65,107 @@ test("roadmap prioritizes internal steps before external transfer and target ret
   }
   assert.ok(firstTargetIndex === roadmap.steps.length - 1);
 });
+
+test("stock roadmap excludes the target twin and avoids redundant overlap steps", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["stock-profit"] = 40;
+  skillProfile.conceptScores["min-max-array"] = 50;
+  skillProfile.conceptScores["array-traversal"] = 65;
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("arr-011"), false);
+  assert.equal(internalIds.includes("arr-004"), false);
+  assert.equal(internalIds[0], "arr-001");
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("cataloged roadmap prefers mapped internal bridge before generic concept fallback", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/find-numbers-with-even-number-of-digits/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds[0], "arr-013");
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["binary-search-intro"] = 68;
+  skillProfile.conceptScores["sorted-mid-check"] = 64;
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/search-in-nearly-sorted-array/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.matchedProblem, undefined);
+  assert.equal(assessment.inferredTopicId, "binary-search");
+  assert.equal(assessment.confidence, "High");
+  assert.ok(assessment.missingConceptIds.includes("binary-search-intro"));
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/search-in-nearly-sorted-array/",
+    progress,
+    skillProfile
+  );
+
+  assert.ok(roadmap.steps.length >= 2);
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+  assert.equal(roadmap.steps[0]?.type, "internal");
+});
+
+test("problem statement improves non-cataloged inference accuracy", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["sliding-window"] = 60;
+  skillProfile.conceptScores["variable-size-window"] = 58;
+  skillProfile.conceptScores["prefix-sum"] = 30;
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/alpha-problem/",
+    "Given a string s, find the length of the longest substring without repeating characters using a sliding window technique.",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.inferredTopicId, "sliding-window");
+  assert.equal(assessment.usedProblemStatement, true);
+  assert.equal(assessment.confidence, "Medium");
+  assert.ok(assessment.missingConceptIds.includes("sliding-window"));
+});
+
+test("ambiguous uncataloged targets expose alternate hypotheses", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/search-in-sorted-array/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.inferredTopicId, "binary-search");
+  assert.ok((assessment.alternateHypotheses?.length ?? 0) >= 1);
+  assert.equal(assessment.alternateHypotheses?.[0]?.topicId, "two-pointers");
+});

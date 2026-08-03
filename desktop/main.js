@@ -119,11 +119,11 @@ ipcMain.handle("desktop:submit-problem", async (_event, problemId, code, languag
 ipcMain.handle("desktop:mark-external-practice", async (_event, problemId, status) =>
   getDesktopApi().markDesktopExternalPractice(problemId, status)
 );
-ipcMain.handle("desktop:evaluate-target-problem", async (_event, inputUrl) =>
-  getDesktopApi().evaluateDesktopTargetProblem(inputUrl)
+ipcMain.handle("desktop:evaluate-target-problem", async (_event, inputUrl, problemStatement) =>
+  getDesktopApi().evaluateDesktopTargetProblem(inputUrl, problemStatement)
 );
-ipcMain.handle("desktop:create-target-problem-roadmap", async (_event, inputUrl) =>
-  getDesktopApi().createDesktopTargetProblemRoadmap(inputUrl)
+ipcMain.handle("desktop:create-target-problem-roadmap", async (_event, inputUrl, problemStatement) =>
+  getDesktopApi().createDesktopTargetProblemRoadmap(inputUrl, problemStatement)
 );
 ipcMain.handle("desktop:get-concept-name", async (_event, conceptId) => getDesktopApi().getDesktopConceptName(conceptId));
 ipcMain.handle("desktop:load-preferences", async () => getDesktopApi().loadDesktopPreferences());

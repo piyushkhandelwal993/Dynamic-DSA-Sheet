@@ -751,14 +751,28 @@ export interface ExternalPracticeSnapshot {
 }
 
 export type TargetProblemVerdict = "ready" | "close" | "not-ready" | "unsupported";
+export type TargetProblemConfidence = "High" | "Medium" | "Low";
+
+export interface TargetProblemHypothesis {
+  topicId: string;
+  conceptIds: string[];
+  confidence: TargetProblemConfidence;
+  reason: string;
+}
 
 export interface TargetProblemAssessment {
   inputUrl: string;
   normalizedUrl: string;
   matchedProblem?: ExternalPracticeProblem;
+  inferredTitle?: string;
+  inferredTopicId?: string;
+  inferredConceptIds?: string[];
+  usedProblemStatement?: boolean;
+  alternateHypotheses?: TargetProblemHypothesis[];
   readinessScore: number;
   verdict: TargetProblemVerdict;
   readyNow: boolean;
+  confidence?: TargetProblemConfidence;
   reasons: string[];
   strengthConceptIds: string[];
   missingConceptIds: string[];
@@ -779,6 +793,8 @@ export interface TargetProblemRoadmapStep {
 
 export interface TargetProblemRoadmapPlan {
   assessment: TargetProblemAssessment;
+  strategy?: string;
+  notes?: string[];
   steps: TargetProblemRoadmapStep[];
 }
 

@@ -410,12 +410,12 @@ export function markDesktopExternalPractice(problemId: string, status: ExternalP
   return dismissExternalPracticeProblem(problemId);
 }
 
-export function evaluateDesktopTargetProblem(inputUrl: string) {
-  return assessTargetProblemReadiness(inputUrl);
+export function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?: string) {
+  return assessTargetProblemReadiness(inputUrl, problemStatement);
 }
 
-export function createDesktopTargetProblemRoadmap(inputUrl: string) {
-  return createTargetProblemRoadmap(inputUrl);
+export function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
+  return createTargetProblemRoadmap(inputUrl, problemStatement);
 }
 
 export function runDesktopProblem(

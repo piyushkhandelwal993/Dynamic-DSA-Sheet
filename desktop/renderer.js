@@ -48,6 +48,7 @@ const state = {
   },
   targetRoadmap: {
     inputUrl: "",
+    problemStatement: "",
     assessment: null,
     roadmap: null,
     loading: false,
@@ -180,6 +181,7 @@ const externalPracticeSavedListEl = document.getElementById("external-practice-s
 const externalPracticeOpenedListEl = document.getElementById("external-practice-opened-list");
 const externalPracticeCompletedListEl = document.getElementById("external-practice-completed-list");
 const targetRoadmapUrlInputEl = document.getElementById("target-roadmap-url-input");
+const targetRoadmapStatementInputEl = document.getElementById("target-roadmap-statement-input");
 const targetRoadmapEvaluateButtonEl = document.getElementById("target-roadmap-evaluate-button");
 const targetRoadmapGenerateButtonEl = document.getElementById("target-roadmap-generate-button");
 const targetRoadmapStatusEl = document.getElementById("target-roadmap-status");
@@ -3074,6 +3076,12 @@ function verdictTone(verdict) {
   return "red";
 }
 
+function confidenceTone(confidence) {
+  if (confidence === "High") return "green";
+  if (confidence === "Medium") return "yellow";
+  return "gray";
+}
+
 function stepTone(type) {
   if (type === "internal") return "green";
   if (type === "external") return "blue";
@@ -3083,6 +3091,9 @@ function stepTone(type) {
 async function renderTargetRoadmap() {
   if (targetRoadmapUrlInputEl && targetRoadmapUrlInputEl.value !== state.targetRoadmap.inputUrl) {
     targetRoadmapUrlInputEl.value = state.targetRoadmap.inputUrl;
+  }
+  if (targetRoadmapStatementInputEl && targetRoadmapStatementInputEl.value !== state.targetRoadmap.problemStatement) {
+    targetRoadmapStatementInputEl.value = state.targetRoadmap.problemStatement;
   }
 
   if (targetRoadmapStatusEl) {
@@ -3109,7 +3120,9 @@ async function renderTargetRoadmap() {
     const missing = await conceptNames(assessment.missingConceptIds);
     const matchedTitle = assessment.matchedProblem
       ? `${assessment.matchedProblem.title} · ${assessment.matchedProblem.difficulty}`
-      : "No matching catalog problem found";
+      : assessment.inferredTitle
+        ? `${assessment.inferredTitle} · ${assessment.inferredTopicId ?? "heuristic"}`
+        : "No matching catalog problem found";
 
     targetRoadmapAssessmentEl.innerHTML = `
       <article class="profile-note external-practice-card">
@@ -3117,6 +3130,8 @@ async function renderTargetRoadmap() {
           <strong>${escapeHtml(matchedTitle)}</strong>
           <div class="external-card-badges">
             <span class="pill ${verdictTone(assessment.verdict)}">${escapeHtml(assessment.verdict)}</span>
+            ${assessment.confidence ? `<span class="pill ${confidenceTone(assessment.confidence)}">${escapeHtml(assessment.confidence)} confidence</span>` : ""}
+            ${assessment.usedProblemStatement ? `<span class="pill blue">statement used</span>` : ""}
             <span class="pill blue">${assessment.readinessScore}/100</span>
           </div>
         </div>
@@ -3135,6 +3150,14 @@ async function renderTargetRoadmap() {
             ${assessment.reasons.map((reason) => `<li>${escapeHtml(reason)}</li>`).join("")}
           </ul>
         </div>
+        ${assessment.alternateHypotheses?.length ? `
+          <div class="external-reason-block">
+            <span class="external-reason-label">Alternate Hypotheses</span>
+            <ul class="roadmap-reason-list">
+              ${assessment.alternateHypotheses.map((hypothesis) => `<li>${escapeHtml(hypothesis.topicId)} · ${escapeHtml(hypothesis.confidence)} · ${escapeHtml(hypothesis.reason)}</li>`).join("")}
+            </ul>
+          </div>
+        ` : ""}
       </article>
     `;
   }
@@ -3147,7 +3170,21 @@ async function renderTargetRoadmap() {
   }
 
   if (targetRoadmapPlanEl) {
-    targetRoadmapPlanEl.innerHTML = state.targetRoadmap.roadmap.steps
+    const planNotes = state.targetRoadmap.roadmap.notes?.length
+      ? `
+        <article class="profile-note external-practice-card">
+          <div class="external-card-header">
+            <strong>Roadmap Notes</strong>
+            ${state.targetRoadmap.roadmap.strategy ? `<div class="external-card-badges"><span class="pill blue">${escapeHtml(state.targetRoadmap.roadmap.strategy)}</span></div>` : ""}
+          </div>
+          <ul class="roadmap-reason-list">
+            ${state.targetRoadmap.roadmap.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}
+          </ul>
+        </article>
+      `
+      : "";
+
+    targetRoadmapPlanEl.innerHTML = planNotes + state.targetRoadmap.roadmap.steps
       .map((step, index) => `
         <article class="profile-note external-practice-card">
           <div class="external-card-header">
@@ -3178,18 +3215,20 @@ async function refreshBootstrapState() {
 
 async function evaluateTargetRoadmap({ generateRoadmap = false } = {}) {
   const inputUrl = targetRoadmapUrlInputEl?.value?.trim() ?? state.targetRoadmap.inputUrl;
+  const problemStatement = targetRoadmapStatementInputEl?.value?.trim() ?? state.targetRoadmap.problemStatement;
   state.targetRoadmap.inputUrl = inputUrl;
+  state.targetRoadmap.problemStatement = problemStatement;
   state.targetRoadmap.loading = true;
   state.targetRoadmap.status = generateRoadmap ? "Building roadmap..." : "Evaluating readiness...";
   render();
 
   try {
-    const assessment = await window.dsaDesktop.evaluateTargetProblem(inputUrl);
+    const assessment = await window.dsaDesktop.evaluateTargetProblem(inputUrl, problemStatement);
     state.targetRoadmap.assessment = assessment;
     state.targetRoadmap.roadmap = null;
 
     if (generateRoadmap) {
-      const roadmap = await window.dsaDesktop.createTargetProblemRoadmap(inputUrl);
+      const roadmap = await window.dsaDesktop.createTargetProblemRoadmap(inputUrl, problemStatement);
       state.targetRoadmap.roadmap = roadmap;
       state.targetRoadmap.status = roadmap.steps.length
         ? `Created ${roadmap.steps.length} roadmap step(s).`
@@ -4356,6 +4395,9 @@ trainingGenerateRegressionTestsButtonEl?.addEventListener("click", async () => {
 });
 targetRoadmapUrlInputEl?.addEventListener("input", () => {
   state.targetRoadmap.inputUrl = targetRoadmapUrlInputEl.value;
+});
+targetRoadmapStatementInputEl?.addEventListener("input", () => {
+  state.targetRoadmap.problemStatement = targetRoadmapStatementInputEl.value;
 });
 targetRoadmapUrlInputEl?.addEventListener("keydown", async (event) => {
   if (event.key === "Enter") {

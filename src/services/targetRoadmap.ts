@@ -1,21 +1,17 @@
 import {
+  Concept,
   ExternalPracticeProblem,
   Problem,
   ProgressState,
   SkillProfile,
   TargetProblemAssessment,
+  TargetProblemConfidence,
+  TargetProblemHypothesis,
   TargetProblemRoadmapPlan,
-  TargetProblemRoadmapStep,
-  TopicMeta
+  TargetProblemRoadmapStep
 } from "../types";
 import { getExternalPracticeCatalog } from "./externalPractice";
-import {
-  getConceptById,
-  getProgress,
-  getSkillProfile,
-  getTopicMetas,
-  getTopicProblems
-} from "./storage";
+import { getConceptById, getProblemById, getProgress, getSkillProfile, getTopicConcepts, getTopicProblems } from "./storage";
 
 function clamp(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -32,6 +28,399 @@ function normalizeExternalUrl(input: string): string {
   } catch {
     return input.trim().toLowerCase().replace(/\/+$/, "");
   }
+}
+
+function normalizeTopicKey(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function normalizeTitleKey(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function normalizeAssessmentArgs(
+  problemStatementOrProgress?: string | ProgressState,
+  progressOrSkillProfile?: ProgressState | SkillProfile,
+  maybeSkillProfile?: SkillProfile
+): { problemStatement?: string; progress: ProgressState; skillProfile: SkillProfile } {
+  if (typeof problemStatementOrProgress === "string") {
+    return {
+      problemStatement: problemStatementOrProgress,
+      progress: isProgressState(progressOrSkillProfile) ? progressOrSkillProfile : getProgress(),
+      skillProfile: isSkillProfile(maybeSkillProfile) ? maybeSkillProfile : getSkillProfile()
+    };
+  }
+
+  return {
+    problemStatement: undefined,
+    progress: isProgressState(problemStatementOrProgress) ? problemStatementOrProgress : getProgress(),
+    skillProfile: isSkillProfile(progressOrSkillProfile) ? progressOrSkillProfile : getSkillProfile()
+  };
+}
+
+function isProgressState(value: unknown): value is ProgressState {
+  return Boolean(value && typeof value === "object" && "problems" in (value as Record<string, unknown>));
+}
+
+function isSkillProfile(value: unknown): value is SkillProfile {
+  return Boolean(value && typeof value === "object" && "conceptScores" in (value as Record<string, unknown>));
+}
+
+function parseLeetCodeSlug(input: string): string | null {
+  try {
+    const url = new URL(input.trim());
+    const match = url.pathname.match(/\/problems\/([^/]+)/i);
+    return match?.[1]?.toLowerCase() ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function titleFromSlug(slug: string): string {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((token) => token.charAt(0).toUpperCase() + token.slice(1))
+    .join(" ");
+}
+
+type HeuristicTarget = {
+  title: string;
+  topicId: string;
+  conceptIds: string[];
+  prerequisiteConceptIds: string[];
+  difficulty: "Easy" | "Medium" | "Hard";
+  confidence: TargetProblemConfidence;
+  reasons: string[];
+  alternateHypotheses?: TargetProblemHypothesis[];
+};
+
+function pushAlternateHypothesis(
+  hypotheses: TargetProblemHypothesis[],
+  hypothesis: TargetProblemHypothesis
+): void {
+  const exists = hypotheses.some((item) =>
+    item.topicId === hypothesis.topicId && item.conceptIds.join(",") === hypothesis.conceptIds.join(",")
+  );
+  if (!exists) {
+    hypotheses.push(hypothesis);
+  }
+}
+
+const heuristicRules: Array<{
+  tokens: string[];
+  phrases?: string[];
+  topicId: string;
+  concepts: string[];
+  prerequisites?: string[];
+  difficulty?: "Easy" | "Medium" | "Hard";
+  confidence?: TargetProblemConfidence;
+  reason: string;
+}> = [
+  {
+    tokens: ["stock", "profit"],
+    phrases: ["buy and sell", "max profit", "best profit"],
+    topicId: "arrays",
+    concepts: ["stock-profit", "min-max-array"],
+    prerequisites: ["stock-profit", "min-max-array"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Slug strongly matches the stock-profit pattern."
+  },
+  {
+    tokens: ["two", "sum", "sorted"],
+    phrases: ["one pointer from each side", "two numbers whose sum equals target"],
+    topicId: "two-pointers",
+    concepts: ["two-pointers"],
+    prerequisites: ["two-pointers"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Two-sum on a sorted array strongly suggests opposite-end two pointers."
+  },
+  {
+    tokens: ["pair", "sum", "sorted", "array"],
+    phrases: ["pair sum", "two numbers whose sum", "target sum"],
+    topicId: "two-pointers",
+    concepts: ["two-pointers"],
+    prerequisites: ["two-pointers"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Pair-sum wording on a sorted array strongly suggests two pointers."
+  },
+  {
+    tokens: ["window", "substring"],
+    phrases: ["without repeating", "at most k distinct", "minimum window"],
+    topicId: "sliding-window",
+    concepts: ["sliding-window", "variable-size-window"],
+    prerequisites: ["sliding-window", "variable-size-window"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Substring plus window wording strongly suggests sliding-window reasoning."
+  },
+  {
+    tokens: ["window", "subarray"],
+    phrases: ["sum at least", "size subarray", "at most k"],
+    topicId: "sliding-window",
+    concepts: ["sliding-window", "variable-size-window"],
+    prerequisites: ["sliding-window", "variable-size-window"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Subarray plus window wording strongly suggests sliding-window reasoning."
+  },
+  {
+    tokens: ["sum", "subarray"],
+    phrases: ["equals k", "divisible by k", "range sum"],
+    topicId: "prefix-suffix",
+    concepts: ["prefix-sum", "prefix-balance"],
+    prerequisites: ["prefix-sum", "prefix-balance"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Subarray sum wording usually maps to prefix-sum style reasoning."
+  },
+  {
+    tokens: ["subarray", "divisible"],
+    phrases: ["divisible by k", "modulo buckets", "prefix modulo"],
+    topicId: "prefix-suffix",
+    concepts: ["prefix-sum", "prefix-modulo"],
+    prerequisites: ["prefix-sum", "prefix-modulo"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Divisible-by-k subarray wording strongly suggests prefix modulo reasoning."
+  },
+  {
+    tokens: ["prefix"],
+    phrases: ["running sum"],
+    topicId: "prefix-suffix",
+    concepts: ["prefix-sum"],
+    prerequisites: ["prefix-sum"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Prefix wording maps directly to prefix-sum style reasoning."
+  },
+  {
+    tokens: ["suffix"],
+    phrases: ["product except self", "suffix products", "product of all other elements"],
+    topicId: "prefix-suffix",
+    concepts: ["prefix-suffix-product", "prefix-sum"],
+    prerequisites: ["prefix-sum"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Suffix wording often maps to prefix-suffix accumulation patterns."
+  },
+  {
+    tokens: ["rotated", "search"],
+    phrases: ["sorted array is rotated", "rotated at an unknown pivot", "o log n"],
+    topicId: "binary-search",
+    concepts: ["rotated-array-search", "binary-search-intro"],
+    prerequisites: ["binary-search-intro", "sorted-mid-check"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Rotated search wording strongly matches rotated-array binary search."
+  },
+  {
+    tokens: ["search", "insert"],
+    phrases: ["insert position"],
+    topicId: "binary-search",
+    concepts: ["search-insert-position", "binary-search-intro"],
+    prerequisites: ["binary-search-intro", "sorted-mid-check"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Search insert wording directly matches binary-search insertion boundaries."
+  },
+  {
+    tokens: ["search"],
+    phrases: ["sorted array", "o(log n)", "binary search"],
+    topicId: "binary-search",
+    concepts: ["binary-search-intro", "sorted-mid-check"],
+    prerequisites: ["binary-search-intro", "sorted-mid-check"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Search wording often maps to binary search when given as a LeetCode target slug."
+  },
+  {
+    tokens: ["search", "sorted", "array"],
+    phrases: ["o(log n)", "binary search", "middle element"],
+    topicId: "binary-search",
+    concepts: ["binary-search-intro", "sorted-mid-check"],
+    prerequisites: ["binary-search-intro", "sorted-mid-check"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Searching a sorted array strongly suggests binary-search midpoint checks."
+  },
+  {
+    tokens: ["search", "nearly", "sorted", "array"],
+    phrases: ["nearly sorted", "almost sorted"],
+    topicId: "binary-search",
+    concepts: ["binary-search-intro", "sorted-mid-check"],
+    prerequisites: ["binary-search-intro", "sorted-mid-check"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Nearly-sorted array search still centers on binary-search style midpoint reasoning."
+  },
+  {
+    tokens: ["capacity"],
+    phrases: ["within d days", "minimum capacity"],
+    topicId: "binary-search",
+    concepts: ["answer-binary-search", "capacity-search"],
+    prerequisites: ["answer-binary-search", "capacity-search"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Capacity wording often signals answer-space binary search."
+  },
+  {
+    tokens: ["minimum", "days"],
+    phrases: ["feasible", "can make", "bouquets"],
+    topicId: "binary-search",
+    concepts: ["answer-binary-search"],
+    prerequisites: ["answer-binary-search"],
+    difficulty: "Medium",
+    confidence: "Low",
+    reason: "Minimum-days style slugs often use answer-space search, but this is heuristic."
+  },
+  {
+    tokens: ["palindrome"],
+    phrases: ["ignore non-alphanumeric"],
+    topicId: "two-pointers",
+    concepts: ["two-pointers"],
+    prerequisites: ["two-pointers"],
+    difficulty: "Easy",
+    confidence: "Medium",
+    reason: "Palindrome wording often maps to two-pointer scanning."
+  },
+  {
+    tokens: ["sorted", "array"],
+    phrases: ["two sum", "pair sum", "left pointer", "right pointer"],
+    topicId: "two-pointers",
+    concepts: ["two-pointers"],
+    prerequisites: ["two-pointers"],
+    difficulty: "Easy",
+    confidence: "Low",
+    reason: "Sorted-array wording sometimes maps to two-pointer scanning."
+  }
+];
+
+function normalizeInferenceText(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9\s-]/g, " ");
+}
+
+function inferTargetFromInput(inputUrl: string, problemStatement?: string): HeuristicTarget | null {
+  const slug = parseLeetCodeSlug(inputUrl);
+  if (!slug) return null;
+
+  const slugTokens = slug.split("-").filter(Boolean);
+  const statementText = normalizeInferenceText(problemStatement ?? "");
+  const titleText = normalizeInferenceText(titleFromSlug(slug));
+  const fullText = `${titleText} ${statementText}`.trim();
+  const matchedRules = heuristicRules
+    .map((rule) => {
+      const slugTokenHits = rule.tokens.filter((token) => slugTokens.includes(token)).length;
+      const textTokenHits = rule.tokens.filter((token) => fullText.includes(token)).length;
+      const phraseHits = (rule.phrases ?? []).filter((phrase) => fullText.includes(phrase)).length;
+      const totalRequired = rule.tokens.length;
+      const hasStrongSignal = slugTokenHits === totalRequired || textTokenHits === totalRequired || phraseHits > 0;
+      if (!hasStrongSignal) {
+        return null;
+      }
+      const confidenceRank = { High: 3, Medium: 2, Low: 1 } as const;
+      const binarySearchBonus = rule.topicId === "binary-search" && fullText.includes("search") ? 40 : 0;
+      const logarithmicBonus = rule.topicId === "binary-search" && (fullText.includes("o(log n)") || fullText.includes("o log n")) ? 80 : 0;
+      const productExceptSelfBonus =
+        rule.concepts.includes("prefix-suffix-product") &&
+        (fullText.includes("product except self")
+          || fullText.includes("product of all other elements")
+          || fullText.includes("suffix products"))
+          ? 90
+          : 0;
+      const genericSortedArrayPenalty =
+        rule.topicId === "two-pointers" &&
+        rule.concepts.length === 1 &&
+        rule.concepts[0] === "two-pointers" &&
+        rule.tokens.join(",") === "sorted,array" &&
+        !fullText.includes("two sum") &&
+        !fullText.includes("pair sum") &&
+        !fullText.includes("left pointer") &&
+        !fullText.includes("right pointer")
+          ? 120
+          : 0;
+      const score =
+        (confidenceRank[rule.confidence ?? "Low"] ?? 1) * 100
+        + slugTokenHits * 25
+        + textTokenHits * 10
+        + phraseHits * 35
+        + (problemStatement ? 15 : 0)
+        + binarySearchBonus
+        + logarithmicBonus
+        + productExceptSelfBonus
+        - genericSortedArrayPenalty;
+      return { rule, score, slugTokenHits, phraseHits };
+    })
+    .filter((item): item is { rule: typeof heuristicRules[number]; score: number; slugTokenHits: number; phraseHits: number } => Boolean(item));
+  if (!matchedRules.length) {
+    return null;
+  }
+
+  const ranked = [...matchedRules]
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      if (right.phraseHits !== left.phraseHits) return right.phraseHits - left.phraseHits;
+      if (right.slugTokenHits !== left.slugTokenHits) return right.slugTokenHits - left.slugTokenHits;
+      return left.rule.topicId.localeCompare(right.rule.topicId);
+    });
+  const best = ranked[0]?.rule;
+
+  if (!best) {
+    return null;
+  }
+
+  const alternateHypotheses = ranked
+    .filter(({ rule }) => rule.topicId !== best.topicId || rule.concepts.join(",") !== best.concepts.join(","))
+    .filter(({ rule }, index, items) =>
+      items.findIndex((candidate) => (
+        candidate.rule.topicId === rule.topicId &&
+        candidate.rule.concepts.join(",") === rule.concepts.join(",")
+      )) === index
+    )
+    .slice(0, 3)
+    .map(({ rule }) => ({
+      topicId: rule.topicId,
+      conceptIds: rule.concepts,
+      confidence: rule.confidence ?? "Low",
+      reason: rule.reason
+    }));
+
+  if (best.topicId === "binary-search" && fullText.includes("search")) {
+    pushAlternateHypothesis(alternateHypotheses, {
+      topicId: "two-pointers",
+      conceptIds: ["two-pointers"],
+      confidence: "Low",
+      reason: "If midpoint structure is weak, this target can still look like a directional scan problem."
+    });
+  }
+
+  if (best.topicId === "two-pointers" && fullText.includes("sorted")) {
+    pushAlternateHypothesis(alternateHypotheses, {
+      topicId: "binary-search",
+      conceptIds: ["binary-search-intro", "sorted-mid-check"],
+      confidence: "Low",
+      reason: "Sorted-array targets can also be mistaken for binary-search style midpoint reasoning."
+    });
+  }
+
+  return {
+    title: titleFromSlug(slug),
+    topicId: best.topicId,
+    conceptIds: best.concepts,
+    prerequisiteConceptIds: best.prerequisites ?? best.concepts,
+    difficulty: best.difficulty ?? "Medium",
+    confidence: best.confidence ?? "Low",
+    reasons: [
+      best.reason,
+      problemStatement
+        ? "This target is not cataloged yet, so roadmap generation is using slug-plus-statement concept inference."
+        : "This target is not cataloged yet, so roadmap generation is using slug-based concept inference."
+    ],
+    alternateHypotheses
+  };
 }
 
 function averageConceptScore(conceptIds: string[], skillProfile: SkillProfile): number {
@@ -55,6 +444,70 @@ function internalPriority(problem: Problem): number {
   }
 }
 
+function learningRolePriority(problem: Problem): number {
+  switch (problem.learningRole) {
+    case "introduce":
+      return 0;
+    case "reinforce":
+      return 1;
+    case "mastery":
+      return 2;
+    default:
+      return 3;
+  }
+}
+
+function conceptDepth(conceptId: string, memo = new Map<string, number>()): number {
+  if (memo.has(conceptId)) {
+    return memo.get(conceptId) ?? 0;
+  }
+  const concept = getConceptById(conceptId);
+  const depth = Math.max(
+    0,
+    ...(concept?.dependsOn ?? []).map((dependencyId) => conceptDepth(dependencyId, memo) + 1)
+  );
+  memo.set(conceptId, depth);
+  return depth;
+}
+
+function topicConceptMap(topicId: string): Map<string, Concept> {
+  return new Map(getTopicConcepts(topicId).map((concept) => [concept.id, concept]));
+}
+
+function buildConceptGraph(topicId: string): Map<string, Concept> {
+  return topicConceptMap(topicId);
+}
+
+function expandMissingConceptChain(topicId: string, conceptIds: string[], skillProfile: SkillProfile): string[] {
+  const conceptMap = buildConceptGraph(topicId);
+  const discovered = new Set<string>();
+  const visit = (conceptId: string) => {
+    if (discovered.has(conceptId)) return;
+    discovered.add(conceptId);
+    const concept = conceptMap.get(conceptId);
+    for (const dependencyId of concept?.dependsOn ?? []) {
+      if ((skillProfile.conceptScores[dependencyId] ?? 0) < 80) {
+        visit(dependencyId);
+      }
+    }
+  };
+
+  conceptIds.forEach(visit);
+
+  return Array.from(discovered).sort((left, right) => {
+    const depthDelta = conceptDepth(left) - conceptDepth(right);
+    if (depthDelta !== 0) return depthDelta;
+    const leftScore = skillProfile.conceptScores[left] ?? 0;
+    const rightScore = skillProfile.conceptScores[right] ?? 0;
+    if (leftScore !== rightScore) return leftScore - rightScore;
+    return left.localeCompare(right);
+  });
+}
+
+function conceptChainSet(topicId: string, conceptIds: string[], skillProfile: SkillProfile): Set<string> {
+  return new Set(expandMissingConceptChain(topicId, conceptIds, skillProfile));
+}
+
 export function findCatalogedTargetProblem(inputUrl: string): ExternalPracticeProblem | undefined {
   const normalized = normalizeExternalUrl(inputUrl);
   return getExternalPracticeCatalog().find((problem) => normalizeExternalUrl(problem.url) === normalized);
@@ -62,22 +515,68 @@ export function findCatalogedTargetProblem(inputUrl: string): ExternalPracticePr
 
 export function assessTargetProblemReadiness(
   inputUrl: string,
-  progress = getProgress(),
-  skillProfile = getSkillProfile()
+  problemStatementOrProgress?: string | ProgressState,
+  progressOrSkillProfile?: ProgressState | SkillProfile,
+  maybeSkillProfile?: SkillProfile
 ): TargetProblemAssessment {
+  const {
+    problemStatement,
+    progress,
+    skillProfile
+  } = normalizeAssessmentArgs(problemStatementOrProgress, progressOrSkillProfile, maybeSkillProfile);
   const normalizedUrl = normalizeExternalUrl(inputUrl);
   const matchedProblem = findCatalogedTargetProblem(inputUrl);
 
   if (!matchedProblem) {
+    const inferred = inferTargetFromInput(inputUrl, problemStatement);
+    if (inferred) {
+      const prerequisiteAverage = averageConceptScore(inferred.prerequisiteConceptIds, skillProfile);
+      const strengthConceptIds = inferred.prerequisiteConceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 80);
+      const missingConceptIds = inferred.prerequisiteConceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) < 75);
+      const difficultyTarget = inferred.difficulty === "Easy" ? 72 : inferred.difficulty === "Medium" ? 82 : 90;
+      const difficultyFit = clamp(100 - Math.max(0, difficultyTarget - prerequisiteAverage));
+      const readinessScore = clamp(prerequisiteAverage * 0.75 + difficultyFit * 0.25);
+
+      let verdict: TargetProblemAssessment["verdict"] = "not-ready";
+      if (readinessScore >= 80 && missingConceptIds.length === 0) {
+        verdict = "ready";
+      } else if (readinessScore >= 60) {
+        verdict = "close";
+      }
+
+      return {
+        inputUrl,
+        normalizedUrl,
+        inferredTitle: inferred.title,
+        inferredTopicId: inferred.topicId,
+        inferredConceptIds: inferred.conceptIds,
+        usedProblemStatement: Boolean(problemStatement?.trim()),
+        alternateHypotheses: inferred.alternateHypotheses,
+        readinessScore,
+        verdict,
+        readyNow: verdict === "ready",
+        confidence: inferred.confidence,
+        reasons: [
+          ...inferred.reasons,
+          `Average inferred prerequisite readiness is ${Math.round(prerequisiteAverage)}%.`
+        ],
+        strengthConceptIds,
+        missingConceptIds
+      };
+    }
     return {
       inputUrl,
       normalizedUrl,
       readinessScore: 0,
       verdict: "unsupported",
       readyNow: false,
+      usedProblemStatement: Boolean(problemStatement?.trim()),
+      confidence: "Low",
       reasons: ["This URL is not in the current external problem catalog yet."],
       strengthConceptIds: [],
-      missingConceptIds: []
+      missingConceptIds: [],
+      inferredConceptIds: [],
+      alternateHypotheses: []
     };
   }
 
@@ -113,116 +612,305 @@ export function assessTargetProblemReadiness(
     inputUrl,
     normalizedUrl,
     matchedProblem,
+    inferredConceptIds: matchedProblem.conceptIds,
+    usedProblemStatement: Boolean(problemStatement?.trim()),
+    alternateHypotheses: [],
     readinessScore,
     verdict,
     readyNow: verdict === "ready",
+    confidence: "High",
     reasons,
     strengthConceptIds,
     missingConceptIds
   };
 }
 
-function chooseInternalProblemsForConcepts(
-  conceptIds: string[],
+function selectInternalProblemForConcept(
+  topicId: string,
+  conceptId: string,
   progress: ProgressState,
-  activeTopics: TopicMeta[]
-): Problem[] {
-  const allProblems = activeTopics.flatMap((topic) => getTopicProblems(topic.id));
-  const chosen: Problem[] = [];
-  const seen = new Set<string>();
+  excludedProblemIds: Set<string>,
+  alreadyChosenIds: Set<string>
+): Problem | undefined {
+  const concept = getConceptById(conceptId);
+  const preferredIds = concept?.practiceProblems ?? [];
+  const candidates = getTopicProblems(topicId)
+    .filter((problem) =>
+      !excludedProblemIds.has(problem.id)
+      && !alreadyChosenIds.has(problem.id)
+      && !solved(progress, problem.id)
+      && problem.expectedConcepts.includes(conceptId)
+    );
 
-  for (const conceptId of conceptIds) {
-    const matches = allProblems
-      .filter((problem) => !seen.has(problem.id) && !solved(progress, problem.id) && problem.expectedConcepts.includes(conceptId))
-      .sort((left, right) => {
-        const difficultyDelta = internalPriority(left) - internalPriority(right);
-        if (difficultyDelta !== 0) return difficultyDelta;
-        return left.id.localeCompare(right.id);
-      });
+  const byPracticeList = preferredIds
+    .map((problemId) => candidates.find((problem) => problem.id === problemId))
+    .filter((problem): problem is Problem => Boolean(problem));
 
-    for (const match of matches.slice(0, 2)) {
-      chosen.push(match);
-      seen.add(match.id);
-    }
-  }
+  const ranked = [...new Set([...byPracticeList, ...candidates])]
+    .sort((left, right) => {
+      const leftPrimary = left.expectedConcepts[0] === conceptId ? 0 : 1;
+      const rightPrimary = right.expectedConcepts[0] === conceptId ? 0 : 1;
+      if (leftPrimary !== rightPrimary) return leftPrimary - rightPrimary;
 
-  return chosen;
+      const leftPracticeIndex = preferredIds.indexOf(left.id);
+      const rightPracticeIndex = preferredIds.indexOf(right.id);
+      if (leftPracticeIndex !== rightPracticeIndex) {
+        if (leftPracticeIndex === -1) return 1;
+        if (rightPracticeIndex === -1) return -1;
+        return leftPracticeIndex - rightPracticeIndex;
+      }
+
+      const leftPrereq = left.prerequisiteConcepts.includes(conceptId) ? 1 : 0;
+      const rightPrereq = right.prerequisiteConcepts.includes(conceptId) ? 1 : 0;
+      if (leftPrereq !== rightPrereq) return leftPrereq - rightPrereq;
+
+      const roleDelta = learningRolePriority(left) - learningRolePriority(right);
+      if (roleDelta !== 0) return roleDelta;
+
+      const difficultyDelta = internalPriority(left) - internalPriority(right);
+      if (difficultyDelta !== 0) return difficultyDelta;
+
+      return left.id.localeCompare(right.id);
+    });
+
+  return ranked[0];
 }
 
-function chooseInternalCheckpoint(
-  target: ExternalPracticeProblem,
+function selectCheckpointProblem(
+  topicId: string,
+  conceptId: string,
   progress: ProgressState,
-  activeTopics: TopicMeta[],
-  usedProblemIds: Set<string>
+  excludedProblemIds: Set<string>,
+  alreadyChosenIds: Set<string>
 ): Problem | undefined {
-  return activeTopics
-    .flatMap((topic) => getTopicProblems(topic.id))
-    .filter((problem) => !usedProblemIds.has(problem.id) && !solved(progress, problem.id))
+  const concept = getConceptById(conceptId);
+  const preferredIds = concept?.practiceProblems ?? [];
+
+  return preferredIds
+    .map((problemId) => getProblemById(problemId))
+    .filter((problem): problem is Problem => Boolean(problem))
+    .filter((problem) =>
+      !excludedProblemIds.has(problem.id)
+      && !alreadyChosenIds.has(problem.id)
+      && !solved(progress, problem.id)
+      && problem.expectedConcepts.includes(conceptId)
+    )
     .sort((left, right) => {
-      const leftOverlap = left.expectedConcepts.filter((conceptId) => target.conceptIds.includes(conceptId)).length;
-      const rightOverlap = right.expectedConcepts.filter((conceptId) => target.conceptIds.includes(conceptId)).length;
-      if (rightOverlap !== leftOverlap) return rightOverlap - leftOverlap;
+      const roleDelta = learningRolePriority(left) - learningRolePriority(right);
+      if (roleDelta !== 0) return roleDelta;
       const difficultyDelta = internalPriority(left) - internalPriority(right);
       if (difficultyDelta !== 0) return difficultyDelta;
       return left.id.localeCompare(right.id);
     })[0];
 }
 
-function chooseExternalTransfer(target: ExternalPracticeProblem): ExternalPracticeProblem | undefined {
-  return getExternalPracticeCatalog().find(
-    (problem) =>
-      problem.id !== target.id &&
-      problem.topicId === target.topicId &&
-      problem.conceptIds.some((conceptId) => target.conceptIds.includes(conceptId))
+function buildInternalConceptSteps(
+  target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds">,
+  assessment: TargetProblemAssessment,
+  progress: ProgressState,
+  skillProfile: SkillProfile
+): { problems: Problem[]; notes: string[]; conceptPlan: string[] } {
+  const excludedProblemIds = new Set<string>(target.mappedFromProblemIds);
+  const orderedConcepts = expandMissingConceptChain(target.topicId, assessment.missingConceptIds, skillProfile);
+  const chosen: Problem[] = [];
+  const chosenIds = new Set<string>();
+  const coveredConceptIds = new Set<string>();
+  const notes: string[] = [];
+  const conceptPlan: string[] = [];
+
+  for (const conceptId of orderedConcepts) {
+    if (coveredConceptIds.has(conceptId)) {
+      continue;
+    }
+    conceptPlan.push(conceptId);
+    const problem = selectInternalProblemForConcept(target.topicId, conceptId, progress, excludedProblemIds, chosenIds);
+    if (problem) {
+      chosen.push(problem);
+      chosenIds.add(problem.id);
+      problem.expectedConcepts.forEach((coveredConceptId) => coveredConceptIds.add(coveredConceptId));
+      continue;
+    }
+
+    const concept = getConceptById(conceptId);
+    if (concept?.practiceProblems?.length) {
+      notes.push(`No separate unsolved internal bridge is available for ${concept.name}, so the roadmap will rely on its dependencies and then the target retry.`);
+    }
+  }
+
+  return { problems: chosen, notes, conceptPlan };
+}
+
+function chooseMappedInternalBridge(
+  target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds" | "conceptIds" | "title">,
+  assessment: TargetProblemAssessment,
+  progress: ProgressState
+): Problem | undefined {
+  const targetConcepts = new Set(target.conceptIds);
+  const missingConcepts = new Set(assessment.missingConceptIds);
+  const targetTitleKey = normalizeTitleKey(target.title);
+
+  return target.mappedFromProblemIds
+    .map((problemId) => getProblemById(problemId))
+    .filter((problem): problem is Problem => Boolean(problem))
+    .filter((problem) =>
+      !solved(progress, problem.id) &&
+      normalizeTopicKey(problem.topic) === normalizeTopicKey(target.topicId) &&
+      normalizeTitleKey(problem.title) !== targetTitleKey
+    )
+    .sort((left, right) => {
+      const leftMissingOverlap = left.expectedConcepts.filter((conceptId) => missingConcepts.has(conceptId)).length;
+      const rightMissingOverlap = right.expectedConcepts.filter((conceptId) => missingConcepts.has(conceptId)).length;
+      if (leftMissingOverlap !== rightMissingOverlap) return rightMissingOverlap - leftMissingOverlap;
+
+      const leftTargetOverlap = left.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)).length;
+      const rightTargetOverlap = right.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)).length;
+      if (leftTargetOverlap !== rightTargetOverlap) return rightTargetOverlap - leftTargetOverlap;
+
+      const roleDelta = learningRolePriority(left) - learningRolePriority(right);
+      if (roleDelta !== 0) return roleDelta;
+
+      const difficultyDelta = internalPriority(left) - internalPriority(right);
+      if (difficultyDelta !== 0) return difficultyDelta;
+
+      return left.id.localeCompare(right.id);
+    })[0];
+}
+
+function chooseInternalCheckpoint(
+  target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds" | "conceptIds">,
+  progress: ProgressState,
+  usedProblemIds: Set<string>,
+  internalProblems: Problem[],
+  orderedConceptPlan: string[]
+): Problem | undefined {
+  const excludedProblemIds = new Set<string>([...usedProblemIds, ...target.mappedFromProblemIds]);
+  const targetConcepts = new Set(target.conceptIds);
+  const coveredTargetConcepts = new Set(
+    internalProblems.flatMap((problem) => problem.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)))
   );
+
+  for (const conceptId of [...orderedConceptPlan].reverse()) {
+    if (coveredTargetConcepts.has(conceptId)) {
+      continue;
+    }
+    const checkpoint = selectCheckpointProblem(target.topicId, conceptId, progress, excludedProblemIds, usedProblemIds);
+    if (checkpoint) {
+      return checkpoint;
+    }
+  }
+
+  return undefined;
+}
+
+function chooseExternalTransfer(
+  target: Pick<ExternalPracticeProblem, "id" | "topicId" | "conceptIds">,
+  assessment: TargetProblemAssessment,
+  internalProblems: Problem[],
+  skillProfile: SkillProfile
+): ExternalPracticeProblem | undefined {
+  const targetConcepts = new Set(target.conceptIds);
+  const missingConcepts = new Set(assessment.missingConceptIds);
+  const foundationConcepts = conceptChainSet(target.topicId, assessment.missingConceptIds, skillProfile);
+  const internalProblemIds = new Set(internalProblems.map((problem) => problem.id));
+
+  return getExternalPracticeCatalog()
+    .filter((problem) => problem.id !== target.id && problem.topicId === target.topicId)
+    .map((problem) => {
+      const targetOverlap = problem.conceptIds.filter((conceptId) => targetConcepts.has(conceptId)).length;
+      const missingOverlap = problem.conceptIds.filter((conceptId) => missingConcepts.has(conceptId)).length;
+      const recommendedBridge = problem.recommendedAfterProblemIds.filter((problemId) => internalProblemIds.has(problemId)).length;
+      const mappedBridge = problem.mappedFromProblemIds.filter((problemId) => internalProblemIds.has(problemId)).length;
+      const prerequisiteCoverage = problem.prerequisiteConceptIds.every(
+        (conceptId) => targetConcepts.has(conceptId) || foundationConcepts.has(conceptId)
+      );
+      const score = missingOverlap * 3 + targetOverlap * 2 + recommendedBridge * 4 + mappedBridge * 4;
+      return { problem, targetOverlap, missingOverlap, prerequisiteCoverage, score, recommendedBridge, mappedBridge };
+    })
+    .filter((item) => item.prerequisiteCoverage && item.score >= 5)
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      if (right.missingOverlap !== left.missingOverlap) return right.missingOverlap - left.missingOverlap;
+      if (right.targetOverlap !== left.targetOverlap) return right.targetOverlap - left.targetOverlap;
+      if (left.problem.difficulty !== right.problem.difficulty) {
+        return (left.problem.difficulty === "Easy" ? 0 : left.problem.difficulty === "Medium" ? 1 : 2)
+          - (right.problem.difficulty === "Easy" ? 0 : right.problem.difficulty === "Medium" ? 1 : 2);
+      }
+      return right.problem.sourceQualityWeight - left.problem.sourceQualityWeight;
+    })[0]?.problem;
 }
 
 export function createTargetProblemRoadmap(
   inputUrl: string,
-  progress = getProgress(),
-  skillProfile = getSkillProfile()
+  problemStatementOrProgress?: string | ProgressState,
+  progressOrSkillProfile?: ProgressState | SkillProfile,
+  maybeSkillProfile?: SkillProfile
 ): TargetProblemRoadmapPlan {
-  const assessment = assessTargetProblemReadiness(inputUrl, progress, skillProfile);
-  if (!assessment.matchedProblem) {
+  const {
+    problemStatement,
+    progress,
+    skillProfile
+  } = normalizeAssessmentArgs(problemStatementOrProgress, progressOrSkillProfile, maybeSkillProfile);
+  const assessment = assessTargetProblemReadiness(inputUrl, problemStatement, progress, skillProfile);
+  const heuristicTarget = !assessment.matchedProblem && assessment.inferredTopicId
+    ? {
+        id: `heuristic-${parseLeetCodeSlug(inputUrl) ?? "target"}`,
+        topicId: assessment.inferredTopicId,
+        conceptIds: assessment.missingConceptIds.length ? assessment.missingConceptIds : assessment.strengthConceptIds,
+        mappedFromProblemIds: []
+      }
+    : null;
+
+  if (!assessment.matchedProblem && !heuristicTarget) {
     return { assessment, steps: [] };
   }
 
-  const target = assessment.matchedProblem;
-  const activeTopics = getTopicMetas().filter((topic) => topic.status === "active");
-  const internalProblems = chooseInternalProblemsForConcepts(assessment.missingConceptIds, progress, activeTopics);
+  const target = assessment.matchedProblem ?? heuristicTarget;
+  if (!target) {
+    return { assessment, steps: [] };
+  }
+  const internalPlan = buildInternalConceptSteps(target, assessment, progress, skillProfile);
+  const mappedBridge = assessment.matchedProblem
+    ? chooseMappedInternalBridge(assessment.matchedProblem, assessment, progress)
+    : undefined;
+  const internalProblems = mappedBridge
+    ? [mappedBridge, ...internalPlan.problems.filter((problem) => problem.id !== mappedBridge.id)]
+    : internalPlan.problems;
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
-  const checkpoint = chooseInternalCheckpoint(target, progress, activeTopics, usedInternalIds);
-  const transfer = chooseExternalTransfer(target);
+  const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
+  const transfer = assessment.matchedProblem ? chooseExternalTransfer(target, assessment, internalProblems, skillProfile) : undefined;
 
-  const steps: TargetProblemRoadmapStep[] = internalProblems.map((problem) => ({
-    id: `internal-${problem.id}`,
-    type: "internal",
-    title: `${problem.id} · ${problem.title}`,
-    reason: `Build the missing concept(s): ${problem.expectedConcepts
-      .filter((conceptId) => assessment.missingConceptIds.includes(conceptId))
-      .map((conceptId) => getConceptById(conceptId)?.name ?? conceptId)
-      .join(", ") || "core prerequisite reinforcement"}.`,
-    conceptIds: problem.expectedConcepts,
-    internalProblemId: problem.id
-  }));
+  const steps: TargetProblemRoadmapStep[] = internalProblems.map((problem) => {
+    const addressedConcepts = problem.expectedConcepts
+      .filter((conceptId) => assessment.missingConceptIds.includes(conceptId) || target.conceptIds.includes(conceptId))
+      .map((conceptId) => getConceptById(conceptId)?.name ?? conceptId);
+
+    return {
+      id: `internal-${problem.id}`,
+      type: "internal",
+      title: `${problem.id} · ${problem.title}`,
+      reason: `Build the foundation for ${addressedConcepts.join(", ") || "the target pattern"} before retrying the target.`,
+      conceptIds: problem.expectedConcepts,
+      internalProblemId: problem.id
+    };
+  });
 
   if (checkpoint) {
     steps.push({
       id: `internal-${checkpoint.id}`,
       type: "internal",
       title: `${checkpoint.id} · ${checkpoint.title}`,
-      reason: "Checkpoint your readiness on an internal problem that overlaps strongly with the target pattern.",
+      reason: "Use one internal checkpoint that is close to the target pattern without being the same problem.",
       conceptIds: checkpoint.expectedConcepts,
       internalProblemId: checkpoint.id
     });
   }
 
-  if (transfer && steps.length >= 2) {
+  if (transfer && steps.length >= 1) {
     steps.push({
       id: `external-${transfer.id}`,
       type: "external",
       title: transfer.title,
-      reason: "Use one external transfer problem before retrying the target.",
+      reason: "Try one closely related external transfer problem before the final target retry.",
       conceptIds: transfer.conceptIds,
       externalProblemId: transfer.id,
       url: transfer.url
@@ -232,14 +920,19 @@ export function createTargetProblemRoadmap(
   steps.push({
     id: `target-${target.id}`,
     type: "target",
-    title: target.title,
+    title: assessment.matchedProblem?.title ?? assessment.inferredTitle ?? titleFromSlug(parseLeetCodeSlug(inputUrl) ?? "Target Problem"),
     reason: assessment.readyNow
       ? "You already look ready. Retry the target now."
-      : "Retry the target after finishing the internal-first roadmap steps.",
+      : "Retry the target after finishing the dependency-aware roadmap steps.",
     conceptIds: target.conceptIds,
-    externalProblemId: target.id,
-    url: target.url
+    externalProblemId: assessment.matchedProblem?.id,
+    url: inputUrl
   });
 
-  return { assessment, steps };
+  return {
+    assessment,
+    strategy: "concept-practice-first",
+    notes: internalPlan.notes,
+    steps
+  };
 }
