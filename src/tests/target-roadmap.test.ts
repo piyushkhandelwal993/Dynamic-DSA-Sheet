@@ -107,6 +107,24 @@ test("cataloged roadmap prefers mapped internal bridge before generic concept fa
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
+test("cataloged roadmap can inject cross-topic bridge problems before topic practice", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/find-numbers-with-even-number-of-digits/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.deepEqual(internalIds.slice(0, 2), ["rec-010", "arr-013"]);
+  assert.equal(internalIds.includes("arr-001"), false);
+});
+
 test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {
   const progress = createInitialProgress();
   const skillProfile = createInitialSkillProfile();

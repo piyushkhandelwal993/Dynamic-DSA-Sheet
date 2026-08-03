@@ -721,6 +721,7 @@ export interface ExternalPracticeProblem {
   prerequisiteConceptIds: string[];
   mappedFromProblemIds: string[];
   recommendedAfterProblemIds: string[];
+  roadmapBridgeProblemIds?: string[];
   sourceQualityWeight: number;
 }
 

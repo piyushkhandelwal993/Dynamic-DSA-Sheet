@@ -1492,6 +1492,7 @@
     "prerequisiteConceptIds": ["array-traversal"],
     "mappedFromProblemIds": ["arr-013", "arr-017"],
     "recommendedAfterProblemIds": ["arr-013"],
+    "roadmapBridgeProblemIds": ["rec-010", "arr-013"],
     "sourceQualityWeight": 0.82
   },
   {

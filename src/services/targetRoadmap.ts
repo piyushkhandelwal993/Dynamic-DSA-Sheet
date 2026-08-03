@@ -776,6 +776,20 @@ function chooseMappedInternalBridge(
     })[0];
 }
 
+function chooseExplicitBridgeProblems(
+  problemIds: string[] | undefined,
+  progress: ProgressState
+): Problem[] {
+  if (!problemIds?.length) {
+    return [];
+  }
+
+  return problemIds
+    .map((problemId) => getProblemById(problemId))
+    .filter((problem): problem is Problem => Boolean(problem))
+    .filter((problem) => !solved(progress, problem.id));
+}
+
 function chooseInternalCheckpoint(
   target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds" | "conceptIds">,
   progress: ProgressState,
@@ -872,9 +886,22 @@ export function createTargetProblemRoadmap(
   const mappedBridge = assessment.matchedProblem
     ? chooseMappedInternalBridge(assessment.matchedProblem, assessment, progress)
     : undefined;
-  const internalProblems = mappedBridge
-    ? [mappedBridge, ...internalPlan.problems.filter((problem) => problem.id !== mappedBridge.id)]
-    : internalPlan.problems;
+  const explicitBridges = assessment.matchedProblem
+    ? chooseExplicitBridgeProblems(assessment.matchedProblem.roadmapBridgeProblemIds, progress)
+    : [];
+  const explicitBridgeIds = new Set(explicitBridges.map((problem) => problem.id));
+  const coveredConcepts = new Set(explicitBridges.flatMap((problem) => problem.expectedConcepts));
+  const remainingInternalPlan = internalPlan.problems.filter((problem) => {
+    if (explicitBridgeIds.has(problem.id)) {
+      return false;
+    }
+    const addressedTargetConcepts = problem.expectedConcepts.filter((conceptId) => target.conceptIds.includes(conceptId));
+    return addressedTargetConcepts.some((conceptId) => !coveredConcepts.has(conceptId));
+  });
+  const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
+    ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
+    : remainingInternalPlan;
+  const internalProblems = [...explicitBridges, ...baseInternalProblems];
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
   const transfer = assessment.matchedProblem ? chooseExternalTransfer(target, assessment, internalProblems, skillProfile) : undefined;
