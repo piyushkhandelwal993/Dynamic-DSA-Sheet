@@ -2967,7 +2967,7 @@ function renderExternalPracticeCard(item) {
   const badge = item.newlyUnlocked ? `<span class="pill green">New</span>` : "";
   return `
     <div class="profile-note external-practice-card">
-      <div class="profile-contribution-summary">
+      <div class="external-card-header">
         <strong>${escapeHtml(item.problem.title)}</strong>
         <div class="external-card-badges">
           ${badge}
@@ -3064,9 +3064,11 @@ function buildSubmissionExternalPracticeBlock(items) {
           .map(
             (item) => `
               <div class="profile-note">
-                <div class="profile-contribution-summary">
+                <div class="external-card-header">
                   <strong>${escapeHtml(item.problem.title)}</strong>
-                  <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+                  <div class="external-card-badges">
+                    <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+                  </div>
                 </div>
                 <p class="muted">${escapeHtml(item.problem.difficulty)} · ${escapeHtml(item.readinessReason)}</p>
                 <div class="profile-form-actions">

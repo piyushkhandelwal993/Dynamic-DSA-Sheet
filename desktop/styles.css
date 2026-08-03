@@ -2671,6 +2671,18 @@ textarea {
   gap: 10px;
 }
 
+.external-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+}
+
+.external-card-header strong {
+  flex: 1;
+  min-width: 0;
+}
+
 .external-card-badges {
   display: flex;
   flex-wrap: wrap;
@@ -2720,6 +2732,12 @@ textarea {
 .profile-contribution-summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.external-practice-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -4749,6 +4767,10 @@ li + li {
   }
 
   .profile-contribution-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .external-practice-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
