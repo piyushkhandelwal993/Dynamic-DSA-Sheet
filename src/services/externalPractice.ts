@@ -19,6 +19,11 @@ interface ExternalPracticeState {
 }
 
 const externalProblems = externalPracticeProblems as ExternalPracticeProblem[];
+const difficultyRank: Record<ExternalPracticeProblem["difficulty"], number> = {
+  Easy: 1,
+  Medium: 2,
+  Hard: 3
+};
 
 function getExternalPracticePath(): string {
   return path.join(getBaseDir(), "external-practice.json");
@@ -52,6 +57,99 @@ function isEligible(problem: ExternalPracticeProblem, progress: ProgressState, s
   return prerequisiteReady && mappedSolved;
 }
 
+function averageConceptScore(conceptIds: string[], skillProfile: SkillProfile): number {
+  if (conceptIds.length === 0) return 0;
+  const total = conceptIds.reduce((sum, conceptId) => sum + (skillProfile.conceptScores[conceptId] ?? 0), 0);
+  return total / conceptIds.length;
+}
+
+function countIntersect(left: string[], right: string[]): number {
+  const rightSet = new Set(right);
+  return left.filter((item) => rightSet.has(item)).length;
+}
+
+function preferredDifficulty(skillProfile: SkillProfile, conceptIds: string[]): ExternalPracticeProblem["difficulty"] {
+  const avg = averageConceptScore(conceptIds, skillProfile);
+  if (avg >= 88) return "Hard";
+  if (avg >= 78) return "Medium";
+  return "Easy";
+}
+
+function difficultyDistance(
+  actual: ExternalPracticeProblem["difficulty"],
+  preferred: ExternalPracticeProblem["difficulty"]
+): number {
+  return Math.abs(difficultyRank[actual] - difficultyRank[preferred]);
+}
+
+function buildReadinessReason(
+  problem: ExternalPracticeProblem,
+  matchedConceptIds: string[],
+  skillProfile: SkillProfile,
+  currentProblem?: Problem
+): string {
+  const avgPrereq = Math.round(averageConceptScore(problem.prerequisiteConceptIds, skillProfile));
+  if (currentProblem && matchedConceptIds.length > 0) {
+    return `Strong transfer from ${currentProblem.id}: overlap on ${matchedConceptIds.join(", ")} with prerequisite readiness around ${avgPrereq}%.`;
+  }
+  if (matchedConceptIds.length > 0) {
+    return `Ready now because you have already built ${matchedConceptIds.join(", ")} with roughly ${avgPrereq}% prerequisite readiness.`;
+  }
+  return `Ready now because the mapped sheet problems are solved and prerequisite readiness is about ${avgPrereq}%.`;
+}
+
+function scoreProblem(
+  problem: ExternalPracticeProblem,
+  progress: ProgressState,
+  skillProfile: SkillProfile,
+  state: ExternalPracticeState,
+  currentProblem?: Problem
+): { matchedConceptIds: string[]; score: number; readinessReason: string } {
+  const prerequisiteAverage = averageConceptScore(problem.prerequisiteConceptIds, skillProfile);
+  const matchedConceptIds = currentProblem
+    ? problem.conceptIds.filter((conceptId) => currentProblem.expectedConcepts.includes(conceptId))
+    : problem.conceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 80);
+  const overlapCount = currentProblem ? countIntersect(problem.conceptIds, currentProblem.expectedConcepts) : 0;
+  const mappedSolvedCount = problem.mappedFromProblemIds.filter((problemId) => isSolved(progress, problemId)).length;
+  const preferred = preferredDifficulty(skillProfile, problem.prerequisiteConceptIds);
+  const difficultyFit = 12 - difficultyDistance(problem.difficulty, preferred) * 6;
+  const strongConceptBonus = problem.conceptIds.reduce(
+    (sum, conceptId) => sum + (skillProfile.strongConcepts.includes(conceptId) ? 5 : 0),
+    0
+  );
+  const weakConceptPenalty = problem.conceptIds.reduce(
+    (sum, conceptId) => sum + (skillProfile.weakConcepts.includes(conceptId) ? 4 : 0),
+    0
+  );
+  const currentRecommendedBonus = currentProblem && problem.recommendedAfterProblemIds.includes(currentProblem.id) ? 30 : 0;
+  const currentMappedBonus = currentProblem && problem.mappedFromProblemIds.includes(currentProblem.id) ? 16 : 0;
+  const recentSubmissionBonus = currentProblem ? overlapCount * 14 : matchedConceptIds.length * 6;
+  const record = state.records[problem.id];
+  const dismissedPenalty = record?.status === "dismissed" ? 18 : 0;
+  const openedPenalty = record?.status === "opened" ? 4 : 0;
+  const suggestedPenalty = record?.status === "suggested" ? 2 : 0;
+
+  const score =
+    currentRecommendedBonus +
+    currentMappedBonus +
+    recentSubmissionBonus +
+    mappedSolvedCount * 7 +
+    prerequisiteAverage * 0.35 +
+    difficultyFit +
+    strongConceptBonus +
+    problem.sourceQualityWeight * 10 -
+    weakConceptPenalty -
+    dismissedPenalty -
+    openedPenalty -
+    suggestedPenalty;
+
+  return {
+    matchedConceptIds,
+    score,
+    readinessReason: buildReadinessReason(problem, matchedConceptIds, skillProfile, currentProblem)
+  };
+}
+
 function toEntry(
   problem: ExternalPracticeProblem,
   state: ExternalPracticeState,
@@ -70,15 +168,23 @@ function toEntry(
 
 function rankProblems(
   problems: ExternalPracticeProblem[],
+  progress: ProgressState,
+  skillProfile: SkillProfile,
+  state: ExternalPracticeState,
   currentProblem?: Problem
-): ExternalPracticeProblem[] {
-  return [...problems].sort((left, right) => {
-    const leftRecommended = currentProblem && left.recommendedAfterProblemIds.includes(currentProblem.id) ? 0 : 1;
-    const rightRecommended = currentProblem && right.recommendedAfterProblemIds.includes(currentProblem.id) ? 0 : 1;
-    if (leftRecommended !== rightRecommended) return leftRecommended - rightRecommended;
-    if (right.sourceQualityWeight !== left.sourceQualityWeight) return right.sourceQualityWeight - left.sourceQualityWeight;
-    return left.title.localeCompare(right.title);
-  });
+): Array<{ problem: ExternalPracticeProblem; matchedConceptIds: string[]; readinessReason: string; score: number }> {
+  return problems
+    .map((problem) => ({
+      problem,
+      ...scoreProblem(problem, progress, skillProfile, state, currentProblem)
+    }))
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      if (right.problem.sourceQualityWeight !== left.problem.sourceQualityWeight) {
+        return right.problem.sourceQualityWeight - left.problem.sourceQualityWeight;
+      }
+      return left.problem.title.localeCompare(right.problem.title);
+    });
 }
 
 export function getExternalPracticeCatalog(): ExternalPracticeProblem[] {
@@ -124,24 +230,27 @@ export function completeExternalPracticeProblem(problemId: string): ExternalPrac
 
 export function getExternalPracticeSnapshot(progress: ProgressState, skillProfile: SkillProfile): ExternalPracticeSnapshot {
   const state = readState();
-  const eligible = rankProblems(externalProblems.filter((problem) => isEligible(problem, progress, skillProfile)));
+  const eligible = rankProblems(
+    externalProblems.filter((problem) => isEligible(problem, progress, skillProfile)),
+    progress,
+    skillProfile,
+    state
+  );
   const recommendedNow = eligible
-    .filter((problem) => {
+    .filter(({ problem }) => {
       const status = state.records[problem.id]?.status ?? "unseen";
       return status === "unseen" || status === "suggested" || status === "opened";
     })
-    .map((problem) =>
-      toEntry(problem, state, "You have solved the mapped sheet problem and cleared the core prerequisite concepts.", problem.conceptIds, false)
-    );
+    .map(({ problem, matchedConceptIds, readinessReason }) => toEntry(problem, state, readinessReason, matchedConceptIds, false));
   const saved = eligible
-    .filter((problem) => (state.records[problem.id]?.status ?? "unseen") === "saved")
-    .map((problem) => toEntry(problem, state, "Saved to revisit later.", problem.conceptIds, false));
+    .filter(({ problem }) => (state.records[problem.id]?.status ?? "unseen") === "saved")
+    .map(({ problem, matchedConceptIds }) => toEntry(problem, state, "Saved to revisit later.", matchedConceptIds, false));
   const opened = eligible
-    .filter((problem) => (state.records[problem.id]?.status ?? "unseen") === "opened")
-    .map((problem) => toEntry(problem, state, "Already opened from the app.", problem.conceptIds, false));
+    .filter(({ problem }) => (state.records[problem.id]?.status ?? "unseen") === "opened")
+    .map(({ problem, matchedConceptIds }) => toEntry(problem, state, "Already opened from the app.", matchedConceptIds, false));
   const completed = eligible
-    .filter((problem) => (state.records[problem.id]?.status ?? "unseen") === "completed")
-    .map((problem) => toEntry(problem, state, "Marked as completed outside the app.", problem.conceptIds, false));
+    .filter(({ problem }) => (state.records[problem.id]?.status ?? "unseen") === "completed")
+    .map(({ problem, matchedConceptIds }) => toEntry(problem, state, "Marked as completed outside the app.", matchedConceptIds, false));
 
   return {
     recommendedNow: recommendedNow.slice(0, 12),
@@ -169,10 +278,13 @@ export function getExternalPracticeUnlocksForSubmission(
         isEligible(problem, progress, skillProfile) &&
         (problem.recommendedAfterProblemIds.includes(currentProblem.id) || problem.mappedFromProblemIds.includes(currentProblem.id))
     ),
+    progress,
+    skillProfile,
+    state,
     currentProblem
   );
 
-  const unlocked = eligible.slice(0, 3).map((problem) => {
+  const unlocked = eligible.slice(0, 3).map(({ problem, matchedConceptIds, readinessReason }) => {
     const existing = state.records[problem.id];
     const timestamp = nowIso();
     state.records[problem.id] = {
@@ -190,8 +302,8 @@ export function getExternalPracticeUnlocksForSubmission(
     return toEntry(
       problem,
       state,
-      `You showed strong readiness on ${currentProblem.id}, so this is a good transfer problem to try next.`,
-      problem.conceptIds.filter((conceptId) => currentProblem.expectedConcepts.includes(conceptId)),
+      readinessReason,
+      matchedConceptIds,
       !existing
     );
   });
@@ -199,3 +311,9 @@ export function getExternalPracticeUnlocksForSubmission(
   saveState(state);
   return unlocked;
 }
+
+export const __testables = {
+  rankProblems,
+  scoreProblem,
+  preferredDifficulty
+};

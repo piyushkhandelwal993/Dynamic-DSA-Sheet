@@ -168,6 +168,7 @@ const profileOpenContributionOutboxButtonEl = document.getElementById("profile-o
 const profileSyncContributionStatusesButtonEl = document.getElementById("profile-sync-contribution-statuses-button");
 const externalPracticeSummaryEl = document.getElementById("external-practice-summary");
 const externalPracticeReadyListEl = document.getElementById("external-practice-ready-list");
+const externalPracticeUnlockedListEl = document.getElementById("external-practice-unlocked-list");
 const externalPracticeSavedListEl = document.getElementById("external-practice-saved-list");
 const externalPracticeOpenedListEl = document.getElementById("external-practice-opened-list");
 const externalPracticeCompletedListEl = document.getElementById("external-practice-completed-list");
@@ -2947,13 +2948,31 @@ function renderWorldZones() {
 }
 
 function renderExternalPracticeCard(item) {
-  const matched = item.matchedConceptIds?.length ? `<div class="muted">Concepts: ${escapeHtml(item.matchedConceptIds.join(", "))}</div>` : "";
-  const reason = item.readinessReason ? `<p class="muted">${escapeHtml(item.readinessReason)}</p>` : "";
+  const matched = item.matchedConceptIds?.length
+    ? `
+      <div class="external-card-meta">
+        <span class="pill blue">Matched Concepts</span>
+        <span>${escapeHtml(item.matchedConceptIds.join(", "))}</span>
+      </div>
+    `
+    : "";
+  const reason = item.readinessReason
+    ? `
+      <div class="external-reason-block">
+        <span class="external-reason-label">Why now</span>
+        <p>${escapeHtml(item.readinessReason)}</p>
+      </div>
+    `
+    : "";
+  const badge = item.newlyUnlocked ? `<span class="pill green">New</span>` : "";
   return `
-    <div class="profile-note">
+    <div class="profile-note external-practice-card">
       <div class="profile-contribution-summary">
         <strong>${escapeHtml(item.problem.title)}</strong>
-        <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+        <div class="external-card-badges">
+          ${badge}
+          <span class="pill blue">${escapeHtml(item.problem.platform)}</span>
+        </div>
       </div>
       <p class="muted">${escapeHtml(item.problem.difficulty)} · ${escapeHtml(item.problem.topicId)}</p>
       ${matched}
@@ -2982,11 +3001,18 @@ function renderExternalPractice() {
     return;
   }
 
+  const shortlist = snapshot.recommendedNow.slice(0, 3);
+  const unlockedPool = snapshot.recommendedNow.slice(3);
+
   if (externalPracticeSummaryEl) {
     externalPracticeSummaryEl.innerHTML = `
       <div class="profile-stat-card">
-        <span>Recommended Now</span>
-        <strong>${snapshot.recommendedNow.length}</strong>
+        <span>Best Next</span>
+        <strong>${shortlist.length}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Unlocked Pool</span>
+        <strong>${unlockedPool.length}</strong>
       </div>
       <div class="profile-stat-card">
         <span>Saved</span>
@@ -3003,7 +3029,16 @@ function renderExternalPractice() {
     `;
   }
 
-  renderExternalPracticeList(externalPracticeReadyListEl, snapshot.recommendedNow, "No external problems are unlocked yet. Strong solves will start filling this list.");
+  renderExternalPracticeList(
+    externalPracticeReadyListEl,
+    shortlist,
+    "No high-confidence next picks yet. Strong solves will start filling this shortlist."
+  );
+  renderExternalPracticeList(
+    externalPracticeUnlockedListEl,
+    unlockedPool,
+    "No extra unlocked problems beyond the shortlist yet."
+  );
   renderExternalPracticeList(externalPracticeSavedListEl, snapshot.saved, "Nothing saved yet.");
   renderExternalPracticeList(externalPracticeOpenedListEl, snapshot.opened, "You have not opened any external problems yet.");
   renderExternalPracticeList(externalPracticeCompletedListEl, snapshot.completed, "Nothing marked completed yet.");
