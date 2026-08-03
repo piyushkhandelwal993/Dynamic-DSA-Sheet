@@ -2499,5 +2499,537 @@
     ],
     "skipIfMastered": [],
     "learningRole": "reinforce"
+  },
+  {
+    "id": "arr-031",
+    "topic": "Arrays",
+    "subtopic": "Two pointers",
+    "title": "Container With Most Water",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "two-pointers",
+      "opposite-end-pointers"
+    ],
+    "prerequisiteConcepts": [
+      "two-pointers"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given non-negative heights, print the maximum water a container can store using two vertical lines.",
+    "constraints": [
+      "2 <= n <= 10^5",
+      "0 <= height[i] <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated heights"
+    ],
+    "outputFormat": [
+      "Print the maximum area"
+    ],
+    "edgeCases": [
+      "Tall bars near the middle",
+      "Many equal heights",
+      "Best answer uses wide but short lines"
+    ],
+    "intendedApproachSummary": "Use pointers at both ends, evaluate the current area, and move the side with the smaller height because it limits the container.",
+    "wrongApproachHints": [
+      "Trying every pair is too slow.",
+      "Moving the taller side cannot improve the limiting height for the current width."
+    ],
+    "hints": [
+      "Area depends on width times the smaller height.",
+      "Start with the widest container first."
+    ],
+    "examples": [
+      {
+        "input": "9\n1 8 6 2 5 4 8 3 7",
+        "output": "49",
+        "explanation": "Heights 8 and 7 with width 7 give area 49."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "9\n1 8 6 2 5 4 8 3 7",
+        "expectedOutput": "49",
+        "visibility": "sample"
+      },
+      {
+        "input": "2\n1 1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5\n4 3 2 1 4",
+        "expectedOutput": "16",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxContainerArea",
+      "javaSignature": "public int maxContainerArea(int[] heights)",
+      "cppSignature": "int maxContainerArea(vector<int>& heights)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "array-container-most-water"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "array-two-pointer-challenge",
+    "remedialProblems": [
+      "arr-015",
+      "arr-023"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "arr-032",
+    "topic": "Arrays",
+    "subtopic": "Two pointers",
+    "title": "Sort Colors",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "two-pointers",
+      "partition-two-pointers",
+      "in-place-array-update"
+    ],
+    "prerequisiteConcepts": [
+      "two-pointers",
+      "in-place-array-update"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given an array containing only 0, 1, and 2, sort it in place without using library sort.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "nums[i] is 0, 1, or 2"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the sorted array"
+    ],
+    "edgeCases": [
+      "All values the same",
+      "Already sorted input",
+      "Reverse-sorted colors"
+    ],
+    "intendedApproachSummary": "Use Dutch National Flag partitioning with low, mid, and high pointers to place 0s and 2s in one pass.",
+    "wrongApproachHints": [
+      "Counting sort works, but the intended one-pass pattern uses partition pointers.",
+      "Do not advance mid after swapping with the high side until the new value is processed."
+    ],
+    "hints": [
+      "Keep regions for 0s, 1s, and unknown values.",
+      "When nums[mid] is 2, swap with high and shrink high."
+    ],
+    "examples": [
+      {
+        "input": "6\n2 0 2 1 1 0",
+        "output": "0 0 1 1 2 2",
+        "explanation": "Partitioning in one pass produces the sorted order."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "6\n2 0 2 1 1 0",
+        "expectedOutput": "0 0 1 1 2 2",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n2 2 2",
+        "expectedOutput": "2 2 2",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5\n1 0 1 2 0",
+        "expectedOutput": "0 0 1 1 2",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sortColors",
+      "javaSignature": "public void sortColors(int[] nums)",
+      "cppSignature": "void sortColors(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "array-sort-colors"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1.1,
+    "variantGroup": "array-two-pointer-practice",
+    "remedialProblems": [
+      "arr-008",
+      "arr-009"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "arr-033",
+    "topic": "Arrays",
+    "subtopic": "Sliding window variants",
+    "title": "Longest Ones After Flipping At Most K Zeroes",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "sliding-window",
+      "variable-size-window"
+    ],
+    "prerequisiteConcepts": [
+      "sliding-window",
+      "two-pointers"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary array and an integer k, print the length of the longest contiguous subarray that can be made all 1s by flipping at most k zeroes.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "0 <= k <= n",
+      "nums[i] is 0 or 1"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the maximum valid window length"
+    ],
+    "edgeCases": [
+      "k = 0",
+      "All ones",
+      "All zeroes"
+    ],
+    "intendedApproachSummary": "Maintain a sliding window and count how many zeroes it contains. Shrink when the zero count exceeds k.",
+    "wrongApproachHints": [
+      "Do not restart the scan from each index.",
+      "Track zero count directly instead of flipping values."
+    ],
+    "hints": [
+      "Expand the window with right.",
+      "Shrink while zeroCount > k."
+    ],
+    "examples": [
+      {
+        "input": "7 2\n1 1 0 0 1 1 1",
+        "output": "7",
+        "explanation": "Flipping both zeroes makes the whole array valid."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "7 2\n1 1 0 0 1 1 1",
+        "expectedOutput": "7",
+        "visibility": "sample"
+      },
+      {
+        "input": "6 1\n1 0 1 0 1 0",
+        "expectedOutput": "3",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5 0\n1 1 0 1 1",
+        "expectedOutput": "2",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "longestOnesAfterFlip",
+      "javaSignature": "public int longestOnesAfterFlip(int[] nums, int k)",
+      "cppSignature": "int longestOnesAfterFlip(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array",
+        "flip budget"
+      ],
+      "driverStrategy": "array-longest-ones-k-flips"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "array-window-challenge",
+    "remedialProblems": [
+      "arr-010",
+      "arr-018"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "arr-034",
+    "topic": "Arrays",
+    "subtopic": "Sliding window variants",
+    "title": "First Negative Number in Every Window",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "sliding-window",
+      "fixed-size-window",
+      "window-auxiliary-structure"
+    ],
+    "prerequisiteConcepts": [
+      "sliding-window"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "Given an array and a window size k, print the first negative number in every contiguous window. Print 0 if a window has no negative number.",
+    "constraints": [
+      "1 <= k <= n <= 10^5",
+      "-10^9 <= arr[i] <= 10^9"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the answer array as space-separated integers"
+    ],
+    "edgeCases": [
+      "No negative numbers",
+      "Every element negative",
+      "Expired negative leaves the window"
+    ],
+    "intendedApproachSummary": "Track indices of negative values while sliding a fixed-size window, and discard any index that falls out of range.",
+    "wrongApproachHints": [
+      "Scanning each window again is too slow.",
+      "Store indices, not just values, so you can detect expiry."
+    ],
+    "hints": [
+      "Push the index when nums[right] is negative.",
+      "Before answering a window, evict indices less than left."
+    ],
+    "examples": [
+      {
+        "input": "8 3\n12 -1 -7 8 -15 30 16 28",
+        "output": "-1 -1 -7 -15 -15 0",
+        "explanation": "Each output is the first negative inside that window."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "8 3\n12 -1 -7 8 -15 30 16 28",
+        "expectedOutput": "-1 -1 -7 -15 -15 0",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 2\n1 2 3 4 5",
+        "expectedOutput": "0 0 0 0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4 2\n-5 -2 -3 -4",
+        "expectedOutput": "-5 -2 -3",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "firstNegativeInWindow",
+      "javaSignature": "public int[] firstNegativeInWindow(int[] nums, int k)",
+      "cppSignature": "vector<int> firstNegativeInWindow(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array",
+        "window size"
+      ],
+      "driverStrategy": "array-first-negative-window"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1.1,
+    "variantGroup": "array-window-practice",
+    "remedialProblems": [
+      "arr-024"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "arr-035",
+    "topic": "Arrays",
+    "subtopic": "Prefix sums",
+    "title": "Count Subarrays Divisible by K",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "prefix-sum",
+      "frequency-counting",
+      "prefix-modulo"
+    ],
+    "prerequisiteConcepts": [
+      "prefix-sum",
+      "frequency-counting"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 24,
+    "description": "Given an array and integer k, print how many contiguous subarrays have sum divisible by k.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "-10^9 <= arr[i] <= 10^9",
+      "1 <= k <= 10^5"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the count of subarrays"
+    ],
+    "edgeCases": [
+      "Negative values",
+      "Prefix itself divisible by k",
+      "Repeated normalized remainders"
+    ],
+    "intendedApproachSummary": "Two prefix sums with the same remainder modulo k differ by a multiple of k, so count remainder frequencies as you scan.",
+    "wrongApproachHints": [
+      "Checking every subarray is too slow.",
+      "Normalize negative remainders before using them as map keys."
+    ],
+    "hints": [
+      "Start with frequency of remainder 0 equal to 1.",
+      "If current remainder was seen before, each previous occurrence forms a valid subarray."
+    ],
+    "examples": [
+      {
+        "input": "6 5\n4 5 0 -2 -3 1",
+        "output": "7",
+        "explanation": "Seven subarrays have sums divisible by 5."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "6 5\n4 5 0 -2 -3 1",
+        "expectedOutput": "7",
+        "visibility": "sample"
+      },
+      {
+        "input": "3 3\n3 6 9",
+        "expectedOutput": "6",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4 4\n-1 2 9 -5",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countSubarraysDivisibleByK",
+      "javaSignature": "public long countSubarraysDivisibleByK(int[] nums, int k)",
+      "cppSignature": "long long countSubarraysDivisibleByK(vector<int>& nums, int k)",
+      "providedTypes": [
+        "integer array",
+        "divisor"
+      ],
+      "driverStrategy": "array-count-subarrays-divisible-k"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "array-prefix-challenge",
+    "remedialProblems": [
+      "arr-021",
+      "arr-027"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "arr-036",
+    "topic": "Arrays",
+    "subtopic": "Prefix sums",
+    "title": "Find Pivot Index",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "prefix-sum",
+      "prefix-balance"
+    ],
+    "prerequisiteConcepts": [
+      "prefix-sum"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given an array, print the first index where the sum on the left equals the sum on the right. Print -1 if none exists.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "-10^9 <= arr[i] <= 10^9"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers"
+    ],
+    "outputFormat": [
+      "Print the pivot index"
+    ],
+    "edgeCases": [
+      "Pivot at index 0",
+      "Pivot at the last index",
+      "No pivot exists"
+    ],
+    "intendedApproachSummary": "Track the total sum and a running left sum. The right sum at index i is total - leftSum - nums[i].",
+    "wrongApproachHints": [
+      "Do not recompute left and right sums for each index.",
+      "Check equality before adding nums[i] to the left side."
+    ],
+    "hints": [
+      "Compute total sum first.",
+      "At each index, compare leftSum with total - leftSum - nums[i]."
+    ],
+    "examples": [
+      {
+        "input": "6\n1 7 3 6 5 6",
+        "output": "3",
+        "explanation": "Left sum and right sum are both 11 at index 3."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "6\n1 7 3 6 5 6",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n2 1 -1",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "expectedOutput": "-1",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "pivotIndex",
+      "javaSignature": "public int pivotIndex(int[] nums)",
+      "cppSignature": "int pivotIndex(vector<int>& nums)",
+      "providedTypes": [
+        "integer array"
+      ],
+      "driverStrategy": "array-equilibrium-index"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "array-prefix-practice",
+    "remedialProblems": [
+      "arr-014",
+      "arr-020"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
   }
 ]

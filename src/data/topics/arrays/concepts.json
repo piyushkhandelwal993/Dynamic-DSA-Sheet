@@ -204,6 +204,154 @@
     ]
   },
   {
+    "id": "opposite-end-pointers",
+    "name": "Opposite-End Pointers",
+    "description": "Start one pointer at each end and decide which side to move based on the current constraint or score.",
+    "exampleJava": "while (left < right) { area = Math.max(area, Math.min(h[left], h[right]) * (right - left)); if (h[left] < h[right]) left++; else right--; }",
+    "commonMistakes": [
+      "Moving the taller side when the shorter side limits the answer",
+      "Forgetting to update the answer before moving a pointer"
+    ],
+    "practiceProblems": [
+      "arr-003",
+      "arr-023",
+      "arr-031"
+    ],
+    "progressionOrder": 13,
+    "dependsOn": [
+      "two-pointers"
+    ]
+  },
+  {
+    "id": "partition-two-pointers",
+    "name": "Partition Two Pointers",
+    "description": "Use read and write regions to compact, partition, or overwrite an array in place.",
+    "exampleJava": "for (int read = 0; read < nums.length; read++) if (nums[read] != 0) nums[write++] = nums[read];",
+    "commonMistakes": [
+      "Overwriting values before they are processed",
+      "Returning or printing the wrong effective prefix length"
+    ],
+    "practiceProblems": [
+      "arr-008",
+      "arr-009",
+      "arr-032"
+    ],
+    "progressionOrder": 14,
+    "dependsOn": [
+      "two-pointers",
+      "in-place-array-update"
+    ]
+  },
+  {
+    "id": "fixed-size-window",
+    "name": "Fixed-Size Window",
+    "description": "Keep exactly k elements in the window and update the answer as the window slides one step at a time.",
+    "exampleJava": "sum += nums[i]; if (i >= k) sum -= nums[i - k]; if (i >= k - 1) best = Math.max(best, sum);",
+    "commonMistakes": [
+      "Using the answer before the first full window forms",
+      "Removing the outgoing element too early or too late"
+    ],
+    "practiceProblems": [
+      "arr-024",
+      "arr-030",
+      "arr-034"
+    ],
+    "progressionOrder": 15,
+    "dependsOn": [
+      "sliding-window"
+    ]
+  },
+  {
+    "id": "variable-size-window",
+    "name": "Variable-Size Window",
+    "description": "Expand and shrink the window based on a condition instead of a fixed length.",
+    "exampleJava": "for (int right = 0; right < nums.length; right++) { sum += nums[right]; while (sum > target) sum -= nums[left++]; }",
+    "commonMistakes": [
+      "Shrinking only once when repeated shrinking is needed",
+      "Applying the positive-only trick to arrays with negatives"
+    ],
+    "practiceProblems": [
+      "arr-010",
+      "arr-018",
+      "arr-033"
+    ],
+    "progressionOrder": 16,
+    "dependsOn": [
+      "sliding-window",
+      "two-pointers"
+    ]
+  },
+  {
+    "id": "window-auxiliary-structure",
+    "name": "Window Auxiliary Structure",
+    "description": "Pair the sliding window with a queue, deque, or list of candidates when the raw window sum is not enough.",
+    "exampleJava": "while (!deque.isEmpty() && deque.peekFirst() <= i - k) deque.pollFirst();",
+    "commonMistakes": [
+      "Forgetting to evict expired indices",
+      "Storing values when indices are needed to detect expiry"
+    ],
+    "practiceProblems": [
+      "arr-034"
+    ],
+    "progressionOrder": 17,
+    "dependsOn": [
+      "fixed-size-window"
+    ]
+  },
+  {
+    "id": "prefix-suffix-product",
+    "name": "Prefix-Suffix Product",
+    "description": "Accumulate products from the left and right to answer each index without division.",
+    "exampleJava": "answer[i] = prefix[i] * suffix[i];",
+    "commonMistakes": [
+      "Using division despite zero handling issues",
+      "Misaligning prefix and suffix arrays by one index"
+    ],
+    "practiceProblems": [
+      "arr-012"
+    ],
+    "progressionOrder": 18,
+    "dependsOn": [
+      "prefix-sum"
+    ]
+  },
+  {
+    "id": "prefix-balance",
+    "name": "Prefix Balance",
+    "description": "Compare the accumulated contribution on the left and right side of each index to find pivots and equilibrium points.",
+    "exampleJava": "if (leftSum == totalSum - leftSum - nums[i]) return i;",
+    "commonMistakes": [
+      "Including the current element in both sides",
+      "Updating leftSum in the wrong order"
+    ],
+    "practiceProblems": [
+      "arr-020",
+      "arr-036"
+    ],
+    "progressionOrder": 19,
+    "dependsOn": [
+      "prefix-sum"
+    ]
+  },
+  {
+    "id": "prefix-modulo",
+    "name": "Prefix Modulo",
+    "description": "Track prefix sums modulo k so matching remainders reveal divisible subarrays.",
+    "exampleJava": "int mod = ((prefix % k) + k) % k; answer += freq.getOrDefault(mod, 0);",
+    "commonMistakes": [
+      "Forgetting to normalize negative remainders",
+      "Not seeding remainder 0 with frequency 1"
+    ],
+    "practiceProblems": [
+      "arr-035"
+    ],
+    "progressionOrder": 20,
+    "dependsOn": [
+      "prefix-sum",
+      "frequency-counting"
+    ]
+  },
+  {
     "id": "stock-profit",
     "name": "Stock Profit Scan",
     "description": "Track the minimum buy price so far and the best profit so far.",

@@ -137,11 +137,18 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       gateConcepts: ["sorted-check", "two-pointers"]
     },
     {
+      id: "greedy-shore",
+      name: "Greedy Shore",
+      description: "Learn when opposite-end pointer movement supports a greedy proof instead of a direct search target.",
+      subtopics: ["Two pointers"],
+      gateConcepts: ["two-pointers", "opposite-end-pointers"]
+    },
+    {
       id: "rotation-ridge",
       name: "Rotation Ridge",
       description: "Combine reversal and in-place movement to rotate arrays efficiently.",
       subtopics: ["Two pointers"],
-      gateConcepts: ["reverse-array", "in-place-array-update"]
+      gateConcepts: ["reverse-array", "in-place-array-update", "partition-two-pointers"]
     }
   ],
   "sliding-window": [
@@ -163,15 +170,22 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       id: "shrinking-span-cliff",
       name: "Shrinking Span Cliff",
       description: "Shrink windows precisely when a condition becomes satisfied or violated.",
-      subtopics: ["Sliding window basics"],
-      gateConcepts: ["sliding-window", "two-pointers"]
+      subtopics: ["Sliding window basics", "Sliding window variants"],
+      gateConcepts: ["sliding-window", "two-pointers", "variable-size-window"]
+    },
+    {
+      id: "aux-window-docks",
+      name: "Aux Window Docks",
+      description: "Bring in a helper structure when the window needs more than a running total.",
+      subtopics: ["Sliding window variants"],
+      gateConcepts: ["fixed-size-window", "window-auxiliary-structure"]
     },
     {
       id: "window-mastery-peak",
       name: "Window Mastery Peak",
       description: "Tackle longer variable-window reasoning without falling back to quadratic scans.",
-      subtopics: ["Sliding window basics"],
-      gateConcepts: ["sliding-window", "prefix-sum"]
+      subtopics: ["Sliding window basics", "Sliding window variants"],
+      gateConcepts: ["sliding-window", "prefix-sum", "fixed-size-window", "variable-size-window"]
     }
   ],
   "prefix-suffix": [
@@ -187,14 +201,14 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       name: "Suffix Terrace",
       description: "Blend left and right accumulations to answer per-index array questions.",
       subtopics: ["Prefix sums"],
-      gateConcepts: ["prefix-sum"]
+      gateConcepts: ["prefix-sum", "prefix-suffix-product"]
     },
     {
       id: "balance-pass",
       name: "Balance Pass",
       description: "Use prefix and suffix balance to detect pivots and equilibrium points.",
       subtopics: ["Prefix sums"],
-      gateConcepts: ["prefix-sum"]
+      gateConcepts: ["prefix-sum", "prefix-balance"]
     },
     {
       id: "hash-cavern",
@@ -202,6 +216,13 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       description: "Combine prefix accumulation with hashing to count or detect subarrays efficiently.",
       subtopics: ["Prefix sums"],
       gateConcepts: ["prefix-sum", "frequency-counting"]
+    },
+    {
+      id: "mod-basin",
+      name: "Mod Basin",
+      description: "Bucket prefix remainders so modular subarray counting becomes linear.",
+      subtopics: ["Prefix sums"],
+      gateConcepts: ["prefix-sum", "frequency-counting", "prefix-modulo"]
     }
   ],
   "linked-list": [

@@ -1,5 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { invalidateCatalogCache } from "../services/catalog";
 import { getDefaultTopicId, getTopicMeta, getTopicMetas, getTopicProblems, getTopicRoadmap } from "../services/storage";
 import { ProblemPoolRole } from "../types";
 
@@ -10,32 +14,42 @@ test("topic registry exposes the default topic pack", () => {
 });
 
 test("topic registry exposes roadmap metadata", () => {
-  const metas = getTopicMetas();
-  assert.equal(metas.some((meta) => meta.id === "arrays"), true);
-  assert.equal(metas.some((meta) => meta.id === "binary-search"), true);
-  assert.equal(metas.some((meta) => meta.id === "dp"), true);
-  assert.equal(metas.some((meta) => meta.id === "graphs"), true);
-  assert.equal(metas.some((meta) => meta.id === "linked-list"), true);
-  assert.equal(metas.some((meta) => meta.id === "prefix-suffix"), true);
-  assert.equal(metas.some((meta) => meta.id === "queue"), true);
-  assert.equal(metas.some((meta) => meta.id === "recursion"), true);
-  assert.equal(metas.some((meta) => meta.id === "sliding-window"), true);
-  assert.equal(metas.some((meta) => meta.id === "stack"), true);
-  assert.equal(metas.some((meta) => meta.id === "trees"), true);
-  assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
-  assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
-  assert.ok(getTopicProblems("arrays").length >= 10);
-  assert.ok(getTopicProblems("binary-search").length >= 10);
-  assert.ok(getTopicProblems("dp").length >= 12);
-  assert.ok(getTopicProblems("graphs").length >= 12);
-  assert.ok(getTopicProblems("linked-list").length >= 10);
-  assert.ok(getTopicProblems("prefix-suffix").length >= 6);
-  assert.ok(getTopicProblems("queue").length >= 10);
-  assert.ok(getTopicProblems("recursion").length >= 20);
-  assert.ok(getTopicProblems("sliding-window").length >= 4);
-  assert.ok(getTopicProblems("stack").length >= 15);
-  assert.ok(getTopicProblems("trees").length >= 12);
-  assert.ok(getTopicProblems("two-pointers").length >= 7);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-topic-pack-catalog-"));
+  invalidateCatalogCache();
+
+  try {
+    const metas = getTopicMetas();
+    assert.equal(metas.some((meta) => meta.id === "arrays"), true);
+    assert.equal(metas.some((meta) => meta.id === "binary-search"), true);
+    assert.equal(metas.some((meta) => meta.id === "dp"), true);
+    assert.equal(metas.some((meta) => meta.id === "graphs"), true);
+    assert.equal(metas.some((meta) => meta.id === "linked-list"), true);
+    assert.equal(metas.some((meta) => meta.id === "prefix-suffix"), true);
+    assert.equal(metas.some((meta) => meta.id === "queue"), true);
+    assert.equal(metas.some((meta) => meta.id === "recursion"), true);
+    assert.equal(metas.some((meta) => meta.id === "sliding-window"), true);
+    assert.equal(metas.some((meta) => meta.id === "stack"), true);
+    assert.equal(metas.some((meta) => meta.id === "trees"), true);
+    assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
+    assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
+    assert.ok(getTopicProblems("arrays").length >= 10);
+    assert.ok(getTopicProblems("binary-search").length >= 10);
+    assert.ok(getTopicProblems("dp").length >= 12);
+    assert.ok(getTopicProblems("graphs").length >= 12);
+    assert.ok(getTopicProblems("linked-list").length >= 10);
+    assert.ok(getTopicProblems("prefix-suffix").length >= 8);
+    assert.ok(getTopicProblems("queue").length >= 10);
+    assert.ok(getTopicProblems("recursion").length >= 20);
+    assert.ok(getTopicProblems("sliding-window").length >= 6);
+    assert.ok(getTopicProblems("stack").length >= 15);
+    assert.ok(getTopicProblems("trees").length >= 12);
+    assert.ok(getTopicProblems("two-pointers").length >= 9);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+    invalidateCatalogCache();
+  }
 });
 
 test("adaptive pool topics expose healthy role coverage", () => {

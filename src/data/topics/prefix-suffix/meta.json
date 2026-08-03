@@ -6,7 +6,8 @@
     "Running sums",
     "Prefix and suffix accumulation",
     "Balance and pivot scans",
-    "Prefix-hash counting"
+    "Prefix-hash counting",
+    "Modulo remainder buckets"
   ],
   "recommendedLanguage": "Java",
   "worldName": "Prefix Suffix Peaks",

@@ -321,6 +321,34 @@ test("array beginner scaffolds cover sliding-window, two-pointer, and prefix-suf
   }
 });
 
+test("array beginner scaffolds cover deeper two-pointer, sliding-window, and prefix-modulo signatures", () => {
+  const containerProblem = getProblemById("arr-031");
+  const sortColorsProblem = getProblemById("arr-032");
+  const flipProblem = getProblemById("arr-033");
+  const moduloProblem = getProblemById("arr-035");
+  assert.ok(containerProblem);
+  assert.ok(sortColorsProblem);
+  assert.ok(flipProblem);
+  assert.ok(moduloProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-array-depth-workspace-"));
+
+  try {
+    const containerWorkspace = ensureProblemWorkspace(containerProblem, "java");
+    const sortColorsWorkspace = ensureProblemWorkspace(sortColorsProblem, "cpp");
+    const flipWorkspace = ensureProblemWorkspace(flipProblem, "java");
+    const moduloWorkspace = ensureProblemWorkspace(moduloProblem, "cpp");
+
+    assert.match(fs.readFileSync(containerWorkspace.filePath, "utf-8"), /public int maxContainerArea\(int\[\] heights\)/);
+    assert.match(fs.readFileSync(sortColorsWorkspace.filePath, "utf-8"), /void sortColors\(vector<int>& nums\)/);
+    assert.match(fs.readFileSync(flipWorkspace.filePath, "utf-8"), /public int longestOnesAfterFlip\(int\[\] nums, int k\)/);
+    assert.match(fs.readFileSync(moduloWorkspace.filePath, "utf-8"), /long long countSubarraysDivisibleByK\(vector<int>& nums, int k\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("bit beginner scaffolds cover set clear toggle and right-shift extraction", () => {
   const setBitProblem = getProblemById("bit-004");
   const clearBitProblem = getProblemById("bit-005");

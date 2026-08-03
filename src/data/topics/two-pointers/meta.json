@@ -6,6 +6,8 @@
     "Opposite-end pointers",
     "Compaction and overwrite",
     "Sorted pair search",
+    "Greedy area optimization",
+    "Partition and color sorting",
     "Rotation by reversal"
   ],
   "recommendedLanguage": "Java",

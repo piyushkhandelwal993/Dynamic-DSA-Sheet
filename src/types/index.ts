@@ -49,6 +49,11 @@ export type FunctionDriverStrategy =
   | "array-max-circular-subarray"
   | "array-max-average-window"
   | "array-reverse"
+  | "array-container-most-water"
+  | "array-sort-colors"
+  | "array-longest-ones-k-flips"
+  | "array-first-negative-window"
+  | "array-count-subarrays-divisible-k"
   | "tree-height"
   | "tree-preorder"
   | "tree-inorder"
@@ -481,6 +486,14 @@ export interface AnalysisResult {
     usesPrefixSum: boolean;
     usesTwoPointers: boolean;
     usesSlidingWindow: boolean;
+    usesOppositeEndPointers: boolean;
+    usesPartitionPointers: boolean;
+    usesFixedWindow: boolean;
+    usesVariableWindow: boolean;
+    usesWindowAuxStructure: boolean;
+    usesPrefixSuffixProduct: boolean;
+    usesPrefixBalance: boolean;
+    usesModuloPrefix: boolean;
     usesLinkedListTraversal: boolean;
     usesHeadUpdate: boolean;
     usesNodeDeletion: boolean;

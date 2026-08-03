@@ -47,3 +47,55 @@ test("arrays concept detector recognizes two-pointer array updates", () => {
   const detection = detectArraysConcepts(problem, analysis);
   assert.equal(detection.matchedConcepts.includes("two-pointers"), true);
 });
+
+test("arrays analyzer distinguishes fixed and variable sliding-window variants", () => {
+  const analysis = analyzeArraysJavaContent(`
+    class Solution {
+      public int longestOnesAfterFlip(int[] nums, int k) {
+        int left = 0;
+        int zeroCount = 0;
+        int best = 0;
+        for (int right = 0; right < nums.length; right++) {
+          if (nums[right] == 0) zeroCount++;
+          while (zeroCount > k) {
+            if (nums[left] == 0) zeroCount--;
+            left++;
+          }
+          best = Math.max(best, right - left + 1);
+        }
+        return best;
+      }
+    }
+  `);
+
+  assert.equal(analysis.signals.usesSlidingWindow, true);
+  assert.equal(analysis.signals.usesVariableWindow, true);
+});
+
+test("arrays concept detector recognizes prefix modulo counting", () => {
+  const problem = {
+    expectedConcepts: ["prefix-sum", "frequency-counting", "prefix-modulo"]
+  } as ReturnType<typeof getProblemById> extends infer T ? NonNullable<T> : never;
+
+  const analysis = analyzeArraysJavaContent(`
+    import java.util.*;
+    class Solution {
+      public long countSubarraysDivisibleByK(int[] nums, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        freq.put(0, 1);
+        int prefix = 0;
+        long answer = 0;
+        for (int value : nums) {
+          prefix += value;
+          int mod = ((prefix % k) + k) % k;
+          answer += freq.getOrDefault(mod, 0);
+          freq.put(mod, freq.getOrDefault(mod, 0) + 1);
+        }
+        return answer;
+      }
+    }
+  `);
+
+  const detection = detectArraysConcepts(problem, analysis);
+  assert.equal(detection.matchedConcepts.includes("prefix-modulo"), true);
+});

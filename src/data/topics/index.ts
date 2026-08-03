@@ -39,13 +39,13 @@ export interface TopicPack {
   concepts: Concept[];
 }
 
-const twoPointerProblemIds = new Set(["arr-003", "arr-008", "arr-009", "arr-015", "arr-016", "arr-023", "arr-026"]);
-const slidingWindowProblemIds = new Set(["arr-010", "arr-018", "arr-024", "arr-030"]);
-const prefixSuffixProblemIds = new Set(["arr-006", "arr-012", "arr-014", "arr-020", "arr-021", "arr-027"]);
+const twoPointerProblemIds = new Set(["arr-003", "arr-008", "arr-009", "arr-015", "arr-016", "arr-023", "arr-026", "arr-031", "arr-032"]);
+const slidingWindowProblemIds = new Set(["arr-010", "arr-018", "arr-024", "arr-030", "arr-033", "arr-034"]);
+const prefixSuffixProblemIds = new Set(["arr-006", "arr-012", "arr-014", "arr-020", "arr-021", "arr-027", "arr-035", "arr-036"]);
 
-const twoPointerConceptIds = new Set(["array-traversal", "sorted-check", "reverse-array", "two-pointers", "in-place-array-update"]);
-const slidingWindowConceptIds = new Set(["array-traversal", "prefix-sum", "two-pointers", "sliding-window"]);
-const prefixSuffixConceptIds = new Set(["array-traversal", "prefix-sum", "frequency-counting"]);
+const twoPointerConceptIds = new Set(["array-traversal", "sorted-check", "reverse-array", "two-pointers", "in-place-array-update", "opposite-end-pointers", "partition-two-pointers"]);
+const slidingWindowConceptIds = new Set(["array-traversal", "prefix-sum", "two-pointers", "sliding-window", "fixed-size-window", "variable-size-window", "window-auxiliary-structure"]);
+const prefixSuffixConceptIds = new Set(["array-traversal", "prefix-sum", "frequency-counting", "prefix-suffix-product", "prefix-balance", "prefix-modulo"]);
 const remainingArrayConceptIds = new Set([
   "array-traversal",
   "min-max-array",

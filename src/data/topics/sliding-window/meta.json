@@ -6,6 +6,8 @@
     "Window intuition",
     "Fixed-size windows",
     "Shrinking windows",
+    "Window with budgets",
+    "Window with auxiliary structures",
     "Window optimization"
   ],
   "recommendedLanguage": "Java",

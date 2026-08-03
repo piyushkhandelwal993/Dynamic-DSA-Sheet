@@ -59,6 +59,8 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-count-positive":
     case "array-max-consecutive-ones":
     case "array-max-circular-subarray":
+    case "array-container-most-water":
+    case "array-longest-ones-k-flips":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -77,6 +79,7 @@ function javaMethodStub(contract: FunctionContract): string {
       return `        return false;`;
     case "array-range-sum":
     case "array-count-subarrays-sum-k":
+    case "array-count-subarrays-divisible-k":
       return `        return 0L;`;
     case "array-max-average-window":
       return `        return 0.0;`;
@@ -85,6 +88,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-product-except-self":
     case "array-sorted-squares":
     case "array-running-sum":
+    case "array-first-negative-window":
     case "bit-two-unique-numbers":
     case "bit-swap-two-numbers":
     case "bit-decode-xored-array":
@@ -96,6 +100,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-right-rotate-k":
     case "array-move-zeroes":
     case "array-reverse":
+    case "array-sort-colors":
       return `        // Write your code here.`;
     case "tree-preorder":
     case "tree-inorder":
@@ -314,6 +319,8 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-count-positive":
     case "array-max-consecutive-ones":
     case "array-max-circular-subarray":
+    case "array-container-most-water":
+    case "array-longest-ones-k-flips":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -332,6 +339,7 @@ function cppMethodStub(contract: FunctionContract): string {
       return `        return false;`;
     case "array-range-sum":
     case "array-count-subarrays-sum-k":
+    case "array-count-subarrays-divisible-k":
       return `        return 0LL;`;
     case "array-max-average-window":
       return `        return 0.0;`;
@@ -340,6 +348,7 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-product-except-self":
     case "array-sorted-squares":
     case "array-running-sum":
+    case "array-first-negative-window":
     case "bit-two-unique-numbers":
     case "bit-swap-two-numbers":
     case "bit-decode-xored-array":
@@ -351,6 +360,7 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-right-rotate-k":
     case "array-move-zeroes":
     case "array-reverse":
+    case "array-sort-colors":
       return `        // Write your code here.`;
     case "tree-preorder":
       return `        return {};`;
@@ -1045,6 +1055,12 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
       break;
+    case "array-longest-ones-k-flips":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
     case "array-min-adjacent-diff":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -1054,6 +1070,12 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        printArray(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-first-negative-window":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        printArray(new Solution().${contract.functionName}(values, k));`;
       break;
     case "array-count-positive":
       inputSetup = `        int n = sc.nextInt();
@@ -1084,6 +1106,12 @@ function javaDriverSource(contract: FunctionContract): string {
       invocation = `        new Solution().${contract.functionName}(values, k);
         printArray(values);`;
       break;
+    case "array-sort-colors":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        new Solution().${contract.functionName}(values);
+        printArray(values);`;
+      break;
     case "array-max-consecutive-ones":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -1095,12 +1123,23 @@ function javaDriverSource(contract: FunctionContract): string {
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
       break;
+    case "array-count-subarrays-divisible-k":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
     case "array-contains-duplicate":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values) ? "Yes" : "No");`;
       break;
     case "array-max-circular-subarray":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-container-most-water":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
@@ -2192,6 +2231,12 @@ void printValues(const vector<int>& values) {
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values, k);`;
       break;
+    case "array-longest-ones-k-flips":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
     case "array-min-adjacent-diff":
       inputSetup = `    int n;
     cin >> n;
@@ -2203,6 +2248,12 @@ void printValues(const vector<int>& values) {
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    printArray(Solution().${contract.functionName}(values));`;
+      break;
+    case "array-first-negative-window":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    printArray(Solution().${contract.functionName}(values, k));`;
       break;
     case "array-count-positive":
       inputSetup = `    int n;
@@ -2238,6 +2289,13 @@ void printValues(const vector<int>& values) {
       invocation = `    Solution().${contract.functionName}(values, k);
     printArray(values);`;
       break;
+    case "array-sort-colors":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    Solution().${contract.functionName}(values);
+    printArray(values);`;
+      break;
     case "array-max-consecutive-ones":
       inputSetup = `    int n;
     cin >> n;
@@ -2250,6 +2308,12 @@ void printValues(const vector<int>& values) {
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values, k);`;
       break;
+    case "array-count-subarrays-divisible-k":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
     case "array-contains-duplicate":
       inputSetup = `    int n;
     cin >> n;
@@ -2257,6 +2321,12 @@ void printValues(const vector<int>& values) {
       invocation = `    cout << (Solution().${contract.functionName}(values) ? "Yes" : "No");`;
       break;
     case "array-max-circular-subarray":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-container-most-water":
       inputSetup = `    int n;
     cin >> n;
     vector<int> values = readArray(n);`;

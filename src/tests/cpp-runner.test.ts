@@ -4,6 +4,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { spawnSync } from "child_process";
+import { invalidateCatalogCache } from "../services/catalog";
 import { getProblemById } from "../services/storage";
 import { runCppSubmission, runCppWithCustomInput } from "../services/cppRunner";
 
@@ -1274,6 +1275,122 @@ test("cpp function harness supports sliding-window, two-pointer, and prefix-suff
   assert.equal(pairSumResult.passedCount, pairSumResult.totalCount);
   assert.equal(productResult.compileSucceeded, true);
   assert.equal(productResult.passedCount, productResult.totalCount);
+});
+
+test("cpp function harness supports deeper two-pointer, window, and modulo-prefix contracts", { skip: !compilerAvailable }, () => {
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-depth-catalog-"));
+  invalidateCatalogCache();
+
+  const containerProblem = getProblemById("arr-031");
+  const sortColorsProblem = getProblemById("arr-032");
+  const flipProblem = getProblemById("arr-033");
+  const moduloProblem = getProblemById("arr-035");
+  assert.ok(containerProblem);
+  assert.ok(sortColorsProblem);
+  assert.ok(flipProblem);
+  assert.ok(moduloProblem);
+
+  try {
+    const containerDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-container-"));
+    const containerFile = path.join(containerDir, "solution.cpp");
+    fs.writeFileSync(
+      containerFile,
+      `class Solution {
+    public:
+      int maxContainerArea(vector<int>& heights) {
+        int left = 0, right = (int)heights.size() - 1, best = 0;
+        while (left < right) {
+          best = max(best, min(heights[left], heights[right]) * (right - left));
+          if (heights[left] < heights[right]) left++;
+          else right--;
+        }
+        return best;
+      }
+    };`,
+      "utf-8"
+    );
+
+    const sortDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-colors-"));
+    const sortFile = path.join(sortDir, "solution.cpp");
+    fs.writeFileSync(
+      sortFile,
+      `class Solution {
+    public:
+      void sortColors(vector<int>& nums) {
+        int low = 0, mid = 0, high = (int)nums.size() - 1;
+        while (mid <= high) {
+          if (nums[mid] == 0) swap(nums[low++], nums[mid++]);
+          else if (nums[mid] == 1) mid++;
+          else swap(nums[mid], nums[high--]);
+        }
+      }
+    };`,
+      "utf-8"
+    );
+
+    const flipDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-flips-"));
+    const flipFile = path.join(flipDir, "solution.cpp");
+    fs.writeFileSync(
+      flipFile,
+      `class Solution {
+    public:
+      int longestOnesAfterFlip(vector<int>& nums, int k) {
+        int left = 0, zeroCount = 0, best = 0;
+        for (int right = 0; right < (int)nums.size(); right++) {
+          if (nums[right] == 0) zeroCount++;
+          while (zeroCount > k) {
+            if (nums[left] == 0) zeroCount--;
+            left++;
+          }
+          best = max(best, right - left + 1);
+        }
+        return best;
+      }
+    };`,
+      "utf-8"
+    );
+
+    const moduloDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-cpp-array-modulo-"));
+    const moduloFile = path.join(moduloDir, "solution.cpp");
+    fs.writeFileSync(
+      moduloFile,
+      `class Solution {
+    public:
+      long long countSubarraysDivisibleByK(vector<int>& nums, int k) {
+        unordered_map<int, long long> freq;
+        freq[0] = 1;
+        long long answer = 0;
+        long long prefix = 0;
+        for (int value : nums) {
+          prefix += value;
+          int mod = (int)(((prefix % k) + k) % k);
+          answer += freq[mod];
+          freq[mod]++;
+        }
+        return answer;
+      }
+    };`,
+      "utf-8"
+    );
+
+    const containerResult = runCppSubmission(containerProblem, containerFile);
+    const sortResult = runCppSubmission(sortColorsProblem, sortFile);
+    const flipResult = runCppSubmission(flipProblem, flipFile);
+    const moduloResult = runCppSubmission(moduloProblem, moduloFile);
+    assert.equal(containerResult.compileSucceeded, true);
+    assert.equal(containerResult.passedCount, containerResult.totalCount);
+    assert.equal(sortResult.compileSucceeded, true);
+    assert.equal(sortResult.passedCount, sortResult.totalCount);
+    assert.equal(flipResult.compileSucceeded, true);
+    assert.equal(flipResult.passedCount, flipResult.totalCount);
+    assert.equal(moduloResult.compileSucceeded, true);
+    assert.equal(moduloResult.passedCount, moduloResult.totalCount);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+    invalidateCatalogCache();
+  }
 });
 
 test("cpp graph harness provides adjacency construction", { skip: !compilerAvailable }, () => {

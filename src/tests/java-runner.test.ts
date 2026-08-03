@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "fs";
 import os from "os";
 import path from "path";
+import { invalidateCatalogCache } from "../services/catalog";
 import { getProblemById } from "../services/storage";
 import { runJavaSubmission, runJavaWithCustomInput } from "../services/javaRunner";
 
@@ -1227,6 +1228,125 @@ test("java function harness supports sliding-window, two-pointer, and prefix-suf
   assert.equal(sortedSquaresResult.passedCount, sortedSquaresResult.totalCount);
   assert.equal(productResult.compileSucceeded, true);
   assert.equal(productResult.passedCount, productResult.totalCount);
+});
+
+test("java function harness supports deeper two-pointer, window, and modulo-prefix contracts", () => {
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-depth-catalog-"));
+  invalidateCatalogCache();
+
+  const containerProblem = getProblemById("arr-031");
+  const sortColorsProblem = getProblemById("arr-032");
+  const flipProblem = getProblemById("arr-033");
+  const moduloProblem = getProblemById("arr-035");
+  assert.ok(containerProblem);
+  assert.ok(sortColorsProblem);
+  assert.ok(flipProblem);
+  assert.ok(moduloProblem);
+
+  try {
+    const containerDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-container-"));
+    const containerFile = path.join(containerDir, "Solution.java");
+    fs.writeFileSync(
+      containerFile,
+      `class Solution {
+      public int maxContainerArea(int[] heights) {
+        int left = 0, right = heights.length - 1, best = 0;
+        while (left < right) {
+          best = Math.max(best, Math.min(heights[left], heights[right]) * (right - left));
+          if (heights[left] < heights[right]) left++;
+          else right--;
+        }
+        return best;
+      }
+    }`,
+      "utf-8"
+    );
+
+    const sortDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-colors-"));
+    const sortFile = path.join(sortDir, "Solution.java");
+    fs.writeFileSync(
+      sortFile,
+      `class Solution {
+      public void sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+        while (mid <= high) {
+          if (nums[mid] == 0) {
+            int temp = nums[low]; nums[low] = nums[mid]; nums[mid] = temp;
+            low++; mid++;
+          } else if (nums[mid] == 1) {
+            mid++;
+          } else {
+            int temp = nums[mid]; nums[mid] = nums[high]; nums[high] = temp;
+            high--;
+          }
+        }
+      }
+    }`,
+      "utf-8"
+    );
+
+    const flipDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-flips-"));
+    const flipFile = path.join(flipDir, "Solution.java");
+    fs.writeFileSync(
+      flipFile,
+      `class Solution {
+      public int longestOnesAfterFlip(int[] nums, int k) {
+        int left = 0, zeroCount = 0, best = 0;
+        for (int right = 0; right < nums.length; right++) {
+          if (nums[right] == 0) zeroCount++;
+          while (zeroCount > k) {
+            if (nums[left] == 0) zeroCount--;
+            left++;
+          }
+          best = Math.max(best, right - left + 1);
+        }
+        return best;
+      }
+    }`,
+      "utf-8"
+    );
+
+    const moduloDir = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-java-array-modulo-"));
+    const moduloFile = path.join(moduloDir, "Solution.java");
+    fs.writeFileSync(
+      moduloFile,
+      `import java.util.*;
+    class Solution {
+      public long countSubarraysDivisibleByK(int[] nums, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        freq.put(0, 1);
+        int prefix = 0;
+        long answer = 0;
+        for (int value : nums) {
+          prefix += value;
+          int mod = ((prefix % k) + k) % k;
+          answer += freq.getOrDefault(mod, 0);
+          freq.put(mod, freq.getOrDefault(mod, 0) + 1);
+        }
+        return answer;
+      }
+    }`,
+      "utf-8"
+    );
+
+    const containerResult = runJavaSubmission(containerProblem, containerFile);
+    const sortResult = runJavaSubmission(sortColorsProblem, sortFile);
+    const flipResult = runJavaSubmission(flipProblem, flipFile);
+    const moduloResult = runJavaSubmission(moduloProblem, moduloFile);
+    assert.equal(containerResult.compileSucceeded, true);
+    assert.equal(containerResult.passedCount, containerResult.totalCount);
+    assert.equal(sortResult.compileSucceeded, true);
+    assert.equal(sortResult.passedCount, sortResult.totalCount);
+    assert.equal(flipResult.compileSucceeded, true);
+    assert.equal(flipResult.passedCount, flipResult.totalCount);
+    assert.equal(moduloResult.compileSucceeded, true);
+    assert.equal(moduloResult.passedCount, moduloResult.totalCount);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+    invalidateCatalogCache();
+  }
 });
 
 test("java function harness supports recursive scalar contracts", () => {
