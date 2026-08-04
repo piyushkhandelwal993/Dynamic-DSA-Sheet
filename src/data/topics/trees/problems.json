@@ -1312,7 +1312,6 @@
       "recursive-tree-traversal"
     ],
     "prerequisiteConcepts": [
-      "tree-view",
       "recursive-tree-traversal"
     ],
     "expectedComplexity": "O(n)",
@@ -1369,12 +1368,91 @@
       }
     ],
     "remedialProblems": [
-      "tr-009",
       "tr-017"
     ],
     "skipIfMastered": [],
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "tree-boundary-traversal-challenge"
+  },
+  {
+    "id": "tr-019",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Vertical Traversal with Ordered Buckets",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "tree-vertical-ordering"
+    ],
+    "prerequisiteConcepts": [
+      "level-order-traversal",
+      "tree-view",
+      "ordered-map-usage",
+      "pair-collection-usage",
+      "map-iteration-order-usage"
+    ],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 30,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its vertical traversal from leftmost column to rightmost. Within a column, nodes should appear from top to bottom, and if two nodes share the same row and column, print the smaller value first.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print one line per column with values in traversal order"
+    ],
+    "edgeCases": [
+      "Multiple nodes share the same row and column",
+      "Sparse trees with negative column indices"
+    ],
+    "intendedApproachSummary": "Run BFS or DFS while tracking row and column, bucket nodes by column, then sort each bucket by row and value before printing columns from smallest to largest.",
+    "wrongApproachHints": [
+      "Column tracking alone is not enough when two nodes land at the same depth.",
+      "Do not rely on insertion order when value tie-breaking is required."
+    ],
+    "hints": [
+      "Store triples like (column, row, value).",
+      "Use an ordered map for columns and sort each column bucket by row first, then value."
+    ],
+    "examples": [
+      {
+        "input": "7\n3 9 20 -1 -1 15 7",
+        "output": "9\n3 15\n20\n7",
+        "explanation": "Columns are emitted left to right, with row/value ordering preserved within each column."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "verticalTraversalOrdered",
+      "javaSignature": "public List<List<Integer>> verticalTraversalOrdered(TreeNode root)",
+      "cppSignature": "vector<vector<int>> verticalTraversalOrdered(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-level-order"
+    },
+    "testCases": [
+      {
+        "input": "7\n3 9 20 -1 -1 15 7",
+        "expectedOutput": "9\n3 15\n20\n7",
+        "visibility": "sample"
+      },
+      {
+        "input": "7\n1 2 3 4 6 5 7",
+        "expectedOutput": "4\n2\n1 5 6\n3\n7",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-004",
+      "tr-012"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.4,
+    "variantGroup": "tree-vertical-order-challenge"
   }
 ]

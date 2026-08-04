@@ -129,7 +129,19 @@
       "Forgetting to reverse the right boundary order at the end"
     ],
     "practiceProblems": ["tr-017", "tr-018"],
-    "dependsOn": ["recursive-tree-traversal", "tree-view"]
+    "dependsOn": ["recursive-tree-traversal"]
+  },
+  {
+    "id": "tree-vertical-ordering",
+    "name": "Tree Vertical Ordering",
+    "description": "Group nodes by column while preserving row/depth order and value tie-breaking inside the same position.",
+    "exampleJava": "columns.computeIfAbsent(col, k -> new ArrayList<>()).add(new int[] {row, node.val});",
+    "commonMistakes": [
+      "Tracking only column but not row when multiple nodes land in the same vertical",
+      "Forgetting to sort equal-position nodes by value before output"
+    ],
+    "practiceProblems": ["tr-019"],
+    "dependsOn": ["level-order-traversal", "tree-view", "ordered-map-usage", "pair-collection-usage", "map-iteration-order-usage"]
   },
   {
     "id": "lca-binary-tree",

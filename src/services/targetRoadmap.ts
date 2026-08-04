@@ -920,6 +920,89 @@ function buildInternalConceptSteps(
   return { problems: chosen, notes, conceptPlan };
 }
 
+function getConceptTopicId(conceptId: string): string | undefined {
+  return getTopicMetas().find((topicMeta) =>
+    getTopicConcepts(topicMeta.id).some((concept) => concept.id === conceptId)
+  )?.id;
+}
+
+function classifyConceptForRoadmap(targetTopicId: string, conceptId: string): "core" | "support" {
+  const conceptTopicId = getConceptTopicId(conceptId);
+  if (!conceptTopicId) {
+    return "support";
+  }
+  if (normalizeTopicKey(conceptTopicId) === normalizeTopicKey(targetTopicId)) {
+    return "core";
+  }
+  return "support";
+}
+
+function supportWeaknessThreshold(conceptId: string, skillProfile: SkillProfile): "severe" | "moderate" | "light" {
+  const score = skillProfile.conceptScores[conceptId] ?? 0;
+  if (score < 35) return "severe";
+  if (score < 60) return "moderate";
+  return "light";
+}
+
+function isSupportOnlyProblem(targetTopicId: string, problem: Problem): boolean {
+  return problem.expectedConcepts.length > 0
+    && problem.expectedConcepts.every((conceptId) => classifyConceptForRoadmap(targetTopicId, conceptId) === "support");
+}
+
+function problemSupportSeverity(targetTopicId: string, problem: Problem, skillProfile: SkillProfile): number {
+  const supportConcepts = problem.expectedConcepts.filter((conceptId) =>
+    classifyConceptForRoadmap(targetTopicId, conceptId) === "support"
+  );
+  if (supportConcepts.length === 0) {
+    return -1;
+  }
+  return Math.min(...supportConcepts.map((conceptId) => {
+    const bucket = supportWeaknessThreshold(conceptId, skillProfile);
+    if (bucket === "severe") return 0;
+    if (bucket === "moderate") return 1;
+    return 2;
+  }));
+}
+
+function personalizeInternalProblems(
+  targetTopicId: string,
+  problems: Problem[],
+  skillProfile: SkillProfile,
+  hasSameTopicExplicitBridge: boolean
+): Problem[] {
+  const seenIds = new Set<string>();
+  let severeSupportIncluded = false;
+  const kept = problems.filter((problem) => {
+    if (seenIds.has(problem.id)) {
+      return false;
+    }
+    seenIds.add(problem.id);
+
+    if (!isSupportOnlyProblem(targetTopicId, problem)) {
+      return true;
+    }
+
+    const severity = problemSupportSeverity(targetTopicId, problem, skillProfile);
+    if (severity === 0) {
+      if (severeSupportIncluded) {
+        return false;
+      }
+      severeSupportIncluded = true;
+      return true;
+    }
+
+    if (hasSameTopicExplicitBridge) {
+      return false;
+    }
+
+    return severity === 1;
+  });
+
+  const coreProblems = kept.filter((problem) => !isSupportOnlyProblem(targetTopicId, problem));
+  const supportProblems = kept.filter((problem) => isSupportOnlyProblem(targetTopicId, problem));
+  return [...supportProblems, ...coreProblems];
+}
+
 function orderInternalProblemsByProgression(problems: Problem[]): Problem[] {
   if (problems.length <= 1) {
     return problems;
@@ -1211,7 +1294,9 @@ export function createTargetProblemRoadmap(
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
     : remainingInternalPlan;
-  const internalProblems = orderInternalProblemsByProgression([...baseInternalProblems, ...explicitBridges]);
+  const internalProblems = orderInternalProblemsByProgression(
+    personalizeInternalProblems(target.topicId, [...baseInternalProblems, ...explicitBridges], skillProfile, hasSameTopicExplicitBridge)
+  );
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
   const transfer = assessment.matchedProblem && shouldAddExternalTransfer(assessment.matchedProblem, assessment, internalProblems)
@@ -1271,7 +1356,7 @@ export function createTargetProblemRoadmap(
   return {
     assessment,
     strategy: "concept-practice-first",
-    notes: internalPlan.notes,
+    notes: hasSameTopicExplicitBridge ? [] : internalPlan.notes,
     steps
   };
 }

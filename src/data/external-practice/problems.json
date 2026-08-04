@@ -1312,11 +1312,11 @@
     "url": "https://leetcode.com/problems/boundary-of-binary-tree/",
     "difficulty": "Medium",
     "topicId": "trees",
-    "conceptIds": ["recursive-tree-traversal", "tree-view", "tree-boundary-traversal"],
-    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-view", "tree-boundary-traversal"],
+    "conceptIds": ["recursive-tree-traversal", "tree-boundary-traversal"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-boundary-traversal"],
     "mappedFromProblemIds": ["tr-018"],
     "recommendedAfterProblemIds": ["tr-018"],
-    "roadmapBridgeProblemIds": ["tr-001", "tr-009", "tr-017", "tr-018"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-017", "tr-018"],
     "sourceQualityWeight": 1
   },
   {
@@ -3198,11 +3198,11 @@
     "url": "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
     "difficulty": "Hard",
     "topicId": "trees",
-    "conceptIds": ["tree-view", "level-order-traversal"],
-    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage", "hash-map-usage", "ordered-map-usage", "map-iteration-order-usage", "pair-collection-usage"],
-    "mappedFromProblemIds": ["tr-012"],
-    "recommendedAfterProblemIds": ["tr-012"],
-    "roadmapBridgeProblemIds": ["lt-028", "tr-004", "tr-012"],
+    "conceptIds": ["tree-vertical-ordering"],
+    "prerequisiteConceptIds": ["tree-vertical-ordering"],
+    "mappedFromProblemIds": ["tr-019"],
+    "recommendedAfterProblemIds": ["tr-019"],
+    "roadmapBridgeProblemIds": ["tr-004", "tr-012", "tr-019"],
     "sourceQualityWeight": 0.89
   },
   {

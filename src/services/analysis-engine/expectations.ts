@@ -90,6 +90,7 @@ export const conceptExpectations: Record<string, FactExpectation> = {
   "tree-path-contribution": anyOf(fact("tree-diameter"), fact("tree-height"), fact("recursive-tree-traversal")),
   "balanced-tree-check": fact("balanced-tree-check"),
   "tree-boundary-traversal": anyOf(fact("tree-view"), fact("recursive-tree-traversal")),
+  "tree-vertical-ordering": anyOf(fact("tree-view"), fact("level-order-tree-traversal")),
   "bst-search": fact("bst-search"),
   "bst-insert-delete": fact("bst-mutation"),
   "tree-view": fact("tree-view"),

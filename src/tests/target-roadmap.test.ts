@@ -508,7 +508,8 @@ test("boundary of binary tree becomes a supported trees roadmap target", () => {
 
   assert.equal(assessment.verdict === "unsupported", false);
   assert.equal(assessment.matchedProblem?.id, "ext-lc-boundary-of-binary-tree");
-  assert.deepEqual(internalIds, ["tr-001", "tr-009", "tr-017", "tr-018"]);
+  assert.deepEqual(internalIds, ["tr-001", "tr-017", "tr-018"]);
+  assert.deepEqual(roadmap.notes, []);
   assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
   assert.equal(roadmap.steps.at(-1)?.title, "Boundary of Binary Tree");
 });
@@ -645,7 +646,7 @@ test("reverse words roadmap pulls toolkit tokenization before string-level trans
   assert.equal(roadmap.steps.at(-1)?.title, "Reverse Words in a String");
 });
 
-test("vertical order roadmap can pull ordered-map toolkit readiness before tree-view transfer", () => {
+test("vertical order roadmap uses the dedicated vertical-order bridge after level order and top view", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-vertical-order-"));
   invalidateCatalogCache();
   const progress = createInitialProgress();
@@ -661,9 +662,35 @@ test("vertical order roadmap can pull ordered-map toolkit readiness before tree-
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("lt-028"), true);
-  assert.equal(internalIds.includes("tr-012"), true);
+  assert.deepEqual(internalIds, ["tr-004", "tr-012", "tr-019"]);
   assert.equal(roadmap.steps.at(-1)?.title, "Vertical Order Traversal of a Binary Tree");
+});
+
+test("vertical order prepends at most one severe toolkit bridge when support skills are very weak", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-vertical-order-support-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["queue-library-usage"] = 20;
+  skillProfile.conceptScores["ordered-map-usage"] = 20;
+  skillProfile.conceptScores["pair-collection-usage"] = 20;
+  skillProfile.conceptScores["map-iteration-order-usage"] = 20;
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+  const toolkitIds = internalIds.filter((problemId) => problemId?.startsWith("lt-"));
+
+  assert.equal(internalIds.includes("tr-004"), true);
+  assert.equal(internalIds.includes("tr-012"), true);
+  assert.equal(internalIds.includes("tr-019"), true);
+  assert.equal(toolkitIds.length <= 1, true);
 });
 
 test("network delay roadmap can pull heap-of-pairs readiness before graph dijkstra practice", () => {
