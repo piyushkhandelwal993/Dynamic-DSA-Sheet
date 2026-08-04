@@ -58,6 +58,7 @@ export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): 
     if (concept === "level-order-traversal") return analysis.signals.usesQueueTraversal;
     if (concept === "tree-height") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-diameter") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "tree-path-contribution") return analysis.signals.usesRecursiveTraversal;
     if (concept === "balanced-tree-check") return analysis.signals.usesRecursiveTraversal;
     if (concept === "bst-search") return analysis.signals.usesBstLogic;
     if (concept === "bst-insert-delete") return analysis.signals.usesBstLogic;

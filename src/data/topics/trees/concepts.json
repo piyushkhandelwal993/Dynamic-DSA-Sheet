@@ -60,6 +60,18 @@
     "dependsOn": ["recursive-tree-traversal", "tree-height"]
   },
   {
+    "id": "tree-path-contribution",
+    "name": "Tree Path Contribution",
+    "description": "Return the best downward contribution from a node so its parent can combine subtree results safely.",
+    "exampleJava": "return root.val + Math.max(0, Math.max(leftGain, rightGain));",
+    "commonMistakes": [
+      "Returning both-branch sums upward instead of one downward contribution",
+      "Letting negative child paths reduce the contribution instead of clipping them"
+    ],
+    "practiceProblems": ["tr-016"],
+    "dependsOn": ["recursive-tree-traversal", "tree-height", "tree-diameter"]
+  },
+  {
     "id": "balanced-tree-check",
     "name": "Balanced Tree Check",
     "description": "A tree is balanced if the left and right subtree heights differ by at most 1 at every node.",

@@ -450,9 +450,39 @@ test("diameter roadmap avoids the internal twin and weak path-sum transfer", () 
     .map((step) => step.title);
 
   assert.equal(internalIds.includes("tr-006"), false);
+  assert.equal(internalIds.includes("tr-001"), true);
   assert.equal(internalIds.includes("tr-005"), true);
+  assert.deepEqual(internalIds, ["tr-001", "tr-005"]);
   assert.equal(externalTitles.includes("Path Sum"), false);
   assert.equal(roadmap.steps.at(-1)?.title, "Diameter of Binary Tree");
+});
+
+test("binary tree maximum path sum becomes a supported trees roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-max-path-sum-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-binary-tree-maximum-path-sum");
+  assert.deepEqual(internalIds, ["tr-001", "tr-005", "tr-006", "tr-016"]);
+  assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Maximum Path Sum");
 });
 
 test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {

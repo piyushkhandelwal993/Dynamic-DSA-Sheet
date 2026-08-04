@@ -1275,7 +1275,7 @@
     "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
     "mappedFromProblemIds": ["tr-006"],
     "recommendedAfterProblemIds": ["tr-005"],
-    "roadmapBridgeProblemIds": ["tr-005"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-005"],
     "sourceQualityWeight": 1
   },
   {
@@ -1289,6 +1289,20 @@
     "prerequisiteConceptIds": ["balanced-tree-check"],
     "mappedFromProblemIds": ["tr-007"],
     "recommendedAfterProblemIds": ["tr-007"],
+    "sourceQualityWeight": 1
+  },
+  {
+    "id": "ext-lc-binary-tree-maximum-path-sum",
+    "platform": "leetcode",
+    "title": "Binary Tree Maximum Path Sum",
+    "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+    "difficulty": "Hard",
+    "topicId": "trees",
+    "conceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter", "tree-path-contribution"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter", "tree-path-contribution"],
+    "mappedFromProblemIds": ["tr-016"],
+    "recommendedAfterProblemIds": ["tr-016"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-005", "tr-006", "tr-016"],
     "sourceQualityWeight": 1
   },
   {

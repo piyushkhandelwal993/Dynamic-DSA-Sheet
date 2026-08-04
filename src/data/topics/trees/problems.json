@@ -1144,5 +1144,84 @@
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "tree-serialization-challenge"
+  },
+  {
+    "id": "tr-016",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Maximum Root-to-Leaf Path Sum",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "tree-path-contribution",
+      "recursive-tree-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "tree-height",
+      "tree-diameter"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 24,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print the maximum sum on any path that starts at the root and ends at a leaf. Node values may be negative.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5",
+      "-10^4 <= node value <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print the maximum root-to-leaf path sum"
+    ],
+    "edgeCases": [
+      "All node values negative",
+      "Only one root-to-leaf branch exists"
+    ],
+    "intendedApproachSummary": "Return the best downward path sum from each node by taking the larger child contribution and adding the current node value.",
+    "wrongApproachHints": [
+      "Do not sum both children when returning to the parent.",
+      "Handle negative values carefully instead of assuming every child helps."
+    ],
+    "hints": [
+      "A leaf returns its own value.",
+      "At each node, choose the better child contribution before adding the current value."
+    ],
+    "examples": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "output": "10",
+        "explanation": "The best root-to-leaf path is 1 -> 3 -> 6."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxRootToLeafSum",
+      "javaSignature": "public int maxRootToLeafSum(TreeNode root)",
+      "cppSignature": "int maxRootToLeafSum(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-height"
+    },
+    "testCases": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "expectedOutput": "10",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n-10 9 20",
+        "expectedOutput": "10",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-005",
+      "tr-006"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "tree-path-sum-bridge"
   }
 ]
