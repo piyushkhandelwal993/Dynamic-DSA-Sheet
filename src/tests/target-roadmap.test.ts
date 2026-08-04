@@ -344,6 +344,114 @@ test("house robber roadmap avoids using the harder sequel as the transfer step",
   assert.equal(roadmap.steps.at(-1)?.title, "House Robber");
 });
 
+test("frog jump roadmap distinguishes cost-minimization bridges from jump-memory reachability bridges", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-frog-jump-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/frog-jump/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/frog-jump/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-frog-jump");
+  assert.equal(assessment.matchedProblem?.topicId, "dp");
+  assert.ok(assessment.missingConceptIds.includes("jump-reachability-dp"));
+  assert.equal(internalIds.includes("dp-016"), true);
+  assert.equal(internalIds.includes("dp-017"), true);
+  assert.ok(internalIds.indexOf("dp-016") < internalIds.indexOf("dp-017"));
+  assert.equal(roadmap.steps.at(-1)?.title, "Frog Jump");
+});
+
+test("stock cooldown roadmap uses the dedicated cooldown-state bridge", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-stock-cooldown-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-best-time-stock-cooldown");
+  assert.ok(internalIds.includes("dp-018"));
+  assert.equal(roadmap.steps.at(-1)?.title, "Best Time to Buy and Sell Stock with Cooldown");
+});
+
+test("knight probability roadmap uses the probability-dp bridge", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-knight-probability-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/knight-probability-in-chessboard/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/knight-probability-in-chessboard/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-knight-probability");
+  assert.ok(internalIds.includes("dp-019"));
+  assert.equal(roadmap.steps.at(-1)?.title, "Knight Probability in Chessboard");
+});
+
+test("stock iii roadmap uses the transaction-budget bridge", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-stock-iii-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-best-time-stock-iii");
+  assert.ok(internalIds.includes("dp-020"));
+  assert.equal(roadmap.steps.at(-1)?.title, "Best Time to Buy and Sell Stock III");
+});
+
 test("combination sum iii roadmap prefers progressive backtracking foundations over generic recursion detours", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-combination-sum-iii-"));
   invalidateCatalogCache();

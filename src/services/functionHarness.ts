@@ -255,6 +255,10 @@ function javaMethodStub(contract: FunctionContract): string {
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
+    case "dp-knight-probability":
+      return `        return 0.0;`;
+    case "dp-grid-budget-reachability":
+      return `        return false;`;
     case "math-reverse-number":
       return `        return 0;`;
     case "math-palindrome-number":
@@ -272,6 +276,9 @@ function javaMethodStub(contract: FunctionContract): string {
     case "dp-house-robber":
     case "dp-max-non-adjacent-sum":
     case "dp-min-cost-climbing-stairs":
+    case "dp-frog-k-jump":
+    case "dp-stock-cooldown":
+    case "dp-stock-two-transactions":
     case "dp-unique-paths":
     case "dp-min-path-sum":
     case "dp-subset-sum":
@@ -533,10 +540,17 @@ function cppMethodStub(contract: FunctionContract): string {
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
+    case "dp-knight-probability":
+      return `        return 0.0;`;
+    case "dp-grid-budget-reachability":
+      return `        return false;`;
     case "dp-climbing-stairs":
     case "dp-house-robber":
     case "dp-max-non-adjacent-sum":
     case "dp-min-cost-climbing-stairs":
+    case "dp-frog-k-jump":
+    case "dp-stock-cooldown":
+    case "dp-stock-two-transactions":
     case "dp-unique-paths":
     case "dp-min-path-sum":
     case "dp-subset-sum":
@@ -1790,9 +1804,16 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
       break;
+    case "dp-frog-reachability":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
     case "dp-house-robber":
     case "dp-max-non-adjacent-sum":
     case "dp-min-cost-climbing-stairs":
+    case "dp-stock-cooldown":
+    case "dp-stock-two-transactions":
     case "dp-lis-length":
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
@@ -1800,10 +1821,30 @@ function javaDriverSource(contract: FunctionContract): string {
         ? `        System.out.print(new Solution().${contract.functionName}(values));`
         : `        System.out.print(new Solution().${contract.functionName}(values));`;
       break;
+    case "dp-frog-k-jump":
+      inputSetup = `        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = readArray(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, k));`;
+      break;
     case "dp-unique-paths":
       inputSetup = `        int n = sc.nextInt();
         int m = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(n, m));`;
+      break;
+    case "dp-knight-probability":
+      inputSetup = `        int n = sc.nextInt();
+        int moves = sc.nextInt();
+        int row = sc.nextInt();
+        int col = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, moves, row, col));`;
+      break;
+    case "dp-grid-budget-reachability":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int budget = sc.nextInt();
+        int[][] grid = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(grid, budget));`;
       break;
     case "dp-min-path-sum":
       inputSetup = `        int rows = sc.nextInt();
@@ -3138,19 +3179,44 @@ void printValues(const vector<int>& values) {
     cin >> n;`;
       invocation = `    cout << Solution().${contract.functionName}(n);`;
       break;
+    case "dp-frog-reachability":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
     case "dp-house-robber":
     case "dp-max-non-adjacent-sum":
     case "dp-min-cost-climbing-stairs":
+    case "dp-stock-cooldown":
+    case "dp-stock-two-transactions":
     case "dp-lis-length":
       inputSetup = `    int n;
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
       break;
+    case "dp-frog-k-jump":
+      inputSetup = `    int n, k;
+    cin >> n >> k;
+    vector<int> values = readArray(n);`;
+      invocation = `    cout << Solution().${contract.functionName}(values, k);`;
+      break;
     case "dp-unique-paths":
       inputSetup = `    int n, m;
     cin >> n >> m;`;
       invocation = `    cout << Solution().${contract.functionName}(n, m);`;
+      break;
+    case "dp-knight-probability":
+      inputSetup = `    int n, moves, row, col;
+    cin >> n >> moves >> row >> col;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, moves, row, col);`;
+      break;
+    case "dp-grid-budget-reachability":
+      inputSetup = `    int rows, cols, budget;
+    cin >> rows >> cols >> budget;
+    vector<vector<int>> grid = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(grid, budget);`;
       break;
     case "dp-min-path-sum":
       inputSetup = `    int rows, cols;

@@ -1163,5 +1163,540 @@
     "poolRole": "challenge",
     "masteryWeight": 1.4,
     "variantGroup": "dp-interval-challenge"
+  },
+  {
+    "id": "dp-016",
+    "topic": "Dynamic Programming",
+    "subtopic": "Advanced 1D transitions",
+    "title": "Frog Jump with K Distance",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "state-transition",
+      "variable-jump-cost-dp"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation",
+      "state-transition"
+    ],
+    "expectedComplexity": "O(n * k)",
+    "estimatedMinutes": 24,
+    "description": "Given heights of stones in a line, a frog starts at index 0 and wants to reach index n - 1. From any stone i, it may jump forward by 1 to k positions. The cost of a jump from j to i is abs(heights[i] - heights[j]). Return the minimum total energy needed to reach the last stone.",
+    "constraints": [
+      "1 <= n <= 10^4",
+      "1 <= k <= 100",
+      "0 <= heights[i] <= 10^4"
+    ],
+    "inputFormat": [
+      "Two integers n and k",
+      "n space-separated stone heights"
+    ],
+    "outputFormat": [
+      "Print the minimum total energy"
+    ],
+    "edgeCases": [
+      "n = 1 means cost 0",
+      "k can be larger than the current index",
+      "Several previous jumps may give the same minimum energy"
+    ],
+    "intendedApproachSummary": "Let dp[i] be the minimum energy to reach stone i. Try every valid previous jump length from 1 to k and take the minimum dp[i - jump] + abs(heights[i] - heights[i - jump]).",
+    "wrongApproachHints": [
+      "A greedy jump to the closest or cheapest immediate stone can fail later.",
+      "This is not a fixed two-state recurrence because each index may have many valid predecessors."
+    ],
+    "hints": [
+      "dp[0] = 0.",
+      "For each i, inspect all previous positions from i - 1 down to i - k.",
+      "Keep the best transition cost among those reachable predecessors."
+    ],
+    "examples": [
+      {
+        "input": "5 3\n10 30 40 20 25",
+        "output": "15",
+        "explanation": "One optimal route is 10 -> 20 -> 25 with total cost 10 + 5 = 15."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "5 3\n10 30 40 20 25",
+        "expectedOutput": "15",
+        "visibility": "sample"
+      },
+      {
+        "input": "4 2\n10 20 10 10",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "1 5\n42",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-005"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "frogJumpKDistance",
+      "javaSignature": "public int frogJumpKDistance(int[] heights, int k)",
+      "cppSignature": "int frogJumpKDistance(vector<int>& heights, int k)",
+      "providedTypes": [
+        "integer array",
+        "jump limit"
+      ],
+      "driverStrategy": "dp-frog-k-jump"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "dp-1d-variable-jump"
+  },
+  {
+    "id": "dp-017",
+    "topic": "Dynamic Programming",
+    "subtopic": "Jump-memory DP",
+    "title": "Reach Last Stone with Jump Memory",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "memoization",
+      "state-transition",
+      "jump-reachability-dp"
+    ],
+    "prerequisiteConcepts": [
+      "dp-intro",
+      "memoization",
+      "state-transition"
+    ],
+    "expectedComplexity": "O(n^2)",
+    "estimatedMinutes": 30,
+    "description": "Given a sorted array stones of stone positions, a frog starts on stones[0]. The first jump must be exactly 1. If the last jump was k, the next jump may be k - 1, k, or k + 1, but it must stay positive. Return true if the frog can reach the last stone, otherwise false.",
+    "constraints": [
+      "2 <= n <= 2000",
+      "0 <= stones[i] <= 2^31 - 1",
+      "stones is strictly increasing",
+      "stones[0] = 0"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated stone positions"
+    ],
+    "outputFormat": [
+      "Print true if the last stone is reachable, else false"
+    ],
+    "edgeCases": [
+      "The second stone must be at position 1",
+      "A reachable stone may still fail if the jump history is wrong",
+      "The same stone can be revisited conceptually with different last-jump lengths"
+    ],
+    "intendedApproachSummary": "Use memoization or state caching on (stone index, last jump length). From each state, try jumps of k - 1, k, and k + 1 if positive, and continue only when that next position exists in the stones set.",
+    "wrongApproachHints": [
+      "Tracking only whether a stone is reachable is not enough because future options depend on the last jump size.",
+      "This is not the same as minimizing jump cost over a fixed local window."
+    ],
+    "hints": [
+      "The state needs both the current stone and the last jump length.",
+      "Use a map from stone position to index or reachable jump sizes.",
+      "Skip next jumps that are 0 or negative."
+    ],
+    "examples": [
+      {
+        "input": "8\n0 1 3 5 6 8 12 17",
+        "output": "true",
+        "explanation": "One valid jump sequence is 1, 2, 2, 3, 4, 5."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "8\n0 1 3 5 6 8 12 17",
+        "expectedOutput": "true",
+        "visibility": "sample"
+      },
+      {
+        "input": "8\n0 1 2 3 4 8 9 11",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      },
+      {
+        "input": "2\n0 2",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-016",
+      "dp-005"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "frogCanReachLastStone",
+      "javaSignature": "public boolean frogCanReachLastStone(int[] stones)",
+      "cppSignature": "bool frogCanReachLastStone(vector<int>& stones)",
+      "providedTypes": [
+        "stone positions array"
+      ],
+      "driverStrategy": "dp-frog-reachability"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "dp-jump-memory"
+  },
+  {
+    "id": "dp-018",
+    "topic": "Dynamic Programming",
+    "subtopic": "State-machine DP",
+    "title": "Stock Profit with Cooldown",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "state-transition",
+      "cooldown-state-dp"
+    ],
+    "prerequisiteConcepts": [
+      "memoization",
+      "state-transition"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 28,
+    "description": "Given daily stock prices, you may buy and sell as many times as you like, but after selling you must wait one full day before buying again. Return the maximum profit.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "0 <= prices[i] <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated stock prices"
+    ],
+    "outputFormat": [
+      "Print the maximum total profit"
+    ],
+    "edgeCases": [
+      "No profitable transaction",
+      "Cooldown blocks an otherwise tempting immediate rebuy",
+      "Best answer may involve multiple separated trades"
+    ],
+    "intendedApproachSummary": "Model states such as hold, sold, and rest for each day, or use memoization on (day, holding, cooldown). Transition carefully so selling today enforces a cooldown before the next buy.",
+    "wrongApproachHints": [
+      "This is not the same as unlimited transactions with no waiting period.",
+      "A greedy local buy-sell pair can block better future profit because of the cooldown."
+    ],
+    "hints": [
+      "Think about what information from today determines what is legal tomorrow.",
+      "Holding, just sold, and resting are enough to describe the state."
+    ],
+    "examples": [
+      {
+        "input": "5\n1 2 3 0 2",
+        "output": "3",
+        "explanation": "The best sequence respects the cooldown and yields total profit 3."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "5\n1 2 3 0 2",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1\n5",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "6\n6 1 3 2 4 7",
+        "expectedOutput": "6",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-003",
+      "dp-016"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxProfitWithCooldown",
+      "javaSignature": "public int maxProfitWithCooldown(int[] prices)",
+      "cppSignature": "int maxProfitWithCooldown(vector<int>& prices)",
+      "providedTypes": [
+        "prices array"
+      ],
+      "driverStrategy": "dp-stock-cooldown"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "dp-state-machine"
+  },
+  {
+    "id": "dp-019",
+    "topic": "Dynamic Programming",
+    "subtopic": "Probability DP",
+    "title": "Knight Stay Probability",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "grid-dp",
+      "probability-dp"
+    ],
+    "prerequisiteConcepts": [
+      "grid-dp",
+      "tabulation"
+    ],
+    "expectedComplexity": "O(moves * n^2)",
+    "estimatedMinutes": 30,
+    "description": "On an n x n chessboard, a knight starts at (row, col). On each move it chooses uniformly among the 8 standard knight moves. Return the probability that the knight remains on the board after exactly moves moves.",
+    "constraints": [
+      "1 <= n <= 25",
+      "0 <= moves <= 100",
+      "0 <= row, col < n"
+    ],
+    "inputFormat": [
+      "Four integers n, moves, row, col"
+    ],
+    "outputFormat": [
+      "Print the probability as a decimal value"
+    ],
+    "edgeCases": [
+      "0 moves means probability 1",
+      "Small boards lose probability mass quickly",
+      "Only in-bounds transitions contribute to the next state"
+    ],
+    "intendedApproachSummary": "Let dp[move][r][c] be the probability of being at cell (r, c) after move steps. Distribute each state equally across the 8 knight moves, skipping moves that leave the board.",
+    "wrongApproachHints": [
+      "Do not treat this like a shortest-path count problem; probabilities add, not minimums.",
+      "Out-of-bounds moves do not contribute further probability."
+    ],
+    "hints": [
+      "Start with probability 1 at the initial square.",
+      "Each legal outgoing move contributes one-eighth of the current probability."
+    ],
+    "examples": [
+      {
+        "input": "3 2 0 0",
+        "output": "0.0625",
+        "explanation": "Only a small fraction of the knight's random paths stay on the board for both moves."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3 2 0 0",
+        "expectedOutput": "0.0625",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 0 0 0",
+        "expectedOutput": "1.0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "8 1 3 3",
+        "expectedOutput": "1.0",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-006",
+      "dp-007"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "knightStayProbability",
+      "javaSignature": "public double knightStayProbability(int n, int moves, int row, int col)",
+      "cppSignature": "double knightStayProbability(int n, int moves, int row, int col)",
+      "providedTypes": [
+        "board size",
+        "move count",
+        "start row",
+        "start col"
+      ],
+      "driverStrategy": "dp-knight-probability"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "dp-probability-grid"
+  },
+  {
+    "id": "dp-020",
+    "topic": "Dynamic Programming",
+    "subtopic": "Transaction-budget DP",
+    "title": "Stock Profit with Two Transactions",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "state-transition",
+      "transaction-state-dp"
+    ],
+    "prerequisiteConcepts": [
+      "memoization",
+      "state-transition"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 30,
+    "description": "Given daily stock prices, return the maximum profit using at most two complete transactions. You may not hold more than one stock at a time.",
+    "constraints": [
+      "1 <= n <= 10^5",
+      "0 <= prices[i] <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated stock prices"
+    ],
+    "outputFormat": [
+      "Print the maximum total profit"
+    ],
+    "edgeCases": [
+      "Zero profit when prices never rise",
+      "Using fewer than two transactions can still be optimal",
+      "The state must know whether a transaction has already been consumed"
+    ],
+    "intendedApproachSummary": "Track day, holding status, and how many sells remain, or compress to the named states first buy, first sell, second buy, and second sell.",
+    "wrongApproachHints": [
+      "Taking the two locally best disjoint intervals greedily can fail.",
+      "The recurrence must distinguish holding from not holding and account for the transaction count."
+    ],
+    "hints": [
+      "What states do you need after the first buy, first sell, second buy, and second sell?",
+      "Selling is the action that completes a transaction."
+    ],
+    "examples": [
+      {
+        "input": "8\n3 3 5 0 0 3 1 4",
+        "output": "6",
+        "explanation": "Buy at 0 and sell at 3, then buy at 1 and sell at 4."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "8\n3 3 5 0 0 3 1 4",
+        "expectedOutput": "6",
+        "visibility": "sample"
+      },
+      {
+        "input": "5\n1 2 3 4 5",
+        "expectedOutput": "4",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5\n7 6 4 3 1",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-018",
+      "dp-003"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "maxProfitTwoTransactions",
+      "javaSignature": "public int maxProfitTwoTransactions(int[] prices)",
+      "cppSignature": "int maxProfitTwoTransactions(vector<int>& prices)",
+      "providedTypes": [
+        "prices array"
+      ],
+      "driverStrategy": "dp-stock-two-transactions"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "dp-transaction-budget"
+  },
+  {
+    "id": "dp-021",
+    "topic": "Dynamic Programming",
+    "subtopic": "Grid budget DP",
+    "title": "Reach Bottom-Right with Obstacle Eliminations",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "grid-dp",
+      "resource-budget-dp"
+    ],
+    "prerequisiteConcepts": [
+      "grid-dp",
+      "state-transition"
+    ],
+    "expectedComplexity": "O(rows * cols * k)",
+    "estimatedMinutes": 30,
+    "description": "Given a grid of 0s and 1s, start at the top-left corner and move only right or down. You may eliminate at most k blocked cells marked 1. Return true if you can reach the bottom-right corner, otherwise false.",
+    "constraints": [
+      "1 <= rows, cols <= 100",
+      "0 <= k <= 100",
+      "grid[r][c] is 0 or 1"
+    ],
+    "inputFormat": [
+      "Three integers rows, cols, and k",
+      "rows lines each containing cols space-separated 0/1 values"
+    ],
+    "outputFormat": [
+      "Print true if the destination is reachable, else false"
+    ],
+    "edgeCases": [
+      "The starting or ending cell may itself consume budget if blocked",
+      "A cell can be reachable with one budget value and unreachable with another",
+      "Large k may make many paths viable"
+    ],
+    "intendedApproachSummary": "Use DP on row, column, and used budget. A state is reachable if either the top or left predecessor can reach it while paying the current cell's obstacle cost without exceeding k.",
+    "wrongApproachHints": [
+      "Tracking only whether a cell is reachable is not enough because different remaining budgets lead to different futures.",
+      "Do not spend budget twice for the same cell transition."
+    ],
+    "hints": [
+      "The state needs both position and budget spent or remaining.",
+      "For a blocked cell, only predecessor states with one extra budget unit available can continue.",
+      "Right/down only keeps the problem DP-friendly."
+    ],
+    "examples": [
+      {
+        "input": "3 3 1\n0 1 0\n0 1 0\n0 0 0",
+        "output": "true",
+        "explanation": "Eliminate one blocked cell in the middle column and continue to the destination."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3 3 1\n0 1 0\n0 1 0\n0 0 0",
+        "expectedOutput": "true",
+        "visibility": "sample"
+      },
+      {
+        "input": "2 2 0\n0 1\n1 0",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      },
+      {
+        "input": "2 2 1\n0 1\n1 0",
+        "expectedOutput": "true",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-006",
+      "dp-019"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "canReachWithObstacleEliminations",
+      "javaSignature": "public boolean canReachWithObstacleEliminations(int[][] grid, int k)",
+      "cppSignature": "bool canReachWithObstacleEliminations(vector<vector<int>>& grid, int k)",
+      "providedTypes": [
+        "grid",
+        "elimination budget"
+      ],
+      "driverStrategy": "dp-grid-budget-reachability"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "dp-resource-budget"
   }
 ]

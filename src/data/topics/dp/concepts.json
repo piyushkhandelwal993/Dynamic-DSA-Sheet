@@ -118,5 +118,77 @@
     ],
     "practiceProblems": ["dp-015"],
     "dependsOn": ["tabulation", "state-transition"]
+  },
+  {
+    "id": "variable-jump-cost-dp",
+    "name": "Variable-Jump Cost DP",
+    "description": "Minimize total cost when each position can be reached from several earlier positions with jump-dependent transition cost.",
+    "exampleJava": "for (int jump = 1; jump <= k && i - jump >= 0; jump++) best = Math.min(best, dp[i - jump] + Math.abs(h[i] - h[i - jump]));",
+    "commonMistakes": [
+      "Checking only one previous state when several jump lengths are allowed",
+      "Forgetting to guard indices when exploring larger jumps"
+    ],
+    "practiceProblems": ["dp-016"],
+    "dependsOn": ["tabulation", "state-transition"]
+  },
+  {
+    "id": "jump-reachability-dp",
+    "name": "Jump-Memory Reachability DP",
+    "description": "Track whether a state is reachable when the next moves depend on both the current position and the previous jump length.",
+    "exampleJava": "for (int prevJump : reachable.get(stone)) { for (int next = prevJump - 1; next <= prevJump + 1; next++) { ... } }",
+    "commonMistakes": [
+      "Tracking only the stone index and forgetting the last jump length",
+      "Allowing zero or negative jump lengths as valid next states"
+    ],
+    "practiceProblems": ["dp-017"],
+    "dependsOn": ["memoization", "state-transition"]
+  },
+  {
+    "id": "cooldown-state-dp",
+    "name": "Cooldown State DP",
+    "description": "Track multiple states such as holding, selling, or resting when an action changes what is legal on the next step.",
+    "exampleJava": "nextHold = Math.max(hold, rest - price); nextSold = hold + price; nextRest = Math.max(rest, sold);",
+    "commonMistakes": [
+      "Updating states in-place without preserving the previous day values",
+      "Ignoring that selling today affects whether buying is allowed tomorrow"
+    ],
+    "practiceProblems": ["dp-018"],
+    "dependsOn": ["memoization", "state-transition"]
+  },
+  {
+    "id": "probability-dp",
+    "name": "Probability DP",
+    "description": "Store probabilities instead of boolean or integer counts when a state branches into weighted outcomes.",
+    "exampleJava": "dp[move + 1][nr][nc] += dp[move][r][c] / 8.0;",
+    "commonMistakes": [
+      "Using integer division instead of floating point probability accumulation",
+      "Forgetting to drop moves that leave the board"
+    ],
+    "practiceProblems": ["dp-019"],
+    "dependsOn": ["grid-dp", "tabulation"]
+  },
+  {
+    "id": "transaction-state-dp",
+    "name": "Transaction-State DP",
+    "description": "Represent stock or trading problems with state dimensions for day, holding status, and remaining transaction budget.",
+    "exampleJava": "dp[day][transactions][holding] = Math.max(skip, takeAction);",
+    "commonMistakes": [
+      "Using the wrong transition when a sell should consume a transaction",
+      "Collapsing holding and not-holding states into one value"
+    ],
+    "practiceProblems": ["dp-020"],
+    "dependsOn": ["memoization", "state-transition"]
+  },
+  {
+    "id": "resource-budget-dp",
+    "name": "Resource-Budget DP",
+    "description": "Track a position state together with remaining removals, energy, or operations budget when the best decision depends on both.",
+    "exampleJava": "reachable[r][c][used] |= reachable[r - 1][c][used - cost] || reachable[r][c - 1][used - cost];",
+    "commonMistakes": [
+      "Tracking only the grid cell and forgetting how much budget remains",
+      "Using transitions that overspend the allowed resource budget"
+    ],
+    "practiceProblems": ["dp-021"],
+    "dependsOn": ["grid-dp", "state-transition"]
   }
 ]

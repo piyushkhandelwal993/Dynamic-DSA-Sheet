@@ -245,6 +245,30 @@ test("array and tree function templates expose the expected signatures", () => {
   }
 });
 
+test("resource budget DP scaffolds expose grid plus budget signatures", () => {
+  const problem = getProblemById("dp-021");
+  assert.ok(problem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-dp-budget-workspace-"));
+
+  try {
+    const javaWorkspace = ensureProblemWorkspace(problem, "java");
+    const cppWorkspace = ensureProblemWorkspace(problem, "cpp");
+
+    assert.match(
+      fs.readFileSync(javaWorkspace.filePath, "utf-8"),
+      /public boolean canReachWithObstacleEliminations\(int\[\]\[\] grid, int k\)/
+    );
+    assert.match(
+      fs.readFileSync(cppWorkspace.filePath, "utf-8"),
+      /bool canReachWithObstacleEliminations\(vector<vector<int>>& grid, int k\)/
+    );
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("new array beginner scaffolds cover int, boolean, long, array, void, and double signatures", () => {
   const minLenProblem = getProblemById("arr-018");
   const zeroSumProblem = getProblemById("arr-021");
