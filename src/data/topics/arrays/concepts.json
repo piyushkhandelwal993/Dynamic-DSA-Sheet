@@ -334,7 +334,8 @@
     "dependsOn": [
       "fixed-size-window",
       "queue-library-usage",
-      "hash-map-usage"
+      "deque-library-usage",
+      "frequency-map-basics"
     ]
   },
   {

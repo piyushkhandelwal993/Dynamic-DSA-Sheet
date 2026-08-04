@@ -1200,7 +1200,7 @@ export function createTargetProblemRoadmap(
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
     : remainingInternalPlan;
-  const internalProblems = orderInternalProblemsByProgression([...explicitBridges, ...baseInternalProblems]);
+  const internalProblems = orderInternalProblemsByProgression([...baseInternalProblems, ...explicitBridges]);
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
   const transfer = assessment.matchedProblem && shouldAddExternalTransfer(assessment.matchedProblem, assessment, internalProblems)

@@ -74,7 +74,7 @@
     "difficulty": "Easy",
     "topicId": "strings",
     "conceptIds": ["char-frequency", "anagram-check"],
-    "prerequisiteConceptIds": ["char-frequency", "anagram-check"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "char-frequency", "anagram-check"],
     "mappedFromProblemIds": ["str-004"],
     "recommendedAfterProblemIds": ["str-004"],
     "roadmapBridgeProblemIds": ["str-004"],
@@ -88,10 +88,10 @@
     "difficulty": "Medium",
     "topicId": "strings",
     "conceptIds": ["char-frequency", "anagram-check"],
-    "prerequisiteConceptIds": ["char-frequency", "anagram-check"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "char-frequency", "anagram-check", "map-iteration-order-usage"],
     "mappedFromProblemIds": ["str-004"],
     "recommendedAfterProblemIds": ["str-004"],
-    "roadmapBridgeProblemIds": ["str-004"],
+    "roadmapBridgeProblemIds": ["lt-022", "str-004"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -130,10 +130,10 @@
     "difficulty": "Medium",
     "topicId": "strings",
     "conceptIds": ["char-frequency", "string-builder"],
-    "prerequisiteConceptIds": ["char-frequency", "string-builder"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "char-frequency", "string-builder", "comparator-sorting-usage"],
     "mappedFromProblemIds": ["str-004"],
     "recommendedAfterProblemIds": ["str-004"],
-    "roadmapBridgeProblemIds": ["str-004"],
+    "roadmapBridgeProblemIds": ["lt-026", "str-004"],
     "sourceQualityWeight": 0.84
   },
   {
@@ -144,7 +144,7 @@
     "difficulty": "Medium",
     "topicId": "strings",
     "conceptIds": ["char-frequency", "anagram-check", "substring-window-unique"],
-    "prerequisiteConceptIds": ["char-frequency", "anagram-check", "substring-window-unique"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "char-frequency", "anagram-check", "substring-window-unique"],
     "mappedFromProblemIds": ["str-004", "str-009"],
     "recommendedAfterProblemIds": ["str-009"],
     "roadmapBridgeProblemIds": ["str-004", "str-009"],
@@ -306,7 +306,7 @@
     "difficulty": "Medium",
     "topicId": "strings",
     "conceptIds": ["string-builder", "word-parsing"],
-    "prerequisiteConceptIds": ["string-builder", "word-parsing"],
+    "prerequisiteConceptIds": ["string-builder", "word-parsing", "tokenization-usage", "string-normalization-usage"],
     "mappedFromProblemIds": ["str-008"],
     "recommendedAfterProblemIds": ["str-008"],
     "roadmapBridgeProblemIds": ["str-005", "str-008"],
@@ -979,10 +979,10 @@
     "difficulty": "Hard",
     "topicId": "queue",
     "conceptIds": ["sliding-window-queue", "deque-technique"],
-    "prerequisiteConceptIds": ["fixed-size-window", "sliding-window-queue", "deque-technique"],
+    "prerequisiteConceptIds": ["fixed-size-window", "deque-library-usage", "monotonic-deque-usage", "sliding-window-queue", "deque-technique"],
     "mappedFromProblemIds": ["q-008"],
     "recommendedAfterProblemIds": ["q-008"],
-    "roadmapBridgeProblemIds": ["q-008"],
+    "roadmapBridgeProblemIds": ["lt-014", "q-008"],
     "sourceQualityWeight": 1
   },
   {
@@ -993,7 +993,7 @@
     "difficulty": "Hard",
     "topicId": "queue",
     "conceptIds": ["deque-technique"],
-    "prerequisiteConceptIds": ["prefix-sum", "sliding-window-queue", "deque-technique"],
+    "prerequisiteConceptIds": ["prefix-sum", "deque-library-usage", "monotonic-deque-usage", "sliding-window-queue", "deque-technique"],
     "mappedFromProblemIds": ["q-009"],
     "recommendedAfterProblemIds": ["q-009"],
     "roadmapBridgeProblemIds": ["arr-006", "q-008", "q-009"],
@@ -1007,7 +1007,7 @@
     "difficulty": "Medium",
     "topicId": "queue",
     "conceptIds": ["deque-technique"],
-    "prerequisiteConceptIds": ["deque-technique", "state-transition"],
+    "prerequisiteConceptIds": ["deque-library-usage", "monotonic-deque-usage", "deque-technique", "state-transition"],
     "mappedFromProblemIds": ["q-010"],
     "recommendedAfterProblemIds": ["q-010"],
     "roadmapBridgeProblemIds": ["q-008", "q-010"],
@@ -1021,10 +1021,10 @@
     "difficulty": "Medium",
     "topicId": "queue",
     "conceptIds": ["task-scheduling-queue", "top-k-elements"],
-    "prerequisiteConceptIds": ["task-scheduling-queue", "top-k-elements", "priority-queue-usage", "hash-map-usage"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "task-scheduling-queue", "top-k-elements", "priority-queue-usage", "heap-top-k-usage", "hash-map-usage"],
     "mappedFromProblemIds": ["q-012"],
     "recommendedAfterProblemIds": ["q-012"],
-    "roadmapBridgeProblemIds": ["lt-004", "lt-008", "q-011", "q-012"],
+    "roadmapBridgeProblemIds": ["lt-009", "lt-015", "lt-027", "q-011", "q-012"],
     "sourceQualityWeight": 1
   },
   {
@@ -1377,9 +1377,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["cycle-detection", "topological-sort"],
-    "prerequisiteConceptIds": ["cycle-detection", "topological-sort"],
+    "prerequisiteConceptIds": ["cycle-detection", "topological-sort", "pair-collection-usage", "collection-iteration-usage"],
     "mappedFromProblemIds": ["gr-009", "gr-010"],
     "recommendedAfterProblemIds": ["gr-009"],
+    "roadmapBridgeProblemIds": ["lt-021", "gr-010"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -1403,10 +1404,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["dijkstra"],
-    "prerequisiteConceptIds": ["dijkstra"],
+    "prerequisiteConceptIds": ["dijkstra", "heap-of-pairs-usage"],
     "mappedFromProblemIds": ["gr-013"],
     "recommendedAfterProblemIds": ["gr-013"],
-    "roadmapBridgeProblemIds": ["gr-013"],
+    "roadmapBridgeProblemIds": ["lt-024", "gr-013"],
     "sourceQualityWeight": 1
   },
   {
@@ -1417,9 +1418,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["union-find", "mst", "dijkstra"],
-    "prerequisiteConceptIds": ["union-find", "mst", "dijkstra"],
+    "prerequisiteConceptIds": ["union-find", "mst", "dijkstra", "heap-of-pairs-usage"],
     "mappedFromProblemIds": ["gr-015", "gr-016"],
     "recommendedAfterProblemIds": ["gr-016"],
+    "roadmapBridgeProblemIds": ["lt-024", "gr-016"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -2639,9 +2641,10 @@
     "difficulty": "Medium",
     "topicId": "queue",
     "conceptIds": ["task-scheduling-queue", "top-k-elements"],
-    "prerequisiteConceptIds": ["task-scheduling-queue", "top-k-elements"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "task-scheduling-queue", "top-k-elements", "heap-of-pairs-usage", "comparator-sorting-usage"],
     "mappedFromProblemIds": ["q-012"],
     "recommendedAfterProblemIds": ["q-012"],
+    "roadmapBridgeProblemIds": ["lt-026", "lt-027", "q-012"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -2652,9 +2655,10 @@
     "difficulty": "Hard",
     "topicId": "queue",
     "conceptIds": ["task-scheduling-queue", "top-k-elements"],
-    "prerequisiteConceptIds": ["task-scheduling-queue", "top-k-elements"],
+    "prerequisiteConceptIds": ["frequency-map-basics", "task-scheduling-queue", "top-k-elements", "heap-of-pairs-usage", "comparator-sorting-usage"],
     "mappedFromProblemIds": ["q-012", "q-013"],
     "recommendedAfterProblemIds": ["q-013"],
+    "roadmapBridgeProblemIds": ["lt-026", "lt-027", "q-012"],
     "sourceQualityWeight": 0.82
   },
   {
@@ -3166,10 +3170,10 @@
     "difficulty": "Hard",
     "topicId": "trees",
     "conceptIds": ["tree-view", "level-order-traversal"],
-    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage", "hash-map-usage"],
+    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage", "hash-map-usage", "ordered-map-usage", "map-iteration-order-usage", "pair-collection-usage"],
     "mappedFromProblemIds": ["tr-012"],
     "recommendedAfterProblemIds": ["tr-012"],
-    "roadmapBridgeProblemIds": ["tr-004", "tr-012"],
+    "roadmapBridgeProblemIds": ["lt-028", "tr-004", "tr-012"],
     "sourceQualityWeight": 0.89
   },
   {
@@ -3402,9 +3406,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["dijkstra", "bfs-graph", "shortest-path-unweighted"],
-    "prerequisiteConceptIds": ["dijkstra", "bfs-graph", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "bfs-graph", "shortest-path-unweighted", "heap-of-pairs-usage"],
     "mappedFromProblemIds": ["gr-012", "gr-013"],
     "recommendedAfterProblemIds": ["gr-012"],
+    "roadmapBridgeProblemIds": ["lt-024", "gr-013"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -3415,9 +3420,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["dijkstra", "shortest-path-unweighted"],
-    "prerequisiteConceptIds": ["dijkstra", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "shortest-path-unweighted", "heap-of-pairs-usage"],
     "mappedFromProblemIds": ["gr-012", "gr-013"],
     "recommendedAfterProblemIds": ["gr-013"],
+    "roadmapBridgeProblemIds": ["lt-024", "gr-013"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -3428,9 +3434,10 @@
     "difficulty": "Hard",
     "topicId": "graphs",
     "conceptIds": ["dijkstra", "grid-bfs", "shortest-path-unweighted"],
-    "prerequisiteConceptIds": ["dijkstra", "grid-bfs", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "grid-bfs", "shortest-path-unweighted", "heap-of-pairs-usage"],
     "mappedFromProblemIds": ["gr-008", "gr-012"],
     "recommendedAfterProblemIds": ["gr-012"],
+    "roadmapBridgeProblemIds": ["lt-024", "gr-012"],
     "sourceQualityWeight": 0.88
   },
   {

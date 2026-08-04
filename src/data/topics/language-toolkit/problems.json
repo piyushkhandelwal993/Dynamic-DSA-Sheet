@@ -366,5 +366,925 @@
     "masteryWeight": 1.2,
     "variantGroup": "toolkit-priority-queue",
     "learningRole": "mastery"
+  },
+  {
+    "id": "lt-009",
+    "topic": "Language Toolkit",
+    "subtopic": "Hash maps",
+    "title": "Distinct Character Count",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["hash-map-usage", "frequency-map-basics"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 10,
+    "description": "Given a lowercase string, return how many distinct characters appear in it. This is a clean first frequency-map readiness check.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A lowercase string s without spaces"],
+    "outputFormat": ["Return the number of distinct characters"],
+    "edgeCases": ["All characters same", "All characters distinct"],
+    "intendedApproachSummary": "Scan once and use a map or set-like structure to track which characters have appeared.",
+    "wrongApproachHints": ["Do not use nested loops to compare every character with every other character.", "A map or set should collapse repeated characters naturally."],
+    "hints": ["Each new character should be registered once.", "The final answer is the number of registered distinct keys."],
+    "examples": [
+      {
+        "input": "banana",
+        "output": "3",
+        "explanation": "The distinct characters are b, a, and n."
+      }
+    ],
+    "testCases": [
+      { "input": "banana", "expectedOutput": "3", "visibility": "sample" },
+      { "input": "aaaaa", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countDistinctCharacters",
+      "javaSignature": "public int countDistinctCharacters(String value)",
+      "cppSignature": "int countDistinctCharacters(string value)",
+      "providedTypes": ["input string"],
+      "driverStrategy": "string-count-vowels"
+    },
+    "remedialProblems": ["lt-002"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-frequency-basics",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-010",
+    "topic": "Language Toolkit",
+    "subtopic": "Hash sets",
+    "title": "Contains Duplicate with Seen Set",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["hash-map-usage", "seen-set-membership"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 10,
+    "description": "Given an integer array, return true if any value appears at least twice. This teaches when a seen-set is enough and a full frequency map is unnecessary.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Return true if any duplicate exists, else false"],
+    "edgeCases": ["No duplicates", "Duplicate appears immediately", "Negative values"],
+    "intendedApproachSummary": "Walk through the array and store seen values in a set. If a value is already present, return true immediately.",
+    "wrongApproachHints": ["Sorting is possible but hides the intended set-membership habit.", "You do not need exact counts here."],
+    "hints": ["Think: have I seen this value before?", "A set is enough because only membership matters."],
+    "examples": [
+      {
+        "input": "5\n3 1 4 1 5",
+        "output": "true",
+        "explanation": "The value 1 appears more than once."
+      }
+    ],
+    "testCases": [
+      { "input": "5\n3 1 4 1 5", "expectedOutput": "true", "visibility": "sample" },
+      { "input": "4\n2 7 8 9", "expectedOutput": "false", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "containsDuplicate",
+      "javaSignature": "public boolean containsDuplicate(int[] nums)",
+      "cppSignature": "bool containsDuplicate(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-sorted-check"
+    },
+    "remedialProblems": ["lt-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-seen-set",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-011",
+    "topic": "Language Toolkit",
+    "subtopic": "Index maps",
+    "title": "First Repeated Value Index",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["hash-map-usage", "value-to-index-mapping"],
+    "prerequisiteConcepts": ["dynamic-array-usage", "hash-map-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given an integer array, return the first index whose value repeats later in the array. Return -1 if every value is unique.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Return the first repeated value index, or -1"],
+    "edgeCases": ["No repeated values", "First element repeats", "Many repeated values"],
+    "intendedApproachSummary": "Store the first index for each value. When you see a repeated value again, compare its first index with the best answer so far.",
+    "wrongApproachHints": ["Do not overwrite the earliest index when a value repeats.", "Brute-force pair scanning is too slow."],
+    "hints": ["The map should remember the earliest position for each value.", "The answer is the minimum first index among repeating values."],
+    "examples": [
+      {
+        "input": "6\n5 1 3 5 2 1",
+        "output": "0",
+        "explanation": "The value 5 repeats, and its first occurrence is at index 0."
+      }
+    ],
+    "testCases": [
+      { "input": "6\n5 1 3 5 2 1", "expectedOutput": "0", "visibility": "sample" },
+      { "input": "4\n7 8 9 10", "expectedOutput": "-1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "firstRepeatedValueIndex",
+      "javaSignature": "public int firstRepeatedValueIndex(int[] nums)",
+      "cppSignature": "int firstRepeatedValueIndex(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-maximum"
+    },
+    "remedialProblems": ["lt-010"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-index-map",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-012",
+    "topic": "Language Toolkit",
+    "subtopic": "Deques",
+    "title": "Deque Query Simulator",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["queue-library-usage", "deque-library-usage"],
+    "prerequisiteConcepts": ["queue-library-usage"],
+    "expectedComplexity": "O(1) amortized per query",
+    "estimatedMinutes": 18,
+    "description": "Process deque queries where values can be pushed or popped from both ends. This teaches true double-ended API fluency before monotonic deque patterns.",
+    "constraints": ["1 <= q <= 10^5"],
+    "inputFormat": ["An integer q", "q lines of queries encoded as 1 x, 2 x, 3, 4, 5, or 6"],
+    "outputFormat": ["For front or back queries, print the requested value or -1"],
+    "edgeCases": ["Pop on empty deque", "Front and back collapse to the same element"],
+    "intendedApproachSummary": "Use a deque directly so front and back operations stay O(1) without manual shifting.",
+    "wrongApproachHints": ["A plain queue cannot do both-end updates cleanly.", "Do not simulate front insertion by rebuilding the whole container."],
+    "hints": ["You need both offerFirst and offerLast style operations.", "Check emptiness before answering front or back queries."],
+    "examples": [
+      {
+        "input": "8\n1 5\n1 7\n3\n2 9\n4\n5\n6\n3",
+        "output": "7\n5\n9\n7",
+        "explanation": "The deque supports inserts and removals from both ends."
+      }
+    ],
+    "testCases": [
+      { "input": "8\n1 5\n1 7\n3\n2 9\n4\n5\n6\n3", "expectedOutput": "7\n5\n9\n7", "visibility": "sample" },
+      { "input": "4\n5\n1 2\n6\n3", "expectedOutput": "-1\n2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "processDequeQueries",
+      "javaSignature": "public int[] processDequeQueries(int[][] queries)",
+      "cppSignature": "vector<int> processDequeQueries(vector<vector<int>>& queries)",
+      "providedTypes": ["deque operations encoded as query pairs"],
+      "driverStrategy": "queue-process-queries"
+    },
+    "remedialProblems": ["lt-006"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-deque-api",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-013",
+    "topic": "Language Toolkit",
+    "subtopic": "Deque window helpers",
+    "title": "First Negative in Every Window Helper",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["deque-library-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["deque-library-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given an array and window size k, return the first negative number in every window, or 0 if a window has none. This builds deque expiry habits before monotonic deque problems.",
+    "constraints": ["1 <= k <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers"],
+    "outputFormat": ["Return the first negative value in each window"],
+    "edgeCases": ["No negative values", "All values negative", "Expired negative leaves the window"],
+    "intendedApproachSummary": "Store candidate negative indices in a deque and evict any index that has left the current window.",
+    "wrongApproachHints": ["Do not rescan the full window every time.", "Store indices rather than only values so expiry is easy."],
+    "hints": ["Push the index when a value is negative.", "Before answering a window, remove indices less than the current left boundary."],
+    "examples": [
+      {
+        "input": "8 3\n12 -1 -7 8 -15 30 16 28",
+        "output": "-1 -1 -7 -15 -15 0",
+        "explanation": "Each answer is the first negative value currently inside that window."
+      }
+    ],
+    "testCases": [
+      { "input": "8 3\n12 -1 -7 8 -15 30 16 28", "expectedOutput": "-1 -1 -7 -15 -15 0", "visibility": "sample" },
+      { "input": "5 2\n1 2 3 4 5", "expectedOutput": "0 0 0 0", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "firstNegativeWindowHelper",
+      "javaSignature": "public int[] firstNegativeWindowHelper(int[] nums, int k)",
+      "cppSignature": "vector<int> firstNegativeWindowHelper(vector<int>& nums, int k)",
+      "providedTypes": ["integer array", "window size"],
+      "driverStrategy": "array-first-negative-window"
+    },
+    "remedialProblems": ["lt-012"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-deque-window",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-014",
+    "topic": "Language Toolkit",
+    "subtopic": "Monotonic deques",
+    "title": "Window Maximum with Monotonic Deque",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["deque-library-usage", "monotonic-deque-usage"],
+    "prerequisiteConcepts": ["deque-library-usage", "dynamic-array-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given an array and window size k, return the maximum value in every window. This is the toolkit version of the monotonic deque pattern before the queue topic challenge problems.",
+    "constraints": ["1 <= k <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers"],
+    "outputFormat": ["Return the maximum of every window"],
+    "edgeCases": ["k = 1", "Strictly increasing values", "Strictly decreasing values"],
+    "intendedApproachSummary": "Keep deque indices in decreasing value order, removing expired indices from the front and dominated indices from the back.",
+    "wrongApproachHints": ["Nested rescans per window are too slow.", "If you store values instead of indices, expiry becomes awkward."],
+    "hints": ["The best candidate always sits at the front.", "Pop from the back while the new value is greater or equal."],
+    "examples": [
+      {
+        "input": "8 3\n1 3 -1 -3 5 3 6 7",
+        "output": "3 3 5 5 6 7",
+        "explanation": "The deque keeps only the useful maximum candidates."
+      }
+    ],
+    "testCases": [
+      { "input": "8 3\n1 3 -1 -3 5 3 6 7", "expectedOutput": "3 3 5 5 6 7", "visibility": "sample" },
+      { "input": "5 2\n4 2 12 3 8", "expectedOutput": "4 12 12 8", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "windowMaximumWithDeque",
+      "javaSignature": "public int[] windowMaximumWithDeque(int[] nums, int k)",
+      "cppSignature": "vector<int> windowMaximumWithDeque(vector<int>& nums, int k)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-sliding-window-maximum"
+    },
+    "remedialProblems": ["lt-012", "lt-013"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "toolkit-monotonic-deque",
+    "learningRole": "mastery"
+  },
+  {
+    "id": "lt-015",
+    "topic": "Language Toolkit",
+    "subtopic": "Heaps",
+    "title": "Top K Frequent Numbers",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["frequency-map-basics", "priority-queue-usage", "heap-top-k-usage"],
+    "prerequisiteConcepts": ["hash-map-usage", "priority-queue-usage"],
+    "expectedComplexity": "O(n log k)",
+    "estimatedMinutes": 22,
+    "description": "Given an integer array and k, return the k most frequent values in ascending order of frequency rank tie-broken by value. This combines counting plus top-k heap maintenance.",
+    "constraints": ["1 <= k <= number of distinct values <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers"],
+    "outputFormat": ["Return the selected values as a space-separated list"],
+    "edgeCases": ["All values equally frequent", "k equals number of distinct values"],
+    "intendedApproachSummary": "Count frequencies first, then maintain a min-heap of the best k candidates by frequency.",
+    "wrongApproachHints": ["Sorting all frequency pairs works but hides the intended heap habit.", "Do not forget that the heap should compare frequencies before values."],
+    "hints": ["Build the frequency map first.", "Keep only k candidates in the heap at a time."],
+    "examples": [
+      {
+        "input": "6 2\n1 1 1 2 2 3",
+        "output": "2 1",
+        "explanation": "1 appears three times and 2 appears twice, so they are the top two frequent values."
+      }
+    ],
+    "testCases": [
+      { "input": "6 2\n1 1 1 2 2 3", "expectedOutput": "2 1", "visibility": "sample" },
+      { "input": "5 1\n4 4 5 5 5", "expectedOutput": "5", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "topKFrequentNumbers",
+      "javaSignature": "public int[] topKFrequentNumbers(int[] nums, int k)",
+      "cppSignature": "vector<int> topKFrequentNumbers(vector<int>& nums, int k)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-009", "lt-008"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.15,
+    "variantGroup": "toolkit-heap-top-k",
+    "learningRole": "mastery"
+  },
+  {
+    "id": "lt-016",
+    "topic": "Language Toolkit",
+    "subtopic": "Heaps",
+    "title": "K Smallest Elements with Heap",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["priority-queue-usage", "heap-top-k-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["priority-queue-usage", "dynamic-array-usage"],
+    "expectedComplexity": "O(n log k)",
+    "estimatedMinutes": 18,
+    "description": "Given an array and k, return the k smallest elements in ascending order. This reinforces heap direction choice by using a bounded max-like maintenance pattern.",
+    "constraints": ["1 <= k <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers"],
+    "outputFormat": ["Return the k smallest elements in ascending order"],
+    "edgeCases": ["k = 1", "Negative values", "Duplicate values"],
+    "intendedApproachSummary": "Maintain a heap of size k that represents the current k smallest values, evicting the worst candidate when a smaller value arrives.",
+    "wrongApproachHints": ["This is not the same heap direction as keeping the k largest values.", "A full sort is acceptable but does not teach the intended heap choice."],
+    "hints": ["Ask which candidate should be easiest to evict.", "Only values that improve the current best k should stay."],
+    "examples": [
+      {
+        "input": "6 3\n9 4 1 7 3 8",
+        "output": "1 3 4",
+        "explanation": "These are the three smallest values."
+      }
+    ],
+    "testCases": [
+      { "input": "6 3\n9 4 1 7 3 8", "expectedOutput": "1 3 4", "visibility": "sample" },
+      { "input": "5 2\n5 5 1 2 3", "expectedOutput": "1 2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kSmallestElements",
+      "javaSignature": "public int[] kSmallestElements(int[] nums, int k)",
+      "cppSignature": "vector<int> kSmallestElements(vector<int>& nums, int k)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-008"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-heap-direction",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-017",
+    "topic": "Language Toolkit",
+    "subtopic": "Strings",
+    "title": "Reverse Words Cleanly",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tokenization-usage", "string-normalization-usage", "string-builder-usage"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given a sentence that may contain extra spaces, return the words in reverse order separated by single spaces.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A full sentence s"],
+    "outputFormat": ["Return the cleaned reversed sentence"],
+    "edgeCases": ["Leading and trailing spaces", "Multiple internal spaces", "Single word"],
+    "intendedApproachSummary": "Extract words carefully, then rebuild them in reverse order with exactly one space between adjacent words.",
+    "wrongApproachHints": ["Do not preserve all original spacing exactly.", "Be careful not to add an extra trailing space."],
+    "hints": ["Think in terms of words, not raw characters only.", "Normalize the spaces while rebuilding."],
+    "examples": [
+      {
+        "input": "  hello   toolkit world  ",
+        "output": "world toolkit hello",
+        "explanation": "The words are reversed and the spacing is normalized."
+      }
+    ],
+    "testCases": [
+      { "input": "  hello   toolkit world  ", "expectedOutput": "world toolkit hello", "visibility": "sample" },
+      { "input": "one", "expectedOutput": "one", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseWordsCleanly",
+      "javaSignature": "public String reverseWordsCleanly(String value)",
+      "cppSignature": "string reverseWordsCleanly(string value)",
+      "providedTypes": ["input sentence"],
+      "driverStrategy": "stack-remove-adjacent-duplicates"
+    },
+    "remedialProblems": ["lt-003"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-word-parsing",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-018",
+    "topic": "Language Toolkit",
+    "subtopic": "Strings",
+    "title": "Normalize Spaces in Sentence",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["tokenization-usage", "string-normalization-usage"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given a sentence, return it with leading or trailing spaces removed and every internal block of spaces collapsed to one space.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A full sentence s"],
+    "outputFormat": ["Return the normalized sentence"],
+    "edgeCases": ["Only one word", "All spaces already normalized", "Long block of spaces"],
+    "intendedApproachSummary": "Scan the sentence and append characters to the answer while allowing at most one space between words.",
+    "wrongApproachHints": ["Do not keep the original repeated spaces.", "Avoid adding a leading or trailing space to the final answer."],
+    "hints": ["You can treat entering a new word as a special event.", "A builder is easier than repeated immutable string edits."],
+    "examples": [
+      {
+        "input": "  a   b   c  ",
+        "output": "a b c",
+        "explanation": "All extra spacing is collapsed."
+      }
+    ],
+    "testCases": [
+      { "input": "  a   b   c  ", "expectedOutput": "a b c", "visibility": "sample" },
+      { "input": "toolkit", "expectedOutput": "toolkit", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "normalizeSpaces",
+      "javaSignature": "public String normalizeSpaces(String value)",
+      "cppSignature": "string normalizeSpaces(string value)",
+      "providedTypes": ["input sentence"],
+      "driverStrategy": "stack-remove-adjacent-duplicates"
+    },
+    "remedialProblems": ["lt-002"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-string-normalization",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-019",
+    "topic": "Language Toolkit",
+    "subtopic": "Sorting helpers",
+    "title": "Sort Numbers Ascending",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["collection-iteration-usage", "custom-sorting-helpers"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 10,
+    "description": "Given an integer array, return it sorted in ascending order. This is a light readiness check for built-in sort helpers and clean array-list conversion habits.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Return the sorted array"],
+    "edgeCases": ["Already sorted", "Reverse sorted", "Duplicate values"],
+    "intendedApproachSummary": "Use the language's built-in sorting helper directly on the collection or array you are working with.",
+    "wrongApproachHints": ["Do not reimplement a full sorting algorithm in a toolkit readiness problem unless asked.", "Make sure the final order is ascending."],
+    "hints": ["Java and C++ already give you standard sorting helpers.", "Return the values after sorting the same collection."],
+    "examples": [
+      {
+        "input": "5\n4 1 5 2 3",
+        "output": "1 2 3 4 5",
+        "explanation": "The built-in sort helper places the values in ascending order."
+      }
+    ],
+    "testCases": [
+      { "input": "5\n4 1 5 2 3", "expectedOutput": "1 2 3 4 5", "visibility": "sample" },
+      { "input": "4\n9 9 1 2", "expectedOutput": "1 2 9 9", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sortAscending",
+      "javaSignature": "public int[] sortAscending(int[] nums)",
+      "cppSignature": "vector<int> sortAscending(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-running-sum"
+    },
+    "remedialProblems": ["lt-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-sorting-foundation",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-020",
+    "topic": "Language Toolkit",
+    "subtopic": "Sorting helpers",
+    "title": "Sort Characters in String",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["string-builder-usage", "custom-sorting-helpers"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 12,
+    "description": "Given a lowercase string, return a new string with its characters sorted in ascending alphabetical order.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A lowercase string s without spaces"],
+    "outputFormat": ["Return the sorted string"],
+    "edgeCases": ["All characters same", "Already sorted", "Reverse sorted"],
+    "intendedApproachSummary": "Move the characters into a sortable form, sort them, then rebuild the answer string cleanly.",
+    "wrongApproachHints": ["Do not repeatedly insert into the middle of an immutable string.", "Remember that the output should be a string again after sorting."],
+    "hints": ["Think of the string as a collection of characters.", "A builder or character array makes reconstruction simpler."],
+    "examples": [
+      {
+        "input": "dcab",
+        "output": "abcd",
+        "explanation": "The letters are sorted alphabetically."
+      }
+    ],
+    "testCases": [
+      { "input": "dcab", "expectedOutput": "abcd", "visibility": "sample" },
+      { "input": "zzza", "expectedOutput": "azzz", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sortCharacters",
+      "javaSignature": "public String sortCharacters(String value)",
+      "cppSignature": "string sortCharacters(string value)",
+      "providedTypes": ["input string"],
+      "driverStrategy": "stack-remove-adjacent-duplicates"
+    },
+    "remedialProblems": ["lt-018", "lt-019"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-sorting-string",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-021",
+    "topic": "Language Toolkit",
+    "subtopic": "Comparators",
+    "title": "Sort Pairs by First Then Second",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["pair-collection-usage", "comparator-sorting-usage"],
+    "prerequisiteConcepts": ["custom-sorting-helpers", "collection-iteration-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 15,
+    "description": "Given n pairs, return them sorted first by the first value ascending and then by the second value ascending.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n lines each containing two integers"],
+    "outputFormat": ["Print the sorted pairs line by line"],
+    "edgeCases": ["Repeated first values", "Repeated identical pairs", "Negative values"],
+    "intendedApproachSummary": "Store the pairs together and sort them with a custom comparator that applies the tie-break in the correct order.",
+    "wrongApproachHints": ["Sorting only by the first field loses the required tie-break.", "Parallel arrays make the comparator logic harder than needed."],
+    "hints": ["Think of each row as one item.", "Write the tie-break explicitly in the comparator."],
+    "examples": [
+      {
+        "input": "4\n2 3\n1 5\n2 1\n1 2",
+        "output": "1 2\n1 5\n2 1\n2 3",
+        "explanation": "Pairs with the same first value are ordered by their second value."
+      }
+    ],
+    "testCases": [
+      { "input": "4\n2 3\n1 5\n2 1\n1 2", "expectedOutput": "1 2\n1 5\n2 1\n2 3", "visibility": "sample" },
+      { "input": "3\n0 0\n-1 4\n-1 2", "expectedOutput": "-1 2\n-1 4\n0 0", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sortPairsByFirstThenSecond",
+      "javaSignature": "public int[][] sortPairsByFirstThenSecond(int[][] pairs)",
+      "cppSignature": "vector<vector<int>> sortPairsByFirstThenSecond(vector<vector<int>>& pairs)",
+      "providedTypes": ["pair list"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-019"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-comparator-foundation",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-022",
+    "topic": "Language Toolkit",
+    "subtopic": "Map iteration order",
+    "title": "Frequency List Sorted by Count",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["frequency-map-basics", "map-iteration-order-usage", "comparator-sorting-usage"],
+    "prerequisiteConcepts": ["hash-map-usage", "pair-collection-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 18,
+    "description": "Given an integer array, return the distinct values sorted by increasing frequency, breaking ties by value ascending.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print one line per distinct value as value count"],
+    "edgeCases": ["All frequencies equal", "Single distinct value", "Negative values"],
+    "intendedApproachSummary": "Count with a map, move entries into a pair collection, then sort explicitly by the required output order.",
+    "wrongApproachHints": ["Hash map iteration order is not the answer order.", "Sorting values alone is not enough because frequency is the primary key."],
+    "hints": ["Build pairs of value and count.", "Sort by count first and value second."],
+    "examples": [
+      {
+        "input": "6\n4 4 1 2 2 2",
+        "output": "1 1\n4 2\n2 3",
+        "explanation": "Entries are ordered by increasing frequency."
+      }
+    ],
+    "testCases": [
+      { "input": "6\n4 4 1 2 2 2", "expectedOutput": "1 1\n4 2\n2 3", "visibility": "sample" },
+      { "input": "5\n5 3 3 5 4", "expectedOutput": "4 1\n3 2\n5 2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "frequencyListSortedByCount",
+      "javaSignature": "public int[][] frequencyListSortedByCount(int[] nums)",
+      "cppSignature": "vector<vector<int>> frequencyListSortedByCount(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-009", "lt-021"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-map-order-practice",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-023",
+    "topic": "Language Toolkit",
+    "subtopic": "Ordered maps",
+    "title": "Coordinate Frequency in Sorted Key Order",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["map-iteration-order-usage", "ordered-map-usage"],
+    "prerequisiteConcepts": ["hash-map-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 14,
+    "description": "Given an integer array, print each distinct value with its frequency in increasing key order.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print one line per distinct value as value count"],
+    "edgeCases": ["Already sorted keys", "Reverse sorted keys", "Negative values"],
+    "intendedApproachSummary": "Use an ordered map directly so keys are maintained in sorted order while counts accumulate.",
+    "wrongApproachHints": ["A plain hash map does not preserve sorted key order.", "Do not sort on every insertion."],
+    "hints": ["An ordered map can simplify the final iteration.", "Count first, then iterate keys in order."],
+    "examples": [
+      {
+        "input": "6\n3 1 3 2 1 5",
+        "output": "1 2\n2 1\n3 2\n5 1",
+        "explanation": "The keys are printed in ascending order."
+      }
+    ],
+    "testCases": [
+      { "input": "6\n3 1 3 2 1 5", "expectedOutput": "1 2\n2 1\n3 2\n5 1", "visibility": "sample" },
+      { "input": "4\n-2 -2 -1 4", "expectedOutput": "-2 2\n-1 1\n4 1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "coordinateFrequencySortedOrder",
+      "javaSignature": "public int[][] coordinateFrequencySortedOrder(int[] nums)",
+      "cppSignature": "vector<vector<int>> coordinateFrequencySortedOrder(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-022"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-ordered-map",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-024",
+    "topic": "Language Toolkit",
+    "subtopic": "Heap of pairs",
+    "title": "K Closest Values by Distance",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["pair-collection-usage", "heap-of-pairs-usage"],
+    "prerequisiteConcepts": ["priority-queue-usage", "dynamic-array-usage"],
+    "expectedComplexity": "O(n log k)",
+    "estimatedMinutes": 20,
+    "description": "Given an integer array, target x, and k, return the k values closest to x. Break ties by smaller value first.",
+    "constraints": ["1 <= k <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers", "An integer x"],
+    "outputFormat": ["Print the selected values in ascending order"],
+    "edgeCases": ["Equal distances", "Negative values", "k = n"],
+    "intendedApproachSummary": "Use a heap of pairs where each pair carries distance and value information so the worst current candidate can be evicted correctly.",
+    "wrongApproachHints": ["Comparing only the raw values is not enough because distance is the real priority.", "Be explicit about the tie-break when distances match."],
+    "hints": ["Store both distance and value together.", "Ask which candidate should be removed when the heap exceeds k."],
+    "examples": [
+      {
+        "input": "5 3\n10 2 14 4 7\n6",
+        "output": "4 7 10",
+        "explanation": "These values are closest to 6 under the stated tie-break."
+      }
+    ],
+    "testCases": [
+      { "input": "5 3\n10 2 14 4 7\n6", "expectedOutput": "4 7 10", "visibility": "sample" },
+      { "input": "4 2\n1 3 5 7\n4", "expectedOutput": "3 5", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kClosestValuesByDistance",
+      "javaSignature": "public int[] kClosestValuesByDistance(int[] nums, int k, int target)",
+      "cppSignature": "vector<int> kClosestValuesByDistance(vector<int>& nums, int k, int target)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-016", "lt-021"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.1,
+    "variantGroup": "toolkit-heap-pairs",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-025",
+    "topic": "Language Toolkit",
+    "subtopic": "Heap of pairs",
+    "title": "Merge K Sorted Counters",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["heap-of-pairs-usage", "pair-collection-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["priority-queue-usage", "pair-collection-usage"],
+    "expectedComplexity": "O(total log k)",
+    "estimatedMinutes": 22,
+    "description": "Given k sorted integer lists, merge them into one sorted list using a heap of pairs or tuples that tracks both value and origin.",
+    "constraints": ["1 <= k <= 10^3", "Total number of values across all lists <= 10^5"],
+    "inputFormat": ["An integer k", "For each list: its length followed by its sorted values"],
+    "outputFormat": ["Print the merged sorted list"],
+    "edgeCases": ["One empty list", "Duplicate values across lists", "k = 1"],
+    "intendedApproachSummary": "Push the first element of each list into a heap and keep enough metadata to insert the next element from the same source list after popping.",
+    "wrongApproachHints": ["Concatenating everything and sorting loses the intended heap-of-pairs skill.", "If you pop a value, you need to know where its successor comes from."],
+    "hints": ["Each heap entry needs both a value and source location.", "After removing one entry, add the next value from the same list if it exists."],
+    "examples": [
+      {
+        "input": "3\n3 1 4 7\n2 2 5\n3 3 6 8",
+        "output": "1 2 3 4 5 6 7 8",
+        "explanation": "The three sorted lists are merged into one sorted stream."
+      }
+    ],
+    "testCases": [
+      { "input": "3\n3 1 4 7\n2 2 5\n3 3 6 8", "expectedOutput": "1 2 3 4 5 6 7 8", "visibility": "sample" },
+      { "input": "1\n4 9 10 11 12", "expectedOutput": "9 10 11 12", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeKSortedCounters",
+      "javaSignature": "public int[] mergeKSortedCounters(int[][] lists)",
+      "cppSignature": "vector<int> mergeKSortedCounters(vector<vector<int>>& lists)",
+      "providedTypes": ["list-of-lists input"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-024"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.1,
+    "variantGroup": "toolkit-heap-origin",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-026",
+    "topic": "Language Toolkit",
+    "subtopic": "Comparators",
+    "title": "Sort Words by Frequency and Lexicographic Tie",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["frequency-map-basics", "pair-collection-usage", "comparator-sorting-usage", "map-iteration-order-usage"],
+    "prerequisiteConcepts": ["hash-map-usage", "string-builder-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 22,
+    "description": "Given a list of lowercase words, return the distinct words sorted by decreasing frequency, breaking ties lexicographically ascending.",
+    "constraints": ["1 <= number of words <= 10^5"],
+    "inputFormat": ["An integer n", "n lowercase words separated by spaces or lines"],
+    "outputFormat": ["Print one distinct word per line in sorted order"],
+    "edgeCases": ["All words unique", "All words same", "Many tie frequencies"],
+    "intendedApproachSummary": "Count frequencies, move them into a pair-like collection, then sort with a comparator that applies both ranking rules exactly.",
+    "wrongApproachHints": ["Hash map iteration order is irrelevant to the final ordering.", "The lexical tie-break must be ascending even when frequency ordering is descending."],
+    "hints": ["Treat each distinct word and its frequency as one sortable item.", "Write the comparator in the same order as the problem statement."],
+    "examples": [
+      {
+        "input": "6\napple banana apple kiwi banana apple",
+        "output": "apple\nbanana\nkiwi",
+        "explanation": "apple appears 3 times, banana 2 times, and kiwi 1 time."
+      }
+    ],
+    "testCases": [
+      { "input": "6\napple banana apple kiwi banana apple", "expectedOutput": "apple\nbanana\nkiwi", "visibility": "sample" },
+      { "input": "4\nbat ant ant bat", "expectedOutput": "ant\nbat", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sortWordsByFrequency",
+      "javaSignature": "public String[] sortWordsByFrequency(String[] words)",
+      "cppSignature": "vector<string> sortWordsByFrequency(vector<string>& words)",
+      "providedTypes": ["word list"],
+      "driverStrategy": "queue-first-non-repeating-stream"
+    },
+    "remedialProblems": ["lt-022", "lt-020"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.15,
+    "variantGroup": "toolkit-word-comparator",
+    "learningRole": "mastery"
+  },
+  {
+    "id": "lt-027",
+    "topic": "Language Toolkit",
+    "subtopic": "Heap of pairs",
+    "title": "Best Pair by Smallest Priority",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["heap-of-pairs-usage", "pair-collection-usage"],
+    "prerequisiteConcepts": ["priority-queue-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 14,
+    "description": "Given n pairs where the first value is a priority and the second is a payload, repeatedly return payloads in increasing priority order, breaking ties by payload ascending.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n lines each containing priority and payload"],
+    "outputFormat": ["Print payloads in extracted order"],
+    "edgeCases": ["Tied priorities", "Negative priorities", "Single pair"],
+    "intendedApproachSummary": "Push pairs into a heap ordered by priority, then by payload, and pop until empty.",
+    "wrongApproachHints": ["A heap entry must compare the correct field first.", "Do not confuse which pair slot is printed and which slot drives priority."],
+    "hints": ["Use the first field for ordering.", "Use the second field only as a tie-break and payload."],
+    "examples": [
+      {
+        "input": "4\n3 30\n1 10\n2 20\n1 5",
+        "output": "5 10 20 30",
+        "explanation": "Pairs with smaller priority come out first, with payload tie-breaks."
+      }
+    ],
+    "testCases": [
+      { "input": "4\n3 30\n1 10\n2 20\n1 5", "expectedOutput": "5 10 20 30", "visibility": "sample" },
+      { "input": "2\n-1 9\n-2 8", "expectedOutput": "8 9", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "bestPairBySmallestPriority",
+      "javaSignature": "public int[] bestPairBySmallestPriority(int[][] pairs)",
+      "cppSignature": "vector<int> bestPairBySmallestPriority(vector<vector<int>>& pairs)",
+      "providedTypes": ["pair list"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-021"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-priority-pairs",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-028",
+    "topic": "Language Toolkit",
+    "subtopic": "Ordered maps and pairs",
+    "title": "Vertical Buckets by Column Key",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["ordered-map-usage", "pair-collection-usage", "map-iteration-order-usage"],
+    "prerequisiteConcepts": ["ordered-map-usage", "collection-iteration-usage"],
+    "expectedComplexity": "O(n log n)",
+    "estimatedMinutes": 20,
+    "description": "Given n value-column pairs, group values by column and print columns in increasing key order, preserving insertion order inside each column.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n lines each containing value and column"],
+    "outputFormat": ["For each column in increasing order, print the column key followed by its values"],
+    "edgeCases": ["Negative columns", "Many values in one column", "Sparse column keys"],
+    "intendedApproachSummary": "Use an ordered map from column key to a list of values so output order is handled naturally by the structure.",
+    "wrongApproachHints": ["A plain hash map loses the sorted column order.", "Sorting all values globally is not the same as grouping by column."],
+    "hints": ["The map key is the column.", "The map value should be a growing list for that column."],
+    "examples": [
+      {
+        "input": "5\n7 0\n3 -1\n8 0\n5 2\n4 -1",
+        "output": "-1: 3 4\n0: 7 8\n2: 5",
+        "explanation": "Columns are printed in increasing order, with values preserved inside each group."
+      }
+    ],
+    "testCases": [
+      { "input": "5\n7 0\n3 -1\n8 0\n5 2\n4 -1", "expectedOutput": "-1: 3 4\n0: 7 8\n2: 5", "visibility": "sample" },
+      { "input": "3\n1 1\n2 1\n3 0", "expectedOutput": "0: 3\n1: 1 2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "verticalBucketsByColumnKey",
+      "javaSignature": "public String[] verticalBucketsByColumnKey(int[][] entries)",
+      "cppSignature": "vector<string> verticalBucketsByColumnKey(vector<vector<int>>& entries)",
+      "providedTypes": ["pair list"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-023", "lt-021"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.1,
+    "variantGroup": "toolkit-ordered-buckets",
+    "learningRole": "mastery"
   }
 ]

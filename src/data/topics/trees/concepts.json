@@ -81,7 +81,7 @@
       "Going the wrong direction for comparisons"
     ],
     "practiceProblems": ["tr-008"],
-    "dependsOn": ["tree-intro"]
+    "dependsOn": ["tree-intro", "sorted-check"]
   },
   {
     "id": "bst-insert-delete",
@@ -105,7 +105,7 @@
       "Mixing left view with level order output"
     ],
     "practiceProblems": ["tr-009", "tr-012"],
-    "dependsOn": ["level-order-traversal"]
+    "dependsOn": ["level-order-traversal", "queue-library-usage", "hash-map-usage"]
   },
   {
     "id": "lca-binary-tree",
@@ -141,6 +141,6 @@
       "Producing an encoding that cannot be decoded uniquely"
     ],
     "practiceProblems": ["tr-015"],
-    "dependsOn": ["tree-intro", "level-order-traversal"]
+    "dependsOn": ["tree-intro", "level-order-traversal", "string-builder-usage"]
   }
 ]

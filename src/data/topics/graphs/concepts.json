@@ -21,7 +21,7 @@
       "Indexing the graph incorrectly"
     ],
     "practiceProblems": ["gr-001"],
-    "dependsOn": ["graph-intro", "dynamic-array-usage"]
+    "dependsOn": ["graph-intro", "dynamic-array-usage", "collection-iteration-usage"]
   },
   {
     "id": "dfs-graph",
@@ -117,7 +117,7 @@
       "Not skipping stale priority queue entries"
     ],
     "practiceProblems": ["gr-012", "gr-013"],
-    "dependsOn": ["shortest-path-unweighted", "priority-queue-usage"]
+    "dependsOn": ["shortest-path-unweighted", "priority-queue-usage", "heap-top-k-usage"]
   },
   {
     "id": "union-find",

@@ -21,22 +21,61 @@
       "Concatenating immutable strings inside long loops",
       "Forgetting to append the leftover suffix after one string ends"
     ],
-    "practiceProblems": ["lt-002", "lt-003", "lt-007"],
+    "practiceProblems": ["lt-002", "lt-003", "lt-007", "lt-017", "lt-018", "lt-020"],
     "progressionOrder": 2,
     "dependsOn": []
   },
   {
     "id": "hash-map-usage",
     "name": "Hash Map Usage",
-    "description": "Use HashMap or unordered_map style counting and lookup patterns to model frequencies and presence checks.",
+    "description": "Use HashMap or unordered_map style counting and lookup patterns to model frequencies, presence checks, and stored intermediate answers.",
     "exampleJava": "counts.put(ch, counts.getOrDefault(ch, 0) + 1);",
     "commonMistakes": [
       "Reading a missing key without a default value",
       "Updating only one side of a frequency comparison"
     ],
-    "practiceProblems": ["lt-004"],
+    "practiceProblems": ["lt-004", "lt-009", "lt-010", "lt-011", "lt-015"],
     "progressionOrder": 3,
     "dependsOn": ["string-builder-usage"]
+  },
+  {
+    "id": "frequency-map-basics",
+    "name": "Frequency Map Basics",
+    "description": "Count characters or values with a map so repeated elements can be compared, ranked, or validated.",
+    "exampleJava": "freq.put(value, freq.getOrDefault(value, 0) + 1);",
+    "commonMistakes": [
+      "Incrementing counts for only one side of a comparison",
+      "Forgetting that zero-count entries can be removed or ignored"
+    ],
+    "practiceProblems": ["lt-004", "lt-009", "lt-015"],
+    "progressionOrder": 4,
+    "dependsOn": ["hash-map-usage"]
+  },
+  {
+    "id": "seen-set-membership",
+    "name": "Seen-Set Membership",
+    "description": "Use a set when you only need to know whether something has appeared before.",
+    "exampleJava": "if (!seen.add(value)) return true;",
+    "commonMistakes": [
+      "Using a full frequency map when only membership is needed",
+      "Forgetting that add returning false usually means the value already existed"
+    ],
+    "practiceProblems": ["lt-010"],
+    "progressionOrder": 5,
+    "dependsOn": ["hash-map-usage"]
+  },
+  {
+    "id": "value-to-index-mapping",
+    "name": "Value-to-Index Mapping",
+    "description": "Store the earliest or most useful index for each value so future positions can answer questions in O(1).",
+    "exampleJava": "firstIndex.putIfAbsent(nums[i], i);",
+    "commonMistakes": [
+      "Overwriting the first useful index accidentally",
+      "Storing values when the later logic really needs positions"
+    ],
+    "practiceProblems": ["lt-011"],
+    "progressionOrder": 6,
+    "dependsOn": ["hash-map-usage", "dynamic-array-usage"]
   },
   {
     "id": "stack-library-usage",
@@ -48,7 +87,7 @@
       "Using the wrong end of the container as the top"
     ],
     "practiceProblems": ["lt-005", "lt-007"],
-    "progressionOrder": 4,
+    "progressionOrder": 7,
     "dependsOn": ["dynamic-array-usage"]
   },
   {
@@ -61,8 +100,34 @@
       "Confusing front and rear operations"
     ],
     "practiceProblems": ["lt-006"],
-    "progressionOrder": 5,
+    "progressionOrder": 8,
     "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "deque-library-usage",
+    "name": "Deque Library Usage",
+    "description": "Use both ends of a deque intentionally for front expiry, back cleanup, and double-ended query simulation.",
+    "exampleJava": "deque.offerLast(x); deque.pollFirst(); deque.offerFirst(x); deque.pollLast();",
+    "commonMistakes": [
+      "Calling queue-style operations when the logic needs both ends",
+      "Mixing value expiry with index expiry"
+    ],
+    "practiceProblems": ["lt-012", "lt-013", "lt-014"],
+    "progressionOrder": 9,
+    "dependsOn": ["queue-library-usage"]
+  },
+  {
+    "id": "monotonic-deque-usage",
+    "name": "Monotonic Deque Usage",
+    "description": "Keep deque entries in monotonic order so the best candidate is always ready at the front.",
+    "exampleJava": "while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast();",
+    "commonMistakes": [
+      "Storing values when positions are needed for expiry",
+      "Forgetting to remove expired indices before reading the answer"
+    ],
+    "practiceProblems": ["lt-014"],
+    "progressionOrder": 10,
+    "dependsOn": ["deque-library-usage", "dynamic-array-usage"]
   },
   {
     "id": "priority-queue-usage",
@@ -73,21 +138,138 @@
       "Choosing a max-heap when the pattern needs a min-heap of size k",
       "Forgetting to evict elements when the heap grows past the intended size"
     ],
-    "practiceProblems": ["lt-008"],
-    "progressionOrder": 6,
+    "practiceProblems": ["lt-008", "lt-015", "lt-016"],
+    "progressionOrder": 11,
     "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "heap-top-k-usage",
+    "name": "Heap Top-K Usage",
+    "description": "Maintain only the best K values in a heap instead of repeatedly sorting the whole collection.",
+    "exampleJava": "if (heap.size() < k) heap.offer(value); else if (value > heap.peek()) { heap.poll(); heap.offer(value); }",
+    "commonMistakes": [
+      "Keeping all elements in the heap when the pattern only needs K",
+      "Using the wrong heap direction for top-k vs bottom-k"
+    ],
+    "practiceProblems": ["lt-008", "lt-015", "lt-016"],
+    "progressionOrder": 12,
+    "dependsOn": ["priority-queue-usage", "collection-iteration-usage"]
+  },
+  {
+    "id": "tokenization-usage",
+    "name": "Tokenization Usage",
+    "description": "Break a sentence into words or chunks while handling boundaries and separators carefully.",
+    "exampleJava": "for (String word : s.trim().split(\"\\\\s+\")) { ... }",
+    "commonMistakes": [
+      "Treating repeated spaces as real empty tokens",
+      "Losing the last token because the scan stops too early"
+    ],
+    "practiceProblems": ["lt-017", "lt-018"],
+    "progressionOrder": 13,
+    "dependsOn": ["string-builder-usage"]
+  },
+  {
+    "id": "string-normalization-usage",
+    "name": "String Normalization Usage",
+    "description": "Clean spacing, casing, or accumulated formatting so later logic works on a consistent string shape.",
+    "exampleJava": "return s.trim().replaceAll(\"\\\\s+\", \" \");",
+    "commonMistakes": [
+      "Keeping leading or trailing spaces in the final result",
+      "Normalizing too aggressively and losing required characters"
+    ],
+    "practiceProblems": ["lt-017", "lt-018"],
+    "progressionOrder": 14,
+    "dependsOn": ["tokenization-usage", "string-builder-usage"]
   },
   {
     "id": "collection-iteration-usage",
     "name": "Collection Iteration Usage",
-    "description": "Move comfortably between arrays, strings, maps, stacks, queues, and heaps while keeping loops and temporary state under control.",
+    "description": "Move comfortably between arrays, strings, maps, sets, queues, deques, and heaps while keeping loops and temporary state under control.",
     "exampleJava": "for (int value : nums) { if (heap.size() < k) heap.offer(value); }",
     "commonMistakes": [
       "Nesting extra loops because container traversal feels unfamiliar",
       "Using incompatible container operations for the required access pattern"
     ],
-    "practiceProblems": ["lt-003", "lt-004", "lt-006", "lt-008"],
-    "progressionOrder": 7,
+    "practiceProblems": ["lt-003", "lt-004", "lt-006", "lt-008", "lt-015", "lt-019"],
+    "progressionOrder": 15,
     "dependsOn": ["dynamic-array-usage", "string-builder-usage", "hash-map-usage"]
+  },
+  {
+    "id": "custom-sorting-helpers",
+    "name": "Sorting Helper Usage",
+    "description": "Use built-in sorting helpers cleanly on arrays, lists, or strings before more advanced comparator-based patterns.",
+    "exampleJava": "Arrays.sort(nums);",
+    "commonMistakes": [
+      "Sorting when the original order was supposed to stay intact",
+      "Forgetting to convert between containers before sorting"
+    ],
+    "practiceProblems": ["lt-019", "lt-020"],
+    "progressionOrder": 16,
+    "dependsOn": ["collection-iteration-usage"]
+  },
+  {
+    "id": "pair-collection-usage",
+    "name": "Pair Collection Usage",
+    "description": "Store and iterate over value pairs cleanly when problems need a key plus metadata like frequency, index, or distance.",
+    "exampleJava": "List<int[]> pairs = new ArrayList<>(); pairs.add(new int[] {value, frequency});",
+    "commonMistakes": [
+      "Losing track of which slot stores which meaning",
+      "Using parallel arrays when a paired representation is simpler"
+    ],
+    "practiceProblems": ["lt-021", "lt-024", "lt-026", "lt-028"],
+    "progressionOrder": 17,
+    "dependsOn": ["collection-iteration-usage"]
+  },
+  {
+    "id": "comparator-sorting-usage",
+    "name": "Comparator Sorting Usage",
+    "description": "Sort pairs or objects by a custom priority such as frequency, index, or multiple tie-break rules.",
+    "exampleJava": "pairs.sort((a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));",
+    "commonMistakes": [
+      "Applying the tie-break in the wrong direction",
+      "Sorting the right data but forgetting the intended priority order"
+    ],
+    "practiceProblems": ["lt-021", "lt-022", "lt-026"],
+    "progressionOrder": 18,
+    "dependsOn": ["custom-sorting-helpers", "pair-collection-usage"]
+  },
+  {
+    "id": "map-iteration-order-usage",
+    "name": "Map Iteration Order Usage",
+    "description": "Know when plain hash map iteration order is irrelevant and when you need explicit sorting or an ordered map strategy.",
+    "exampleJava": "for (Map.Entry<Integer, Integer> entry : counts.entrySet()) ordered.add(new int[] {entry.getKey(), entry.getValue()});",
+    "commonMistakes": [
+      "Assuming a hash map iterates in sorted order",
+      "Returning entries in arbitrary order when the output requires ordering"
+    ],
+    "practiceProblems": ["lt-022", "lt-023", "lt-026"],
+    "progressionOrder": 19,
+    "dependsOn": ["hash-map-usage", "collection-iteration-usage"]
+  },
+  {
+    "id": "ordered-map-usage",
+    "name": "Ordered Map Usage",
+    "description": "Use a TreeMap or ordered map pattern when keys must be processed in sorted order without a separate full sort step.",
+    "exampleJava": "TreeMap<Integer, Integer> ordered = new TreeMap<>();",
+    "commonMistakes": [
+      "Using a hash map and then being surprised by arbitrary key order",
+      "Paying an unnecessary sorting cost when an ordered map would simplify the flow"
+    ],
+    "practiceProblems": ["lt-023", "lt-028"],
+    "progressionOrder": 20,
+    "dependsOn": ["map-iteration-order-usage"]
+  },
+  {
+    "id": "heap-of-pairs-usage",
+    "name": "Heap of Pairs Usage",
+    "description": "Use a priority queue of pairs when each candidate has both a payload and a priority such as distance, frequency, or timestamp.",
+    "exampleJava": "PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));",
+    "commonMistakes": [
+      "Comparing the wrong pair field in the heap comparator",
+      "Forgetting which pair slot is the priority and which is the payload"
+    ],
+    "practiceProblems": ["lt-024", "lt-025", "lt-027"],
+    "progressionOrder": 21,
+    "dependsOn": ["priority-queue-usage", "pair-collection-usage"]
   }
 ]

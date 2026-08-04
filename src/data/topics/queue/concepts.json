@@ -47,7 +47,8 @@
     "progressionOrder": 3,
     "dependsOn": [
       "queue-intro",
-      "array-queue-implementation"
+      "array-queue-implementation",
+      "queue-library-usage"
     ]
   },
   {
@@ -138,7 +139,8 @@
     "progressionOrder": 8,
     "dependsOn": [
       "queue-operations",
-      "queue-library-usage"
+      "queue-library-usage",
+      "deque-library-usage"
     ]
   },
   {
@@ -156,7 +158,9 @@
     "progressionOrder": 9,
     "dependsOn": [
       "deque-technique",
-      "queue-library-usage"
+      "queue-library-usage",
+      "deque-library-usage",
+      "monotonic-deque-usage"
     ]
   },
   {
@@ -175,7 +179,8 @@
     "progressionOrder": 10,
     "dependsOn": [
       "queue-intro",
-      "priority-queue-usage"
+      "priority-queue-usage",
+      "heap-top-k-usage"
     ]
   },
   {
@@ -194,7 +199,8 @@
     "progressionOrder": 11,
     "dependsOn": [
       "queue-simulation",
-      "top-k-elements"
+      "top-k-elements",
+      "frequency-map-basics"
     ]
   }
 ]

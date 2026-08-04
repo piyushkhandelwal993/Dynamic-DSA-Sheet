@@ -444,7 +444,7 @@ test("sliding window maximum roadmap can pull queue toolkit readiness before deq
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("lt-014"), true);
   assert.equal(internalIds.includes("q-008"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Sliding Window Maximum");
 });
@@ -466,6 +466,7 @@ test("shortest subarray roadmap prefers prefix-plus-deque bridges over raw deque
     .map((step) => step.internalProblemId);
 
   assert.equal(internalIds.includes("arr-006"), true);
+  assert.equal(internalIds.includes("lt-013"), true);
   assert.equal(internalIds.includes("q-008"), true);
   assert.equal(internalIds.includes("q-009"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Shortest Subarray with Sum at Least K");
@@ -487,8 +488,8 @@ test("task scheduler roadmap pulls toolkit plus top-k bridges before the final q
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("lt-004"), true);
-  assert.equal(internalIds.includes("lt-008"), true);
+  assert.equal(internalIds.includes("lt-009"), true);
+  assert.equal(internalIds.includes("lt-015"), true);
   assert.equal(internalIds.includes("q-011"), true);
   assert.equal(internalIds.includes("q-012"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Task Scheduler");
@@ -536,6 +537,90 @@ test("kth smallest bst roadmap pulls sorted-check and inorder traversal before b
   assert.equal(internalIds.includes("tr-002"), true);
   assert.equal(internalIds.includes("tr-008"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Kth Smallest Element in a BST");
+});
+
+test("reverse words roadmap pulls toolkit tokenization before string-level transfer practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-reverse-words-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/reverse-words-in-a-string/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-017"), true);
+  assert.equal(internalIds.includes("str-008"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Reverse Words in a String");
+});
+
+test("vertical order roadmap can pull ordered-map toolkit readiness before tree-view transfer", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-vertical-order-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-028"), true);
+  assert.equal(internalIds.includes("tr-012"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Vertical Order Traversal of a Binary Tree");
+});
+
+test("network delay roadmap can pull heap-of-pairs readiness before graph dijkstra practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-network-delay-pairs-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/network-delay-time/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-024"), true);
+  assert.equal(internalIds.includes("gr-013"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Network Delay Time");
+});
+
+test("group anagrams roadmap can pull map-order toolkit readiness before string transfer practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-group-anagrams-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/group-anagrams/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-022"), true);
+  assert.equal(internalIds.includes("str-004"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Group Anagrams");
 });
 
 test("frog jump roadmap distinguishes cost-minimization bridges from jump-memory reachability bridges", () => {
