@@ -38,6 +38,38 @@ function normalizeTitleKey(value: string): string {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
+function isSequelToken(token: string): boolean {
+  return /^(ii|iii|iv|v|vi|vii|viii|ix|x|\d+)$/.test(token);
+}
+
+function isTargetTwinOrSequel(
+  candidate: Pick<ExternalPracticeProblem, "id" | "title">,
+  target: Pick<ExternalPracticeProblem, "id" | "title">
+): boolean {
+  if (candidate.id === target.id) {
+    return true;
+  }
+
+  const targetTitle = normalizeTitleKey(target.title);
+  const candidateTitle = normalizeTitleKey(candidate.title);
+  if (!targetTitle || !candidateTitle || candidateTitle === targetTitle) {
+    return candidateTitle === targetTitle;
+  }
+
+  const targetTokens = targetTitle.split(" ").filter(Boolean);
+  const candidateTokens = candidateTitle.split(" ").filter(Boolean);
+  if (candidateTokens.length <= targetTokens.length) {
+    return false;
+  }
+
+  const samePrefix = targetTokens.every((token, index) => candidateTokens[index] === token);
+  if (!samePrefix) {
+    return false;
+  }
+
+  return candidateTokens.slice(targetTokens.length).every(isSequelToken);
+}
+
 function normalizeAssessmentArgs(
   problemStatementOrProgress?: string | ProgressState,
   progressOrSkillProfile?: ProgressState | SkillProfile,
@@ -739,6 +771,7 @@ function buildInternalConceptSteps(
 ): { problems: Problem[]; notes: string[]; conceptPlan: string[] } {
   const excludedProblemIds = new Set<string>(target.mappedFromProblemIds);
   const orderedConcepts = expandMissingConceptChain(target.topicId, assessment.missingConceptIds, skillProfile);
+  const directMissingConceptIds = new Set(assessment.missingConceptIds);
   const chosen: Problem[] = [];
   const chosenIds = new Set<string>();
   const coveredConceptIds = new Set<string>();
@@ -746,6 +779,10 @@ function buildInternalConceptSteps(
   const conceptPlan: string[] = [];
 
   for (const conceptId of orderedConcepts) {
+    const directConceptsCovered = assessment.missingConceptIds.every((missingConceptId) => coveredConceptIds.has(missingConceptId));
+    if (!directMissingConceptIds.has(conceptId) && directConceptsCovered) {
+      continue;
+    }
     if (coveredConceptIds.has(conceptId)) {
       continue;
     }
@@ -765,6 +802,73 @@ function buildInternalConceptSteps(
   }
 
   return { problems: chosen, notes, conceptPlan };
+}
+
+function orderInternalProblemsByProgression(problems: Problem[]): Problem[] {
+  if (problems.length <= 1) {
+    return problems;
+  }
+
+  const problemById = new Map(problems.map((problem) => [problem.id, problem]));
+  const indegree = new Map<string, number>();
+  const outgoing = new Map<string, string[]>();
+  for (const problem of problems) {
+    indegree.set(problem.id, 0);
+    outgoing.set(problem.id, []);
+  }
+
+  for (const problem of problems) {
+    for (const dependencyId of problem.remedialProblems ?? []) {
+      if (!problemById.has(dependencyId)) {
+        continue;
+      }
+      outgoing.get(dependencyId)?.push(problem.id);
+      indegree.set(problem.id, (indegree.get(problem.id) ?? 0) + 1);
+    }
+  }
+
+  const rank = (problem: Problem): [number, number, string] => [
+    learningRolePriority(problem),
+    internalPriority(problem),
+    problem.id
+  ];
+
+  const available = problems
+    .filter((problem) => (indegree.get(problem.id) ?? 0) === 0)
+    .sort((left, right) => {
+      const [leftRole, leftDifficulty, leftId] = rank(left);
+      const [rightRole, rightDifficulty, rightId] = rank(right);
+      if (leftRole !== rightRole) return leftRole - rightRole;
+      if (leftDifficulty !== rightDifficulty) return leftDifficulty - rightDifficulty;
+      return leftId.localeCompare(rightId);
+    });
+
+  const ordered: Problem[] = [];
+  while (available.length > 0) {
+    const current = available.shift();
+    if (!current) break;
+    ordered.push(current);
+
+    for (const nextId of outgoing.get(current.id) ?? []) {
+      const nextIndegree = (indegree.get(nextId) ?? 0) - 1;
+      indegree.set(nextId, nextIndegree);
+      if (nextIndegree === 0) {
+        const nextProblem = problemById.get(nextId);
+        if (nextProblem) {
+          available.push(nextProblem);
+          available.sort((left, right) => {
+            const [leftRole, leftDifficulty, leftId] = rank(left);
+            const [rightRole, rightDifficulty, rightId] = rank(right);
+            if (leftRole !== rightRole) return leftRole - rightRole;
+            if (leftDifficulty !== rightDifficulty) return leftDifficulty - rightDifficulty;
+            return leftId.localeCompare(rightId);
+          });
+        }
+      }
+    }
+  }
+
+  return ordered.length === problems.length ? ordered : problems;
 }
 
 function chooseMappedInternalBridge(
@@ -844,7 +948,7 @@ function chooseInternalCheckpoint(
 }
 
 function chooseExternalTransfer(
-  target: Pick<ExternalPracticeProblem, "id" | "topicId" | "conceptIds">,
+  target: Pick<ExternalPracticeProblem, "id" | "title" | "topicId" | "conceptIds">,
   assessment: TargetProblemAssessment,
   internalProblems: Problem[],
   skillProfile: SkillProfile
@@ -855,7 +959,7 @@ function chooseExternalTransfer(
   const internalProblemIds = new Set(internalProblems.map((problem) => problem.id));
 
   return getExternalPracticeCatalog()
-    .filter((problem) => problem.id !== target.id && problem.topicId === target.topicId)
+    .filter((problem) => problem.topicId === target.topicId && !isTargetTwinOrSequel(problem, target))
     .map((problem) => {
       const targetOverlap = problem.conceptIds.filter((conceptId) => targetConcepts.has(conceptId)).length;
       const missingOverlap = problem.conceptIds.filter((conceptId) => missingConcepts.has(conceptId)).length;
@@ -922,6 +1026,7 @@ export function createTargetProblemRoadmap(
   const heuristicTarget = !assessment.matchedProblem && assessment.inferredTopicId
     ? {
         id: `heuristic-${parseLeetCodeSlug(inputUrl) ?? "target"}`,
+        title: assessment.inferredTitle ?? titleFromSlug(parseLeetCodeSlug(inputUrl) ?? "target"),
         topicId: assessment.inferredTopicId,
         conceptIds: assessment.missingConceptIds.length ? assessment.missingConceptIds : assessment.strengthConceptIds,
         mappedFromProblemIds: []
@@ -955,7 +1060,7 @@ export function createTargetProblemRoadmap(
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
     : remainingInternalPlan;
-  const internalProblems = [...explicitBridges, ...baseInternalProblems];
+  const internalProblems = orderInternalProblemsByProgression([...explicitBridges, ...baseInternalProblems]);
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
   const transfer = assessment.matchedProblem && shouldAddExternalTransfer(assessment.matchedProblem, assessment, internalProblems)

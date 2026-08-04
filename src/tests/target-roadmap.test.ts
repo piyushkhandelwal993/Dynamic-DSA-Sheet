@@ -201,6 +201,48 @@ test("dp climbing stairs roadmap can pull recursion foundations before dp practi
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
+test("house robber roadmap avoids using the harder sequel as the transfer step", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-house-robber-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/house-robber/",
+    progress,
+    skillProfile
+  );
+
+  const externalTitles = roadmap.steps
+    .filter((step) => step.type === "external")
+    .map((step) => step.title);
+
+  assert.equal(externalTitles.includes("House Robber II"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "House Robber");
+});
+
+test("combination sum iii roadmap prefers progressive backtracking foundations over generic recursion detours", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-combination-sum-iii-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/combination-sum-iii/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("rec-012"), false);
+  assert.equal(internalIds.includes("rec-013"), true);
+  assert.equal(internalIds.includes("rec-015"), true);
+  assert.ok(internalIds.indexOf("rec-013") < internalIds.indexOf("rec-015"));
+});
+
 test("roadmap generation respects the passed transient progress and skill profile instead of falling back to saved state", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-transient-"));
   invalidateCatalogCache();
