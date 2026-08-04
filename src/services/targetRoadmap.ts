@@ -1195,6 +1195,14 @@ export function createTargetProblemRoadmap(
       }
     }
     const addressedPlannedConcepts = problem.expectedConcepts.filter((conceptId) => internalPlan.conceptPlan.includes(conceptId));
+    if ((explicitBridgeIdsFromTarget?.length ?? 0) > 0) {
+      const directTargetOverlap = problem.expectedConcepts.some((conceptId) =>
+        assessment.missingConceptIds.includes(conceptId) || target.conceptIds.includes(conceptId)
+      );
+      if (!directTargetOverlap) {
+        return false;
+      }
+    }
     return addressedPlannedConcepts.some((conceptId) => !bridgeCoveredConcepts.has(conceptId));
   });
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)

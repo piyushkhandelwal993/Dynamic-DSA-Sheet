@@ -423,8 +423,10 @@ test("binary tree level order roadmap can pull queue toolkit readiness before tr
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
+  assert.equal(internalIds.includes("lt-001"), false);
   assert.equal(internalIds.includes("lt-006"), true);
   assert.equal(internalIds.includes("tr-004"), true);
+  assert.deepEqual(internalIds, ["lt-006", "tr-004"]);
   assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Level Order Traversal");
 });
 
