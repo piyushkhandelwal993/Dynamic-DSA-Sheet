@@ -809,6 +809,87 @@ export interface TargetProblemRoadmapPlan {
   steps: TargetProblemRoadmapStep[];
 }
 
+export type RoadmapReviewMismatchTag =
+  | "wrong-order"
+  | "missing-prerequisite"
+  | "too-advanced"
+  | "irrelevant"
+  | "duplicate"
+  | "better-external"
+  | "better-internal"
+  | "unsupported-topic"
+  | "generic-detour";
+
+export interface RoadmapReviewAnalysis {
+  addedStepTitles: string[];
+  removedStepTitles: string[];
+  reorderedStepTitles: string[];
+  autoTags: RoadmapReviewMismatchTag[];
+  diagnosis: string[];
+}
+
+export interface RoadmapReviewRecord {
+  id: string;
+  inputUrl: string;
+  problemStatement?: string;
+  createdAt: string;
+  updatedAt: string;
+  assessment: TargetProblemAssessment;
+  generatedRoadmap: TargetProblemRoadmapPlan;
+  reviewedRoadmap: TargetProblemRoadmapPlan;
+  manualMismatchTags: RoadmapReviewMismatchTag[];
+  reviewerNotes?: string;
+  analysis: RoadmapReviewAnalysis;
+}
+
+export interface RoadmapReviewSaveInput {
+  id?: string;
+  inputUrl: string;
+  problemStatement?: string;
+  assessment: TargetProblemAssessment;
+  generatedRoadmap: TargetProblemRoadmapPlan;
+  reviewedRoadmap: TargetProblemRoadmapPlan;
+  manualMismatchTags: RoadmapReviewMismatchTag[];
+  reviewerNotes?: string;
+}
+
+export interface RoadmapReviewCatalogItem {
+  id: string;
+  title: string;
+  topicId: string;
+  conceptIds: string[];
+  url?: string;
+}
+
+export interface RoadmapReviewWorkspace {
+  internalCatalog: RoadmapReviewCatalogItem[];
+  externalCatalog: RoadmapReviewCatalogItem[];
+  records: RoadmapReviewRecord[];
+}
+
+export interface RoadmapReviewFixture {
+  id: string;
+  inputUrl: string;
+  problemStatement?: string;
+  expectedTopicId?: string;
+  expectedConceptIds: string[];
+  reviewedSteps: Array<{
+    type: TargetRoadmapStepType;
+    title: string;
+    internalProblemId?: string;
+    externalProblemId?: string;
+    conceptIds: string[];
+    url?: string;
+  }>;
+  mismatchTags: RoadmapReviewMismatchTag[];
+  reviewerNotes?: string;
+}
+
+export interface RoadmapReviewFixtureExport {
+  path: string;
+  count: number;
+}
+
 export interface Badge {
   id: string;
   name: string;

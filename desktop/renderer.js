@@ -51,6 +51,12 @@ const state = {
     problemStatement: "",
     assessment: null,
     roadmap: null,
+    reviewWorkspace: null,
+    reviewDraft: null,
+    reviewStatus: "Generate a roadmap to begin reviewing.",
+    reviewNotes: "",
+    reviewManualTags: [],
+    reviewRecordId: "",
     loading: false,
     status: "Paste a problem URL to estimate readiness."
   }
@@ -187,6 +193,18 @@ const targetRoadmapGenerateButtonEl = document.getElementById("target-roadmap-ge
 const targetRoadmapStatusEl = document.getElementById("target-roadmap-status");
 const targetRoadmapAssessmentEl = document.getElementById("target-roadmap-assessment");
 const targetRoadmapPlanEl = document.getElementById("target-roadmap-plan");
+const roadmapReviewResetButtonEl = document.getElementById("roadmap-review-reset-button");
+const roadmapReviewSaveButtonEl = document.getElementById("roadmap-review-save-button");
+const roadmapReviewExportButtonEl = document.getElementById("roadmap-review-export-button");
+const roadmapReviewStatusEl = document.getElementById("roadmap-review-status");
+const roadmapReviewNotesInputEl = document.getElementById("roadmap-review-notes-input");
+const roadmapReviewTagsEl = document.getElementById("roadmap-review-tags");
+const roadmapReviewDiffEl = document.getElementById("roadmap-review-diff");
+const roadmapReviewAddInternalButtonEl = document.getElementById("roadmap-review-add-internal-button");
+const roadmapReviewAddExternalButtonEl = document.getElementById("roadmap-review-add-external-button");
+const roadmapReviewAddTargetButtonEl = document.getElementById("roadmap-review-add-target-button");
+const roadmapReviewEditorEl = document.getElementById("roadmap-review-editor");
+const roadmapReviewRecordsEl = document.getElementById("roadmap-review-records");
 const trainingTopicSelectEl = document.getElementById("training-topic-select");
 const trainingProblemSelectEl = document.getElementById("training-problem-select");
 const trainingLanguageSelectEl = document.getElementById("training-language-select");
@@ -3082,10 +3100,247 @@ function confidenceTone(confidence) {
   return "gray";
 }
 
+const ROADMAP_REVIEW_TAG_OPTIONS = [
+  "wrong-order",
+  "missing-prerequisite",
+  "too-advanced",
+  "irrelevant",
+  "duplicate",
+  "better-external",
+  "better-internal",
+  "unsupported-topic",
+  "generic-detour"
+];
+
 function stepTone(type) {
   if (type === "internal") return "green";
   if (type === "external") return "blue";
   return "yellow";
+}
+
+function cloneRoadmapPlan(plan) {
+  if (!plan) return null;
+  return JSON.parse(JSON.stringify(plan));
+}
+
+function roadmapReviewStepIdentity(step) {
+  return [
+    step.type ?? "",
+    step.internalProblemId ?? "",
+    step.externalProblemId ?? "",
+    step.url ?? "",
+    (step.title ?? "").trim().toLowerCase()
+  ].join("::");
+}
+
+function computeRoadmapReviewDiff(generatedRoadmap, reviewedRoadmap) {
+  if (!generatedRoadmap?.steps?.length || !reviewedRoadmap?.steps?.length) {
+    return { added: [], removed: [], reordered: [] };
+  }
+
+  const generatedKeys = new Set(generatedRoadmap.steps.map(roadmapReviewStepIdentity));
+  const reviewedKeys = new Set(reviewedRoadmap.steps.map(roadmapReviewStepIdentity));
+  const generatedIndices = new Map(generatedRoadmap.steps.map((step, index) => [roadmapReviewStepIdentity(step), index]));
+
+  const added = reviewedRoadmap.steps
+    .filter((step) => !generatedKeys.has(roadmapReviewStepIdentity(step)))
+    .map((step) => step.title);
+  const removed = generatedRoadmap.steps
+    .filter((step) => !reviewedKeys.has(roadmapReviewStepIdentity(step)))
+    .map((step) => step.title);
+  const reordered = reviewedRoadmap.steps
+    .filter((step, index) => {
+      const originalIndex = generatedIndices.get(roadmapReviewStepIdentity(step));
+      return originalIndex !== undefined && originalIndex !== index;
+    })
+    .map((step) => step.title);
+
+  return { added, removed, reordered };
+}
+
+async function ensureRoadmapReviewWorkspaceLoaded() {
+  if (state.targetRoadmap.reviewWorkspace) {
+    return state.targetRoadmap.reviewWorkspace;
+  }
+  const workspace = await window.dsaDesktop.getRoadmapReviewWorkspace();
+  state.targetRoadmap.reviewWorkspace = workspace;
+  return workspace;
+}
+
+function createEmptyReviewStep(type) {
+  return {
+    type,
+    title: "",
+    reason: "",
+    conceptIds: [],
+    internalProblemId: type === "internal" ? "" : undefined,
+    externalProblemId: type === "external" ? "" : undefined,
+    url: type !== "internal" ? "" : undefined
+  };
+}
+
+function buildRoadmapReviewCatalogDatalist(items, datalistId) {
+  const existing = document.getElementById(datalistId);
+  if (existing) {
+    existing.remove();
+  }
+  const datalist = document.createElement("datalist");
+  datalist.id = datalistId;
+  datalist.innerHTML = items
+    .map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.title)}</option>`)
+    .join("");
+  document.body.appendChild(datalist);
+}
+
+function renderRoadmapReviewStatus() {
+  if (roadmapReviewStatusEl) {
+    roadmapReviewStatusEl.textContent = state.targetRoadmap.reviewStatus;
+  }
+}
+
+function renderRoadmapReviewTags() {
+  if (!roadmapReviewTagsEl) return;
+  const generatedRoadmap = state.targetRoadmap.roadmap;
+  const reviewedRoadmap = state.targetRoadmap.reviewDraft;
+  const diff = generatedRoadmap && reviewedRoadmap
+    ? computeRoadmapReviewDiff(generatedRoadmap, reviewedRoadmap)
+    : { added: [], removed: [], reordered: [] };
+
+  const autoTags = new Set();
+  if (diff.reordered.length) autoTags.add("wrong-order");
+  if (diff.added.length) autoTags.add("missing-prerequisite");
+  if (diff.removed.some((title) => /ii$|iii$|iv$|house robber ii/i.test(title))) autoTags.add("too-advanced");
+  if (diff.removed.some((title) => /gcd|greatest common divisor|factorial|palindrome/i.test(title))) autoTags.add("generic-detour");
+
+  roadmapReviewTagsEl.innerHTML = `
+    <div class="roadmap-review-tag-list">
+      ${ROADMAP_REVIEW_TAG_OPTIONS.map((tag) => {
+        const checked = state.targetRoadmap.reviewManualTags.includes(tag);
+        const auto = autoTags.has(tag);
+        return `
+          <label class="roadmap-review-tag">
+            <input type="checkbox" data-roadmap-review-tag="${escapeHtml(tag)}" ${checked ? "checked" : ""}>
+            <span>${escapeHtml(tag)}</span>
+            ${auto ? `<span class="pill blue">auto</span>` : ""}
+          </label>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderRoadmapReviewDiff() {
+  if (!roadmapReviewDiffEl) return;
+  const generatedRoadmap = state.targetRoadmap.roadmap;
+  const reviewedRoadmap = state.targetRoadmap.reviewDraft;
+  if (!generatedRoadmap || !reviewedRoadmap) {
+    roadmapReviewDiffEl.innerHTML = `<p class="muted">Diff appears after a roadmap is generated.</p>`;
+    return;
+  }
+
+  const diff = computeRoadmapReviewDiff(generatedRoadmap, reviewedRoadmap);
+  roadmapReviewDiffEl.innerHTML = `
+    <div class="training-form-grid">
+      <article class="profile-note">
+        <strong>Added</strong>
+        <p class="muted">${escapeHtml(diff.added.join(", ") || "None")}</p>
+      </article>
+      <article class="profile-note">
+        <strong>Removed</strong>
+        <p class="muted">${escapeHtml(diff.removed.join(", ") || "None")}</p>
+      </article>
+      <article class="profile-note">
+        <strong>Reordered</strong>
+        <p class="muted">${escapeHtml(diff.reordered.join(", ") || "None")}</p>
+      </article>
+    </div>
+  `;
+}
+
+function renderRoadmapReviewEditor() {
+  if (!roadmapReviewEditorEl) return;
+  if (!state.targetRoadmap.reviewDraft?.steps?.length) {
+    roadmapReviewEditorEl.innerHTML = `<p class="muted">Generate a roadmap to start editing it.</p>`;
+    return;
+  }
+
+  const workspace = state.targetRoadmap.reviewWorkspace;
+  if (workspace) {
+    buildRoadmapReviewCatalogDatalist(workspace.internalCatalog, "roadmap-review-internal-options");
+    buildRoadmapReviewCatalogDatalist(workspace.externalCatalog, "roadmap-review-external-options");
+  }
+
+  roadmapReviewEditorEl.innerHTML = state.targetRoadmap.reviewDraft.steps
+    .map((step, index) => `
+      <article class="profile-note external-practice-card roadmap-review-step-editor">
+        <div class="external-card-header">
+          <strong>Step ${index + 1}</strong>
+          <div class="external-card-badges">
+            <span class="pill ${stepTone(step.type)}">${escapeHtml(step.type)}</span>
+          </div>
+        </div>
+        <div class="training-form-grid">
+          <label class="profile-field">
+            <span>Type</span>
+            <select data-roadmap-review-field="type" data-roadmap-review-index="${index}">
+              <option value="internal" ${step.type === "internal" ? "selected" : ""}>internal</option>
+              <option value="external" ${step.type === "external" ? "selected" : ""}>external</option>
+              <option value="target" ${step.type === "target" ? "selected" : ""}>target</option>
+            </select>
+          </label>
+          <label class="profile-field">
+            <span>Title</span>
+            <input type="text" value="${escapeHtml(step.title ?? "")}" data-roadmap-review-field="title" data-roadmap-review-index="${index}">
+          </label>
+          <label class="profile-field">
+            <span>Concepts (csv)</span>
+            <input type="text" value="${escapeHtml((step.conceptIds ?? []).join(", "))}" data-roadmap-review-field="conceptIds" data-roadmap-review-index="${index}">
+          </label>
+          <label class="profile-field">
+            <span>Internal Id</span>
+            <input type="text" list="roadmap-review-internal-options" value="${escapeHtml(step.internalProblemId ?? "")}" data-roadmap-review-field="internalProblemId" data-roadmap-review-index="${index}">
+          </label>
+          <label class="profile-field">
+            <span>External Id</span>
+            <input type="text" list="roadmap-review-external-options" value="${escapeHtml(step.externalProblemId ?? "")}" data-roadmap-review-field="externalProblemId" data-roadmap-review-index="${index}">
+          </label>
+          <label class="profile-field">
+            <span>URL</span>
+            <input type="text" value="${escapeHtml(step.url ?? "")}" data-roadmap-review-field="url" data-roadmap-review-index="${index}">
+          </label>
+        </div>
+        <label class="profile-field">
+          <span>Reason</span>
+          <textarea rows="3" data-roadmap-review-field="reason" data-roadmap-review-index="${index}">${escapeHtml(step.reason ?? "")}</textarea>
+        </label>
+        <div class="profile-form-actions">
+          <button class="ghost-button" type="button" data-roadmap-review-move="up" data-roadmap-review-index="${index}" ${index === 0 ? "disabled" : ""}>Move Up</button>
+          <button class="ghost-button" type="button" data-roadmap-review-move="down" data-roadmap-review-index="${index}" ${index === state.targetRoadmap.reviewDraft.steps.length - 1 ? "disabled" : ""}>Move Down</button>
+          <button class="ghost-button subtle-button" type="button" data-roadmap-review-delete="${index}">Delete</button>
+        </div>
+      </article>
+    `)
+    .join("");
+}
+
+function renderRoadmapReviewRecords() {
+  if (!roadmapReviewRecordsEl) return;
+  const records = state.targetRoadmap.reviewWorkspace?.records ?? [];
+  if (!records.length) {
+    roadmapReviewRecordsEl.innerHTML = `<p class="muted">No saved roadmap reviews yet.</p>`;
+    return;
+  }
+
+  roadmapReviewRecordsEl.innerHTML = records.slice(0, 8).map((record) => `
+    <article class="profile-note">
+      <strong>${escapeHtml(record.assessment?.matchedProblem?.title ?? record.assessment?.inferredTitle ?? record.inputUrl ?? "Reviewed target")}</strong>
+      <p class="muted">${escapeHtml(record.updatedAt)}</p>
+      <p class="muted">${escapeHtml(record.analysis?.diagnosis?.[0] ?? "Saved review")}</p>
+      <div class="profile-form-actions">
+        <button class="ghost-button" type="button" data-roadmap-review-load="${escapeHtml(record.id)}">Load Review</button>
+      </div>
+    </article>
+  `).join("");
 }
 
 async function renderTargetRoadmap() {
@@ -3108,6 +3363,12 @@ async function renderTargetRoadmap() {
       || !state.targetRoadmap.assessment
       || state.targetRoadmap.assessment.verdict === "unsupported";
     targetRoadmapGenerateButtonEl.disabled = disabled;
+  }
+  if (roadmapReviewResetButtonEl) {
+    roadmapReviewResetButtonEl.disabled = !state.targetRoadmap.roadmap;
+  }
+  if (roadmapReviewSaveButtonEl) {
+    roadmapReviewSaveButtonEl.disabled = !state.targetRoadmap.roadmap || !state.targetRoadmap.reviewDraft;
   }
 
   if (!state.targetRoadmap.assessment) {
@@ -3166,6 +3427,11 @@ async function renderTargetRoadmap() {
     if (targetRoadmapPlanEl) {
       targetRoadmapPlanEl.innerHTML = `<p class="muted">Generate a roadmap after evaluation.</p>`;
     }
+    renderRoadmapReviewStatus();
+    renderRoadmapReviewTags();
+    renderRoadmapReviewDiff();
+    renderRoadmapReviewEditor();
+    renderRoadmapReviewRecords();
     return;
   }
 
@@ -3206,6 +3472,15 @@ async function renderTargetRoadmap() {
       `)
       .join("");
   }
+
+  if (roadmapReviewNotesInputEl && roadmapReviewNotesInputEl.value !== state.targetRoadmap.reviewNotes) {
+    roadmapReviewNotesInputEl.value = state.targetRoadmap.reviewNotes;
+  }
+  renderRoadmapReviewStatus();
+  renderRoadmapReviewTags();
+  renderRoadmapReviewDiff();
+  renderRoadmapReviewEditor();
+  renderRoadmapReviewRecords();
 }
 
 async function refreshBootstrapState() {
@@ -3226,10 +3501,18 @@ async function evaluateTargetRoadmap({ generateRoadmap = false } = {}) {
     const assessment = await window.dsaDesktop.evaluateTargetProblem(inputUrl, problemStatement);
     state.targetRoadmap.assessment = assessment;
     state.targetRoadmap.roadmap = null;
+    state.targetRoadmap.reviewDraft = null;
+    state.targetRoadmap.reviewRecordId = "";
+    state.targetRoadmap.reviewManualTags = [];
+    state.targetRoadmap.reviewNotes = "";
+    state.targetRoadmap.reviewStatus = "Generate a roadmap to begin reviewing.";
 
     if (generateRoadmap) {
       const roadmap = await window.dsaDesktop.createTargetProblemRoadmap(inputUrl, problemStatement);
       state.targetRoadmap.roadmap = roadmap;
+      state.targetRoadmap.reviewDraft = cloneRoadmapPlan(roadmap);
+      state.targetRoadmap.reviewStatus = "Review the generated roadmap, edit steps if needed, then save.";
+      await ensureRoadmapReviewWorkspaceLoaded();
       state.targetRoadmap.status = roadmap.steps.length
         ? `Created ${roadmap.steps.length} roadmap step(s).`
         : "This target is not cataloged yet, so roadmap generation is not available.";
@@ -3242,10 +3525,68 @@ async function evaluateTargetRoadmap({ generateRoadmap = false } = {}) {
     state.targetRoadmap.status = error?.message ?? String(error);
     state.targetRoadmap.assessment = null;
     state.targetRoadmap.roadmap = null;
+    state.targetRoadmap.reviewDraft = null;
   } finally {
     state.targetRoadmap.loading = false;
     render();
   }
+}
+
+function updateRoadmapReviewStep(index, field, value) {
+  const step = state.targetRoadmap.reviewDraft?.steps?.[index];
+  if (!step) return;
+
+  if (field === "conceptIds") {
+    step.conceptIds = String(value)
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  } else if (field === "type") {
+    step.type = value;
+    if (value === "internal") {
+      step.externalProblemId = undefined;
+      if (step.url && !step.url.startsWith("http")) {
+        step.url = "";
+      }
+    }
+    if (value === "target") {
+      step.internalProblemId = undefined;
+      step.externalProblemId = step.externalProblemId ?? "";
+      step.url = step.url ?? state.targetRoadmap.inputUrl;
+    }
+  } else if (value === "") {
+    step[field] = field === "title" || field === "reason" ? "" : "";
+  } else {
+    step[field] = value;
+  }
+
+  state.targetRoadmap.reviewStatus = "Review draft updated.";
+  render();
+}
+
+async function saveRoadmapReviewDraft() {
+  if (!state.targetRoadmap.assessment || !state.targetRoadmap.roadmap || !state.targetRoadmap.reviewDraft) {
+    return;
+  }
+
+  state.targetRoadmap.reviewStatus = "Saving roadmap review...";
+  render();
+
+  const record = await window.dsaDesktop.saveRoadmapReview({
+    id: state.targetRoadmap.reviewRecordId || undefined,
+    inputUrl: state.targetRoadmap.inputUrl,
+    problemStatement: state.targetRoadmap.problemStatement,
+    assessment: state.targetRoadmap.assessment,
+    generatedRoadmap: state.targetRoadmap.roadmap,
+    reviewedRoadmap: state.targetRoadmap.reviewDraft,
+    manualMismatchTags: state.targetRoadmap.reviewManualTags,
+    reviewerNotes: state.targetRoadmap.reviewNotes
+  });
+
+  state.targetRoadmap.reviewRecordId = record.id;
+  state.targetRoadmap.reviewStatus = record.analysis?.diagnosis?.join(" ") || "Roadmap review saved.";
+  state.targetRoadmap.reviewWorkspace = await window.dsaDesktop.getRoadmapReviewWorkspace();
+  render();
 }
 
 function buildSubmissionExternalPracticeBlock(items) {
@@ -4411,6 +4752,55 @@ targetRoadmapEvaluateButtonEl?.addEventListener("click", async () => {
 targetRoadmapGenerateButtonEl?.addEventListener("click", async () => {
   await evaluateTargetRoadmap({ generateRoadmap: true });
 });
+roadmapReviewNotesInputEl?.addEventListener("input", () => {
+  state.targetRoadmap.reviewNotes = roadmapReviewNotesInputEl.value;
+});
+roadmapReviewResetButtonEl?.addEventListener("click", () => {
+  state.targetRoadmap.reviewDraft = cloneRoadmapPlan(state.targetRoadmap.roadmap);
+  state.targetRoadmap.reviewManualTags = [];
+  state.targetRoadmap.reviewNotes = "";
+  state.targetRoadmap.reviewRecordId = "";
+  state.targetRoadmap.reviewStatus = "Review draft reset to generated roadmap.";
+  render();
+});
+roadmapReviewSaveButtonEl?.addEventListener("click", async () => {
+  await saveRoadmapReviewDraft();
+});
+roadmapReviewExportButtonEl?.addEventListener("click", async () => {
+  roadmapReviewExportButtonEl.disabled = true;
+  state.targetRoadmap.reviewStatus = "Exporting reviewed roadmap fixtures...";
+  render();
+  try {
+    const result = await window.dsaDesktop.exportRoadmapReviewFixtures();
+    state.targetRoadmap.reviewWorkspace = await window.dsaDesktop.getRoadmapReviewWorkspace();
+    state.targetRoadmap.reviewStatus = `Exported ${result.count} reviewed roadmap fixture(s) to ${result.path}.`;
+  } catch (error) {
+    state.targetRoadmap.reviewStatus = error?.message ?? String(error);
+  } finally {
+    roadmapReviewExportButtonEl.disabled = false;
+    render();
+  }
+});
+roadmapReviewAddInternalButtonEl?.addEventListener("click", () => {
+  state.targetRoadmap.reviewDraft?.steps?.push(createEmptyReviewStep("internal"));
+  state.targetRoadmap.reviewStatus = "Added an internal step.";
+  render();
+});
+roadmapReviewAddExternalButtonEl?.addEventListener("click", () => {
+  state.targetRoadmap.reviewDraft?.steps?.push(createEmptyReviewStep("external"));
+  state.targetRoadmap.reviewStatus = "Added an external step.";
+  render();
+});
+roadmapReviewAddTargetButtonEl?.addEventListener("click", () => {
+  const step = createEmptyReviewStep("target");
+  step.title = state.targetRoadmap.assessment?.matchedProblem?.title
+    ?? state.targetRoadmap.assessment?.inferredTitle
+    ?? "Target Retry";
+  step.url = state.targetRoadmap.inputUrl;
+  state.targetRoadmap.reviewDraft?.steps?.push(step);
+  state.targetRoadmap.reviewStatus = "Added a target step.";
+  render();
+});
 contributionDetailOpenFileButtonEl?.addEventListener("click", async () => {
   if (!state.contributionDetail?.remoteRef?.reference) return;
   await window.dsaDesktop.openPath(state.contributionDetail.remoteRef.reference);
@@ -4515,6 +4905,50 @@ resultPanelEl.addEventListener("click", async (event) => {
 });
 
 document.addEventListener("click", async (event) => {
+  const reviewLoadButton = event.target.closest("[data-roadmap-review-load]");
+  if (reviewLoadButton) {
+    const recordId = reviewLoadButton.getAttribute("data-roadmap-review-load");
+    const record = state.targetRoadmap.reviewWorkspace?.records?.find((item) => item.id === recordId);
+    if (record) {
+      state.targetRoadmap.inputUrl = record.inputUrl ?? "";
+      state.targetRoadmap.problemStatement = record.problemStatement ?? "";
+      state.targetRoadmap.assessment = record.assessment;
+      state.targetRoadmap.roadmap = cloneRoadmapPlan(record.generatedRoadmap);
+      state.targetRoadmap.reviewDraft = cloneRoadmapPlan(record.reviewedRoadmap);
+      state.targetRoadmap.reviewManualTags = [...(record.manualMismatchTags ?? [])];
+      state.targetRoadmap.reviewNotes = record.reviewerNotes ?? "";
+      state.targetRoadmap.reviewRecordId = record.id;
+      state.targetRoadmap.reviewStatus = "Loaded saved roadmap review.";
+      render();
+    }
+    return;
+  }
+
+  const reviewDeleteButton = event.target.closest("[data-roadmap-review-delete]");
+  if (reviewDeleteButton) {
+    const index = Number(reviewDeleteButton.getAttribute("data-roadmap-review-delete"));
+    if (Number.isInteger(index)) {
+      state.targetRoadmap.reviewDraft?.steps?.splice(index, 1);
+      state.targetRoadmap.reviewStatus = "Removed roadmap step.";
+      render();
+    }
+    return;
+  }
+
+  const reviewMoveButton = event.target.closest("[data-roadmap-review-move]");
+  if (reviewMoveButton) {
+    const direction = reviewMoveButton.getAttribute("data-roadmap-review-move");
+    const index = Number(reviewMoveButton.getAttribute("data-roadmap-review-index"));
+    const steps = state.targetRoadmap.reviewDraft?.steps;
+    if (!steps || !Number.isInteger(index)) return;
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= steps.length) return;
+    [steps[index], steps[swapIndex]] = [steps[swapIndex], steps[index]];
+    state.targetRoadmap.reviewStatus = "Reordered roadmap step.";
+    render();
+    return;
+  }
+
   const roadmapInternalButton = event.target.closest("[data-roadmap-internal-problem]");
   if (roadmapInternalButton) {
     const problemId = roadmapInternalButton.getAttribute("data-roadmap-internal-problem");
@@ -4563,6 +4997,30 @@ document.addEventListener("click", async (event) => {
 });
 
 problemSearchInputEl?.addEventListener("input", renderProblemList);
+document.addEventListener("change", (event) => {
+  const tagInput = event.target.closest("[data-roadmap-review-tag]");
+  if (tagInput) {
+    const tag = tagInput.getAttribute("data-roadmap-review-tag");
+    if (!tag) return;
+    if (tagInput.checked) {
+      if (!state.targetRoadmap.reviewManualTags.includes(tag)) {
+        state.targetRoadmap.reviewManualTags.push(tag);
+      }
+    } else {
+      state.targetRoadmap.reviewManualTags = state.targetRoadmap.reviewManualTags.filter((item) => item !== tag);
+    }
+    state.targetRoadmap.reviewStatus = "Mismatch tags updated.";
+    render();
+    return;
+  }
+
+  const input = event.target.closest("[data-roadmap-review-field]");
+  if (!input) return;
+  const index = Number(input.getAttribute("data-roadmap-review-index"));
+  const field = input.getAttribute("data-roadmap-review-field");
+  if (!Number.isInteger(index) || !field) return;
+  updateRoadmapReviewStep(index, field, input.value);
+});
 problemDifficultyFilterEl?.addEventListener("change", renderProblemList);
 problemStatusFilterEl?.addEventListener("change", renderProblemList);
 

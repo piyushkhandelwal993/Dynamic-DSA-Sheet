@@ -770,8 +770,12 @@ function buildInternalConceptSteps(
   skillProfile: SkillProfile
 ): { problems: Problem[]; notes: string[]; conceptPlan: string[] } {
   const excludedProblemIds = new Set<string>(target.mappedFromProblemIds);
-  const orderedConcepts = expandMissingConceptChain(target.topicId, assessment.missingConceptIds, skillProfile);
+  const expandedConcepts = expandMissingConceptChain(target.topicId, assessment.missingConceptIds, skillProfile);
   const directMissingConceptIds = new Set(assessment.missingConceptIds);
+  const orderedConcepts = [
+    ...expandedConcepts.filter((conceptId) => directMissingConceptIds.has(conceptId)),
+    ...expandedConcepts.filter((conceptId) => !directMissingConceptIds.has(conceptId))
+  ];
   const chosen: Problem[] = [];
   const chosenIds = new Set<string>();
   const coveredConceptIds = new Set<string>();
@@ -933,8 +937,11 @@ function chooseInternalCheckpoint(
   const coveredTargetConcepts = new Set(
     internalProblems.flatMap((problem) => problem.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)))
   );
+  const checkpointConceptPlan = [...orderedConceptPlan]
+    .filter((conceptId) => targetConcepts.has(conceptId))
+    .reverse();
 
-  for (const conceptId of [...orderedConceptPlan].reverse()) {
+  for (const conceptId of checkpointConceptPlan) {
     if (coveredTargetConcepts.has(conceptId)) {
       continue;
     }

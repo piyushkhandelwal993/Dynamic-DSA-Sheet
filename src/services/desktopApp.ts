@@ -68,6 +68,7 @@ import {
   saveExternalPracticeProblem
 } from "./externalPractice";
 import { assessTargetProblemReadiness, createTargetProblemRoadmap } from "./targetRoadmap";
+import { exportRoadmapReviewFixtures, getRoadmapReviewWorkspace, saveRoadmapReview } from "./roadmapReviews";
 
 function buildStreakCalendar() {
   const skillProfile = getSkillProfile();
@@ -416,6 +417,18 @@ export function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?
 
 export function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
   return createTargetProblemRoadmap(inputUrl, problemStatement);
+}
+
+export function getDesktopRoadmapReviewWorkspace() {
+  return getRoadmapReviewWorkspace();
+}
+
+export function saveDesktopRoadmapReview(input: Parameters<typeof saveRoadmapReview>[0]) {
+  return saveRoadmapReview(input);
+}
+
+export function exportDesktopRoadmapReviewFixtures() {
+  return exportRoadmapReviewFixtures();
 }
 
 export function runDesktopProblem(

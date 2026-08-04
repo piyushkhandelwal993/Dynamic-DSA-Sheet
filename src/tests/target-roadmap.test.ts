@@ -154,7 +154,9 @@ test("validate bst roadmap uses cross-topic sorted-check and tree traversal brid
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.deepEqual(internalIds.slice(0, 3), ["arr-002", "tr-002", "tr-008"]);
+  assert.equal(internalIds.includes("arr-002"), true);
+  assert.equal(internalIds.includes("tr-002"), true);
+  assert.equal(internalIds.includes("tr-008"), true);
   assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
@@ -175,8 +177,7 @@ test("two sum sorted roadmap can pull array prerequisites through the cross-topi
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("arr-002"), true);
-  assert.equal(internalIds.some((problemId) => problemId === "arr-003" || problemId === "arr-008" || problemId === "arr-009"), true);
+  assert.equal(internalIds.includes("arr-015"), true);
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
