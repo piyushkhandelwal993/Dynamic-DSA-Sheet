@@ -120,6 +120,18 @@
     "dependsOn": ["level-order-traversal", "queue-library-usage", "hash-map-usage"]
   },
   {
+    "id": "tree-boundary-traversal",
+    "name": "Tree Boundary Traversal",
+    "description": "Traverse left boundary, leaves, and reversed right boundary without duplicating leaf nodes.",
+    "exampleJava": "if (!isLeaf(node)) boundary.add(node.val);",
+    "commonMistakes": [
+      "Adding leaf nodes twice through both boundary and leaf passes",
+      "Forgetting to reverse the right boundary order at the end"
+    ],
+    "practiceProblems": ["tr-017", "tr-018"],
+    "dependsOn": ["recursive-tree-traversal", "tree-view"]
+  },
+  {
     "id": "lca-binary-tree",
     "name": "Lowest Common Ancestor",
     "description": "Return the split point where one target is found in each subtree, or the target node itself.",

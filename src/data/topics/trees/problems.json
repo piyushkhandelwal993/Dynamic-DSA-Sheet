@@ -1223,5 +1223,158 @@
     "poolRole": "challenge",
     "masteryWeight": 1.25,
     "variantGroup": "tree-path-sum-bridge"
+  },
+  {
+    "id": "tr-017",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Leaf Traversal of Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "recursive-tree-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "tree-intro"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print all leaf nodes from left to right.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print leaf node values"
+    ],
+    "edgeCases": [
+      "Single-node tree is itself a leaf",
+      "Sparse tree with leaves at different depths"
+    ],
+    "intendedApproachSummary": "Use DFS and record a node only when both children are null.",
+    "wrongApproachHints": [
+      "Do not print non-leaf nodes that happen to be on the outer edges.",
+      "Do not miss a right leaf just because there is no left child."
+    ],
+    "hints": [
+      "A leaf is a node with left == null and right == null.",
+      "Visit left subtree before right subtree to preserve order."
+    ],
+    "examples": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "output": "4 5 6",
+        "explanation": "These are the leaves from left to right."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "leafTraversal",
+      "javaSignature": "public List<Integer> leafTraversal(TreeNode root)",
+      "cppSignature": "vector<int> leafTraversal(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-preorder"
+    },
+    "testCases": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "expectedOutput": "4 5 6",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n7 -1 -1",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "tree-leaf-traversal-bridge"
+  },
+  {
+    "id": "tr-018",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Boundary Traversal of Binary Tree",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "tree-boundary-traversal",
+      "recursive-tree-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "tree-view",
+      "recursive-tree-traversal"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 28,
+    "description": "Given a binary tree in level-order form using -1 for nulls, print its boundary traversal as root, left boundary excluding leaves, all leaves left to right, and right boundary excluding leaves in reverse.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print boundary traversal values"
+    ],
+    "edgeCases": [
+      "Root-only tree should print root once",
+      "Skewed tree should not duplicate nodes between boundary and leaf passes"
+    ],
+    "intendedApproachSummary": "Collect left boundary, then leaves, then right boundary in reverse while skipping leaves in the boundary phases.",
+    "wrongApproachHints": [
+      "Do not add leaves during both the boundary walk and the leaf DFS.",
+      "The right boundary must be appended in reverse order."
+    ],
+    "hints": [
+      "Write a small isLeaf helper first.",
+      "Prefer left child on the left boundary and right child on the right boundary, with fallback to the other side."
+    ],
+    "examples": [
+      {
+        "input": "11\n1 2 3 4 5 6 7 -1 -1 8 9 -1 -1 -1 -1",
+        "output": "1 2 4 8 9 6 7 3",
+        "explanation": "This follows left boundary, leaves, then reversed right boundary without duplicates."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "boundaryTraversal",
+      "javaSignature": "public List<Integer> boundaryTraversal(TreeNode root)",
+      "cppSignature": "vector<int> boundaryTraversal(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-preorder"
+    },
+    "testCases": [
+      {
+        "input": "11\n1 2 3 4 5 6 7 -1 -1 8 9 -1 -1 -1 -1",
+        "expectedOutput": "1 2 4 8 9 6 7 3",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n1 -1 2",
+        "expectedOutput": "1 2",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-009",
+      "tr-017"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.35,
+    "variantGroup": "tree-boundary-traversal-challenge"
   }
 ]

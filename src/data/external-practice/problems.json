@@ -1306,6 +1306,20 @@
     "sourceQualityWeight": 1
   },
   {
+    "id": "ext-lc-boundary-of-binary-tree",
+    "platform": "leetcode",
+    "title": "Boundary of Binary Tree",
+    "url": "https://leetcode.com/problems/boundary-of-binary-tree/",
+    "difficulty": "Medium",
+    "topicId": "trees",
+    "conceptIds": ["recursive-tree-traversal", "tree-view", "tree-boundary-traversal"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-view", "tree-boundary-traversal"],
+    "mappedFromProblemIds": ["tr-018"],
+    "recommendedAfterProblemIds": ["tr-018"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-009", "tr-017", "tr-018"],
+    "sourceQualityWeight": 1
+  },
+  {
     "id": "ext-lc-lowest-common-ancestor-bt",
     "platform": "leetcode",
     "title": "Lowest Common Ancestor of a Binary Tree",

@@ -485,6 +485,34 @@ test("binary tree maximum path sum becomes a supported trees roadmap target", ()
   assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Maximum Path Sum");
 });
 
+test("boundary of binary tree becomes a supported trees roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-boundary-tree-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/boundary-of-binary-tree/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/boundary-of-binary-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-boundary-of-binary-tree");
+  assert.deepEqual(internalIds, ["tr-001", "tr-009", "tr-017", "tr-018"]);
+  assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Boundary of Binary Tree");
+});
+
 test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-window-max-"));
   invalidateCatalogCache();
