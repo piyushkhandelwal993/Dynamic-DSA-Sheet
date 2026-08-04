@@ -1363,10 +1363,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["topological-sort", "cycle-detection"],
-    "prerequisiteConceptIds": ["topological-sort", "cycle-detection"],
+    "prerequisiteConceptIds": ["adjacency-list-building", "topological-sort", "cycle-detection"],
     "mappedFromProblemIds": ["gr-010"],
     "recommendedAfterProblemIds": ["gr-010"],
-    "roadmapBridgeProblemIds": ["gr-010"],
+    "roadmapBridgeProblemIds": ["lt-038", "gr-010"],
     "sourceQualityWeight": 1
   },
   {
@@ -1377,10 +1377,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["cycle-detection", "topological-sort"],
-    "prerequisiteConceptIds": ["cycle-detection", "topological-sort", "pair-collection-usage", "collection-iteration-usage"],
+    "prerequisiteConceptIds": ["adjacency-list-building", "cycle-detection", "topological-sort", "pair-collection-usage", "collection-iteration-usage"],
     "mappedFromProblemIds": ["gr-009", "gr-010"],
     "recommendedAfterProblemIds": ["gr-009"],
-    "roadmapBridgeProblemIds": ["lt-021", "gr-010"],
+    "roadmapBridgeProblemIds": ["lt-038", "lt-021", "gr-010"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -3211,9 +3211,10 @@
     "difficulty": "Easy",
     "topicId": "graphs",
     "conceptIds": ["graph-intro", "adjacency-list", "dfs-graph"],
-    "prerequisiteConceptIds": ["graph-intro", "adjacency-list", "dfs-graph"],
+    "prerequisiteConceptIds": ["graph-intro", "arraylist-basics", "nested-list-usage", "adjacency-list-building", "adjacency-list", "dfs-graph"],
     "mappedFromProblemIds": ["gr-001", "gr-002"],
     "recommendedAfterProblemIds": ["gr-002"],
+    "roadmapBridgeProblemIds": ["lt-036", "gr-002"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -3224,9 +3225,10 @@
     "difficulty": "Easy",
     "topicId": "graphs",
     "conceptIds": ["graph-intro", "adjacency-list"],
-    "prerequisiteConceptIds": ["graph-intro", "adjacency-list"],
+    "prerequisiteConceptIds": ["graph-intro", "arraylist-basics", "nested-list-usage", "adjacency-list-building", "adjacency-list"],
     "mappedFromProblemIds": ["gr-001"],
     "recommendedAfterProblemIds": ["gr-001"],
+    "roadmapBridgeProblemIds": ["lt-036", "gr-001"],
     "sourceQualityWeight": 0.72
   },
   {
@@ -3237,9 +3239,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["dfs-graph", "adjacency-list"],
-    "prerequisiteConceptIds": ["dfs-graph", "adjacency-list"],
+    "prerequisiteConceptIds": ["arraylist-basics", "nested-list-usage", "adjacency-list-building", "dfs-graph", "adjacency-list"],
     "mappedFromProblemIds": ["gr-002"],
     "recommendedAfterProblemIds": ["gr-002"],
+    "roadmapBridgeProblemIds": ["lt-037", "gr-002"],
     "sourceQualityWeight": 0.88
   },
   {
@@ -3250,9 +3253,10 @@
     "difficulty": "Easy",
     "topicId": "graphs",
     "conceptIds": ["adjacency-list", "graph-intro", "bfs-graph"],
-    "prerequisiteConceptIds": ["adjacency-list", "graph-intro", "bfs-graph"],
+    "prerequisiteConceptIds": ["graph-intro", "adjacency-list-building", "adjacency-list", "bfs-graph"],
     "mappedFromProblemIds": ["gr-001", "gr-003"],
     "recommendedAfterProblemIds": ["gr-003"],
+    "roadmapBridgeProblemIds": ["lt-038", "gr-003"],
     "sourceQualityWeight": 0.74
   },
   {
@@ -3263,9 +3267,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["adjacency-list", "bfs-graph", "dfs-graph", "connected-components"],
-    "prerequisiteConceptIds": ["adjacency-list", "bfs-graph", "dfs-graph", "connected-components"],
+    "prerequisiteConceptIds": ["adjacency-list-building", "adjacency-list", "bfs-graph", "dfs-graph", "connected-components"],
     "mappedFromProblemIds": ["gr-003", "gr-004"],
     "recommendedAfterProblemIds": ["gr-004"],
+    "roadmapBridgeProblemIds": ["lt-036", "gr-003", "gr-004"],
     "sourceQualityWeight": 0.93
   },
   {
@@ -3315,9 +3320,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["adjacency-list", "dfs-graph", "bfs-graph"],
-    "prerequisiteConceptIds": ["adjacency-list", "dfs-graph", "bfs-graph"],
+    "prerequisiteConceptIds": ["adjacency-list-building", "adjacency-list", "dfs-graph", "bfs-graph"],
     "mappedFromProblemIds": ["gr-002", "gr-003"],
     "recommendedAfterProblemIds": ["gr-003"],
+    "roadmapBridgeProblemIds": ["lt-037", "gr-003"],
     "sourceQualityWeight": 0.84
   },
   {
@@ -3328,9 +3334,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["graph-intro", "adjacency-list", "dfs-graph", "bfs-graph"],
-    "prerequisiteConceptIds": ["graph-intro", "adjacency-list", "dfs-graph", "bfs-graph"],
+    "prerequisiteConceptIds": ["graph-intro", "arraylist-basics", "nested-list-usage", "adjacency-list-building", "adjacency-list", "dfs-graph", "bfs-graph"],
     "mappedFromProblemIds": ["gr-001", "gr-002", "gr-003"],
     "recommendedAfterProblemIds": ["gr-002"],
+    "roadmapBridgeProblemIds": ["lt-036", "gr-002"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -3367,9 +3374,10 @@
     "difficulty": "Medium",
     "topicId": "graphs",
     "conceptIds": ["adjacency-list", "bfs-graph", "topological-sort"],
-    "prerequisiteConceptIds": ["adjacency-list", "bfs-graph", "topological-sort"],
+    "prerequisiteConceptIds": ["adjacency-list-building", "adjacency-list", "bfs-graph", "topological-sort"],
     "mappedFromProblemIds": ["gr-003", "gr-009"],
     "recommendedAfterProblemIds": ["gr-009"],
+    "roadmapBridgeProblemIds": ["lt-038", "gr-009"],
     "sourceQualityWeight": 0.86
   },
   {

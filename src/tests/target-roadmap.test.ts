@@ -623,6 +623,48 @@ test("group anagrams roadmap can pull map-order toolkit readiness before string 
   assert.equal(roadmap.steps.at(-1)?.title, "Group Anagrams");
 });
 
+test("path exists in graph roadmap can pull adjacency-list toolkit readiness before graph traversal practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-path-exists-graph-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/find-if-path-exists-in-graph/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-036"), true);
+  assert.equal(internalIds.includes("gr-002"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Find if Path Exists in Graph");
+});
+
+test("course schedule roadmap can pull indegree-building toolkit readiness before graph topo practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-course-schedule-indegree-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/course-schedule/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-038"), true);
+  assert.equal(internalIds.includes("gr-010"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Course Schedule");
+});
+
 test("frog jump roadmap distinguishes cost-minimization bridges from jump-memory reachability bridges", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-frog-jump-"));
   invalidateCatalogCache();

@@ -13,6 +13,71 @@
     "dependsOn": []
   },
   {
+    "id": "arraylist-basics",
+    "name": "ArrayList Basics",
+    "description": "Use ArrayList or vector APIs for append, indexed read, size checks, and simple output-building without falling back to fixed arrays.",
+    "exampleJava": "list.add(value); int current = list.get(i);",
+    "commonMistakes": [
+      "Treating size like the last valid index",
+      "Using get on an index that was never added"
+    ],
+    "practiceProblems": ["lt-029", "lt-032"],
+    "progressionOrder": 2,
+    "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "dynamic-list-insert-delete",
+    "name": "Dynamic List Insert Delete",
+    "description": "Insert and remove elements at chosen positions while understanding how dynamic lists shift later values.",
+    "exampleJava": "list.add(index, value); list.remove(index);",
+    "commonMistakes": [
+      "Forgetting that later elements shift after insert or delete",
+      "Using an invalid index after the list size changes"
+    ],
+    "practiceProblems": ["lt-030", "lt-031"],
+    "progressionOrder": 3,
+    "dependsOn": ["arraylist-basics"]
+  },
+  {
+    "id": "nested-list-usage",
+    "name": "Nested List Usage",
+    "description": "Build and traverse 2D dynamic-list structures such as lists of rows or adjacency buckets.",
+    "exampleJava": "List<List<Integer>> grid = new ArrayList<>(); grid.get(r).add(value);",
+    "commonMistakes": [
+      "Forgetting to initialize each inner list before using it",
+      "Reusing the same inner list reference for multiple rows"
+    ],
+    "practiceProblems": ["lt-033", "lt-034", "lt-036"],
+    "progressionOrder": 4,
+    "dependsOn": ["arraylist-basics"]
+  },
+  {
+    "id": "arraylist-iteration-and-conversion",
+    "name": "ArrayList Iteration And Conversion",
+    "description": "Move comfortably between arrays and dynamic lists and iterate over either form without losing ordering or size information.",
+    "exampleJava": "for (int value : list) result[index++] = value;",
+    "commonMistakes": [
+      "Forgetting to preserve order when converting between containers",
+      "Using array-only operations after switching to a dynamic list"
+    ],
+    "practiceProblems": ["lt-032", "lt-035"],
+    "progressionOrder": 5,
+    "dependsOn": ["arraylist-basics", "collection-iteration-usage"]
+  },
+  {
+    "id": "adjacency-list-building",
+    "name": "Adjacency List Building",
+    "description": "Create graph neighbor buckets correctly with nested dynamic lists before any DFS, BFS, or indegree logic begins.",
+    "exampleJava": "for (int i = 0; i < n; i++) graph.add(new ArrayList<>()); graph.get(u).add(v);",
+    "commonMistakes": [
+      "Not allocating all n neighbor buckets first",
+      "Forgetting the reverse edge for an undirected graph"
+    ],
+    "practiceProblems": ["lt-036", "lt-037", "lt-038"],
+    "progressionOrder": 6,
+    "dependsOn": ["nested-list-usage", "arraylist-iteration-and-conversion"]
+  },
+  {
     "id": "string-builder-usage",
     "name": "String Builder Usage",
     "description": "Use StringBuilder or mutable string accumulation patterns instead of slow repeated immutable concatenation.",
@@ -22,7 +87,7 @@
       "Forgetting to append the leftover suffix after one string ends"
     ],
     "practiceProblems": ["lt-002", "lt-003", "lt-007", "lt-017", "lt-018", "lt-020"],
-    "progressionOrder": 2,
+    "progressionOrder": 7,
     "dependsOn": []
   },
   {
@@ -35,7 +100,7 @@
       "Updating only one side of a frequency comparison"
     ],
     "practiceProblems": ["lt-004", "lt-009", "lt-010", "lt-011", "lt-015"],
-    "progressionOrder": 3,
+    "progressionOrder": 8,
     "dependsOn": ["string-builder-usage"]
   },
   {
@@ -48,7 +113,7 @@
       "Forgetting that zero-count entries can be removed or ignored"
     ],
     "practiceProblems": ["lt-004", "lt-009", "lt-015"],
-    "progressionOrder": 4,
+    "progressionOrder": 9,
     "dependsOn": ["hash-map-usage"]
   },
   {
@@ -61,7 +126,7 @@
       "Forgetting that add returning false usually means the value already existed"
     ],
     "practiceProblems": ["lt-010"],
-    "progressionOrder": 5,
+    "progressionOrder": 10,
     "dependsOn": ["hash-map-usage"]
   },
   {
@@ -74,7 +139,7 @@
       "Storing values when the later logic really needs positions"
     ],
     "practiceProblems": ["lt-011"],
-    "progressionOrder": 6,
+    "progressionOrder": 11,
     "dependsOn": ["hash-map-usage", "dynamic-array-usage"]
   },
   {
@@ -87,7 +152,7 @@
       "Using the wrong end of the container as the top"
     ],
     "practiceProblems": ["lt-005", "lt-007"],
-    "progressionOrder": 7,
+    "progressionOrder": 12,
     "dependsOn": ["dynamic-array-usage"]
   },
   {
@@ -100,7 +165,7 @@
       "Confusing front and rear operations"
     ],
     "practiceProblems": ["lt-006"],
-    "progressionOrder": 8,
+    "progressionOrder": 13,
     "dependsOn": ["dynamic-array-usage"]
   },
   {
@@ -113,7 +178,7 @@
       "Mixing value expiry with index expiry"
     ],
     "practiceProblems": ["lt-012", "lt-013", "lt-014"],
-    "progressionOrder": 9,
+    "progressionOrder": 14,
     "dependsOn": ["queue-library-usage"]
   },
   {
@@ -126,7 +191,7 @@
       "Forgetting to remove expired indices before reading the answer"
     ],
     "practiceProblems": ["lt-014"],
-    "progressionOrder": 10,
+    "progressionOrder": 15,
     "dependsOn": ["deque-library-usage", "dynamic-array-usage"]
   },
   {
@@ -139,7 +204,7 @@
       "Forgetting to evict elements when the heap grows past the intended size"
     ],
     "practiceProblems": ["lt-008", "lt-015", "lt-016"],
-    "progressionOrder": 11,
+    "progressionOrder": 16,
     "dependsOn": ["dynamic-array-usage"]
   },
   {
@@ -152,7 +217,7 @@
       "Using the wrong heap direction for top-k vs bottom-k"
     ],
     "practiceProblems": ["lt-008", "lt-015", "lt-016"],
-    "progressionOrder": 12,
+    "progressionOrder": 17,
     "dependsOn": ["priority-queue-usage", "collection-iteration-usage"]
   },
   {
@@ -165,7 +230,7 @@
       "Losing the last token because the scan stops too early"
     ],
     "practiceProblems": ["lt-017", "lt-018"],
-    "progressionOrder": 13,
+    "progressionOrder": 18,
     "dependsOn": ["string-builder-usage"]
   },
   {
@@ -178,7 +243,7 @@
       "Normalizing too aggressively and losing required characters"
     ],
     "practiceProblems": ["lt-017", "lt-018"],
-    "progressionOrder": 14,
+    "progressionOrder": 19,
     "dependsOn": ["tokenization-usage", "string-builder-usage"]
   },
   {
@@ -191,7 +256,7 @@
       "Using incompatible container operations for the required access pattern"
     ],
     "practiceProblems": ["lt-003", "lt-004", "lt-006", "lt-008", "lt-015", "lt-019"],
-    "progressionOrder": 15,
+    "progressionOrder": 20,
     "dependsOn": ["dynamic-array-usage", "string-builder-usage", "hash-map-usage"]
   },
   {
@@ -204,7 +269,7 @@
       "Forgetting to convert between containers before sorting"
     ],
     "practiceProblems": ["lt-019", "lt-020"],
-    "progressionOrder": 16,
+    "progressionOrder": 21,
     "dependsOn": ["collection-iteration-usage"]
   },
   {
@@ -217,7 +282,7 @@
       "Using parallel arrays when a paired representation is simpler"
     ],
     "practiceProblems": ["lt-021", "lt-024", "lt-026", "lt-028"],
-    "progressionOrder": 17,
+    "progressionOrder": 22,
     "dependsOn": ["collection-iteration-usage"]
   },
   {
@@ -230,7 +295,7 @@
       "Sorting the right data but forgetting the intended priority order"
     ],
     "practiceProblems": ["lt-021", "lt-022", "lt-026"],
-    "progressionOrder": 18,
+    "progressionOrder": 23,
     "dependsOn": ["custom-sorting-helpers", "pair-collection-usage"]
   },
   {
@@ -243,7 +308,7 @@
       "Returning entries in arbitrary order when the output requires ordering"
     ],
     "practiceProblems": ["lt-022", "lt-023", "lt-026"],
-    "progressionOrder": 19,
+    "progressionOrder": 24,
     "dependsOn": ["hash-map-usage", "collection-iteration-usage"]
   },
   {
@@ -256,7 +321,7 @@
       "Paying an unnecessary sorting cost when an ordered map would simplify the flow"
     ],
     "practiceProblems": ["lt-023", "lt-028"],
-    "progressionOrder": 20,
+    "progressionOrder": 25,
     "dependsOn": ["map-iteration-order-usage"]
   },
   {
@@ -269,7 +334,7 @@
       "Forgetting which pair slot is the priority and which is the payload"
     ],
     "practiceProblems": ["lt-024", "lt-025", "lt-027"],
-    "progressionOrder": 21,
+    "progressionOrder": 26,
     "dependsOn": ["priority-queue-usage", "pair-collection-usage"]
   }
 ]

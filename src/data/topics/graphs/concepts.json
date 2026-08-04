@@ -21,7 +21,7 @@
       "Indexing the graph incorrectly"
     ],
     "practiceProblems": ["gr-001"],
-    "dependsOn": ["graph-intro", "dynamic-array-usage", "collection-iteration-usage"]
+    "dependsOn": ["graph-intro", "dynamic-array-usage", "arraylist-basics", "nested-list-usage", "adjacency-list-building", "collection-iteration-usage"]
   },
   {
     "id": "dfs-graph",
@@ -33,7 +33,7 @@
       "Assuming one DFS call covers all components automatically"
     ],
     "practiceProblems": ["gr-002", "gr-004"],
-    "dependsOn": ["adjacency-list"]
+    "dependsOn": ["adjacency-list", "adjacency-list-building"]
   },
   {
     "id": "bfs-graph",
@@ -45,7 +45,7 @@
       "Using DFS when shortest edge-count path is needed"
     ],
     "practiceProblems": ["gr-003", "gr-008"],
-    "dependsOn": ["adjacency-list", "queue-library-usage"]
+    "dependsOn": ["adjacency-list", "adjacency-list-building", "queue-library-usage"]
   },
   {
     "id": "connected-components",

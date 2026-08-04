@@ -1286,5 +1286,465 @@
     "masteryWeight": 1.1,
     "variantGroup": "toolkit-ordered-buckets",
     "learningRole": "mastery"
+  },
+  {
+    "id": "lt-029",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic lists",
+    "title": "Build List from Append Queries",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["dynamic-array-usage", "arraylist-basics"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(q)",
+    "estimatedMinutes": 10,
+    "description": "Start with an empty dynamic list and process append queries. Return the final list contents in order.",
+    "constraints": ["1 <= q <= 10^5"],
+    "inputFormat": ["An integer q", "q integers to append one by one"],
+    "outputFormat": ["Print the final list contents"],
+    "edgeCases": ["Single append", "Negative values", "Repeated values"],
+    "intendedApproachSummary": "Use a growing dynamic list and append each value in order.",
+    "wrongApproachHints": ["Do not pre-fill a fixed array with unused slots.", "The list order should match query order exactly."],
+    "hints": ["Start empty.", "Append once for each query value."],
+    "examples": [
+      {
+        "input": "5\n4 1 7 1 9",
+        "output": "4 1 7 1 9",
+        "explanation": "Each query appends one value to the end."
+      }
+    ],
+    "testCases": [
+      { "input": "5\n4 1 7 1 9", "expectedOutput": "4 1 7 1 9", "visibility": "sample" },
+      { "input": "1\n6", "expectedOutput": "6", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "buildListFromAppendQueries",
+      "javaSignature": "public int[] buildListFromAppendQueries(int[] queries)",
+      "cppSignature": "vector<int> buildListFromAppendQueries(vector<int>& queries)",
+      "providedTypes": ["query values"],
+      "driverStrategy": "array-running-sum"
+    },
+    "remedialProblems": ["lt-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-arraylist-append",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-030",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic lists",
+    "title": "Insert Value at Index",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["arraylist-basics", "dynamic-list-insert-delete"],
+    "prerequisiteConcepts": ["arraylist-basics"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given an initial dynamic list, an index, and a value, insert the value at that index and return the resulting list.",
+    "constraints": ["1 <= n <= 10^5", "0 <= index <= n"],
+    "inputFormat": ["An integer n", "n space-separated integers", "Two integers index and value"],
+    "outputFormat": ["Print the updated list"],
+    "edgeCases": ["Insert at front", "Insert at end", "Single-element list"],
+    "intendedApproachSummary": "Use the dynamic-list insert operation so later elements shift right automatically.",
+    "wrongApproachHints": ["Do not overwrite the existing element at the target index.", "Remember that inserting at size means append."],
+    "hints": ["A dynamic list can shift for you.", "Check the valid insertion range."],
+    "examples": [
+      {
+        "input": "4\n3 8 9 2\n2 7",
+        "output": "3 8 7 9 2",
+        "explanation": "The inserted value takes position 2 and later elements shift right."
+      }
+    ],
+    "testCases": [
+      { "input": "4\n3 8 9 2\n2 7", "expectedOutput": "3 8 7 9 2", "visibility": "sample" },
+      { "input": "3\n1 2 3\n0 5", "expectedOutput": "5 1 2 3", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "insertValueAtIndex",
+      "javaSignature": "public int[] insertValueAtIndex(int[] nums, int index, int value)",
+      "cppSignature": "vector<int> insertValueAtIndex(vector<int>& nums, int index, int value)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-reverse"
+    },
+    "remedialProblems": ["lt-029"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-arraylist-insert",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-031",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic lists",
+    "title": "Delete Value at Index",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["arraylist-basics", "dynamic-list-insert-delete"],
+    "prerequisiteConcepts": ["arraylist-basics"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given a dynamic list and an index, remove the element at that index and return the resulting list.",
+    "constraints": ["1 <= n <= 10^5", "0 <= index < n"],
+    "inputFormat": ["An integer n", "n space-separated integers", "An integer index"],
+    "outputFormat": ["Print the updated list"],
+    "edgeCases": ["Delete first element", "Delete last element", "List becomes empty"],
+    "intendedApproachSummary": "Use the indexed delete operation so later elements shift left automatically.",
+    "wrongApproachHints": ["Do not delete by value when the problem asks for delete by index.", "Indices after the removed slot will shift."],
+    "hints": ["The removed element is chosen by position.", "All later elements close the gap."],
+    "examples": [
+      {
+        "input": "5\n4 6 8 9 2\n3",
+        "output": "4 6 8 2",
+        "explanation": "The value at index 3 is removed."
+      }
+    ],
+    "testCases": [
+      { "input": "5\n4 6 8 9 2\n3", "expectedOutput": "4 6 8 2", "visibility": "sample" },
+      { "input": "1\n7\n0", "expectedOutput": "Empty", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "deleteValueAtIndex",
+      "javaSignature": "public int[] deleteValueAtIndex(int[] nums, int index)",
+      "cppSignature": "vector<int> deleteValueAtIndex(vector<int>& nums, int index)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-reverse"
+    },
+    "remedialProblems": ["lt-030"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-arraylist-delete",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-032",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic lists",
+    "title": "Unique Values into Dynamic List",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["arraylist-basics", "arraylist-iteration-and-conversion", "seen-set-membership"],
+    "prerequisiteConcepts": ["arraylist-basics", "hash-map-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 14,
+    "description": "Given an integer array, build a dynamic list containing the first occurrence of each value in the original order.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print the unique-value list in first-seen order"],
+    "edgeCases": ["All values unique", "All values same", "Negative values"],
+    "intendedApproachSummary": "Use a seen set to filter duplicates and append only first-time values into a dynamic list.",
+    "wrongApproachHints": ["Do not sort because original order matters.", "A frequency count is more than you need if you only care about first appearance."],
+    "hints": ["Append only when the value is seen for the first time.", "The dynamic list should preserve original encounter order."],
+    "examples": [
+      {
+        "input": "7\n5 3 5 2 3 8 2",
+        "output": "5 3 2 8",
+        "explanation": "Only the first occurrence of each value is kept."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 5 2 3 8 2", "expectedOutput": "5 3 2 8", "visibility": "sample" },
+      { "input": "4\n1 1 1 1", "expectedOutput": "1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "uniqueValuesIntoDynamicList",
+      "javaSignature": "public int[] uniqueValuesIntoDynamicList(int[] nums)",
+      "cppSignature": "vector<int> uniqueValuesIntoDynamicList(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-maximum"
+    },
+    "remedialProblems": ["lt-029", "lt-010"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-arraylist-conversion",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-033",
+    "topic": "Language Toolkit",
+    "subtopic": "Nested lists",
+    "title": "Build 2D List by Rows",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["arraylist-basics", "nested-list-usage"],
+    "prerequisiteConcepts": ["arraylist-basics"],
+    "expectedComplexity": "O(rows * cols)",
+    "estimatedMinutes": 14,
+    "description": "Given row and column counts followed by matrix values, rebuild the structure as a nested dynamic list and print it row by row.",
+    "constraints": ["1 <= rows, cols <= 200"],
+    "inputFormat": ["Two integers rows and cols", "rows lines each containing cols integers"],
+    "outputFormat": ["Print the same matrix row by row"],
+    "edgeCases": ["Single row", "Single column", "Negative values"],
+    "intendedApproachSummary": "Create an outer list, create a fresh inner list for each row, and append the row values into that inner list.",
+    "wrongApproachHints": ["Do not reuse the same inner list for every row.", "Each row should have its own list instance."],
+    "hints": ["Initialize one new row list per row.", "Append the row list into the outer list after filling it."],
+    "examples": [
+      {
+        "input": "2 3\n1 2 3\n4 5 6",
+        "output": "1 2 3\n4 5 6",
+        "explanation": "The nested list stores each row separately."
+      }
+    ],
+    "testCases": [
+      { "input": "2 3\n1 2 3\n4 5 6", "expectedOutput": "1 2 3\n4 5 6", "visibility": "sample" },
+      { "input": "1 1\n9", "expectedOutput": "9", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "build2DListByRows",
+      "javaSignature": "public int[][] build2DListByRows(int[][] matrix)",
+      "cppSignature": "vector<vector<int>> build2DListByRows(vector<vector<int>>& matrix)",
+      "providedTypes": ["integer matrix"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-029"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-nested-list-foundation",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-034",
+    "topic": "Language Toolkit",
+    "subtopic": "Nested lists",
+    "title": "Row Sum from Nested List",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["nested-list-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["nested-list-usage"],
+    "expectedComplexity": "O(rows * cols)",
+    "estimatedMinutes": 12,
+    "description": "Given a 2D integer input, store it as a nested dynamic list and return the sum of each row.",
+    "constraints": ["1 <= rows, cols <= 200"],
+    "inputFormat": ["Two integers rows and cols", "rows lines each containing cols integers"],
+    "outputFormat": ["Print the row sums"],
+    "edgeCases": ["Single row", "Zero-sum row", "Negative values"],
+    "intendedApproachSummary": "Traverse each inner list separately and accumulate a row sum before moving to the next row.",
+    "wrongApproachHints": ["Do not flatten the whole matrix if the task is row-based.", "Reset the running sum at the start of each row."],
+    "hints": ["Each inner list represents one row.", "Produce one answer per row."],
+    "examples": [
+      {
+        "input": "2 3\n1 2 3\n4 5 6",
+        "output": "6 15",
+        "explanation": "The two row sums are 6 and 15."
+      }
+    ],
+    "testCases": [
+      { "input": "2 3\n1 2 3\n4 5 6", "expectedOutput": "6 15", "visibility": "sample" },
+      { "input": "1 4\n-1 1 -1 1", "expectedOutput": "0", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rowSumFromNestedList",
+      "javaSignature": "public int[] rowSumFromNestedList(int[][] matrix)",
+      "cppSignature": "vector<int> rowSumFromNestedList(vector<vector<int>>& matrix)",
+      "providedTypes": ["integer matrix"],
+      "driverStrategy": "array-running-sum"
+    },
+    "remedialProblems": ["lt-033"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-nested-list-iteration",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-035",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic lists",
+    "title": "Merge Two Dynamic Lists",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["arraylist-basics", "arraylist-iteration-and-conversion", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["arraylist-basics"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 12,
+    "description": "Given two integer arrays, move them into dynamic lists and return one merged list containing all elements of the first followed by all elements of the second.",
+    "constraints": ["1 <= n, m <= 10^5"],
+    "inputFormat": ["Two integers n and m", "n integers", "m integers"],
+    "outputFormat": ["Print the merged list"],
+    "edgeCases": ["One side empty", "Repeated values", "Negative values"],
+    "intendedApproachSummary": "Build dynamic lists from both inputs, then iterate and append their values into one result list in order.",
+    "wrongApproachHints": ["Do not sort; this is concatenation in order.", "Preserve the order within each input list."],
+    "hints": ["Read the first list fully before appending the second.", "A result dynamic list is the easiest final container."],
+    "examples": [
+      {
+        "input": "3 2\n1 2 3\n4 5",
+        "output": "1 2 3 4 5",
+        "explanation": "The second list is appended after the first."
+      }
+    ],
+    "testCases": [
+      { "input": "3 2\n1 2 3\n4 5", "expectedOutput": "1 2 3 4 5", "visibility": "sample" },
+      { "input": "1 3\n9\n-1 -2 -3", "expectedOutput": "9 -1 -2 -3", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeTwoDynamicLists",
+      "javaSignature": "public int[] mergeTwoDynamicLists(int[] first, int[] second)",
+      "cppSignature": "vector<int> mergeTwoDynamicLists(vector<int>& first, vector<int>& second)",
+      "providedTypes": ["two integer arrays"],
+      "driverStrategy": "array-reverse"
+    },
+    "remedialProblems": ["lt-029"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-arraylist-merge",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-036",
+    "topic": "Language Toolkit",
+    "subtopic": "Adjacency lists",
+    "title": "Build Undirected Adjacency List",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["nested-list-usage", "adjacency-list-building"],
+    "prerequisiteConcepts": ["nested-list-usage"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 18,
+    "description": "Given n nodes and m undirected edges, build the adjacency list and print neighbors of every node in insertion order.",
+    "constraints": ["1 <= n <= 10^5", "0 <= m <= 2 * 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines each containing u and v"],
+    "outputFormat": ["For each node from 0 to n-1, print its neighbors on one line"],
+    "edgeCases": ["Isolated node", "Repeated edges if allowed by input", "Single edge"],
+    "intendedApproachSummary": "Allocate n neighbor buckets first, then add both directions for each undirected edge.",
+    "wrongApproachHints": ["Do not forget the reverse edge for an undirected graph.", "You must create every node bucket before adding neighbors."],
+    "hints": ["The outer list size should be n.", "Every undirected edge updates two neighbor lists."],
+    "examples": [
+      {
+        "input": "4 3\n0 1\n1 2\n1 3",
+        "output": "1\n0 2 3\n1\n1",
+        "explanation": "Each node prints the neighbors stored in its adjacency bucket."
+      }
+    ],
+    "testCases": [
+      { "input": "4 3\n0 1\n1 2\n1 3", "expectedOutput": "1\n0 2 3\n1\n1", "visibility": "sample" },
+      { "input": "3 0", "expectedOutput": "\n\n", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "buildUndirectedAdjacencyList",
+      "javaSignature": "public int[][] buildUndirectedAdjacencyList(int n, int[][] edges)",
+      "cppSignature": "vector<vector<int>> buildUndirectedAdjacencyList(int n, vector<vector<int>>& edges)",
+      "providedTypes": ["node count and edge list"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-033"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-adjacency-undirected",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-037",
+    "topic": "Language Toolkit",
+    "subtopic": "Adjacency lists",
+    "title": "Build Directed Adjacency List",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["adjacency-list-building", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["adjacency-list-building"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 16,
+    "description": "Given n nodes and m directed edges, build the adjacency list and print outgoing neighbors of every node in insertion order.",
+    "constraints": ["1 <= n <= 10^5", "0 <= m <= 2 * 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines each containing from and to"],
+    "outputFormat": ["For each node from 0 to n-1, print its outgoing neighbors on one line"],
+    "edgeCases": ["Node with no outgoing edges", "Self-loop", "Multiple edges from one node"],
+    "intendedApproachSummary": "Allocate n buckets and add each edge only in its forward direction.",
+    "wrongApproachHints": ["Do not add the reverse edge in a directed graph.", "Keep the output grouped by source node."],
+    "hints": ["Every edge contributes to exactly one adjacency bucket.", "Print nodes with empty outgoing lists too."],
+    "examples": [
+      {
+        "input": "4 4\n0 1\n0 2\n2 3\n3 1",
+        "output": "1 2\n\n3\n1",
+        "explanation": "Each node prints only its outgoing neighbors."
+      }
+    ],
+    "testCases": [
+      { "input": "4 4\n0 1\n0 2\n2 3\n3 1", "expectedOutput": "1 2\n\n3\n1", "visibility": "sample" },
+      { "input": "2 1\n1 1", "expectedOutput": "\n1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "buildDirectedAdjacencyList",
+      "javaSignature": "public int[][] buildDirectedAdjacencyList(int n, int[][] edges)",
+      "cppSignature": "vector<vector<int>> buildDirectedAdjacencyList(int n, vector<vector<int>>& edges)",
+      "providedTypes": ["node count and edge list"],
+      "driverStrategy": "queue-circular-queries"
+    },
+    "remedialProblems": ["lt-036"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-adjacency-directed",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-038",
+    "topic": "Language Toolkit",
+    "subtopic": "Adjacency lists",
+    "title": "Indegree from Directed Edges",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["adjacency-list-building", "value-to-index-mapping", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["adjacency-list-building"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 16,
+    "description": "Given n nodes and a directed edge list, build the outgoing adjacency buckets and return the indegree of every node.",
+    "constraints": ["1 <= n <= 10^5", "0 <= m <= 2 * 10^5"],
+    "inputFormat": ["Two integers n and m", "m lines each containing from and to"],
+    "outputFormat": ["Print the indegree array"],
+    "edgeCases": ["Node with indegree 0", "Self-loop adds one indegree", "No edges"],
+    "intendedApproachSummary": "While building outgoing neighbor lists, increment the indegree of the destination node for every directed edge.",
+    "wrongApproachHints": ["Do not recompute indegree by rescanning the whole graph for each node.", "Each directed edge contributes exactly one indegree to its destination."],
+    "hints": ["One pass over the edge list is enough.", "The adjacency structure and indegree array can be built together."],
+    "examples": [
+      {
+        "input": "4 4\n0 1\n0 2\n2 3\n3 1",
+        "output": "0 2 1 1",
+        "explanation": "Node 1 has two incoming edges, nodes 2 and 3 have one each."
+      }
+    ],
+    "testCases": [
+      { "input": "4 4\n0 1\n0 2\n2 3\n3 1", "expectedOutput": "0 2 1 1", "visibility": "sample" },
+      { "input": "3 0", "expectedOutput": "0 0 0", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "indegreeFromDirectedEdges",
+      "javaSignature": "public int[] indegreeFromDirectedEdges(int n, int[][] edges)",
+      "cppSignature": "vector<int> indegreeFromDirectedEdges(int n, vector<vector<int>>& edges)",
+      "providedTypes": ["node count and edge list"],
+      "driverStrategy": "array-running-sum"
+    },
+    "remedialProblems": ["lt-037"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-adjacency-indegree",
+    "learningRole": "mastery"
   }
 ]
