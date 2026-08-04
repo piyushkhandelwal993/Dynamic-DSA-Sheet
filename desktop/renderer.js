@@ -57,6 +57,7 @@ const state = {
     reviewNotes: "",
     reviewManualTags: [],
     reviewRecordId: "",
+    reviewPanelOpen: false,
     loading: false,
     status: "Paste a problem URL to estimate readiness."
   }
@@ -196,6 +197,8 @@ const targetRoadmapPlanEl = document.getElementById("target-roadmap-plan");
 const roadmapReviewResetButtonEl = document.getElementById("roadmap-review-reset-button");
 const roadmapReviewSaveButtonEl = document.getElementById("roadmap-review-save-button");
 const roadmapReviewExportButtonEl = document.getElementById("roadmap-review-export-button");
+const roadmapReviewToggleButtonEl = document.getElementById("roadmap-review-toggle-button");
+const roadmapReviewBodyEl = document.getElementById("roadmap-review-body");
 const roadmapReviewStatusEl = document.getElementById("roadmap-review-status");
 const roadmapReviewNotesInputEl = document.getElementById("roadmap-review-notes-input");
 const roadmapReviewTagsEl = document.getElementById("roadmap-review-tags");
@@ -3193,6 +3196,13 @@ function buildRoadmapReviewCatalogDatalist(items, datalistId) {
 }
 
 function renderRoadmapReviewStatus() {
+  if (roadmapReviewToggleButtonEl) {
+    roadmapReviewToggleButtonEl.textContent = state.targetRoadmap.reviewPanelOpen ? "Hide Tester" : "Show Tester";
+    roadmapReviewToggleButtonEl.setAttribute("aria-expanded", String(state.targetRoadmap.reviewPanelOpen));
+  }
+  if (roadmapReviewBodyEl) {
+    roadmapReviewBodyEl.classList.toggle("is-hidden", !state.targetRoadmap.reviewPanelOpen);
+  }
   if (roadmapReviewStatusEl) {
     roadmapReviewStatusEl.textContent = state.targetRoadmap.reviewStatus;
   }
@@ -4751,6 +4761,10 @@ targetRoadmapEvaluateButtonEl?.addEventListener("click", async () => {
 });
 targetRoadmapGenerateButtonEl?.addEventListener("click", async () => {
   await evaluateTargetRoadmap({ generateRoadmap: true });
+});
+roadmapReviewToggleButtonEl?.addEventListener("click", () => {
+  state.targetRoadmap.reviewPanelOpen = !state.targetRoadmap.reviewPanelOpen;
+  render();
 });
 roadmapReviewNotesInputEl?.addEventListener("input", () => {
   state.targetRoadmap.reviewNotes = roadmapReviewNotesInputEl.value;

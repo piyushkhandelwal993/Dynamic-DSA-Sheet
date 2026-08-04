@@ -36,6 +36,7 @@
     "prerequisiteConceptIds": ["divisibility-check", "primality-test", "sieve-precomputation"],
     "mappedFromProblemIds": ["pm-006", "pm-008"],
     "recommendedAfterProblemIds": ["pm-008"],
+    "roadmapBridgeProblemIds": ["pm-006", "pm-008"],
     "sourceQualityWeight": 0.94
   },
   {

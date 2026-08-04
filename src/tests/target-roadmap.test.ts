@@ -244,6 +244,35 @@ test("combination sum iii roadmap prefers progressive backtracking foundations o
   assert.ok(internalIds.indexOf("rec-013") < internalIds.indexOf("rec-015"));
 });
 
+test("count primes roadmap prefers internal prime and sieve bridges over generic math detours", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-count-primes-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["divisibility-check"] = 66;
+  skillProfile.conceptScores["primality-test"] = 52;
+  skillProfile.conceptScores["sieve-precomputation"] = 38;
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/count-primes/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+  const externalTitles = roadmap.steps
+    .filter((step) => step.type === "external")
+    .map((step) => step.title);
+
+  assert.equal(internalIds.includes("pm-006"), true);
+  assert.equal(internalIds.includes("pm-008"), true);
+  assert.equal(roadmap.steps.some((step) => /greatest common divisor/i.test(step.title)), false);
+  assert.equal(externalTitles.includes("Ugly Number"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Count Primes");
+});
+
 test("roadmap generation respects the passed transient progress and skill profile instead of falling back to saved state", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-transient-"));
   invalidateCatalogCache();

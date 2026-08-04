@@ -655,13 +655,15 @@
                   <p class="muted">Edit the generated steps, tag the mismatch, save the review, and export benchmark fixtures from reviewed roadmaps.</p>
                 </div>
                 <div class="training-actions">
+                  <button id="roadmap-review-toggle-button" class="ghost-button" type="button" aria-expanded="false">Show Tester</button>
                   <button id="roadmap-review-reset-button" class="ghost-button" type="button">Load Generated Roadmap</button>
                   <button id="roadmap-review-save-button" class="primary-button" type="button">Save Review</button>
                   <button id="roadmap-review-export-button" class="ghost-button" type="button">Export Fixtures</button>
                 </div>
               </div>
-              <div id="roadmap-review-status" class="muted" role="status">Generate a roadmap to begin reviewing.</div>
-              <div class="profile-grid">
+              <div id="roadmap-review-body" class="is-hidden">
+                <div id="roadmap-review-status" class="muted" role="status">Generate a roadmap to begin reviewing.</div>
+                <div class="profile-grid">
                 <section class="profile-stats">
                   <div class="external-section-heading">
                     <div>
@@ -696,6 +698,7 @@
                   </div>
                   <div id="roadmap-review-records" class="profile-contributions-list muted">No reviewed roadmaps saved yet.</div>
                 </section>
+                </div>
               </div>
             </section>
           </section>
