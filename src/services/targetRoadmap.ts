@@ -1177,13 +1177,16 @@ export function createTargetProblemRoadmap(
     : ("roadmapBridgeProblemIds" in target ? target.roadmapBridgeProblemIds : undefined);
   const explicitBridges = chooseExplicitBridgeProblems(explicitBridgeIdsFromTarget, progress);
   const explicitBridgeIds = new Set(explicitBridges.map((problem) => problem.id));
-  const coveredConcepts = new Set(explicitBridges.flatMap((problem) => problem.expectedConcepts));
+  const bridgeCoveredConcepts = new Set([
+    ...explicitBridges.flatMap((problem) => problem.expectedConcepts),
+    ...(mappedBridge?.expectedConcepts ?? [])
+  ]);
   const remainingInternalPlan = internalPlan.problems.filter((problem) => {
     if (explicitBridgeIds.has(problem.id)) {
       return false;
     }
     const addressedPlannedConcepts = problem.expectedConcepts.filter((conceptId) => internalPlan.conceptPlan.includes(conceptId));
-    return addressedPlannedConcepts.some((conceptId) => !coveredConcepts.has(conceptId));
+    return addressedPlannedConcepts.some((conceptId) => !bridgeCoveredConcepts.has(conceptId));
   });
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]

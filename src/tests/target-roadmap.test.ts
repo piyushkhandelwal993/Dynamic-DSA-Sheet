@@ -344,6 +344,27 @@ test("house robber roadmap avoids using the harder sequel as the transfer step",
   assert.equal(roadmap.steps.at(-1)?.title, "House Robber");
 });
 
+test("unique paths roadmap prefers the direct grid-dp bridge over generic tabulation fillers", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-unique-paths-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/unique-paths/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds[0], "dp-006");
+  assert.equal(internalIds.includes("dp-004"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Unique Paths");
+});
+
 test("frog jump roadmap distinguishes cost-minimization bridges from jump-memory reachability bridges", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-frog-jump-"));
   invalidateCatalogCache();
