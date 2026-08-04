@@ -247,6 +247,19 @@ function javaMethodStub(contract: FunctionContract): string {
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
+    case "math-reverse-number":
+      return `        return 0;`;
+    case "math-palindrome-number":
+    case "math-prime-check":
+      return `        return false;`;
+    case "math-lcm":
+    case "math-count-primes-sieve":
+    case "math-power-modulo":
+    case "math-fast-power-modulo":
+    case "math-factorial-modulo":
+    case "math-modular-inverse":
+    case "math-ncr-mod-prime":
+      return `        return 0;`;
     case "dp-climbing-stairs":
     case "dp-house-robber":
     case "dp-max-non-adjacent-sum":
@@ -488,6 +501,19 @@ function cppMethodStub(contract: FunctionContract): string {
       return `        return {};`;
     case "recursion-n-queens":
       return `        return {};`;
+    case "math-reverse-number":
+      return `        return 0;`;
+    case "math-palindrome-number":
+    case "math-prime-check":
+      return `        return false;`;
+    case "math-lcm":
+    case "math-count-primes-sieve":
+    case "math-power-modulo":
+    case "math-fast-power-modulo":
+    case "math-factorial-modulo":
+    case "math-modular-inverse":
+    case "math-ncr-mod-prime":
+      return `        return 0;`;
     case "recursion-factorial":
     case "dp-fibonacci":
       return `        return 0;`;
@@ -1598,6 +1624,50 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int a = sc.nextInt();
         int b = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(a, b));`;
+      break;
+    case "math-reverse-number":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "math-palindrome-number":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "math-prime-check":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "math-count-primes-sieve":
+      inputSetup = `        int n = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n));`;
+      break;
+    case "math-lcm":
+      inputSetup = `        int a = sc.nextInt();
+        int b = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(a, b));`;
+      break;
+    case "math-power-modulo":
+    case "math-fast-power-modulo":
+      inputSetup = `        long a = sc.nextLong();
+        long b = sc.nextLong();
+        long mod = sc.nextLong();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(a, b, mod));`;
+      break;
+    case "math-factorial-modulo":
+      inputSetup = `        int n = sc.nextInt();
+        long mod = sc.nextLong();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, mod));`;
+      break;
+    case "math-modular-inverse":
+      inputSetup = `        long a = sc.nextLong();
+        long mod = sc.nextLong();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(a, mod));`;
+      break;
+    case "math-ncr-mod-prime":
+      inputSetup = `        int n = sc.nextInt();
+        int r = sc.nextInt();
+        long mod = sc.nextLong();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(n, r, mod));`;
       break;
     case "recursion-josephus":
       inputSetup = `        int n = sc.nextInt();
@@ -2828,6 +2898,54 @@ void printValues(const vector<int>& values) {
       inputSetup = `    string value;
     cin >> value;`;
       invocation = `    cout << (Solution().${contract.functionName}(value) ? "true" : "false");`;
+      break;
+    case "math-reverse-number":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "math-palindrome-number":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << (Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "math-prime-check":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << (Solution().${contract.functionName}(n) ? "true" : "false");`;
+      break;
+    case "math-count-primes-sieve":
+      inputSetup = `    int n;
+    cin >> n;`;
+      invocation = `    cout << Solution().${contract.functionName}(n);`;
+      break;
+    case "math-lcm":
+      inputSetup = `    int a, b;
+    cin >> a >> b;`;
+      invocation = `    cout << Solution().${contract.functionName}(a, b);`;
+      break;
+    case "math-power-modulo":
+    case "math-fast-power-modulo":
+      inputSetup = `    long long a, b, mod;
+    cin >> a >> b >> mod;`;
+      invocation = `    cout << Solution().${contract.functionName}(a, b, mod);`;
+      break;
+    case "math-factorial-modulo":
+      inputSetup = `    int n;
+    long long mod;
+    cin >> n >> mod;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, mod);`;
+      break;
+    case "math-modular-inverse":
+      inputSetup = `    long long a, mod;
+    cin >> a >> mod;`;
+      invocation = `    cout << Solution().${contract.functionName}(a, mod);`;
+      break;
+    case "math-ncr-mod-prime":
+      inputSetup = `    int n, r;
+    long long mod;
+    cin >> n >> r >> mod;`;
+      invocation = `    cout << Solution().${contract.functionName}(n, r, mod);`;
       break;
     case "recursion-reverse-string":
       inputSetup = `    string value;

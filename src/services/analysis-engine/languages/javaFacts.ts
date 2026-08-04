@@ -75,6 +75,7 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
     addFact(facts, "algorithms", "sorting", "high", ["sort call"]);
     addFact(facts, "complexitySignals", "n-log-n-candidate", "medium", ["sort call"]);
   }
+  detectProgrammingMathTechniques(facts, content);
   detectArrayTechniques(facts, content);
   if (/\.(push|pop|peek)\s*\(|\.(addLast|removeLast|getLast|offerLast|pollLast|peekLast)\s*\(/.test(content)) {
     addFact(facts, "structures", "stack-operations", "high", ["push/pop/peek or deque end operation"]);
@@ -355,6 +356,90 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   }
 
   return facts;
+}
+
+function detectProgrammingMathTechniques(facts: CodeFacts, content: string): void {
+  const hasModuloReduction =
+    /%\s*(?:[a-zA-Z_]\w*|\d+)/.test(content) &&
+    /(?:=\s*\([^;]*%\s*(?:[a-zA-Z_]\w*|\d+)\)|=\s*[^;]*%\s*(?:[a-zA-Z_]\w*|\d+))/.test(content);
+  const hasRepeatedSquaringLoop =
+    /while\s*\(\s*\w+\s*>\s*0\s*\)/.test(content) &&
+    />>=\s*1|\/=\s*2/.test(content) &&
+    /\b\w+\s*=\s*\(\s*\w+\s*\*\s*\w+\s*\)\s*%\s*\w+/.test(content);
+  const digitExtraction = /%\s*10/.test(content) && /\/=\s*10|\/\s*10/.test(content);
+  if (digitExtraction) {
+    addFact(facts, "algorithms", "digit-extraction", "high", ["modulo 10 with division by 10"]);
+  }
+
+  if (
+    digitExtraction &&
+    /\b(?:rev|reverse|reversed|ans)\w*\s*=\s*\b(?:rev|reverse|reversed|ans)\w*\s*\*\s*10\s*\+\s*[a-zA-Z_]\w*/.test(content)
+  ) {
+    addFact(facts, "algorithms", "number-reversal", "high", ["answer multiplied by 10 before adding last digit"]);
+  }
+
+  if (
+    /%\s*(?:[a-zA-Z_]\w*|\d+)\s*==\s*0/.test(content) ||
+    /==\s*0\s*&&[\s\S]{0,60}%/.test(content)
+  ) {
+    addFact(facts, "algorithms", "divisibility-check", "high", ["modulo compared with zero"]);
+  }
+
+  if (
+    (/\bwhile\s*\(\s*\w+\s*!=\s*0\s*\)/.test(content) || /\breturn\s+\w+\s*==\s*0\s*\?\s*\w+\s*:\s*\w+\s*\(/.test(content)) &&
+    /%\s*\w+/.test(content)
+  ) {
+    addFact(facts, "algorithms", "gcd-euclid", "high", ["remainder-driven gcd reduction"]);
+  }
+
+  if (
+    (/\bfor\s*\(\s*int\s+\w+\s*=\s*1\s*;[\s\S]{0,80}\w+\s*\*\s*\w+\s*<=\s*\w+/.test(content) || /Math\.sqrt\s*\(/.test(content)) &&
+    /%\s*\w+\s*==\s*0/.test(content)
+  ) {
+    addFact(facts, "algorithms", "factor-enumeration", "high", ["sqrt-bounded divisor scan"]);
+  }
+
+  if (
+    /(?:n\s*<=\s*1|if\s*\(\s*\w+\s*<=\s*1\s*\)\s*return\s+false)/.test(content) &&
+    /for\s*\(\s*int\s+\w+\s*=\s*2\s*;[\s\S]{0,80}\w+\s*\*\s*\w+\s*<=\s*\w+/.test(content) &&
+    /%\s*\w+\s*==\s*0/.test(content)
+  ) {
+    addFact(facts, "algorithms", "primality-test", "high", ["sqrt-bounded divisor rejection"]);
+  }
+
+  if (
+    /gcd\s*\(/.test(content) &&
+    /\/\s*gcd\s*\(/.test(content) &&
+    /\*\s*[a-zA-Z_]\w*/.test(content)
+  ) {
+    addFact(facts, "algorithms", "lcm-gcd-bridge", "high", ["lcm computed through gcd relation"]);
+  }
+
+  if (
+    /boolean\s*\[\]\s*\w+\s*=/.test(content) &&
+    /Arrays\.fill\s*\(/.test(content) &&
+    /for\s*\(\s*int\s+\w+\s*=\s*2\s*;[\s\S]{0,100}\w+\s*\*\s*\w+\s*<=\s*\w+/.test(content) &&
+    /for\s*\(\s*int\s+\w+\s*=\s*\w+\s*\*\s*\w+\s*;[\s\S]{0,80}\+=\s*\w+/.test(content)
+  ) {
+    addFact(facts, "algorithms", "sieve-precomputation", "high", ["boolean array with prime multiple marking"]);
+  }
+
+  if (hasModuloReduction) {
+    addFact(facts, "algorithms", "modular-arithmetic", "high", ["intermediate values reduced modulo m"]);
+  }
+
+  if (hasRepeatedSquaringLoop) {
+    addFact(facts, "algorithms", "fast-exponentiation", "high", ["repeated squaring with halved exponent"]);
+    addFact(facts, "complexitySignals", "logarithmic-search", "medium", ["exponent reduced by half each iteration"]);
+  }
+
+  if (
+    hasFact(facts, "number-reversal") &&
+    /==/.test(content) &&
+    /\b(?:original|copy|value|input)\b/.test(content)
+  ) {
+    addFact(facts, "algorithms", "palindrome-number", "medium", ["reversed number compared with preserved original"]);
+  }
 }
 
 function extractVariableNames(content: string): string[] {

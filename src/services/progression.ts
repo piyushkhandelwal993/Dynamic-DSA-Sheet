@@ -3,6 +3,43 @@ import { recommendNextProblem } from "./recommendation";
 import { isProblemSolvedState } from "./progressionState";
 
 const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; description: string; subtopics: string[]; gateConcepts: string[] }>> = {
+  "programming-mathematics": [
+    {
+      id: "digit-camp",
+      name: "Digit Camp",
+      description: "Learn to peel apart decimal digits and understand place value in code.",
+      subtopics: ["Digit extraction", "Place value rebuild"],
+      gateConcepts: []
+    },
+    {
+      id: "mirror-yard",
+      name: "Mirror Yard",
+      description: "Reverse numbers and reason about numeric symmetry cleanly.",
+      subtopics: ["Place value rebuild", "Palindrome and patterns"],
+      gateConcepts: ["digit-extraction"]
+    },
+    {
+      id: "divisor-docks",
+      name: "Divisor Docks",
+      description: "Use modulo confidently to test divisibility and explore factor pairs.",
+      subtopics: ["Divisibility and GCD"],
+      gateConcepts: ["divisibility-check"]
+    },
+    {
+      id: "euclid-fort",
+      name: "Euclid Fort",
+      description: "Apply remainder-based reasoning to collapse large number pairs quickly.",
+      subtopics: ["Divisibility and GCD"],
+      gateConcepts: ["divisibility-check", "gcd-euclid"]
+    },
+    {
+      id: "prime-observatory",
+      name: "Prime Observatory",
+      description: "Step up from single-number reasoning to prime structure and precomputation.",
+      subtopics: ["Primes and divisibility", "Prime precomputation"],
+      gateConcepts: ["factor-enumeration", "primality-test", "sieve-precomputation"]
+    }
+  ],
   "bit-manipulation": [
     {
       id: "binary-gates",

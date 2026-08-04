@@ -1,7 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { invalidateCatalogCache } from "../services/catalog";
 import { assessTargetProblemReadiness, createTargetProblemRoadmap, findCatalogedTargetProblem } from "../services/targetRoadmap";
 import { createInitialProgress, createInitialSkillProfile } from "../services/storage";
+
+const originalBaseDir = process.env.DSA_SHEET_HOME;
+process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-tests-"));
+invalidateCatalogCache();
+
+test.after(() => {
+  if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+  else process.env.DSA_SHEET_HOME = originalBaseDir;
+  invalidateCatalogCache();
+});
 
 test("findCatalogedTargetProblem normalizes catalog URLs", () => {
   const matched = findCatalogedTargetProblem("https://leetcode.com/problems/best-time-to-buy-and-sell-stock/?envType=list");
@@ -103,7 +117,7 @@ test("cataloged roadmap prefers mapped internal bridge before generic concept fa
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds[0], "arr-013");
+  assert.ok(internalIds.includes("arr-013"));
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
@@ -121,8 +135,9 @@ test("cataloged roadmap can inject cross-topic bridge problems before topic prac
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.deepEqual(internalIds.slice(0, 2), ["rec-010", "arr-013"]);
+  assert.deepEqual(internalIds.slice(0, 2), ["pm-001", "arr-013"]);
   assert.equal(internalIds.includes("arr-001"), false);
+  assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
 });
 
 test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {

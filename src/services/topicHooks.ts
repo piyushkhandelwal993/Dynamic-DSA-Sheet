@@ -6,6 +6,7 @@ import { analyzeBinarySearchJavaContent, detectBinarySearchConcepts } from "./to
 import { analyzeDpJavaContent, detectDpConcepts } from "./topics/dpHooks";
 import { analyzeGraphJavaContent, detectGraphConcepts } from "./topics/graphHooks";
 import { analyzeLinkedListJavaContent, detectLinkedListConcepts } from "./topics/linkedListHooks";
+import { analyzeProgrammingMathJavaContent, detectProgrammingMathConcepts } from "./topics/programmingMathHooks";
 import { analyzeQueueJavaContent, detectQueueConcepts } from "./topics/queueHooks";
 import { analyzeRecursionJavaContent, detectRecursionConcepts } from "./topics/recursionHooks";
 import { analyzeStackJavaContent, detectStackConcepts } from "./topics/stackHooks";
@@ -22,6 +23,9 @@ export function analyzeJavaContentForProblem(problem: Problem, content: string):
   }
   if (problem.topic === "Binary Search") {
     return analyzeBinarySearchJavaContent(content);
+  }
+  if (problem.topic === "Programming Mathematics") {
+    return analyzeProgrammingMathJavaContent(content);
   }
   if (problem.topic === "Dynamic Programming") {
     return analyzeDpJavaContent(content);
@@ -53,6 +57,9 @@ export function detectConceptsForProblem(problem: Problem, analysis: AnalysisRes
   }
   if (problem.topic === "Binary Search") {
     return detectBinarySearchConcepts(problem, analysis);
+  }
+  if (problem.topic === "Programming Mathematics") {
+    return detectProgrammingMathConcepts(problem, analysis);
   }
   if (problem.topic === "Dynamic Programming") {
     return detectDpConcepts(problem, analysis);

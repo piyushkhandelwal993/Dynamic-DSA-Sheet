@@ -38,6 +38,7 @@ function analysisResultFromFacts(problem: Problem, facts: CodeFacts): AnalysisRe
     "Bit Manipulation": "bit-edge-check",
     Arrays: "empty-or-null-check",
     "Binary Search": "empty-or-null-check",
+    "Programming Mathematics": "empty-or-null-check",
     Recursion: "recursive-base-case",
     "Linked List": "linked-list-edge-check",
     Stack: "empty-or-null-check",

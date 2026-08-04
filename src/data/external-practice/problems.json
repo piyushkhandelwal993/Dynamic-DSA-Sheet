@@ -1,5 +1,57 @@
 [
   {
+    "id": "ext-lc-palindrome-number",
+    "platform": "leetcode",
+    "title": "Palindrome Number",
+    "url": "https://leetcode.com/problems/palindrome-number/",
+    "difficulty": "Easy",
+    "topicId": "programming-mathematics",
+    "conceptIds": ["place-value-rebuild", "numeric-palindrome"],
+    "prerequisiteConceptIds": ["digit-extraction", "place-value-rebuild", "numeric-palindrome"],
+    "mappedFromProblemIds": ["pm-002", "pm-003"],
+    "recommendedAfterProblemIds": ["pm-003"],
+    "sourceQualityWeight": 0.95
+  },
+  {
+    "id": "ext-lc-reverse-integer",
+    "platform": "leetcode",
+    "title": "Reverse Integer",
+    "url": "https://leetcode.com/problems/reverse-integer/",
+    "difficulty": "Medium",
+    "topicId": "programming-mathematics",
+    "conceptIds": ["digit-extraction", "place-value-rebuild"],
+    "prerequisiteConceptIds": ["digit-extraction", "place-value-rebuild"],
+    "mappedFromProblemIds": ["pm-001", "pm-002"],
+    "recommendedAfterProblemIds": ["pm-002"],
+    "sourceQualityWeight": 0.92
+  },
+  {
+    "id": "ext-lc-count-primes",
+    "platform": "leetcode",
+    "title": "Count Primes",
+    "url": "https://leetcode.com/problems/count-primes/",
+    "difficulty": "Medium",
+    "topicId": "programming-mathematics",
+    "conceptIds": ["primality-test", "sieve-precomputation"],
+    "prerequisiteConceptIds": ["primality-test", "sieve-precomputation"],
+    "mappedFromProblemIds": ["pm-006", "pm-008"],
+    "recommendedAfterProblemIds": ["pm-008"],
+    "sourceQualityWeight": 0.94
+  },
+  {
+    "id": "ext-lc-ugly-number",
+    "platform": "leetcode",
+    "title": "Ugly Number",
+    "url": "https://leetcode.com/problems/ugly-number/",
+    "difficulty": "Easy",
+    "topicId": "programming-mathematics",
+    "conceptIds": ["divisibility-check", "factor-enumeration"],
+    "prerequisiteConceptIds": ["divisibility-check", "factor-enumeration"],
+    "mappedFromProblemIds": ["pm-005", "pm-006"],
+    "recommendedAfterProblemIds": ["pm-005"],
+    "sourceQualityWeight": 0.86
+  },
+  {
     "id": "ext-lc-find-max-consecutive-ones",
     "platform": "leetcode",
     "title": "Max Consecutive Ones",
@@ -1492,7 +1544,7 @@
     "prerequisiteConceptIds": ["array-traversal"],
     "mappedFromProblemIds": ["arr-013", "arr-017"],
     "recommendedAfterProblemIds": ["arr-013"],
-    "roadmapBridgeProblemIds": ["rec-010", "arr-013"],
+    "roadmapBridgeProblemIds": ["pm-001", "arr-013"],
     "sourceQualityWeight": 0.82
   },
   {

@@ -17,6 +17,7 @@ export function scoreSubmissionFromFacts(
     (problem: Problem, facts: CodeFacts, expectation: ProblemExpectationResult, execution?: ExecutionResult) => ScoreBreakdown
   > = {
     "Bit Manipulation": scoreBitSubmissionFromFacts,
+    "Programming Mathematics": scoreProgrammingMathSubmissionFromFacts,
     Arrays: scoreArraySubmissionFromFacts,
     "Two Pointers": scoreArraySubmissionFromFacts,
     "Sliding Window": scoreArraySubmissionFromFacts,
@@ -35,6 +36,75 @@ export function scoreSubmissionFromFacts(
     throw new Error(`Facts-native scoring is not implemented for topic: ${problem.topic}`);
   }
   return scorer(problem, facts, expectation, execution);
+}
+
+export function scoreProgrammingMathSubmissionFromFacts(
+  problem: Problem,
+  facts: CodeFacts,
+  expectation: ProblemExpectationResult,
+  execution?: ExecutionResult
+): ScoreBreakdown {
+  const hasConceptEvidence = expectation.matches.some((match) => match.matched);
+  const hasMathEvidence = [
+    "digit-extraction",
+    "number-reversal",
+    "palindrome-number",
+    "divisibility-check",
+    "gcd-euclid",
+    "factor-enumeration",
+    "primality-test",
+    "lcm-gcd-bridge",
+    "sieve-precomputation",
+    "modular-arithmetic",
+    "fast-exponentiation"
+  ].some((id) => hasFact(facts, id));
+  const noConceptEvidence = !hasConceptEvidence && !hasMathEvidence;
+  const hasQuadraticWork = hasFact(facts, "quadratic-candidate") && !problem.expectedComplexity.includes("sqrt");
+
+  let correctnessScore = execution?.usedTestCases
+    ? clamp((execution.passedCount / Math.max(execution.totalCount, 1)) * 100)
+    : 70;
+  if (execution?.usedTestCases && !execution.compileSucceeded) {
+    correctnessScore = 0;
+  } else if (!execution?.usedTestCases && noConceptEvidence) {
+    correctnessScore = 20;
+  } else if (!execution?.usedTestCases && hasFact(facts, "hardcoded-output")) {
+    correctnessScore = 35;
+  }
+
+  const conceptMatchScore = clamp(expectation.conceptMatchScore);
+  let qualityScore = 85;
+  if (noConceptEvidence) qualityScore -= 20;
+  if (execution?.usedTestCases && !execution.compileSucceeded) qualityScore -= 15;
+  if (hasFact(facts, "poor-variable-names")) qualityScore -= 15;
+  if (hasFact(facts, "hardcoded-output")) qualityScore -= 20;
+  if (!hasFact(facts, "empty-or-null-check")) qualityScore -= 5;
+  if (hasQuadraticWork) qualityScore -= 10;
+  qualityScore = clamp(qualityScore);
+
+  let complexityScore = 82;
+  if (!execution?.usedTestCases && noConceptEvidence) {
+    complexityScore = 25;
+  } else if (hasQuadraticWork && !problem.expectedComplexity.includes("sqrt")) {
+    complexityScore = 35;
+  } else if (problem.expectedConcepts.includes("gcd-euclid") && !hasFact(facts, "gcd-euclid")) {
+    complexityScore = 45;
+  } else if (problem.expectedConcepts.includes("factor-enumeration") && !hasFact(facts, "factor-enumeration")) {
+    complexityScore = 50;
+  } else if (conceptMatchScore === 100 && (hasFact(facts, "single-pass") || hasFact(facts, "logarithmic-search"))) {
+    complexityScore = 92;
+  } else if (conceptMatchScore === 100) {
+    complexityScore = 88;
+  }
+
+  const weighted = execution?.usedTestCases
+    ? correctnessScore * 0.55 + conceptMatchScore * 0.2 + qualityScore * 0.15 + complexityScore * 0.1
+    : correctnessScore * 0.4 + conceptMatchScore * 0.3 + qualityScore * 0.2 + complexityScore * 0.1;
+  let finalScore = clamp(weighted);
+  if (execution?.usedTestCases && !execution.compileSucceeded) finalScore = Math.min(finalScore, 20);
+  else if (execution?.usedTestCases && execution.passedCount === 0) finalScore = Math.min(finalScore, 35);
+
+  return { correctnessScore, conceptMatchScore, qualityScore, complexityScore, finalScore };
 }
 
 export function scoreBitSubmissionFromFacts(

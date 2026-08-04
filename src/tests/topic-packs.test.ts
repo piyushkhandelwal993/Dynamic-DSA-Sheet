@@ -7,10 +7,20 @@ import { invalidateCatalogCache } from "../services/catalog";
 import { getDefaultTopicId, getTopicMeta, getTopicMetas, getTopicProblems, getTopicRoadmap } from "../services/storage";
 import { ProblemPoolRole } from "../types";
 
+const originalBaseDir = process.env.DSA_SHEET_HOME;
+process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-topic-pack-tests-"));
+invalidateCatalogCache();
+
+test.after(() => {
+  if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+  else process.env.DSA_SHEET_HOME = originalBaseDir;
+  invalidateCatalogCache();
+});
+
 test("topic registry exposes the default topic pack", () => {
-  assert.equal(getDefaultTopicId(), "bit-manipulation");
-  assert.equal(getTopicMeta("bit-manipulation")?.name, "Bit Manipulation");
-  assert.ok(getTopicProblems("bit-manipulation").length >= 40);
+  assert.equal(getDefaultTopicId(), "programming-mathematics");
+  assert.equal(getTopicMeta("programming-mathematics")?.name, "Programming Mathematics");
+  assert.ok(getTopicProblems("programming-mathematics").length >= 5);
 });
 
 test("topic registry exposes roadmap metadata", () => {
@@ -20,6 +30,7 @@ test("topic registry exposes roadmap metadata", () => {
 
   try {
     const metas = getTopicMetas();
+    assert.equal(metas.some((meta) => meta.id === "programming-mathematics"), true);
     assert.equal(metas.some((meta) => meta.id === "arrays"), true);
     assert.equal(metas.some((meta) => meta.id === "binary-search"), true);
     assert.equal(metas.some((meta) => meta.id === "dp"), true);
@@ -32,6 +43,8 @@ test("topic registry exposes roadmap metadata", () => {
     assert.equal(metas.some((meta) => meta.id === "stack"), true);
     assert.equal(metas.some((meta) => meta.id === "trees"), true);
     assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
+    assert.ok(getTopicRoadmap("programming-mathematics").length >= 5);
+    assert.ok(getTopicProblems("programming-mathematics").length >= 5);
     assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
     assert.ok(getTopicProblems("arrays").length >= 10);
     assert.ok(getTopicProblems("binary-search").length >= 10);
@@ -54,6 +67,7 @@ test("topic registry exposes roadmap metadata", () => {
 
 test("adaptive pool topics expose healthy role coverage", () => {
   const adaptiveTopicIds = [
+    "programming-mathematics",
     "arrays",
     "bit-manipulation",
     "binary-search",

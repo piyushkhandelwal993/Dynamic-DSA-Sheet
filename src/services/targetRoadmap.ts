@@ -853,6 +853,31 @@ function chooseExternalTransfer(
     })[0]?.problem;
 }
 
+function shouldAddExternalTransfer(
+  matchedProblem: ExternalPracticeProblem | undefined,
+  assessment: TargetProblemAssessment,
+  internalProblems: Problem[]
+): boolean {
+  if (!matchedProblem) {
+    return false;
+  }
+
+  const coveredConcepts = new Set(internalProblems.flatMap((problem) => problem.expectedConcepts));
+  const targetConceptsCovered = matchedProblem.conceptIds.every((conceptId) => coveredConcepts.has(conceptId));
+  const hasExplicitBridges = (matchedProblem.roadmapBridgeProblemIds?.length ?? 0) > 0;
+  const simpleEasyTarget = matchedProblem.difficulty === "Easy" && matchedProblem.conceptIds.length <= 1;
+
+  if (simpleEasyTarget && targetConceptsCovered) {
+    return false;
+  }
+
+  if (hasExplicitBridges && targetConceptsCovered && assessment.missingConceptIds.length <= 1) {
+    return false;
+  }
+
+  return true;
+}
+
 export function createTargetProblemRoadmap(
   inputUrl: string,
   problemStatementOrProgress?: string | ProgressState,
@@ -904,7 +929,9 @@ export function createTargetProblemRoadmap(
   const internalProblems = [...explicitBridges, ...baseInternalProblems];
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);
-  const transfer = assessment.matchedProblem ? chooseExternalTransfer(target, assessment, internalProblems, skillProfile) : undefined;
+  const transfer = assessment.matchedProblem && shouldAddExternalTransfer(assessment.matchedProblem, assessment, internalProblems)
+    ? chooseExternalTransfer(target, assessment, internalProblems, skillProfile)
+    : undefined;
 
   const steps: TargetProblemRoadmapStep[] = internalProblems.map((problem) => {
     const addressedConcepts = problem.expectedConcepts

@@ -1,0 +1,1076 @@
+[
+  {
+    "id": "pm-001",
+    "topic": "Programming Mathematics",
+    "subtopic": "Digit extraction",
+    "title": "Count Digits in a Number",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "digit-extraction"
+    ],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 8,
+    "description": "Given a non-negative integer n, return how many decimal digits it contains. Treat 0 as a one-digit number.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return the number of decimal digits in n"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Single-digit values"
+    ],
+    "intendedApproachSummary": "Repeatedly divide by 10 and count how many steps are needed until the number becomes 0.",
+    "wrongApproachHints": [
+      "0 still has one digit.",
+      "Do not convert to string for this foundational problem."
+    ],
+    "hints": [
+      "What should happen when n is already smaller than 10?",
+      "Every division by 10 removes one decimal digit."
+    ],
+    "examples": [
+      {
+        "input": "5072",
+        "output": "4",
+        "explanation": "5072 has four decimal digits."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "5072",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "0",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "9",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countDigits",
+      "javaSignature": "public int countDigits(int n)",
+      "cppSignature": "int countDigits(int n)",
+      "providedTypes": [
+        "integer"
+      ],
+      "driverStrategy": "recursion-count-digits"
+    },
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "math-digit-foundation",
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "learningRole": "introduce"
+  },
+  {
+    "id": "pm-002",
+    "topic": "Programming Mathematics",
+    "subtopic": "Place value rebuild",
+    "title": "Reverse a Number",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "digit-extraction",
+      "place-value-rebuild"
+    ],
+    "prerequisiteConcepts": [
+      "digit-extraction"
+    ],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 10,
+    "description": "Given a non-negative integer n, return the number formed by reversing its decimal digits.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return the reversed number"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Numbers ending in zero"
+    ],
+    "intendedApproachSummary": "Extract digits one by one and rebuild the answer using answer * 10 + digit.",
+    "wrongApproachHints": [
+      "Dividing by 10 alone is not enough; you also need to append the digit to the new answer.",
+      "Leading zeros disappear naturally in an integer answer."
+    ],
+    "hints": [
+      "Store the last digit with n % 10.",
+      "Shift the current answer one place to the left before adding the digit."
+    ],
+    "examples": [
+      {
+        "input": "12030",
+        "output": "3021",
+        "explanation": "Reversing 12030 gives 03021, which is 3021 as an integer."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "12030",
+        "expectedOutput": "3021",
+        "visibility": "sample"
+      },
+      {
+        "input": "0",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "7",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "reverseNumber",
+      "javaSignature": "public int reverseNumber(int n)",
+      "cppSignature": "int reverseNumber(int n)",
+      "providedTypes": [
+        "integer"
+      ],
+      "driverStrategy": "math-reverse-number"
+    },
+    "poolRole": "core",
+    "masteryWeight": 1.05,
+    "variantGroup": "math-digit-foundation",
+    "remedialProblems": [
+      "pm-001"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "introduce"
+  },
+  {
+    "id": "pm-003",
+    "topic": "Programming Mathematics",
+    "subtopic": "Palindrome and patterns",
+    "title": "Check Palindrome Number",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "place-value-rebuild",
+      "numeric-palindrome"
+    ],
+    "prerequisiteConcepts": [
+      "digit-extraction",
+      "place-value-rebuild"
+    ],
+    "expectedComplexity": "O(log n)",
+    "estimatedMinutes": 10,
+    "description": "Given a non-negative integer n, return true if its decimal representation is a palindrome, otherwise return false.",
+    "constraints": [
+      "0 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return true if n is a palindrome, else false"
+    ],
+    "edgeCases": [
+      "Single-digit values",
+      "Numbers ending in 0 but not equal to 0"
+    ],
+    "intendedApproachSummary": "Reverse the number and compare the reversed value with the original.",
+    "wrongApproachHints": [
+      "You need to preserve the original number before mutating it.",
+      "A reversed copy is easier than comparing characters."
+    ],
+    "hints": [
+      "Reuse the reverse-number pattern.",
+      "Compare the rebuilt number with the original input."
+    ],
+    "examples": [
+      {
+        "input": "1221",
+        "output": "true",
+        "explanation": "1221 reads the same from both sides."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "1221",
+        "expectedOutput": "true",
+        "visibility": "sample"
+      },
+      {
+        "input": "123",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      },
+      {
+        "input": "0",
+        "expectedOutput": "true",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isPalindromeNumber",
+      "javaSignature": "public boolean isPalindromeNumber(int n)",
+      "cppSignature": "bool isPalindromeNumber(int n)",
+      "providedTypes": [
+        "integer"
+      ],
+      "driverStrategy": "math-palindrome-number"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "math-number-patterns",
+    "remedialProblems": [
+      "pm-002"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-004",
+    "topic": "Programming Mathematics",
+    "subtopic": "Divisibility and GCD",
+    "title": "Greatest Common Divisor",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "divisibility-check",
+      "gcd-euclid"
+    ],
+    "prerequisiteConcepts": [
+      "divisibility-check"
+    ],
+    "expectedComplexity": "O(log(min(a,b)))",
+    "estimatedMinutes": 10,
+    "description": "Given two non-negative integers a and b, return their greatest common divisor.",
+    "constraints": [
+      "0 <= a, b <= 10^9",
+      "At least one of a or b is non-zero"
+    ],
+    "inputFormat": [
+      "Two integers a and b"
+    ],
+    "outputFormat": [
+      "Return gcd(a, b)"
+    ],
+    "edgeCases": [
+      "One number is 0",
+      "Both numbers are equal"
+    ],
+    "intendedApproachSummary": "Use Euclid's algorithm: repeatedly replace (a, b) with (b, a % b) until b becomes 0.",
+    "wrongApproachHints": [
+      "Checking every divisor works but is not the intended efficient method.",
+      "Do not forget that gcd(a, 0) = a."
+    ],
+    "hints": [
+      "What smaller subproblem has the same gcd as (a, b)?",
+      "The remainder carries the useful information."
+    ],
+    "examples": [
+      {
+        "input": "48 18",
+        "output": "6",
+        "explanation": "gcd(48,18) = gcd(18,12) = gcd(12,6) = gcd(6,0) = 6."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "48 18",
+        "expectedOutput": "6",
+        "visibility": "sample"
+      },
+      {
+        "input": "0 7",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      },
+      {
+        "input": "42 42",
+        "expectedOutput": "42",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "gcd",
+      "javaSignature": "public int gcd(int a, int b)",
+      "cppSignature": "int gcd(int a, int b)",
+      "providedTypes": [
+        "two integers"
+      ],
+      "driverStrategy": "recursion-gcd"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "math-divisibility-core",
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-005",
+    "topic": "Programming Mathematics",
+    "subtopic": "Divisibility and GCD",
+    "title": "Print All Divisors",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "divisibility-check",
+      "factor-enumeration"
+    ],
+    "prerequisiteConcepts": [
+      "divisibility-check"
+    ],
+    "expectedComplexity": "O(sqrt(n))",
+    "estimatedMinutes": 15,
+    "description": "Given a positive integer n, print all of its positive divisors in increasing order separated by spaces.",
+    "constraints": [
+      "1 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Print the divisors of n in increasing order, space-separated"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "Perfect squares"
+    ],
+    "intendedApproachSummary": "Iterate d from 1 while d * d <= n. When d divides n, collect d and the paired divisor n / d carefully, then print in sorted order.",
+    "wrongApproachHints": [
+      "Scanning all numbers up to n is slower than necessary.",
+      "Do not print the square root twice for perfect squares."
+    ],
+    "hints": [
+      "Divisors come in pairs.",
+      "If d divides n, then n / d also divides n."
+    ],
+    "examples": [
+      {
+        "input": "12",
+        "output": "1 2 3 4 6 12",
+        "explanation": "These are all positive divisors of 12."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "12",
+        "expectedOutput": "1 2 3 4 6 12",
+        "visibility": "sample"
+      },
+      {
+        "input": "1",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "36",
+        "expectedOutput": "1 2 3 4 6 9 12 18 36",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "complete-program",
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "math-divisibility-core",
+    "remedialProblems": [
+      "pm-004"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "pm-006",
+    "topic": "Programming Mathematics",
+    "subtopic": "Primes and divisibility",
+    "title": "Check Prime Number",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "divisibility-check",
+      "primality-test"
+    ],
+    "prerequisiteConcepts": [
+      "divisibility-check",
+      "factor-enumeration"
+    ],
+    "expectedComplexity": "O(sqrt(n))",
+    "estimatedMinutes": 12,
+    "description": "Given a positive integer n, return true if it is prime, otherwise return false.",
+    "constraints": [
+      "1 <= n <= 10^9"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return true if n is prime, else false"
+    ],
+    "edgeCases": [
+      "n = 1",
+      "n = 2",
+      "Perfect squares"
+    ],
+    "intendedApproachSummary": "Reject 1 immediately, then test divisors only up to sqrt(n). If none divide n, it is prime.",
+    "wrongApproachHints": [
+      "1 is not prime.",
+      "You do not need to check divisors larger than sqrt(n)."
+    ],
+    "hints": [
+      "If d divides n, then n / d is also a divisor.",
+      "A divisor bigger than sqrt(n) comes paired with one smaller than sqrt(n)."
+    ],
+    "examples": [
+      {
+        "input": "29",
+        "output": "true",
+        "explanation": "29 has no divisors other than 1 and 29."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "29",
+        "expectedOutput": "true",
+        "visibility": "sample"
+      },
+      {
+        "input": "1",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      },
+      {
+        "input": "49",
+        "expectedOutput": "false",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isPrimeNumber",
+      "javaSignature": "public boolean isPrimeNumber(int n)",
+      "cppSignature": "bool isPrimeNumber(int n)",
+      "providedTypes": [
+        "integer"
+      ],
+      "driverStrategy": "math-prime-check"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "math-prime-core",
+    "remedialProblems": [
+      "pm-005"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-007",
+    "topic": "Programming Mathematics",
+    "subtopic": "Primes and divisibility",
+    "title": "Least Common Multiple",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "gcd-euclid",
+      "lcm-gcd-bridge"
+    ],
+    "prerequisiteConcepts": [
+      "gcd-euclid"
+    ],
+    "expectedComplexity": "O(log(min(a,b)))",
+    "estimatedMinutes": 10,
+    "description": "Given two positive integers a and b, return their least common multiple.",
+    "constraints": [
+      "1 <= a, b <= 10^6"
+    ],
+    "inputFormat": [
+      "Two integers a and b"
+    ],
+    "outputFormat": [
+      "Return lcm(a, b)"
+    ],
+    "edgeCases": [
+      "Equal numbers",
+      "One number divides the other"
+    ],
+    "intendedApproachSummary": "Compute gcd(a, b) first, then use lcm(a, b) = (a / gcd(a, b)) * b.",
+    "wrongApproachHints": [
+      "Repeatedly checking multiples is too slow.",
+      "Reuse the gcd pattern instead of starting over."
+    ],
+    "hints": [
+      "LCM and GCD are closely related.",
+      "Divide before multiplying when possible."
+    ],
+    "examples": [
+      {
+        "input": "12 18",
+        "output": "36",
+        "explanation": "gcd(12,18) = 6, so lcm = 12 / 6 * 18 = 36."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "12 18",
+        "expectedOutput": "36",
+        "visibility": "sample"
+      },
+      {
+        "input": "7 7",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5 20",
+        "expectedOutput": "20",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lcm",
+      "javaSignature": "public int lcm(int a, int b)",
+      "cppSignature": "int lcm(int a, int b)",
+      "providedTypes": [
+        "two integers"
+      ],
+      "driverStrategy": "math-lcm"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "math-prime-core",
+    "remedialProblems": [
+      "pm-004"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-008",
+    "topic": "Programming Mathematics",
+    "subtopic": "Prime precomputation",
+    "title": "Count Primes Up To N",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "primality-test",
+      "sieve-precomputation"
+    ],
+    "prerequisiteConcepts": [
+      "primality-test"
+    ],
+    "expectedComplexity": "O(n log log n)",
+    "estimatedMinutes": 18,
+    "description": "Given an integer n, return how many prime numbers are less than or equal to n.",
+    "constraints": [
+      "0 <= n <= 10^6"
+    ],
+    "inputFormat": [
+      "A single integer n"
+    ],
+    "outputFormat": [
+      "Return the count of primes <= n"
+    ],
+    "edgeCases": [
+      "n < 2",
+      "Small prime limits",
+      "Large dense ranges"
+    ],
+    "intendedApproachSummary": "Use the Sieve of Eratosthenes: start with all numbers marked prime, then mark multiples of each prime candidate from p * p onward.",
+    "wrongApproachHints": [
+      "Checking every number independently for primality is slower than the intended approach.",
+      "Remember that 0 and 1 are not prime."
+    ],
+    "hints": [
+      "A boolean array can remember whether a number is still considered prime.",
+      "When p is prime, mark p * p, p * p + p, and so on."
+    ],
+    "examples": [
+      {
+        "input": "10",
+        "output": "4",
+        "explanation": "The primes <= 10 are 2, 3, 5, and 7."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "10",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "1",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "100",
+        "expectedOutput": "25",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countPrimesUpTo",
+      "javaSignature": "public int countPrimesUpTo(int n)",
+      "cppSignature": "int countPrimesUpTo(int n)",
+      "providedTypes": [
+        "integer"
+      ],
+      "driverStrategy": "math-count-primes-sieve"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "math-prime-sieve",
+    "remedialProblems": [
+      "pm-006"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "pm-009",
+    "topic": "Programming Mathematics",
+    "subtopic": "Modular arithmetic",
+    "title": "Compute Power Modulo",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "modular-arithmetic"
+    ],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 10,
+    "description": "Given integers a, b, and m, compute (a^b) % m using repeated multiplication with modulo applied safely each step.",
+    "constraints": [
+      "1 <= a, m <= 10^9",
+      "0 <= b <= 10^5"
+    ],
+    "inputFormat": [
+      "Three integers a b m"
+    ],
+    "outputFormat": [
+      "Return (a^b) % m"
+    ],
+    "edgeCases": [
+      "b = 0",
+      "a already larger than m"
+    ],
+    "intendedApproachSummary": "Start with answer = 1 and multiply by a, taking modulo m on every step of the loop.",
+    "wrongApproachHints": [
+      "Do not compute a^b first and mod later.",
+      "Keep values reduced modulo m throughout the process."
+    ],
+    "hints": [
+      "What is the multiplicative identity when b = 0?",
+      "Reduce the base before the loop starts."
+    ],
+    "examples": [
+      {
+        "input": "3 4 5",
+        "output": "1",
+        "explanation": "3^4 = 81 and 81 % 5 = 1."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3 4 5",
+        "expectedOutput": "1",
+        "visibility": "sample"
+      },
+      {
+        "input": "7 0 13",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "10 3 6",
+        "expectedOutput": "4",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "powerModulo",
+      "javaSignature": "public long powerModulo(long a, long b, long mod)",
+      "cppSignature": "long long powerModulo(long long a, long long b, long long mod)",
+      "providedTypes": [
+        "three integers"
+      ],
+      "driverStrategy": "math-power-modulo"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "math-mod-arithmetic",
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-010",
+    "topic": "Programming Mathematics",
+    "subtopic": "Fast exponentiation",
+    "title": "Fast Power Modulo",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "modular-arithmetic",
+      "fast-exponentiation"
+    ],
+    "prerequisiteConcepts": [
+      "modular-arithmetic"
+    ],
+    "expectedComplexity": "O(log b)",
+    "estimatedMinutes": 18,
+    "description": "Given integers a, b, and m, compute (a^b) % m using binary exponentiation.",
+    "constraints": [
+      "1 <= a, m <= 10^9",
+      "0 <= b <= 10^18"
+    ],
+    "inputFormat": [
+      "Three integers a b m"
+    ],
+    "outputFormat": [
+      "Return (a^b) % m"
+    ],
+    "edgeCases": [
+      "b = 0",
+      "Large exponent",
+      "Odd and even exponents"
+    ],
+    "intendedApproachSummary": "Use repeated squaring: if the current exponent bit is set, multiply the answer by the current base, then square the base and halve the exponent.",
+    "wrongApproachHints": [
+      "A loop of b multiplications is too slow for the intended constraints.",
+      "Remember to apply modulo after both multiplying the answer and squaring the base."
+    ],
+    "hints": [
+      "Think in terms of the binary representation of the exponent.",
+      "Every step either uses the current power of a or skips it."
+    ],
+    "examples": [
+      {
+        "input": "2 10 1000",
+        "output": "24",
+        "explanation": "2^10 = 1024 and 1024 % 1000 = 24."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "2 10 1000",
+        "expectedOutput": "24",
+        "visibility": "sample"
+      },
+      {
+        "input": "5 0 7",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "3 13 17",
+        "expectedOutput": "12",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "fastPowerModulo",
+      "javaSignature": "public long fastPowerModulo(long a, long b, long mod)",
+      "cppSignature": "long long fastPowerModulo(long long a, long long b, long long mod)",
+      "providedTypes": [
+        "three integers"
+      ],
+      "driverStrategy": "math-fast-power-modulo"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.25,
+    "variantGroup": "math-mod-arithmetic",
+    "remedialProblems": [
+      "pm-009"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "pm-011",
+    "topic": "Programming Mathematics",
+    "subtopic": "Modular arithmetic",
+    "title": "Factorial Modulo",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "modular-arithmetic",
+      "factorial-mod-precompute"
+    ],
+    "prerequisiteConcepts": [
+      "modular-arithmetic"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given integers n and mod, return n! % mod.",
+    "constraints": [
+      "0 <= n <= 10^5",
+      "2 <= mod <= 10^9 + 7"
+    ],
+    "inputFormat": [
+      "Two integers n mod"
+    ],
+    "outputFormat": [
+      "Return n! % mod"
+    ],
+    "edgeCases": [
+      "n = 0",
+      "Small modulus"
+    ],
+    "intendedApproachSummary": "Build the factorial iteratively from 1 to n and reduce modulo mod at every multiplication.",
+    "wrongApproachHints": [
+      "Do not let the raw factorial grow before applying modulo.",
+      "0! is 1, not 0."
+    ],
+    "hints": [
+      "Start answer = 1.",
+      "Multiply by i and reduce modulo mod each step."
+    ],
+    "examples": [
+      {
+        "input": "5 13",
+        "output": "3",
+        "explanation": "5! = 120 and 120 % 13 = 3."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "5 13",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "0 17",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "6 7",
+        "expectedOutput": "6",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "factorialModulo",
+      "javaSignature": "public long factorialModulo(int n, long mod)",
+      "cppSignature": "long long factorialModulo(int n, long long mod)",
+      "providedTypes": [
+        "integer and modulus"
+      ],
+      "driverStrategy": "math-factorial-modulo"
+    },
+    "poolRole": "practice",
+    "masteryWeight": 1,
+    "variantGroup": "math-combinatorics-foundation",
+    "remedialProblems": [
+      "pm-009"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "pm-012",
+    "topic": "Programming Mathematics",
+    "subtopic": "Modular inverse",
+    "title": "Modular Inverse Under Prime Mod",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "fast-exponentiation",
+      "modular-inverse"
+    ],
+    "prerequisiteConcepts": [
+      "modular-arithmetic",
+      "fast-exponentiation"
+    ],
+    "expectedComplexity": "O(log mod)",
+    "estimatedMinutes": 16,
+    "description": "Given integers a and prime mod, return the modular inverse of a under mod.",
+    "constraints": [
+      "1 <= a < mod <= 10^9 + 7",
+      "mod is prime"
+    ],
+    "inputFormat": [
+      "Two integers a mod"
+    ],
+    "outputFormat": [
+      "Return inverse(a) modulo mod"
+    ],
+    "edgeCases": [
+      "a = 1",
+      "a close to mod"
+    ],
+    "intendedApproachSummary": "Use Fermat's little theorem: a^(mod - 2) % mod, computed with fast exponentiation.",
+    "wrongApproachHints": [
+      "Normal division does not work under modular arithmetic.",
+      "A linear power loop is slower than the intended method."
+    ],
+    "hints": [
+      "What exponent gives multiplicative inverse under a prime modulus?",
+      "Reuse the binary exponentiation pattern."
+    ],
+    "examples": [
+      {
+        "input": "3 11",
+        "output": "4",
+        "explanation": "3 * 4 = 12 and 12 % 11 = 1."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3 11",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 17",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "5 13",
+        "expectedOutput": "8",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "modularInverse",
+      "javaSignature": "public long modularInverse(long a, long mod)",
+      "cppSignature": "long long modularInverse(long long a, long long mod)",
+      "providedTypes": [
+        "value and prime modulus"
+      ],
+      "driverStrategy": "math-modular-inverse"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.15,
+    "variantGroup": "math-combinatorics-foundation",
+    "remedialProblems": [
+      "pm-010"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  },
+  {
+    "id": "pm-013",
+    "topic": "Programming Mathematics",
+    "subtopic": "Combinatorics modulo prime",
+    "title": "Compute nCr Mod Prime",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "factorial-mod-precompute",
+      "modular-inverse",
+      "ncr-combinatorics"
+    ],
+    "prerequisiteConcepts": [
+      "factorial-mod-precompute",
+      "modular-inverse"
+    ],
+    "expectedComplexity": "O(n + log mod)",
+    "estimatedMinutes": 22,
+    "description": "Given n, r, and prime mod, compute nCr % mod efficiently.",
+    "constraints": [
+      "0 <= r <= n <= 10^5",
+      "mod is prime"
+    ],
+    "inputFormat": [
+      "Three integers n r mod"
+    ],
+    "outputFormat": [
+      "Return nCr % mod"
+    ],
+    "edgeCases": [
+      "r = 0",
+      "r = n",
+      "r > n"
+    ],
+    "intendedApproachSummary": "Precompute factorials modulo mod, compute inverse factorials with modular inverse, and combine fact[n] * invFact[r] * invFact[n-r].",
+    "wrongApproachHints": [
+      "Direct factorial division does not work under modulo.",
+      "Do not recompute factorials repeatedly for each term."
+    ],
+    "hints": [
+      "You already know how to compute factorial modulo.",
+      "Use modular inverse instead of division."
+    ],
+    "examples": [
+      {
+        "input": "5 2 13",
+        "output": "10",
+        "explanation": "5C2 = 10 and 10 % 13 = 10."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "5 2 13",
+        "expectedOutput": "10",
+        "visibility": "sample"
+      },
+      {
+        "input": "6 0 17",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      },
+      {
+        "input": "10 3 17",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "nCrModuloPrime",
+      "javaSignature": "public long nCrModuloPrime(int n, int r, long mod)",
+      "cppSignature": "long long nCrModuloPrime(int n, int r, long long mod)",
+      "providedTypes": [
+        "n, r, and prime modulus"
+      ],
+      "driverStrategy": "math-ncr-mod-prime"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.3,
+    "variantGroup": "math-combinatorics-foundation",
+    "remedialProblems": [
+      "pm-011",
+      "pm-012"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
+  }
+]

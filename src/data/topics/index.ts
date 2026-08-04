@@ -20,6 +20,9 @@ import graphsConcepts from "./graphs/concepts.json";
 import linkedListMeta from "./linked-list/meta.json";
 import linkedListProblems from "./linked-list/problems.json";
 import linkedListConcepts from "./linked-list/concepts.json";
+import programmingMathematicsMeta from "./programming-mathematics/meta.json";
+import programmingMathematicsProblems from "./programming-mathematics/problems.json";
+import programmingMathematicsConcepts from "./programming-mathematics/concepts.json";
 import recursionMeta from "./recursion/meta.json";
 import recursionProblems from "./recursion/problems.json";
 import recursionConcepts from "./recursion/concepts.json";
@@ -115,9 +118,10 @@ function normalizeRecursionProblems(problems: Problem[]): Problem[] {
   });
 }
 
-export const defaultTopicId = "bit-manipulation";
+export const defaultTopicId = "programming-mathematics";
 
 export const topicOrder = [
+  "programming-mathematics",
   "arrays",
   "two-pointers",
   "sliding-window",
@@ -149,6 +153,11 @@ const arraySlidingWindowConcepts = cloneTopicConcepts(arraysConcepts as Concept[
 const arrayPrefixSuffixConcepts = cloneTopicConcepts(arraysConcepts as Concept[], prefixSuffixConceptIds);
 
 export const topicPacks: Record<string, TopicPack> = {
+  "programming-mathematics": {
+    meta: programmingMathematicsMeta as TopicMeta,
+    problems: programmingMathematicsProblems as Problem[],
+    concepts: programmingMathematicsConcepts as Concept[]
+  },
   "bit-manipulation": {
     meta: bitManipulationMeta as TopicMeta,
     problems: bitManipulationProblems as Problem[],

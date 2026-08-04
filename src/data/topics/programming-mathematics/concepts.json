@@ -1,0 +1,243 @@
+[
+  {
+    "id": "digit-extraction",
+    "name": "Digit Extraction",
+    "description": "Use modulo 10 and division by 10 to peel digits from a number one by one.",
+    "exampleJava": "while (n > 0) { int digit = n % 10; n /= 10; }",
+    "commonMistakes": [
+      "Forgetting that 0 has one digit",
+      "Dropping the last digit because the loop stops too early"
+    ],
+    "practiceProblems": [
+      "pm-001",
+      "pm-002"
+    ],
+    "progressionOrder": 1,
+    "dependsOn": []
+  },
+  {
+    "id": "place-value-rebuild",
+    "name": "Place Value Rebuild",
+    "description": "Reconstruct a number from its digits by multiplying the current answer by 10 before adding the next digit.",
+    "exampleJava": "reversed = reversed * 10 + digit;",
+    "commonMistakes": [
+      "Appending digits in the wrong order",
+      "Forgetting to store the original value before mutating it"
+    ],
+    "practiceProblems": [
+      "pm-002",
+      "pm-003"
+    ],
+    "progressionOrder": 2,
+    "dependsOn": [
+      "digit-extraction"
+    ]
+  },
+  {
+    "id": "numeric-palindrome",
+    "name": "Numeric Palindrome",
+    "description": "Compare a number with its reversed form to decide whether it reads the same both ways.",
+    "exampleJava": "return value == reverseNumber(value);",
+    "commonMistakes": [
+      "Mutating the original number and then comparing against the changed value",
+      "Treating negative numbers as palindromes without a clear rule"
+    ],
+    "practiceProblems": [
+      "pm-003"
+    ],
+    "progressionOrder": 3,
+    "dependsOn": [
+      "place-value-rebuild"
+    ]
+  },
+  {
+    "id": "divisibility-check",
+    "name": "Divisibility Check",
+    "description": "Use modulo to decide whether one number divides another exactly.",
+    "exampleJava": "if (n % d == 0) { count++; }",
+    "commonMistakes": [
+      "Checking the wrong modulo direction",
+      "Starting from 0 and triggering division by zero"
+    ],
+    "practiceProblems": [
+      "pm-004",
+      "pm-005"
+    ],
+    "progressionOrder": 4,
+    "dependsOn": []
+  },
+  {
+    "id": "gcd-euclid",
+    "name": "Euclid GCD",
+    "description": "Repeatedly replace (a, b) with (b, a % b) until the remainder becomes zero.",
+    "exampleJava": "while (b != 0) { int r = a % b; a = b; b = r; }",
+    "commonMistakes": [
+      "Not updating both variables in the right order",
+      "Stopping too early when the remainder is still non-zero"
+    ],
+    "practiceProblems": [
+      "pm-004"
+    ],
+    "progressionOrder": 5,
+    "dependsOn": [
+      "divisibility-check"
+    ]
+  },
+  {
+    "id": "factor-enumeration",
+    "name": "Factor Enumeration",
+    "description": "Iterate through candidate divisors and collect the numbers that divide the target exactly.",
+    "exampleJava": "for (int d = 1; d * d <= n; d++) { if (n % d == 0) { ... } }",
+    "commonMistakes": [
+      "Missing the paired divisor n / d",
+      "Double-counting the square root when d * d == n"
+    ],
+    "practiceProblems": [
+      "pm-005"
+    ],
+    "progressionOrder": 6,
+    "dependsOn": [
+      "divisibility-check"
+    ]
+  },
+  {
+    "id": "primality-test",
+    "name": "Primality Test",
+    "description": "Reject non-primes by checking divisors only up to the square root of the number.",
+    "exampleJava": "for (int d = 2; d * d <= n; d++) if (n % d == 0) return false;",
+    "commonMistakes": [
+      "Treating 1 as a prime number",
+      "Checking divisors all the way up to n instead of sqrt(n)"
+    ],
+    "practiceProblems": [
+      "pm-006",
+      "pm-008"
+    ],
+    "progressionOrder": 7,
+    "dependsOn": [
+      "divisibility-check",
+      "factor-enumeration"
+    ]
+  },
+  {
+    "id": "lcm-gcd-bridge",
+    "name": "LCM from GCD",
+    "description": "Use gcd(a, b) to compute lcm(a, b) efficiently with the identity a / gcd(a, b) * b.",
+    "exampleJava": "return (a / gcd(a, b)) * b;",
+    "commonMistakes": [
+      "Multiplying before dividing and risking overflow unnecessarily",
+      "Using repeated addition instead of the gcd relation"
+    ],
+    "practiceProblems": [
+      "pm-007"
+    ],
+    "progressionOrder": 8,
+    "dependsOn": [
+      "gcd-euclid"
+    ]
+  },
+  {
+    "id": "sieve-precomputation",
+    "name": "Sieve Precomputation",
+    "description": "Mark multiples of each prime candidate once so prime queries up to n become efficient.",
+    "exampleJava": "for (int p = 2; p * p <= n; p++) if (isPrime[p]) for (int m = p * p; m <= n; m += p) isPrime[m] = false;",
+    "commonMistakes": [
+      "Starting inner marking from 2 * p instead of p * p without understanding the cost",
+      "Forgetting to initialize 0 and 1 as non-prime"
+    ],
+    "practiceProblems": [
+      "pm-008"
+    ],
+    "progressionOrder": 9,
+    "dependsOn": [
+      "primality-test"
+    ]
+  },
+  {
+    "id": "modular-arithmetic",
+    "name": "Modular Arithmetic",
+    "description": "Keep intermediate values bounded by applying modulo after addition and multiplication where required.",
+    "exampleJava": "answer = (answer * base) % mod;",
+    "commonMistakes": [
+      "Applying modulo only at the very end after values have already grown too large",
+      "Forgetting to reduce the base before repeated multiplication"
+    ],
+    "practiceProblems": [
+      "pm-009",
+      "pm-010"
+    ],
+    "progressionOrder": 10,
+    "dependsOn": []
+  },
+  {
+    "id": "fast-exponentiation",
+    "name": "Fast Exponentiation",
+    "description": "Use repeated squaring so exponentiation drops from linear time to logarithmic time.",
+    "exampleJava": "while (exp > 0) { if ((exp & 1) == 1) ans = (ans * base) % mod; base = (base * base) % mod; exp >>= 1; }",
+    "commonMistakes": [
+      "Multiplying the base exp times instead of halving the exponent",
+      "Forgetting to square the base when the exponent is reduced"
+    ],
+    "practiceProblems": [
+      "pm-010"
+    ],
+    "progressionOrder": 11,
+    "dependsOn": [
+      "modular-arithmetic"
+    ]
+  },
+  {
+    "id": "factorial-mod-precompute",
+    "name": "Factorial Mod Precompute",
+    "description": "Build factorial values incrementally while taking modulo at each step so future combinatorics queries can reuse them.",
+    "exampleJava": "fact[i] = (fact[i - 1] * i) % mod;",
+    "commonMistakes": [
+      "Computing the full factorial before taking modulo",
+      "Starting the precompute loop from the wrong base case"
+    ],
+    "practiceProblems": [
+      "pm-011",
+      "pm-013"
+    ],
+    "progressionOrder": 12,
+    "dependsOn": [
+      "modular-arithmetic"
+    ]
+  },
+  {
+    "id": "modular-inverse",
+    "name": "Modular Inverse",
+    "description": "Use Fermat-style exponentiation under a prime modulus to divide inside modular arithmetic safely.",
+    "exampleJava": "inverse = fastPowerModulo(value, mod - 2, mod);",
+    "commonMistakes": [
+      "Using normal division instead of modular inverse",
+      "Forgetting that this shortcut assumes a prime modulus"
+    ],
+    "practiceProblems": [
+      "pm-012",
+      "pm-013"
+    ],
+    "progressionOrder": 13,
+    "dependsOn": [
+      "fast-exponentiation"
+    ]
+  },
+  {
+    "id": "ncr-combinatorics",
+    "name": "nCr Mod Prime",
+    "description": "Combine factorial precomputation and modular inverse so combinations can be computed efficiently under a prime modulus.",
+    "exampleJava": "return fact[n] * invFact[r] % mod * invFact[n - r] % mod;",
+    "commonMistakes": [
+      "Not handling r > n cleanly",
+      "Mixing integer division with modular arithmetic"
+    ],
+    "practiceProblems": [
+      "pm-013"
+    ],
+    "progressionOrder": 14,
+    "dependsOn": [
+      "factorial-mod-precompute",
+      "modular-inverse"
+    ]
+  }
+]

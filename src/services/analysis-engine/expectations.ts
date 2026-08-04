@@ -8,6 +8,20 @@ const allOf = (...rules: FactExpectation[]): FactExpectation => ({ allOf: rules 
 const anyOf = (...rules: FactExpectation[]): FactExpectation => ({ anyOf: rules });
 
 export const conceptExpectations: Record<string, FactExpectation> = {
+  "digit-extraction": fact("digit-extraction"),
+  "place-value-rebuild": fact("number-reversal"),
+  "numeric-palindrome": anyOf(fact("palindrome-number"), fact("number-reversal")),
+  "divisibility-check": fact("divisibility-check"),
+  "gcd-euclid": fact("gcd-euclid"),
+  "factor-enumeration": fact("factor-enumeration"),
+  "primality-test": fact("primality-test"),
+  "lcm-gcd-bridge": fact("lcm-gcd-bridge"),
+  "sieve-precomputation": fact("sieve-precomputation"),
+  "modular-arithmetic": fact("modular-arithmetic"),
+  "fast-exponentiation": fact("fast-exponentiation"),
+  "factorial-mod-precompute": anyOf(fact("modular-arithmetic"), fact("fast-exponentiation")),
+  "modular-inverse": allOf(fact("modular-arithmetic"), fact("fast-exponentiation")),
+  "ncr-combinatorics": allOf(fact("modular-arithmetic"), fact("fast-exponentiation")),
   "array-traversal": allOf(fact("array"), fact("loop")),
   "min-max-array": fact("min-max-tracking"),
   "sorted-check": fact("adjacent-order-check"),

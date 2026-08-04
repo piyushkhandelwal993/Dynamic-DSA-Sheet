@@ -1,0 +1,23 @@
+{
+  "id": "programming-mathematics",
+  "name": "Programming Mathematics",
+  "description": "Build fluency with digit extraction, number reversal, divisibility, GCD, and factor-based reasoning before heavier DSA topics.",
+  "roadmap": [
+    "Digit extraction",
+    "Place value rebuild",
+    "Palindrome and number patterns",
+    "Divisibility checks",
+    "Euclid and GCD",
+    "Factor enumeration",
+    "Primality testing",
+    "LCM from GCD",
+    "Prime sieving",
+    "Modular arithmetic",
+    "Fast exponentiation",
+    "Modular inverse",
+    "Combinatorics modulo prime"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "Arithmetic Frontier",
+  "status": "active"
+}
