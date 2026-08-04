@@ -56,6 +56,9 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-stock-profit":
     case "array-max-window-sum":
     case "array-min-adjacent-diff":
+    case "array-count-even-matrix":
+    case "array-boundary-sum":
+    case "array-layer-sum":
     case "array-count-positive":
     case "array-max-consecutive-ones":
     case "array-max-circular-subarray":
@@ -329,6 +332,9 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-stock-profit":
     case "array-max-window-sum":
     case "array-min-adjacent-diff":
+    case "array-count-even-matrix":
+    case "array-boundary-sum":
+    case "array-layer-sum":
     case "array-count-positive":
     case "array-max-consecutive-ones":
     case "array-max-circular-subarray":
@@ -622,7 +628,11 @@ function isTreeStrategy(contract: FunctionContract): boolean {
 }
 
 function isMatrixStrategy(contract: FunctionContract): boolean {
-  return contract.driverStrategy === "bit-assignment-mask-count" || contract.driverStrategy === "recursion-sudoku-solver";
+  return contract.driverStrategy === "bit-assignment-mask-count" ||
+    contract.driverStrategy === "recursion-sudoku-solver" ||
+    contract.driverStrategy === "array-count-even-matrix" ||
+    contract.driverStrategy === "array-boundary-sum" ||
+    contract.driverStrategy === "array-layer-sum";
 }
 
 function isRecursionArrayStrategy(contract: FunctionContract): boolean {
@@ -1091,6 +1101,25 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "array-count-even-matrix":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] matrix = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(matrix));`;
+      break;
+    case "array-boundary-sum":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] matrix = readMatrix(sc, rows, cols);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(matrix));`;
+      break;
+    case "array-layer-sum":
+      inputSetup = `        int rows = sc.nextInt();
+        int cols = sc.nextInt();
+        int[][] matrix = readMatrix(sc, rows, cols);
+        int k = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(matrix, k));`;
       break;
     case "array-product-except-self":
       inputSetup = `        int n = sc.nextInt();
@@ -2312,6 +2341,26 @@ void printValues(const vector<int>& values) {
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "array-count-even-matrix":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> matrix = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(matrix);`;
+      break;
+    case "array-boundary-sum":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> matrix = readMatrix(rows, cols);`;
+      invocation = `    cout << Solution().${contract.functionName}(matrix);`;
+      break;
+    case "array-layer-sum":
+      inputSetup = `    int rows, cols;
+    cin >> rows >> cols;
+    vector<vector<int>> matrix = readMatrix(rows, cols);
+    int k;
+    cin >> k;`;
+      invocation = `    cout << Solution().${contract.functionName}(matrix, k);`;
       break;
     case "array-product-except-self":
       inputSetup = `    int n;

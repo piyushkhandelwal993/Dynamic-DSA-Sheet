@@ -17,6 +17,42 @@
     "dependsOn": []
   },
   {
+    "id": "matrix-traversal",
+    "name": "Matrix Traversal",
+    "description": "Visit every cell of a 2D grid using nested loops while tracking row and column boundaries correctly.",
+    "exampleJava": "for (int row = 0; row < matrix.length; row++) for (int col = 0; col < matrix[row].length; col++) total += matrix[row][col];",
+    "commonMistakes": [
+      "Mixing up row count and column count",
+      "Using matrix.length for both loop bounds"
+    ],
+    "practiceProblems": [
+      "arr-037",
+      "arr-039"
+    ],
+    "progressionOrder": 21,
+    "dependsOn": [
+      "array-traversal"
+    ]
+  },
+  {
+    "id": "boundary-traversal",
+    "name": "Boundary Traversal",
+    "description": "Walk the outer ring or a specific layer of a matrix without double-counting corners or revisiting cells.",
+    "exampleJava": "for (int col = left; col <= right; col++) sum += matrix[top][col];",
+    "commonMistakes": [
+      "Double-counting corners",
+      "Traversing bottom or left edges when the layer has collapsed"
+    ],
+    "practiceProblems": [
+      "arr-038",
+      "arr-039"
+    ],
+    "progressionOrder": 22,
+    "dependsOn": [
+      "matrix-traversal"
+    ]
+  },
+  {
     "id": "min-max-array",
     "name": "Min and Max in Array",
     "description": "Track the best value seen so far while scanning the array once.",

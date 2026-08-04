@@ -3031,5 +3031,265 @@
     ],
     "skipIfMastered": [],
     "learningRole": "reinforce"
+  },
+  {
+    "id": "arr-037",
+    "topic": "Arrays",
+    "subtopic": "Matrix traversal",
+    "title": "Count Even Numbers in Matrix",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "matrix-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "array-traversal"
+    ],
+    "expectedComplexity": "O(rows * cols)",
+    "estimatedMinutes": 12,
+    "description": "Given a matrix of integers, print how many cells contain an even number.",
+    "constraints": [
+      "1 <= rows, cols <= 100",
+      "-10^9 <= matrix[r][c] <= 10^9"
+    ],
+    "inputFormat": [
+      "Two integers rows and cols",
+      "rows lines each containing cols integers"
+    ],
+    "outputFormat": [
+      "Print the count of even numbers"
+    ],
+    "edgeCases": [
+      "Single-cell matrix",
+      "Negative even values",
+      "One row or one column"
+    ],
+    "intendedApproachSummary": "Use nested loops over rows and columns and increment the answer when a cell is even.",
+    "wrongApproachHints": [
+      "Do not confuse rows with columns in the inner loop.",
+      "Remember that negative even numbers are still even."
+    ],
+    "hints": [
+      "Loop over each row.",
+      "Inside that, loop over each column."
+    ],
+    "examples": [
+      {
+        "input": "2 3\n1 2 3\n4 5 6",
+        "output": "3",
+        "explanation": "The even values are 2, 4, and 6."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "2 3\n1 2 3\n4 5 6",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 1\n7",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      },
+      {
+        "input": "3 2\n-2 -3\n8 11\n14 15",
+        "expectedOutput": "3",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countEvenInMatrix",
+      "javaSignature": "public int countEvenInMatrix(int[][] matrix)",
+      "cppSignature": "int countEvenInMatrix(vector<vector<int>>& matrix)",
+      "providedTypes": [
+        "integer matrix"
+      ],
+      "driverStrategy": "array-count-even-matrix"
+    },
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "array-matrix-foundation",
+    "remedialProblems": [
+      "arr-001"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "introduce"
+  },
+  {
+    "id": "arr-038",
+    "topic": "Arrays",
+    "subtopic": "Matrix boundaries",
+    "title": "Sum of Boundary Elements of Matrix",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "boundary-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "matrix-traversal"
+    ],
+    "expectedComplexity": "O(rows * cols)",
+    "estimatedMinutes": 18,
+    "description": "Given a matrix, print the sum of the elements on its outer boundary.",
+    "constraints": [
+      "1 <= rows, cols <= 100",
+      "-10^9 <= matrix[r][c] <= 10^9"
+    ],
+    "inputFormat": [
+      "Two integers rows and cols",
+      "rows lines each containing cols integers"
+    ],
+    "outputFormat": [
+      "Print the boundary sum"
+    ],
+    "edgeCases": [
+      "Single row",
+      "Single column",
+      "2x2 matrix with every cell on the boundary"
+    ],
+    "intendedApproachSummary": "Traverse the top row, right column, bottom row, and left column while guarding against double-counting when rows or columns collapse.",
+    "wrongApproachHints": [
+      "Do not count the four corners twice.",
+      "Handle one-row and one-column matrices separately through boundary guards."
+    ],
+    "hints": [
+      "Start with top and bottom rows.",
+      "Only traverse the bottom row if top != bottom.",
+      "Only traverse the left column if left != right."
+    ],
+    "examples": [
+      {
+        "input": "3 3\n1 2 3\n4 5 6\n7 8 9",
+        "output": "40",
+        "explanation": "The boundary elements are 1, 2, 3, 6, 9, 8, 7, and 4."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3 3\n1 2 3\n4 5 6\n7 8 9",
+        "expectedOutput": "40",
+        "visibility": "sample"
+      },
+      {
+        "input": "1 4\n5 1 2 3",
+        "expectedOutput": "11",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4 1\n2\n4\n6\n8",
+        "expectedOutput": "20",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "boundarySum",
+      "javaSignature": "public int boundarySum(int[][] matrix)",
+      "cppSignature": "int boundarySum(vector<vector<int>>& matrix)",
+      "providedTypes": [
+        "integer matrix"
+      ],
+      "driverStrategy": "array-boundary-sum"
+    },
+    "poolRole": "core",
+    "masteryWeight": 1.05,
+    "variantGroup": "array-matrix-boundary",
+    "remedialProblems": [
+      "arr-037"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "arr-039",
+    "topic": "Arrays",
+    "subtopic": "Matrix boundaries",
+    "title": "Sum of K-th Matrix Layer",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "boundary-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "matrix-traversal",
+      "boundary-traversal"
+    ],
+    "expectedComplexity": "O(perimeter of layer)",
+    "estimatedMinutes": 22,
+    "description": "Given a matrix and a zero-based layer index k, print the sum of the elements on the boundary of that layer. Print 0 if the layer does not exist.",
+    "constraints": [
+      "1 <= rows, cols <= 100",
+      "0 <= k <= 100",
+      "-10^9 <= matrix[r][c] <= 10^9"
+    ],
+    "inputFormat": [
+      "Two integers rows and cols",
+      "rows lines each containing cols integers",
+      "An integer k"
+    ],
+    "outputFormat": [
+      "Print the layer boundary sum"
+    ],
+    "edgeCases": [
+      "k refers to the outermost layer",
+      "k refers to an inner single row or column",
+      "k is outside the matrix"
+    ],
+    "intendedApproachSummary": "Convert k into top, bottom, left, and right boundaries, validate the layer exists, then traverse that layer exactly once with the same guards used in boundary traversal.",
+    "wrongApproachHints": [
+      "Do not traverse layers that have already collapsed.",
+      "Apply the same corner and single-row/single-column guards as outer-boundary traversal."
+    ],
+    "hints": [
+      "top = k, bottom = rows - 1 - k, left = k, right = cols - 1 - k.",
+      "If top > bottom or left > right, the layer is invalid."
+    ],
+    "examples": [
+      {
+        "input": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16\n1",
+        "output": "34",
+        "explanation": "Layer 1 contains 6, 7, 11, and 10."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16\n1",
+        "expectedOutput": "34",
+        "visibility": "sample"
+      },
+      {
+        "input": "3 5\n1 2 3 4 5\n6 7 8 9 10\n11 12 13 14 15\n0",
+        "expectedOutput": "88",
+        "visibility": "hidden"
+      },
+      {
+        "input": "2 2\n4 3\n2 1\n2",
+        "expectedOutput": "0",
+        "visibility": "hidden"
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "layerSum",
+      "javaSignature": "public int layerSum(int[][] matrix, int k)",
+      "cppSignature": "int layerSum(vector<vector<int>>& matrix, int k)",
+      "providedTypes": [
+        "integer matrix",
+        "layer index"
+      ],
+      "driverStrategy": "array-layer-sum"
+    },
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "array-matrix-boundary",
+    "remedialProblems": [
+      "arr-038"
+    ],
+    "skipIfMastered": [],
+    "learningRole": "mastery"
   }
 ]

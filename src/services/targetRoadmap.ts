@@ -121,6 +121,7 @@ type HeuristicTarget = {
   topicId: string;
   conceptIds: string[];
   prerequisiteConceptIds: string[];
+  roadmapBridgeProblemIds?: string[];
   difficulty: "Easy" | "Medium" | "Hard";
   confidence: TargetProblemConfidence;
   reasons: string[];
@@ -145,6 +146,7 @@ const heuristicRules: Array<{
   topicId: string;
   concepts: string[];
   prerequisites?: string[];
+  roadmapBridgeProblemIds?: string[];
   difficulty?: "Easy" | "Medium" | "Hard";
   confidence?: TargetProblemConfidence;
   reason: string;
@@ -158,6 +160,67 @@ const heuristicRules: Array<{
     difficulty: "Easy",
     confidence: "High",
     reason: "Slug strongly matches the stock-profit pattern."
+  },
+  {
+    tokens: ["spiral", "matrix"],
+    phrases: ["spiral order", "clockwise spiral", "top bottom left right", "traverse matrix in spiral"],
+    topicId: "arrays",
+    concepts: ["matrix-traversal", "boundary-traversal"],
+    prerequisites: ["matrix-traversal", "boundary-traversal"],
+    roadmapBridgeProblemIds: ["arr-037", "arr-038"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Spiral-matrix wording strongly suggests layered array traversal with boundary updates."
+  },
+  {
+    tokens: ["matrix", "zeroes"],
+    phrases: ["set matrix zeroes", "zero out row and column", "mark rows and columns"],
+    topicId: "arrays",
+    concepts: ["array-traversal", "in-place-array-update"],
+    prerequisites: ["array-traversal", "in-place-array-update"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Set-matrix-zeroes wording strongly suggests matrix traversal with careful in-place marking."
+  },
+  {
+    tokens: ["rotate", "image"],
+    phrases: ["rotate the matrix", "rotate image", "clockwise by 90 degrees"],
+    topicId: "arrays",
+    concepts: ["array-traversal", "in-place-array-update"],
+    prerequisites: ["array-traversal", "in-place-array-update"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Rotate-image wording strongly suggests layered matrix traversal and in-place updates."
+  },
+  {
+    tokens: ["diagonal", "traverse"],
+    phrases: ["diagonal order", "traverse diagonally", "zigzag diagonal"],
+    topicId: "arrays",
+    concepts: ["array-traversal"],
+    prerequisites: ["array-traversal"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "Diagonal traversal wording usually maps to structured matrix iteration."
+  },
+  {
+    tokens: ["reshape", "matrix"],
+    phrases: ["matrix reshape", "convert to different rows and columns"],
+    topicId: "arrays",
+    concepts: ["array-traversal"],
+    prerequisites: ["array-traversal"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Matrix-reshape wording maps to index-based traversal and remapping."
+  },
+  {
+    tokens: ["toeplitz", "matrix"],
+    phrases: ["same diagonal", "top-left to bottom-right diagonal"],
+    topicId: "arrays",
+    concepts: ["array-traversal"],
+    prerequisites: ["array-traversal"],
+    difficulty: "Easy",
+    confidence: "Medium",
+    reason: "Toeplitz-matrix wording usually maps to diagonal neighbor checks on a matrix scan."
   },
   {
     tokens: ["two", "sum", "sorted"],
@@ -443,6 +506,7 @@ function inferTargetFromInput(inputUrl: string, problemStatement?: string): Heur
     topicId: best.topicId,
     conceptIds: best.concepts,
     prerequisiteConceptIds: best.prerequisites ?? best.concepts,
+    roadmapBridgeProblemIds: best.roadmapBridgeProblemIds,
     difficulty: best.difficulty ?? "Medium",
     confidence: best.confidence ?? "Low",
     reasons: [
@@ -1031,11 +1095,12 @@ export function createTargetProblemRoadmap(
     ? assessTargetProblemReadiness(inputUrl, progress, skillProfile)
     : assessTargetProblemReadiness(inputUrl, problemStatement, progress, skillProfile);
   const heuristicTarget = !assessment.matchedProblem && assessment.inferredTopicId
-    ? {
+      ? {
         id: `heuristic-${parseLeetCodeSlug(inputUrl) ?? "target"}`,
         title: assessment.inferredTitle ?? titleFromSlug(parseLeetCodeSlug(inputUrl) ?? "target"),
         topicId: assessment.inferredTopicId,
         conceptIds: assessment.missingConceptIds.length ? assessment.missingConceptIds : assessment.strengthConceptIds,
+        roadmapBridgeProblemIds: assessment.inferredTitle === "Spiral Matrix" ? ["arr-037", "arr-038"] : [],
         mappedFromProblemIds: []
       }
     : null;
@@ -1052,9 +1117,10 @@ export function createTargetProblemRoadmap(
   const mappedBridge = assessment.matchedProblem
     ? chooseMappedInternalBridge(assessment.matchedProblem, assessment, progress)
     : undefined;
-  const explicitBridges = assessment.matchedProblem
-    ? chooseExplicitBridgeProblems(assessment.matchedProblem.roadmapBridgeProblemIds, progress)
-    : [];
+  const explicitBridgeIdsFromTarget = assessment.matchedProblem
+    ? assessment.matchedProblem.roadmapBridgeProblemIds
+    : ("roadmapBridgeProblemIds" in target ? target.roadmapBridgeProblemIds : undefined);
+  const explicitBridges = chooseExplicitBridgeProblems(explicitBridgeIdsFromTarget, progress);
   const explicitBridgeIds = new Set(explicitBridges.map((problem) => problem.id));
   const coveredConcepts = new Set(explicitBridges.flatMap((problem) => problem.expectedConcepts));
   const remainingInternalPlan = internalPlan.problems.filter((problem) => {

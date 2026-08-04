@@ -294,6 +294,64 @@ test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {
   assert.equal(roadmap.steps[0]?.type, "internal");
 });
 
+test("spiral matrix gets heuristic array-roadmap support", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["array-traversal"] = 82;
+  skillProfile.conceptScores["matrix-traversal"] = 54;
+  skillProfile.conceptScores["boundary-traversal"] = 41;
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/spiral-matrix/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.matchedProblem, undefined);
+  assert.equal(assessment.inferredTopicId, "arrays");
+  assert.equal(assessment.confidence, "High");
+  assert.ok(assessment.missingConceptIds.includes("matrix-traversal"));
+  assert.ok(assessment.missingConceptIds.includes("boundary-traversal"));
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/spiral-matrix/",
+    progress,
+    skillProfile
+  );
+
+  assert.ok(roadmap.steps.length >= 2);
+  assert.equal(roadmap.steps.some((step) => step.internalProblemId === "arr-037"), true);
+  assert.equal(roadmap.steps.some((step) => step.internalProblemId === "arr-038"), true);
+  assert.equal(roadmap.steps[0]?.type, "internal");
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("matrix traversal family urls get heuristic array-roadmap support", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["array-traversal"] = 62;
+  skillProfile.conceptScores["in-place-array-update"] = 57;
+
+  const urls = [
+    "https://leetcode.com/problems/set-matrix-zeroes/",
+    "https://leetcode.com/problems/rotate-image/",
+    "https://leetcode.com/problems/diagonal-traverse/",
+    "https://leetcode.com/problems/reshape-the-matrix/",
+    "https://leetcode.com/problems/toeplitz-matrix/"
+  ];
+
+  for (const url of urls) {
+    const assessment = assessTargetProblemReadiness(url, progress, skillProfile);
+    assert.equal(assessment.matchedProblem, undefined);
+    assert.equal(assessment.inferredTopicId, "arrays");
+
+    const roadmap = createTargetProblemRoadmap(url, progress, skillProfile);
+    assert.ok(roadmap.steps.length >= 2, `expected roadmap for ${url}`);
+    assert.equal(roadmap.steps[0]?.type, "internal");
+    assert.equal(roadmap.steps.at(-1)?.type, "target");
+  }
+});
+
 test("problem statement improves non-cataloged inference accuracy", () => {
   const progress = createInitialProgress();
   const skillProfile = createInitialSkillProfile();
