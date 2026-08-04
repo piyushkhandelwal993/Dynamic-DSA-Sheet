@@ -151,6 +151,43 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       gateConcepts: ["frequency-counting"]
     }
   ],
+  strings: [
+    {
+      id: "character-dock",
+      name: "Character Dock",
+      description: "Learn to scan strings safely and classify characters one by one.",
+      subtopics: ["Character traversal", "Character classification"],
+      gateConcepts: []
+    },
+    {
+      id: "mirror-lane",
+      name: "Mirror Lane",
+      description: "Reverse strings, compare mirrored characters, and build answers cleanly.",
+      subtopics: ["Reversal basics", "Palindrome checks"],
+      gateConcepts: ["string-traversal", "string-builder"]
+    },
+    {
+      id: "frequency-wharf",
+      name: "Frequency Wharf",
+      description: "Count characters, compare distributions, and reason about anagrams.",
+      subtopics: ["Frequency reasoning", "Two-string construction"],
+      gateConcepts: ["char-frequency"]
+    },
+    {
+      id: "sentence-bay",
+      name: "Sentence Bay",
+      description: "Parse messy text, clean spacing, and rebuild word-level outputs correctly.",
+      subtopics: ["Word parsing", "String simulation"],
+      gateConcepts: ["string-builder", "word-parsing"]
+    },
+    {
+      id: "substring-summit",
+      name: "Substring Summit",
+      description: "Handle advanced substring windows and string DP comparisons from medium to hard.",
+      subtopics: ["Substring windows", "String dynamic programming"],
+      gateConcepts: ["substring-window-unique", "subsequence-dp"]
+    }
+  ],
   "two-pointers": [
     {
       id: "mirror-bridge",

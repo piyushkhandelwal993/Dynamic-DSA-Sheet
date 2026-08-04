@@ -1,0 +1,16 @@
+{
+  "id": "strings",
+  "name": "Strings",
+  "description": "Practice character scans, frequency reasoning, word parsing, substring windows, and string dynamic programming from basics to advanced problems.",
+  "roadmap": [
+    "Character traversal",
+    "Reversal and palindrome checks",
+    "Frequency and anagram reasoning",
+    "Word parsing and cleanup",
+    "Substring windows",
+    "String dynamic programming"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "String Harbor",
+  "status": "active"
+}

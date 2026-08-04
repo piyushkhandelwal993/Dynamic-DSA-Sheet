@@ -5,6 +5,9 @@ import bitManipulationConcepts from "./bit-manipulation/concepts.json";
 import arraysMeta from "./arrays/meta.json";
 import arraysProblems from "./arrays/problems.json";
 import arraysConcepts from "./arrays/concepts.json";
+import stringsMeta from "./strings/meta.json";
+import stringsProblems from "./strings/problems.json";
+import stringsConcepts from "./strings/concepts.json";
 import twoPointersMeta from "./two-pointers/meta.json";
 import slidingWindowMeta from "./sliding-window/meta.json";
 import prefixSuffixMeta from "./prefix-suffix/meta.json";
@@ -123,6 +126,7 @@ export const defaultTopicId = "programming-mathematics";
 export const topicOrder = [
   "programming-mathematics",
   "arrays",
+  "strings",
   "two-pointers",
   "sliding-window",
   "prefix-suffix",
@@ -167,6 +171,11 @@ export const topicPacks: Record<string, TopicPack> = {
     meta: arraysMeta as TopicMeta,
     problems: remainingArrayProblems,
     concepts: remainingArrayConcepts
+  },
+  strings: {
+    meta: stringsMeta as TopicMeta,
+    problems: stringsProblems as Problem[],
+    concepts: stringsConcepts as Concept[]
   },
   "two-pointers": {
     meta: twoPointersMeta as TopicMeta,

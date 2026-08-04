@@ -375,12 +375,52 @@ const heuristicRules: Array<{
   {
     tokens: ["palindrome"],
     phrases: ["ignore non-alphanumeric"],
-    topicId: "two-pointers",
-    concepts: ["two-pointers"],
-    prerequisites: ["two-pointers"],
+    topicId: "strings",
+    concepts: ["string-traversal", "palindrome-string"],
+    prerequisites: ["string-traversal", "palindrome-string"],
     difficulty: "Easy",
     confidence: "Medium",
-    reason: "Palindrome wording often maps to two-pointer scanning."
+    reason: "Palindrome wording often maps to string traversal with mirrored character comparison."
+  },
+  {
+    tokens: ["anagram"],
+    phrases: ["same letters", "frequency count", "rearranged letters"],
+    topicId: "strings",
+    concepts: ["char-frequency", "anagram-check"],
+    prerequisites: ["char-frequency", "anagram-check"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Anagram wording strongly matches character-frequency comparison."
+  },
+  {
+    tokens: ["reverse", "words", "string"],
+    phrases: ["reverse words", "single spaces", "trim spaces"],
+    topicId: "strings",
+    concepts: ["string-builder", "word-parsing"],
+    prerequisites: ["string-builder", "word-parsing"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "Reverse-words wording strongly matches sentence parsing and clean string rebuilding."
+  },
+  {
+    tokens: ["merge", "strings", "alternately"],
+    phrases: ["alternately", "take characters from each string"],
+    topicId: "strings",
+    concepts: ["string-builder", "two-string-merge"],
+    prerequisites: ["string-builder", "two-string-merge"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Alternate merge wording strongly matches coordinated two-string construction."
+  },
+  {
+    tokens: ["backspace", "string", "compare"],
+    phrases: ["# means backspace", "typed into empty text editor"],
+    topicId: "strings",
+    concepts: ["string-cleanup-stack"],
+    prerequisites: ["string-cleanup-stack"],
+    difficulty: "Easy",
+    confidence: "High",
+    reason: "Backspace-compare wording strongly suggests stack-style string cleanup simulation."
   },
   {
     tokens: ["sorted", "array"],

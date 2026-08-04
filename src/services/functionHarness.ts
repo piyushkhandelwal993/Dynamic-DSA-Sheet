@@ -64,6 +64,8 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-max-circular-subarray":
     case "array-container-most-water":
     case "array-longest-ones-k-flips":
+    case "string-count-vowels":
+    case "string-longest-unique-substring":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -79,6 +81,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "array-pair-sum-sorted":
     case "array-zero-sum-exists":
     case "array-contains-duplicate":
+    case "string-valid-anagram":
       return `        return false;`;
     case "array-range-sum":
     case "array-count-subarrays-sum-k":
@@ -146,6 +149,8 @@ function javaMethodStub(contract: FunctionContract): string {
     case "stack-remove-adjacent-k":
     case "stack-postfix-to-infix":
     case "stack-remove-k-digits":
+    case "string-merge-alternately":
+    case "string-reverse-words-line":
       return `        return "";`;
     case "stack-evaluate-postfix":
     case "stack-evaluate-prefix":
@@ -340,6 +345,8 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-max-circular-subarray":
     case "array-container-most-water":
     case "array-longest-ones-k-flips":
+    case "string-count-vowels":
+    case "string-longest-unique-substring":
     case "bit-count-odd-array":
     case "bit-single-number":
     case "bit-missing-number":
@@ -355,6 +362,7 @@ function cppMethodStub(contract: FunctionContract): string {
     case "array-pair-sum-sorted":
     case "array-zero-sum-exists":
     case "array-contains-duplicate":
+    case "string-valid-anagram":
       return `        return false;`;
     case "array-range-sum":
     case "array-count-subarrays-sum-k":
@@ -409,6 +417,8 @@ function cppMethodStub(contract: FunctionContract): string {
     case "stack-remove-adjacent-k":
     case "stack-postfix-to-infix":
     case "stack-remove-k-digits":
+    case "string-merge-alternately":
+    case "string-reverse-words-line":
       return `        return "";`;
     case "stack-evaluate-postfix":
     case "stack-evaluate-prefix":
@@ -1101,6 +1111,29 @@ function javaDriverSource(contract: FunctionContract): string {
       inputSetup = `        int n = sc.nextInt();
         int[] values = readArray(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "string-count-vowels":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "string-valid-anagram":
+      inputSetup = `        String first = sc.next();
+        String second = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second) ? "true" : "false");`;
+      break;
+    case "string-merge-alternately":
+      inputSetup = `        String first = sc.next();
+        String second = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(first, second));`;
+      break;
+    case "string-reverse-words-line":
+      inputSetup = `        sc.nextLine();
+        String value = sc.nextLine();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "string-longest-unique-substring":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
       break;
     case "array-count-even-matrix":
       inputSetup = `        int rows = sc.nextInt();
@@ -2341,6 +2374,31 @@ void printValues(const vector<int>& values) {
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "string-count-vowels":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "string-valid-anagram":
+      inputSetup = `    string first, second;
+    cin >> first >> second;`;
+      invocation = `    cout << (Solution().${contract.functionName}(first, second) ? "true" : "false");`;
+      break;
+    case "string-merge-alternately":
+      inputSetup = `    string first, second;
+    cin >> first >> second;`;
+      invocation = `    cout << Solution().${contract.functionName}(first, second);`;
+      break;
+    case "string-reverse-words-line":
+      inputSetup = `    string value;
+    getline(cin >> ws, value);`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "string-longest-unique-substring":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
       break;
     case "array-count-even-matrix":
       inputSetup = `    int rows, cols;

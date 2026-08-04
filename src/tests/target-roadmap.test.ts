@@ -181,6 +181,128 @@ test("two sum sorted roadmap can pull array prerequisites through the cross-topi
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
+test("reverse words in a string becomes a supported cataloged roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-reverse-words-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/reverse-words-in-a-string/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/reverse-words-in-a-string/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-reverse-words-in-string");
+  assert.equal(internalIds.includes("str-008"), true);
+  assert.equal(internalIds.includes("str-005") || internalIds.includes("str-002"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Reverse Words in a String");
+});
+
+test("valid anagram becomes a supported cataloged strings roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-valid-anagram-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/valid-anagram/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/valid-anagram/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-valid-anagram");
+  assert.equal(internalIds.includes("str-004"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Valid Anagram");
+});
+
+test("valid palindrome routes through the strings topic instead of the legacy recursion catalog entry", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-valid-palindrome-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/valid-palindrome/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-valid-palindrome");
+  assert.equal(assessment.matchedProblem?.topicId, "strings");
+});
+
+test("word break now uses string bridges instead of dp-only routing", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-word-break-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/word-break/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/word-break/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.topicId, "strings");
+  assert.equal(internalIds.includes("str-008"), true);
+  assert.equal(internalIds.includes("str-010"), true);
+});
+
+test("edit distance now routes through string dp bridges", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-edit-distance-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/edit-distance/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/edit-distance/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.matchedProblem?.topicId, "strings");
+  assert.equal(internalIds.includes("str-010"), true);
+  assert.equal(internalIds.includes("str-011"), true);
+});
+
 test("dp climbing stairs roadmap can pull recursion foundations before dp practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-dp-"));
   invalidateCatalogCache();

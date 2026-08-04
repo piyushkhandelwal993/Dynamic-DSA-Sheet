@@ -41,6 +41,7 @@ test("topic registry exposes roadmap metadata", () => {
     assert.equal(metas.some((meta) => meta.id === "recursion"), true);
     assert.equal(metas.some((meta) => meta.id === "sliding-window"), true);
     assert.equal(metas.some((meta) => meta.id === "stack"), true);
+    assert.equal(metas.some((meta) => meta.id === "strings"), true);
     assert.equal(metas.some((meta) => meta.id === "trees"), true);
     assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
     assert.ok(getTopicRoadmap("programming-mathematics").length >= 5);
@@ -56,6 +57,7 @@ test("topic registry exposes roadmap metadata", () => {
     assert.ok(getTopicProblems("recursion").length >= 20);
     assert.ok(getTopicProblems("sliding-window").length >= 6);
     assert.ok(getTopicProblems("stack").length >= 15);
+    assert.ok(getTopicProblems("strings").length >= 10);
     assert.ok(getTopicProblems("trees").length >= 12);
     assert.ok(getTopicProblems("two-pointers").length >= 9);
   } finally {
@@ -79,6 +81,7 @@ test("adaptive pool topics expose healthy role coverage", () => {
     "recursion",
     "sliding-window",
     "stack",
+    "strings",
     "trees",
     "two-pointers"
   ];

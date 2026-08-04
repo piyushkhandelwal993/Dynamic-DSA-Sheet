@@ -1,0 +1,158 @@
+[
+  {
+    "id": "string-traversal",
+    "name": "String Traversal",
+    "description": "Visit characters one by one using indices or a foreach-style loop over the string.",
+    "exampleJava": "for (int i = 0; i < s.length(); i++) { char ch = s.charAt(i); }",
+    "commonMistakes": [
+      "Using the wrong loop boundary",
+      "Confusing character positions with numeric values"
+    ],
+    "practiceProblems": ["str-001", "str-002", "str-003"],
+    "progressionOrder": 1,
+    "dependsOn": []
+  },
+  {
+    "id": "char-classification",
+    "name": "Character Classification",
+    "description": "Classify characters as vowels, letters, digits, or spaces while scanning the string.",
+    "exampleJava": "if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') count++;",
+    "commonMistakes": [
+      "Forgetting uppercase characters when the problem allows them",
+      "Mixing character comparisons with string comparisons"
+    ],
+    "practiceProblems": ["str-001"],
+    "progressionOrder": 2,
+    "dependsOn": ["string-traversal"]
+  },
+  {
+    "id": "string-builder",
+    "name": "String Builder",
+    "description": "Build the answer incrementally instead of concatenating immutable strings repeatedly.",
+    "exampleJava": "StringBuilder out = new StringBuilder(); out.append(ch);",
+    "commonMistakes": [
+      "Using repeated string concatenation inside long loops",
+      "Forgetting to convert the builder back to a string at the end"
+    ],
+    "practiceProblems": ["str-002", "str-005", "str-008"],
+    "progressionOrder": 3,
+    "dependsOn": ["string-traversal"]
+  },
+  {
+    "id": "palindrome-string",
+    "name": "Palindrome on Strings",
+    "description": "Compare mirrored characters from the left and right side to decide whether a string reads the same backward.",
+    "exampleJava": "while (left < right) { if (s.charAt(left++) != s.charAt(right--)) return false; }",
+    "commonMistakes": [
+      "Moving only one pointer",
+      "Missing the middle-stop condition"
+    ],
+    "practiceProblems": ["str-003"],
+    "progressionOrder": 4,
+    "dependsOn": ["string-traversal"]
+  },
+  {
+    "id": "char-frequency",
+    "name": "Character Frequency",
+    "description": "Count how many times each character appears using arrays or hash maps.",
+    "exampleJava": "freq[s.charAt(i) - 'a']++;",
+    "commonMistakes": [
+      "Using the wrong index offset",
+      "Assuming only lowercase input when the problem allows more"
+    ],
+    "practiceProblems": ["str-004", "str-009"],
+    "progressionOrder": 5,
+    "dependsOn": ["string-traversal"]
+  },
+  {
+    "id": "anagram-check",
+    "name": "Anagram Check",
+    "description": "Two strings are anagrams when their character frequencies match exactly.",
+    "exampleJava": "return Arrays.equals(freqA, freqB);",
+    "commonMistakes": [
+      "Not checking length mismatch early",
+      "Comparing only distinct characters instead of full counts"
+    ],
+    "practiceProblems": ["str-004"],
+    "progressionOrder": 6,
+    "dependsOn": ["char-frequency"]
+  },
+  {
+    "id": "two-string-merge",
+    "name": "Two-String Merge",
+    "description": "Advance through two strings together while deciding which side contributes the next character.",
+    "exampleJava": "while (i < a.length() || j < b.length()) { if (i < a.length()) out.append(a.charAt(i++)); if (j < b.length()) out.append(b.charAt(j++)); }",
+    "commonMistakes": [
+      "Stopping when one string ends even though the other still has characters",
+      "Appending from both strings in the wrong order"
+    ],
+    "practiceProblems": ["str-005"],
+    "progressionOrder": 7,
+    "dependsOn": ["string-builder"]
+  },
+  {
+    "id": "string-cleanup-stack",
+    "name": "String Cleanup with Stack",
+    "description": "Use stack-like push and pop behavior to remove, collapse, or compare characters under editing rules.",
+    "exampleJava": "if (out.length() > 0 && out.charAt(out.length() - 1) == ch) out.deleteCharAt(out.length() - 1); else out.append(ch);",
+    "commonMistakes": [
+      "Deleting the wrong previous character",
+      "Forgetting the stack can become empty after removals"
+    ],
+    "practiceProblems": ["str-006", "str-007"],
+    "progressionOrder": 8,
+    "dependsOn": ["string-builder"]
+  },
+  {
+    "id": "word-parsing",
+    "name": "Word Parsing",
+    "description": "Split a sentence into words conceptually while handling extra spaces and rebuilding the sentence in the required format.",
+    "exampleJava": "for (String word : s.trim().split(\"\\\\s+\")) { ... }",
+    "commonMistakes": [
+      "Keeping leading or trailing spaces in the answer",
+      "Treating multiple spaces as separate empty words"
+    ],
+    "practiceProblems": ["str-008"],
+    "progressionOrder": 9,
+    "dependsOn": ["string-traversal", "string-builder"]
+  },
+  {
+    "id": "substring-window-unique",
+    "name": "Unique-Character Sliding Window",
+    "description": "Expand and shrink a window while ensuring every character inside it remains unique.",
+    "exampleJava": "while (seen[ch] > 1) { seen[s.charAt(left++)]--; }",
+    "commonMistakes": [
+      "Not shrinking the window when a duplicate appears",
+      "Tracking the wrong window length after updates"
+    ],
+    "practiceProblems": ["str-009"],
+    "progressionOrder": 10,
+    "dependsOn": ["char-frequency"]
+  },
+  {
+    "id": "subsequence-dp",
+    "name": "Subsequence DP on Strings",
+    "description": "Build DP over string prefixes to compare two strings while preserving order but not necessarily contiguity.",
+    "exampleJava": "if (a.charAt(i - 1) == b.charAt(j - 1)) dp[i][j] = 1 + dp[i - 1][j - 1]; else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);",
+    "commonMistakes": [
+      "Confusing subsequence with substring",
+      "Misaligning string indices with DP table indices"
+    ],
+    "practiceProblems": ["str-010"],
+    "progressionOrder": 11,
+    "dependsOn": ["string-traversal"]
+  },
+  {
+    "id": "edit-distance-dp",
+    "name": "Edit Distance DP",
+    "description": "Use DP states to model insert, delete, and replace operations between two string prefixes.",
+    "exampleJava": "dp[i][j] = 1 + Math.min(dp[i - 1][j], Math.min(dp[i][j - 1], dp[i - 1][j - 1]));",
+    "commonMistakes": [
+      "Using the wrong base row or base column",
+      "Forgetting that matching characters carry over diagonally with no extra cost"
+    ],
+    "practiceProblems": ["str-011"],
+    "progressionOrder": 12,
+    "dependsOn": ["subsequence-dp"]
+  }
+]
