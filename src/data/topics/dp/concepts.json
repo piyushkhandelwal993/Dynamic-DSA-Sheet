@@ -190,5 +190,17 @@
     ],
     "practiceProblems": ["dp-021"],
     "dependsOn": ["grid-dp", "state-transition"]
+  },
+  {
+    "id": "segment-merge-dp",
+    "name": "Segment-Merge DP",
+    "description": "Store compact boundary DP states for array segments so point updates and segment merges preserve the global optimal answer.",
+    "exampleJava": "parent[leftState][rightState] = Math.max(parent[leftState][rightState], left[a][b] + right[c][d]);",
+    "commonMistakes": [
+      "Merging child segments without tracking whether the touching boundary elements were selected",
+      "Using a segment summary that is too weak to support point updates"
+    ],
+    "practiceProblems": ["dp-022"],
+    "dependsOn": ["state-transition", "space-optimization"]
   }
 ]

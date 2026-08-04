@@ -269,6 +269,30 @@ test("resource budget DP scaffolds expose grid plus budget signatures", () => {
   }
 });
 
+test("segment-merge DP scaffolds expose array plus update-query signatures", () => {
+  const problem = getProblemById("dp-022");
+  assert.ok(problem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-dp-segment-merge-workspace-"));
+
+  try {
+    const javaWorkspace = ensureProblemWorkspace(problem, "java");
+    const cppWorkspace = ensureProblemWorkspace(problem, "cpp");
+
+    assert.match(
+      fs.readFileSync(javaWorkspace.filePath, "utf-8"),
+      /public long sumMaxNonAdjacentAfterUpdates\(int\[\] nums, int\[\]\[\] updates\)/
+    );
+    assert.match(
+      fs.readFileSync(cppWorkspace.filePath, "utf-8"),
+      /long long sumMaxNonAdjacentAfterUpdates\(vector<int>& nums, vector<vector<int>>& updates\)/
+    );
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("new array beginner scaffolds cover int, boolean, long, array, void, and double signatures", () => {
   const minLenProblem = getProblemById("arr-018");
   const zeroSumProblem = getProblemById("arr-021");

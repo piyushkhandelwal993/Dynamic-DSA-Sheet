@@ -257,6 +257,8 @@ function javaMethodStub(contract: FunctionContract): string {
       return `        return 0;`;
     case "dp-knight-probability":
       return `        return 0.0;`;
+    case "dp-non-adjacent-updates":
+      return `        return 0L;`;
     case "dp-grid-budget-reachability":
       return `        return false;`;
     case "math-reverse-number":
@@ -542,6 +544,8 @@ function cppMethodStub(contract: FunctionContract): string {
       return `        return 0;`;
     case "dp-knight-probability":
       return `        return 0.0;`;
+    case "dp-non-adjacent-updates":
+      return `        return 0LL;`;
     case "dp-grid-budget-reachability":
       return `        return false;`;
     case "dp-climbing-stairs":
@@ -1820,6 +1824,17 @@ function javaDriverSource(contract: FunctionContract): string {
       invocation = contract.driverStrategy === "dp-lis-length"
         ? `        System.out.print(new Solution().${contract.functionName}(values));`
         : `        System.out.print(new Solution().${contract.functionName}(values));`;
+      break;
+    case "dp-non-adjacent-updates":
+      inputSetup = `        int n = sc.nextInt();
+        int[] values = readArray(sc, n);
+        int q = sc.nextInt();
+        int[][] updates = new int[q][2];
+        for (int i = 0; i < q; i++) {
+            updates[i][0] = sc.nextInt();
+            updates[i][1] = sc.nextInt();
+        }`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(values, updates));`;
       break;
     case "dp-frog-k-jump":
       inputSetup = `        int n = sc.nextInt();
@@ -3195,6 +3210,18 @@ void printValues(const vector<int>& values) {
     cin >> n;
     vector<int> values = readArray(n);`;
       invocation = `    cout << Solution().${contract.functionName}(values);`;
+      break;
+    case "dp-non-adjacent-updates":
+      inputSetup = `    int n;
+    cin >> n;
+    vector<int> values = readArray(n);
+    int q;
+    cin >> q;
+    vector<vector<int>> updates(q, vector<int>(2));
+    for (int i = 0; i < q; ++i) {
+        cin >> updates[i][0] >> updates[i][1];
+    }`;
+      invocation = `    cout << Solution().${contract.functionName}(values, updates);`;
       break;
     case "dp-frog-k-jump":
       inputSetup = `    int n, k;

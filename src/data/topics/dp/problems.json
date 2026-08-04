@@ -1698,5 +1698,97 @@
     "poolRole": "challenge",
     "masteryWeight": 1.35,
     "variantGroup": "dp-resource-budget"
+  },
+  {
+    "id": "dp-022",
+    "topic": "Dynamic Programming",
+    "subtopic": "Range state merging",
+    "title": "Maximum Non-Adjacent Sum After Point Updates",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "segment-merge-dp",
+      "state-transition"
+    ],
+    "prerequisiteConcepts": [
+      "tabulation",
+      "state-transition",
+      "space-optimization"
+    ],
+    "expectedComplexity": "O((n + q) log n)",
+    "estimatedMinutes": 40,
+    "description": "Given an integer array and q point updates, after each update compute the maximum sum of a subsequence such that no two chosen elements are adjacent. Return the sum of all q answers.",
+    "constraints": [
+      "1 <= n, q <= 2 * 10^5",
+      "-10^5 <= nums[i], updateValue <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n space-separated integers",
+      "An integer q",
+      "q lines each containing index and newValue"
+    ],
+    "outputFormat": [
+      "Print the sum of the maximum non-adjacent subsequence answer after every update"
+    ],
+    "edgeCases": [
+      "Negative values mean the empty subsequence may still be optimal",
+      "A single update can affect the answer across a large range",
+      "The merge must forbid selecting adjacent boundary elements from neighboring segments"
+    ],
+    "intendedApproachSummary": "Build a segment tree where each node stores enough DP state to describe whether its left and right boundaries are selected. After each point update, merge updated nodes upward and read the root answer in O(log n).",
+    "wrongApproachHints": [
+      "Recomputing a full House Robber DP after every update is too slow for large q.",
+      "A segment summary that stores only one best value cannot merge correctly across adjacency boundaries."
+    ],
+    "hints": [
+      "Think of each segment as exposing multiple boundary states, not one scalar answer.",
+      "When merging two child segments, the left child's right boundary and the right child's left boundary cannot both be selected.",
+      "Point updates only change one leaf, so a segment tree can rebuild the answer efficiently."
+    ],
+    "examples": [
+      {
+        "input": "3\n3 5 9\n2\n1 2\n0 -1",
+        "output": "21",
+        "explanation": "After updating index 1 to 2, the best non-adjacent sum is 12. After updating index 0 to -1, the best sum is 9. The total is 21."
+      }
+    ],
+    "testCases": [
+      {
+        "input": "3\n3 5 9\n2\n1 2\n0 -1",
+        "expectedOutput": "21",
+        "visibility": "sample"
+      },
+      {
+        "input": "1\n4\n3\n0 -5\n0 7\n0 0",
+        "expectedOutput": "11",
+        "visibility": "hidden"
+      },
+      {
+        "input": "4\n2 1 3 4\n2\n2 -10\n1 8",
+        "expectedOutput": "14",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "dp-003",
+      "dp-004"
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "sumMaxNonAdjacentAfterUpdates",
+      "javaSignature": "public long sumMaxNonAdjacentAfterUpdates(int[] nums, int[][] updates)",
+      "cppSignature": "long long sumMaxNonAdjacentAfterUpdates(vector<int>& nums, vector<vector<int>>& updates)",
+      "providedTypes": [
+        "integer array",
+        "point update queries"
+      ],
+      "driverStrategy": "dp-non-adjacent-updates"
+    },
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.45,
+    "variantGroup": "dp-range-merge"
   }
 ]

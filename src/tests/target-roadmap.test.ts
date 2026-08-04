@@ -553,6 +553,41 @@ test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {
   assert.equal(roadmap.steps[0]?.type, "internal");
 });
 
+test("non-adjacent subsequence max-sum url uses the dedicated range-merge dp bridge", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["dp-intro"] = 64;
+  skillProfile.conceptScores["state-transition"] = 52;
+  skillProfile.conceptScores["tabulation"] = 44;
+  skillProfile.conceptScores["space-optimization"] = 38;
+  skillProfile.conceptScores["segment-merge-dp"] = 20;
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/maximum-sum-of-subsequence-with-non-adjacent-elements/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-max-non-adjacent-subsequence-updates");
+  assert.ok(assessment.missingConceptIds.includes("segment-merge-dp"));
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/maximum-sum-of-subsequence-with-non-adjacent-elements/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("dp-003"), true);
+  assert.equal(internalIds.includes("dp-004"), true);
+  assert.equal(internalIds.includes("dp-022"), true);
+  assert.equal(roadmap.steps[0]?.type, "internal");
+  assert.equal(roadmap.steps.at(-1)?.title, "Maximum Sum of Subsequence With Non-adjacent Elements");
+});
+
 test("spiral matrix gets heuristic array-roadmap support", () => {
   const progress = createInitialProgress();
   const skillProfile = createInitialSkillProfile();

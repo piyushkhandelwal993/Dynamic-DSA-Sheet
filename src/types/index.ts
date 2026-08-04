@@ -218,6 +218,7 @@ export type FunctionDriverStrategy =
   | "dp-climbing-stairs"
   | "dp-house-robber"
   | "dp-max-non-adjacent-sum"
+  | "dp-non-adjacent-updates"
   | "dp-min-cost-climbing-stairs"
   | "dp-frog-k-jump"
   | "dp-frog-reachability"

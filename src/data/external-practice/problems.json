@@ -1455,6 +1455,20 @@
     "sourceQualityWeight": 1
   },
   {
+    "id": "ext-lc-max-non-adjacent-subsequence-updates",
+    "platform": "leetcode",
+    "title": "Maximum Sum of Subsequence With Non-adjacent Elements",
+    "url": "https://leetcode.com/problems/maximum-sum-of-subsequence-with-non-adjacent-elements/",
+    "difficulty": "Hard",
+    "topicId": "dp",
+    "conceptIds": ["state-transition", "tabulation", "space-optimization", "segment-merge-dp"],
+    "prerequisiteConceptIds": ["dp-intro", "state-transition", "tabulation", "space-optimization", "segment-merge-dp"],
+    "mappedFromProblemIds": ["dp-003", "dp-004", "dp-022"],
+    "recommendedAfterProblemIds": ["dp-022"],
+    "roadmapBridgeProblemIds": ["dp-003", "dp-004", "dp-022"],
+    "sourceQualityWeight": 0.98
+  },
+  {
     "id": "ext-lc-frog-jump",
     "platform": "leetcode",
     "title": "Frog Jump",

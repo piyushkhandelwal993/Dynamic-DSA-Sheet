@@ -263,6 +263,21 @@ const heuristicRules: Array<{
     reason: "Subarray plus window wording strongly suggests sliding-window reasoning."
   },
   {
+    tokens: ["maximum", "sum", "subsequence", "non", "adjacent"],
+    phrases: [
+      "non adjacent elements",
+      "no two chosen elements are adjacent",
+      "choose subsequence with no adjacent elements"
+    ],
+    topicId: "dp",
+    concepts: ["state-transition", "tabulation", "space-optimization", "segment-merge-dp"],
+    prerequisites: ["dp-intro", "state-transition", "tabulation", "space-optimization", "segment-merge-dp"],
+    roadmapBridgeProblemIds: ["dp-003", "dp-004", "dp-022"],
+    difficulty: "Hard",
+    confidence: "Medium",
+    reason: "Non-adjacent subsequence maximization with this wording often extends the House-Robber-style DP family into segment-level state merging."
+  },
+  {
     tokens: ["sum", "subarray"],
     phrases: ["equals k", "divisible by k", "range sum"],
     topicId: "prefix-suffix",
