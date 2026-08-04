@@ -565,7 +565,9 @@
       "deque-technique"
     ],
     "prerequisiteConcepts": [
-      "queue-operations"
+      "queue-operations",
+      "fixed-size-window",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 28,
@@ -643,7 +645,9 @@
       "deque-technique"
     ],
     "prerequisiteConcepts": [
-      "sliding-window-queue"
+      "sliding-window-queue",
+      "prefix-sum",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 30,
@@ -722,7 +726,9 @@
       "deque-technique"
     ],
     "prerequisiteConcepts": [
-      "deque-technique"
+      "deque-technique",
+      "state-transition",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 30,
@@ -788,7 +794,9 @@
       "top-k-elements"
     ],
     "prerequisiteConcepts": [
-      "queue-intro"
+      "queue-intro",
+      "priority-queue-usage",
+      "collection-iteration-usage"
     ],
     "expectedComplexity": "O(n log k)",
     "estimatedMinutes": 18,
@@ -867,7 +875,10 @@
       "top-k-elements"
     ],
     "prerequisiteConcepts": [
-      "queue-operations"
+      "queue-operations",
+      "priority-queue-usage",
+      "hash-map-usage",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n log m)",
     "estimatedMinutes": 28,
@@ -947,7 +958,8 @@
       "task-scheduling-queue"
     ],
     "prerequisiteConcepts": [
-      "queue-simulation"
+      "queue-simulation",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,

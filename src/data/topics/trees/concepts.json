@@ -33,7 +33,7 @@
       "Not snapshotting the level size before iterating a level"
     ],
     "practiceProblems": ["tr-004", "tr-009"],
-    "dependsOn": ["tree-intro"]
+    "dependsOn": ["tree-intro", "queue-library-usage"]
   },
   {
     "id": "tree-height",

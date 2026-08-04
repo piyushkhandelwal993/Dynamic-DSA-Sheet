@@ -21,7 +21,7 @@
       "Indexing the graph incorrectly"
     ],
     "practiceProblems": ["gr-001"],
-    "dependsOn": ["graph-intro"]
+    "dependsOn": ["graph-intro", "dynamic-array-usage"]
   },
   {
     "id": "dfs-graph",
@@ -45,7 +45,7 @@
       "Using DFS when shortest edge-count path is needed"
     ],
     "practiceProblems": ["gr-003", "gr-008"],
-    "dependsOn": ["adjacency-list"]
+    "dependsOn": ["adjacency-list", "queue-library-usage"]
   },
   {
     "id": "connected-components",
@@ -93,7 +93,7 @@
       "Forgetting to initialize indegrees correctly"
     ],
     "practiceProblems": ["gr-009", "gr-010"],
-    "dependsOn": ["cycle-detection"]
+    "dependsOn": ["cycle-detection", "queue-library-usage"]
   },
   {
     "id": "shortest-path-unweighted",
@@ -117,7 +117,7 @@
       "Not skipping stale priority queue entries"
     ],
     "practiceProblems": ["gr-012", "gr-013"],
-    "dependsOn": ["shortest-path-unweighted"]
+    "dependsOn": ["shortest-path-unweighted", "priority-queue-usage"]
   },
   {
     "id": "union-find",

@@ -18,9 +18,9 @@ test.after(() => {
 });
 
 test("topic registry exposes the default topic pack", () => {
-  assert.equal(getDefaultTopicId(), "programming-mathematics");
-  assert.equal(getTopicMeta("programming-mathematics")?.name, "Programming Mathematics");
-  assert.ok(getTopicProblems("programming-mathematics").length >= 5);
+  assert.equal(getDefaultTopicId(), "language-toolkit");
+  assert.equal(getTopicMeta("language-toolkit")?.name, "Language Toolkit");
+  assert.ok(getTopicProblems("language-toolkit").length >= 5);
 });
 
 test("topic registry exposes roadmap metadata", () => {
@@ -30,6 +30,7 @@ test("topic registry exposes roadmap metadata", () => {
 
   try {
     const metas = getTopicMetas();
+    assert.equal(metas.some((meta) => meta.id === "language-toolkit"), true);
     assert.equal(metas.some((meta) => meta.id === "programming-mathematics"), true);
     assert.equal(metas.some((meta) => meta.id === "arrays"), true);
     assert.equal(metas.some((meta) => meta.id === "binary-search"), true);
@@ -44,6 +45,8 @@ test("topic registry exposes roadmap metadata", () => {
     assert.equal(metas.some((meta) => meta.id === "strings"), true);
     assert.equal(metas.some((meta) => meta.id === "trees"), true);
     assert.equal(metas.some((meta) => meta.id === "two-pointers"), true);
+    assert.ok(getTopicRoadmap("language-toolkit").length >= 5);
+    assert.ok(getTopicProblems("language-toolkit").length >= 8);
     assert.ok(getTopicRoadmap("programming-mathematics").length >= 5);
     assert.ok(getTopicProblems("programming-mathematics").length >= 5);
     assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
@@ -69,6 +72,7 @@ test("topic registry exposes roadmap metadata", () => {
 
 test("adaptive pool topics expose healthy role coverage", () => {
   const adaptiveTopicIds = [
+    "language-toolkit",
     "programming-mathematics",
     "arrays",
     "bit-manipulation",

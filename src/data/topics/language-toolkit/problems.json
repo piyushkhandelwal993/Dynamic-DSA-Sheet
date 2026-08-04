@@ -1,0 +1,370 @@
+[
+  {
+    "id": "lt-001",
+    "topic": "Language Toolkit",
+    "subtopic": "Dynamic arrays",
+    "title": "Running Sum with Array or Vector",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["dynamic-array-usage"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 10,
+    "description": "Given an integer array, update it into its running-sum form. This is the kind of index-based traversal you should be comfortable doing in both Java arrays or ArrayLists and C++ vectors.",
+    "constraints": ["1 <= n <= 10^5"],
+    "inputFormat": ["An integer n", "n space-separated integers"],
+    "outputFormat": ["Print the running-sum array"],
+    "edgeCases": ["Single-element array", "Negative values"],
+    "intendedApproachSummary": "Traverse from left to right and add the previous accumulated value into the current position.",
+    "wrongApproachHints": ["Do not recompute each prefix from scratch.", "Watch the loop start index."],
+    "hints": ["Start from index 1.", "Each position should absorb the previous prefix sum."],
+    "examples": [
+      {
+        "input": "4\n1 2 3 4",
+        "output": "1 3 6 10",
+        "explanation": "Each value becomes the sum of all values up to that index."
+      }
+    ],
+    "testCases": [
+      { "input": "4\n1 2 3 4", "expectedOutput": "1 3 6 10", "visibility": "sample" },
+      { "input": "1\n7", "expectedOutput": "7", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "runningSum",
+      "javaSignature": "public int[] runningSum(int[] nums)",
+      "cppSignature": "vector<int> runningSum(vector<int>& nums)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "array-running-sum"
+    },
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-dynamic-array",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-002",
+    "topic": "Language Toolkit",
+    "subtopic": "String basics",
+    "title": "Count Vowels with String Traversal",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["string-builder-usage"],
+    "prerequisiteConcepts": [],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 8,
+    "description": "Given a lowercase string s, return how many vowels it contains. This builds the habit of char-by-char traversal before heavier string and collection work.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A lowercase string s without spaces"],
+    "outputFormat": ["Return the number of vowels in s"],
+    "edgeCases": ["All consonants", "All vowels"],
+    "intendedApproachSummary": "Scan the string once and count characters that belong to the vowel set.",
+    "wrongApproachHints": ["You do not need nested loops for each vowel.", "Stay with a single scan."],
+    "hints": ["Check one character at a time.", "Keep a running count."],
+    "examples": [
+      {
+        "input": "education",
+        "output": "5",
+        "explanation": "The vowels are e, u, a, i, and o."
+      }
+    ],
+    "testCases": [
+      { "input": "education", "expectedOutput": "5", "visibility": "sample" },
+      { "input": "rhythm", "expectedOutput": "0", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countVowels",
+      "javaSignature": "public int countVowels(String value)",
+      "cppSignature": "int countVowels(string value)",
+      "providedTypes": ["input string"],
+      "driverStrategy": "string-count-vowels"
+    },
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-string-traversal",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-003",
+    "topic": "Language Toolkit",
+    "subtopic": "String builders",
+    "title": "Merge Strings Alternately",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["string-builder-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n + m)",
+    "estimatedMinutes": 12,
+    "description": "Merge two strings by alternating characters. This teaches StringBuilder or mutable-string habits that show up constantly in DSA implementations.",
+    "constraints": ["1 <= word1.length, word2.length <= 10^5"],
+    "inputFormat": ["Two lowercase strings word1 and word2 without spaces"],
+    "outputFormat": ["Return the merged string"],
+    "edgeCases": ["One string is longer", "Single-character inputs"],
+    "intendedApproachSummary": "Use two indices and a builder-like result container that appends from each string while available.",
+    "wrongApproachHints": ["Do not stop at the shorter string.", "Avoid repeated immutable concatenation in a long loop."],
+    "hints": ["Append from the first string, then the second.", "Flush the remaining suffix at the end."],
+    "examples": [
+      {
+        "input": "abc pqr",
+        "output": "apbqcr",
+        "explanation": "Characters are taken alternately from each word."
+      }
+    ],
+    "testCases": [
+      { "input": "abc pqr", "expectedOutput": "apbqcr", "visibility": "sample" },
+      { "input": "ab pqrs", "expectedOutput": "apbqrs", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "mergeAlternately",
+      "javaSignature": "public String mergeAlternately(String first, String second)",
+      "cppSignature": "string mergeAlternately(string first, string second)",
+      "providedTypes": ["two strings"],
+      "driverStrategy": "string-merge-alternately"
+    },
+    "remedialProblems": ["lt-002"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-string-builder",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-004",
+    "topic": "Language Toolkit",
+    "subtopic": "Hash maps",
+    "title": "Valid Anagram with Frequency Maps",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["hash-map-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["string-builder-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given two lowercase strings a and b, return true if b is an anagram of a. This is a clean first HashMap or unordered_map style frequency problem.",
+    "constraints": ["1 <= a.length, b.length <= 10^5"],
+    "inputFormat": ["Two lowercase strings a and b without spaces"],
+    "outputFormat": ["Return true if they are anagrams, else false"],
+    "edgeCases": ["Different lengths", "Repeated letters"],
+    "intendedApproachSummary": "Count frequencies and compare them, or increment from one string and decrement from the other.",
+    "wrongApproachHints": ["Sorting works but the intended collections habit is frequency counting.", "Different lengths can never be anagrams."],
+    "hints": ["Use a map or fixed-size frequency table.", "Every count must match."],
+    "examples": [
+      {
+        "input": "listen silent",
+        "output": "true",
+        "explanation": "Both strings contain the same letters with the same frequencies."
+      }
+    ],
+    "testCases": [
+      { "input": "listen silent", "expectedOutput": "true", "visibility": "sample" },
+      { "input": "rat car", "expectedOutput": "false", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isAnagram",
+      "javaSignature": "public boolean isAnagram(String first, String second)",
+      "cppSignature": "bool isAnagram(string first, string second)",
+      "providedTypes": ["two strings"],
+      "driverStrategy": "string-valid-anagram"
+    },
+    "remedialProblems": ["lt-002"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-hash-map",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-005",
+    "topic": "Language Toolkit",
+    "subtopic": "Stack API",
+    "title": "Stack Query Simulator",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-library-usage"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(1) amortized per query",
+    "estimatedMinutes": 18,
+    "description": "Process push, pop, and top queries on a stack. This is about getting fluent with stack API usage before stack-based DSA patterns.",
+    "constraints": ["1 <= q <= 10^5"],
+    "inputFormat": ["An integer q", "q lines of queries in the format 1 x, 2, or 3"],
+    "outputFormat": ["For each type 3 query, print the current top or -1"],
+    "edgeCases": ["Pop on empty stack", "Top on empty stack"],
+    "intendedApproachSummary": "Use push, pop, and peek semantics over a stack-like container without shifting data.",
+    "wrongApproachHints": ["Do not scan or shift the whole collection on each pop.", "Check emptiness before reading the top."],
+    "hints": ["Think LIFO.", "The most recently pushed element is the only candidate for top."],
+    "examples": [
+      {
+        "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3",
+        "output": "8\n5\n-1",
+        "explanation": "The stack follows LIFO order."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "expectedOutput": "8\n5\n-1", "visibility": "sample" },
+      { "input": "5\n2\n1 4\n3\n2\n3", "expectedOutput": "4\n-1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "processQueries",
+      "javaSignature": "public int[] processQueries(String[] queries)",
+      "cppSignature": "vector<int> processQueries(vector<string>& queries)",
+      "providedTypes": ["query lines"],
+      "driverStrategy": "stack-process-queries"
+    },
+    "remedialProblems": ["lt-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "masteryWeight": 1,
+    "variantGroup": "toolkit-stack-api",
+    "learningRole": "introduce"
+  },
+  {
+    "id": "lt-006",
+    "topic": "Language Toolkit",
+    "subtopic": "Queue API",
+    "title": "Queue Query Simulator",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["queue-library-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(1) amortized per query",
+    "estimatedMinutes": 18,
+    "description": "Process enqueue, dequeue, and front queries on a queue. This helps users stop using slow remove-from-front array habits and move to real queue APIs.",
+    "constraints": ["1 <= q <= 10^5"],
+    "inputFormat": ["An integer q", "q lines of queries"],
+    "outputFormat": ["For each type 3 query, print the current front or -1"],
+    "edgeCases": ["Dequeue on empty queue", "Front query on empty queue"],
+    "intendedApproachSummary": "Use FIFO operations directly through a queue-like library container.",
+    "wrongApproachHints": ["Do not remove index 0 from a dynamic array repeatedly.", "Front and rear are not interchangeable."],
+    "hints": ["Think FIFO.", "Offer at the back and poll from the front."],
+    "examples": [
+      {
+        "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3",
+        "output": "5\n8\n-1",
+        "explanation": "The queue follows FIFO order."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n1 5\n1 8\n3\n2\n3\n2\n3", "expectedOutput": "5\n8\n-1", "visibility": "sample" },
+      { "input": "5\n2\n1 4\n3\n2\n3", "expectedOutput": "4\n-1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "processQueueQueries",
+      "javaSignature": "public int[] processQueueQueries(int[][] queries)",
+      "cppSignature": "vector<int> processQueueQueries(vector<vector<int>>& queries)",
+      "providedTypes": ["queue operations encoded as query pairs"],
+      "driverStrategy": "queue-process-queries"
+    },
+    "remedialProblems": ["lt-001"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 0.95,
+    "variantGroup": "toolkit-queue-api",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-007",
+    "topic": "Language Toolkit",
+    "subtopic": "Stack cleanup",
+    "title": "Remove Adjacent Duplicates",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["stack-library-usage", "string-builder-usage"],
+    "prerequisiteConcepts": ["stack-library-usage", "string-builder-usage"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Repeatedly remove adjacent equal characters from a string until no such pair remains. This is a clean pattern for stack-backed cleanup using a mutable result structure.",
+    "constraints": ["1 <= s.length <= 10^5"],
+    "inputFormat": ["A lowercase string s without spaces"],
+    "outputFormat": ["Return the reduced string, or Empty if nothing remains"],
+    "edgeCases": ["Entire string removed", "Chain reactions after a removal"],
+    "intendedApproachSummary": "Treat the current answer as a stack: pop when the next character matches the top, otherwise push it.",
+    "wrongApproachHints": ["Repeated substring deletion is slower than intended.", "A removal can create a new adjacent pair."],
+    "hints": ["Compare with the last kept character.", "Think of the builder as a stack."],
+    "examples": [
+      {
+        "input": "abbaca",
+        "output": "ca",
+        "explanation": "bb is removed first, then aa is removed."
+      }
+    ],
+    "testCases": [
+      { "input": "abbaca", "expectedOutput": "ca", "visibility": "sample" },
+      { "input": "aaaa", "expectedOutput": "Empty", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "removeAdjacentDuplicates",
+      "javaSignature": "public String removeAdjacentDuplicates(String value)",
+      "cppSignature": "string removeAdjacentDuplicates(string value)",
+      "providedTypes": ["input string"],
+      "driverStrategy": "stack-remove-adjacent-duplicates"
+    },
+    "remedialProblems": ["lt-003", "lt-005"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.05,
+    "variantGroup": "toolkit-stack-cleanup",
+    "learningRole": "reinforce"
+  },
+  {
+    "id": "lt-008",
+    "topic": "Language Toolkit",
+    "subtopic": "Priority queues",
+    "title": "K Largest Elements with Heap",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["priority-queue-usage", "collection-iteration-usage"],
+    "prerequisiteConcepts": ["dynamic-array-usage"],
+    "expectedComplexity": "O(n log k)",
+    "estimatedMinutes": 18,
+    "description": "Given an array and integer k, print the k largest elements in ascending order of their final heap contents. This is a pure heap-usage readiness check for Java PriorityQueue and C++ priority_queue patterns.",
+    "constraints": ["1 <= k <= n <= 10^5"],
+    "inputFormat": ["Two integers n and k", "n space-separated integers"],
+    "outputFormat": ["Print the k largest elements in ascending order"],
+    "edgeCases": ["k = 1", "All values equal"],
+    "intendedApproachSummary": "Maintain a min-heap of size k and replace its top whenever a larger value arrives.",
+    "wrongApproachHints": ["Full sorting works but does not teach the heap pattern we want here.", "Use a min-heap when keeping the top k largest values."],
+    "hints": ["Keep only k elements in the heap.", "Sort the final heap contents before printing if needed."],
+    "examples": [
+      {
+        "input": "6 3\n1 23 12 9 30 2",
+        "output": "12 23 30",
+        "explanation": "These are the 3 largest values."
+      }
+    ],
+    "testCases": [
+      { "input": "6 3\n1 23 12 9 30 2", "expectedOutput": "12 23 30", "visibility": "sample" },
+      { "input": "5 2\n5 5 5 5 5", "expectedOutput": "5 5", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kLargestElements",
+      "javaSignature": "public int[] kLargestElements(int[] nums, int k)",
+      "cppSignature": "vector<int> kLargestElements(vector<int>& nums, int k)",
+      "providedTypes": ["integer array"],
+      "driverStrategy": "queue-k-largest-elements"
+    },
+    "remedialProblems": ["lt-001", "lt-006"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "toolkit-priority-queue",
+    "learningRole": "mastery"
+  }
+]

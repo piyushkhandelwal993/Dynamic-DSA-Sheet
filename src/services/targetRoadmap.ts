@@ -11,7 +11,7 @@ import {
   TargetProblemRoadmapStep
 } from "../types";
 import { getExternalPracticeCatalog } from "./externalPractice";
-import { getConceptById, getProblemById, getProgress, getSkillProfile, getTopicConcepts, getTopicProblems, getTopicMetas } from "./storage";
+import { getConceptById, getProblemById, getProgress, getSkillProfile, getTopicConcepts, getTopicIdForProblem, getTopicProblems, getTopicMetas } from "./storage";
 
 function clamp(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -822,8 +822,8 @@ function selectInternalProblemForConcept(
 
   const ranked = [...new Set([...preferredCandidates, ...candidates])]
     .sort((left, right) => {
-      const leftSameTopic = normalizeTopicKey(left.topic) === normalizeTopicKey(topicId) ? 0 : 1;
-      const rightSameTopic = normalizeTopicKey(right.topic) === normalizeTopicKey(topicId) ? 0 : 1;
+      const leftSameTopic = normalizeTopicKey(getTopicIdForProblem(left.id) ?? "") === normalizeTopicKey(topicId) ? 0 : 1;
+      const rightSameTopic = normalizeTopicKey(getTopicIdForProblem(right.id) ?? "") === normalizeTopicKey(topicId) ? 0 : 1;
       if (leftSameTopic !== rightSameTopic) return leftSameTopic - rightSameTopic;
 
       const leftPrimary = left.expectedConcepts[0] === conceptId ? 0 : 1;
@@ -891,10 +891,7 @@ function buildInternalConceptSteps(
   const excludedProblemIds = new Set<string>(target.mappedFromProblemIds);
   const expandedConcepts = expandMissingConceptChain(target.topicId, assessment.missingConceptIds, skillProfile);
   const directMissingConceptIds = new Set(assessment.missingConceptIds);
-  const orderedConcepts = [
-    ...expandedConcepts.filter((conceptId) => directMissingConceptIds.has(conceptId)),
-    ...expandedConcepts.filter((conceptId) => !directMissingConceptIds.has(conceptId))
-  ];
+  const orderedConcepts = [...expandedConcepts];
   const chosen: Problem[] = [];
   const chosenIds = new Set<string>();
   const coveredConceptIds = new Set<string>();
@@ -902,10 +899,6 @@ function buildInternalConceptSteps(
   const conceptPlan: string[] = [];
 
   for (const conceptId of orderedConcepts) {
-    const directConceptsCovered = assessment.missingConceptIds.every((missingConceptId) => coveredConceptIds.has(missingConceptId));
-    if (!directMissingConceptIds.has(conceptId) && directConceptsCovered) {
-      continue;
-    }
     if (coveredConceptIds.has(conceptId)) {
       continue;
     }
@@ -1002,15 +995,14 @@ function chooseMappedInternalBridge(
   const targetConcepts = new Set(target.conceptIds);
   const missingConcepts = new Set(assessment.missingConceptIds);
   const targetTitleKey = normalizeTitleKey(target.title);
-
-  return target.mappedFromProblemIds
+  const candidates = target.mappedFromProblemIds
     .map((problemId) => getProblemById(problemId))
     .filter((problem): problem is Problem => Boolean(problem))
     .filter((problem) =>
       !solved(progress, problem.id) &&
-      normalizeTopicKey(problem.topic) === normalizeTopicKey(target.topicId) &&
-      normalizeTitleKey(problem.title) !== targetTitleKey
-    )
+      normalizeTopicKey(getTopicIdForProblem(problem.id) ?? "") === normalizeTopicKey(target.topicId)
+    );
+  return candidates
     .sort((left, right) => {
       const leftMissingOverlap = left.expectedConcepts.filter((conceptId) => missingConcepts.has(conceptId)).length;
       const rightMissingOverlap = right.expectedConcepts.filter((conceptId) => missingConcepts.has(conceptId)).length;
@@ -1019,6 +1011,10 @@ function chooseMappedInternalBridge(
       const leftTargetOverlap = left.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)).length;
       const rightTargetOverlap = right.expectedConcepts.filter((conceptId) => targetConcepts.has(conceptId)).length;
       if (leftTargetOverlap !== rightTargetOverlap) return rightTargetOverlap - leftTargetOverlap;
+
+      const leftSameTitle = normalizeTitleKey(left.title) === targetTitleKey ? 1 : 0;
+      const rightSameTitle = normalizeTitleKey(right.title) === targetTitleKey ? 1 : 0;
+      if (leftSameTitle !== rightSameTitle) return leftSameTitle - rightSameTitle;
 
       const roleDelta = learningRolePriority(left) - learningRolePriority(right);
       if (roleDelta !== 0) return roleDelta;
@@ -1169,21 +1165,34 @@ export function createTargetProblemRoadmap(
     return { assessment, steps: [] };
   }
   const internalPlan = buildInternalConceptSteps(target, assessment, progress, skillProfile);
-  const mappedBridge = assessment.matchedProblem
-    ? chooseMappedInternalBridge(assessment.matchedProblem, assessment, progress)
-    : undefined;
   const explicitBridgeIdsFromTarget = assessment.matchedProblem
     ? assessment.matchedProblem.roadmapBridgeProblemIds
     : ("roadmapBridgeProblemIds" in target ? target.roadmapBridgeProblemIds : undefined);
+  const mappedBridge = explicitBridgeIdsFromTarget?.length
+    ? undefined
+    : assessment.matchedProblem
+    ? chooseMappedInternalBridge(assessment.matchedProblem, assessment, progress)
+    : undefined;
   const explicitBridges = chooseExplicitBridgeProblems(explicitBridgeIdsFromTarget, progress);
   const explicitBridgeIds = new Set(explicitBridges.map((problem) => problem.id));
   const bridgeCoveredConcepts = new Set([
     ...explicitBridges.flatMap((problem) => problem.expectedConcepts),
     ...(mappedBridge?.expectedConcepts ?? [])
   ]);
+  const targetTitleKey = normalizeTitleKey(assessment.matchedProblem?.title ?? target.title);
   const remainingInternalPlan = internalPlan.problems.filter((problem) => {
     if (explicitBridgeIds.has(problem.id)) {
       return false;
+    }
+    if ((explicitBridgeIdsFromTarget?.length ?? 0) > 0) {
+      const problemTopicId = getTopicIdForProblem(problem.id) ?? "";
+      const sameTitleTwin = normalizeTitleKey(problem.title) === targetTitleKey;
+      if (sameTitleTwin) {
+        return false;
+      }
+      if (normalizeTopicKey(problemTopicId) !== "language-toolkit") {
+        return false;
+      }
     }
     const addressedPlannedConcepts = problem.expectedConcepts.filter((conceptId) => internalPlan.conceptPlan.includes(conceptId));
     return addressedPlannedConcepts.some((conceptId) => !bridgeCoveredConcepts.has(conceptId));

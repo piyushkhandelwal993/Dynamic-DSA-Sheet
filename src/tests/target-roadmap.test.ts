@@ -365,6 +365,179 @@ test("unique paths roadmap prefers the direct grid-dp bridge over generic tabula
   assert.equal(roadmap.steps.at(-1)?.title, "Unique Paths");
 });
 
+test("course schedule roadmap can pull queue toolkit readiness before graph topo practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-course-schedule-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/course-schedule/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("gr-010"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Course Schedule");
+});
+
+test("network delay roadmap can pull priority queue toolkit readiness before dijkstra practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-network-delay-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/network-delay-time/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-008"), true);
+  assert.equal(internalIds.includes("gr-013"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Network Delay Time");
+});
+
+test("binary tree level order roadmap can pull queue toolkit readiness before tree practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-level-order-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("tr-004"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Level Order Traversal");
+});
+
+test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-window-max-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/sliding-window-maximum/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("q-008"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Sliding Window Maximum");
+});
+
+test("shortest subarray roadmap prefers prefix-plus-deque bridges over raw deque-only routing", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-shortest-subarray-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("arr-006"), true);
+  assert.equal(internalIds.includes("q-008"), true);
+  assert.equal(internalIds.includes("q-009"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Shortest Subarray with Sum at Least K");
+});
+
+test("task scheduler roadmap pulls toolkit plus top-k bridges before the final queue challenge", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-task-scheduler-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/task-scheduler/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-004"), true);
+  assert.equal(internalIds.includes("lt-008"), true);
+  assert.equal(internalIds.includes("q-011"), true);
+  assert.equal(internalIds.includes("q-012"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Task Scheduler");
+});
+
+test("right side view roadmap uses queue readiness before tree-view practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-right-view-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/binary-tree-right-side-view/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("tr-004"), true);
+  assert.equal(internalIds.includes("tr-009"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Right Side View");
+});
+
+test("kth smallest bst roadmap pulls sorted-check and inorder traversal before bst search practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-kth-smallest-bst-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("arr-002"), true);
+  assert.equal(internalIds.includes("tr-002"), true);
+  assert.equal(internalIds.includes("tr-008"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Kth Smallest Element in a BST");
+});
+
 test("frog jump roadmap distinguishes cost-minimization bridges from jump-memory reachability bridges", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-frog-jump-"));
   invalidateCatalogCache();

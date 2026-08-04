@@ -1,0 +1,93 @@
+[
+  {
+    "id": "dynamic-array-usage",
+    "name": "Dynamic Array Usage",
+    "description": "Use ArrayList or vector-style indexed storage, resizing expectations, and linear traversal habits confidently in DSA code.",
+    "exampleJava": "for (int i = 1; i < nums.length; i++) nums[i] += nums[i - 1];",
+    "commonMistakes": [
+      "Rebuilding arrays unnecessarily instead of updating in place",
+      "Mixing index math and loop boundaries"
+    ],
+    "practiceProblems": ["lt-001"],
+    "progressionOrder": 1,
+    "dependsOn": []
+  },
+  {
+    "id": "string-builder-usage",
+    "name": "String Builder Usage",
+    "description": "Use StringBuilder or mutable string accumulation patterns instead of slow repeated immutable concatenation.",
+    "exampleJava": "StringBuilder answer = new StringBuilder(); answer.append(first.charAt(i));",
+    "commonMistakes": [
+      "Concatenating immutable strings inside long loops",
+      "Forgetting to append the leftover suffix after one string ends"
+    ],
+    "practiceProblems": ["lt-002", "lt-003", "lt-007"],
+    "progressionOrder": 2,
+    "dependsOn": []
+  },
+  {
+    "id": "hash-map-usage",
+    "name": "Hash Map Usage",
+    "description": "Use HashMap or unordered_map style counting and lookup patterns to model frequencies and presence checks.",
+    "exampleJava": "counts.put(ch, counts.getOrDefault(ch, 0) + 1);",
+    "commonMistakes": [
+      "Reading a missing key without a default value",
+      "Updating only one side of a frequency comparison"
+    ],
+    "practiceProblems": ["lt-004"],
+    "progressionOrder": 3,
+    "dependsOn": ["string-builder-usage"]
+  },
+  {
+    "id": "stack-library-usage",
+    "name": "Stack Library Usage",
+    "description": "Use stack-like library operations cleanly for push, pop, peek, and last-kept-element simulation.",
+    "exampleJava": "if (!stack.isEmpty() && stack.peek() == ch) stack.pop(); else stack.push(ch);",
+    "commonMistakes": [
+      "Popping without checking emptiness",
+      "Using the wrong end of the container as the top"
+    ],
+    "practiceProblems": ["lt-005", "lt-007"],
+    "progressionOrder": 4,
+    "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "queue-library-usage",
+    "name": "Queue Library Usage",
+    "description": "Use queue-style APIs for FIFO processing, front access, and query simulation without shifting full arrays manually.",
+    "exampleJava": "if (query[0] == 1) queue.offer(query[1]); else if (!queue.isEmpty()) queue.poll();",
+    "commonMistakes": [
+      "Using remove(0) on a dynamic array instead of a queue structure",
+      "Confusing front and rear operations"
+    ],
+    "practiceProblems": ["lt-006"],
+    "progressionOrder": 5,
+    "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "priority-queue-usage",
+    "name": "Priority Queue Usage",
+    "description": "Use min-heaps or max-heaps correctly for top-k and best-first maintenance patterns.",
+    "exampleJava": "PriorityQueue<Integer> heap = new PriorityQueue<>();",
+    "commonMistakes": [
+      "Choosing a max-heap when the pattern needs a min-heap of size k",
+      "Forgetting to evict elements when the heap grows past the intended size"
+    ],
+    "practiceProblems": ["lt-008"],
+    "progressionOrder": 6,
+    "dependsOn": ["dynamic-array-usage"]
+  },
+  {
+    "id": "collection-iteration-usage",
+    "name": "Collection Iteration Usage",
+    "description": "Move comfortably between arrays, strings, maps, stacks, queues, and heaps while keeping loops and temporary state under control.",
+    "exampleJava": "for (int value : nums) { if (heap.size() < k) heap.offer(value); }",
+    "commonMistakes": [
+      "Nesting extra loops because container traversal feels unfamiliar",
+      "Using incompatible container operations for the required access pattern"
+    ],
+    "practiceProblems": ["lt-003", "lt-004", "lt-006", "lt-008"],
+    "progressionOrder": 7,
+    "dependsOn": ["dynamic-array-usage", "string-builder-usage", "hash-map-usage"]
+  }
+]

@@ -293,6 +293,26 @@ test("segment-merge DP scaffolds expose array plus update-query signatures", () 
   }
 });
 
+test("language toolkit scaffolds expose collection-focused signatures", () => {
+  const anagramProblem = getProblemById("lt-004");
+  const heapProblem = getProblemById("lt-008");
+  assert.ok(anagramProblem);
+  assert.ok(heapProblem);
+  const originalBaseDir = process.env.DSA_SHEET_HOME;
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-language-toolkit-workspace-"));
+
+  try {
+    const anagramWorkspace = ensureProblemWorkspace(anagramProblem, "java");
+    const heapWorkspace = ensureProblemWorkspace(heapProblem, "cpp");
+
+    assert.match(fs.readFileSync(anagramWorkspace.filePath, "utf-8"), /public boolean isAnagram\(String first, String second\)/);
+    assert.match(fs.readFileSync(heapWorkspace.filePath, "utf-8"), /vector<int> kLargestElements\(vector<int>& nums, int k\)/);
+  } finally {
+    if (originalBaseDir === undefined) delete process.env.DSA_SHEET_HOME;
+    else process.env.DSA_SHEET_HOME = originalBaseDir;
+  }
+});
+
 test("new array beginner scaffolds cover int, boolean, long, array, void, and double signatures", () => {
   const minLenProblem = getProblemById("arr-018");
   const zeroSumProblem = getProblemById("arr-021");

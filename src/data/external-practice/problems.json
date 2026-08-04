@@ -202,6 +202,7 @@
     "prerequisiteConceptIds": ["stock-profit", "min-max-array"],
     "mappedFromProblemIds": ["arr-011"],
     "recommendedAfterProblemIds": ["arr-011"],
+    "roadmapBridgeProblemIds": ["arr-001"],
     "sourceQualityWeight": 1
   },
   {
@@ -978,9 +979,10 @@
     "difficulty": "Hard",
     "topicId": "queue",
     "conceptIds": ["sliding-window-queue", "deque-technique"],
-    "prerequisiteConceptIds": ["sliding-window-queue", "deque-technique"],
+    "prerequisiteConceptIds": ["fixed-size-window", "sliding-window-queue", "deque-technique"],
     "mappedFromProblemIds": ["q-008"],
     "recommendedAfterProblemIds": ["q-008"],
+    "roadmapBridgeProblemIds": ["q-008"],
     "sourceQualityWeight": 1
   },
   {
@@ -991,9 +993,10 @@
     "difficulty": "Hard",
     "topicId": "queue",
     "conceptIds": ["deque-technique"],
-    "prerequisiteConceptIds": ["deque-technique"],
+    "prerequisiteConceptIds": ["prefix-sum", "sliding-window-queue", "deque-technique"],
     "mappedFromProblemIds": ["q-009"],
     "recommendedAfterProblemIds": ["q-009"],
+    "roadmapBridgeProblemIds": ["arr-006", "q-008", "q-009"],
     "sourceQualityWeight": 1
   },
   {
@@ -1004,9 +1007,10 @@
     "difficulty": "Medium",
     "topicId": "queue",
     "conceptIds": ["deque-technique"],
-    "prerequisiteConceptIds": ["deque-technique"],
+    "prerequisiteConceptIds": ["deque-technique", "state-transition"],
     "mappedFromProblemIds": ["q-010"],
     "recommendedAfterProblemIds": ["q-010"],
+    "roadmapBridgeProblemIds": ["q-008", "q-010"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -1017,9 +1021,10 @@
     "difficulty": "Medium",
     "topicId": "queue",
     "conceptIds": ["task-scheduling-queue", "top-k-elements"],
-    "prerequisiteConceptIds": ["task-scheduling-queue", "top-k-elements"],
+    "prerequisiteConceptIds": ["task-scheduling-queue", "top-k-elements", "priority-queue-usage", "hash-map-usage"],
     "mappedFromProblemIds": ["q-012"],
     "recommendedAfterProblemIds": ["q-012"],
+    "roadmapBridgeProblemIds": ["lt-004", "lt-008", "q-011", "q-012"],
     "sourceQualityWeight": 1
   },
   {
@@ -1240,9 +1245,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["level-order-traversal"],
-    "prerequisiteConceptIds": ["level-order-traversal"],
+    "prerequisiteConceptIds": ["level-order-traversal", "queue-library-usage"],
     "mappedFromProblemIds": ["tr-004"],
     "recommendedAfterProblemIds": ["tr-004"],
+    "roadmapBridgeProblemIds": ["tr-004"],
     "sourceQualityWeight": 1
   },
   {
@@ -1360,6 +1366,7 @@
     "prerequisiteConceptIds": ["topological-sort", "cycle-detection"],
     "mappedFromProblemIds": ["gr-010"],
     "recommendedAfterProblemIds": ["gr-010"],
+    "roadmapBridgeProblemIds": ["gr-010"],
     "sourceQualityWeight": 1
   },
   {
@@ -1399,6 +1406,7 @@
     "prerequisiteConceptIds": ["dijkstra"],
     "mappedFromProblemIds": ["gr-013"],
     "recommendedAfterProblemIds": ["gr-013"],
+    "roadmapBridgeProblemIds": ["gr-013"],
     "sourceQualityWeight": 1
   },
   {
@@ -1493,6 +1501,7 @@
     "prerequisiteConceptIds": ["tabulation", "grid-dp"],
     "mappedFromProblemIds": ["dp-006"],
     "recommendedAfterProblemIds": ["dp-006"],
+    "roadmapBridgeProblemIds": ["dp-006"],
     "sourceQualityWeight": 1
   },
   {
@@ -2973,6 +2982,7 @@
     "prerequisiteConceptIds": ["backtracking-basics", "subsequence-generation"],
     "mappedFromProblemIds": ["rec-015"],
     "recommendedAfterProblemIds": ["rec-015"],
+    "roadmapBridgeProblemIds": ["rec-013", "rec-015"],
     "sourceQualityWeight": 0.87
   },
   {
@@ -3048,9 +3058,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["tree-view", "level-order-traversal"],
-    "prerequisiteConceptIds": ["tree-view", "level-order-traversal"],
+    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage"],
     "mappedFromProblemIds": ["tr-009", "tr-012"],
     "recommendedAfterProblemIds": ["tr-009", "tr-012"],
+    "roadmapBridgeProblemIds": ["tr-004", "tr-009"],
     "sourceQualityWeight": 0.92
   },
   {
@@ -3061,9 +3072,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["level-order-traversal"],
-    "prerequisiteConceptIds": ["level-order-traversal"],
+    "prerequisiteConceptIds": ["level-order-traversal", "queue-library-usage"],
     "mappedFromProblemIds": ["tr-004"],
     "recommendedAfterProblemIds": ["tr-004"],
+    "roadmapBridgeProblemIds": ["tr-004"],
     "sourceQualityWeight": 0.88
   },
   {
@@ -3114,9 +3126,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["bst-search", "bst-insert-delete", "recursive-tree-traversal"],
-    "prerequisiteConceptIds": ["bst-search", "bst-insert-delete", "recursive-tree-traversal"],
+    "prerequisiteConceptIds": ["bst-search", "recursive-tree-traversal", "sorted-check"],
     "mappedFromProblemIds": ["tr-008", "tr-010"],
     "recommendedAfterProblemIds": ["tr-008"],
+    "roadmapBridgeProblemIds": ["arr-002", "tr-002", "tr-008"],
     "sourceQualityWeight": 0.92
   },
   {
@@ -3153,9 +3166,10 @@
     "difficulty": "Hard",
     "topicId": "trees",
     "conceptIds": ["tree-view", "level-order-traversal"],
-    "prerequisiteConceptIds": ["tree-view", "level-order-traversal"],
+    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage", "hash-map-usage"],
     "mappedFromProblemIds": ["tr-012"],
     "recommendedAfterProblemIds": ["tr-012"],
+    "roadmapBridgeProblemIds": ["tr-004", "tr-012"],
     "sourceQualityWeight": 0.89
   },
   {
@@ -3166,9 +3180,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["bst-search", "bst-insert-delete"],
-    "prerequisiteConceptIds": ["bst-search", "bst-insert-delete"],
+    "prerequisiteConceptIds": ["bst-search", "recursive-tree-traversal", "sorted-check"],
     "mappedFromProblemIds": ["tr-008", "tr-010"],
     "recommendedAfterProblemIds": ["tr-008"],
+    "roadmapBridgeProblemIds": ["arr-002", "tr-002", "tr-008"],
     "sourceQualityWeight": 0.8
   },
   {

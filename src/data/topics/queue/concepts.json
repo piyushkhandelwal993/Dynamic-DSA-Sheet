@@ -137,7 +137,8 @@
     ],
     "progressionOrder": 8,
     "dependsOn": [
-      "queue-operations"
+      "queue-operations",
+      "queue-library-usage"
     ]
   },
   {
@@ -154,7 +155,8 @@
     ],
     "progressionOrder": 9,
     "dependsOn": [
-      "deque-technique"
+      "deque-technique",
+      "queue-library-usage"
     ]
   },
   {
@@ -172,7 +174,8 @@
     ],
     "progressionOrder": 10,
     "dependsOn": [
-      "queue-intro"
+      "queue-intro",
+      "priority-queue-usage"
     ]
   },
   {

@@ -8,6 +8,9 @@ import arraysConcepts from "./arrays/concepts.json";
 import stringsMeta from "./strings/meta.json";
 import stringsProblems from "./strings/problems.json";
 import stringsConcepts from "./strings/concepts.json";
+import languageToolkitMeta from "./language-toolkit/meta.json";
+import languageToolkitProblems from "./language-toolkit/problems.json";
+import languageToolkitConcepts from "./language-toolkit/concepts.json";
 import twoPointersMeta from "./two-pointers/meta.json";
 import slidingWindowMeta from "./sliding-window/meta.json";
 import prefixSuffixMeta from "./prefix-suffix/meta.json";
@@ -121,9 +124,10 @@ function normalizeRecursionProblems(problems: Problem[]): Problem[] {
   });
 }
 
-export const defaultTopicId = "programming-mathematics";
+export const defaultTopicId = "language-toolkit";
 
 export const topicOrder = [
+  "language-toolkit",
   "programming-mathematics",
   "arrays",
   "strings",
@@ -157,6 +161,11 @@ const arraySlidingWindowConcepts = cloneTopicConcepts(arraysConcepts as Concept[
 const arrayPrefixSuffixConcepts = cloneTopicConcepts(arraysConcepts as Concept[], prefixSuffixConceptIds);
 
 export const topicPacks: Record<string, TopicPack> = {
+  "language-toolkit": {
+    meta: languageToolkitMeta as TopicMeta,
+    problems: languageToolkitProblems as Problem[],
+    concepts: languageToolkitConcepts as Concept[]
+  },
   "programming-mathematics": {
     meta: programmingMathematicsMeta as TopicMeta,
     problems: programmingMathematicsProblems as Problem[],

@@ -236,7 +236,8 @@
     "progressionOrder": 12,
     "dependsOn": [
       "prefix-sum",
-      "two-pointers"
+      "two-pointers",
+      "dynamic-array-usage"
     ]
   },
   {
@@ -331,7 +332,9 @@
     ],
     "progressionOrder": 17,
     "dependsOn": [
-      "fixed-size-window"
+      "fixed-size-window",
+      "queue-library-usage",
+      "hash-map-usage"
     ]
   },
   {

@@ -2690,7 +2690,8 @@
     ],
     "prerequisiteConcepts": [
       "sliding-window",
-      "two-pointers"
+      "two-pointers",
+      "dynamic-array-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 20,
@@ -2780,7 +2781,9 @@
       "window-auxiliary-structure"
     ],
     "prerequisiteConcepts": [
-      "sliding-window"
+      "sliding-window",
+      "fixed-size-window",
+      "queue-library-usage"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 22,
