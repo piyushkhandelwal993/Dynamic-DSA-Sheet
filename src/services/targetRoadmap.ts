@@ -11,7 +11,7 @@ import {
   TargetProblemRoadmapStep
 } from "../types";
 import { getExternalPracticeCatalog } from "./externalPractice";
-import { getConceptById, getProblemById, getProgress, getSkillProfile, getTopicConcepts, getTopicProblems } from "./storage";
+import { getConceptById, getProblemById, getProgress, getSkillProfile, getTopicConcepts, getTopicProblems, getTopicMetas } from "./storage";
 
 function clamp(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -475,7 +475,23 @@ function topicConceptMap(topicId: string): Map<string, Concept> {
 }
 
 function buildConceptGraph(topicId: string): Map<string, Concept> {
-  return topicConceptMap(topicId);
+  const localMap = topicConceptMap(topicId);
+  const globalMap = new Map<string, Concept>();
+
+  for (const [conceptId, concept] of localMap.entries()) {
+    globalMap.set(conceptId, concept);
+  }
+
+  for (const concept of localMap.values()) {
+    for (const dependencyId of concept.dependsOn ?? []) {
+      const dependency = getConceptById(dependencyId);
+      if (dependency && !globalMap.has(dependencyId)) {
+        globalMap.set(dependencyId, dependency);
+      }
+    }
+  }
+
+  return globalMap;
 }
 
 function expandMissingConceptChain(topicId: string, conceptIds: string[], skillProfile: SkillProfile): string[] {
@@ -634,7 +650,9 @@ function selectInternalProblemForConcept(
 ): Problem | undefined {
   const concept = getConceptById(conceptId);
   const preferredIds = concept?.practiceProblems ?? [];
-  const candidates = getTopicProblems(topicId)
+  const preferredCandidates = preferredIds
+    .map((problemId) => getProblemById(problemId))
+    .filter((problem): problem is Problem => Boolean(problem))
     .filter((problem) =>
       !excludedProblemIds.has(problem.id)
       && !alreadyChosenIds.has(problem.id)
@@ -642,12 +660,21 @@ function selectInternalProblemForConcept(
       && problem.expectedConcepts.includes(conceptId)
     );
 
-  const byPracticeList = preferredIds
-    .map((problemId) => candidates.find((problem) => problem.id === problemId))
-    .filter((problem): problem is Problem => Boolean(problem));
+  const allTopicProblems = getTopicMetas().flatMap((topicMeta) => getTopicProblems(topicMeta.id));
+  const candidates = allTopicProblems
+    .filter((problem) =>
+      !excludedProblemIds.has(problem.id)
+      && !alreadyChosenIds.has(problem.id)
+      && !solved(progress, problem.id)
+      && problem.expectedConcepts.includes(conceptId)
+    );
 
-  const ranked = [...new Set([...byPracticeList, ...candidates])]
+  const ranked = [...new Set([...preferredCandidates, ...candidates])]
     .sort((left, right) => {
+      const leftSameTopic = normalizeTopicKey(left.topic) === normalizeTopicKey(topicId) ? 0 : 1;
+      const rightSameTopic = normalizeTopicKey(right.topic) === normalizeTopicKey(topicId) ? 0 : 1;
+      if (leftSameTopic !== rightSameTopic) return leftSameTopic - rightSameTopic;
+
       const leftPrimary = left.expectedConcepts[0] === conceptId ? 0 : 1;
       const rightPrimary = right.expectedConcepts[0] === conceptId ? 0 : 1;
       if (leftPrimary !== rightPrimary) return leftPrimary - rightPrimary;
@@ -871,7 +898,7 @@ function shouldAddExternalTransfer(
     return false;
   }
 
-  if (hasExplicitBridges && targetConceptsCovered && assessment.missingConceptIds.length <= 1) {
+  if (hasExplicitBridges && targetConceptsCovered) {
     return false;
   }
 
@@ -889,7 +916,9 @@ export function createTargetProblemRoadmap(
     progress,
     skillProfile
   } = normalizeAssessmentArgs(problemStatementOrProgress, progressOrSkillProfile, maybeSkillProfile);
-  const assessment = assessTargetProblemReadiness(inputUrl, problemStatement, progress, skillProfile);
+  const assessment = problemStatement === undefined
+    ? assessTargetProblemReadiness(inputUrl, progress, skillProfile)
+    : assessTargetProblemReadiness(inputUrl, problemStatement, progress, skillProfile);
   const heuristicTarget = !assessment.matchedProblem && assessment.inferredTopicId
     ? {
         id: `heuristic-${parseLeetCodeSlug(inputUrl) ?? "target"}`,
@@ -920,8 +949,8 @@ export function createTargetProblemRoadmap(
     if (explicitBridgeIds.has(problem.id)) {
       return false;
     }
-    const addressedTargetConcepts = problem.expectedConcepts.filter((conceptId) => target.conceptIds.includes(conceptId));
-    return addressedTargetConcepts.some((conceptId) => !coveredConcepts.has(conceptId));
+    const addressedPlannedConcepts = problem.expectedConcepts.filter((conceptId) => internalPlan.conceptPlan.includes(conceptId));
+    return addressedPlannedConcepts.some((conceptId) => !coveredConcepts.has(conceptId));
   });
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]

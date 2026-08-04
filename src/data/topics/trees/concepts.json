@@ -8,7 +8,8 @@
       "Forgetting null child checks",
       "Treating trees like arrays without traversal logic"
     ],
-    "practiceProblems": ["tr-001", "tr-002"]
+    "practiceProblems": ["tr-001", "tr-002"],
+    "dependsOn": []
   },
   {
     "id": "recursive-tree-traversal",
@@ -19,7 +20,8 @@
       "Missing the base case root == null",
       "Using the wrong visit order"
     ],
-    "practiceProblems": ["tr-001", "tr-002", "tr-003"]
+    "practiceProblems": ["tr-001", "tr-002", "tr-003"],
+    "dependsOn": ["tree-intro"]
   },
   {
     "id": "level-order-traversal",
@@ -30,7 +32,8 @@
       "Trying to do true level order with plain recursion",
       "Not snapshotting the level size before iterating a level"
     ],
-    "practiceProblems": ["tr-004", "tr-009"]
+    "practiceProblems": ["tr-004", "tr-009"],
+    "dependsOn": ["tree-intro"]
   },
   {
     "id": "tree-height",
@@ -41,7 +44,8 @@
       "Counting edges when the problem expects node count",
       "Returning 1 instead of 0 for null in node-based height definitions"
     ],
-    "practiceProblems": ["tr-005"]
+    "practiceProblems": ["tr-005"],
+    "dependsOn": ["recursive-tree-traversal"]
   },
   {
     "id": "tree-diameter",
@@ -52,7 +56,8 @@
       "Recomputing heights from scratch at every node",
       "Confusing height with diameter"
     ],
-    "practiceProblems": ["tr-006"]
+    "practiceProblems": ["tr-006"],
+    "dependsOn": ["recursive-tree-traversal", "tree-height"]
   },
   {
     "id": "balanced-tree-check",
@@ -63,7 +68,8 @@
       "Checking only the root balance",
       "Doing O(n^2) repeated height calls"
     ],
-    "practiceProblems": ["tr-007"]
+    "practiceProblems": ["tr-007"],
+    "dependsOn": ["recursive-tree-traversal", "tree-height"]
   },
   {
     "id": "bst-search",
@@ -74,7 +80,8 @@
       "Ignoring the ordering property and traversing both sides",
       "Going the wrong direction for comparisons"
     ],
-    "practiceProblems": ["tr-008"]
+    "practiceProblems": ["tr-008"],
+    "dependsOn": ["tree-intro"]
   },
   {
     "id": "bst-insert-delete",
@@ -85,7 +92,8 @@
       "Losing a subtree when reconnecting nodes",
       "Not replacing a two-child node correctly"
     ],
-    "practiceProblems": ["tr-010", "tr-011"]
+    "practiceProblems": ["tr-010", "tr-011"],
+    "dependsOn": ["bst-search"]
   },
   {
     "id": "tree-view",
@@ -96,7 +104,8 @@
       "Taking every node instead of one per level",
       "Mixing left view with level order output"
     ],
-    "practiceProblems": ["tr-009", "tr-012"]
+    "practiceProblems": ["tr-009", "tr-012"],
+    "dependsOn": ["level-order-traversal"]
   },
   {
     "id": "lca-binary-tree",
@@ -107,7 +116,8 @@
       "Returning too early when only one side has a match",
       "Not handling the case where root is one of the targets"
     ],
-    "practiceProblems": ["tr-013"]
+    "practiceProblems": ["tr-013"],
+    "dependsOn": ["recursive-tree-traversal"]
   },
   {
     "id": "tree-construction",
@@ -118,7 +128,8 @@
       "Not splitting the inorder range correctly",
       "Using linear search repeatedly instead of an index map"
     ],
-    "practiceProblems": ["tr-014"]
+    "practiceProblems": ["tr-014"],
+    "dependsOn": ["recursive-tree-traversal"]
   },
   {
     "id": "serialize-tree",
@@ -129,6 +140,7 @@
       "Omitting null markers",
       "Producing an encoding that cannot be decoded uniquely"
     ],
-    "practiceProblems": ["tr-015"]
+    "practiceProblems": ["tr-015"],
+    "dependsOn": ["tree-intro", "level-order-traversal"]
   }
 ]

@@ -8,7 +8,8 @@
       "Forgetting whether the graph is directed or undirected",
       "Using an adjacency matrix unnecessarily for sparse graphs"
     ],
-    "practiceProblems": ["gr-001", "gr-002"]
+    "practiceProblems": ["gr-001", "gr-002"],
+    "dependsOn": []
   },
   {
     "id": "adjacency-list",
@@ -19,7 +20,8 @@
       "Not adding the reverse edge in an undirected graph",
       "Indexing the graph incorrectly"
     ],
-    "practiceProblems": ["gr-001"]
+    "practiceProblems": ["gr-001"],
+    "dependsOn": ["graph-intro"]
   },
   {
     "id": "dfs-graph",
@@ -30,7 +32,8 @@
       "Forgetting visited checks and revisiting forever",
       "Assuming one DFS call covers all components automatically"
     ],
-    "practiceProblems": ["gr-002", "gr-004"]
+    "practiceProblems": ["gr-002", "gr-004"],
+    "dependsOn": ["adjacency-list"]
   },
   {
     "id": "bfs-graph",
@@ -41,7 +44,8 @@
       "Marking visited too late and pushing duplicates",
       "Using DFS when shortest edge-count path is needed"
     ],
-    "practiceProblems": ["gr-003", "gr-008"]
+    "practiceProblems": ["gr-003", "gr-008"],
+    "dependsOn": ["adjacency-list"]
   },
   {
     "id": "connected-components",
@@ -52,7 +56,8 @@
       "Only traversing from node 0",
       "Not resetting logic across components"
     ],
-    "practiceProblems": ["gr-004"]
+    "practiceProblems": ["gr-004"],
+    "dependsOn": ["dfs-graph"]
   },
   {
     "id": "cycle-detection",
@@ -63,7 +68,8 @@
       "Treating the parent edge like a cycle in undirected graphs",
       "Using undirected logic on directed graphs"
     ],
-    "practiceProblems": ["gr-005", "gr-006"]
+    "practiceProblems": ["gr-005", "gr-006"],
+    "dependsOn": ["dfs-graph"]
   },
   {
     "id": "grid-bfs",
@@ -74,7 +80,8 @@
       "Going out of bounds",
       "Not marking visited cells correctly"
     ],
-    "practiceProblems": ["gr-007", "gr-008"]
+    "practiceProblems": ["gr-007", "gr-008"],
+    "dependsOn": ["bfs-graph"]
   },
   {
     "id": "topological-sort",
@@ -85,7 +92,8 @@
       "Applying topo sort to graphs with cycles without checking",
       "Forgetting to initialize indegrees correctly"
     ],
-    "practiceProblems": ["gr-009", "gr-010"]
+    "practiceProblems": ["gr-009", "gr-010"],
+    "dependsOn": ["cycle-detection"]
   },
   {
     "id": "shortest-path-unweighted",
@@ -96,7 +104,8 @@
       "Using DFS and expecting minimum distance",
       "Updating distances after revisiting nodes unnecessarily"
     ],
-    "practiceProblems": ["gr-011"]
+    "practiceProblems": ["gr-011"],
+    "dependsOn": ["bfs-graph"]
   },
   {
     "id": "dijkstra",
@@ -107,7 +116,8 @@
       "Using Dijkstra with negative weights",
       "Not skipping stale priority queue entries"
     ],
-    "practiceProblems": ["gr-012", "gr-013"]
+    "practiceProblems": ["gr-012", "gr-013"],
+    "dependsOn": ["shortest-path-unweighted"]
   },
   {
     "id": "union-find",
@@ -118,7 +128,8 @@
       "Forgetting path compression",
       "Not checking whether two nodes are already in the same set"
     ],
-    "practiceProblems": ["gr-014", "gr-015"]
+    "practiceProblems": ["gr-014", "gr-015"],
+    "dependsOn": ["connected-components"]
   },
   {
     "id": "mst",
@@ -129,6 +140,7 @@
       "Adding an edge that forms a cycle",
       "Sorting or selecting edges incorrectly"
     ],
-    "practiceProblems": ["gr-015", "gr-016"]
+    "practiceProblems": ["gr-015", "gr-016"],
+    "dependsOn": ["union-find"]
   }
 ]

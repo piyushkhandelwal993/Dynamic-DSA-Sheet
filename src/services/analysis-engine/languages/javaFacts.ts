@@ -366,9 +366,11 @@ function detectProgrammingMathTechniques(facts: CodeFacts, content: string): voi
     /while\s*\(\s*\w+\s*>\s*0\s*\)/.test(content) &&
     />>=\s*1|\/=\s*2/.test(content) &&
     /\b\w+\s*=\s*\(\s*\w+\s*\*\s*\w+\s*\)\s*%\s*\w+/.test(content);
-  const digitExtraction = /%\s*10/.test(content) && /\/=\s*10|\/\s*10/.test(content);
+  const digitExtraction =
+    (/\/=\s*10|\/\s*10/.test(content) && /\bwhile\s*\(\s*\w+\s*>\s*0\s*\)/.test(content)) ||
+    (/%\s*10/.test(content) && /\/=\s*10|\/\s*10/.test(content));
   if (digitExtraction) {
-    addFact(facts, "algorithms", "digit-extraction", "high", ["modulo 10 with division by 10"]);
+    addFact(facts, "algorithms", "digit-extraction", "high", ["base-10 digit processing by repeated division"]);
   }
 
   if (

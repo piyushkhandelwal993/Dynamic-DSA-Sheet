@@ -36,6 +36,27 @@ test("programming mathematics analyzer detects digit extraction and place-value 
   assert.equal(analysis.detected.includes("Used place value rebuild"), true);
 });
 
+test("programming mathematics analyzer accepts count-digits via repeated division", () => {
+  const analysis = analyzeProgrammingMathJavaContent(`
+    class Solution {
+      public int countDigits(int n) {
+        if (n == 0) {
+          return 1;
+        }
+        n = Math.abs(n);
+        int count = 0;
+        while (n > 0) {
+          count++;
+          n /= 10;
+        }
+        return count;
+      }
+    }
+  `);
+
+  assert.equal(analysis.detected.includes("Used digit extraction"), true);
+});
+
 test("programming mathematics concept detector recognizes gcd euclid", () => {
   const problem = getProblemById("pm-004");
   assert.ok(problem);

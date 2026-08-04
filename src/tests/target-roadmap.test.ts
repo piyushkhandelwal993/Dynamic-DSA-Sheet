@@ -140,6 +140,89 @@ test("cataloged roadmap can inject cross-topic bridge problems before topic prac
   assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
 });
 
+test("validate bst roadmap uses cross-topic sorted-check and tree traversal bridges before target retry", () => {
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/validate-binary-search-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.deepEqual(internalIds.slice(0, 3), ["arr-002", "tr-002", "tr-008"]);
+  assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("two sum sorted roadmap can pull array prerequisites through the cross-topic concept chain", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-two-sum-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("arr-002"), true);
+  assert.equal(internalIds.some((problemId) => problemId === "arr-003" || problemId === "arr-008" || problemId === "arr-009"), true);
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("dp climbing stairs roadmap can pull recursion foundations before dp practice", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-dp-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/climbing-stairs/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(internalIds.includes("rec-001"), true);
+  assert.equal(internalIds.includes("dp-001") || internalIds.includes("dp-002"), true);
+  assert.equal(roadmap.steps.at(-1)?.type, "target");
+});
+
+test("roadmap generation respects the passed transient progress and skill profile instead of falling back to saved state", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-transient-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+    progress,
+    skillProfile
+  );
+
+  assert.equal(assessment.missingConceptIds.includes("two-pointers"), true);
+  assert.equal(roadmap.assessment.missingConceptIds.includes("two-pointers"), true);
+  assert.equal(roadmap.steps.some((step) => step.type === "internal"), true);
+});
+
 test("non-cataloged leetcode urls get heuristic readiness and roadmap", () => {
   const progress = createInitialProgress();
   const skillProfile = createInitialSkillProfile();

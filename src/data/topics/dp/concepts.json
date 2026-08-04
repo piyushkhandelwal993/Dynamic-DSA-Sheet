@@ -8,7 +8,8 @@
       "Using DP when the subproblems do not overlap",
       "Not defining the state clearly"
     ],
-    "practiceProblems": ["dp-001", "dp-002"]
+    "practiceProblems": ["dp-001", "dp-002"],
+    "dependsOn": ["recursion-intro"]
   },
   {
     "id": "memoization",
@@ -19,7 +20,8 @@
       "Forgetting to store computed results",
       "Using a memo table with the wrong dimensions"
     ],
-    "practiceProblems": ["dp-001", "dp-002", "dp-003"]
+    "practiceProblems": ["dp-001", "dp-002", "dp-003"],
+    "dependsOn": ["dp-intro", "tree-recursion"]
   },
   {
     "id": "tabulation",
@@ -30,7 +32,8 @@
       "Filling states before their dependencies are ready",
       "Misaligning array indices with the mathematical state"
     ],
-    "practiceProblems": ["dp-001", "dp-004"]
+    "practiceProblems": ["dp-001", "dp-004"],
+    "dependsOn": ["dp-intro"]
   },
   {
     "id": "state-transition",
@@ -41,7 +44,8 @@
       "Skipping a valid choice in the recurrence",
       "Mixing state meaning across indices"
     ],
-    "practiceProblems": ["dp-003", "dp-004", "dp-005"]
+    "practiceProblems": ["dp-003", "dp-004", "dp-005"],
+    "dependsOn": ["dp-intro"]
   },
   {
     "id": "space-optimization",
@@ -52,7 +56,8 @@
       "Overwriting a state before it is used",
       "Optimizing space before understanding the original recurrence"
     ],
-    "practiceProblems": ["dp-002", "dp-005", "dp-007"]
+    "practiceProblems": ["dp-002", "dp-005", "dp-007"],
+    "dependsOn": ["tabulation", "state-transition"]
   },
   {
     "id": "grid-dp",
@@ -63,7 +68,8 @@
       "Ignoring blocked cells or boundaries",
       "Using the wrong base row or base column initialization"
     ],
-    "practiceProblems": ["dp-006", "dp-007"]
+    "practiceProblems": ["dp-006", "dp-007"],
+    "dependsOn": ["tabulation", "state-transition"]
   },
   {
     "id": "knapsack-dp",
@@ -74,7 +80,8 @@
       "Updating 1D DP in the wrong direction",
       "Using capacity states that go negative"
     ],
-    "practiceProblems": ["dp-008", "dp-009", "dp-010"]
+    "practiceProblems": ["dp-008", "dp-009", "dp-010"],
+    "dependsOn": ["tabulation", "state-transition"]
   },
   {
     "id": "lis-dp",
@@ -85,7 +92,8 @@
       "Allowing invalid sequence extensions",
       "Forgetting to initialize each dp[i] to 1"
     ],
-    "practiceProblems": ["dp-011", "dp-012"]
+    "practiceProblems": ["dp-011", "dp-012"],
+    "dependsOn": ["tabulation", "state-transition"]
   },
   {
     "id": "string-dp",
@@ -96,7 +104,8 @@
       "Confusing indices of the string with indices of the dp table",
       "Forgetting the extra 0th row and column"
     ],
-    "practiceProblems": ["dp-013", "dp-014"]
+    "practiceProblems": ["dp-013", "dp-014"],
+    "dependsOn": ["tabulation", "state-transition"]
   },
   {
     "id": "interval-dp",
@@ -107,6 +116,7 @@
       "Iterating intervals in the wrong order",
       "Not choosing a correct split variable"
     ],
-    "practiceProblems": ["dp-015"]
+    "practiceProblems": ["dp-015"],
+    "dependsOn": ["tabulation", "state-transition"]
   }
 ]

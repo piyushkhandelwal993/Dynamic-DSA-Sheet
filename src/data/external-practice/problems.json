@@ -6,7 +6,7 @@
     "url": "https://leetcode.com/problems/palindrome-number/",
     "difficulty": "Easy",
     "topicId": "programming-mathematics",
-    "conceptIds": ["place-value-rebuild", "numeric-palindrome"],
+    "conceptIds": ["digit-extraction", "place-value-rebuild", "numeric-palindrome"],
     "prerequisiteConceptIds": ["digit-extraction", "place-value-rebuild", "numeric-palindrome"],
     "mappedFromProblemIds": ["pm-002", "pm-003"],
     "recommendedAfterProblemIds": ["pm-003"],
@@ -32,8 +32,8 @@
     "url": "https://leetcode.com/problems/count-primes/",
     "difficulty": "Medium",
     "topicId": "programming-mathematics",
-    "conceptIds": ["primality-test", "sieve-precomputation"],
-    "prerequisiteConceptIds": ["primality-test", "sieve-precomputation"],
+    "conceptIds": ["divisibility-check", "primality-test", "sieve-precomputation"],
+    "prerequisiteConceptIds": ["divisibility-check", "primality-test", "sieve-precomputation"],
     "mappedFromProblemIds": ["pm-006", "pm-008"],
     "recommendedAfterProblemIds": ["pm-008"],
     "sourceQualityWeight": 0.94
@@ -45,8 +45,8 @@
     "url": "https://leetcode.com/problems/ugly-number/",
     "difficulty": "Easy",
     "topicId": "programming-mathematics",
-    "conceptIds": ["divisibility-check", "factor-enumeration"],
-    "prerequisiteConceptIds": ["divisibility-check", "factor-enumeration"],
+    "conceptIds": ["divisibility-check", "primality-test", "factor-enumeration"],
+    "prerequisiteConceptIds": ["divisibility-check", "primality-test", "factor-enumeration"],
     "mappedFromProblemIds": ["pm-005", "pm-006"],
     "recommendedAfterProblemIds": ["pm-005"],
     "sourceQualityWeight": 0.86
@@ -153,6 +153,7 @@
     "prerequisiteConceptIds": ["two-pointers"],
     "mappedFromProblemIds": ["arr-015"],
     "recommendedAfterProblemIds": ["arr-015"],
+    "roadmapBridgeProblemIds": ["arr-015"],
     "sourceQualityWeight": 1
   },
   {
@@ -166,6 +167,7 @@
     "prerequisiteConceptIds": ["reverse-array", "two-pointers"],
     "mappedFromProblemIds": ["arr-003"],
     "recommendedAfterProblemIds": ["arr-003"],
+    "roadmapBridgeProblemIds": ["arr-003"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -179,6 +181,7 @@
     "prerequisiteConceptIds": ["two-pointers", "in-place-array-update"],
     "mappedFromProblemIds": ["arr-008"],
     "recommendedAfterProblemIds": ["arr-008"],
+    "roadmapBridgeProblemIds": ["arr-008"],
     "sourceQualityWeight": 1
   },
   {
@@ -192,6 +195,7 @@
     "prerequisiteConceptIds": ["two-pointers", "in-place-array-update"],
     "mappedFromProblemIds": ["arr-009"],
     "recommendedAfterProblemIds": ["arr-009"],
+    "roadmapBridgeProblemIds": ["arr-009"],
     "sourceQualityWeight": 1
   },
   {
@@ -205,6 +209,7 @@
     "prerequisiteConceptIds": ["reverse-array", "in-place-array-update"],
     "mappedFromProblemIds": ["arr-026"],
     "recommendedAfterProblemIds": ["arr-026"],
+    "roadmapBridgeProblemIds": ["arr-026"],
     "sourceQualityWeight": 1
   },
   {
@@ -218,6 +223,7 @@
     "prerequisiteConceptIds": ["two-pointers", "opposite-end-pointers"],
     "mappedFromProblemIds": ["arr-031"],
     "recommendedAfterProblemIds": ["arr-031"],
+    "roadmapBridgeProblemIds": ["arr-031"],
     "sourceQualityWeight": 1
   },
   {
@@ -231,6 +237,7 @@
     "prerequisiteConceptIds": ["two-pointers", "partition-two-pointers"],
     "mappedFromProblemIds": ["arr-032"],
     "recommendedAfterProblemIds": ["arr-032"],
+    "roadmapBridgeProblemIds": ["arr-032"],
     "sourceQualityWeight": 1
   },
   {
@@ -244,6 +251,7 @@
     "prerequisiteConceptIds": ["two-pointers"],
     "mappedFromProblemIds": ["arr-023"],
     "recommendedAfterProblemIds": ["arr-023"],
+    "roadmapBridgeProblemIds": ["arr-023"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -257,6 +265,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-010", "arr-033"],
     "recommendedAfterProblemIds": ["arr-033"],
+    "roadmapBridgeProblemIds": ["arr-033"],
     "sourceQualityWeight": 0.85
   },
   {
@@ -270,6 +279,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-018"],
     "recommendedAfterProblemIds": ["arr-018"],
+    "roadmapBridgeProblemIds": ["arr-018"],
     "sourceQualityWeight": 1
   },
   {
@@ -283,6 +293,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-010", "arr-018"],
     "recommendedAfterProblemIds": ["arr-018"],
+    "roadmapBridgeProblemIds": ["arr-018"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -296,6 +307,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-024", "arr-030"],
     "recommendedAfterProblemIds": ["arr-024"],
+    "roadmapBridgeProblemIds": ["arr-024"],
     "sourceQualityWeight": 0.82
   },
   {
@@ -309,6 +321,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-030"],
     "recommendedAfterProblemIds": ["arr-024", "arr-030"],
+    "roadmapBridgeProblemIds": ["arr-030"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -322,6 +335,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-033"],
     "recommendedAfterProblemIds": ["arr-033"],
+    "roadmapBridgeProblemIds": ["arr-033"],
     "sourceQualityWeight": 1
   },
   {
@@ -335,6 +349,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-024", "arr-030"],
     "recommendedAfterProblemIds": ["arr-030"],
+    "roadmapBridgeProblemIds": ["arr-030"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -348,6 +363,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-018", "arr-033"],
     "recommendedAfterProblemIds": ["arr-033"],
+    "roadmapBridgeProblemIds": ["arr-033"],
     "sourceQualityWeight": 0.85
   },
   {
@@ -361,6 +377,7 @@
     "prerequisiteConceptIds": ["prefix-sum"],
     "mappedFromProblemIds": ["arr-006", "arr-014"],
     "recommendedAfterProblemIds": ["arr-006"],
+    "roadmapBridgeProblemIds": ["arr-006"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -374,6 +391,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "prefix-balance"],
     "mappedFromProblemIds": ["arr-036", "arr-020"],
     "recommendedAfterProblemIds": ["arr-036"],
+    "roadmapBridgeProblemIds": ["arr-036"],
     "sourceQualityWeight": 1
   },
   {
@@ -387,6 +405,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "prefix-suffix-product"],
     "mappedFromProblemIds": ["arr-012"],
     "recommendedAfterProblemIds": ["arr-012"],
+    "roadmapBridgeProblemIds": ["arr-012"],
     "sourceQualityWeight": 1
   },
   {
@@ -396,10 +415,11 @@
     "url": "https://leetcode.com/problems/continuous-subarray-sum/",
     "difficulty": "Medium",
     "topicId": "prefix-suffix",
-    "conceptIds": ["prefix-sum", "prefix-modulo"],
+    "conceptIds": ["prefix-sum", "frequency-counting", "prefix-modulo"],
     "prerequisiteConceptIds": ["prefix-sum", "frequency-counting", "prefix-modulo"],
     "mappedFromProblemIds": ["arr-021", "arr-035"],
     "recommendedAfterProblemIds": ["arr-035"],
+    "roadmapBridgeProblemIds": ["arr-035"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -413,6 +433,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "frequency-counting"],
     "mappedFromProblemIds": ["arr-021", "arr-027"],
     "recommendedAfterProblemIds": ["arr-027"],
+    "roadmapBridgeProblemIds": ["arr-027"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -426,6 +447,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "frequency-counting"],
     "mappedFromProblemIds": ["arr-027"],
     "recommendedAfterProblemIds": ["arr-027"],
+    "roadmapBridgeProblemIds": ["arr-027"],
     "sourceQualityWeight": 1
   },
   {
@@ -439,6 +461,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "frequency-counting", "prefix-modulo"],
     "mappedFromProblemIds": ["arr-035"],
     "recommendedAfterProblemIds": ["arr-035"],
+    "roadmapBridgeProblemIds": ["arr-035"],
     "sourceQualityWeight": 1
   },
   {
@@ -487,8 +510,8 @@
     "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["binary-search", "rotated-sorted-search"],
-    "prerequisiteConceptIds": ["binary-search"],
+    "conceptIds": ["binary-search", "rotated-sorted-search", "rotated-array-search", "sorted-mid-check"],
+    "prerequisiteConceptIds": ["binary-search", "rotated-array-search", "sorted-mid-check"],
     "mappedFromProblemIds": ["bs-005"],
     "recommendedAfterProblemIds": ["bs-005"],
     "sourceQualityWeight": 1
@@ -591,8 +614,8 @@
     "url": "https://leetcode.com/problems/valid-parentheses/",
     "difficulty": "Easy",
     "topicId": "stack",
-    "conceptIds": ["balanced-parentheses"],
-    "prerequisiteConceptIds": ["balanced-parentheses"],
+    "conceptIds": ["stack-intro", "balanced-parentheses"],
+    "prerequisiteConceptIds": ["stack-intro", "balanced-parentheses"],
     "mappedFromProblemIds": ["st-002"],
     "recommendedAfterProblemIds": ["st-002"],
     "sourceQualityWeight": 1
@@ -760,10 +783,10 @@
     "url": "https://leetcode.com/problems/number-of-recent-calls/",
     "difficulty": "Easy",
     "topicId": "queue",
-    "conceptIds": ["queue-operations"],
-    "prerequisiteConceptIds": ["queue-operations"],
+    "conceptIds": ["queue-intro", "array-queue-implementation", "queue-operations", "queue-simulation"],
+    "prerequisiteConceptIds": ["queue-intro", "array-queue-implementation", "queue-operations", "queue-simulation"],
     "mappedFromProblemIds": ["q-001", "q-003"],
-    "recommendedAfterProblemIds": ["q-001"],
+    "recommendedAfterProblemIds": ["q-001", "q-003"],
     "sourceQualityWeight": 0.85
   },
   {
@@ -786,8 +809,8 @@
     "url": "https://leetcode.com/problems/first-unique-character-in-a-string/",
     "difficulty": "Easy",
     "topicId": "queue",
-    "conceptIds": ["queue-simulation"],
-    "prerequisiteConceptIds": ["queue-simulation"],
+    "conceptIds": ["queue-simulation", "task-scheduling-queue"],
+    "prerequisiteConceptIds": ["queue-simulation", "task-scheduling-queue"],
     "mappedFromProblemIds": ["q-007"],
     "recommendedAfterProblemIds": ["q-007"],
     "sourceQualityWeight": 0.75
@@ -929,10 +952,11 @@
     "url": "https://leetcode.com/problems/fibonacci-number/",
     "difficulty": "Easy",
     "topicId": "recursion",
-    "conceptIds": ["tree-recursion"],
-    "prerequisiteConceptIds": ["tree-recursion"],
+    "conceptIds": ["base-case", "tree-recursion", "memoization"],
+    "prerequisiteConceptIds": ["base-case", "tree-recursion", "memoization"],
     "mappedFromProblemIds": ["rec-006", "rec-019"],
-    "recommendedAfterProblemIds": ["rec-006"],
+    "recommendedAfterProblemIds": ["rec-019"],
+    "roadmapBridgeProblemIds": ["rec-006", "rec-019", "dp-001"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -955,10 +979,10 @@
     "url": "https://leetcode.com/problems/valid-palindrome/",
     "difficulty": "Easy",
     "topicId": "recursion",
-    "conceptIds": ["recursion-on-strings"],
-    "prerequisiteConceptIds": ["recursion-on-strings"],
+    "conceptIds": ["base-case", "functional-recursion", "recursion-on-strings"],
+    "prerequisiteConceptIds": ["base-case", "functional-recursion", "recursion-on-strings"],
     "mappedFromProblemIds": ["rec-007", "rec-008"],
-    "recommendedAfterProblemIds": ["rec-007"],
+    "recommendedAfterProblemIds": ["rec-008"],
     "sourceQualityWeight": 0.78
   },
   {
@@ -1007,10 +1031,11 @@
     "url": "https://leetcode.com/problems/word-search/",
     "difficulty": "Medium",
     "topicId": "recursion",
-    "conceptIds": ["backtracking-basics"],
-    "prerequisiteConceptIds": ["backtracking-basics"],
+    "conceptIds": ["backtracking-basics", "recursive-search", "permutations"],
+    "prerequisiteConceptIds": ["backtracking-basics", "recursive-search", "permutations"],
     "mappedFromProblemIds": ["rec-023", "rec-024"],
-    "recommendedAfterProblemIds": ["rec-023"],
+    "recommendedAfterProblemIds": ["rec-023", "rec-024"],
+    "roadmapBridgeProblemIds": ["rec-023", "rec-024"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -1020,8 +1045,8 @@
     "url": "https://leetcode.com/problems/n-queens/",
     "difficulty": "Hard",
     "topicId": "recursion",
-    "conceptIds": ["backtracking-basics", "permutations"],
-    "prerequisiteConceptIds": ["backtracking-basics", "permutations"],
+    "conceptIds": ["backtracking-basics", "permutations", "recursive-search"],
+    "prerequisiteConceptIds": ["backtracking-basics", "permutations", "recursive-search"],
     "mappedFromProblemIds": ["rec-024"],
     "recommendedAfterProblemIds": ["rec-024"],
     "sourceQualityWeight": 1
@@ -1033,8 +1058,8 @@
     "url": "https://leetcode.com/problems/binary-tree-preorder-traversal/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["recursive-tree-traversal"],
-    "prerequisiteConceptIds": ["recursive-tree-traversal"],
+    "conceptIds": ["tree-intro", "recursive-tree-traversal"],
+    "prerequisiteConceptIds": ["tree-intro", "recursive-tree-traversal"],
     "mappedFromProblemIds": ["tr-001"],
     "recommendedAfterProblemIds": ["tr-001"],
     "sourceQualityWeight": 1
@@ -1072,8 +1097,8 @@
     "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["tree-height"],
-    "prerequisiteConceptIds": ["tree-height"],
+    "conceptIds": ["recursive-tree-traversal", "tree-height"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height"],
     "mappedFromProblemIds": ["tr-005"],
     "recommendedAfterProblemIds": ["tr-005"],
     "sourceQualityWeight": 1
@@ -1085,8 +1110,8 @@
     "url": "https://leetcode.com/problems/diameter-of-binary-tree/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["tree-diameter"],
-    "prerequisiteConceptIds": ["tree-diameter"],
+    "conceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
     "mappedFromProblemIds": ["tr-006"],
     "recommendedAfterProblemIds": ["tr-006"],
     "sourceQualityWeight": 1
@@ -1124,8 +1149,8 @@
     "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
     "difficulty": "Hard",
     "topicId": "trees",
-    "conceptIds": ["serialize-tree"],
-    "prerequisiteConceptIds": ["serialize-tree"],
+    "conceptIds": ["serialize-tree", "level-order-traversal"],
+    "prerequisiteConceptIds": ["serialize-tree", "level-order-traversal"],
     "mappedFromProblemIds": ["tr-015"],
     "recommendedAfterProblemIds": ["tr-015"],
     "sourceQualityWeight": 1
@@ -1163,8 +1188,8 @@
     "url": "https://leetcode.com/problems/graph-valid-tree/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["connected-components", "cycle-detection"],
-    "prerequisiteConceptIds": ["connected-components", "cycle-detection"],
+    "conceptIds": ["connected-components", "cycle-detection", "dfs-graph"],
+    "prerequisiteConceptIds": ["connected-components", "cycle-detection", "dfs-graph"],
     "mappedFromProblemIds": ["gr-004", "gr-005"],
     "recommendedAfterProblemIds": ["gr-005"],
     "sourceQualityWeight": 0.86
@@ -1189,8 +1214,8 @@
     "url": "https://leetcode.com/problems/course-schedule-ii/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["topological-sort"],
-    "prerequisiteConceptIds": ["topological-sort"],
+    "conceptIds": ["cycle-detection", "topological-sort"],
+    "prerequisiteConceptIds": ["cycle-detection", "topological-sort"],
     "mappedFromProblemIds": ["gr-009", "gr-010"],
     "recommendedAfterProblemIds": ["gr-009"],
     "sourceQualityWeight": 0.95
@@ -1202,8 +1227,8 @@
     "url": "https://leetcode.com/problems/shortest-path-in-binary-matrix/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["grid-bfs", "bfs-graph"],
-    "prerequisiteConceptIds": ["grid-bfs", "bfs-graph"],
+    "conceptIds": ["grid-bfs", "bfs-graph", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["grid-bfs", "bfs-graph", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-008"],
     "recommendedAfterProblemIds": ["gr-008"],
     "sourceQualityWeight": 1
@@ -1228,8 +1253,8 @@
     "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["mst"],
-    "prerequisiteConceptIds": ["mst"],
+    "conceptIds": ["union-find", "mst", "dijkstra"],
+    "prerequisiteConceptIds": ["union-find", "mst", "dijkstra"],
     "mappedFromProblemIds": ["gr-015", "gr-016"],
     "recommendedAfterProblemIds": ["gr-016"],
     "sourceQualityWeight": 0.95
@@ -1241,10 +1266,11 @@
     "url": "https://leetcode.com/problems/climbing-stairs/",
     "difficulty": "Easy",
     "topicId": "dp",
-    "conceptIds": ["dp-intro", "memoization", "tabulation"],
-    "prerequisiteConceptIds": ["dp-intro", "memoization"],
+    "conceptIds": ["dp-intro", "memoization", "tabulation", "space-optimization"],
+    "prerequisiteConceptIds": ["dp-intro", "memoization", "tabulation", "space-optimization"],
     "mappedFromProblemIds": ["dp-002"],
     "recommendedAfterProblemIds": ["dp-002"],
+    "roadmapBridgeProblemIds": ["rec-001", "rec-006", "dp-001", "dp-002"],
     "sourceQualityWeight": 1
   },
   {
@@ -1267,8 +1293,8 @@
     "url": "https://leetcode.com/problems/house-robber/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["state-transition", "space-optimization"],
-    "prerequisiteConceptIds": ["state-transition", "space-optimization"],
+    "conceptIds": ["memoization", "tabulation", "state-transition", "space-optimization"],
+    "prerequisiteConceptIds": ["memoization", "tabulation", "state-transition", "space-optimization"],
     "mappedFromProblemIds": ["dp-003", "dp-004"],
     "recommendedAfterProblemIds": ["dp-003"],
     "sourceQualityWeight": 1
@@ -1280,8 +1306,8 @@
     "url": "https://leetcode.com/problems/unique-paths/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["grid-dp"],
-    "prerequisiteConceptIds": ["grid-dp"],
+    "conceptIds": ["tabulation", "grid-dp"],
+    "prerequisiteConceptIds": ["tabulation", "grid-dp"],
     "mappedFromProblemIds": ["dp-006"],
     "recommendedAfterProblemIds": ["dp-006"],
     "sourceQualityWeight": 1
@@ -1293,8 +1319,8 @@
     "url": "https://leetcode.com/problems/minimum-path-sum/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["grid-dp"],
-    "prerequisiteConceptIds": ["grid-dp"],
+    "conceptIds": ["grid-dp", "space-optimization"],
+    "prerequisiteConceptIds": ["grid-dp", "space-optimization"],
     "mappedFromProblemIds": ["dp-007"],
     "recommendedAfterProblemIds": ["dp-007"],
     "sourceQualityWeight": 1
@@ -1306,10 +1332,10 @@
     "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp"],
-    "prerequisiteConceptIds": ["knapsack-dp"],
+    "conceptIds": ["knapsack-dp", "state-transition", "tabulation"],
+    "prerequisiteConceptIds": ["knapsack-dp", "state-transition", "tabulation"],
     "mappedFromProblemIds": ["dp-008", "dp-009"],
-    "recommendedAfterProblemIds": ["dp-008"],
+    "recommendedAfterProblemIds": ["dp-009"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -1319,8 +1345,8 @@
     "url": "https://leetcode.com/problems/coin-change/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp"],
-    "prerequisiteConceptIds": ["knapsack-dp"],
+    "conceptIds": ["knapsack-dp", "state-transition"],
+    "prerequisiteConceptIds": ["knapsack-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-010"],
     "recommendedAfterProblemIds": ["dp-010"],
     "sourceQualityWeight": 1
@@ -1332,8 +1358,8 @@
     "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["lis-dp"],
-    "prerequisiteConceptIds": ["lis-dp"],
+    "conceptIds": ["lis-dp", "state-transition"],
+    "prerequisiteConceptIds": ["lis-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-011"],
     "recommendedAfterProblemIds": ["dp-011"],
     "sourceQualityWeight": 1
@@ -1345,8 +1371,8 @@
     "url": "https://leetcode.com/problems/longest-common-subsequence/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["string-dp"],
-    "prerequisiteConceptIds": ["string-dp"],
+    "conceptIds": ["string-dp", "tabulation"],
+    "prerequisiteConceptIds": ["string-dp", "tabulation"],
     "mappedFromProblemIds": ["dp-013"],
     "recommendedAfterProblemIds": ["dp-013"],
     "sourceQualityWeight": 1
@@ -1358,8 +1384,8 @@
     "url": "https://leetcode.com/problems/edit-distance/",
     "difficulty": "Hard",
     "topicId": "dp",
-    "conceptIds": ["string-dp"],
-    "prerequisiteConceptIds": ["string-dp"],
+    "conceptIds": ["string-dp", "state-transition"],
+    "prerequisiteConceptIds": ["string-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-014"],
     "recommendedAfterProblemIds": ["dp-014"],
     "sourceQualityWeight": 1
@@ -1371,8 +1397,8 @@
     "url": "https://leetcode.com/problems/number-of-1-bits/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["count-set-bits"],
-    "prerequisiteConceptIds": ["count-set-bits"],
+    "conceptIds": ["count-set-bits", "right-shift", "bitwise-and", "brian-kernighan"],
+    "prerequisiteConceptIds": ["count-set-bits", "right-shift", "bitwise-and", "brian-kernighan"],
     "mappedFromProblemIds": ["bit-008", "bit-009"],
     "recommendedAfterProblemIds": ["bit-009"],
     "sourceQualityWeight": 1
@@ -1384,8 +1410,8 @@
     "url": "https://leetcode.com/problems/power-of-two/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["power-of-two"],
-    "prerequisiteConceptIds": ["power-of-two"],
+    "conceptIds": ["power-of-two", "bitwise-and", "brian-kernighan"],
+    "prerequisiteConceptIds": ["power-of-two", "bitwise-and", "brian-kernighan"],
     "mappedFromProblemIds": ["bit-010"],
     "recommendedAfterProblemIds": ["bit-010"],
     "sourceQualityWeight": 1
@@ -1397,8 +1423,8 @@
     "url": "https://leetcode.com/problems/power-of-four/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["power-of-two"],
-    "prerequisiteConceptIds": ["power-of-two"],
+    "conceptIds": ["power-of-two", "bitwise-and", "left-shift"],
+    "prerequisiteConceptIds": ["power-of-two", "bitwise-and", "left-shift"],
     "mappedFromProblemIds": ["bit-024"],
     "recommendedAfterProblemIds": ["bit-024"],
     "sourceQualityWeight": 0.95
@@ -1410,8 +1436,8 @@
     "url": "https://leetcode.com/problems/single-number/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["xor-tricks", "single-number"],
-    "prerequisiteConceptIds": ["xor-tricks", "single-number"],
+    "conceptIds": ["bitwise-xor", "xor-tricks", "single-number"],
+    "prerequisiteConceptIds": ["bitwise-xor", "xor-tricks", "single-number"],
     "mappedFromProblemIds": ["bit-012"],
     "recommendedAfterProblemIds": ["bit-012"],
     "sourceQualityWeight": 1
@@ -1423,8 +1449,8 @@
     "url": "https://leetcode.com/problems/single-number-iii/",
     "difficulty": "Medium",
     "topicId": "bit-manipulation",
-    "conceptIds": ["xor-tricks", "two-unique-numbers"],
-    "prerequisiteConceptIds": ["xor-tricks", "two-unique-numbers"],
+    "conceptIds": ["bitwise-xor", "bitwise-and", "xor-tricks", "two-unique-numbers"],
+    "prerequisiteConceptIds": ["bitwise-xor", "bitwise-and", "xor-tricks", "two-unique-numbers"],
     "mappedFromProblemIds": ["bit-013"],
     "recommendedAfterProblemIds": ["bit-013"],
     "sourceQualityWeight": 1
@@ -1436,8 +1462,8 @@
     "url": "https://leetcode.com/problems/missing-number/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["xor-tricks", "missing-number"],
-    "prerequisiteConceptIds": ["xor-tricks", "missing-number"],
+    "conceptIds": ["bitwise-xor", "xor-tricks", "missing-number"],
+    "prerequisiteConceptIds": ["bitwise-xor", "xor-tricks", "missing-number"],
     "mappedFromProblemIds": ["bit-014"],
     "recommendedAfterProblemIds": ["bit-014"],
     "sourceQualityWeight": 1
@@ -1449,8 +1475,8 @@
     "url": "https://leetcode.com/problems/counting-bits/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["count-set-bits"],
-    "prerequisiteConceptIds": ["count-set-bits"],
+    "conceptIds": ["count-set-bits", "brian-kernighan", "right-shift", "bitwise-and"],
+    "prerequisiteConceptIds": ["count-set-bits", "brian-kernighan", "right-shift", "bitwise-and"],
     "mappedFromProblemIds": ["bit-023", "bit-039"],
     "recommendedAfterProblemIds": ["bit-039"],
     "sourceQualityWeight": 1
@@ -1462,10 +1488,10 @@
     "url": "https://leetcode.com/problems/subsets/",
     "difficulty": "Medium",
     "topicId": "bit-manipulation",
-    "conceptIds": ["subsets-using-bits", "bitmasking-basics"],
-    "prerequisiteConceptIds": ["subsets-using-bits", "bitmasking-basics"],
+    "conceptIds": ["left-shift", "check-ith-bit", "subsets-using-bits", "bitmasking-basics"],
+    "prerequisiteConceptIds": ["left-shift", "check-ith-bit", "subsets-using-bits", "bitmasking-basics"],
     "mappedFromProblemIds": ["bit-028", "bit-029"],
-    "recommendedAfterProblemIds": ["bit-028"],
+    "recommendedAfterProblemIds": ["bit-029"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -1475,8 +1501,8 @@
     "url": "https://leetcode.com/problems/reverse-bits/",
     "difficulty": "Easy",
     "topicId": "bit-manipulation",
-    "conceptIds": ["binary-representation", "left-shift", "right-shift"],
-    "prerequisiteConceptIds": ["binary-representation", "left-shift", "right-shift"],
+    "conceptIds": ["binary-representation", "left-shift", "right-shift", "bitwise-and"],
+    "prerequisiteConceptIds": ["binary-representation", "left-shift", "right-shift", "bitwise-and"],
     "mappedFromProblemIds": ["bit-034"],
     "recommendedAfterProblemIds": ["bit-034"],
     "sourceQualityWeight": 1
@@ -1488,8 +1514,8 @@
     "url": "https://leetcode.com/problems/bitwise-and-of-numbers-range/",
     "difficulty": "Medium",
     "topicId": "bit-manipulation",
-    "conceptIds": ["bitwise-and"],
-    "prerequisiteConceptIds": ["bitwise-and"],
+    "conceptIds": ["bitwise-and", "right-shift", "left-shift"],
+    "prerequisiteConceptIds": ["bitwise-and", "right-shift", "left-shift"],
     "mappedFromProblemIds": ["bit-035"],
     "recommendedAfterProblemIds": ["bit-035"],
     "sourceQualityWeight": 1
@@ -1514,8 +1540,8 @@
     "url": "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/",
     "difficulty": "Medium",
     "topicId": "bit-manipulation",
-    "conceptIds": ["xor-tricks"],
-    "prerequisiteConceptIds": ["xor-tricks"],
+    "conceptIds": ["bitwise-xor", "xor-tricks", "bitmasking-basics"],
+    "prerequisiteConceptIds": ["bitwise-xor", "xor-tricks", "bitmasking-basics"],
     "mappedFromProblemIds": ["bit-037"],
     "recommendedAfterProblemIds": ["bit-037"],
     "sourceQualityWeight": 1
@@ -1623,6 +1649,7 @@
     "prerequisiteConceptIds": ["two-pointers"],
     "mappedFromProblemIds": ["arr-015", "arr-023"],
     "recommendedAfterProblemIds": ["arr-015"],
+    "roadmapBridgeProblemIds": ["arr-015"],
     "sourceQualityWeight": 0.76
   },
   {
@@ -1636,6 +1663,7 @@
     "prerequisiteConceptIds": ["two-pointers"],
     "mappedFromProblemIds": ["arr-015"],
     "recommendedAfterProblemIds": ["arr-015"],
+    "roadmapBridgeProblemIds": ["arr-015"],
     "sourceQualityWeight": 0.88
   },
   {
@@ -1649,6 +1677,7 @@
     "prerequisiteConceptIds": ["two-pointers", "opposite-end-pointers"],
     "mappedFromProblemIds": ["arr-031"],
     "recommendedAfterProblemIds": ["arr-031"],
+    "roadmapBridgeProblemIds": ["arr-031"],
     "sourceQualityWeight": 0.84
   },
   {
@@ -1658,10 +1687,11 @@
     "url": "https://leetcode.com/problems/merge-strings-alternately/",
     "difficulty": "Easy",
     "topicId": "two-pointers",
-    "conceptIds": ["two-pointers"],
-    "prerequisiteConceptIds": ["two-pointers"],
+    "conceptIds": ["reverse-array", "two-pointers"],
+    "prerequisiteConceptIds": ["reverse-array", "two-pointers"],
     "mappedFromProblemIds": ["arr-003", "arr-015"],
     "recommendedAfterProblemIds": ["arr-003"],
+    "roadmapBridgeProblemIds": ["arr-003"],
     "sourceQualityWeight": 0.73
   },
   {
@@ -1675,6 +1705,7 @@
     "prerequisiteConceptIds": ["two-pointers", "in-place-array-update"],
     "mappedFromProblemIds": ["arr-008", "arr-009"],
     "recommendedAfterProblemIds": ["arr-009"],
+    "roadmapBridgeProblemIds": ["arr-009"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -1688,6 +1719,7 @@
     "prerequisiteConceptIds": ["two-pointers", "in-place-array-update"],
     "mappedFromProblemIds": ["arr-009", "arr-015"],
     "recommendedAfterProblemIds": ["arr-015"],
+    "roadmapBridgeProblemIds": ["arr-015"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -1701,6 +1733,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-024", "arr-030"],
     "recommendedAfterProblemIds": ["arr-024", "arr-030"],
+    "roadmapBridgeProblemIds": ["arr-024"],
     "sourceQualityWeight": 0.88
   },
   {
@@ -1714,6 +1747,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-024"],
     "recommendedAfterProblemIds": ["arr-024"],
+    "roadmapBridgeProblemIds": ["arr-024"],
     "sourceQualityWeight": 0.7
   },
   {
@@ -1727,6 +1761,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window", "window-auxiliary-structure"],
     "mappedFromProblemIds": ["arr-034"],
     "recommendedAfterProblemIds": ["arr-034"],
+    "roadmapBridgeProblemIds": ["arr-034"],
     "sourceQualityWeight": 0.92
   },
   {
@@ -1740,6 +1775,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-018", "arr-033"],
     "recommendedAfterProblemIds": ["arr-033"],
+    "roadmapBridgeProblemIds": ["arr-033"],
     "sourceQualityWeight": 0.96
   },
   {
@@ -1753,6 +1789,7 @@
     "prerequisiteConceptIds": ["sliding-window", "variable-size-window"],
     "mappedFromProblemIds": ["arr-018", "arr-033"],
     "recommendedAfterProblemIds": ["arr-033"],
+    "roadmapBridgeProblemIds": ["arr-033"],
     "sourceQualityWeight": 1
   },
   {
@@ -1766,6 +1803,7 @@
     "prerequisiteConceptIds": ["sliding-window", "fixed-size-window"],
     "mappedFromProblemIds": ["arr-024", "arr-030"],
     "recommendedAfterProblemIds": ["arr-030"],
+    "roadmapBridgeProblemIds": ["arr-030"],
     "sourceQualityWeight": 0.86
   },
   {
@@ -1779,6 +1817,7 @@
     "prerequisiteConceptIds": ["prefix-sum", "prefix-balance"],
     "mappedFromProblemIds": ["arr-020", "arr-036"],
     "recommendedAfterProblemIds": ["arr-020", "arr-036"],
+    "roadmapBridgeProblemIds": ["arr-036"],
     "sourceQualityWeight": 0.92
   },
   {
@@ -1792,6 +1831,7 @@
     "prerequisiteConceptIds": ["prefix-sum"],
     "mappedFromProblemIds": ["arr-006", "arr-014", "arr-020"],
     "recommendedAfterProblemIds": ["arr-014"],
+    "roadmapBridgeProblemIds": ["arr-014"],
     "sourceQualityWeight": 0.78
   },
   {
@@ -1805,6 +1845,7 @@
     "prerequisiteConceptIds": ["prefix-sum"],
     "mappedFromProblemIds": ["arr-006", "arr-014"],
     "recommendedAfterProblemIds": ["arr-014"],
+    "roadmapBridgeProblemIds": ["arr-014"],
     "sourceQualityWeight": 0.82
   },
   {
@@ -1818,6 +1859,7 @@
     "prerequisiteConceptIds": ["prefix-sum"],
     "mappedFromProblemIds": ["arr-006", "arr-014"],
     "recommendedAfterProblemIds": ["arr-006"],
+    "roadmapBridgeProblemIds": ["arr-006"],
     "sourceQualityWeight": 0.8
   },
   {
@@ -1840,8 +1882,8 @@
     "url": "https://leetcode.com/problems/valid-perfect-square/",
     "difficulty": "Easy",
     "topicId": "binary-search",
-    "conceptIds": ["binary-search-intro", "sqrt-binary-search"],
-    "prerequisiteConceptIds": ["binary-search-intro", "sqrt-binary-search"],
+    "conceptIds": ["binary-search-intro", "sqrt-binary-search", "sorted-mid-check", "answer-binary-search"],
+    "prerequisiteConceptIds": ["binary-search-intro", "sqrt-binary-search", "sorted-mid-check", "answer-binary-search"],
     "mappedFromProblemIds": ["bs-001", "bs-008"],
     "recommendedAfterProblemIds": ["bs-008"],
     "sourceQualityWeight": 0.9
@@ -1853,8 +1895,8 @@
     "url": "https://leetcode.com/problems/find-smallest-letter-greater-than-target/",
     "difficulty": "Easy",
     "topicId": "binary-search",
-    "conceptIds": ["lower-bound", "upper-bound"],
-    "prerequisiteConceptIds": ["lower-bound"],
+    "conceptIds": ["lower-bound", "upper-bound", "first-last-occurrence", "search-insert-position"],
+    "prerequisiteConceptIds": ["lower-bound", "first-last-occurrence", "search-insert-position"],
     "mappedFromProblemIds": ["bs-002", "bs-003", "bs-004"],
     "recommendedAfterProblemIds": ["bs-002", "bs-004"],
     "sourceQualityWeight": 0.88
@@ -1866,8 +1908,8 @@
     "url": "https://leetcode.com/problems/find-k-closest-elements/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["lower-bound"],
-    "prerequisiteConceptIds": ["lower-bound"],
+    "conceptIds": ["lower-bound", "search-insert-position"],
+    "prerequisiteConceptIds": ["lower-bound", "search-insert-position"],
     "mappedFromProblemIds": ["bs-002", "bs-004"],
     "recommendedAfterProblemIds": ["bs-002"],
     "sourceQualityWeight": 0.86
@@ -1879,8 +1921,8 @@
     "url": "https://leetcode.com/problems/find-right-interval/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["lower-bound"],
-    "prerequisiteConceptIds": ["lower-bound"],
+    "conceptIds": ["lower-bound", "search-insert-position"],
+    "prerequisiteConceptIds": ["lower-bound", "search-insert-position"],
     "mappedFromProblemIds": ["bs-002", "bs-004"],
     "recommendedAfterProblemIds": ["bs-002"],
     "sourceQualityWeight": 0.77
@@ -1892,8 +1934,8 @@
     "url": "https://leetcode.com/problems/search-in-rotated-sorted-array-ii/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["rotated-array-search"],
-    "prerequisiteConceptIds": ["rotated-array-search"],
+    "conceptIds": ["rotated-array-search", "sorted-mid-check"],
+    "prerequisiteConceptIds": ["rotated-array-search", "sorted-mid-check"],
     "mappedFromProblemIds": ["bs-005", "bs-006"],
     "recommendedAfterProblemIds": ["bs-005"],
     "sourceQualityWeight": 0.88
@@ -2009,8 +2051,8 @@
     "url": "https://leetcode.com/problems/heaters/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["lower-bound", "upper-bound"],
-    "prerequisiteConceptIds": ["lower-bound", "upper-bound"],
+    "conceptIds": ["lower-bound", "upper-bound", "first-last-occurrence"],
+    "prerequisiteConceptIds": ["lower-bound", "upper-bound", "first-last-occurrence"],
     "mappedFromProblemIds": ["bs-002", "bs-003"],
     "recommendedAfterProblemIds": ["bs-003"],
     "sourceQualityWeight": 0.84
@@ -2022,8 +2064,8 @@
     "url": "https://leetcode.com/problems/h-index-ii/",
     "difficulty": "Medium",
     "topicId": "binary-search",
-    "conceptIds": ["lower-bound"],
-    "prerequisiteConceptIds": ["lower-bound"],
+    "conceptIds": ["lower-bound", "search-insert-position"],
+    "prerequisiteConceptIds": ["lower-bound", "search-insert-position"],
     "mappedFromProblemIds": ["bs-002", "bs-004"],
     "recommendedAfterProblemIds": ["bs-002"],
     "sourceQualityWeight": 0.8
@@ -2035,8 +2077,8 @@
     "url": "https://leetcode.com/problems/implement-stack-using-queues/",
     "difficulty": "Easy",
     "topicId": "stack",
-    "conceptIds": ["stack-intro", "stack-operations"],
-    "prerequisiteConceptIds": ["stack-intro", "stack-operations"],
+    "conceptIds": ["stack-intro", "stack-array-implementation", "stack-operations"],
+    "prerequisiteConceptIds": ["stack-intro", "stack-array-implementation", "stack-operations"],
     "mappedFromProblemIds": ["st-001"],
     "recommendedAfterProblemIds": ["st-001"],
     "sourceQualityWeight": 0.9
@@ -2113,8 +2155,8 @@
     "url": "https://leetcode.com/problems/remove-outermost-parentheses/",
     "difficulty": "Easy",
     "topicId": "stack",
-    "conceptIds": ["balanced-parentheses"],
-    "prerequisiteConceptIds": ["balanced-parentheses"],
+    "conceptIds": ["stack-intro", "balanced-parentheses"],
+    "prerequisiteConceptIds": ["stack-intro", "balanced-parentheses"],
     "mappedFromProblemIds": ["st-002", "st-020"],
     "recommendedAfterProblemIds": ["st-020"],
     "sourceQualityWeight": 0.82
@@ -2126,8 +2168,8 @@
     "url": "https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/",
     "difficulty": "Medium",
     "topicId": "stack",
-    "conceptIds": ["balanced-parentheses", "stack-simulation"],
-    "prerequisiteConceptIds": ["balanced-parentheses", "stack-simulation"],
+    "conceptIds": ["stack-intro", "balanced-parentheses", "stack-operations", "stack-simulation"],
+    "prerequisiteConceptIds": ["stack-intro", "balanced-parentheses", "stack-operations", "stack-simulation"],
     "mappedFromProblemIds": ["st-002", "st-021"],
     "recommendedAfterProblemIds": ["st-021"],
     "sourceQualityWeight": 0.93
@@ -2139,8 +2181,8 @@
     "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
     "difficulty": "Medium",
     "topicId": "stack",
-    "conceptIds": ["postfix-evaluation", "stack-operations"],
-    "prerequisiteConceptIds": ["postfix-evaluation", "stack-operations"],
+    "conceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
+    "prerequisiteConceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
     "mappedFromProblemIds": ["st-005", "st-006"],
     "recommendedAfterProblemIds": ["st-005"],
     "sourceQualityWeight": 1
@@ -2152,8 +2194,8 @@
     "url": "https://leetcode.com/problems/basic-calculator/",
     "difficulty": "Hard",
     "topicId": "stack",
-    "conceptIds": ["expression-conversion", "stack-operations"],
-    "prerequisiteConceptIds": ["expression-conversion", "stack-operations"],
+    "conceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
+    "prerequisiteConceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
     "mappedFromProblemIds": ["st-006", "st-011", "st-029"],
     "recommendedAfterProblemIds": ["st-011"],
     "sourceQualityWeight": 0.95
@@ -2165,8 +2207,8 @@
     "url": "https://leetcode.com/problems/basic-calculator-ii/",
     "difficulty": "Medium",
     "topicId": "stack",
-    "conceptIds": ["expression-conversion", "stack-operations"],
-    "prerequisiteConceptIds": ["expression-conversion", "stack-operations"],
+    "conceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
+    "prerequisiteConceptIds": ["postfix-evaluation", "expression-conversion", "stack-operations"],
     "mappedFromProblemIds": ["st-005", "st-011", "st-029"],
     "recommendedAfterProblemIds": ["st-029"],
     "sourceQualityWeight": 0.94
@@ -2204,8 +2246,8 @@
     "url": "https://leetcode.com/problems/score-of-parentheses/",
     "difficulty": "Medium",
     "topicId": "stack",
-    "conceptIds": ["balanced-parentheses", "stack-operations"],
-    "prerequisiteConceptIds": ["balanced-parentheses", "stack-operations"],
+    "conceptIds": ["stack-intro", "balanced-parentheses", "stack-operations"],
+    "prerequisiteConceptIds": ["stack-intro", "balanced-parentheses", "stack-operations"],
     "mappedFromProblemIds": ["st-002", "st-020", "st-021"],
     "recommendedAfterProblemIds": ["st-020"],
     "sourceQualityWeight": 0.85
@@ -2217,8 +2259,8 @@
     "url": "https://leetcode.com/problems/implement-queue-using-stacks/",
     "difficulty": "Easy",
     "topicId": "queue",
-    "conceptIds": ["queue-intro", "queue-operations"],
-    "prerequisiteConceptIds": ["queue-intro", "queue-operations"],
+    "conceptIds": ["queue-intro", "array-queue-implementation", "queue-operations"],
+    "prerequisiteConceptIds": ["queue-intro", "array-queue-implementation", "queue-operations"],
     "mappedFromProblemIds": ["q-001"],
     "recommendedAfterProblemIds": ["q-001"],
     "sourceQualityWeight": 0.9
@@ -2243,8 +2285,8 @@
     "url": "https://leetcode.com/problems/reveal-cards-in-increasing-order/",
     "difficulty": "Medium",
     "topicId": "queue",
-    "conceptIds": ["queue-simulation"],
-    "prerequisiteConceptIds": ["queue-simulation"],
+    "conceptIds": ["queue-simulation", "generate-binary-numbers"],
+    "prerequisiteConceptIds": ["queue-simulation", "generate-binary-numbers"],
     "mappedFromProblemIds": ["q-003", "q-005"],
     "recommendedAfterProblemIds": ["q-003"],
     "sourceQualityWeight": 0.84
@@ -2308,8 +2350,8 @@
     "url": "https://leetcode.com/problems/constrained-subsequence-sum/",
     "difficulty": "Hard",
     "topicId": "queue",
-    "conceptIds": ["deque-technique"],
-    "prerequisiteConceptIds": ["deque-technique"],
+    "conceptIds": ["sliding-window-queue", "deque-technique"],
+    "prerequisiteConceptIds": ["sliding-window-queue", "deque-technique"],
     "mappedFromProblemIds": ["q-008", "q-010"],
     "recommendedAfterProblemIds": ["q-010"],
     "sourceQualityWeight": 0.9
@@ -2386,8 +2428,8 @@
     "url": "https://leetcode.com/problems/design-linked-list/",
     "difficulty": "Medium",
     "topicId": "linked-list",
-    "conceptIds": ["ll-traversal", "ll-head-tail-update", "ll-node-delete"],
-    "prerequisiteConceptIds": ["ll-traversal", "ll-head-tail-update"],
+    "conceptIds": ["ll-traversal", "ll-length", "ll-head-tail-update", "ll-node-delete"],
+    "prerequisiteConceptIds": ["ll-traversal", "ll-length", "ll-head-tail-update"],
     "mappedFromProblemIds": ["ll-001", "ll-003", "ll-004", "ll-005"],
     "recommendedAfterProblemIds": ["ll-003", "ll-004", "ll-005"],
     "sourceQualityWeight": 0.96
@@ -2399,8 +2441,8 @@
     "url": "https://leetcode.com/problems/delete-node-in-a-linked-list/",
     "difficulty": "Medium",
     "topicId": "linked-list",
-    "conceptIds": ["ll-node-delete"],
-    "prerequisiteConceptIds": ["ll-node-delete"],
+    "conceptIds": ["ll-node-delete", "ll-head-tail-update"],
+    "prerequisiteConceptIds": ["ll-node-delete", "ll-head-tail-update"],
     "mappedFromProblemIds": ["ll-005"],
     "recommendedAfterProblemIds": ["ll-005"],
     "sourceQualityWeight": 0.88
@@ -2412,8 +2454,8 @@
     "url": "https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/",
     "difficulty": "Medium",
     "topicId": "linked-list",
-    "conceptIds": ["ll-middle", "ll-fast-slow", "ll-node-delete"],
-    "prerequisiteConceptIds": ["ll-middle", "ll-fast-slow", "ll-node-delete"],
+    "conceptIds": ["ll-middle", "ll-fast-slow", "ll-node-delete", "ll-head-tail-update"],
+    "prerequisiteConceptIds": ["ll-middle", "ll-fast-slow", "ll-node-delete", "ll-head-tail-update"],
     "mappedFromProblemIds": ["ll-005", "ll-007"],
     "recommendedAfterProblemIds": ["ll-007"],
     "sourceQualityWeight": 0.9
@@ -2438,8 +2480,8 @@
     "url": "https://leetcode.com/problems/remove-linked-list-elements/",
     "difficulty": "Easy",
     "topicId": "linked-list",
-    "conceptIds": ["ll-traversal", "ll-node-delete"],
-    "prerequisiteConceptIds": ["ll-traversal", "ll-node-delete"],
+    "conceptIds": ["ll-traversal", "ll-node-delete", "ll-head-tail-update", "ll-remove-duplicates"],
+    "prerequisiteConceptIds": ["ll-traversal", "ll-node-delete", "ll-head-tail-update", "ll-remove-duplicates"],
     "mappedFromProblemIds": ["ll-005", "ll-010"],
     "recommendedAfterProblemIds": ["ll-010"],
     "sourceQualityWeight": 0.86
@@ -2451,8 +2493,8 @@
     "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
     "difficulty": "Medium",
     "topicId": "linked-list",
-    "conceptIds": ["ll-fast-slow", "ll-node-delete"],
-    "prerequisiteConceptIds": ["ll-fast-slow", "ll-node-delete"],
+    "conceptIds": ["ll-fast-slow", "ll-node-delete", "ll-head-tail-update", "ll-cycle-detection"],
+    "prerequisiteConceptIds": ["ll-fast-slow", "ll-node-delete", "ll-head-tail-update", "ll-cycle-detection"],
     "mappedFromProblemIds": ["ll-005", "ll-008"],
     "recommendedAfterProblemIds": ["ll-008"],
     "sourceQualityWeight": 1
@@ -2477,8 +2519,8 @@
     "url": "https://leetcode.com/problems/intersection-of-two-linked-lists/",
     "difficulty": "Easy",
     "topicId": "linked-list",
-    "conceptIds": ["ll-fast-slow", "ll-traversal"],
-    "prerequisiteConceptIds": ["ll-fast-slow", "ll-traversal"],
+    "conceptIds": ["ll-fast-slow", "ll-traversal", "ll-length", "ll-cycle-detection"],
+    "prerequisiteConceptIds": ["ll-fast-slow", "ll-traversal", "ll-length", "ll-cycle-detection"],
     "mappedFromProblemIds": ["ll-001", "ll-008"],
     "recommendedAfterProblemIds": ["ll-008"],
     "sourceQualityWeight": 0.88
@@ -2529,8 +2571,8 @@
     "url": "https://leetcode.com/problems/sum-of-digits-of-string-after-convert/",
     "difficulty": "Easy",
     "topicId": "recursion",
-    "conceptIds": ["functional-recursion"],
-    "prerequisiteConceptIds": ["functional-recursion"],
+    "conceptIds": ["base-case", "functional-recursion"],
+    "prerequisiteConceptIds": ["base-case", "functional-recursion"],
     "mappedFromProblemIds": ["rec-009", "rec-010"],
     "recommendedAfterProblemIds": ["rec-009"],
     "sourceQualityWeight": 0.66
@@ -2542,8 +2584,8 @@
     "url": "https://leetcode.com/problems/powx-n/",
     "difficulty": "Medium",
     "topicId": "recursion",
-    "conceptIds": ["functional-recursion", "divide-and-conquer"],
-    "prerequisiteConceptIds": ["functional-recursion", "divide-and-conquer"],
+    "conceptIds": ["base-case", "functional-recursion", "recursion-on-arrays", "divide-and-conquer"],
+    "prerequisiteConceptIds": ["base-case", "functional-recursion", "recursion-on-arrays", "divide-and-conquer"],
     "mappedFromProblemIds": ["rec-005", "rec-021", "rec-022"],
     "recommendedAfterProblemIds": ["rec-005"],
     "sourceQualityWeight": 0.96
@@ -2555,8 +2597,8 @@
     "url": "https://leetcode.com/problems/k-th-symbol-in-grammar/",
     "difficulty": "Medium",
     "topicId": "recursion",
-    "conceptIds": ["functional-recursion", "tree-recursion"],
-    "prerequisiteConceptIds": ["functional-recursion", "tree-recursion"],
+    "conceptIds": ["recursion-intro", "base-case", "functional-recursion", "tree-recursion"],
+    "prerequisiteConceptIds": ["recursion-intro", "base-case", "functional-recursion", "tree-recursion"],
     "mappedFromProblemIds": ["rec-006", "rec-018"],
     "recommendedAfterProblemIds": ["rec-018"],
     "sourceQualityWeight": 0.88
@@ -2598,6 +2640,7 @@
     "prerequisiteConceptIds": ["memoization", "tree-recursion"],
     "mappedFromProblemIds": ["rec-019"],
     "recommendedAfterProblemIds": ["rec-019"],
+    "roadmapBridgeProblemIds": ["rec-006", "dp-001"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -2611,6 +2654,7 @@
     "prerequisiteConceptIds": ["memoization", "tree-recursion"],
     "mappedFromProblemIds": ["rec-020"],
     "recommendedAfterProblemIds": ["rec-020"],
+    "roadmapBridgeProblemIds": ["rec-006", "dp-001"],
     "sourceQualityWeight": 1
   },
   {
@@ -2633,10 +2677,10 @@
     "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
     "difficulty": "Medium",
     "topicId": "recursion",
-    "conceptIds": ["backtracking-basics"],
-    "prerequisiteConceptIds": ["backtracking-basics"],
+    "conceptIds": ["backtracking-basics", "subsequence-generation", "permutations"],
+    "prerequisiteConceptIds": ["backtracking-basics", "subsequence-generation", "permutations"],
     "mappedFromProblemIds": ["rec-013", "rec-016"],
-    "recommendedAfterProblemIds": ["rec-013"],
+    "recommendedAfterProblemIds": ["rec-016"],
     "sourceQualityWeight": 0.9
   },
   {
@@ -2763,8 +2807,8 @@
     "url": "https://leetcode.com/problems/invert-binary-tree/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["recursive-tree-traversal"],
-    "prerequisiteConceptIds": ["recursive-tree-traversal"],
+    "conceptIds": ["tree-intro", "recursive-tree-traversal"],
+    "prerequisiteConceptIds": ["tree-intro", "recursive-tree-traversal"],
     "mappedFromProblemIds": ["tr-001", "tr-003"],
     "recommendedAfterProblemIds": ["tr-001"],
     "sourceQualityWeight": 0.86
@@ -2802,10 +2846,11 @@
     "url": "https://leetcode.com/problems/validate-binary-search-tree/",
     "difficulty": "Medium",
     "topicId": "trees",
-    "conceptIds": ["bst-search"],
-    "prerequisiteConceptIds": ["bst-search"],
+    "conceptIds": ["bst-search", "recursive-tree-traversal", "sorted-check"],
+    "prerequisiteConceptIds": ["bst-search", "recursive-tree-traversal", "sorted-check"],
     "mappedFromProblemIds": ["tr-008"],
-    "recommendedAfterProblemIds": ["tr-008"],
+    "recommendedAfterProblemIds": ["tr-002", "tr-008"],
+    "roadmapBridgeProblemIds": ["arr-002", "tr-002", "tr-008"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -2841,8 +2886,8 @@
     "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
     "difficulty": "Medium",
     "topicId": "trees",
-    "conceptIds": ["bst-search", "recursive-tree-traversal"],
-    "prerequisiteConceptIds": ["bst-search", "recursive-tree-traversal"],
+    "conceptIds": ["bst-search", "bst-insert-delete", "recursive-tree-traversal"],
+    "prerequisiteConceptIds": ["bst-search", "bst-insert-delete", "recursive-tree-traversal"],
     "mappedFromProblemIds": ["tr-008", "tr-010"],
     "recommendedAfterProblemIds": ["tr-008"],
     "sourceQualityWeight": 0.92
@@ -2893,8 +2938,8 @@
     "url": "https://leetcode.com/problems/inorder-successor-in-bst/",
     "difficulty": "Medium",
     "topicId": "trees",
-    "conceptIds": ["bst-search"],
-    "prerequisiteConceptIds": ["bst-search"],
+    "conceptIds": ["bst-search", "bst-insert-delete"],
+    "prerequisiteConceptIds": ["bst-search", "bst-insert-delete"],
     "mappedFromProblemIds": ["tr-008", "tr-010"],
     "recommendedAfterProblemIds": ["tr-008"],
     "sourceQualityWeight": 0.8
@@ -2906,8 +2951,8 @@
     "url": "https://leetcode.com/problems/path-sum/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["recursive-tree-traversal", "tree-height"],
-    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height"],
+    "conceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
     "mappedFromProblemIds": ["tr-005", "tr-006"],
     "recommendedAfterProblemIds": ["tr-005"],
     "sourceQualityWeight": 0.84
@@ -2958,8 +3003,8 @@
     "url": "https://leetcode.com/problems/find-the-town-judge/",
     "difficulty": "Easy",
     "topicId": "graphs",
-    "conceptIds": ["adjacency-list", "graph-intro"],
-    "prerequisiteConceptIds": ["adjacency-list", "graph-intro"],
+    "conceptIds": ["adjacency-list", "graph-intro", "bfs-graph"],
+    "prerequisiteConceptIds": ["adjacency-list", "graph-intro", "bfs-graph"],
     "mappedFromProblemIds": ["gr-001", "gr-003"],
     "recommendedAfterProblemIds": ["gr-003"],
     "sourceQualityWeight": 0.74
@@ -2971,8 +3016,8 @@
     "url": "https://leetcode.com/problems/is-graph-bipartite/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["bfs-graph", "dfs-graph", "connected-components"],
-    "prerequisiteConceptIds": ["bfs-graph", "dfs-graph", "connected-components"],
+    "conceptIds": ["adjacency-list", "bfs-graph", "dfs-graph", "connected-components"],
+    "prerequisiteConceptIds": ["adjacency-list", "bfs-graph", "dfs-graph", "connected-components"],
     "mappedFromProblemIds": ["gr-003", "gr-004"],
     "recommendedAfterProblemIds": ["gr-004"],
     "sourceQualityWeight": 0.93
@@ -2984,8 +3029,8 @@
     "url": "https://leetcode.com/problems/number-of-provinces/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["connected-components", "union-find"],
-    "prerequisiteConceptIds": ["connected-components", "union-find"],
+    "conceptIds": ["connected-components", "dfs-graph", "union-find"],
+    "prerequisiteConceptIds": ["connected-components", "dfs-graph", "union-find"],
     "mappedFromProblemIds": ["gr-004", "gr-014"],
     "recommendedAfterProblemIds": ["gr-014"],
     "sourceQualityWeight": 1
@@ -2997,8 +3042,8 @@
     "url": "https://leetcode.com/problems/redundant-connection/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["cycle-detection", "union-find"],
-    "prerequisiteConceptIds": ["cycle-detection", "union-find"],
+    "conceptIds": ["cycle-detection", "dfs-graph", "union-find"],
+    "prerequisiteConceptIds": ["cycle-detection", "dfs-graph", "union-find"],
     "mappedFromProblemIds": ["gr-005", "gr-014"],
     "recommendedAfterProblemIds": ["gr-005"],
     "sourceQualityWeight": 0.97
@@ -3023,8 +3068,8 @@
     "url": "https://leetcode.com/problems/keys-and-rooms/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["dfs-graph", "bfs-graph"],
-    "prerequisiteConceptIds": ["dfs-graph", "bfs-graph"],
+    "conceptIds": ["adjacency-list", "dfs-graph", "bfs-graph"],
+    "prerequisiteConceptIds": ["adjacency-list", "dfs-graph", "bfs-graph"],
     "mappedFromProblemIds": ["gr-002", "gr-003"],
     "recommendedAfterProblemIds": ["gr-003"],
     "sourceQualityWeight": 0.84
@@ -3036,8 +3081,8 @@
     "url": "https://leetcode.com/problems/clone-graph/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["graph-intro", "dfs-graph", "bfs-graph"],
-    "prerequisiteConceptIds": ["graph-intro", "dfs-graph", "bfs-graph"],
+    "conceptIds": ["graph-intro", "adjacency-list", "dfs-graph", "bfs-graph"],
+    "prerequisiteConceptIds": ["graph-intro", "adjacency-list", "dfs-graph", "bfs-graph"],
     "mappedFromProblemIds": ["gr-001", "gr-002", "gr-003"],
     "recommendedAfterProblemIds": ["gr-002"],
     "sourceQualityWeight": 0.9
@@ -3049,8 +3094,8 @@
     "url": "https://leetcode.com/problems/01-matrix/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["grid-bfs", "bfs-graph"],
-    "prerequisiteConceptIds": ["grid-bfs", "bfs-graph"],
+    "conceptIds": ["grid-bfs", "dfs-graph", "bfs-graph", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["grid-bfs", "dfs-graph", "bfs-graph", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-007", "gr-008"],
     "recommendedAfterProblemIds": ["gr-008"],
     "sourceQualityWeight": 0.94
@@ -3062,8 +3107,8 @@
     "url": "https://leetcode.com/problems/as-far-from-land-as-possible/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["grid-bfs"],
-    "prerequisiteConceptIds": ["grid-bfs"],
+    "conceptIds": ["grid-bfs", "dfs-graph", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["grid-bfs", "dfs-graph", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-007", "gr-008"],
     "recommendedAfterProblemIds": ["gr-007"],
     "sourceQualityWeight": 0.83
@@ -3075,8 +3120,8 @@
     "url": "https://leetcode.com/problems/minimum-height-trees/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["bfs-graph", "topological-sort"],
-    "prerequisiteConceptIds": ["bfs-graph", "topological-sort"],
+    "conceptIds": ["adjacency-list", "bfs-graph", "topological-sort"],
+    "prerequisiteConceptIds": ["adjacency-list", "bfs-graph", "topological-sort"],
     "mappedFromProblemIds": ["gr-003", "gr-009"],
     "recommendedAfterProblemIds": ["gr-009"],
     "sourceQualityWeight": 0.86
@@ -3114,8 +3159,8 @@
     "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["dijkstra", "bfs-graph"],
-    "prerequisiteConceptIds": ["dijkstra", "bfs-graph"],
+    "conceptIds": ["dijkstra", "bfs-graph", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "bfs-graph", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-012", "gr-013"],
     "recommendedAfterProblemIds": ["gr-012"],
     "sourceQualityWeight": 0.9
@@ -3127,8 +3172,8 @@
     "url": "https://leetcode.com/problems/path-with-minimum-effort/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["dijkstra"],
-    "prerequisiteConceptIds": ["dijkstra"],
+    "conceptIds": ["dijkstra", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-012", "gr-013"],
     "recommendedAfterProblemIds": ["gr-013"],
     "sourceQualityWeight": 0.95
@@ -3140,8 +3185,8 @@
     "url": "https://leetcode.com/problems/swim-in-rising-water/",
     "difficulty": "Hard",
     "topicId": "graphs",
-    "conceptIds": ["dijkstra", "grid-bfs"],
-    "prerequisiteConceptIds": ["dijkstra", "grid-bfs"],
+    "conceptIds": ["dijkstra", "grid-bfs", "shortest-path-unweighted"],
+    "prerequisiteConceptIds": ["dijkstra", "grid-bfs", "shortest-path-unweighted"],
     "mappedFromProblemIds": ["gr-008", "gr-012"],
     "recommendedAfterProblemIds": ["gr-012"],
     "sourceQualityWeight": 0.88
@@ -3166,8 +3211,8 @@
     "url": "https://leetcode.com/problems/number-of-operations-to-make-network-connected/",
     "difficulty": "Medium",
     "topicId": "graphs",
-    "conceptIds": ["union-find", "connected-components"],
-    "prerequisiteConceptIds": ["union-find", "connected-components"],
+    "conceptIds": ["union-find", "connected-components", "dfs-graph"],
+    "prerequisiteConceptIds": ["union-find", "connected-components", "dfs-graph"],
     "mappedFromProblemIds": ["gr-004", "gr-014"],
     "recommendedAfterProblemIds": ["gr-014"],
     "sourceQualityWeight": 0.92
@@ -3192,8 +3237,8 @@
     "url": "https://leetcode.com/problems/optimize-water-distribution-in-a-village/",
     "difficulty": "Hard",
     "topicId": "graphs",
-    "conceptIds": ["mst", "union-find"],
-    "prerequisiteConceptIds": ["mst", "union-find"],
+    "conceptIds": ["mst", "union-find", "dijkstra"],
+    "prerequisiteConceptIds": ["mst", "union-find", "dijkstra"],
     "mappedFromProblemIds": ["gr-015", "gr-016"],
     "recommendedAfterProblemIds": ["gr-016"],
     "sourceQualityWeight": 0.84
@@ -3209,6 +3254,7 @@
     "prerequisiteConceptIds": ["dp-intro", "memoization", "tabulation"],
     "mappedFromProblemIds": ["dp-001"],
     "recommendedAfterProblemIds": ["dp-001"],
+    "roadmapBridgeProblemIds": ["rec-006", "dp-001"],
     "sourceQualityWeight": 0.95
   },
   {
@@ -3218,8 +3264,8 @@
     "url": "https://leetcode.com/problems/house-robber-ii/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["state-transition", "space-optimization"],
-    "prerequisiteConceptIds": ["state-transition", "space-optimization"],
+    "conceptIds": ["memoization", "tabulation", "state-transition", "space-optimization"],
+    "prerequisiteConceptIds": ["memoization", "tabulation", "state-transition", "space-optimization"],
     "mappedFromProblemIds": ["dp-003", "dp-004"],
     "recommendedAfterProblemIds": ["dp-003"],
     "sourceQualityWeight": 0.96
@@ -3231,8 +3277,8 @@
     "url": "https://leetcode.com/problems/delete-and-earn/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["state-transition", "tabulation"],
-    "prerequisiteConceptIds": ["state-transition", "tabulation"],
+    "conceptIds": ["memoization", "state-transition", "tabulation"],
+    "prerequisiteConceptIds": ["memoization", "state-transition", "tabulation"],
     "mappedFromProblemIds": ["dp-003", "dp-004"],
     "recommendedAfterProblemIds": ["dp-004"],
     "sourceQualityWeight": 0.88
@@ -3244,8 +3290,8 @@
     "url": "https://leetcode.com/problems/unique-paths-ii/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["grid-dp"],
-    "prerequisiteConceptIds": ["grid-dp"],
+    "conceptIds": ["tabulation", "grid-dp"],
+    "prerequisiteConceptIds": ["tabulation", "grid-dp"],
     "mappedFromProblemIds": ["dp-006"],
     "recommendedAfterProblemIds": ["dp-006"],
     "sourceQualityWeight": 0.96
@@ -3257,8 +3303,8 @@
     "url": "https://leetcode.com/problems/dungeon-game/",
     "difficulty": "Hard",
     "topicId": "dp",
-    "conceptIds": ["grid-dp"],
-    "prerequisiteConceptIds": ["grid-dp"],
+    "conceptIds": ["grid-dp", "space-optimization"],
+    "prerequisiteConceptIds": ["grid-dp", "space-optimization"],
     "mappedFromProblemIds": ["dp-007"],
     "recommendedAfterProblemIds": ["dp-007"],
     "sourceQualityWeight": 0.82
@@ -3270,8 +3316,8 @@
     "url": "https://leetcode.com/problems/target-sum/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp", "state-transition"],
-    "prerequisiteConceptIds": ["knapsack-dp", "state-transition"],
+    "conceptIds": ["knapsack-dp", "state-transition", "tabulation"],
+    "prerequisiteConceptIds": ["knapsack-dp", "state-transition", "tabulation"],
     "mappedFromProblemIds": ["dp-008", "dp-009"],
     "recommendedAfterProblemIds": ["dp-008"],
     "sourceQualityWeight": 0.95
@@ -3283,8 +3329,8 @@
     "url": "https://leetcode.com/problems/last-stone-weight-ii/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp"],
-    "prerequisiteConceptIds": ["knapsack-dp"],
+    "conceptIds": ["knapsack-dp", "state-transition", "tabulation"],
+    "prerequisiteConceptIds": ["knapsack-dp", "state-transition", "tabulation"],
     "mappedFromProblemIds": ["dp-008", "dp-009"],
     "recommendedAfterProblemIds": ["dp-009"],
     "sourceQualityWeight": 0.86
@@ -3296,8 +3342,8 @@
     "url": "https://leetcode.com/problems/coin-change-ii/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp"],
-    "prerequisiteConceptIds": ["knapsack-dp"],
+    "conceptIds": ["knapsack-dp", "state-transition"],
+    "prerequisiteConceptIds": ["knapsack-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-010"],
     "recommendedAfterProblemIds": ["dp-010"],
     "sourceQualityWeight": 0.98
@@ -3309,8 +3355,8 @@
     "url": "https://leetcode.com/problems/ones-and-zeroes/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["knapsack-dp"],
-    "prerequisiteConceptIds": ["knapsack-dp"],
+    "conceptIds": ["knapsack-dp", "tabulation", "state-transition"],
+    "prerequisiteConceptIds": ["knapsack-dp", "tabulation", "state-transition"],
     "mappedFromProblemIds": ["dp-009", "dp-010"],
     "recommendedAfterProblemIds": ["dp-009"],
     "sourceQualityWeight": 0.84
@@ -3322,8 +3368,8 @@
     "url": "https://leetcode.com/problems/number-of-longest-increasing-subsequence/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["lis-dp"],
-    "prerequisiteConceptIds": ["lis-dp"],
+    "conceptIds": ["lis-dp", "state-transition"],
+    "prerequisiteConceptIds": ["lis-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-011"],
     "recommendedAfterProblemIds": ["dp-011"],
     "sourceQualityWeight": 0.9
@@ -3335,8 +3381,8 @@
     "url": "https://leetcode.com/problems/longest-arithmetic-subsequence/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["lis-dp"],
-    "prerequisiteConceptIds": ["lis-dp"],
+    "conceptIds": ["lis-dp", "state-transition"],
+    "prerequisiteConceptIds": ["lis-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-011", "dp-012"],
     "recommendedAfterProblemIds": ["dp-012"],
     "sourceQualityWeight": 0.82
@@ -3348,8 +3394,8 @@
     "url": "https://leetcode.com/problems/russian-doll-envelopes/",
     "difficulty": "Hard",
     "topicId": "dp",
-    "conceptIds": ["lis-dp"],
-    "prerequisiteConceptIds": ["lis-dp"],
+    "conceptIds": ["lis-dp", "state-transition"],
+    "prerequisiteConceptIds": ["lis-dp", "state-transition"],
     "mappedFromProblemIds": ["dp-011", "dp-012"],
     "recommendedAfterProblemIds": ["dp-011"],
     "sourceQualityWeight": 0.86
@@ -3361,8 +3407,8 @@
     "url": "https://leetcode.com/problems/longest-palindromic-subsequence/",
     "difficulty": "Medium",
     "topicId": "dp",
-    "conceptIds": ["string-dp"],
-    "prerequisiteConceptIds": ["string-dp"],
+    "conceptIds": ["string-dp", "tabulation"],
+    "prerequisiteConceptIds": ["string-dp", "tabulation"],
     "mappedFromProblemIds": ["dp-013"],
     "recommendedAfterProblemIds": ["dp-013"],
     "sourceQualityWeight": 0.95
@@ -3374,8 +3420,8 @@
     "url": "https://leetcode.com/problems/distinct-subsequences/",
     "difficulty": "Hard",
     "topicId": "dp",
-    "conceptIds": ["string-dp"],
-    "prerequisiteConceptIds": ["string-dp"],
+    "conceptIds": ["string-dp", "tabulation", "state-transition"],
+    "prerequisiteConceptIds": ["string-dp", "tabulation", "state-transition"],
     "mappedFromProblemIds": ["dp-013", "dp-014"],
     "recommendedAfterProblemIds": ["dp-013"],
     "sourceQualityWeight": 0.88
