@@ -1175,6 +1175,9 @@ export function createTargetProblemRoadmap(
     : undefined;
   const explicitBridges = chooseExplicitBridgeProblems(explicitBridgeIdsFromTarget, progress);
   const explicitBridgeIds = new Set(explicitBridges.map((problem) => problem.id));
+  const hasSameTopicExplicitBridge = explicitBridges.some((problem) =>
+    normalizeTopicKey(getTopicIdForProblem(problem.id) ?? "") === normalizeTopicKey(target.topicId)
+  );
   const bridgeCoveredConcepts = new Set([
     ...explicitBridges.flatMap((problem) => problem.expectedConcepts),
     ...(mappedBridge?.expectedConcepts ?? [])
@@ -1195,7 +1198,7 @@ export function createTargetProblemRoadmap(
       }
     }
     const addressedPlannedConcepts = problem.expectedConcepts.filter((conceptId) => internalPlan.conceptPlan.includes(conceptId));
-    if ((explicitBridgeIdsFromTarget?.length ?? 0) > 0) {
+    if ((explicitBridgeIdsFromTarget?.length ?? 0) > 0 && hasSameTopicExplicitBridge) {
       const directTargetOverlap = problem.expectedConcepts.some((conceptId) =>
         assessment.missingConceptIds.includes(conceptId) || target.conceptIds.includes(conceptId)
       );

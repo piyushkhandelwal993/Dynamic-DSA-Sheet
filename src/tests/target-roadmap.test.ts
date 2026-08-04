@@ -365,7 +365,7 @@ test("unique paths roadmap prefers the direct grid-dp bridge over generic tabula
   assert.equal(roadmap.steps.at(-1)?.title, "Unique Paths");
 });
 
-test("course schedule roadmap can pull queue toolkit readiness before graph topo practice", () => {
+test("course schedule roadmap can pull indegree-building readiness before graph topo practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-course-schedule-"));
   invalidateCatalogCache();
   const progress = createInitialProgress();
@@ -381,12 +381,12 @@ test("course schedule roadmap can pull queue toolkit readiness before graph topo
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("lt-006"), true);
+  assert.equal(internalIds.includes("lt-038"), true);
   assert.equal(internalIds.includes("gr-010"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Course Schedule");
 });
 
-test("network delay roadmap can pull priority queue toolkit readiness before dijkstra practice", () => {
+test("network delay roadmap can pull heap-distance readiness before dijkstra practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-network-delay-"));
   invalidateCatalogCache();
   const progress = createInitialProgress();
@@ -402,7 +402,7 @@ test("network delay roadmap can pull priority queue toolkit readiness before dij
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("lt-008"), true);
+  assert.equal(internalIds.includes("lt-024"), true);
   assert.equal(internalIds.includes("gr-013"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Network Delay Time");
 });
@@ -428,6 +428,31 @@ test("binary tree level order roadmap can pull queue toolkit readiness before tr
   assert.equal(internalIds.includes("tr-004"), true);
   assert.deepEqual(internalIds, ["lt-006", "tr-004"]);
   assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Level Order Traversal");
+});
+
+test("diameter roadmap avoids the internal twin and weak path-sum transfer", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-diameter-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/diameter-of-binary-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+  const externalTitles = roadmap.steps
+    .filter((step) => step.type === "external")
+    .map((step) => step.title);
+
+  assert.equal(internalIds.includes("tr-006"), false);
+  assert.equal(internalIds.includes("tr-005"), true);
+  assert.equal(externalTitles.includes("Path Sum"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Diameter of Binary Tree");
 });
 
 test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {

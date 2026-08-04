@@ -1274,7 +1274,8 @@
     "conceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
     "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
     "mappedFromProblemIds": ["tr-006"],
-    "recommendedAfterProblemIds": ["tr-006"],
+    "recommendedAfterProblemIds": ["tr-005"],
+    "roadmapBridgeProblemIds": ["tr-005"],
     "sourceQualityWeight": 1
   },
   {
@@ -3197,9 +3198,9 @@
     "url": "https://leetcode.com/problems/path-sum/",
     "difficulty": "Easy",
     "topicId": "trees",
-    "conceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
-    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-height", "tree-diameter"],
-    "mappedFromProblemIds": ["tr-005", "tr-006"],
+    "conceptIds": ["recursive-tree-traversal"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal"],
+    "mappedFromProblemIds": ["tr-001"],
     "recommendedAfterProblemIds": ["tr-005"],
     "sourceQualityWeight": 0.84
   },
