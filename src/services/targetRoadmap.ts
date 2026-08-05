@@ -998,7 +998,8 @@ function personalizeInternalProblems(
   targetTopicId: string,
   problems: Problem[],
   skillProfile: SkillProfile,
-  hasSameTopicExplicitBridge: boolean
+  hasSameTopicExplicitBridge: boolean,
+  protectedProblemIds: Set<string> = new Set<string>()
 ): Problem[] {
   const seenIds = new Set<string>();
   let severeSupportIncluded = false;
@@ -1007,6 +1008,13 @@ function personalizeInternalProblems(
       return false;
     }
     seenIds.add(problem.id);
+
+    if (protectedProblemIds.has(problem.id)) {
+      if (isSupportOnlyProblem(targetTopicId, problem) && problemSupportSeverity(targetTopicId, problem, skillProfile) === 0) {
+        severeSupportIncluded = true;
+      }
+      return true;
+    }
 
     if (!isSupportOnlyProblem(targetTopicId, problem)) {
       return true;
@@ -1268,6 +1276,7 @@ export function createTargetProblemRoadmap(
         title: assessment.inferredTitle ?? titleFromSlug(parseLeetCodeSlug(inputUrl) ?? "target"),
         topicId: assessment.inferredTopicId,
         conceptIds: assessment.missingConceptIds.length ? assessment.missingConceptIds : assessment.strengthConceptIds,
+        prerequisiteConceptIds: assessment.missingConceptIds.length ? assessment.missingConceptIds : assessment.strengthConceptIds,
         roadmapBridgeProblemIds: assessment.inferredTitle === "Spiral Matrix" ? ["arr-037", "arr-038"] : [],
         mappedFromProblemIds: []
       }
@@ -1329,7 +1338,13 @@ export function createTargetProblemRoadmap(
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
     : remainingInternalPlan;
   const internalProblems = orderInternalProblemsByProgression(
-    personalizeInternalProblems(target.topicId, [...baseInternalProblems, ...explicitBridges], skillProfile, hasSameTopicExplicitBridge)
+    personalizeInternalProblems(
+      target.topicId,
+      [...baseInternalProblems, ...explicitBridges],
+      skillProfile,
+      hasSameTopicExplicitBridge,
+      explicitBridgeIds
+    )
   );
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);

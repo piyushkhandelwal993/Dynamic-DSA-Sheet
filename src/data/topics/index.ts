@@ -57,6 +57,8 @@ const slidingWindowConceptIds = new Set(["array-traversal", "prefix-sum", "two-p
 const prefixSuffixConceptIds = new Set(["array-traversal", "prefix-sum", "frequency-counting", "prefix-suffix-product", "prefix-balance", "prefix-modulo"]);
 const remainingArrayConceptIds = new Set([
   "array-traversal",
+  "matrix-traversal",
+  "boundary-traversal",
   "min-max-array",
   "sorted-check",
   "second-largest",

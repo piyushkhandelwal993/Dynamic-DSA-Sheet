@@ -3094,7 +3094,7 @@
     "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage"],
     "mappedFromProblemIds": ["tr-009", "tr-012"],
     "recommendedAfterProblemIds": ["tr-009", "tr-012"],
-    "roadmapBridgeProblemIds": ["tr-004", "tr-009"],
+    "roadmapBridgeProblemIds": ["lt-006", "tr-004", "tr-009"],
     "sourceQualityWeight": 0.92
   },
   {
