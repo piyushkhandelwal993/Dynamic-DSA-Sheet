@@ -6,6 +6,10 @@ function clamp(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+function normalizeTopicKey(topic: string): string {
+  return topic.trim().toLowerCase().replace(/[\s_]+/g, "-");
+}
+
 export function scoreSubmissionFromFacts(
   problem: Problem,
   facts: CodeFacts,
@@ -16,22 +20,24 @@ export function scoreSubmissionFromFacts(
     string,
     (problem: Problem, facts: CodeFacts, expectation: ProblemExpectationResult, execution?: ExecutionResult) => ScoreBreakdown
   > = {
-    "Bit Manipulation": scoreBitSubmissionFromFacts,
-    "Programming Mathematics": scoreProgrammingMathSubmissionFromFacts,
-    Arrays: scoreArraySubmissionFromFacts,
-    "Two Pointers": scoreArraySubmissionFromFacts,
-    "Sliding Window": scoreArraySubmissionFromFacts,
-    "Prefix-Suffix": scoreArraySubmissionFromFacts,
-    Stack: scoreStackSubmissionFromFacts,
-    "Linked List": scoreLinkedListSubmissionFromFacts,
-    Queue: scoreQueueSubmissionFromFacts,
-    "Binary Search": scoreBinarySearchSubmissionFromFacts,
-    Trees: scoreTreeSubmissionFromFacts,
-    Graphs: scoreGraphSubmissionFromFacts,
-    "Dynamic Programming": scoreDpSubmissionFromFacts,
-    Recursion: scoreRecursionSubmissionFromFacts
+    "bit-manipulation": scoreBitSubmissionFromFacts,
+    "programming-mathematics": scoreProgrammingMathSubmissionFromFacts,
+    arrays: scoreArraySubmissionFromFacts,
+    "two-pointers": scoreArraySubmissionFromFacts,
+    "sliding-window": scoreArraySubmissionFromFacts,
+    "prefix-suffix": scoreArraySubmissionFromFacts,
+    "language-toolkit": scoreArraySubmissionFromFacts,
+    strings: scoreArraySubmissionFromFacts,
+    stack: scoreStackSubmissionFromFacts,
+    "linked-list": scoreLinkedListSubmissionFromFacts,
+    queue: scoreQueueSubmissionFromFacts,
+    "binary-search": scoreBinarySearchSubmissionFromFacts,
+    trees: scoreTreeSubmissionFromFacts,
+    graphs: scoreGraphSubmissionFromFacts,
+    "dynamic-programming": scoreDpSubmissionFromFacts,
+    recursion: scoreRecursionSubmissionFromFacts
   };
-  const scorer = scorers[problem.topic];
+  const scorer = scorers[normalizeTopicKey(problem.topic)];
   if (!scorer) {
     throw new Error(`Facts-native scoring is not implemented for topic: ${problem.topic}`);
   }
