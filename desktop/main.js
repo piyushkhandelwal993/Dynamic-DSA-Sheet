@@ -125,6 +125,9 @@ ipcMain.handle("desktop:evaluate-target-problem", async (_event, inputUrl, probl
 ipcMain.handle("desktop:create-target-problem-roadmap", async (_event, inputUrl, problemStatement) =>
   getDesktopApi().createDesktopTargetProblemRoadmap(inputUrl, problemStatement)
 );
+ipcMain.handle("desktop:create-internal-problem-roadmap", async (_event, problemId) =>
+  getDesktopApi().createDesktopInternalProblemRoadmap(problemId)
+);
 ipcMain.handle("desktop:get-roadmap-review-workspace", async () => getDesktopApi().getDesktopRoadmapReviewWorkspace());
 ipcMain.handle("desktop:save-roadmap-review", async (_event, input) => getDesktopApi().saveDesktopRoadmapReview(input));
 ipcMain.handle("desktop:export-roadmap-review-fixtures", async () => getDesktopApi().exportDesktopRoadmapReviewFixtures());

@@ -964,6 +964,36 @@ function problemSupportSeverity(targetTopicId: string, problem: Problem, skillPr
   }));
 }
 
+function isRedundantSupportBridge(
+  targetTopicId: string,
+  supportProblem: Problem,
+  allProblems: Problem[]
+): boolean {
+  if (!isSupportOnlyProblem(targetTopicId, supportProblem)) {
+    return false;
+  }
+
+  const coreProblems = allProblems.filter((problem) => !isSupportOnlyProblem(targetTopicId, problem));
+  if (coreProblems.length < 2) {
+    return false;
+  }
+
+  const ignorableGenericSupportConcepts = new Set(["collection-iteration-usage"]);
+  const relevantSupportConcepts = supportProblem.expectedConcepts.filter((conceptId) =>
+    !ignorableGenericSupportConcepts.has(conceptId)
+  );
+
+  if (relevantSupportConcepts.length === 0) {
+    return false;
+  }
+
+  return relevantSupportConcepts.every((conceptId) =>
+    coreProblems.some((problem) =>
+      problem.expectedConcepts.includes(conceptId) || problem.prerequisiteConcepts.includes(conceptId)
+    )
+  );
+}
+
 function personalizeInternalProblems(
   targetTopicId: string,
   problems: Problem[],
@@ -980,6 +1010,10 @@ function personalizeInternalProblems(
 
     if (!isSupportOnlyProblem(targetTopicId, problem)) {
       return true;
+    }
+
+    if (isRedundantSupportBridge(targetTopicId, problem, problems)) {
+      return false;
     }
 
     const severity = problemSupportSeverity(targetTopicId, problem, skillProfile);

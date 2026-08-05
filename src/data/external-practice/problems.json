@@ -3112,6 +3112,20 @@
     "sourceQualityWeight": 0.9
   },
   {
+    "id": "ext-lc-bottom-view-binary-tree",
+    "platform": "leetcode",
+    "title": "Bottom View of Binary Tree",
+    "url": "https://leetcode.com/problems/bottom-view-of-a-binary-tree/",
+    "difficulty": "Medium",
+    "topicId": "trees",
+    "conceptIds": ["tree-view", "level-order-traversal"],
+    "prerequisiteConceptIds": ["tree-view", "level-order-traversal", "queue-library-usage"],
+    "mappedFromProblemIds": ["tr-012"],
+    "recommendedAfterProblemIds": ["tr-012"],
+    "roadmapBridgeProblemIds": ["tr-004", "tr-012"],
+    "sourceQualityWeight": 0.89
+  },
+  {
     "id": "ext-lc-binary-tree-zigzag-level-order",
     "platform": "leetcode",
     "title": "Binary Tree Zigzag Level Order Traversal",

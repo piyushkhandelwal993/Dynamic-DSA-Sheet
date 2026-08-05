@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld("dsaDesktop", {
   markExternalPractice: (problemId, status) => ipcRenderer.invoke("desktop:mark-external-practice", problemId, status),
   evaluateTargetProblem: (inputUrl, problemStatement) => ipcRenderer.invoke("desktop:evaluate-target-problem", inputUrl, problemStatement),
   createTargetProblemRoadmap: (inputUrl, problemStatement) => ipcRenderer.invoke("desktop:create-target-problem-roadmap", inputUrl, problemStatement),
+  createInternalProblemRoadmap: (problemId) => ipcRenderer.invoke("desktop:create-internal-problem-roadmap", problemId),
   getRoadmapReviewWorkspace: () => ipcRenderer.invoke("desktop:get-roadmap-review-workspace"),
   saveRoadmapReview: (input) => ipcRenderer.invoke("desktop:save-roadmap-review", input),
   exportRoadmapReviewFixtures: () => ipcRenderer.invoke("desktop:export-roadmap-review-fixtures"),

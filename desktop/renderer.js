@@ -2705,6 +2705,13 @@ Output: ${escapeHtml(example.output)}</pre>
       <span class="pill yellow">${escapeHtml(problem.expectedComplexity)}</span>
       <span class="pill gray">${problem.estimatedMinutes} min</span>
     </div>`,
+    `<div class="problem-roadmap-cta">
+      <div>
+        <div class="eyebrow">Need a guided path?</div>
+        <p class="muted">Check readiness and build an internal-first roadmap for this problem.</p>
+      </div>
+      <button class="ghost-button" type="button" data-problem-action="create-internal-roadmap" data-problem-id="${escapeHtml(problem.id)}">Create Roadmap</button>
+    </div>`,
     section("Description", `<p>${escapeHtml(problem.description ?? "No description added yet.")}</p>`),
     section("Constraints", list(problem.constraints)),
     problem.inputFormat?.length ? section("Input Format", list(problem.inputFormat)) : "",
@@ -3536,6 +3543,38 @@ async function evaluateTargetRoadmap({ generateRoadmap = false } = {}) {
     state.targetRoadmap.assessment = null;
     state.targetRoadmap.roadmap = null;
     state.targetRoadmap.reviewDraft = null;
+  } finally {
+    state.targetRoadmap.loading = false;
+    render();
+  }
+}
+
+async function openInternalProblemRoadmap(problemId) {
+  state.targetRoadmap.loading = true;
+  state.targetRoadmap.status = "Building internal roadmap...";
+  state.targetRoadmap.inputUrl = `internal://${problemId}`;
+  state.targetRoadmap.problemStatement = "";
+  setCurrentView("roadmap");
+  render();
+
+  try {
+    const roadmap = await window.dsaDesktop.createInternalProblemRoadmap(problemId);
+    state.targetRoadmap.assessment = roadmap.assessment;
+    state.targetRoadmap.roadmap = roadmap;
+    state.targetRoadmap.reviewDraft = cloneRoadmapPlan(roadmap);
+    state.targetRoadmap.reviewRecordId = "";
+    state.targetRoadmap.reviewManualTags = [];
+    state.targetRoadmap.reviewNotes = "";
+    state.targetRoadmap.reviewStatus = "Review the internal roadmap and adjust it if needed.";
+    await ensureRoadmapReviewWorkspaceLoaded();
+    state.targetRoadmap.status = roadmap.steps.length
+      ? `Created ${roadmap.steps.length} internal roadmap step(s).`
+      : "No internal roadmap steps were generated.";
+  } catch (error) {
+    state.targetRoadmap.assessment = null;
+    state.targetRoadmap.roadmap = null;
+    state.targetRoadmap.reviewDraft = null;
+    state.targetRoadmap.status = error?.message ?? String(error);
   } finally {
     state.targetRoadmap.loading = false;
     render();
@@ -4919,6 +4958,15 @@ resultPanelEl.addEventListener("click", async (event) => {
 });
 
 document.addEventListener("click", async (event) => {
+  const internalRoadmapButton = event.target.closest("[data-problem-action=\"create-internal-roadmap\"]");
+  if (internalRoadmapButton) {
+    const problemId = internalRoadmapButton.getAttribute("data-problem-id");
+    if (problemId) {
+      await openInternalProblemRoadmap(problemId);
+    }
+    return;
+  }
+
   const reviewLoadButton = event.target.closest("[data-roadmap-review-load]");
   if (reviewLoadButton) {
     const recordId = reviewLoadButton.getAttribute("data-roadmap-review-load");

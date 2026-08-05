@@ -10,7 +10,10 @@ import {
   PracticeMode,
   Problem,
   ProblemSessionResult,
-  ProgrammingLanguage
+  ProgrammingLanguage,
+  TargetProblemAssessment,
+  TargetProblemRoadmapPlan,
+  TargetProblemRoadmapStep
 } from "../types";
 import {
   getActiveTopicId,
@@ -417,6 +420,160 @@ export function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?
 
 export function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
   return createTargetProblemRoadmap(inputUrl, problemStatement);
+}
+
+function buildInternalProblemAssessment(problem: Problem): TargetProblemAssessment {
+  const skillProfile = getSkillProfile();
+  const topicId = getTopicIdForProblem(problem.id) ?? normalizeTopicId(problem.topic);
+  const targetConceptIds = [...new Set([...(problem.prerequisiteConcepts ?? []), ...(problem.expectedConcepts ?? [])])];
+  const strengthConceptIds = targetConceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 80);
+  const missingConceptIds = targetConceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) < 75);
+  const averageScore = targetConceptIds.length
+    ? Math.round(targetConceptIds.reduce((sum, conceptId) => sum + (skillProfile.conceptScores[conceptId] ?? 0), 0) / targetConceptIds.length)
+    : 0;
+  const mappedSolved = problem.remedialProblems?.filter((problemId) => {
+    const progress = getProgress();
+    const state = progress.problems[problemId];
+    return Boolean(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
+  }).length ?? 0;
+
+  let verdict: TargetProblemAssessment["verdict"] = "not-ready";
+  if (missingConceptIds.length === 0 && mappedSolved >= Math.max(0, (problem.remedialProblems?.length ?? 0) - 1)) {
+    verdict = "ready";
+  } else if (averageScore >= 60 || missingConceptIds.length <= 2) {
+    verdict = "close";
+  }
+
+  const reasons = [
+    missingConceptIds.length
+      ? `You still need stronger command of ${missingConceptIds.length} prerequisite concept(s).`
+      : "Your prerequisite concepts look strong for this internal problem.",
+    problem.remedialProblems?.length
+      ? `This problem has ${problem.remedialProblems.length} linked bridge problem(s) that can sharpen readiness.`
+      : "This problem does not have explicit bridge problems, so the roadmap relies on concept-focused internal practice."
+  ];
+
+  return {
+    inputUrl: `internal://${problem.id}`,
+    normalizedUrl: `internal://${problem.id}`,
+    inferredTitle: `${problem.id} · ${problem.title}`,
+    inferredTopicId: topicId,
+    inferredConceptIds: problem.expectedConcepts,
+    readinessScore: Math.max(0, Math.min(100, averageScore)),
+    verdict,
+    readyNow: verdict === "ready",
+    confidence: "High",
+    reasons,
+    strengthConceptIds,
+    missingConceptIds
+  };
+}
+
+function normalizeTopicId(topicName: string): string {
+  return topicName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
+}
+
+function chooseConceptBridgeProblemIds(problem: Problem): string[] {
+  const progress = getProgress();
+  const skillProfile = getSkillProfile();
+  const topicId = getTopicIdForProblem(problem.id) ?? normalizeTopicId(problem.topic);
+  const allProblems = getTopicMetas()
+    .filter((topic) => topic.status === "active")
+    .flatMap((topic) => getTopicProblems(topic.id));
+  const targetDifficultyRank = problem.difficulty === "Easy" ? 0 : problem.difficulty === "Medium" ? 1 : 2;
+
+  const targetConceptIds = [...new Set([...(problem.prerequisiteConcepts ?? []), ...(problem.expectedConcepts ?? [])])];
+  const bridgeConceptIds = [...new Set(problem.prerequisiteConcepts ?? [])];
+  const missingConceptIds = bridgeConceptIds.filter((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) < 75);
+  const candidates = missingConceptIds.flatMap((conceptId) =>
+    allProblems
+      .filter((candidate) => candidate.id !== problem.id)
+      .filter((candidate) => candidate.expectedConcepts.includes(conceptId))
+      .filter((candidate) => {
+        const state = progress.problems[candidate.id];
+        return !(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
+      })
+      .filter((candidate) => {
+        const difficultyRank = candidate.difficulty === "Easy" ? 0 : candidate.difficulty === "Medium" ? 1 : 2;
+        return difficultyRank <= targetDifficultyRank;
+      })
+      .map((candidate) => ({
+        candidate,
+        conceptId,
+        extraConceptCount: candidate.expectedConcepts.filter((expectedConceptId) => !targetConceptIds.includes(expectedConceptId)).length,
+        sameTopic: (getTopicIdForProblem(candidate.id) ?? "") === topicId,
+        score:
+          (candidate.expectedConcepts.includes(conceptId) ? 5 : 0) +
+          (candidate.prerequisiteConcepts.some((dependencyId) => targetConceptIds.includes(dependencyId)) ? 2 : 0) +
+          ((candidate.prerequisiteConcepts ?? []).some((dependencyId) => dependencyId === conceptId) ? 1 : 0) +
+          (candidate.poolRole === "core" ? 2 : candidate.poolRole === "practice" ? 1 : -1) +
+          (candidate.learningRole === "introduce" ? 2 : candidate.learningRole === "reinforce" ? 1 : 0) -
+          (candidate.learningRole === "mastery" ? 2 : 0) -
+          (candidate.difficulty === "Hard" ? 2 : candidate.difficulty === "Medium" ? 1 : 0) -
+          (getTopicIdForProblem(candidate.id) === "language-toolkit" ? 0 : 0) -
+          (candidate.expectedConcepts.includes(conceptId) && conceptId === "queue-library-usage" ? 2 : 0) -
+          candidate.expectedConcepts.filter((expectedConceptId) => !targetConceptIds.includes(expectedConceptId)).length * 3 -
+          ((skillProfile.conceptScores[conceptId] ?? 0) >= 60 ? 1 : 0)
+      }))
+  );
+
+  const ordered = candidates
+    .sort((left, right) =>
+      right.score - left.score
+      || left.extraConceptCount - right.extraConceptCount
+      || Number(right.sameTopic) - Number(left.sameTopic)
+      || left.candidate.id.localeCompare(right.candidate.id)
+    )
+    .map((item) => item.candidate.id);
+
+  return [...new Set(ordered)].slice(0, 3);
+}
+
+export function createDesktopInternalProblemRoadmap(problemId: string): TargetProblemRoadmapPlan {
+  const problem = getDesktopProblem(problemId);
+  const progress = getProgress();
+  const assessment = buildInternalProblemAssessment(problem);
+  const solved = (candidateId: string) => {
+    const state = progress.problems[candidateId];
+    return Boolean(state && (state.status === "solved" || (state.bestScore ?? 0) >= 70));
+  };
+
+  const bridgeIds = [
+    ...(problem.remedialProblems ?? []).filter((candidateId) => candidateId !== problem.id && !solved(candidateId)),
+    ...chooseConceptBridgeProblemIds(problem)
+  ];
+  const orderedBridgeIds = [...new Set(bridgeIds)].filter((candidateId) => candidateId !== problem.id);
+  const bridgeSteps: TargetProblemRoadmapStep[] = orderedBridgeIds
+    .map((candidateId) => getProblemById(candidateId))
+    .filter((candidate): candidate is Problem => Boolean(candidate))
+    .map((candidate, index) => ({
+      id: `internal-${candidate.id}-${index}`,
+      type: "internal",
+      title: `${candidate.id} · ${candidate.title}`,
+      reason: candidate.expectedConcepts.some((conceptId) => assessment.missingConceptIds.includes(conceptId))
+        ? `Build the foundation for ${candidate.expectedConcepts.join(", ")} before retrying the target problem.`
+        : "Use this internal bridge to strengthen a missing prerequisite before retrying the target problem.",
+      conceptIds: candidate.expectedConcepts,
+      internalProblemId: candidate.id
+    }));
+
+  const targetStep: TargetProblemRoadmapStep = {
+    id: `target-${problem.id}`,
+    type: "target",
+    title: `${problem.id} · ${problem.title}`,
+    reason: "Retry this internal problem after finishing the bridge steps.",
+    conceptIds: problem.expectedConcepts,
+    internalProblemId: problem.id
+  };
+
+  return {
+    assessment,
+    strategy: "internal-problem-roadmap",
+    notes: orderedBridgeIds.length
+      ? ["Internal bridge problems come first, then the target retry."]
+      : ["You are already close. Retry the target after reviewing the highlighted concepts."],
+    steps: [...bridgeSteps, targetStep]
+  };
 }
 
 export function getDesktopRoadmapReviewWorkspace() {
