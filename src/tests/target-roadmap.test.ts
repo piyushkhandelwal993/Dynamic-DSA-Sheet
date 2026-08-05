@@ -603,6 +603,33 @@ test("right side view roadmap uses queue readiness before tree-view practice", (
   assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Right Side View");
 });
 
+test("top view of binary tree becomes a supported trees roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-top-view-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/top-view-of-a-binary-tree/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/top-view-of-a-binary-tree/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-top-view-binary-tree");
+  assert.deepEqual(internalIds, ["tr-004", "tr-012"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "Top View of Binary Tree");
+});
+
 test("kth smallest bst roadmap pulls sorted-check and inorder traversal before bst search practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-kth-smallest-bst-"));
   invalidateCatalogCache();
