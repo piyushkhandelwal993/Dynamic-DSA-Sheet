@@ -77,6 +77,7 @@ export type FunctionDriverStrategy =
   | "tree-bst-delete"
   | "tree-top-view"
   | "tree-lca"
+  | "tree-root-to-node-path"
   | "tree-build-from-traversals"
   | "tree-serialize-level-order"
   | "stack-balanced-brackets"

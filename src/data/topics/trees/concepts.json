@@ -144,16 +144,64 @@
     "dependsOn": ["level-order-traversal", "tree-view", "ordered-map-usage", "pair-collection-usage", "map-iteration-order-usage"]
   },
   {
+    "id": "tree-value-search",
+    "name": "Search Value in Binary Tree",
+    "description": "Search both subtrees recursively until the target value is found or the tree is exhausted.",
+    "exampleJava": "return root.val == target || contains(root.left, target) || contains(root.right, target);",
+    "commonMistakes": [
+      "Stopping after checking only one subtree",
+      "Using BST ordering logic on a general binary tree"
+    ],
+    "practiceProblems": ["tr-021"],
+    "dependsOn": ["tree-intro", "recursive-tree-traversal"]
+  },
+  {
+    "id": "root-to-node-path",
+    "name": "Root to Node Path",
+    "description": "Carry a partial path through recursion and keep it only when the target is found.",
+    "exampleJava": "path.add(root.val); if (dfs(root.left, target, path)) return true;",
+    "commonMistakes": [
+      "Forgetting to backtrack when a branch fails",
+      "Returning a partial path that never reaches the target"
+    ],
+    "practiceProblems": ["tr-022"],
+    "dependsOn": ["recursive-tree-traversal", "tree-value-search"]
+  },
+  {
+    "id": "lca-using-paths",
+    "name": "LCA Using Paths",
+    "description": "Build both root-to-node paths and compare them until the paths diverge.",
+    "exampleJava": "while (i < pathP.size() && pathP.get(i).equals(pathQ.get(i))) answer = pathP.get(i++);",
+    "commonMistakes": [
+      "Comparing nodes from the end instead of from the root",
+      "Assuming equal path lengths"
+    ],
+    "practiceProblems": ["tr-023"],
+    "dependsOn": ["root-to-node-path"]
+  },
+  {
+    "id": "subtree-target-count",
+    "name": "Count Targets in Subtree",
+    "description": "Return how many target values are present in a subtree so parent calls can combine match information.",
+    "exampleJava": "return (root.val == p || root.val == q ? 1 : 0) + leftCount + rightCount;",
+    "commonMistakes": [
+      "Not adding the current node match to child counts",
+      "Throwing away one subtree count when both sides matter"
+    ],
+    "practiceProblems": ["tr-024"],
+    "dependsOn": ["recursive-tree-traversal"]
+  },
+  {
     "id": "lca-binary-tree",
     "name": "Lowest Common Ancestor",
-    "description": "Return the split point where one target is found in each subtree, or the target node itself.",
+    "description": "Use one postorder-style pass that returns the answer as soon as the recursion learns enough from left, right, and current node matches.",
     "exampleJava": "if (left != null && right != null) return root;",
     "commonMistakes": [
       "Returning too early when only one side has a match",
       "Not handling the case where root is one of the targets"
     ],
     "practiceProblems": ["tr-013"],
-    "dependsOn": ["recursive-tree-traversal"]
+    "dependsOn": ["recursive-tree-traversal", "root-to-node-path", "lca-using-paths", "subtree-target-count"]
   },
   {
     "id": "tree-construction",
@@ -178,5 +226,17 @@
     ],
     "practiceProblems": ["tr-015"],
     "dependsOn": ["tree-intro", "level-order-traversal", "string-builder-usage"]
+  },
+  {
+    "id": "tree-root-to-leaf-paths",
+    "name": "Root-to-Leaf Path Strings",
+    "description": "Build every root-to-leaf path while carrying the current path text or path state through recursion.",
+    "exampleJava": "dfs(node.left, path + \"->\" + node.left.val);",
+    "commonMistakes": [
+      "Forgetting to emit a path only when a leaf is reached",
+      "Mutating one shared path incorrectly across sibling branches"
+    ],
+    "practiceProblems": ["tr-020"],
+    "dependsOn": ["recursive-tree-traversal", "string-builder-usage"]
   }
 ]

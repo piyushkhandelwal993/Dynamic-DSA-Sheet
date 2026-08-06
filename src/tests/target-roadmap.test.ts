@@ -506,6 +506,34 @@ test("binary tree maximum path sum becomes a supported trees roadmap target", ()
   assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Maximum Path Sum");
 });
 
+test("binary tree paths becomes a supported trees roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-binary-tree-paths-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/binary-tree-paths/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/binary-tree-paths/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-binary-tree-paths");
+  assert.equal(internalIds.includes("tr-001"), true);
+  assert.equal(internalIds.includes("tr-020"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Binary Tree Paths");
+});
+
 test("boundary of binary tree becomes a supported trees roadmap target", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-boundary-tree-"));
   invalidateCatalogCache();
@@ -533,6 +561,33 @@ test("boundary of binary tree becomes a supported trees roadmap target", () => {
   assert.deepEqual(roadmap.notes, []);
   assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
   assert.equal(roadmap.steps.at(-1)?.title, "Boundary of Binary Tree");
+});
+
+test("lowest common ancestor roadmap uses the internal bridge without stale note or weak transfer", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-lca-bt-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "beginner" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+  const externalTitles = roadmap.steps
+    .filter((step) => step.type === "external")
+    .map((step) => step.title);
+
+  assert.deepEqual(internalIds, ["tr-001", "tr-021", "tr-022", "tr-023", "tr-024", "tr-013"]);
+  assert.equal((roadmap.notes ?? []).length, 0);
+  assert.equal(externalTitles.includes("Binary Tree Preorder Traversal"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Lowest Common Ancestor of a Binary Tree");
 });
 
 test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {

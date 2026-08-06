@@ -918,7 +918,7 @@
     "id": "tr-013",
     "topic": "Trees",
     "subtopic": "Tree properties and paths",
-    "title": "Lowest Common Ancestor of Binary Tree",
+    "title": "Optimal Lowest Common Ancestor",
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
@@ -926,11 +926,13 @@
       "lca-binary-tree"
     ],
     "prerequisiteConcepts": [
-      "recursive-tree-traversal"
+      "recursive-tree-traversal",
+      "lca-using-paths",
+      "subtree-target-count"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 24,
-    "description": "Given a binary tree in level-order form using -1 for nulls and two node values p and q known to exist, print the value of their lowest common ancestor.",
+    "description": "Given a binary tree in level-order form using -1 for nulls and two node values p and q known to exist, print the value of their lowest common ancestor using the optimal single-pass recursive strategy.",
     "constraints": [
       "1 <= number of nodes <= 10^5"
     ],
@@ -946,7 +948,7 @@
       "One node is ancestor of the other",
       "Targets lie in different subtrees"
     ],
-    "intendedApproachSummary": "Return root if it matches p or q. Recurse into both subtrees; if both return non-null, root is the LCA.",
+    "intendedApproachSummary": "Return root if it matches p or q. Recurse into both subtrees; if both return non-null, root is the LCA. Otherwise bubble the non-null side upward.",
     "wrongApproachHints": [
       "The first matched target is not always the final answer.",
       "You need information from both sides."
@@ -983,7 +985,7 @@
       }
     ],
     "remedialProblems": [
-      "tr-005"
+      "tr-024"
     ],
     "skipIfMastered": [],
     "poolRole": "challenge",
@@ -1454,5 +1456,387 @@
     "poolRole": "challenge",
     "masteryWeight": 1.4,
     "variantGroup": "tree-vertical-order-challenge"
+  },
+  {
+    "id": "tr-020",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Root-to-Leaf Paths as Strings",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "tree-root-to-leaf-paths"
+    ],
+    "prerequisiteConcepts": [
+      "recursive-tree-traversal",
+      "string-builder-usage"
+    ],
+    "expectedComplexity": "O(n * h)",
+    "estimatedMinutes": 22,
+    "description": "Given a binary tree in level-order form using -1 for nulls, return every root-to-leaf path as a string joined by -> in left-to-right order.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print one path string per line"
+    ],
+    "edgeCases": [
+      "Single-node tree returns one path with only the root",
+      "Skewed tree has only one root-to-leaf path"
+    ],
+    "intendedApproachSummary": "Use DFS, carry the current path text or node list downward, and emit a path only when a leaf node is reached.",
+    "wrongApproachHints": [
+      "Do not print partial paths for internal nodes.",
+      "Do not let one branch overwrite the path built for a sibling branch."
+    ],
+    "hints": [
+      "A leaf is the moment to push the completed path into the answer list.",
+      "Pass the current path forward with each recursive call."
+    ],
+    "examples": [
+      {
+        "input": "5\n1 2 3 -1 5",
+        "output": "1->2->5\n1->3",
+        "explanation": "The two root-to-leaf paths are 1->2->5 and 1->3."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rootToLeafPaths",
+      "javaSignature": "public List<String> rootToLeafPaths(TreeNode root)",
+      "cppSignature": "vector<string> rootToLeafPaths(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-serialize-level-order"
+    },
+    "testCases": [
+      {
+        "input": "5\n1 2 3 -1 5",
+        "expectedOutput": "1->2->5\n1->3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1\n7",
+        "expectedOutput": "7",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "masteryWeight": 1.2,
+    "variantGroup": "tree-root-to-leaf-paths-bridge"
+  },
+  {
+    "id": "tr-021",
+    "topic": "Trees",
+    "subtopic": "Tree search and paths",
+    "title": "Search Value in Binary Tree",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "tree-value-search"
+    ],
+    "prerequisiteConcepts": [
+      "tree-intro",
+      "recursive-tree-traversal"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 14,
+    "description": "Given a binary tree in level-order form using -1 for nulls and a target value, print Found if the target exists anywhere in the tree, otherwise print Not Found.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null",
+      "One integer target"
+    ],
+    "outputFormat": [
+      "Print Found or Not Found"
+    ],
+    "edgeCases": [
+      "Target is the root",
+      "Target exists only in the right subtree"
+    ],
+    "intendedApproachSummary": "Check the current node, then recurse into left and right subtrees until one side reports success.",
+    "wrongApproachHints": [
+      "This is a general binary tree, so you cannot choose one direction by value ordering.",
+      "Do not stop after only checking the left subtree."
+    ],
+    "hints": [
+      "Base case: null means the target is not found here.",
+      "If current node is not the target, either subtree may still contain it."
+    ],
+    "examples": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6\n5",
+        "output": "Found",
+        "explanation": "The value 5 exists in the left subtree."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "containsValue",
+      "javaSignature": "public boolean containsValue(TreeNode root, int target)",
+      "cppSignature": "bool containsValue(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-search"
+    },
+    "testCases": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6\n5",
+        "expectedOutput": "Found",
+        "visibility": "sample"
+      },
+      {
+        "input": "7\n1 2 3 4 5 -1 6\n9",
+        "expectedOutput": "Not Found",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.02,
+    "variantGroup": "tree-value-search-bridge"
+  },
+  {
+    "id": "tr-022",
+    "topic": "Trees",
+    "subtopic": "Tree search and paths",
+    "title": "Root to Node Path",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "root-to-node-path"
+    ],
+    "prerequisiteConcepts": [
+      "recursive-tree-traversal",
+      "tree-value-search"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary tree in level-order form using -1 for nulls and a target value known to exist, print the path from root to that target.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null",
+      "One integer target"
+    ],
+    "outputFormat": [
+      "Print the root-to-target path values separated by spaces"
+    ],
+    "edgeCases": [
+      "Target is the root",
+      "Target sits deep in only one branch"
+    ],
+    "intendedApproachSummary": "Carry the current path during DFS, keep it when the target is found, and backtrack when a branch fails.",
+    "wrongApproachHints": [
+      "Do not keep failed branch nodes in the final path.",
+      "Finding the target is not enough unless the path state is preserved."
+    ],
+    "hints": [
+      "Push before recursive calls and pop when a branch does not work.",
+      "The first successful branch determines the path."
+    ],
+    "examples": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n4",
+        "output": "3 5 2 4",
+        "explanation": "These nodes form the path from the root to 4."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rootToNodePath",
+      "javaSignature": "public List<Integer> rootToNodePath(TreeNode root, int target)",
+      "cppSignature": "vector<int> rootToNodePath(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-root-to-node-path"
+    },
+    "testCases": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n4",
+        "expectedOutput": "3 5 2 4",
+        "visibility": "sample"
+      },
+      {
+        "input": "7\n1 2 3 4 5 -1 6\n6",
+        "expectedOutput": "1 3 6",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-021"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.08,
+    "variantGroup": "tree-root-path-bridge"
+  },
+  {
+    "id": "tr-023",
+    "topic": "Trees",
+    "subtopic": "Tree properties and paths",
+    "title": "LCA Using Paths",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "lca-using-paths"
+    ],
+    "prerequisiteConcepts": [
+      "root-to-node-path"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 22,
+    "description": "Given a binary tree in level-order form using -1 for nulls and two node values p and q known to exist, compute their lowest common ancestor by building both root-to-node paths first.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null",
+      "Two integers p and q"
+    ],
+    "outputFormat": [
+      "Print the LCA value"
+    ],
+    "edgeCases": [
+      "One node is ancestor of the other",
+      "The paths diverge right below the root"
+    ],
+    "intendedApproachSummary": "Construct root-to-node paths for both targets, then walk both arrays from the front until they diverge. The last common node is the LCA.",
+    "wrongApproachHints": [
+      "Comparing from the leaf side does not identify the lowest shared ancestor correctly.",
+      "Both paths must start from the root."
+    ],
+    "hints": [
+      "Reuse your root-to-node path logic twice.",
+      "Track the last equal node while both paths match."
+    ],
+    "examples": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 1",
+        "output": "3",
+        "explanation": "The two paths first diverge after the root, so the answer is 3."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lowestCommonAncestorUsingPaths",
+      "javaSignature": "public int lowestCommonAncestorUsingPaths(TreeNode root, int p, int q)",
+      "cppSignature": "int lowestCommonAncestorUsingPaths(TreeNode* root, int p, int q)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-lca"
+    },
+    "testCases": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 1",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 4",
+        "expectedOutput": "5",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-022"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.12,
+    "variantGroup": "tree-lca-path-bridge"
+  },
+  {
+    "id": "tr-024",
+    "topic": "Trees",
+    "subtopic": "Tree properties and paths",
+    "title": "Count Targets in Subtree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "subtree-target-count"
+    ],
+    "prerequisiteConcepts": [
+      "recursive-tree-traversal"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given a binary tree in level-order form using -1 for nulls and two target values p and q, return how many of those target values appear in the current tree.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null",
+      "Two integers p and q"
+    ],
+    "outputFormat": [
+      "Print 0, 1, or 2"
+    ],
+    "edgeCases": [
+      "Both targets are in the same subtree",
+      "One target is the root"
+    ],
+    "intendedApproachSummary": "Return the sum of left count, right count, and a local match count for the current node.",
+    "wrongApproachHints": [
+      "You cannot keep only one subtree result if both sides may contain targets.",
+      "Do not forget to count the current node itself."
+    ],
+    "hints": [
+      "A null node contributes zero.",
+      "Each recursive call should return a count to its parent."
+    ],
+    "examples": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 4",
+        "output": "2",
+        "explanation": "Both 5 and 4 are present in the tree."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countTargetsInSubtree",
+      "javaSignature": "public int countTargetsInSubtree(TreeNode root, int p, int q)",
+      "cppSignature": "int countTargetsInSubtree(TreeNode* root, int p, int q)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-lca"
+    },
+    "testCases": [
+      {
+        "input": "11\n3 5 1 6 2 0 8 -1 -1 7 4\n5 4",
+        "expectedOutput": "2",
+        "visibility": "sample"
+      },
+      {
+        "input": "7\n1 2 3 4 5 -1 6\n4 9",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-023"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.1,
+    "variantGroup": "tree-subtree-target-bridge"
   }
 ]

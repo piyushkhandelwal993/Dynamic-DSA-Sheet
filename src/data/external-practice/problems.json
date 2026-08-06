@@ -1320,6 +1320,20 @@
     "sourceQualityWeight": 1
   },
   {
+    "id": "ext-lc-binary-tree-paths",
+    "platform": "leetcode",
+    "title": "Binary Tree Paths",
+    "url": "https://leetcode.com/problems/binary-tree-paths/",
+    "difficulty": "Easy",
+    "topicId": "trees",
+    "conceptIds": ["recursive-tree-traversal", "tree-root-to-leaf-paths"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-root-to-leaf-paths", "string-builder-usage"],
+    "mappedFromProblemIds": ["tr-020"],
+    "recommendedAfterProblemIds": ["tr-020"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-020"],
+    "sourceQualityWeight": 0.96
+  },
+  {
     "id": "ext-lc-boundary-of-binary-tree",
     "platform": "leetcode",
     "title": "Boundary of Binary Tree",
@@ -1341,9 +1355,10 @@
     "difficulty": "Medium",
     "topicId": "trees",
     "conceptIds": ["lca-binary-tree"],
-    "prerequisiteConceptIds": ["lca-binary-tree"],
+    "prerequisiteConceptIds": ["recursive-tree-traversal", "tree-value-search", "root-to-node-path", "lca-using-paths", "subtree-target-count", "lca-binary-tree"],
     "mappedFromProblemIds": ["tr-013"],
     "recommendedAfterProblemIds": ["tr-013"],
+    "roadmapBridgeProblemIds": ["tr-001", "tr-021", "tr-022", "tr-023", "tr-024", "tr-013"],
     "sourceQualityWeight": 1
   },
   {

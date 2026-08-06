@@ -59,6 +59,11 @@ export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): 
     if (concept === "tree-height") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-diameter") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-path-contribution") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "tree-root-to-leaf-paths") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "tree-value-search") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "root-to-node-path") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "lca-using-paths") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "subtree-target-count") return analysis.signals.usesRecursiveTraversal;
     if (concept === "balanced-tree-check") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-boundary-traversal") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-vertical-ordering") return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;

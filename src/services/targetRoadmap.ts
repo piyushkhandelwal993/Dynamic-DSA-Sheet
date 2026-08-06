@@ -888,7 +888,7 @@ function selectCheckpointProblem(
 }
 
 function buildInternalConceptSteps(
-  target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds">,
+  target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds" | "roadmapBridgeProblemIds">,
   assessment: TargetProblemAssessment,
   progress: ProgressState,
   skillProfile: SkillProfile
@@ -918,6 +918,13 @@ function buildInternalConceptSteps(
 
     const concept = getConceptById(conceptId);
     if (concept?.practiceProblems?.length) {
+      const hasDeferredBridge = [...(target.mappedFromProblemIds ?? []), ...(target.roadmapBridgeProblemIds ?? [])]
+        .map((problemId) => getProblemById(problemId))
+        .filter((candidate): candidate is Problem => Boolean(candidate))
+        .some((candidate) => !solved(progress, candidate.id) && candidate.expectedConcepts.includes(conceptId));
+      if (hasDeferredBridge) {
+        continue;
+      }
       notes.push(`No separate unsolved internal bridge is available for ${concept.name}, so the roadmap will rely on its dependencies and then the target retry.`);
     }
   }

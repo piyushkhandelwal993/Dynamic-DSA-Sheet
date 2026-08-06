@@ -36,6 +36,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "tree-diameter":
     case "tree-balanced-check":
     case "tree-bst-search":
+    case "tree-root-to-node-path":
     case "tree-left-view":
     case "tree-bst-insert":
     case "tree-bst-delete":
@@ -120,6 +121,7 @@ function javaMethodStub(contract: FunctionContract): string {
     case "tree-bst-delete":
     case "tree-top-view":
     case "tree-lca":
+    case "tree-root-to-node-path":
     case "tree-build-from-traversals":
     case "tree-serialize-level-order":
       return `        return new ArrayList<>();`;
@@ -1341,6 +1343,12 @@ function javaDriverSource(contract: FunctionContract): string {
         TreeNode root = readTree(sc, n);
         int target = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-root-to-node-path":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        printValues(new Solution().${contract.functionName}(root, target));`;
       break;
     case "tree-bst-insert":
       inputSetup = `        int n = sc.nextInt();
@@ -2682,6 +2690,14 @@ void printValues(const vector<int>& values) {
     int target;
     cin >> target;`;
       invocation = `    cout << (Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-root-to-node-path":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int target;
+    cin >> target;`;
+      invocation = `    printValues(Solution().${contract.functionName}(root, target));`;
       break;
     case "tree-bst-insert":
       inputSetup = `    int n;
