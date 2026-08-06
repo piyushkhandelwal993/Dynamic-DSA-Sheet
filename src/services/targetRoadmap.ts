@@ -1,6 +1,7 @@
 import {
   Concept,
   ExternalPracticeProblem,
+  PracticeMode,
   Problem,
   ProgressState,
   SkillProfile,
@@ -36,6 +37,10 @@ function normalizeTopicKey(value: string): string {
 
 function normalizeTitleKey(value: string): string {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+interface TargetRoadmapOptions {
+  practiceMode?: PracticeMode;
 }
 
 function isSequelToken(token: string): boolean {
@@ -999,10 +1004,12 @@ function personalizeInternalProblems(
   problems: Problem[],
   skillProfile: SkillProfile,
   hasSameTopicExplicitBridge: boolean,
-  protectedProblemIds: Set<string> = new Set<string>()
+  protectedProblemIds: Set<string> = new Set<string>(),
+  practiceMode: PracticeMode = "pro"
 ): Problem[] {
   const seenIds = new Set<string>();
   let severeSupportIncluded = false;
+  let moderateSupportIncluded = 0;
   const kept = problems.filter((problem) => {
     if (seenIds.has(problem.id)) {
       return false;
@@ -1020,11 +1027,26 @@ function personalizeInternalProblems(
       return true;
     }
 
+    const severity = problemSupportSeverity(targetTopicId, problem, skillProfile);
+
+    if (practiceMode === "beginner") {
+      if (severity === 0) {
+        return true;
+      }
+      if (severity === 1) {
+        if (moderateSupportIncluded >= 2) {
+          return false;
+        }
+        moderateSupportIncluded += 1;
+        return true;
+      }
+      return false;
+    }
+
     if (isRedundantSupportBridge(targetTopicId, problem, problems)) {
       return false;
     }
 
-    const severity = problemSupportSeverity(targetTopicId, problem, skillProfile);
     if (severity === 0) {
       if (severeSupportIncluded) {
         return false;
@@ -1041,7 +1063,18 @@ function personalizeInternalProblems(
   });
 
   const coreProblems = kept.filter((problem) => !isSupportOnlyProblem(targetTopicId, problem));
-  const supportProblems = kept.filter((problem) => isSupportOnlyProblem(targetTopicId, problem));
+  const supportProblems = kept
+    .filter((problem) => isSupportOnlyProblem(targetTopicId, problem))
+    .sort((left, right) => {
+      const severityDelta = problemSupportSeverity(targetTopicId, left, skillProfile)
+        - problemSupportSeverity(targetTopicId, right, skillProfile);
+      if (severityDelta !== 0) return severityDelta;
+      const roleDelta = learningRolePriority(left) - learningRolePriority(right);
+      if (roleDelta !== 0) return roleDelta;
+      const difficultyDelta = internalPriority(left) - internalPriority(right);
+      if (difficultyDelta !== 0) return difficultyDelta;
+      return left.id.localeCompare(right.id);
+    });
   return [...supportProblems, ...coreProblems];
 }
 
@@ -1165,6 +1198,43 @@ function chooseExplicitBridgeProblems(
     .filter((problem) => !solved(progress, problem.id));
 }
 
+function injectBeginnerSupportProblems(
+  targetTopicId: string,
+  plannedProblems: Problem[],
+  targetMappedProblemIds: string[],
+  progress: ProgressState,
+  skillProfile: SkillProfile
+): Problem[] {
+  const chosenIds = new Set(plannedProblems.map((problem) => problem.id));
+  const excludedProblemIds = new Set<string>(targetMappedProblemIds);
+  const supportConceptIds = [...new Set(
+    plannedProblems.flatMap((problem) =>
+      (problem.prerequisiteConcepts ?? []).filter((conceptId) =>
+        classifyConceptForRoadmap(targetTopicId, conceptId) === "support"
+        && (skillProfile.conceptScores[conceptId] ?? 0) < 75
+      )
+    )
+  )];
+
+  const supportProblems: Problem[] = [];
+  for (const conceptId of supportConceptIds) {
+    const supportProblem = selectInternalProblemForConcept(
+      targetTopicId,
+      conceptId,
+      progress,
+      excludedProblemIds,
+      chosenIds
+    );
+    if (!supportProblem) {
+      continue;
+    }
+    supportProblems.push(supportProblem);
+    chosenIds.add(supportProblem.id);
+  }
+
+  return [...supportProblems, ...plannedProblems];
+}
+
 function chooseInternalCheckpoint(
   target: Pick<ExternalPracticeProblem, "topicId" | "mappedFromProblemIds" | "conceptIds">,
   progress: ProgressState,
@@ -1260,8 +1330,10 @@ export function createTargetProblemRoadmap(
   inputUrl: string,
   problemStatementOrProgress?: string | ProgressState,
   progressOrSkillProfile?: ProgressState | SkillProfile,
-  maybeSkillProfile?: SkillProfile
+  maybeSkillProfile?: SkillProfile,
+  options: TargetRoadmapOptions = {}
 ): TargetProblemRoadmapPlan {
+  const practiceMode = options.practiceMode === "beginner" ? "beginner" : "pro";
   const {
     problemStatement,
     progress,
@@ -1319,7 +1391,7 @@ export function createTargetProblemRoadmap(
       if (sameTitleTwin) {
         return false;
       }
-      if (normalizeTopicKey(problemTopicId) !== "language-toolkit") {
+      if (practiceMode === "pro" && normalizeTopicKey(problemTopicId) !== "language-toolkit") {
         return false;
       }
     }
@@ -1337,13 +1409,23 @@ export function createTargetProblemRoadmap(
   const baseInternalProblems = mappedBridge && !explicitBridgeIds.has(mappedBridge.id)
     ? [mappedBridge, ...remainingInternalPlan.filter((problem) => problem.id !== mappedBridge.id)]
     : remainingInternalPlan;
+  const practicePlannedProblems = practiceMode === "beginner"
+    ? injectBeginnerSupportProblems(
+      target.topicId,
+      [...baseInternalProblems, ...explicitBridges],
+      target.mappedFromProblemIds,
+      progress,
+      skillProfile
+    )
+    : [...baseInternalProblems, ...explicitBridges];
   const internalProblems = orderInternalProblemsByProgression(
     personalizeInternalProblems(
       target.topicId,
-      [...baseInternalProblems, ...explicitBridges],
+      practicePlannedProblems,
       skillProfile,
       hasSameTopicExplicitBridge,
-      explicitBridgeIds
+      explicitBridgeIds,
+      practiceMode
     )
   );
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
@@ -1404,7 +1486,7 @@ export function createTargetProblemRoadmap(
 
   return {
     assessment,
-    strategy: "concept-practice-first",
+    strategy: practiceMode === "beginner" ? "beginner-foundation-first" : "concept-practice-first",
     notes: hasSameTopicExplicitBridge ? [] : internalPlan.notes,
     steps
   };

@@ -147,6 +147,13 @@ export function saveProgress(progress: ProgressState): void {
   writeJson(getProgressPath(), progress);
 }
 
+export function resetLearningState(): void {
+  ensureBaseStructure();
+  writeJson(getProgressPath(), createInitialProgress());
+  writeJson(getSkillProfilePath(), createInitialSkillProfile());
+  writeJson(getGameProfilePath(), createInitialGameProfile());
+}
+
 export function getSkillProfile(): SkillProfile {
   ensureBaseStructure();
   const defaults = createInitialSkillProfile();

@@ -419,7 +419,8 @@ export function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?
 }
 
 export function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
-  return createTargetProblemRoadmap(inputUrl, problemStatement);
+  const practiceMode = getDesktopPreferences().practiceMode === "pro" ? "pro" : "beginner";
+  return createTargetProblemRoadmap(inputUrl, problemStatement, undefined, undefined, { practiceMode });
 }
 
 function buildInternalProblemAssessment(problem: Problem): TargetProblemAssessment {

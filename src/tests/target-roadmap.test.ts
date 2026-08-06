@@ -747,6 +747,35 @@ test("vertical order prepends at most one severe toolkit bridge when support ski
   assert.equal(toolkitIds.length <= 1, true);
 });
 
+test("beginner roadmap keeps multiple toolkit foundations when support skills are weak", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-vertical-order-beginner-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+  skillProfile.conceptScores["queue-library-usage"] = 20;
+  skillProfile.conceptScores["ordered-map-usage"] = 20;
+  skillProfile.conceptScores["pair-collection-usage"] = 20;
+  skillProfile.conceptScores["map-iteration-order-usage"] = 20;
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "beginner" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+  const toolkitIds = internalIds.filter((problemId) => problemId?.startsWith("lt-"));
+
+  assert.equal(toolkitIds.length >= 2, true);
+  assert.equal(internalIds.includes("tr-004"), true);
+  assert.equal(internalIds.includes("tr-012"), true);
+  assert.equal(internalIds.includes("tr-019"), true);
+});
+
 test("network delay roadmap can pull heap-of-pairs readiness before graph dijkstra practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-network-delay-pairs-"));
   invalidateCatalogCache();
