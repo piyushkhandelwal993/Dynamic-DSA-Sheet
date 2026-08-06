@@ -114,6 +114,25 @@ function createBundledContentBundle(): ContentBundle {
   };
 }
 
+function countBundleProblems(bundle: ContentBundle): number {
+  return Object.values(bundle.topicPacks).reduce((total, topicPack) => total + topicPack.problems.length, 0);
+}
+
+function installedBundleIsUsable(installed: ContentBundle | null, bundled: ContentBundle): installed is ContentBundle {
+  if (!installed) {
+    return false;
+  }
+
+  const installedCount = countBundleProblems(installed);
+  const bundledCount = countBundleProblems(bundled);
+
+  if (installedCount < bundledCount) {
+    return false;
+  }
+
+  return true;
+}
+
 function readContentSyncState(): StoredContentSyncState {
   return readJson<StoredContentSyncState>(getContentSyncStatePath()) ?? {};
 }
@@ -151,11 +170,13 @@ export function getInstalledContentBundle(): ContentBundle | null {
 }
 
 export function getActiveContentBundle(): ContentBundle {
-  return getInstalledContentBundle() ?? getBundledContentBundle();
+  const bundled = getBundledContentBundle();
+  const installed = getInstalledContentBundle();
+  return installedBundleIsUsable(installed, bundled) ? installed : bundled;
 }
 
 export function getActiveCatalogSource(): "bundled" | "synced" {
-  return getInstalledContentBundle() ? "synced" : "bundled";
+  return installedBundleIsUsable(getInstalledContentBundle(), getBundledContentBundle()) ? "synced" : "bundled";
 }
 
 export function getContentSyncStatus(): ContentSyncStatus {

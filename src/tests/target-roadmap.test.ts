@@ -209,6 +209,27 @@ test("reverse words in a string becomes a supported cataloged roadmap target", (
   assert.equal(roadmap.steps.at(-1)?.title, "Reverse Words in a String");
 });
 
+test("zigzag conversion becomes a supported cataloged strings roadmap target", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-zigzag-conversion-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/zigzag-conversion/",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(roadmap.assessment.verdict, "not-ready");
+  assert.deepEqual(internalIds, ["str-001", "str-012", "str-013", "str-014"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "Zigzag Conversion");
+});
+
 test("valid anagram becomes a supported cataloged strings roadmap target", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-valid-anagram-"));
   invalidateCatalogCache();

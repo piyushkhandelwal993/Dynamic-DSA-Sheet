@@ -1144,10 +1144,19 @@ function javaDriverSource(contract: FunctionContract): string {
         String second = sc.next();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(first, second));`;
       break;
+    case "string-separate-even-odd":
+      inputSetup = `        String value = sc.next();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
     case "string-reverse-words-line":
       inputSetup = `        sc.nextLine();
         String value = sc.nextLine();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(value));`;
+      break;
+    case "string-zigzag-conversion":
+      inputSetup = `        String value = sc.next();
+        int rows = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(value, rows));`;
       break;
     case "string-longest-unique-substring":
       inputSetup = `        String value = sc.next();`;
@@ -2446,10 +2455,21 @@ void printValues(const vector<int>& values) {
     cin >> first >> second;`;
       invocation = `    cout << Solution().${contract.functionName}(first, second);`;
       break;
+    case "string-separate-even-odd":
+      inputSetup = `    string value;
+    cin >> value;`;
+      invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
     case "string-reverse-words-line":
       inputSetup = `    string value;
     getline(cin >> ws, value);`;
       invocation = `    cout << Solution().${contract.functionName}(value);`;
+      break;
+    case "string-zigzag-conversion":
+      inputSetup = `    string value;
+    int rows;
+    cin >> value >> rows;`;
+      invocation = `    cout << Solution().${contract.functionName}(value, rows);`;
       break;
     case "string-longest-unique-substring":
       inputSetup = `    string value;

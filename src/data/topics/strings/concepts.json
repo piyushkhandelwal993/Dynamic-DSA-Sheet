@@ -154,5 +154,57 @@
     "practiceProblems": ["str-011"],
     "progressionOrder": 12,
     "dependsOn": ["subsequence-dp"]
+  },
+  {
+    "id": "multiple-string-builders",
+    "name": "Multiple String Builders",
+    "description": "Maintain more than one output builder at the same time so characters can be accumulated into separate buckets before final concatenation.",
+    "exampleJava": "StringBuilder even = new StringBuilder(); StringBuilder odd = new StringBuilder();",
+    "commonMistakes": [
+      "Appending every character into one builder and losing the bucket separation",
+      "Forgetting to combine the builders in the required order at the end"
+    ],
+    "practiceProblems": ["str-012"],
+    "progressionOrder": 13,
+    "dependsOn": ["string-builder"]
+  },
+  {
+    "id": "index-based-distribution",
+    "name": "Index-Based Distribution",
+    "description": "Route each character into a destination bucket based on its current index or position rule.",
+    "exampleJava": "if (i % 2 == 0) even.append(s.charAt(i)); else odd.append(s.charAt(i));",
+    "commonMistakes": [
+      "Using the character value instead of the index to choose the destination",
+      "Applying the wrong parity or bucket rule"
+    ],
+    "practiceProblems": ["str-012", "str-013"],
+    "progressionOrder": 14,
+    "dependsOn": ["string-traversal", "multiple-string-builders"]
+  },
+  {
+    "id": "row-simulation",
+    "name": "Row Simulation",
+    "description": "Track a current row while distributing characters across multiple row buckets and later combine those rows in order.",
+    "exampleJava": "rows[row].append(ch); row += direction;",
+    "commonMistakes": [
+      "Updating the row after crossing a boundary",
+      "Forgetting that every row needs its own builder"
+    ],
+    "practiceProblems": ["str-013", "str-014"],
+    "progressionOrder": 15,
+    "dependsOn": ["multiple-string-builders", "index-based-distribution"]
+  },
+  {
+    "id": "direction-toggle",
+    "name": "Direction Toggle",
+    "description": "Flip movement direction when a simulation hits the first or last valid bucket or boundary.",
+    "exampleJava": "if (row == 0 || row == numRows - 1) direction *= -1;",
+    "commonMistakes": [
+      "Toggling one step too early or too late",
+      "Not handling the single-row edge case separately"
+    ],
+    "practiceProblems": ["str-014"],
+    "progressionOrder": 16,
+    "dependsOn": ["row-simulation"]
   }
 ]

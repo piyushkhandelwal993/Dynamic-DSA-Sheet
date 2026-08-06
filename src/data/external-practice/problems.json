@@ -123,6 +123,20 @@
     "sourceQualityWeight": 0.86
   },
   {
+    "id": "ext-lc-zigzag-conversion",
+    "platform": "leetcode",
+    "title": "Zigzag Conversion",
+    "url": "https://leetcode.com/problems/zigzag-conversion/",
+    "difficulty": "Medium",
+    "topicId": "strings",
+    "conceptIds": ["string-traversal", "multiple-string-builders", "index-based-distribution", "direction-toggle", "row-simulation"],
+    "prerequisiteConceptIds": ["string-traversal", "multiple-string-builders", "index-based-distribution", "row-simulation", "direction-toggle"],
+    "mappedFromProblemIds": ["str-012", "str-013", "str-014"],
+    "recommendedAfterProblemIds": ["str-014"],
+    "roadmapBridgeProblemIds": ["str-001", "str-012", "str-013", "str-014"],
+    "sourceQualityWeight": 0.88
+  },
+  {
     "id": "ext-lc-sort-characters-by-frequency",
     "platform": "leetcode",
     "title": "Sort Characters By Frequency",
