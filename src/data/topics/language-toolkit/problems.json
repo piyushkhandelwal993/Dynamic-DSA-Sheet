@@ -636,6 +636,7 @@
       "providedTypes": ["integer array"],
       "driverStrategy": "queue-sliding-window-maximum"
     },
+    "independenceMilestoneFor": ["deque-library-usage", "monotonic-deque-usage"],
     "remedialProblems": ["lt-012", "lt-013"],
     "skipIfMastered": [],
     "poolRole": "core",

@@ -361,6 +361,7 @@
       "providedTypes": ["input string"],
       "driverStrategy": "string-longest-unique-substring"
     },
+    "independenceMilestoneFor": ["char-frequency", "substring-window-unique"],
     "poolRole": "challenge",
     "masteryWeight": 1.25,
     "variantGroup": "string-window",

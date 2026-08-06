@@ -643,6 +643,10 @@
       ],
       "driverStrategy": "math-count-primes-sieve"
     },
+    "independenceMilestoneFor": [
+      "primality-test",
+      "sieve-precomputation"
+    ],
     "poolRole": "challenge",
     "masteryWeight": 1.2,
     "variantGroup": "math-prime-sieve",
