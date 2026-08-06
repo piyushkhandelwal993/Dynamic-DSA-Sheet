@@ -1838,5 +1838,80 @@
     "poolRole": "practice",
     "masteryWeight": 1.1,
     "variantGroup": "tree-subtree-target-bridge"
+  },
+  {
+    "id": "tr-025",
+    "topic": "Trees",
+    "subtopic": "Tree search and paths",
+    "title": "Count Leaf Nodes",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "recursive-tree-traversal"
+    ],
+    "prerequisiteConcepts": [
+      "tree-intro"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 12,
+    "description": "Given a binary tree in level-order form using -1 for nulls, count how many leaf nodes it contains.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print the number of leaf nodes"
+    ],
+    "edgeCases": [
+      "A single-node tree has exactly one leaf",
+      "Sparse trees can still have leaves on both sides"
+    ],
+    "intendedApproachSummary": "Use DFS. If a node has no left and right child, count it as one leaf. Otherwise return the leaf counts from both subtrees.",
+    "wrongApproachHints": [
+      "Do not count null children as leaves.",
+      "A node with one child is not a leaf."
+    ],
+    "hints": [
+      "A leaf has left == null and right == null.",
+      "Recursive answers from left and right subtrees should be added together."
+    ],
+    "examples": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "output": "3",
+        "explanation": "The leaf nodes are 4, 5, and 6."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countLeafNodes",
+      "javaSignature": "public int countLeafNodes(TreeNode root)",
+      "cppSignature": "int countLeafNodes(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-height"
+    },
+    "testCases": [
+      {
+        "input": "7\n1 2 3 4 5 -1 6",
+        "expectedOutput": "3",
+        "visibility": "sample"
+      },
+      {
+        "input": "1\n9",
+        "expectedOutput": "1",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-001"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.02,
+    "variantGroup": "tree-leaf-count-bridge"
   }
 ]
