@@ -64,6 +64,17 @@ export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): 
     if (concept === "root-to-node-path") return analysis.signals.usesRecursiveTraversal;
     if (concept === "lca-using-paths") return analysis.signals.usesRecursiveTraversal;
     if (concept === "subtree-target-count") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "level-processing") return analysis.signals.usesQueueTraversal;
+    if (concept === "level-boundaries") return analysis.signals.usesQueueTraversal;
+    if (concept === "queue-with-pair") return analysis.signals.usesQueueTraversal;
+    if (concept === "virtual-position") return analysis.signals.usesQueueTraversal;
+    if (concept === "relative-index") return analysis.signals.usesQueueTraversal;
+    if (concept === "width-calculation") return analysis.signals.usesQueueTraversal;
+    if (concept === "parent-mapping") return analysis.signals.usesRecursiveTraversal || analysis.signals.usesQueueTraversal;
+    if (concept === "bidirectional-tree") return analysis.signals.usesRecursiveTraversal || analysis.signals.usesQueueTraversal;
+    if (concept === "wave-expansion-bfs") return analysis.signals.usesQueueTraversal;
+    if (concept === "complete-tree-properties") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "perfect-subtree-counting") return analysis.signals.usesRecursiveTraversal;
     if (concept === "balanced-tree-check") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-boundary-traversal") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-vertical-ordering") return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;

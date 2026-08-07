@@ -590,6 +590,122 @@ test("lowest common ancestor roadmap uses the internal bridge without stale note
   assert.equal(roadmap.steps.at(-1)?.title, "Lowest Common Ancestor of a Binary Tree");
 });
 
+test("maximum width of binary tree becomes a supported roadmap with width-specific tree bridges", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-max-width-bt-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/maximum-width-of-binary-tree/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/maximum-width-of-binary-tree/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "pro" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-maximum-width-binary-tree");
+  assert.deepEqual(internalIds, ["tr-004", "tr-026", "tr-027", "tr-028", "tr-029", "tr-030"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "Maximum Width of Binary Tree");
+});
+
+test("all nodes distance k in binary tree becomes a supported roadmap with tree-plus-graph bridges", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-distance-k-bt-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "pro" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-all-nodes-distance-k-binary-tree");
+  assert.deepEqual(internalIds, ["tr-004", "tr-021", "tr-031", "tr-032", "gr-003", "gr-011", "tr-033"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "All Nodes Distance K in Binary Tree");
+});
+
+test("amount of time for binary tree to be infected becomes a supported follow-on roadmap after distance-k foundations", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-infected-tree-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "pro" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-amount-of-time-binary-tree-infected");
+  assert.deepEqual(internalIds, ["tr-004", "tr-031", "tr-033", "tr-034"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "Amount of Time for Binary Tree to Be Infected");
+});
+
+test("count complete tree nodes becomes a supported roadmap with complete-tree counting bridges", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-count-complete-tree-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const assessment = assessTargetProblemReadiness(
+    "https://leetcode.com/problems/count-complete-tree-nodes/",
+    progress,
+    skillProfile
+  );
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/count-complete-tree-nodes/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "pro" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.equal(assessment.verdict === "unsupported", false);
+  assert.equal(assessment.matchedProblem?.id, "ext-lc-count-complete-tree-nodes");
+  assert.deepEqual(internalIds, ["tr-005", "tr-029", "tr-035"]);
+  assert.equal(roadmap.steps.at(-1)?.title, "Count Complete Tree Nodes");
+});
+
 test("sliding window maximum roadmap can pull queue toolkit readiness before deque practice", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-window-max-"));
   invalidateCatalogCache();

@@ -16,3 +16,7 @@ export function getContentBundlePath(): string {
 export function getContentSyncStatePath(): string {
   return path.join(resolveBaseDir(), "content-sync-state.json");
 }
+
+export function getProblemMetadataCachePath(): string {
+  return path.join(resolveBaseDir(), "problem-page-cache.json");
+}

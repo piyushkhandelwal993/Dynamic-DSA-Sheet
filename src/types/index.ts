@@ -413,6 +413,7 @@ export interface Problem {
   learningRole?: ProblemLearningRole;
   masteryWeight?: number;
   variantGroup?: string;
+  curriculumRole?: "canonical-path" | "target-bridge";
   selectionTags?: string[];
   solutionMode?: SolutionMode;
   functionContract?: FunctionContract;

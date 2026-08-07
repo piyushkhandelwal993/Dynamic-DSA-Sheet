@@ -238,5 +238,137 @@
     ],
     "practiceProblems": ["tr-020"],
     "dependsOn": ["recursive-tree-traversal", "string-builder-usage"]
+  },
+  {
+    "id": "level-processing",
+    "name": "Per-Level Processing",
+    "description": "Process one BFS level at a time by snapshotting queue size and aggregating values inside that boundary.",
+    "exampleJava": "int size = q.size(); for (int i = 0; i < size; i++) { ... }",
+    "commonMistakes": [
+      "Letting the current level loop consume children from the next level",
+      "Forgetting to reset per-level counters"
+    ],
+    "practiceProblems": ["tr-026"],
+    "dependsOn": ["level-order-traversal"]
+  },
+  {
+    "id": "level-boundaries",
+    "name": "Level Boundaries",
+    "description": "Capture the first or last node of each level after freezing the level boundary with queue size.",
+    "exampleJava": "if (i == 0) first = node.val; if (i == size - 1) last = node.val;",
+    "commonMistakes": [
+      "Reading first or last after queue contents have already mixed levels",
+      "Confusing node order inside a level"
+    ],
+    "practiceProblems": ["tr-027"],
+    "dependsOn": ["level-processing"]
+  },
+  {
+    "id": "queue-with-pair",
+    "name": "Queue with Metadata",
+    "description": "Store each node together with extra state such as depth or index while doing BFS.",
+    "exampleJava": "queue.offer(new long[] {index, node.val});",
+    "commonMistakes": [
+      "Queueing only the node and recomputing metadata incorrectly later",
+      "Mixing metadata fields across push/pop operations"
+    ],
+    "practiceProblems": ["tr-028"],
+    "dependsOn": ["level-order-traversal", "pair-collection-usage"]
+  },
+  {
+    "id": "virtual-position",
+    "name": "Complete Tree Virtual Position",
+    "description": "Assign each tree node the index it would have in a complete binary tree representation.",
+    "exampleJava": "leftIndex = 2 * index + 1; rightIndex = 2 * index + 2;",
+    "commonMistakes": [
+      "Using child indices that do not preserve complete-tree positions",
+      "Resetting indices globally instead of by parent relationship"
+    ],
+    "practiceProblems": ["tr-029"],
+    "dependsOn": ["queue-with-pair"]
+  },
+  {
+    "id": "relative-index",
+    "name": "Normalize Indices",
+    "description": "Subtract the first index of a level so widths stay correct without allowing indices to grow too large.",
+    "exampleJava": "long base = firstIndex; normalized = index - base;",
+    "commonMistakes": [
+      "Using absolute indices across deep levels until they overflow",
+      "Normalizing with the wrong base index"
+    ],
+    "practiceProblems": ["tr-030"],
+    "dependsOn": ["virtual-position", "level-boundaries"]
+  },
+  {
+    "id": "width-calculation",
+    "name": "Binary Tree Width",
+    "description": "Use the first and last normalized index of each level to compute width correctly across gaps.",
+    "exampleJava": "width = lastNormalized - firstNormalized + 1;",
+    "commonMistakes": [
+      "Counting only existing nodes instead of gap-aware width",
+      "Forgetting the +1 in inclusive width calculation"
+    ],
+    "practiceProblems": ["tr-030"],
+    "dependsOn": ["relative-index"]
+  },
+  {
+    "id": "parent-mapping",
+    "name": "Build Parent Map",
+    "description": "Record each node's parent so tree traversal can move upward as well as downward.",
+    "exampleJava": "parent.put(child, node);",
+    "commonMistakes": [
+      "Forgetting to record one side's child-parent relationship",
+      "Overwriting parent links incorrectly while traversing"
+    ],
+    "practiceProblems": ["tr-031"],
+    "dependsOn": ["recursive-tree-traversal", "hash-map-usage"]
+  },
+  {
+    "id": "bidirectional-tree",
+    "name": "Tree as Undirected Graph",
+    "description": "Treat parent, left child, and right child as neighbors so traversal can move in all directions.",
+    "exampleJava": "neighbors = {node.left, node.right, parent.get(node)};",
+    "commonMistakes": [
+      "Walking only to children and forgetting the parent edge",
+      "Creating cycles by revisiting the node you just came from"
+    ],
+    "practiceProblems": ["tr-032", "tr-033"],
+    "dependsOn": ["tree-value-search", "parent-mapping"]
+  },
+  {
+    "id": "wave-expansion-bfs",
+    "name": "Wave Expansion BFS",
+    "description": "Run BFS level by level until the whole reachable region is exhausted, and use the number of completed levels to model time-based spread.",
+    "exampleJava": "while (!queue.isEmpty()) { int size = queue.size(); ... minutes++; }",
+    "commonMistakes": [
+      "Stopping BFS early after reaching one layer instead of letting the whole spread finish",
+      "Incrementing time for every node instead of once per completed BFS level"
+    ],
+    "practiceProblems": ["tr-034"],
+    "dependsOn": ["bidirectional-tree", "level-processing", "shortest-path-unweighted"]
+  },
+  {
+    "id": "complete-tree-properties",
+    "name": "Complete Tree Structure",
+    "description": "Use the structure of a complete binary tree to reason about when a subtree is fully filled versus when you must recurse further.",
+    "exampleJava": "if (leftHeight == rightHeight) { /* subtree is perfect */ }",
+    "commonMistakes": [
+      "Treating every complete tree like a perfect tree",
+      "Ignoring the height comparison that tells you when a subtree is fully filled"
+    ],
+    "practiceProblems": ["tr-035"],
+    "dependsOn": ["tree-height", "virtual-position"]
+  },
+  {
+    "id": "perfect-subtree-counting",
+    "name": "Perfect Subtree Counting Shortcut",
+    "description": "When a subtree is perfect, count all its nodes instantly with a height-based formula instead of traversing every node.",
+    "exampleJava": "return (1 << height) - 1;",
+    "commonMistakes": [
+      "Using the perfect-tree formula on a subtree that is only complete, not perfect",
+      "Mixing up edge-height and node-height in the count formula"
+    ],
+    "practiceProblems": ["tr-035"],
+    "dependsOn": ["complete-tree-properties"]
   }
 ]

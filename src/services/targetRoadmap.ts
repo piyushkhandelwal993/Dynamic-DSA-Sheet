@@ -1205,6 +1205,30 @@ function chooseExplicitBridgeProblems(
     .filter((problem) => !solved(progress, problem.id));
 }
 
+function orderProblemsPreservingExplicitBridgeSequence(
+  problems: Problem[],
+  explicitBridgeIds: string[] | undefined
+): Problem[] {
+  if (!problems.length || !explicitBridgeIds?.length) {
+    return orderInternalProblemsByProgression(problems);
+  }
+
+  const explicitRank = new Map(explicitBridgeIds.map((problemId, index) => [problemId, index]));
+  const explicitProblems: Problem[] = [];
+  const nonExplicitProblems: Problem[] = [];
+
+  for (const problem of problems) {
+    if (explicitRank.has(problem.id)) {
+      explicitProblems.push(problem);
+    } else {
+      nonExplicitProblems.push(problem);
+    }
+  }
+
+  explicitProblems.sort((left, right) => (explicitRank.get(left.id) ?? 0) - (explicitRank.get(right.id) ?? 0));
+  return [...orderInternalProblemsByProgression(nonExplicitProblems), ...explicitProblems];
+}
+
 function injectBeginnerSupportProblems(
   targetTopicId: string,
   plannedProblems: Problem[],
@@ -1425,7 +1449,7 @@ export function createTargetProblemRoadmap(
       skillProfile
     )
     : [...baseInternalProblems, ...explicitBridges];
-  const internalProblems = orderInternalProblemsByProgression(
+  const internalProblems = orderProblemsPreservingExplicitBridgeSequence(
     personalizeInternalProblems(
       target.topicId,
       practicePlannedProblems,
@@ -1433,7 +1457,8 @@ export function createTargetProblemRoadmap(
       hasSameTopicExplicitBridge,
       explicitBridgeIds,
       practiceMode
-    )
+    ),
+    explicitBridgeIdsFromTarget
   );
   const usedInternalIds = new Set(internalProblems.map((problem) => problem.id));
   const checkpoint = chooseInternalCheckpoint(target, progress, usedInternalIds, internalProblems, internalPlan.conceptPlan);

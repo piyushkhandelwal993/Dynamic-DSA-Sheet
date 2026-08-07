@@ -70,6 +70,7 @@ import {
   openExternalPracticeProblem,
   saveExternalPracticeProblem
 } from "./externalPractice";
+import { buildRoadmapInferenceStatement } from "./problemPageIngestion";
 import { assessTargetProblemReadiness, createTargetProblemRoadmap } from "./targetRoadmap";
 import { exportRoadmapReviewFixtures, getRoadmapReviewWorkspace, saveRoadmapReview } from "./roadmapReviews";
 
@@ -414,13 +415,15 @@ export function markDesktopExternalPractice(problemId: string, status: ExternalP
   return dismissExternalPracticeProblem(problemId);
 }
 
-export function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?: string) {
-  return assessTargetProblemReadiness(inputUrl, problemStatement);
+export async function evaluateDesktopTargetProblem(inputUrl: string, problemStatement?: string) {
+  const inferredStatement = await buildRoadmapInferenceStatement(inputUrl, problemStatement);
+  return assessTargetProblemReadiness(inputUrl, inferredStatement);
 }
 
-export function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
+export async function createDesktopTargetProblemRoadmap(inputUrl: string, problemStatement?: string) {
   const practiceMode = getDesktopPreferences().practiceMode === "pro" ? "pro" : "beginner";
-  return createTargetProblemRoadmap(inputUrl, problemStatement, undefined, undefined, { practiceMode });
+  const inferredStatement = await buildRoadmapInferenceStatement(inputUrl, problemStatement);
+  return createTargetProblemRoadmap(inputUrl, inferredStatement, undefined, undefined, { practiceMode });
 }
 
 function buildInternalProblemAssessment(problem: Problem): TargetProblemAssessment {

@@ -121,6 +121,7 @@ function normalizeRecursionProblems(problems: Problem[]): Problem[] {
       poolRole,
       masteryWeight: problem.masteryWeight ?? fallbackMasteryWeights[index] ?? 1,
       variantGroup: problem.variantGroup ?? `recursion-${problem.subtopic.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+      curriculumRole: problem.curriculumRole ?? "canonical-path",
       learningRole: problem.learningRole ?? (poolRole === "challenge" ? "mastery" : poolRole === "practice" || poolRole === "review" ? "reinforce" : "introduce")
     };
   });
