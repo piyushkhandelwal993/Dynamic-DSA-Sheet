@@ -17,6 +17,9 @@ import prefixSuffixMeta from "./prefix-suffix/meta.json";
 import binarySearchMeta from "./binary-search/meta.json";
 import binarySearchProblems from "./binary-search/problems.json";
 import binarySearchConcepts from "./binary-search/concepts.json";
+import binarySearchTreesMeta from "./binary-search-trees/meta.json";
+import binarySearchTreesProblems from "./binary-search-trees/problems.json";
+import binarySearchTreesConcepts from "./binary-search-trees/concepts.json";
 import dpMeta from "./dp/meta.json";
 import dpProblems from "./dp/problems.json";
 import dpConcepts from "./dp/concepts.json";
@@ -143,6 +146,7 @@ export const topicOrder = [
   "queue",
   "recursion",
   "binary-search",
+  "binary-search-trees",
   "trees",
   "graphs",
   "dp"
@@ -243,5 +247,10 @@ export const topicPacks: Record<string, TopicPack> = {
     meta: treesMeta as TopicMeta,
     problems: treesProblems as Problem[],
     concepts: treesConcepts as Concept[]
+  },
+  "binary-search-trees": {
+    meta: binarySearchTreesMeta as TopicMeta,
+    problems: binarySearchTreesProblems as Problem[],
+    concepts: binarySearchTreesConcepts as Concept[]
   }
 };

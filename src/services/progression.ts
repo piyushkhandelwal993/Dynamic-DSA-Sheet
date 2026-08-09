@@ -1,5 +1,6 @@
 import { ActiveQuest, MasteryTier, Problem, ProgressState, SkillProfile, WorldZone } from "../types";
 import { recommendNextProblem } from "./recommendation";
+import { getDesktopPreferences } from "./storage";
 import { isProblemSolvedState } from "./progressionState";
 
 const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; description: string; subtopics: string[]; gateConcepts: string[] }>> = {
@@ -484,6 +485,43 @@ const zoneDefinitionsByTopic: Record<string, Array<{ id: string; name: string; d
       gateConcepts: ["lca-binary-tree", "tree-view"]
     }
   ],
+  "binary-search-trees": [
+    {
+      id: "order-orchard",
+      name: "Order Orchard",
+      description: "Learn BST ordering, one-branch search, and sorted inorder intuition.",
+      subtopics: ["BST basics", "Inorder and ordering intuition"],
+      gateConcepts: []
+    },
+    {
+      id: "validation-vines",
+      name: "Validation Vines",
+      description: "Use global bounds and clean comparison logic to validate and query BST structure.",
+      subtopics: ["Validation and search", "Ancestor and selection queries"],
+      gateConcepts: ["bst-topic-search", "bst-topic-inorder-sorted"]
+    },
+    {
+      id: "update-terrace",
+      name: "Update Terrace",
+      description: "Insert, trim, and sum over valid ranges while preserving BST order.",
+      subtopics: ["Insertion and local updates", "Pruning and range queries"],
+      gateConcepts: ["bst-topic-validate-range", "bst-topic-insert"]
+    },
+    {
+      id: "successor-grove",
+      name: "Successor Grove",
+      description: "Reason about neighbors, rank, and next-larger candidates in ordered trees.",
+      subtopics: ["Successor and predecessor reasoning", "Ancestor and selection queries"],
+      gateConcepts: ["bst-topic-lca", "bst-topic-kth-smallest"]
+    },
+    {
+      id: "restructure-keep",
+      name: "Restructure Keep",
+      description: "Finish with deletion and advanced restructuring cases without breaking BST invariants.",
+      subtopics: ["Deletion and advanced restructuring"],
+      gateConcepts: ["bst-topic-successor", "bst-topic-delete"]
+    }
+  ],
   graphs: [
     {
       id: "adjacency-yard",
@@ -646,7 +684,9 @@ export function buildActiveQuests(
     });
   }
 
-  const next = recommendNextProblem(problems, progress, skillProfile);
+  const next = recommendNextProblem(problems, progress, skillProfile, {
+    practiceMode: getDesktopPreferences().practiceMode ?? "beginner"
+  });
   if (next.problem && !quests.some((quest) => quest.problemId === next.problem?.id)) {
     quests.push({
       id: `next-${next.problem.id}`,
@@ -673,7 +713,7 @@ export function buildActiveQuests(
 
   const filtered = quests.filter((quest) => {
     if (!quest.problemId) return true;
-    return problems.some((problem) => problem.id === quest.problemId);
+    return problems.some((problem) => problem.id === quest.problemId) || quest.problemId === next.problem?.id;
   });
 
   return filtered.slice(0, 3);

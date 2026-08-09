@@ -1,0 +1,529 @@
+[
+  {
+    "id": "bst-001",
+    "topic": "Binary Search Trees",
+    "subtopic": "BST basics",
+    "title": "Search in BST",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-search"],
+    "prerequisiteConcepts": ["bst-topic-intro"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 15,
+    "description": "Given a BST in level-order form using -1 for nulls and a target value, return whether the target exists in the tree.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
+    "outputFormat": ["Print Found or Not Found"],
+    "edgeCases": ["Target is at the root", "Target is absent", "Skewed BST"],
+    "intendedApproachSummary": "Compare against the current node and move only left or right using BST ordering.",
+    "wrongApproachHints": [
+      "Do not recurse into both children for a BST search.",
+      "Moving in the wrong direction after a comparison loses the logarithmic path behavior."
+    ],
+    "hints": ["If target is smaller, go left.", "If target is larger, go right."],
+    "examples": [
+      {
+        "input": "7\n4 2 6 1 3 5 7\n5",
+        "output": "Found",
+        "explanation": "5 lies in the right subtree of 4 and the left subtree of 6."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n4 2 6 1 3 5 7\n5", "expectedOutput": "Found", "visibility": "sample" },
+      { "input": "7\n4 2 6 1 3 5 7\n8", "expectedOutput": "Not Found", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "searchBST",
+      "javaSignature": "public boolean searchBST(TreeNode root, int target)",
+      "cppSignature": "bool searchBST(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-search"
+    },
+    "remedialProblems": [],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "learningRole": "introduce",
+    "masteryWeight": 1,
+    "variantGroup": "bst-search-foundation",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-002",
+    "topic": "Binary Search Trees",
+    "subtopic": "Inorder and ordering intuition",
+    "title": "Inorder Traversal of BST",
+    "difficulty": "Easy",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-inorder-sorted"],
+    "prerequisiteConcepts": ["bst-topic-intro", "recursive-tree-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 15,
+    "description": "Given a BST in level-order form using -1 for nulls, print its inorder traversal.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print inorder traversal values"],
+    "edgeCases": ["Single node", "Left-skewed BST", "Right-skewed BST"],
+    "intendedApproachSummary": "Traverse left subtree, visit root, then traverse right subtree so the output becomes sorted.",
+    "wrongApproachHints": [
+      "Preorder or postorder will not give sorted BST output.",
+      "The current node belongs between the two recursive calls."
+    ],
+    "hints": ["Inorder means left, root, right.", "Notice the sorted order in the final output."],
+    "examples": [
+      {
+        "input": "7\n4 2 6 1 3 5 7",
+        "output": "1 2 3 4 5 6 7",
+        "explanation": "A BST's inorder traversal is sorted."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n4 2 6 1 3 5 7", "expectedOutput": "1 2 3 4 5 6 7", "visibility": "sample" },
+      { "input": "3\n2 1 3", "expectedOutput": "1 2 3", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "inorderBST",
+      "javaSignature": "public List<Integer> inorderBST(TreeNode root)",
+      "cppSignature": "vector<int> inorderBST(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-inorder"
+    },
+    "independenceMilestoneFor": ["bst-topic-intro", "bst-topic-inorder-sorted"],
+    "remedialProblems": ["bst-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "learningRole": "introduce",
+    "masteryWeight": 1.05,
+    "variantGroup": "bst-inorder-foundation",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-003",
+    "topic": "Binary Search Trees",
+    "subtopic": "Validation and search",
+    "title": "Validate Binary Search Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-validate-range"],
+    "prerequisiteConcepts": ["bst-topic-inorder-sorted", "recursive-tree-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary tree, print Valid if it satisfies BST ordering everywhere, otherwise print Invalid.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null"],
+    "outputFormat": ["Print Valid or Invalid"],
+    "edgeCases": ["A deep descendant breaks an ancestor bound", "Duplicate values invalidate strict BST ordering"],
+    "intendedApproachSummary": "Carry valid low and high bounds through recursion so every node is checked against global constraints.",
+    "wrongApproachHints": [
+      "Checking only parent-child order is not enough.",
+      "An inorder list is useful, but you still need strict ascending order."
+    ],
+    "hints": ["Each left subtree node must stay below the current node.", "Each right subtree node must stay above it."],
+    "examples": [
+      {
+        "input": "7\n5 3 7 2 4 6 8",
+        "output": "Valid",
+        "explanation": "Every node respects the global BST range rules."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 7 2 4 6 8", "expectedOutput": "Valid", "visibility": "sample" },
+      { "input": "7\n5 1 4 -1 -1 3 6", "expectedOutput": "Invalid", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "isValidBST",
+      "javaSignature": "public boolean isValidBST(TreeNode root)",
+      "cppSignature": "bool isValidBST(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-validate-bst"
+    },
+    "remedialProblems": ["bst-002"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "learningRole": "reinforce",
+    "masteryWeight": 1.1,
+    "variantGroup": "bst-validate-range",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-004",
+    "topic": "Binary Search Trees",
+    "subtopic": "Insertion and local updates",
+    "title": "Insert into BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-insert"],
+    "prerequisiteConcepts": ["bst-topic-search", "recursive-tree-traversal"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST and a value x, insert x and print the inorder traversal after insertion.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer x"],
+    "outputFormat": ["Print inorder traversal after insertion"],
+    "edgeCases": ["Insert into empty tree", "Insert as a leaf on either side"],
+    "intendedApproachSummary": "Walk down the BST until the correct null child is found, then attach the new node there.",
+    "wrongApproachHints": ["Do not rebuild the entire tree.", "Preserve all existing child links during recursion."],
+    "hints": ["Go left for smaller values and right for larger values.", "Return the root pointer back up the recursion."],
+    "examples": [
+      {
+        "input": "7\n4 2 6 1 3 5 7\n8",
+        "output": "1 2 3 4 5 6 7 8",
+        "explanation": "8 becomes the right child of 7."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n4 2 6 1 3 5 7\n8", "expectedOutput": "1 2 3 4 5 6 7 8", "visibility": "sample" },
+      { "input": "1\n-1\n5", "expectedOutput": "5", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "insertBST",
+      "javaSignature": "public TreeNode insertBST(TreeNode root, int x)",
+      "cppSignature": "TreeNode* insertBST(TreeNode* root, int x)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-insert"
+    },
+    "remedialProblems": ["bst-001"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "learningRole": "reinforce",
+    "masteryWeight": 0.95,
+    "variantGroup": "bst-insert",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-005",
+    "topic": "Binary Search Trees",
+    "subtopic": "Successor and predecessor reasoning",
+    "title": "Floor and Ceil in BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-successor"],
+    "prerequisiteConcepts": ["bst-topic-search"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST and a target value, print the floor and ceil values. If one side does not exist, print -1 for it.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
+    "outputFormat": ["Print floor and ceil separated by a space"],
+    "edgeCases": ["Target smaller than all nodes", "Target larger than all nodes", "Target already exists"],
+    "intendedApproachSummary": "Track the best lower and best upper candidate while descending only one branch at a time.",
+    "wrongApproachHints": ["Do not collect and sort all nodes.", "Update floor and ceil only when the current node improves them."],
+    "hints": ["A smaller current value can improve the floor.", "A larger current value can improve the ceil."],
+    "examples": [
+      {
+        "input": "7\n8 4 12 2 6 10 14\n5",
+        "output": "4 6",
+        "explanation": "4 is the greatest value below 5 and 6 is the smallest value above 5."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n8 4 12 2 6 10 14\n5", "expectedOutput": "4 6", "visibility": "sample" },
+      { "input": "7\n8 4 12 2 6 10 14\n15", "expectedOutput": "14 -1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "floorCeilBST",
+      "javaSignature": "public List<Integer> floorCeilBST(TreeNode root, int target)",
+      "cppSignature": "vector<int> floorCeilBST(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-floor-ceil"
+    },
+    "remedialProblems": ["bst-001"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "learningRole": "reinforce",
+    "masteryWeight": 0.98,
+    "variantGroup": "bst-floor-ceil",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-006",
+    "topic": "Binary Search Trees",
+    "subtopic": "Ancestor and selection queries",
+    "title": "Lowest Common Ancestor in BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-lca"],
+    "prerequisiteConcepts": ["bst-topic-search"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST and two node values p and q, print the value of their lowest common ancestor.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "Two integers p and q"],
+    "outputFormat": ["Print the LCA value"],
+    "edgeCases": ["One target is the ancestor of the other", "Targets lie on different sides of the root"],
+    "intendedApproachSummary": "If both values are smaller, go left. If both are larger, go right. Otherwise the current node is the answer.",
+    "wrongApproachHints": ["You do not need a full general-binary-tree LCA traversal here.", "Stop as soon as the two targets split."],
+    "hints": ["Compare both p and q with the current node.", "The split point is the LCA."],
+    "examples": [
+      {
+        "input": "7\n6 2 8 0 4 7 9\n2 8",
+        "output": "6",
+        "explanation": "2 is on the left of 6 and 8 is on the right."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n6 2 8 0 4 7 9\n2 8", "expectedOutput": "6", "visibility": "sample" },
+      { "input": "7\n6 2 8 0 4 7 9\n2 4", "expectedOutput": "2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "lowestCommonAncestorBST",
+      "javaSignature": "public int lowestCommonAncestorBST(TreeNode root, int p, int q)",
+      "cppSignature": "int lowestCommonAncestorBST(TreeNode* root, int p, int q)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-lca"
+    },
+    "remedialProblems": ["bst-001"],
+    "skipIfMastered": [],
+    "poolRole": "core",
+    "learningRole": "reinforce",
+    "masteryWeight": 1.02,
+    "variantGroup": "bst-lca",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-007",
+    "topic": "Binary Search Trees",
+    "subtopic": "Ancestor and selection queries",
+    "title": "Kth Smallest Element in BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-kth-smallest"],
+    "prerequisiteConcepts": ["bst-topic-inorder-sorted"],
+    "expectedComplexity": "O(h + k)",
+    "estimatedMinutes": 20,
+    "description": "Given a BST and an integer k, print the kth smallest value in the tree.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer k"],
+    "outputFormat": ["Print the kth smallest value"],
+    "edgeCases": ["k is 1", "k is the number of nodes"],
+    "intendedApproachSummary": "Perform inorder traversal and count visited nodes until the kth one is reached.",
+    "wrongApproachHints": ["Do not sort an extra array if inorder already gives sorted order.", "Counting in preorder gives the wrong answer."],
+    "hints": ["Inorder visits values from smallest to largest.", "Stop as soon as count reaches k."],
+    "examples": [
+      {
+        "input": "7\n5 3 6 2 4 -1 -1\n3",
+        "output": "4",
+        "explanation": "The inorder sequence is 2, 3, 4, 5, 6."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 6 2 4 -1 -1\n3", "expectedOutput": "4", "visibility": "sample" },
+      { "input": "7\n5 3 6 2 4 -1 -1\n1", "expectedOutput": "2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "kthSmallestBST",
+      "javaSignature": "public int kthSmallestBST(TreeNode root, int k)",
+      "cppSignature": "int kthSmallestBST(TreeNode* root, int k)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-kth-smallest-bst"
+    },
+    "remedialProblems": ["bst-002"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "learningRole": "mastery",
+    "masteryWeight": 1.15,
+    "variantGroup": "bst-kth-smallest",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-008",
+    "topic": "Binary Search Trees",
+    "subtopic": "Successor and predecessor reasoning",
+    "title": "Inorder Successor in BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-successor"],
+    "prerequisiteConcepts": ["bst-topic-search", "bst-topic-inorder-sorted"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 20,
+    "description": "Given a BST and a target value guaranteed to exist, print its inorder successor or -1 if it does not exist.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
+    "outputFormat": ["Print the successor value or -1"],
+    "edgeCases": ["Target is the maximum node", "Successor is an ancestor"],
+    "intendedApproachSummary": "Move down the tree while tracking the best larger candidate encountered so far.",
+    "wrongApproachHints": ["Do not assume the parent is always the successor.", "The answer may lie above the target rather than in its right child."],
+    "hints": ["Whenever you go left from a larger node, that node is a successor candidate.", "Going right cannot improve the current successor candidate."],
+    "examples": [
+      {
+        "input": "7\n5 3 7 2 4 6 8\n6",
+        "output": "7",
+        "explanation": "7 is the next larger value after 6."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 7 2 4 6 8\n6", "expectedOutput": "7", "visibility": "sample" },
+      { "input": "7\n5 3 7 2 4 6 8\n8", "expectedOutput": "-1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "inorderSuccessorBST",
+      "javaSignature": "public int inorderSuccessorBST(TreeNode root, int target)",
+      "cppSignature": "int inorderSuccessorBST(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-successor"
+    },
+    "remedialProblems": ["bst-005"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "learningRole": "mastery",
+    "masteryWeight": 1.12,
+    "variantGroup": "bst-successor",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-009",
+    "topic": "Binary Search Trees",
+    "subtopic": "Pruning and range queries",
+    "title": "Range Sum of BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-range-pruning"],
+    "prerequisiteConcepts": ["bst-topic-search", "recursive-tree-traversal"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST and a range [low, high], print the sum of all node values within the range.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "Two integers low and high"],
+    "outputFormat": ["Print the range sum"],
+    "edgeCases": ["All nodes are outside the range", "Only one subtree can contain valid values"],
+    "intendedApproachSummary": "Use BST ordering to prune any subtree that falls completely below low or above high.",
+    "wrongApproachHints": ["Do not traverse both subtrees blindly when one side is impossible.", "Only add the current node when it lies inside the range."],
+    "hints": ["If root.val < low, skip the entire left subtree.", "If root.val > high, skip the entire right subtree."],
+    "examples": [
+      {
+        "input": "7\n10 5 15 3 7 -1 18\n7 15",
+        "output": "32",
+        "explanation": "The values 7, 10, and 15 are inside the range."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n10 5 15 3 7 -1 18\n7 15", "expectedOutput": "32", "visibility": "sample" },
+      { "input": "7\n10 5 15 3 7 -1 18\n16 20", "expectedOutput": "18", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "rangeSumBST",
+      "javaSignature": "public int rangeSumBST(TreeNode root, int low, int high)",
+      "cppSignature": "int rangeSumBST(TreeNode* root, int low, int high)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-range-sum"
+    },
+    "remedialProblems": ["bst-001"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "learningRole": "reinforce",
+    "masteryWeight": 1,
+    "variantGroup": "bst-range-sum",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-010",
+    "topic": "Binary Search Trees",
+    "subtopic": "Deletion and advanced restructuring",
+    "title": "Delete Node in BST",
+    "difficulty": "Hard",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-delete"],
+    "prerequisiteConcepts": ["bst-topic-insert", "bst-topic-successor"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 28,
+    "description": "Given a BST and a key, delete that key and print the inorder traversal after deletion.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer key"],
+    "outputFormat": ["Print inorder traversal after deletion"],
+    "edgeCases": ["Delete leaf", "Delete node with one child", "Delete node with two children"],
+    "intendedApproachSummary": "Handle the zero-child, one-child, and two-child cases. For two children, replace with successor and then delete the successor node.",
+    "wrongApproachHints": ["You cannot just remove a node with children.", "Be careful not to lose subtrees during reconnection."],
+    "hints": ["Find the inorder successor in the right subtree.", "Delete the successor after copying its value."],
+    "examples": [
+      {
+        "input": "7\n5 3 6 2 4 -1 7\n3",
+        "output": "2 4 5 6 7",
+        "explanation": "3 is removed while preserving BST order."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n5 3 6 2 4 -1 7\n3", "expectedOutput": "2 4 5 6 7", "visibility": "sample" },
+      { "input": "7\n5 3 6 2 4 -1 7\n7", "expectedOutput": "2 3 4 5 6", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "deleteBST",
+      "javaSignature": "public TreeNode deleteBST(TreeNode root, int key)",
+      "cppSignature": "TreeNode* deleteBST(TreeNode* root, int key)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-delete"
+    },
+    "remedialProblems": ["bst-004", "bst-008"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "learningRole": "mastery",
+    "masteryWeight": 1.35,
+    "variantGroup": "bst-delete",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-011",
+    "topic": "Binary Search Trees",
+    "subtopic": "Pruning and range queries",
+    "title": "Trim BST to Range",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-range-pruning"],
+    "prerequisiteConcepts": ["bst-topic-range-pruning"],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a BST and bounds [low, high], trim away nodes outside the range and print the inorder traversal of the remaining tree.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "Two integers low and high"],
+    "outputFormat": ["Print inorder traversal of the trimmed BST"],
+    "edgeCases": ["Entire tree is trimmed away", "Root lies outside the range"],
+    "intendedApproachSummary": "Use BST pruning rules to drop impossible subtrees and reconnect the surviving children.",
+    "wrongApproachHints": ["Do not keep a node that lies outside the allowed range.", "You can replace the root directly with a valid child subtree when needed."],
+    "hints": ["If root.val < low, only the right subtree can survive.", "If root.val > high, only the left subtree can survive."],
+    "examples": [
+      {
+        "input": "7\n3 0 4 -1 2 -1 -1 1\n1 3",
+        "output": "1 2 3",
+        "explanation": "Nodes outside [1, 3] are removed while BST order stays valid."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n3 0 4 -1 2 -1 -1 1\n1 3", "expectedOutput": "1 2 3", "visibility": "sample" },
+      { "input": "3\n1 -1 2\n2 4", "expectedOutput": "2", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "trimBST",
+      "javaSignature": "public TreeNode trimBST(TreeNode root, int low, int high)",
+      "cppSignature": "TreeNode* trimBST(TreeNode* root, int low, int high)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-trim-bst"
+    },
+    "remedialProblems": ["bst-009"],
+    "skipIfMastered": [],
+    "poolRole": "challenge",
+    "learningRole": "mastery",
+    "masteryWeight": 1.18,
+    "variantGroup": "bst-trim",
+    "curriculumRole": "canonical-path"
+  }
+]

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "bst-topic-intro",
+    "name": "BST Ordering Basics",
+    "description": "A binary search tree keeps smaller values on the left and larger values on the right, letting comparisons prune the search space.",
+    "exampleJava": "if (target < root.val) root = root.left; else root = root.right;",
+    "commonMistakes": [
+      "Traversing both subtrees like a general binary tree",
+      "Forgetting that inorder traversal of a BST is sorted"
+    ],
+    "practiceProblems": ["bst-001", "bst-002"],
+    "progressionOrder": 1,
+    "dependsOn": ["tree-intro", "sorted-check"]
+  },
+  {
+    "id": "bst-topic-search",
+    "name": "BST Search",
+    "description": "Use comparisons to move only one step down the tree at a time instead of scanning the whole structure.",
+    "exampleJava": "while (root != null && root.val != target) root = target < root.val ? root.left : root.right;",
+    "commonMistakes": [
+      "Searching both children recursively",
+      "Moving in the wrong direction after a comparison"
+    ],
+    "practiceProblems": ["bst-001", "bst-005"],
+    "progressionOrder": 2,
+    "dependsOn": ["bst-topic-intro"]
+  },
+  {
+    "id": "bst-topic-inorder-sorted",
+    "name": "BST Inorder Is Sorted",
+    "description": "An inorder traversal visits BST values in ascending order, which powers validation and order-statistics reasoning.",
+    "exampleJava": "inorder(root.left); values.add(root.val); inorder(root.right);",
+    "commonMistakes": [
+      "Treating preorder or level order as sorted",
+      "Not connecting inorder ordering back to the BST property"
+    ],
+    "practiceProblems": ["bst-002", "bst-007"],
+    "progressionOrder": 3,
+    "dependsOn": ["bst-topic-intro", "recursive-tree-traversal"]
+  },
+  {
+    "id": "bst-topic-validate-range",
+    "name": "BST Validation by Range",
+    "description": "A valid BST must satisfy global low and high bounds, not just local parent-child comparisons.",
+    "exampleJava": "return low < root.val && root.val < high && valid(root.left, low, root.val) && valid(root.right, root.val, high);",
+    "commonMistakes": [
+      "Checking only immediate children",
+      "Forgetting that an entire subtree inherits ancestor bounds"
+    ],
+    "practiceProblems": ["bst-003"],
+    "progressionOrder": 4,
+    "dependsOn": ["bst-topic-inorder-sorted", "recursive-tree-traversal"]
+  },
+  {
+    "id": "bst-topic-insert",
+    "name": "BST Insert",
+    "description": "Insert by descending left or right until the correct null child position is found.",
+    "exampleJava": "if (root == null) return new TreeNode(x);",
+    "commonMistakes": [
+      "Losing the returned child link during recursion",
+      "Inserting on the wrong side and breaking ordering"
+    ],
+    "practiceProblems": ["bst-004"],
+    "progressionOrder": 5,
+    "dependsOn": ["bst-topic-search", "recursive-tree-traversal"]
+  },
+  {
+    "id": "bst-topic-lca",
+    "name": "LCA in BST",
+    "description": "The BST property lets you stop when the two targets split to different sides of the current node.",
+    "exampleJava": "if (p < root.val && q < root.val) root = root.left;",
+    "commonMistakes": [
+      "Using full binary-tree LCA logic when simple direction checks are enough",
+      "Not handling the case where one target is the current node"
+    ],
+    "practiceProblems": ["bst-006"],
+    "progressionOrder": 6,
+    "dependsOn": ["bst-topic-search"]
+  },
+  {
+    "id": "bst-topic-kth-smallest",
+    "name": "Kth Smallest by Inorder",
+    "description": "Because inorder is sorted, the kth visited node is the kth smallest value.",
+    "exampleJava": "if (++count == k) answer = root.val;",
+    "commonMistakes": [
+      "Sorting values after collecting them when a single inorder pass is enough",
+      "Counting nodes in preorder instead of inorder"
+    ],
+    "practiceProblems": ["bst-007"],
+    "progressionOrder": 7,
+    "dependsOn": ["bst-topic-inorder-sorted"]
+  },
+  {
+    "id": "bst-topic-successor",
+    "name": "Successor and Neighbor Reasoning",
+    "description": "Track the best larger candidate while moving through the BST to find successor-like answers.",
+    "exampleJava": "if (target < root.val) { successor = root.val; root = root.left; } else root = root.right;",
+    "commonMistakes": [
+      "Returning the parent blindly",
+      "Ignoring better candidates discovered on the way down"
+    ],
+    "practiceProblems": ["bst-005", "bst-008"],
+    "progressionOrder": 8,
+    "dependsOn": ["bst-topic-search", "bst-topic-inorder-sorted"]
+  },
+  {
+    "id": "bst-topic-range-pruning",
+    "name": "BST Range Pruning",
+    "description": "Skip whole subtrees when the current value proves they cannot contribute to the answer.",
+    "exampleJava": "if (root.val < low) return dfs(root.right, low, high);",
+    "commonMistakes": [
+      "Traversing both subtrees even when one side is impossible",
+      "Forgetting to keep valid middle nodes in the answer"
+    ],
+    "practiceProblems": ["bst-009", "bst-011"],
+    "progressionOrder": 9,
+    "dependsOn": ["bst-topic-search", "recursive-tree-traversal"]
+  },
+  {
+    "id": "bst-topic-delete",
+    "name": "BST Delete and Restructure",
+    "description": "Deletion must preserve ordering across the zero-child, one-child, and two-child cases.",
+    "exampleJava": "root.val = successor.val; root.right = deleteNode(root.right, successor.val);",
+    "commonMistakes": [
+      "Dropping a subtree while reconnecting children",
+      "Copying the successor value but forgetting to remove the successor node"
+    ],
+    "practiceProblems": ["bst-010"],
+    "progressionOrder": 10,
+    "dependsOn": ["bst-topic-insert", "bst-topic-successor"]
+  }
+]

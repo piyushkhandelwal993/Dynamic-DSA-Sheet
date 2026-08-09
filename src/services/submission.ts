@@ -115,7 +115,9 @@ export function submitProblemSolution(
   const skillProfile = getSkillProfile();
   const topicId = getTopicIdForProblem(problem.id);
   const topicProblems = getTopicProblems(topicId);
-  const recommendation = recommendAfterSubmission(problem, topicProblems, progress, skillProfile, score, analysis);
+  const recommendation = recommendAfterSubmission(problem, topicProblems, progress, skillProfile, score, analysis, {
+    practiceMode
+  });
   progress.problems[problemId].retryRequired = recommendation.type === "revise-prerequisite" && recommendation.suggestedProblemIds[0] === problem.id;
   progress.problems[problemId].retryConceptIds = recommendation.conceptIds;
   progress.problems[problemId].retryReason = recommendation.reasons[0];

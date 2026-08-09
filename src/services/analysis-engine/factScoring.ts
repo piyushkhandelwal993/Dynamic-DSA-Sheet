@@ -33,6 +33,7 @@ export function scoreSubmissionFromFacts(
     queue: scoreQueueSubmissionFromFacts,
     "binary-search": scoreBinarySearchSubmissionFromFacts,
     trees: scoreTreeSubmissionFromFacts,
+    "binary-search-trees": scoreTreeSubmissionFromFacts,
     graphs: scoreGraphSubmissionFromFacts,
     "dynamic-programming": scoreDpSubmissionFromFacts,
     recursion: scoreRecursionSubmissionFromFacts

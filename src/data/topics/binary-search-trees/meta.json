@@ -1,0 +1,18 @@
+{
+  "id": "binary-search-trees",
+  "name": "Binary Search Trees",
+  "description": "Learn BST ordering from basic search and inorder reasoning to validation, deletion, successor logic, and pruning-based advanced problems.",
+  "roadmap": [
+    "BST basics",
+    "Inorder and ordering intuition",
+    "Validation and search",
+    "Insertion and local updates",
+    "Ancestor and selection queries",
+    "Successor and predecessor reasoning",
+    "Pruning and range queries",
+    "Deletion and advanced restructuring"
+  ],
+  "recommendedLanguage": "Java",
+  "worldName": "BST Orchard",
+  "status": "active"
+}

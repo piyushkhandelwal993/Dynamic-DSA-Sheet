@@ -302,3 +302,149 @@ test("recursion strong solve respects sequence before difficulty jumps", () => {
 
   assert.equal(recommendation.problem?.id, "rec-020");
 });
+
+test("trees next recommendation starts from traversal foundation instead of bridge-only tree steps", () => {
+  const problems = getTopicProblems("trees");
+  const recommendation = recommendNextProblem(problems, makeProgress(), makeSkillProfile());
+
+  assert.equal(recommendation.problem?.id, "tr-001");
+});
+
+test("trees next recommendation keeps canonical path ahead of target bridges after preorder", () => {
+  const problems = getTopicProblems("trees");
+  const progress = makeProgress();
+  progress.problems["tr-001"] = {
+    problemId: "tr-001",
+    status: "solved",
+    attempts: 1,
+    bestScore: 92
+  };
+
+  const recommendation = recommendNextProblem(problems, progress, makeSkillProfile());
+
+  assert.equal(recommendation.problem?.id, "tr-002");
+});
+
+test("trees strong solve moves into the next canonical tree step instead of a later bridge", () => {
+  const problems = getTopicProblems("trees");
+  const problem = problems.find((item) => item.id === "tr-001");
+  assert.ok(problem);
+
+  const progress = makeProgress();
+  progress.problems["tr-001"] = {
+    problemId: "tr-001",
+    status: "solved",
+    attempts: 1,
+    bestScore: 95
+  };
+
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...createInitialSkillProfile().conceptScores,
+      "tree-intro": 82,
+      "recursive-tree-traversal": 76
+    }
+  });
+
+  const recommendation = recommendAfterSubmission(
+    problem,
+    problems,
+    progress,
+    skillProfile,
+    {
+      finalScore: 92,
+      conceptMatchScore: 100,
+      qualityScore: 85,
+      complexityScore: 90
+    },
+    {
+      detected: [],
+      warnings: [],
+      signals: makeSignals({
+        hasRecursiveCall: true,
+        hasBaseCase: true
+      })
+    }
+  );
+
+  assert.equal(recommendation.problem?.id, "tr-002");
+});
+
+test("trees beginner recommendation can inject queue toolkit before bfs tree practice", () => {
+  const problems = getTopicProblems("trees");
+  const progress = makeProgress();
+  progress.problems["tr-001"] = {
+    problemId: "tr-001",
+    status: "solved",
+    attempts: 1,
+    bestScore: 90
+  };
+  progress.problems["tr-002"] = {
+    problemId: "tr-002",
+    status: "solved",
+    attempts: 1,
+    bestScore: 88
+  };
+  progress.problems["tr-003"] = {
+    problemId: "tr-003",
+    status: "solved",
+    attempts: 1,
+    bestScore: 84
+  };
+
+  const base = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...base.conceptScores,
+      "tree-intro": 84,
+      "recursive-tree-traversal": 82,
+      "queue-library-usage": 20
+    }
+  });
+
+  const recommendation = recommendNextProblem(problems, progress, skillProfile, {
+    practiceMode: "beginner"
+  });
+
+  assert.equal(recommendation.problem?.id, "lt-006");
+  assert.equal(recommendation.suggestedProblemIds[1], "tr-004");
+});
+
+test("trees pro recommendation stays on the tighter tree path when toolkit support is weak", () => {
+  const problems = getTopicProblems("trees");
+  const progress = makeProgress();
+  progress.problems["tr-001"] = {
+    problemId: "tr-001",
+    status: "solved",
+    attempts: 1,
+    bestScore: 90
+  };
+  progress.problems["tr-002"] = {
+    problemId: "tr-002",
+    status: "solved",
+    attempts: 1,
+    bestScore: 88
+  };
+  progress.problems["tr-003"] = {
+    problemId: "tr-003",
+    status: "solved",
+    attempts: 1,
+    bestScore: 84
+  };
+
+  const base = createInitialSkillProfile();
+  const skillProfile = makeSkillProfile({
+    conceptScores: {
+      ...base.conceptScores,
+      "tree-intro": 84,
+      "recursive-tree-traversal": 82,
+      "queue-library-usage": 20
+    }
+  });
+
+  const recommendation = recommendNextProblem(problems, progress, skillProfile, {
+    practiceMode: "pro"
+  });
+
+  assert.equal(recommendation.problem?.id, "tr-004");
+});

@@ -1338,11 +1338,22 @@ function javaDriverSource(contract: FunctionContract): string {
         TreeNode root = readTree(sc, n);`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(root) ? "Balanced" : "Not Balanced");`;
       break;
+    case "tree-validate-bst":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root) ? "Valid" : "Invalid");`;
+      break;
     case "tree-bst-search":
       inputSetup = `        int n = sc.nextInt();
         TreeNode root = readTree(sc, n);
         int target = sc.nextInt();`;
       invocation = `        System.out.print(new Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-bst-floor-ceil":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        printValues(new Solution().${contract.functionName}(root, target));`;
       break;
     case "tree-root-to-node-path":
       inputSetup = `        int n = sc.nextInt();
@@ -1361,6 +1372,32 @@ function javaDriverSource(contract: FunctionContract): string {
         TreeNode root = readTree(sc, n);
         int key = sc.nextInt();`;
       invocation = `        printValues(new Solution().${contract.functionName}(root, key));`;
+      break;
+    case "tree-kth-smallest-bst":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int k = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root, k));`;
+      break;
+    case "tree-bst-successor":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int target = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root, target));`;
+      break;
+    case "tree-bst-range-sum":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int low = sc.nextInt();
+        int high = sc.nextInt();`;
+      invocation = `        System.out.print(new Solution().${contract.functionName}(root, low, high));`;
+      break;
+    case "tree-trim-bst":
+      inputSetup = `        int n = sc.nextInt();
+        TreeNode root = readTree(sc, n);
+        int low = sc.nextInt();
+        int high = sc.nextInt();`;
+      invocation = `        printValues(new Solution().${contract.functionName}(root, low, high));`;
       break;
     case "tree-lca":
       inputSetup = `        int n = sc.nextInt();
@@ -2683,6 +2720,12 @@ void printValues(const vector<int>& values) {
     TreeNode* root = readTree(n);`;
       invocation = `    cout << (Solution().${contract.functionName}(root) ? "Balanced" : "Not Balanced");`;
       break;
+    case "tree-validate-bst":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);`;
+      invocation = `    cout << (Solution().${contract.functionName}(root) ? "Valid" : "Invalid");`;
+      break;
     case "tree-bst-search":
       inputSetup = `    int n;
     cin >> n;
@@ -2690,6 +2733,14 @@ void printValues(const vector<int>& values) {
     int target;
     cin >> target;`;
       invocation = `    cout << (Solution().${contract.functionName}(root, target) ? "Found" : "Not Found");`;
+      break;
+    case "tree-bst-floor-ceil":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int target;
+    cin >> target;`;
+      invocation = `    printValues(Solution().${contract.functionName}(root, target));`;
       break;
     case "tree-root-to-node-path":
       inputSetup = `    int n;
@@ -2714,6 +2765,38 @@ void printValues(const vector<int>& values) {
     int key;
     cin >> key;`;
       invocation = `    printValues(Solution().${contract.functionName}(root, key));`;
+      break;
+    case "tree-kth-smallest-bst":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int k;
+    cin >> k;`;
+      invocation = `    cout << Solution().${contract.functionName}(root, k);`;
+      break;
+    case "tree-bst-successor":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int target;
+    cin >> target;`;
+      invocation = `    cout << Solution().${contract.functionName}(root, target);`;
+      break;
+    case "tree-bst-range-sum":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int low, high;
+    cin >> low >> high;`;
+      invocation = `    cout << Solution().${contract.functionName}(root, low, high);`;
+      break;
+    case "tree-trim-bst":
+      inputSetup = `    int n;
+    cin >> n;
+    TreeNode* root = readTree(n);
+    int low, high;
+    cin >> low >> high;`;
+      invocation = `    printValues(Solution().${contract.functionName}(root, low, high));`;
       break;
     case "tree-lca":
       inputSetup = `    int n;

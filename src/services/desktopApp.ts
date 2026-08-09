@@ -207,10 +207,13 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
   if (resolvedTopicId !== topicId) {
     setActiveTopicId(resolvedTopicId);
   }
+  const preferences = getDesktopPreferences();
   const progress = getProgress();
   const skillProfile = getSkillProfile();
   const problems = getTopicProblems(resolvedTopicId);
-  const nextRecommendation = recommendNextProblem(problems, progress, skillProfile);
+  const nextRecommendation = recommendNextProblem(problems, progress, skillProfile, {
+    practiceMode: preferences.practiceMode ?? "beginner"
+  });
 
   return {
     topics: getTopicMetas(),
@@ -230,7 +233,7 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     topicProgress: buildTopicProgressSummary(),
     progressMap: progress.problems,
     recommendedTopicId: nextRecommendation.problem ? (getTopicIdForProblem(nextRecommendation.problem.id) ?? resolvedTopicId) : resolvedTopicId,
-    preferences: getDesktopPreferences(),
+    preferences,
     javaRuntime: detectJavaRuntime(),
     cppRuntime: detectCppRuntime(),
     contentSync: getContentSyncStatus(),

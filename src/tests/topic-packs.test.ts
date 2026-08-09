@@ -34,6 +34,7 @@ test("topic registry exposes roadmap metadata", () => {
     assert.equal(metas.some((meta) => meta.id === "programming-mathematics"), true);
     assert.equal(metas.some((meta) => meta.id === "arrays"), true);
     assert.equal(metas.some((meta) => meta.id === "binary-search"), true);
+    assert.equal(metas.some((meta) => meta.id === "binary-search-trees"), true);
     assert.equal(metas.some((meta) => meta.id === "dp"), true);
     assert.equal(metas.some((meta) => meta.id === "graphs"), true);
     assert.equal(metas.some((meta) => meta.id === "linked-list"), true);
@@ -52,6 +53,7 @@ test("topic registry exposes roadmap metadata", () => {
     assert.ok(getTopicRoadmap("bit-manipulation").length > 5);
     assert.ok(getTopicProblems("arrays").length >= 10);
     assert.ok(getTopicProblems("binary-search").length >= 10);
+    assert.ok(getTopicProblems("binary-search-trees").length >= 10);
     assert.ok(getTopicProblems("dp").length >= 12);
     assert.ok(getTopicProblems("graphs").length >= 12);
     assert.ok(getTopicProblems("linked-list").length >= 10);
@@ -77,6 +79,7 @@ test("adaptive pool topics expose healthy role coverage", () => {
     "arrays",
     "bit-manipulation",
     "binary-search",
+    "binary-search-trees",
     "dp",
     "graphs",
     "linked-list",

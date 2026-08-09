@@ -27,7 +27,7 @@ const difficultyRank: Record<ExternalPracticeProblem["difficulty"], number> = {
 const topicFamilies: string[][] = [
   ["programming-mathematics", "arrays", "recursion", "strings"],
   ["arrays", "strings", "two-pointers", "sliding-window", "prefix-suffix"],
-  ["trees"],
+  ["trees", "binary-search-trees"],
   ["graphs"],
   ["dp"],
   ["binary-search"],

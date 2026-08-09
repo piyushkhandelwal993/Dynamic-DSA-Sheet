@@ -154,9 +154,8 @@ test("validate bst roadmap uses cross-topic sorted-check and tree traversal brid
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("arr-002"), true);
-  assert.equal(internalIds.includes("tr-002"), true);
-  assert.equal(internalIds.includes("tr-008"), true);
+  assert.equal(internalIds.includes("bst-002"), true);
+  assert.equal(internalIds.includes("bst-003"), true);
   assert.equal(roadmap.steps.some((step) => step.type === "external"), false);
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
@@ -849,7 +848,7 @@ test("bottom view of binary tree becomes a supported trees roadmap target", () =
   assert.equal(roadmap.steps.at(-1)?.title, "Bottom View of Binary Tree");
 });
 
-test("kth smallest bst roadmap pulls sorted-check and inorder traversal before bst search practice", () => {
+test("kth smallest bst roadmap routes through the standalone BST topic progression", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-kth-smallest-bst-"));
   invalidateCatalogCache();
   const progress = createInitialProgress();
@@ -865,9 +864,8 @@ test("kth smallest bst roadmap pulls sorted-check and inorder traversal before b
     .filter((step) => step.type === "internal")
     .map((step) => step.internalProblemId);
 
-  assert.equal(internalIds.includes("arr-002"), true);
-  assert.equal(internalIds.includes("tr-002"), true);
-  assert.equal(internalIds.includes("tr-008"), true);
+  assert.equal(internalIds.includes("bst-002"), true);
+  assert.equal(internalIds.includes("bst-007"), true);
   assert.equal(roadmap.steps.at(-1)?.title, "Kth Smallest Element in a BST");
 });
 
