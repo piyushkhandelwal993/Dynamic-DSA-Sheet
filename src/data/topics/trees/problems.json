@@ -2696,5 +2696,83 @@
     "masteryWeight": 1.16,
     "variantGroup": "tree-complete-count-bridge",
     "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "tr-036",
+    "topic": "Trees",
+    "subtopic": "Advanced tree applications",
+    "title": "Count Good Nodes in Binary Tree",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": [
+      "ancestor-max-tracking"
+    ],
+    "prerequisiteConcepts": [
+      "recursive-tree-traversal"
+    ],
+    "expectedComplexity": "O(n)",
+    "estimatedMinutes": 20,
+    "description": "Given a binary tree in level-order form using -1 for nulls, count how many nodes are good, where a node is good if no ancestor on the root-to-node path has a value greater than it.",
+    "constraints": [
+      "1 <= number of nodes <= 10^5",
+      "-10^4 <= node value <= 10^4"
+    ],
+    "inputFormat": [
+      "An integer n",
+      "n level-order values with -1 for null"
+    ],
+    "outputFormat": [
+      "Print the number of good nodes"
+    ],
+    "edgeCases": [
+      "The root is always a good node",
+      "Negative values still use the same path-maximum rule"
+    ],
+    "intendedApproachSummary": "Run DFS while carrying the maximum value seen on the current root-to-node path, count the node if it meets or beats that maximum, and pass the updated maximum to children.",
+    "wrongApproachHints": [
+      "Do not restart the comparison at each subtree root.",
+      "You only need the running maximum from the current path, not all ancestor values separately."
+    ],
+    "hints": [
+      "The root starts the path maximum.",
+      "Children should receive max(pathMax, currentNodeValue)."
+    ],
+    "examples": [
+      {
+        "input": "7\n3 1 4 3 -1 1 5",
+        "output": "4",
+        "explanation": "The good nodes are 3, 3, 4, and 5 because each is at least as large as every earlier value on its path."
+      }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "countGoodNodes",
+      "javaSignature": "public int countGoodNodes(TreeNode root)",
+      "cppSignature": "int countGoodNodes(TreeNode* root)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-height"
+    },
+    "testCases": [
+      {
+        "input": "7\n3 1 4 3 -1 1 5",
+        "expectedOutput": "4",
+        "visibility": "sample"
+      },
+      {
+        "input": "3\n2 2 2",
+        "expectedOutput": "3",
+        "visibility": "hidden"
+      }
+    ],
+    "remedialProblems": [
+      "tr-001",
+      "tr-005"
+    ],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "masteryWeight": 1.1,
+    "variantGroup": "tree-ancestor-state-bridge",
+    "curriculumRole": "canonical-path"
   }
 ]

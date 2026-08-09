@@ -370,5 +370,17 @@
     ],
     "practiceProblems": ["tr-035"],
     "dependsOn": ["complete-tree-properties"]
+  },
+  {
+    "id": "ancestor-max-tracking",
+    "name": "Ancestor Max Tracking",
+    "description": "Carry the best ancestor-derived state down the recursion so each node can be evaluated against the path seen so far.",
+    "exampleJava": "dfs(node.left, Math.max(pathMax, node.val));",
+    "commonMistakes": [
+      "Resetting the path maximum at each node instead of passing it downward",
+      "Updating the state after recursing instead of before child calls"
+    ],
+    "practiceProblems": ["tr-036"],
+    "dependsOn": ["recursive-tree-traversal"]
   }
 ]

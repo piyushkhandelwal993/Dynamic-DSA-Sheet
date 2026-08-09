@@ -122,6 +122,7 @@ test("buildRoadmapInferenceStatement falls back to provided statement when fetch
 });
 
 test("buildRoadmapInferenceStatement includes structured fetched metadata", async () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-problem-page-metadata-"));
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => ({
     ok: true,
@@ -148,7 +149,7 @@ test("buildRoadmapInferenceStatement includes structured fetched metadata", asyn
   }) as Response;
 
   try {
-    const result = await buildRoadmapInferenceStatement("https://leetcode.com/problems/sample-graph-problem/");
+    const result = await buildRoadmapInferenceStatement("https://leetcode.com/problems/sample-graph-problem-v2/");
     assert.equal(result?.includes("Title: Sample Graph Problem"), true);
     assert.equal(result?.includes("Difficulty: Hard"), true);
     assert.equal(result?.includes("Tags: Graph, Breadth-First Search"), true);
