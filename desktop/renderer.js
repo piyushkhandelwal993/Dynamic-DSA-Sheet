@@ -181,6 +181,15 @@ const profileContributionsListEl = document.getElementById("profile-contribution
 const profileContributionSyncNoteEl = document.getElementById("profile-contribution-sync-note");
 const profileOpenContributionOutboxButtonEl = document.getElementById("profile-open-contribution-outbox-button");
 const profileSyncContributionStatusesButtonEl = document.getElementById("profile-sync-contribution-statuses-button");
+const licenseStatusSummaryEl = document.getElementById("license-status-summary");
+const licenseMachineIdEl = document.getElementById("license-machine-id");
+const licenseCopyMachineIdButtonEl = document.getElementById("license-copy-machine-id-button");
+const licenseActivationStatusEl = document.getElementById("license-activation-status");
+const licenseEmailInputEl = document.getElementById("license-email-input");
+const licenseCodeInputEl = document.getElementById("license-code-input");
+const licenseActivateButtonEl = document.getElementById("license-activate-button");
+const licenseTopicAccessListEl = document.getElementById("license-topic-access-list");
+const licenseLockedTopicListEl = document.getElementById("license-locked-topic-list");
 const externalPracticeSummaryEl = document.getElementById("external-practice-summary");
 const externalPracticeReadyListEl = document.getElementById("external-practice-ready-list");
 const externalPracticeUnlockedListEl = document.getElementById("external-practice-unlocked-list");
@@ -1681,7 +1690,18 @@ async function loadBootstrap(topicId) {
 async function switchTopic(topicId) {
   closeTopicSwitcher();
   const previousView = state.currentView;
-  state.bootstrap = await window.dsaDesktop.switchTopic(topicId);
+  try {
+    state.bootstrap = await window.dsaDesktop.switchTopic(topicId);
+  } catch (error) {
+    const message = error?.message ?? "This topic is currently locked.";
+    if (topicDescriptionEl) {
+      topicDescriptionEl.textContent = message;
+    }
+    if (licenseActivationStatusEl) {
+      licenseActivationStatusEl.textContent = message;
+    }
+    return;
+  }
   state.currentProblem = null;
   state.workspacePath = null;
   state.currentView = previousView;
@@ -1720,17 +1740,37 @@ function renderTopics() {
   }
   topicListEl.innerHTML = "";
   state.bootstrap.topics.forEach((topic) => {
+    const access = state.bootstrap.topicAccess?.[topic.id];
+    const isAccessible = access?.access === "free" || access?.access === "unlocked";
+    const accessLabel = access?.access === "free"
+      ? "free"
+      : access?.access === "unlocked"
+        ? "unlocked"
+        : topic.status === "active"
+          ? "locked"
+          : topic.status;
+    const accessClass = access?.access === "free" || access?.access === "unlocked"
+      ? "green"
+      : access?.access === "locked"
+        ? "gray"
+        : "yellow";
     const button = document.createElement("button");
     button.className = `topic-button${topic.id === state.bootstrap.activeTopicId ? " active" : ""}`;
     button.innerHTML = `
       <strong>${escapeHtml(topic.name)}</strong>
       <div class="meta-line">
         <span>${escapeHtml(topic.worldName)}</span>
-        <span class="pill ${topic.status === "active" ? "green" : "yellow"}">${escapeHtml(topic.status)}</span>
+        <span class="pill ${accessClass}">${escapeHtml(accessLabel)}</span>
       </div>
     `;
-    button.disabled = topic.status !== "active";
-    button.onclick = () => switchTopic(topic.id);
+    button.disabled = topic.status !== "active" && access?.access !== "locked";
+    button.onclick = () => {
+      if (access?.access === "locked") {
+        void openBuyTopicFlow(topic.id);
+        return;
+      }
+      void switchTopic(topic.id);
+    };
     topicListEl.appendChild(button);
   });
 }
@@ -1738,6 +1778,20 @@ function renderTopics() {
 function renderTopicSwitcher() {
   topicSwitcherMenuEl.innerHTML = "";
   state.bootstrap.topics.forEach((topic) => {
+    const access = state.bootstrap.topicAccess?.[topic.id];
+    const isAccessible = access?.access === "free" || access?.access === "unlocked";
+    const accessLabel = access?.access === "free"
+      ? "free"
+      : access?.access === "unlocked"
+        ? "unlocked"
+        : topic.status === "active"
+          ? "locked"
+          : topic.status;
+    const accessClass = access?.access === "free" || access?.access === "unlocked"
+      ? "green"
+      : access?.access === "locked"
+        ? "gray"
+        : "yellow";
     const button = document.createElement("button");
     button.type = "button";
     button.className = `topic-switcher-option${topic.id === state.bootstrap.activeTopicId ? " active" : ""}`;
@@ -1745,15 +1799,56 @@ function renderTopicSwitcher() {
       <strong>${escapeHtml(topic.name)}</strong>
       <div class="meta-line">
         <span>${escapeHtml(topic.worldName)}</span>
-        <span class="pill ${topic.status === "active" ? "green" : "yellow"}">${escapeHtml(topic.status)}</span>
+        <span class="pill ${accessClass}">${escapeHtml(accessLabel)}</span>
       </div>
     `;
-    button.disabled = topic.status !== "active";
+    button.disabled = topic.status !== "active" && access?.access !== "locked";
     button.addEventListener("click", async () => {
+      if (access?.access === "locked") {
+        await openBuyTopicFlow(topic.id);
+        return;
+      }
       await switchTopic(topic.id);
     });
     topicSwitcherMenuEl.appendChild(button);
   });
+}
+
+function buildUnlockUrl(topicId) {
+  const portalUrl = state.bootstrap?.license?.unlockPortalUrl;
+  const backendUrl = state.bootstrap?.license?.unlockBackendUrl;
+  const machineHash = state.bootstrap?.license?.machineHash;
+  if (!portalUrl || !machineHash) {
+    return null;
+  }
+  const url = new URL(portalUrl);
+  const email = (licenseEmailInputEl?.value?.trim() || state.bootstrap?.profile?.email || "").trim();
+  url.searchParams.set("topic", topicId);
+  url.searchParams.set("machineHash", machineHash);
+  if (email) {
+    url.searchParams.set("email", email);
+  }
+  if (backendUrl) {
+    url.searchParams.set("backend", backendUrl);
+  }
+  return url.toString();
+}
+
+async function openBuyTopicFlow(topicId) {
+  const targetUrl = buildUnlockUrl(topicId);
+  if (!targetUrl) {
+    if (licenseActivationStatusEl) {
+      licenseActivationStatusEl.textContent = "Unlock portal URL is not configured yet.";
+    }
+    return;
+  }
+  if (licenseActivationStatusEl) {
+    const topic = state.bootstrap?.topics?.find((item) => item.id === topicId);
+    licenseActivationStatusEl.textContent = `Opening purchase flow for ${topic?.name ?? topicId}...`;
+  }
+  state.currentView = "profile";
+  render();
+  await window.dsaDesktop.openExternal(targetUrl);
 }
 
 function platformStats() {
@@ -2032,7 +2127,7 @@ function animateHomeCounters() {
 }
 
 function renderProfilePage() {
-  const { profile, gameProfile, activeTopic, contributions = [], contributionSync } = state.bootstrap;
+  const { profile, gameProfile, activeTopic, contributions = [], contributionSync, license } = state.bootstrap;
   const name = profile?.name ?? "Player";
   const batch = profile?.batch ?? "Self-paced";
   const preferredLanguage = profile?.preferredLanguage ?? "Java";
@@ -2099,6 +2194,86 @@ function renderProfilePage() {
   profileContributionSyncNoteEl.textContent = contributionSync?.message ?? "Contribution review sync is not configured yet.";
   profileSyncContributionStatusesButtonEl.disabled = !contributionSync?.enabled;
 
+  if (licenseMachineIdEl) {
+    licenseMachineIdEl.value = license?.machineHash ?? "";
+  }
+
+  if (licenseStatusSummaryEl) {
+    const freeCount = Object.values(license?.topicAccess ?? {}).filter((item) => item.access === "free").length;
+    const unlockedCount = Object.values(license?.topicAccess ?? {}).filter((item) => item.access === "unlocked").length;
+    licenseStatusSummaryEl.innerHTML = `
+      <div class="profile-stat-card">
+        <span>Verification</span>
+        <strong>${license?.publicKeyConfigured ? "Ready" : "Missing key"}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Free Topics</span>
+        <strong>${freeCount}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Paid Topics</span>
+        <strong>${unlockedCount}</strong>
+      </div>
+      <div class="profile-stat-card">
+        <span>Active Licenses</span>
+        <strong>${license?.activeLicenses?.length ?? 0}</strong>
+      </div>
+    `;
+  }
+
+  if (licenseTopicAccessListEl) {
+    const unlockedAccess = Object.entries(license?.topicAccess ?? {})
+      .filter(([, item]) => item.access === "free" || item.access === "unlocked")
+      .map(([topicId, item]) => {
+        const topic = state.bootstrap.topics.find((entry) => entry.id === topicId);
+        const expiry = item.expiresAt
+          ? ` · until ${new Date(item.expiresAt).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`
+          : "";
+        return `
+          <article class="profile-note">
+            <strong>${escapeHtml(topic?.name ?? topicId)}</strong>
+            <p class="muted">${escapeHtml(item.access)}${escapeHtml(expiry)}</p>
+          </article>
+        `;
+      });
+    licenseTopicAccessListEl.innerHTML = unlockedAccess.length
+      ? unlockedAccess.join("")
+      : `<p class="muted">No paid topics unlocked yet.</p>`;
+  }
+
+  if (licenseLockedTopicListEl) {
+    const lockedAccess = Object.entries(license?.topicAccess ?? {})
+      .filter(([, item]) => item.access === "locked")
+      .map(([topicId]) => {
+        const topic = state.bootstrap.topics.find((entry) => entry.id === topicId);
+        return `
+          <article class="profile-note external-practice-card">
+            <div class="external-card-header">
+              <strong>${escapeHtml(topic?.name ?? topicId)}</strong>
+              <div class="external-card-badges">
+                <span class="pill gray">locked</span>
+              </div>
+            </div>
+            <p class="muted">${escapeHtml(topic?.description ?? "Unlock this topic to start practicing it.")}</p>
+            <div class="profile-form-actions">
+              <button class="primary-button" type="button" data-buy-topic="${escapeHtml(topicId)}">Buy Topic</button>
+            </div>
+          </article>
+        `;
+      });
+    licenseLockedTopicListEl.innerHTML = lockedAccess.length
+      ? lockedAccess.join("")
+      : `<p class="muted">All current topics are already available.</p>`;
+    licenseLockedTopicListEl.querySelectorAll("[data-buy-topic]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const topicId = button.getAttribute("data-buy-topic");
+        if (topicId) {
+          await openBuyTopicFlow(topicId);
+        }
+      });
+    });
+  }
+
   profileContributionsListEl.innerHTML = contributions.length
     ? contributions
         .slice(0, 12)
@@ -2134,6 +2309,22 @@ function renderProfilePage() {
       }
     });
   });
+}
+
+async function activateLicenseFromProfile() {
+  if (!licenseActivationStatusEl) return;
+  const email = licenseEmailInputEl?.value?.trim() ?? "";
+  const code = licenseCodeInputEl?.value?.trim() ?? "";
+  if (!email || !code) {
+    licenseActivationStatusEl.textContent = "Enter the purchase email and unlock code first.";
+    return;
+  }
+  licenseActivationStatusEl.textContent = "Activating unlock code...";
+  const result = await window.dsaDesktop.activateLicenseCode(email, code);
+  licenseActivationStatusEl.textContent = result.message;
+  state.bootstrap.license = result.status;
+  state.bootstrap.topicAccess = result.status.topicAccess;
+  render();
 }
 
 async function ensureTrainingCatalogLoaded() {
@@ -4323,6 +4514,21 @@ profileFormEl?.addEventListener("submit", async (event) => {
       profileSaveStatusEl.textContent = "";
     }
   }, 1800);
+});
+
+licenseCopyMachineIdButtonEl?.addEventListener("click", async () => {
+  const machineId = licenseMachineIdEl?.value?.trim();
+  if (!machineId) {
+    return;
+  }
+  await window.dsaDesktop.copyText(machineId);
+  if (licenseActivationStatusEl) {
+    licenseActivationStatusEl.textContent = "Machine ID copied.";
+  }
+});
+
+licenseActivateButtonEl?.addEventListener("click", async () => {
+  await activateLicenseFromProfile();
 });
 
 environmentBannerGuideButtonEl?.addEventListener("click", async () => {

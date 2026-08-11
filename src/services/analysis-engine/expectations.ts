@@ -169,6 +169,7 @@ export const conceptExpectations: Record<string, FactExpectation> = {
   "bst-topic-lca": anyOf(fact("lowest-common-ancestor"), fact("bst-search")),
   "bst-topic-kth-smallest": anyOf(fact("recursive-tree-traversal"), fact("loop"), fact("bst-search")),
   "bst-topic-successor": anyOf(fact("bst-search"), fact("recursive-tree-traversal"), fact("loop")),
+  "bst-topic-candidate-tracking": anyOf(fact("bst-search"), fact("loop"), fact("recursive-tree-traversal")),
   "bst-topic-range-pruning": anyOf(fact("bst-search"), fact("recursive-tree-traversal")),
   "bst-topic-delete": fact("bst-mutation"),
   "tree-view": fact("tree-view"),

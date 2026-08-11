@@ -17,7 +17,7 @@ test("a new desktop user receives a recommendation and an editable workspace", (
     batch: "self-paced",
     preferredLanguage: "java",
     currentLevel: "beginner",
-    activeTopicId: "bit-manipulation",
+    activeTopicId: "language-toolkit",
     createdAt: new Date().toISOString()
   };
 
@@ -28,7 +28,7 @@ test("a new desktop user receives a recommendation and an editable workspace", (
     const bootstrap = getDesktopBootstrap();
     assert.equal(bootstrap.preferences.currentView, "practice");
     assert.equal(bootstrap.preferences.currentProblemView, "description");
-    assert.equal(bootstrap.activeTopicId, "bit-manipulation");
+    assert.equal(bootstrap.activeTopicId, "language-toolkit");
     assert.ok(bootstrap.nextRecommendation.problem);
 
     const session = startDesktopProblem(bootstrap.nextRecommendation.problem.id, "java");

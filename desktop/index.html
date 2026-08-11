@@ -770,6 +770,52 @@
             <section class="panel profile-contributions">
               <div class="panel-header">
                 <div>
+                  <div class="eyebrow">Topic Unlocks</div>
+                  <h3>Machine-bound access</h3>
+                </div>
+              </div>
+              <p class="muted">Use the machine ID during purchase, then enter the emailed unlock code here to activate paid topics on this device.</p>
+              <div class="profile-grid">
+                <article class="panel profile-form">
+                  <label class="profile-field">
+                    <span>Machine ID</span>
+                    <input id="license-machine-id" type="text" readonly />
+                  </label>
+                  <div class="profile-form-actions">
+                    <button id="license-copy-machine-id-button" class="ghost-button" type="button">Copy Machine ID</button>
+                    <span id="license-activation-status" class="muted" role="status"></span>
+                  </div>
+                  <label class="profile-field">
+                    <span>Email used for purchase</span>
+                    <input id="license-email-input" type="email" autocomplete="email" placeholder="you@example.com" />
+                  </label>
+                  <label class="profile-field">
+                    <span>Unlock code</span>
+                    <textarea id="license-code-input" class="training-json-input" rows="5" spellcheck="false" placeholder="Paste the unlock code you received by email."></textarea>
+                  </label>
+                  <div class="profile-form-actions">
+                    <button id="license-activate-button" class="primary-button" type="button">Activate Code</button>
+                  </div>
+                </article>
+
+                <aside class="panel profile-stats">
+                  <div class="eyebrow">Access Snapshot</div>
+                  <div id="license-status-summary" class="profile-stats-grid"></div>
+                  <div class="profile-note">
+                    <strong>Unlocked Topics</strong>
+                    <div id="license-topic-access-list" class="profile-contributions-list muted">No paid topics unlocked yet.</div>
+                  </div>
+                  <div class="profile-note">
+                    <strong>Locked Topics</strong>
+                    <div id="license-locked-topic-list" class="profile-contributions-list muted">All current topics are already available.</div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+
+            <section class="panel profile-contributions">
+              <div class="panel-header">
+                <div>
                   <div class="eyebrow">Contribution History</div>
                   <h3>Your content contributions</h3>
                 </div>

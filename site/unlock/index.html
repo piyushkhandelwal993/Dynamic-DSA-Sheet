@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSA Sheet Unlock</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #08101f;
+        --panel: rgba(15, 24, 45, 0.94);
+        --panel-border: rgba(119, 137, 255, 0.24);
+        --text: #f6f8ff;
+        --muted: #b4bddb;
+        --accent: #7c5cff;
+        --accent-2: #3bb6ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(124, 92, 255, 0.24), transparent 32%),
+          radial-gradient(circle at top right, rgba(59, 182, 255, 0.18), transparent 28%),
+          linear-gradient(180deg, #091121 0%, #050914 100%);
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(680px, 100%);
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 12px;
+        color: #99a6ff;
+      }
+      h1 {
+        margin: 10px 0 12px;
+        font-size: clamp(32px, 6vw, 48px);
+        line-height: 1.02;
+      }
+      p { color: var(--muted); line-height: 1.6; }
+      form {
+        margin-top: 24px;
+        display: grid;
+        gap: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      label {
+        display: grid;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      input, select {
+        width: 100%;
+        background: rgba(10, 16, 33, 0.95);
+        border: 1px solid rgba(119, 137, 255, 0.18);
+        color: var(--text);
+        border-radius: 14px;
+        padding: 14px 15px;
+        font: inherit;
+      }
+      button {
+        border: 0;
+        border-radius: 14px;
+        padding: 14px 18px;
+        font: inherit;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        cursor: pointer;
+      }
+      .muted-box {
+        border-radius: 16px;
+        padding: 16px;
+        background: rgba(9, 14, 27, 0.72);
+        border: 1px solid rgba(119, 137, 255, 0.16);
+      }
+      .status {
+        min-height: 24px;
+        color: #d7ddff;
+      }
+      .hidden { display: none; }
+      .footer {
+        margin-top: 22px;
+        font-size: 13px;
+        color: #8f98bb;
+      }
+      @media (max-width: 700px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="card">
+      <div class="eyebrow">DSA Sheet Pro Unlock</div>
+      <h1>Unlock your next topic</h1>
+      <p>Enter the same email you want the unlock code delivered to, the machine ID shown inside the desktop app, and the topic pass you want to buy.</p>
+
+      <div class="muted-box">
+        <strong>Where to find your machine ID</strong>
+        <p>Open DSA Sheet Desktop → <code>Profile</code> → <code>Topic Unlocks</code> and copy the machine ID shown there.</p>
+      </div>
+
+      <form id="unlock-form">
+        <div class="grid">
+          <label>
+            <span>Email</span>
+            <input id="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+          </label>
+          <label>
+            <span>Provider</span>
+            <select id="provider" required>
+              <option value="razorpay">Razorpay</option>
+              <option value="cashfree">Cashfree</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>Machine ID</span>
+            <input id="machineHash" type="text" required placeholder="Paste the machine ID from the app" />
+          </label>
+          <label>
+            <span>Plan</span>
+            <select id="planId" required></select>
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            <span>Name</span>
+            <input id="customerName" type="text" placeholder="Optional" />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input id="customerPhone" type="tel" placeholder="Optional" />
+          </label>
+        </div>
+
+        <button type="submit">Continue to Payment</button>
+        <div id="status" class="status" role="status"></div>
+      </form>
+
+      <div class="footer">
+        After successful payment, your unlock code will be emailed automatically. Then return to the desktop app and paste it into the same Profile unlock panel.
+      </div>
+    </section>
+
+    <script>
+      const query = new URLSearchParams(window.location.search);
+      const backendBaseUrl = query.get("backend") || (window.location.origin.includes("github.io") ? "" : window.location.origin);
+      const form = document.getElementById("unlock-form");
+      const statusEl = document.getElementById("status");
+      const planSelect = document.getElementById("planId");
+      const preferredTopic = query.get("topic") || "";
+      const prefilledEmail = query.get("email") || "";
+      const prefilledMachineHash = query.get("machineHash") || "";
+      const prefilledProvider = query.get("provider") || "";
+
+      async function loadPlans() {
+        if (!backendBaseUrl) {
+          statusEl.textContent = "Add ?backend=https://your-license-server-host to this page URL.";
+          return;
+        }
+        const response = await fetch(`${backendBaseUrl}/api/plans`);
+        const payload = await response.json();
+        planSelect.innerHTML = payload.plans
+          .map((plan) => `<option value="${plan.id}">${plan.name} · ${plan.priceInr ?? "Custom"} INR</option>`)
+          .join("");
+        if (preferredTopic) {
+          const matchingPlan = payload.plans.find((plan) =>
+            Array.isArray(plan.topicIds) &&
+            plan.topicIds.length === 1 &&
+            plan.topicIds[0] === preferredTopic
+          );
+          if (matchingPlan) {
+            planSelect.value = matchingPlan.id;
+          }
+        }
+      }
+
+      document.getElementById("email").value = prefilledEmail;
+      document.getElementById("machineHash").value = prefilledMachineHash;
+      if (prefilledProvider && ["razorpay", "cashfree"].includes(prefilledProvider)) {
+        document.getElementById("provider").value = prefilledProvider;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        statusEl.textContent = "Creating payment session...";
+        try {
+          const response = await fetch(`${backendBaseUrl}/api/checkout/session`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: document.getElementById("email").value.trim(),
+              provider: document.getElementById("provider").value,
+              machineHash: document.getElementById("machineHash").value.trim().toLowerCase(),
+              planId: document.getElementById("planId").value,
+              customerName: document.getElementById("customerName").value.trim(),
+              customerPhone: document.getElementById("customerPhone").value.trim()
+            })
+          });
+          const payload = await response.json();
+          if (!response.ok) {
+            throw new Error(payload.error || "Could not create payment session.");
+          }
+          statusEl.textContent = "Redirecting to payment...";
+          window.location.href = payload.paymentUrl;
+        } catch (error) {
+          statusEl.textContent = error.message || "Could not create payment session.";
+        }
+      });
+
+      loadPlans().catch((error) => {
+        statusEl.textContent = error.message || "Could not load plans.";
+      });
+    </script>
+  </body>
+</html>

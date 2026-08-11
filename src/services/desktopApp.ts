@@ -70,6 +70,13 @@ import {
   openExternalPracticeProblem,
   saveExternalPracticeProblem
 } from "./externalPractice";
+import {
+  activateLicenseCode,
+  canAccessTopic,
+  clearExpiredLicenses,
+  getDesktopLicenseStatus,
+  getTopicAccess
+} from "./licensing";
 import { buildRoadmapInferenceStatement } from "./problemPageIngestion";
 import { assessTargetProblemReadiness, createTargetProblemRoadmap } from "./targetRoadmap";
 import { exportRoadmapReviewFixtures, getRoadmapReviewWorkspace, saveRoadmapReview } from "./roadmapReviews";
@@ -194,15 +201,16 @@ export function detectCppRuntime(): CppRuntimeStatus {
 
 function resolveBootstrapTopicId(requestedTopicId: string): string {
   const requested = getTopicMeta(requestedTopicId);
-  if (requested) {
+  if (requested && canAccessTopic(requestedTopicId)) {
     return requestedTopicId;
   }
 
-  const firstActiveTopic = getTopicMetas().find((topic) => topic.status === "active");
+  const firstActiveTopic = getTopicMetas().find((topic) => topic.status === "active" && canAccessTopic(topic.id));
   return firstActiveTopic?.id ?? requestedTopicId;
 }
 
 export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootstrap {
+  clearExpiredLicenses();
   const resolvedTopicId = resolveBootstrapTopicId(topicId);
   if (resolvedTopicId !== topicId) {
     setActiveTopicId(resolvedTopicId);
@@ -211,12 +219,14 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
   const progress = getProgress();
   const skillProfile = getSkillProfile();
   const problems = getTopicProblems(resolvedTopicId);
+  const license = getDesktopLicenseStatus();
   const nextRecommendation = recommendNextProblem(problems, progress, skillProfile, {
     practiceMode: preferences.practiceMode ?? "beginner"
   });
 
   return {
     topics: getTopicMetas(),
+    topicAccess: license.topicAccess,
     activeTopicId: resolvedTopicId,
     activeTopic: getTopicMeta(resolvedTopicId),
     roadmap: getTopicRoadmap(resolvedTopicId),
@@ -239,7 +249,8 @@ export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootst
     contentSync: getContentSyncStatus(),
     contributions: listContributions(),
     contributionSync: getContributionSyncStatus(),
-    externalPractice: getExternalPracticeSnapshot(progress, skillProfile)
+    externalPractice: getExternalPracticeSnapshot(progress, skillProfile),
+    license
   };
 }
 
@@ -294,8 +305,21 @@ export function switchDesktopTopic(topicId: string) {
   if (topic.status !== "active") {
     throw new Error(`Topic is not active yet: ${topicId}`);
   }
+  if (!canAccessTopic(topicId)) {
+    const access = getTopicAccess(topicId);
+    throw new Error(access?.lockedReason ?? `Topic is locked: ${topicId}`);
+  }
   setActiveTopicId(topicId);
   return getDesktopBootstrap(topicId);
+}
+
+export function getDesktopLicenseOverview() {
+  clearExpiredLicenses();
+  return getDesktopLicenseStatus();
+}
+
+export function activateDesktopLicenseCode(email: string, code: string) {
+  return activateLicenseCode(email, code);
 }
 
 export function getDesktopProblem(problemId: string): Problem {

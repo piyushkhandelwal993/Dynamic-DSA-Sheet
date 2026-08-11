@@ -104,6 +104,19 @@
     "dependsOn": ["bst-topic-search", "bst-topic-inorder-sorted"]
   },
   {
+    "id": "bst-topic-candidate-tracking",
+    "name": "BST Candidate Tracking",
+    "description": "Carry the current best answer while descending a BST so each comparison either improves the candidate or safely prunes a subtree.",
+    "exampleJava": "if (target < root.val) { answer = root.val; root = root.left; } else root = root.right;",
+    "commonMistakes": [
+      "Updating the answer even when the current node is worse than the previous candidate",
+      "Continuing into a subtree that can no longer improve the answer"
+    ],
+    "practiceProblems": ["bst-012", "bst-005"],
+    "progressionOrder": 9,
+    "dependsOn": ["bst-topic-search"]
+  },
+  {
     "id": "bst-topic-range-pruning",
     "name": "BST Range Pruning",
     "description": "Skip whole subtrees when the current value proves they cannot contribute to the answer.",
@@ -113,7 +126,7 @@
       "Forgetting to keep valid middle nodes in the answer"
     ],
     "practiceProblems": ["bst-009", "bst-011"],
-    "progressionOrder": 9,
+    "progressionOrder": 10,
     "dependsOn": ["bst-topic-search", "recursive-tree-traversal"]
   },
   {
@@ -126,7 +139,7 @@
       "Copying the successor value but forgetting to remove the successor node"
     ],
     "practiceProblems": ["bst-010"],
-    "progressionOrder": 10,
+    "progressionOrder": 11,
     "dependsOn": ["bst-topic-insert", "bst-topic-successor"]
   }
 ]

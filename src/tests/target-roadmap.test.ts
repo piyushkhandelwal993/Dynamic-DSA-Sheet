@@ -160,6 +160,27 @@ test("validate bst roadmap uses cross-topic sorted-check and tree traversal brid
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
+test("ceil in bst roadmap stays BST-first and uses candidate tracking bridge", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-ceil-bst-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://www.geeksforgeeks.org/problems/implementing-ceil-in-bst/1",
+    progress,
+    skillProfile
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.deepEqual(internalIds, ["bst-001", "bst-012", "bst-005"]);
+  assert.equal(internalIds.includes("bs-001"), false);
+  assert.equal(roadmap.steps.at(-1)?.title, "Implementing Ceil in BST");
+});
+
 test("two sum sorted roadmap can pull array prerequisites through the cross-topic concept chain", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-two-sum-"));
   invalidateCatalogCache();

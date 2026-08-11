@@ -667,6 +667,7 @@ export interface CppRuntimeStatus {
 export type DesktopProblemView = "description" | "examples" | "hints";
 export type DesktopRunMode = "official" | "custom";
 export type DesktopView = "home" | "practice" | "progress" | "world" | "problems" | "external" | "roadmap" | "profile" | "training";
+export type TopicAccessKind = "free" | "unlocked" | "locked" | "coming-soon";
 
 export interface DesktopPreferences {
   splitRatio: number;
@@ -682,8 +683,67 @@ export interface DesktopPreferences {
   practiceMode?: PracticeMode;
 }
 
+export interface DesktopTopicAccess {
+  topicId: string;
+  access: TopicAccessKind;
+  lockedReason?: string;
+  expiresAt?: string | null;
+  planId?: string | null;
+}
+
+export interface LicenseClaims {
+  version: 1;
+  codeId: string;
+  email: string;
+  machineHash: string;
+  topicIds: string[];
+  planId: string;
+  issuedAt: string;
+  startsAt: string;
+  expiresAt: string;
+}
+
+export interface ActivatedLicenseRecord {
+  codeId: string;
+  email: string;
+  machineHash: string;
+  topicIds: string[];
+  planId: string;
+  issuedAt: string;
+  startsAt: string;
+  expiresAt: string;
+  activatedAt: string;
+  codePreview: string;
+}
+
+export interface LicenseStore {
+  schemaVersion: 1;
+  freeTopicIds: string[];
+  licenses: ActivatedLicenseRecord[];
+  lastValidatedAt?: string | null;
+}
+
+export interface DesktopLicenseStatus {
+  machineHash: string;
+  machineLabel: string;
+  unlockPortalUrl?: string | null;
+  unlockBackendUrl?: string | null;
+  freeTopicIds: string[];
+  activeLicenses: ActivatedLicenseRecord[];
+  topicAccess: Record<string, DesktopTopicAccess>;
+  publicKeyConfigured: boolean;
+}
+
+export interface DesktopLicenseActivationResult {
+  success: boolean;
+  message: string;
+  status: DesktopLicenseStatus;
+  activatedLicense?: ActivatedLicenseRecord;
+}
+
 export interface DesktopBootstrap {
   topics: TopicMeta[];
+  topicAccess: Record<string, DesktopTopicAccess>;
   activeTopicId: string;
   activeTopic?: TopicMeta;
   roadmap: string[];
@@ -731,6 +791,7 @@ export interface DesktopBootstrap {
   contributions: ContributionRecord[];
   contributionSync: ContributionSyncStatus;
   externalPractice: ExternalPracticeSnapshot;
+  license: DesktopLicenseStatus;
 }
 
 export interface RecommendationResult {
@@ -742,7 +803,7 @@ export interface RecommendationResult {
   conceptIds: string[];
 }
 
-export type ExternalPracticePlatform = "leetcode";
+export type ExternalPracticePlatform = "leetcode" | "gfg";
 export type ExternalPracticeStatus = "unseen" | "suggested" | "saved" | "opened" | "completed" | "dismissed";
 
 export interface ExternalPracticeProblem {

@@ -200,48 +200,95 @@
   {
     "id": "bst-005",
     "topic": "Binary Search Trees",
-    "subtopic": "Successor and predecessor reasoning",
-    "title": "Floor and Ceil in BST",
+    "subtopic": "Pruning and candidate tracking",
+    "title": "Ceil in BST",
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["bst-topic-successor"],
-    "prerequisiteConcepts": ["bst-topic-search"],
+    "expectedConcepts": ["bst-topic-search", "bst-topic-candidate-tracking"],
+    "prerequisiteConcepts": ["bst-topic-candidate-tracking"],
     "expectedComplexity": "O(h)",
-    "estimatedMinutes": 18,
-    "description": "Given a BST and a target value, print the floor and ceil values. If one side does not exist, print -1 for it.",
+    "estimatedMinutes": 16,
+    "description": "Given a BST and a target value, print the smallest node value that is greater than or equal to the target. If no such node exists, print -1.",
     "constraints": ["1 <= number of nodes <= 10^5"],
     "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
-    "outputFormat": ["Print floor and ceil separated by a space"],
-    "edgeCases": ["Target smaller than all nodes", "Target larger than all nodes", "Target already exists"],
-    "intendedApproachSummary": "Track the best lower and best upper candidate while descending only one branch at a time.",
-    "wrongApproachHints": ["Do not collect and sort all nodes.", "Update floor and ceil only when the current node improves them."],
-    "hints": ["A smaller current value can improve the floor.", "A larger current value can improve the ceil."],
+    "outputFormat": ["Print the ceil value or -1"],
+    "edgeCases": ["Target exists exactly in the tree", "Target is larger than every node", "Target is smaller than every node"],
+    "intendedApproachSummary": "Move through the BST one branch at a time. Whenever the current node is a valid ceil candidate, store it and try the left subtree for a smaller valid answer.",
+    "wrongApproachHints": ["Do not collect all values and sort them.", "A larger candidate is only useful if it is the best seen so far."],
+    "hints": ["Going left can improve a valid ceil candidate.", "Going right after a smaller value cannot lose the correct ceil."],
     "examples": [
       {
         "input": "7\n8 4 12 2 6 10 14\n5",
-        "output": "4 6",
-        "explanation": "4 is the greatest value below 5 and 6 is the smallest value above 5."
+        "output": "6",
+        "explanation": "6 is the smallest value greater than or equal to 5."
       }
     ],
     "testCases": [
-      { "input": "7\n8 4 12 2 6 10 14\n5", "expectedOutput": "4 6", "visibility": "sample" },
-      { "input": "7\n8 4 12 2 6 10 14\n15", "expectedOutput": "14 -1", "visibility": "hidden" }
+      { "input": "7\n8 4 12 2 6 10 14\n5", "expectedOutput": "6", "visibility": "sample" },
+      { "input": "7\n8 4 12 2 6 10 14\n15", "expectedOutput": "-1", "visibility": "hidden" }
     ],
     "solutionMode": "guided-function",
     "functionContract": {
-      "functionName": "floorCeilBST",
-      "javaSignature": "public List<Integer> floorCeilBST(TreeNode root, int target)",
-      "cppSignature": "vector<int> floorCeilBST(TreeNode* root, int target)",
+      "functionName": "ceilBST",
+      "javaSignature": "public int ceilBST(TreeNode root, int target)",
+      "cppSignature": "int ceilBST(TreeNode* root, int target)",
       "providedTypes": ["TreeNode"],
-      "driverStrategy": "tree-bst-floor-ceil"
+      "driverStrategy": "tree-bst-successor"
+    },
+    "remedialProblems": ["bst-012"],
+    "skipIfMastered": [],
+    "poolRole": "practice",
+    "learningRole": "reinforce",
+    "masteryWeight": 1,
+    "variantGroup": "bst-ceil-target",
+    "curriculumRole": "canonical-path"
+  },
+  {
+    "id": "bst-012",
+    "topic": "Binary Search Trees",
+    "subtopic": "Successor and predecessor reasoning",
+    "title": "Find Next Greater Candidate in BST",
+    "difficulty": "Medium",
+    "platform": "Custom",
+    "url": "",
+    "expectedConcepts": ["bst-topic-candidate-tracking"],
+    "prerequisiteConcepts": ["bst-topic-search"],
+    "expectedComplexity": "O(h)",
+    "estimatedMinutes": 18,
+    "description": "Given a BST and a target value, print the smallest node value that is strictly greater than the target. If no such value exists, print -1.",
+    "constraints": ["1 <= number of nodes <= 10^5"],
+    "inputFormat": ["An integer n", "n level-order values with -1 for null", "An integer target"],
+    "outputFormat": ["Print the next greater value or -1"],
+    "edgeCases": ["Target larger than all nodes", "Successor lies in an ancestor path", "Target exists exactly in the tree"],
+    "intendedApproachSummary": "Whenever the current node is greater than the target, save it as the current best answer and move left to look for a smaller valid candidate.",
+    "wrongApproachHints": ["Do not scan the whole tree.", "A candidate should only be updated when it improves the current best answer."],
+    "hints": ["Going left may improve a valid candidate.", "Going right is only useful after a node that is too small."],
+    "examples": [
+      {
+        "input": "7\n8 4 12 2 6 10 14\n5",
+        "output": "6",
+        "explanation": "6 is the first value greater than 5 encountered after candidate refinement."
+      }
+    ],
+    "testCases": [
+      { "input": "7\n8 4 12 2 6 10 14\n5", "expectedOutput": "6", "visibility": "sample" },
+      { "input": "7\n8 4 12 2 6 10 14\n14", "expectedOutput": "-1", "visibility": "hidden" }
+    ],
+    "solutionMode": "guided-function",
+    "functionContract": {
+      "functionName": "nextGreaterCandidateBST",
+      "javaSignature": "public int nextGreaterCandidateBST(TreeNode root, int target)",
+      "cppSignature": "int nextGreaterCandidateBST(TreeNode* root, int target)",
+      "providedTypes": ["TreeNode"],
+      "driverStrategy": "tree-bst-successor"
     },
     "remedialProblems": ["bst-001"],
     "skipIfMastered": [],
     "poolRole": "practice",
     "learningRole": "reinforce",
     "masteryWeight": 0.98,
-    "variantGroup": "bst-floor-ceil",
+    "variantGroup": "bst-next-greater-candidate",
     "curriculumRole": "canonical-path"
   },
   {

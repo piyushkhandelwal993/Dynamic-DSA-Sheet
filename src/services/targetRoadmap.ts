@@ -363,6 +363,37 @@ const heuristicRules: Array<{
     reason: "Searching a sorted array strongly suggests binary-search midpoint checks."
   },
   {
+    tokens: ["bst", "ceil"],
+    phrases: [
+      "ceil in bst",
+      "implementing ceil in bst",
+      "smallest number greater than or equal",
+      "find next greater candidate in bst"
+    ],
+    topicId: "binary-search-trees",
+    concepts: ["bst-topic-search", "bst-topic-candidate-tracking"],
+    prerequisites: ["bst-topic-search", "bst-topic-candidate-tracking"],
+    roadmapBridgeProblemIds: ["bst-001", "bst-012", "bst-005"],
+    difficulty: "Medium",
+    confidence: "High",
+    reason: "BST ceil wording implies one-path candidate tracking on tree ordering, not midpoint search on an array."
+  },
+  {
+    tokens: ["bst", "floor"],
+    phrases: [
+      "floor in bst",
+      "largest number smaller than or equal",
+      "best smaller candidate in bst"
+    ],
+    topicId: "binary-search-trees",
+    concepts: ["bst-topic-search", "bst-topic-candidate-tracking"],
+    prerequisites: ["bst-topic-search", "bst-topic-candidate-tracking"],
+    roadmapBridgeProblemIds: ["bst-001", "bst-012"],
+    difficulty: "Medium",
+    confidence: "Medium",
+    reason: "BST floor wording still centers on directional pruning plus best-so-far candidate tracking."
+  },
+  {
     tokens: ["search", "nearly", "sorted", "array"],
     phrases: ["nearly sorted", "almost sorted"],
     topicId: "binary-search",

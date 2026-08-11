@@ -18,6 +18,8 @@ contextBridge.exposeInMainWorld("dsaDesktop", {
   saveRoadmapReview: (input) => ipcRenderer.invoke("desktop:save-roadmap-review", input),
   exportRoadmapReviewFixtures: () => ipcRenderer.invoke("desktop:export-roadmap-review-fixtures"),
   getConceptName: (conceptId) => ipcRenderer.invoke("desktop:get-concept-name", conceptId),
+  getLicenseStatus: () => ipcRenderer.invoke("desktop:get-license-status"),
+  activateLicenseCode: (email, code) => ipcRenderer.invoke("desktop:activate-license-code", email, code),
   loadPreferences: () => ipcRenderer.invoke("desktop:load-preferences"),
   savePreferences: (preferences) => ipcRenderer.invoke("desktop:save-preferences", preferences),
   getContentSyncStatus: () => ipcRenderer.invoke("desktop:get-content-sync-status"),

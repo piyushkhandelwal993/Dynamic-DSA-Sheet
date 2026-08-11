@@ -3347,6 +3347,20 @@
     "sourceQualityWeight": 0.8
   },
   {
+    "id": "ext-gfg-ceil-bst",
+    "platform": "gfg",
+    "title": "Implementing Ceil in BST",
+    "url": "https://www.geeksforgeeks.org/problems/implementing-ceil-in-bst/1",
+    "difficulty": "Medium",
+    "topicId": "binary-search-trees",
+    "conceptIds": ["bst-topic-search", "bst-topic-candidate-tracking"],
+    "prerequisiteConceptIds": ["bst-topic-search", "bst-topic-candidate-tracking"],
+    "mappedFromProblemIds": ["bst-001", "bst-012", "bst-005"],
+    "recommendedAfterProblemIds": ["bst-012"],
+    "roadmapBridgeProblemIds": ["bst-001", "bst-012", "bst-005"],
+    "sourceQualityWeight": 0.93
+  },
+  {
     "id": "ext-lc-range-sum-bst",
     "platform": "leetcode",
     "title": "Range Sum of BST",

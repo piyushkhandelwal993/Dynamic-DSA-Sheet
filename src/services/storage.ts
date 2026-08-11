@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { Concept, DesktopPreferences, GameProfile, PracticeMode, Problem, ProgrammingLanguage, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
+import { Concept, DesktopPreferences, GameProfile, LicenseStore, PracticeMode, Problem, ProgrammingLanguage, ProgressState, SkillProfile, StudentProfile, TopicMeta } from "../types";
 import { getActiveContentBundle } from "./catalog";
 import { createInitialGameProfile, rankFromLevel } from "./game";
+import { createInitialLicenseStore } from "./licensing";
 import { resolveBaseDir } from "./paths";
 
 function getProfilePath(): string {
@@ -23,6 +24,10 @@ function getGameProfilePath(): string {
 
 function getDesktopPreferencesPath(): string {
   return path.join(resolveBaseDir(), "desktop-preferences.json");
+}
+
+function getLicenseStorePath(): string {
+  return path.join(resolveBaseDir(), "entitlements.json");
 }
 
 export function getBaseDir(): string {
@@ -230,6 +235,16 @@ export function saveDesktopPreferences(preferences: DesktopPreferences): void {
 
 export function getProblems(): Problem[] {
   return getTopicProblems(getActiveTopicId());
+}
+
+export function getLicenseStore(): LicenseStore {
+  ensureBaseStructure();
+  return readJson<LicenseStore>(getLicenseStorePath()) ?? createInitialLicenseStore();
+}
+
+export function saveLicenseStore(store: LicenseStore): void {
+  ensureBaseStructure();
+  writeJson(getLicenseStorePath(), store);
 }
 
 export function getConcepts(): Concept[] {

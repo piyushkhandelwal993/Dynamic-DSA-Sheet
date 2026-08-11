@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - "site/**"
       - "src/data/**"
       - "src/types/**"
       - "src/services/catalog.ts"
