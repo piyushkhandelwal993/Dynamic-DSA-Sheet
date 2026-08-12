@@ -16,7 +16,7 @@ import { resolveBaseDir } from "./paths";
 
 const LICENSE_SCHEMA_VERSION = 1;
 const CODE_PREFIX = "DSA1";
-const DEFAULT_FREE_TOPIC_IDS = ["language-toolkit", "arrays"];
+const DEFAULT_FREE_TOPIC_IDS = ["language-toolkit", "recursion", "trees"];
 const LICENSE_SIGNATURE_ALGORITHM = "sha256";
 
 function getLicenseStorePath(): string {
@@ -115,7 +115,9 @@ function getLicenseStore(): LicenseStore {
   }
   return {
     schemaVersion: LICENSE_SCHEMA_VERSION,
-    freeTopicIds: Array.isArray(saved.freeTopicIds) && saved.freeTopicIds.length ? [...new Set(saved.freeTopicIds)] : defaults.freeTopicIds,
+    freeTopicIds: Array.isArray(saved.freeTopicIds) && saved.freeTopicIds.length
+      ? [...new Set([...defaults.freeTopicIds, ...saved.freeTopicIds])]
+      : defaults.freeTopicIds,
     licenses: Array.isArray(saved.licenses) ? saved.licenses : [],
     lastValidatedAt: saved.lastValidatedAt ?? null,
     lastValidationMessage: saved.lastValidationMessage ?? null

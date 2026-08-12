@@ -54,14 +54,17 @@ textarea {
 }
 
 .app-shell {
+  --sidebar-width: 240px;
   height: 100vh;
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   overflow: hidden;
+  position: relative;
 }
 
 .app-shell.sidebar-collapsed {
-  grid-template-columns: 72px minmax(0, 1fr);
+  --sidebar-width: 72px;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
 }
 
 .sidebar {
@@ -87,22 +90,20 @@ textarea {
 }
 
 .sidebar-edge-toggle {
-  position: fixed;
+  position: absolute;
   top: 50%;
-  left: 228px;
+  left: calc(var(--sidebar-width) - 10px);
   z-index: 40;
-  width: 28px;
-  height: 54px;
-  border-radius: 999px;
-  border: 1px solid rgba(124, 58, 237, 0.5);
-  background:
-    linear-gradient(180deg, rgba(30, 41, 70, 0.98), rgba(17, 24, 39, 0.98));
-  color: #c4b5fd;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28), var(--glow);
+  width: 24px;
+  height: 56px;
+  border: 0;
+  background: transparent;
+  color: rgba(196, 181, 253, 0.82);
+  box-shadow: none;
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
   line-height: 1;
   opacity: 1;
@@ -110,20 +111,14 @@ textarea {
   transform: translate(-50%, -50%);
   transition:
     left 180ms ease,
-    border-color 180ms ease,
-    background 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease,
     transform 180ms ease;
 }
 
 .sidebar-edge-toggle:hover {
-  border-color: rgba(196, 181, 253, 0.82);
-  background:
-    linear-gradient(180deg, rgba(58, 42, 112, 0.98), rgba(23, 35, 58, 0.98));
+  color: #ddd6fe;
   transform: translate(-50%, -50%) scale(1.04);
-}
-
-.app-shell.sidebar-collapsed .sidebar-edge-toggle {
-  left: 72px;
 }
 
 .workspace-shell {
@@ -4708,8 +4703,9 @@ li + li {
 }
 
 @media (max-width: 1440px) {
-  .app-shell:not(.home-mode):not(.editor-focus-mode) {
-    grid-template-columns: 200px minmax(0, 1fr);
+  .app-shell:not(.home-mode):not(.editor-focus-mode):not(.sidebar-collapsed) {
+    --sidebar-width: 200px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   }
 
   .workspace-shell {
@@ -4731,8 +4727,9 @@ li + li {
 }
 
 @media (max-width: 1320px) {
-  .app-shell:not(.home-mode):not(.editor-focus-mode) {
-    grid-template-columns: 168px minmax(0, 1fr);
+  .app-shell:not(.home-mode):not(.editor-focus-mode):not(.sidebar-collapsed) {
+    --sidebar-width: 168px;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   }
 
   .app-shell:not(.home-mode):not(.editor-focus-mode) .sidebar {
@@ -4890,6 +4887,7 @@ li + li {
 @media (max-width: 920px) {
   .app-shell,
   .app-shell:not(.home-mode):not(.editor-focus-mode) {
+    --sidebar-width: 100%;
     grid-template-columns: 1fr;
   }
 
@@ -4907,8 +4905,8 @@ li + li {
     top: 44px;
     right: 12px;
     left: auto;
-    width: 44px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     transform: translateY(-50%);
   }
 
