@@ -35,8 +35,10 @@ export interface IssuedLicenseRecord {
   issuedAt: string;
   startsAt: string;
   expiresAt: string;
-  status: "active" | "replaced";
+  status: "active" | "replaced" | "revoked";
   replacedByCodeId?: string;
+  revokedAt?: string;
+  revokedReason?: string;
 }
 
 export interface PaymentRecord {
@@ -90,6 +92,15 @@ export interface MachineResetResult {
   previousLicense: IssuedLicenseRecord;
   replacementLicense: IssuedLicenseRecord;
   emailDelivery: "outbox" | "resend";
+}
+
+export interface ResendLicenseCodeResult {
+  license: IssuedLicenseRecord;
+  emailDelivery: "outbox" | "resend";
+}
+
+export interface RevokeLicenseResult {
+  license: IssuedLicenseRecord;
 }
 
 export interface CheckoutSessionInput {
@@ -554,4 +565,130 @@ export async function resetMachineAndReissueCode(input: {
 export function lookupLicensesByEmail(email: string): IssuedLicenseRecord[] {
   const normalized = normalizeEmail(email);
   return getLicenseBackendStore().licenses.filter((license) => license.email === normalized);
+}
+
+export function lookupPaymentsByEmail(email: string): PaymentRecord[] {
+  const normalized = normalizeEmail(email);
+  return getLicenseBackendStore().payments.filter((payment) => payment.email === normalized);
+}
+
+export function lookupEmailsByEmail(email: string): EmailOutboxRecord[] {
+  const normalized = normalizeEmail(email);
+  return getLicenseBackendStore().emails.filter((message) => message.to === normalized);
+}
+
+export function lookupResetsByEmail(email: string): MachineResetRecord[] {
+  const normalized = normalizeEmail(email);
+  return getLicenseBackendStore().resets.filter((reset) => reset.email === normalized);
+}
+
+export async function resendLicenseCode(input: {
+  email: string;
+  codeId?: string;
+}): Promise<ResendLicenseCodeResult> {
+  const email = normalizeEmail(input.email);
+  const store = getLicenseBackendStore();
+  const license = input.codeId
+    ? store.licenses.find((item) => item.codeId === input.codeId && item.email === email)
+    : [...store.licenses].reverse().find((item) => item.email === email && item.status === "active");
+
+  if (!license) {
+    throw new Error("No license found for this email.");
+  }
+
+  const plan = resolvePlan(license.planId);
+  const { subject, body } = renderLicenseEmail(license, plan);
+  const delivery = await deliverEmail(email, subject, body);
+
+  store.emails.push({
+    id: crypto.randomUUID(),
+    to: email,
+    subject,
+    body,
+    sentAt: new Date().toISOString(),
+    delivery
+  });
+  saveLicenseBackendStore(store);
+
+  return {
+    license,
+    emailDelivery: delivery
+  };
+}
+
+export function revokeLicense(input: {
+  email: string;
+  codeId: string;
+  reason?: string;
+}): RevokeLicenseResult {
+  const email = normalizeEmail(input.email);
+  const codeId = input.codeId.trim();
+  const store = getLicenseBackendStore();
+  const license = store.licenses.find((item) => item.codeId === codeId && item.email === email);
+  if (!license) {
+    throw new Error("No license found for this email and code ID.");
+  }
+  if (license.status === "revoked") {
+    return { license };
+  }
+  license.status = "revoked";
+  license.revokedAt = new Date().toISOString();
+  license.revokedReason = input.reason?.trim() || "admin-revoked";
+  saveLicenseBackendStore(store);
+  return { license };
+}
+
+export function revalidateLicenseSet(input: {
+  machineHash: string;
+  codeIds: string[];
+}): {
+  machineHash: string;
+  validatedAt: string;
+  activeCodeIds: string[];
+  revokedCodeIds: string[];
+  replacedCodeIds: string[];
+  expiredCodeIds: string[];
+  missingCodeIds: string[];
+} {
+  const machineHash = input.machineHash.trim().toLowerCase();
+  const requested = [...new Set(input.codeIds.map((item) => item.trim()).filter(Boolean))];
+  const store = getLicenseBackendStore();
+  const now = Date.now();
+
+  const activeCodeIds: string[] = [];
+  const revokedCodeIds: string[] = [];
+  const replacedCodeIds: string[] = [];
+  const expiredCodeIds: string[] = [];
+  const missingCodeIds: string[] = [];
+
+  requested.forEach((codeId) => {
+    const license = store.licenses.find((item) => item.codeId === codeId && item.machineHash === machineHash);
+    if (!license) {
+      missingCodeIds.push(codeId);
+      return;
+    }
+    if (license.status === "revoked") {
+      revokedCodeIds.push(codeId);
+      return;
+    }
+    if (license.status === "replaced") {
+      replacedCodeIds.push(codeId);
+      return;
+    }
+    if (Date.parse(license.expiresAt) < now) {
+      expiredCodeIds.push(codeId);
+      return;
+    }
+    activeCodeIds.push(codeId);
+  });
+
+  return {
+    machineHash,
+    validatedAt: new Date().toISOString(),
+    activeCodeIds,
+    revokedCodeIds,
+    replacedCodeIds,
+    expiredCodeIds,
+    missingCodeIds
+  };
 }

@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSA Sheet Admin</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07101f;
+        --panel: rgba(14, 22, 41, 0.96);
+        --panel-2: rgba(18, 29, 55, 0.98);
+        --border: rgba(120, 140, 255, 0.16);
+        --text: #f7f8ff;
+        --muted: #aeb9d8;
+        --accent: #7c5cff;
+        --accent-2: #34c3ff;
+        --danger: #ff6b81;
+        --success: #4ade80;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, system-ui, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(124, 92, 255, 0.2), transparent 32%),
+          radial-gradient(circle at top right, rgba(52, 195, 255, 0.14), transparent 26%),
+          linear-gradient(180deg, #081121 0%, #050914 100%);
+      }
+      main {
+        width: min(1120px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 40px 0 60px;
+      }
+      .hero {
+        margin-bottom: 22px;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        color: #9db1ff;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 10px 0 12px;
+        font-size: clamp(34px, 6vw, 56px);
+        line-height: 0.95;
+      }
+      .lead {
+        margin: 0;
+        max-width: 760px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+      .section-stack {
+        display: grid;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .panel {
+        background: linear-gradient(180deg, var(--panel), var(--panel-2));
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 22px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      }
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+      .panel p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      label {
+        display: grid;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+      input, select, textarea, button {
+        font: inherit;
+      }
+      input, select, textarea {
+        width: 100%;
+        padding: 13px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(120, 140, 255, 0.2);
+        background: rgba(8, 13, 26, 0.96);
+        color: var(--text);
+      }
+      textarea {
+        min-height: 92px;
+        resize: vertical;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      button {
+        border: 0;
+        border-radius: 14px;
+        padding: 13px 18px;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      }
+      button.secondary {
+        background: rgba(25, 37, 67, 0.95);
+        border: 1px solid var(--border);
+      }
+      .status {
+        min-height: 24px;
+        margin-top: 12px;
+        color: #dbe2ff;
+      }
+      .status.error { color: #ffb6c1; }
+      .status.success { color: #b6ffd1; }
+      .results {
+        margin-top: 16px;
+        display: grid;
+        gap: 14px;
+      }
+      .card {
+        border-radius: 18px;
+        padding: 16px;
+        border: 1px solid rgba(120, 140, 255, 0.14);
+        background: rgba(8, 13, 26, 0.78);
+      }
+      .card strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .meta {
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 14px;
+      }
+      .subhead {
+        margin: 0 0 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #9db1ff;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-right: 8px;
+      }
+      .pill.active { background: rgba(74, 222, 128, 0.16); color: var(--success); }
+      .pill.replaced { background: rgba(255, 107, 129, 0.14); color: #ff9fb0; }
+      .inline-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      code {
+        color: #e2d9ff;
+        word-break: break-all;
+      }
+      @media (max-width: 760px) {
+        .inline-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">DSA Sheet Admin</div>
+        <h1>Manage Topic Unlocks</h1>
+        <p class="lead">Use your admin token to inspect licenses, manually confirm payments, and reset a learner’s machine when they change devices.</p>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Admin Session</h2>
+          <p>Enter the backend base URL and admin bearer token once. The token stays in this browser only.</p>
+          <label>
+            <span>Backend URL</span>
+            <input id="backend-url" type="url" />
+          </label>
+          <label>
+            <span>Admin Token</span>
+            <input id="admin-token" type="password" placeholder="DSA_SHEET_LICENSE_ADMIN_TOKEN" />
+          </label>
+          <div class="actions">
+            <button id="save-session" type="button">Save Session</button>
+            <button id="check-health" type="button" class="secondary">Check Health</button>
+          </div>
+          <div id="session-status" class="status"></div>
+        </article>
+
+        <article class="panel">
+          <h2>License Lookup</h2>
+          <p>Search all licenses issued for an email. This is the fastest support flow when a user says their topic did not unlock.</p>
+          <label>
+            <span>Email</span>
+            <input id="lookup-email" type="email" placeholder="learner@example.com" />
+          </label>
+          <div class="actions">
+            <button id="lookup-button" type="button">Search Licenses</button>
+          </div>
+          <div id="lookup-status" class="status"></div>
+          <div id="lookup-results" class="section-stack"></div>
+        </article>
+      </section>
+
+      <section class="grid" style="margin-top:18px;">
+        <article class="panel">
+          <h2>Machine Reset</h2>
+          <p>Use this after a laptop change or OS reinstall. If you leave <code>Code ID</code> empty, the latest active license for that email is reset.</p>
+          <div class="inline-grid">
+            <label>
+              <span>Email</span>
+              <input id="reset-email" type="email" placeholder="learner@example.com" />
+            </label>
+            <label>
+              <span>Code ID (optional)</span>
+              <input id="reset-code-id" type="text" placeholder="license code id" />
+            </label>
+          </div>
+          <label>
+            <span>New Machine Hash</span>
+            <input id="reset-machine-hash" type="text" placeholder="new machine hash" />
+          </label>
+          <label>
+            <span>Reason</span>
+            <input id="reset-reason" type="text" value="user-requested-device-change" />
+          </label>
+          <div class="actions">
+            <button id="reset-button" type="button">Reset Machine And Reissue</button>
+          </div>
+          <div id="reset-status" class="status"></div>
+        </article>
+
+        <article class="panel">
+          <h2>Manual Payment Confirm</h2>
+          <p>For manual UPI or operator-assisted payments, confirm the payment here and the backend will issue the unlock code immediately.</p>
+          <div class="inline-grid">
+            <label>
+              <span>Email</span>
+              <input id="manual-email" type="email" placeholder="learner@example.com" />
+            </label>
+            <label>
+              <span>Machine Hash</span>
+              <input id="manual-machine-hash" type="text" placeholder="machine hash" />
+            </label>
+          </div>
+          <div class="inline-grid">
+            <label>
+              <span>Plan</span>
+              <select id="manual-plan-id"></select>
+            </label>
+            <label>
+              <span>Amount (INR)</span>
+              <input id="manual-amount" type="number" min="0" step="1" placeholder="199" />
+            </label>
+          </div>
+          <div class="inline-grid">
+            <label>
+              <span>Provider</span>
+              <input id="manual-provider" type="text" value="manual-upi" />
+            </label>
+            <label>
+              <span>Payment ID</span>
+              <input id="manual-payment-id" type="text" placeholder="upi_txn_123" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="manual-confirm-button" type="button">Confirm Payment And Issue</button>
+          </div>
+          <div id="manual-status" class="status"></div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const storageKeys = {
+        backendUrl: "dsaSheetAdminBackendUrl",
+        adminToken: "dsaSheetAdminToken"
+      };
+
+      const backendUrlInput = document.getElementById("backend-url");
+      const adminTokenInput = document.getElementById("admin-token");
+      const sessionStatusEl = document.getElementById("session-status");
+      const lookupEmailEl = document.getElementById("lookup-email");
+      const lookupStatusEl = document.getElementById("lookup-status");
+      const lookupResultsEl = document.getElementById("lookup-results");
+      const resetEmailEl = document.getElementById("reset-email");
+      const resetCodeIdEl = document.getElementById("reset-code-id");
+      const resetMachineHashEl = document.getElementById("reset-machine-hash");
+      const resetReasonEl = document.getElementById("reset-reason");
+      const resetStatusEl = document.getElementById("reset-status");
+      const manualEmailEl = document.getElementById("manual-email");
+      const manualMachineHashEl = document.getElementById("manual-machine-hash");
+      const manualPlanIdEl = document.getElementById("manual-plan-id");
+      const manualAmountEl = document.getElementById("manual-amount");
+      const manualProviderEl = document.getElementById("manual-provider");
+      const manualPaymentIdEl = document.getElementById("manual-payment-id");
+      const manualStatusEl = document.getElementById("manual-status");
+
+      function setStatus(element, message, tone) {
+        element.textContent = message || "";
+        element.className = `status${tone ? ` ${tone}` : ""}`;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function currentBackendUrl() {
+        return backendUrlInput.value.trim().replace(/\/+$/, "");
+      }
+
+      function currentAdminToken() {
+        return adminTokenInput.value.trim();
+      }
+
+      async function adminFetch(path, options = {}) {
+        const backendUrl = currentBackendUrl();
+        const token = currentAdminToken();
+        if (!backendUrl) {
+          throw new Error("Backend URL is required.");
+        }
+        if (!token) {
+          throw new Error("Admin token is required.");
+        }
+        const response = await fetch(`${backendUrl}${path}`, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            ...(options.headers || {})
+          }
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.error || `Request failed with status ${response.status}`);
+        }
+        return payload;
+      }
+
+      async function loadPlans() {
+        const backendUrl = currentBackendUrl();
+        if (!backendUrl) return;
+        const response = await fetch(`${backendUrl}/api/plans`);
+        const payload = await response.json();
+        manualPlanIdEl.innerHTML = payload.plans
+          .map((plan) => `<option value="${escapeHtml(plan.id)}" data-price="${Number(plan.priceInr || 0)}">${escapeHtml(plan.name)} · ${escapeHtml(plan.priceInr ?? "Custom")} INR</option>`)
+          .join("");
+        const selected = manualPlanIdEl.selectedOptions[0];
+        if (selected && !manualAmountEl.value) {
+          manualAmountEl.value = selected.dataset.price || "";
+        }
+      }
+
+      function renderLicenseCards(licenses) {
+        if (!licenses.length) {
+          return `<div class="card"><div class="meta">No licenses found for this email.</div></div>`;
+        }
+        return licenses.map((license) => `
+          <article class="card">
+            <strong>${escapeHtml(license.planId)}</strong>
+            <div class="meta">
+              <span class="pill ${license.status === "active" ? "active" : "replaced"}">${escapeHtml(license.status)}</span>
+              <span>${escapeHtml(license.topicIds.join(", "))}</span><br />
+              Code ID: <code>${escapeHtml(license.codeId)}</code><br />
+              Machine: <code>${escapeHtml(license.machineHash)}</code><br />
+              Starts: ${escapeHtml(license.startsAt)}<br />
+              Expires: ${escapeHtml(license.expiresAt)}<br />
+              ${license.replacedByCodeId ? `Replaced By: <code>${escapeHtml(license.replacedByCodeId)}</code><br />` : ""}
+              Code: <code>${escapeHtml(license.code)}</code>
+            </div>
+            <div class="actions" style="margin-top:12px;">
+              <button type="button" class="secondary fill-reset" data-email="${escapeHtml(license.email)}" data-code-id="${escapeHtml(license.codeId)}" data-machine="${escapeHtml(license.machineHash)}">Use For Reset</button>
+              <button type="button" class="secondary resend-code" data-email="${escapeHtml(license.email)}" data-code-id="${escapeHtml(license.codeId)}">Resend Code</button>
+              ${license.status === "active"
+                ? `<button type="button" class="secondary revoke-code" data-email="${escapeHtml(license.email)}" data-code-id="${escapeHtml(license.codeId)}">Revoke</button>`
+                : ""}
+            </div>
+          </article>
+        `).join("");
+      }
+
+      function renderPaymentCards(payments) {
+        if (!payments.length) {
+          return `<div class="card"><div class="meta">No payments found for this email.</div></div>`;
+        }
+        return payments.map((payment) => `
+          <article class="card">
+            <strong>${escapeHtml(payment.planId)} · ${escapeHtml(payment.amountInr)} INR</strong>
+            <div class="meta">
+              Provider: ${escapeHtml(payment.provider)}<br />
+              Payment ID: <code>${escapeHtml(payment.paymentId)}</code><br />
+              Order ID: <code>${escapeHtml(payment.orderId || "-")}</code><br />
+              Machine: <code>${escapeHtml(payment.machineHash)}</code><br />
+              Confirmed: ${escapeHtml(payment.confirmedAt)}
+            </div>
+          </article>
+        `).join("");
+      }
+
+      function renderEmailCards(emails) {
+        if (!emails.length) {
+          return `<div class="card"><div class="meta">No email deliveries found for this email.</div></div>`;
+        }
+        return emails.map((email) => `
+          <article class="card">
+            <strong>${escapeHtml(email.subject)}</strong>
+            <div class="meta">
+              Delivery: ${escapeHtml(email.delivery)}<br />
+              Sent At: ${escapeHtml(email.sentAt)}<br />
+              To: <code>${escapeHtml(email.to)}</code>
+            </div>
+          </article>
+        `).join("");
+      }
+
+      function renderResetCards(resets) {
+        if (!resets.length) {
+          return `<div class="card"><div class="meta">No machine resets found for this email.</div></div>`;
+        }
+        return resets.map((reset) => `
+          <article class="card">
+            <strong>${escapeHtml(reset.reason)}</strong>
+            <div class="meta">
+              Previous Code: <code>${escapeHtml(reset.previousCodeId)}</code><br />
+              New Code: <code>${escapeHtml(reset.newCodeId)}</code><br />
+              Previous Machine: <code>${escapeHtml(reset.previousMachineHash)}</code><br />
+              New Machine: <code>${escapeHtml(reset.newMachineHash)}</code><br />
+              Reset At: ${escapeHtml(reset.resetAt)}
+            </div>
+          </article>
+        `).join("");
+      }
+
+      function wireLookupActions() {
+        lookupResultsEl.querySelectorAll(".fill-reset").forEach((button) => {
+          button.addEventListener("click", () => {
+            resetEmailEl.value = button.dataset.email || "";
+            resetCodeIdEl.value = button.dataset.codeId || "";
+            setStatus(resetStatusEl, "Reset form prefilled from selected license.", "success");
+          });
+        });
+        lookupResultsEl.querySelectorAll(".resend-code").forEach((button) => {
+          button.addEventListener("click", async () => {
+            try {
+              setStatus(lookupStatusEl, "Resending code...");
+              const payload = await adminFetch("/api/admin/licenses/resend-code", {
+                method: "POST",
+                body: JSON.stringify({
+                  email: button.dataset.email || "",
+                  codeId: button.dataset.codeId || ""
+                })
+              });
+              setStatus(lookupStatusEl, `Resent ${payload.license.codeId} via ${payload.emailDelivery}.`, "success");
+            } catch (error) {
+              setStatus(lookupStatusEl, error.message || "Could not resend code.", "error");
+            }
+          });
+        });
+        lookupResultsEl.querySelectorAll(".revoke-code").forEach((button) => {
+          button.addEventListener("click", async () => {
+            if (!window.confirm("Revoke this license code? The desktop app will remove it on the next backend revalidation.")) {
+              return;
+            }
+            try {
+              setStatus(lookupStatusEl, "Revoking code...");
+              const payload = await adminFetch("/api/admin/licenses/revoke", {
+                method: "POST",
+                body: JSON.stringify({
+                  email: button.dataset.email || "",
+                  codeId: button.dataset.codeId || "",
+                  reason: "admin-revoked"
+                })
+              });
+              setStatus(lookupStatusEl, `Revoked ${payload.license.codeId}. Re-run lookup to refresh state.`, "success");
+            } catch (error) {
+              setStatus(lookupStatusEl, error.message || "Could not revoke code.", "error");
+            }
+          });
+        });
+      }
+
+      function renderCustomerRecord(payload) {
+        lookupResultsEl.innerHTML = `
+          <section>
+            <div class="subhead">Licenses</div>
+            <div class="results">${renderLicenseCards(payload.licenses || [])}</div>
+          </section>
+          <section>
+            <div class="subhead">Payments</div>
+            <div class="results">${renderPaymentCards(payload.payments || [])}</div>
+          </section>
+          <section>
+            <div class="subhead">Email History</div>
+            <div class="results">${renderEmailCards(payload.emails || [])}</div>
+          </section>
+          <section>
+            <div class="subhead">Machine Reset History</div>
+            <div class="results">${renderResetCards(payload.resets || [])}</div>
+          </section>
+        `;
+        wireLookupActions();
+      }
+
+      document.getElementById("save-session").addEventListener("click", async () => {
+        localStorage.setItem(storageKeys.backendUrl, currentBackendUrl());
+        localStorage.setItem(storageKeys.adminToken, currentAdminToken());
+        setStatus(sessionStatusEl, "Admin session saved in this browser.", "success");
+        await loadPlans().catch((error) => setStatus(sessionStatusEl, error.message, "error"));
+      });
+
+      document.getElementById("check-health").addEventListener("click", async () => {
+        try {
+          const response = await fetch(`${currentBackendUrl()}/health`);
+          const payload = await response.json();
+          setStatus(sessionStatusEl, `Backend healthy. ${payload.plans} plans loaded.`, "success");
+        } catch (error) {
+          setStatus(sessionStatusEl, error.message || "Could not reach backend.", "error");
+        }
+      });
+
+      document.getElementById("lookup-button").addEventListener("click", async () => {
+        try {
+          setStatus(lookupStatusEl, "Searching licenses...");
+          const payload = await adminFetch(`/api/admin/customer?email=${encodeURIComponent(lookupEmailEl.value.trim())}`, { method: "GET" });
+          renderCustomerRecord(payload);
+          setStatus(lookupStatusEl, `Loaded ${(payload.licenses || []).length} license record(s) and ${(payload.payments || []).length} payment(s).`, "success");
+          if (lookupEmailEl.value.trim()) {
+            resetEmailEl.value = lookupEmailEl.value.trim();
+            manualEmailEl.value = lookupEmailEl.value.trim();
+          }
+        } catch (error) {
+          lookupResultsEl.innerHTML = "";
+          setStatus(lookupStatusEl, error.message || "Could not search licenses.", "error");
+        }
+      });
+
+      document.getElementById("reset-button").addEventListener("click", async () => {
+        try {
+          setStatus(resetStatusEl, "Resetting machine and issuing replacement code...");
+          const payload = await adminFetch("/api/admin/licenses/reset-machine", {
+            method: "POST",
+            body: JSON.stringify({
+              email: resetEmailEl.value.trim(),
+              codeId: resetCodeIdEl.value.trim() || undefined,
+              newMachineHash: resetMachineHashEl.value.trim(),
+              reason: resetReasonEl.value.trim()
+            })
+          });
+          setStatus(resetStatusEl, `Replacement issued: ${payload.replacementLicense.codeId}`, "success");
+        } catch (error) {
+          setStatus(resetStatusEl, error.message || "Could not reset machine.", "error");
+        }
+      });
+
+      manualPlanIdEl.addEventListener("change", () => {
+        const selected = manualPlanIdEl.selectedOptions[0];
+        if (selected && !manualAmountEl.value) {
+          manualAmountEl.value = selected.dataset.price || "";
+        }
+      });
+
+      document.getElementById("manual-confirm-button").addEventListener("click", async () => {
+        try {
+          setStatus(manualStatusEl, "Confirming payment and issuing code...");
+          const payload = await adminFetch("/api/payments/confirm-manual", {
+            method: "POST",
+            body: JSON.stringify({
+              provider: manualProviderEl.value.trim() || "manual-upi",
+              paymentId: manualPaymentIdEl.value.trim() || `manual_${Date.now()}`,
+              amountInr: Number(manualAmountEl.value || "0"),
+              email: manualEmailEl.value.trim(),
+              machineHash: manualMachineHashEl.value.trim(),
+              planId: manualPlanIdEl.value
+            })
+          });
+          setStatus(manualStatusEl, `Issued ${payload.license.codeId} and delivered via ${payload.emailDelivery}.`, "success");
+        } catch (error) {
+          setStatus(manualStatusEl, error.message || "Could not confirm payment.", "error");
+        }
+      });
+
+      backendUrlInput.value = localStorage.getItem(storageKeys.backendUrl) || `${window.location.origin}`;
+      adminTokenInput.value = localStorage.getItem(storageKeys.adminToken) || "";
+      loadPlans().catch(() => {});
+    </script>
+  </body>
+</html>

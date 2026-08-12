@@ -232,3 +232,33 @@ When served statically, pass your backend URL as a query param:
 ```text
 https://your-site/unlock/?backend=https://your-license-server-host
 ```
+
+## Admin panel
+
+The license backend now serves a small local admin panel at:
+
+- `http://127.0.0.1:8787/admin`
+
+Use it to:
+
+- search licenses by email
+- manually confirm a payment and issue a code
+- reset a machine and reissue a replacement code
+- resend an existing code
+- revoke a license code
+
+You will need:
+
+- your backend base URL
+- your `DSA_SHEET_LICENSE_ADMIN_TOKEN`
+
+## Revocation behavior
+
+License revocation is now supported end to end:
+
+- Admin can revoke a code from the admin panel.
+- The backend marks that code as revoked.
+- The desktop app revalidates active local codes against the backend on bootstrap and license refresh.
+- If a code is revoked, replaced, missing, or expired on the backend, the desktop app removes that local entitlement on the next successful revalidation.
+
+If the backend is temporarily unreachable, the desktop app keeps the last known local state and records a validation message instead of locking the learner out immediately.

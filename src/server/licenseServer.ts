@@ -1,6 +1,20 @@
 import http, { IncomingMessage, ServerResponse } from "http";
 import crypto from "crypto";
-import { confirmPaymentAndIssueLicense, createCheckoutSession, listLicensePlans, lookupLicensesByEmail, resetMachineAndReissueCode } from "../services/licenseBackend";
+import fs from "fs";
+import path from "path";
+import {
+  confirmPaymentAndIssueLicense,
+  createCheckoutSession,
+  listLicensePlans,
+  lookupEmailsByEmail,
+  lookupLicensesByEmail,
+  lookupPaymentsByEmail,
+  lookupResetsByEmail,
+  revokeLicense,
+  revalidateLicenseSet,
+  resendLicenseCode,
+  resetMachineAndReissueCode
+} from "../services/licenseBackend";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -11,6 +25,16 @@ function json(response: ServerResponse, statusCode: number, payload: unknown): v
   response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-DSA-WEBHOOK-SECRET, X-Razorpay-Signature, x-webhook-signature, x-webhook-timestamp");
   response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   response.end(`${JSON.stringify(payload, null, 2)}\n`);
+}
+
+function html(response: ServerResponse, statusCode: number, markup: string): void {
+  response.statusCode = statusCode;
+  response.setHeader("Content-Type", "text/html; charset=utf-8");
+  response.end(markup);
+}
+
+function readSitePage(...segments: string[]): string {
+  return fs.readFileSync(path.resolve(process.cwd(), "site", ...segments), "utf-8");
 }
 
 function parseBearerAuth(request: IncomingMessage): string | null {
@@ -115,10 +139,12 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
     });
   }
 
+  if (request.method === "GET" && (url.pathname === "/admin" || url.pathname === "/admin/")) {
+    return html(response, 200, readSitePage("admin", "index.html"));
+  }
+
   if (request.method === "GET" && url.pathname === "/payment/complete") {
-    response.statusCode = 200;
-    response.setHeader("Content-Type", "text/html; charset=utf-8");
-    response.end(`<!doctype html>
+    return html(response, 200, `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -140,7 +166,6 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
     </div>
   </body>
 </html>`);
-    return;
   }
 
   if (request.method === "POST" && url.pathname === "/api/checkout/session") {
@@ -194,6 +219,15 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
       codeId: result.license.codeId,
       emailDelivery: result.emailDelivery
     });
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/license/revalidate") {
+    const body = await readJsonBody(request);
+    const result = revalidateLicenseSet({
+      machineHash: String(body.machineHash ?? ""),
+      codeIds: Array.isArray(body.codeIds) ? body.codeIds.map((item) => String(item)) : []
+    });
+    return json(response, 200, result);
   }
 
   if (request.method === "POST" && url.pathname === "/api/webhooks/razorpay/payment-link") {
@@ -286,6 +320,31 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
     return json(response, 200, result);
   }
 
+  if (request.method === "POST" && url.pathname === "/api/admin/licenses/resend-code") {
+    if (!requireAdminToken(request)) {
+      return json(response, 401, { error: "Unauthorized" });
+    }
+    const body = await readJsonBody(request);
+    const result = await resendLicenseCode({
+      email: String(body.email ?? ""),
+      codeId: typeof body.codeId === "string" ? body.codeId : undefined
+    });
+    return json(response, 200, result);
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/admin/licenses/revoke") {
+    if (!requireAdminToken(request)) {
+      return json(response, 401, { error: "Unauthorized" });
+    }
+    const body = await readJsonBody(request);
+    const result = revokeLicense({
+      email: String(body.email ?? ""),
+      codeId: String(body.codeId ?? ""),
+      reason: typeof body.reason === "string" ? body.reason : undefined
+    });
+    return json(response, 200, result);
+  }
+
   if (request.method === "GET" && url.pathname === "/api/admin/licenses") {
     if (!requireAdminToken(request)) {
       return json(response, 401, { error: "Unauthorized" });
@@ -296,6 +355,22 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
     }
     return json(response, 200, {
       licenses: lookupLicensesByEmail(email)
+    });
+  }
+
+  if (request.method === "GET" && url.pathname === "/api/admin/customer") {
+    if (!requireAdminToken(request)) {
+      return json(response, 401, { error: "Unauthorized" });
+    }
+    const email = url.searchParams.get("email");
+    if (!email) {
+      return json(response, 400, { error: "email query param is required" });
+    }
+    return json(response, 200, {
+      licenses: lookupLicensesByEmail(email),
+      payments: lookupPaymentsByEmail(email),
+      emails: lookupEmailsByEmail(email),
+      resets: lookupResetsByEmail(email)
     });
   }
 

@@ -7,7 +7,7 @@ import { getDesktopBootstrap, startDesktopProblem } from "../services/desktopApp
 import { initializeStudentFiles, isInitialized } from "../services/storage";
 import { StudentProfile } from "../types";
 
-test("a new desktop user receives a recommendation and an editable workspace", () => {
+test("a new desktop user receives a recommendation and an editable workspace", { concurrency: false }, async () => {
   const originalBaseDir = process.env.DSA_SHEET_HOME;
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-onboarding-smoke-"));
 
@@ -25,7 +25,7 @@ test("a new desktop user receives a recommendation and an editable workspace", (
     initializeStudentFiles(profile);
     assert.equal(isInitialized(), true);
 
-    const bootstrap = getDesktopBootstrap();
+    const bootstrap = await getDesktopBootstrap();
     assert.equal(bootstrap.preferences.currentView, "practice");
     assert.equal(bootstrap.preferences.currentProblemView, "description");
     assert.equal(bootstrap.activeTopicId, "language-toolkit");

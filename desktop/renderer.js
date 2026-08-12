@@ -2201,6 +2201,9 @@ function renderProfilePage() {
   if (licenseStatusSummaryEl) {
     const freeCount = Object.values(license?.topicAccess ?? {}).filter((item) => item.access === "free").length;
     const unlockedCount = Object.values(license?.topicAccess ?? {}).filter((item) => item.access === "unlocked").length;
+    const validationLabel = license?.lastValidatedAt
+      ? new Date(license.lastValidatedAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
+      : "Never";
     licenseStatusSummaryEl.innerHTML = `
       <div class="profile-stat-card">
         <span>Verification</span>
@@ -2218,7 +2221,15 @@ function renderProfilePage() {
         <span>Active Licenses</span>
         <strong>${license?.activeLicenses?.length ?? 0}</strong>
       </div>
+      <div class="profile-stat-card">
+        <span>Backend Validation</span>
+        <strong>${escapeHtml(validationLabel)}</strong>
+      </div>
     `;
+  }
+
+  if (licenseActivationStatusEl && license?.lastValidationMessage) {
+    licenseActivationStatusEl.textContent = license.lastValidationMessage;
   }
 
   if (licenseTopicAccessListEl) {

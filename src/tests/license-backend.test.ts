@@ -4,7 +4,14 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import crypto from "crypto";
-import { confirmPaymentAndIssueLicense, getLicenseBackendStore, resetMachineAndReissueCode } from "../services/licenseBackend";
+import {
+  confirmPaymentAndIssueLicense,
+  getLicenseBackendStore,
+  lookupEmailsByEmail,
+  lookupPaymentsByEmail,
+  resendLicenseCode,
+  resetMachineAndReissueCode
+} from "../services/licenseBackend";
 
 const originalServerHome = process.env.DSA_SHEET_LICENSE_SERVER_HOME;
 const originalPrivateKey = process.env.DSA_SHEET_LICENSE_PRIVATE_KEY;
@@ -21,9 +28,9 @@ test.after(() => {
   else process.env.DSA_SHEET_LICENSE_PLANS_JSON = originalPlans;
 });
 
-test("manual payment confirmation issues a license and writes an email outbox record", async () => {
+test("manual payment confirmation issues a license and writes an email outbox record", { concurrency: false }, async () => {
   process.env.DSA_SHEET_LICENSE_SERVER_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-license-backend-"));
-  const { privateKey } = crypto.generateKeyPairSync("ed25519");
+  const { privateKey } = crypto.generateKeyPairSync("rsa", { modulusLength: 2048 });
   process.env.DSA_SHEET_LICENSE_PRIVATE_KEY = privateKey.export({ type: "pkcs8", format: "pem" }).toString();
   process.env.DSA_SHEET_LICENSE_PLANS_JSON = JSON.stringify([
     { id: "trees-30d", name: "Trees 30 days", topicIds: ["trees"], durationDays: 30, priceInr: 199 }
@@ -48,9 +55,9 @@ test("manual payment confirmation issues a license and writes an email outbox re
   assert.equal(store.emails.length, 1);
 });
 
-test("machine reset replaces the previous active license with a new machine-bound code", async () => {
+test("machine reset replaces the previous active license with a new machine-bound code", { concurrency: false }, async () => {
   process.env.DSA_SHEET_LICENSE_SERVER_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-license-reset-"));
-  const { privateKey } = crypto.generateKeyPairSync("ed25519");
+  const { privateKey } = crypto.generateKeyPairSync("rsa", { modulusLength: 2048 });
   process.env.DSA_SHEET_LICENSE_PRIVATE_KEY = privateKey.export({ type: "pkcs8", format: "pem" }).toString();
   process.env.DSA_SHEET_LICENSE_PLANS_JSON = JSON.stringify([
     { id: "graphs-30d", name: "Graphs 30 days", topicIds: ["graphs"], durationDays: 30, priceInr: 249 }
@@ -81,4 +88,31 @@ test("machine reset replaces the previous active license with a new machine-boun
   assert.equal(previous?.status, "replaced");
   assert.equal(replacement?.status, "active");
   assert.equal(store.resets.length, 1);
+});
+
+test("resend license code appends another delivery record and payment history remains queryable", { concurrency: false }, async () => {
+  process.env.DSA_SHEET_LICENSE_SERVER_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-license-resend-"));
+  const { privateKey } = crypto.generateKeyPairSync("rsa", { modulusLength: 2048 });
+  process.env.DSA_SHEET_LICENSE_PRIVATE_KEY = privateKey.export({ type: "pkcs8", format: "pem" }).toString();
+  process.env.DSA_SHEET_LICENSE_PLANS_JSON = JSON.stringify([
+    { id: "trees-30d", name: "Trees 30 days", topicIds: ["trees"], durationDays: 30, priceInr: 199 }
+  ]);
+
+  const initial = await confirmPaymentAndIssueLicense({
+    provider: "manual",
+    paymentId: "pay_003",
+    amountInr: 199,
+    email: "learner@example.com",
+    machineHash: "abc123machine",
+    planId: "trees-30d"
+  });
+
+  const resent = await resendLicenseCode({
+    email: "learner@example.com",
+    codeId: initial.license.codeId
+  });
+
+  assert.equal(resent.license.codeId, initial.license.codeId);
+  assert.equal(lookupPaymentsByEmail("learner@example.com").length, 1);
+  assert.equal(lookupEmailsByEmail("learner@example.com").length, 2);
 });

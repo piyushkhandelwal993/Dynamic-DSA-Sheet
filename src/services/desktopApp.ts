@@ -75,7 +75,8 @@ import {
   canAccessTopic,
   clearExpiredLicenses,
   getDesktopLicenseStatus,
-  getTopicAccess
+  getTopicAccess,
+  revalidateDesktopLicenses
 } from "./licensing";
 import { buildRoadmapInferenceStatement } from "./problemPageIngestion";
 import { assessTargetProblemReadiness, createTargetProblemRoadmap } from "./targetRoadmap";
@@ -209,8 +210,9 @@ function resolveBootstrapTopicId(requestedTopicId: string): string {
   return firstActiveTopic?.id ?? requestedTopicId;
 }
 
-export function getDesktopBootstrap(topicId = getActiveTopicId()): DesktopBootstrap {
+export async function getDesktopBootstrap(topicId = getActiveTopicId()): Promise<DesktopBootstrap> {
   clearExpiredLicenses();
+  await revalidateDesktopLicenses();
   const resolvedTopicId = resolveBootstrapTopicId(topicId);
   if (resolvedTopicId !== topicId) {
     setActiveTopicId(resolvedTopicId);
@@ -315,7 +317,7 @@ export function switchDesktopTopic(topicId: string) {
 
 export function getDesktopLicenseOverview() {
   clearExpiredLicenses();
-  return getDesktopLicenseStatus();
+  return revalidateDesktopLicenses();
 }
 
 export function activateDesktopLicenseCode(email: string, code: string) {

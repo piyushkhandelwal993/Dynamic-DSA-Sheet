@@ -102,7 +102,8 @@ export function createInitialLicenseStore(): LicenseStore {
     schemaVersion: LICENSE_SCHEMA_VERSION,
     freeTopicIds: getConfiguredFreeTopicIds(),
     licenses: [],
-    lastValidatedAt: null
+    lastValidatedAt: null,
+    lastValidationMessage: null
   };
 }
 
@@ -116,7 +117,8 @@ function getLicenseStore(): LicenseStore {
     schemaVersion: LICENSE_SCHEMA_VERSION,
     freeTopicIds: Array.isArray(saved.freeTopicIds) && saved.freeTopicIds.length ? [...new Set(saved.freeTopicIds)] : defaults.freeTopicIds,
     licenses: Array.isArray(saved.licenses) ? saved.licenses : [],
-    lastValidatedAt: saved.lastValidatedAt ?? null
+    lastValidatedAt: saved.lastValidatedAt ?? null,
+    lastValidationMessage: saved.lastValidationMessage ?? null
   };
 }
 
@@ -258,7 +260,9 @@ export function getDesktopLicenseStatus(): DesktopLicenseStatus {
       license.machineHash === machineHash && Date.parse(license.expiresAt) >= now
     ),
     topicAccess,
-    publicKeyConfigured: Boolean(loadPublicKey())
+    publicKeyConfigured: Boolean(loadPublicKey()),
+    lastValidatedAt: store.lastValidatedAt ?? null,
+    lastValidationMessage: store.lastValidationMessage ?? null
   };
 }
 
@@ -345,6 +349,70 @@ export function clearExpiredLicenses(): void {
       licenses: filtered
     });
   }
+}
+
+export async function revalidateDesktopLicenses(): Promise<DesktopLicenseStatus> {
+  const backendUrl = getUnlockBackendUrl();
+  const store = getLicenseStore();
+  const { machineHash } = getMachineFingerprint();
+  const activeLicenses = store.licenses.filter((license) =>
+    license.machineHash === machineHash && Date.parse(license.expiresAt) >= Date.now()
+  );
+
+  if (!backendUrl || activeLicenses.length === 0) {
+    return getDesktopLicenseStatus();
+  }
+
+  try {
+    const response = await fetch(`${backendUrl.replace(/\/+$/, "")}/api/license/revalidate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        machineHash,
+        codeIds: activeLicenses.map((license) => license.codeId)
+      })
+    });
+    const payload = await response.json() as {
+      validatedAt?: string;
+      revokedCodeIds?: string[];
+      replacedCodeIds?: string[];
+      expiredCodeIds?: string[];
+      missingCodeIds?: string[];
+    };
+    if (!response.ok) {
+      throw new Error((payload as { error?: string }).error || `License validation failed with status ${response.status}.`);
+    }
+
+    const blockedCodeIds = new Set([
+      ...(payload.revokedCodeIds ?? []),
+      ...(payload.replacedCodeIds ?? []),
+      ...(payload.expiredCodeIds ?? []),
+      ...(payload.missingCodeIds ?? [])
+    ]);
+    const nextLicenses = blockedCodeIds.size
+      ? store.licenses.filter((license) => !blockedCodeIds.has(license.codeId))
+      : store.licenses;
+
+    saveLicenseStore({
+      ...store,
+      licenses: nextLicenses,
+      lastValidatedAt: payload.validatedAt ?? new Date().toISOString(),
+      lastValidationMessage: blockedCodeIds.size
+        ? `${blockedCodeIds.size} license code(s) were removed after backend revalidation.`
+        : "All active license codes were revalidated successfully."
+    });
+  } catch (error) {
+    saveLicenseStore({
+      ...store,
+      lastValidatedAt: store.lastValidatedAt ?? null,
+      lastValidationMessage: `Backend revalidation skipped: ${error instanceof Error ? error.message : "unknown error"}`
+    });
+  }
+
+  clearExpiredLicenses();
+  return getDesktopLicenseStatus();
 }
 
 export function serializeLicenseCode(claims: LicenseClaims, privateKeyPem: string): string {

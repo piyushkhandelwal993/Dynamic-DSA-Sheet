@@ -721,6 +721,7 @@ export interface LicenseStore {
   freeTopicIds: string[];
   licenses: ActivatedLicenseRecord[];
   lastValidatedAt?: string | null;
+  lastValidationMessage?: string | null;
 }
 
 export interface DesktopLicenseStatus {
@@ -732,6 +733,8 @@ export interface DesktopLicenseStatus {
   activeLicenses: ActivatedLicenseRecord[];
   topicAccess: Record<string, DesktopTopicAccess>;
   publicKeyConfigured: boolean;
+  lastValidatedAt?: string | null;
+  lastValidationMessage?: string | null;
 }
 
 export interface DesktopLicenseActivationResult {
