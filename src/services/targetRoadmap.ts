@@ -1269,17 +1269,56 @@ function injectBeginnerSupportProblems(
 ): Problem[] {
   const chosenIds = new Set(plannedProblems.map((problem) => problem.id));
   const excludedProblemIds = new Set<string>(targetMappedProblemIds);
-  const supportConceptIds = [...new Set(
-    plannedProblems.flatMap((problem) =>
-      (problem.prerequisiteConcepts ?? []).filter((conceptId) =>
+  const discoveredSupportConcepts = new Set<string>();
+  const visitSupportDependencies = (conceptId: string) => {
+    if (classifyConceptForRoadmap(targetTopicId, conceptId) !== "support") {
+      return;
+    }
+    const concept = getConceptById(conceptId);
+    if (!concept) {
+      return;
+    }
+    for (const dependencyId of concept.dependsOn ?? []) {
+      if (discoveredSupportConcepts.has(dependencyId)) {
+        continue;
+      }
+      if ((skillProfile.conceptScores[dependencyId] ?? 0) >= 75) {
+        continue;
+      }
+      if (classifyConceptForRoadmap(targetTopicId, dependencyId) === "support") {
+        discoveredSupportConcepts.add(dependencyId);
+      }
+      visitSupportDependencies(dependencyId);
+    }
+  };
+
+  for (const problem of plannedProblems) {
+    for (const conceptId of [...(problem.expectedConcepts ?? []), ...(problem.prerequisiteConcepts ?? [])]) {
+      if (
         classifyConceptForRoadmap(targetTopicId, conceptId) === "support"
         && (skillProfile.conceptScores[conceptId] ?? 0) < 75
-      )
-    )
-  )];
+      ) {
+        discoveredSupportConcepts.add(conceptId);
+        visitSupportDependencies(conceptId);
+      }
+    }
+  }
+
+  const supportConceptIds = [...discoveredSupportConcepts].sort((left, right) => {
+    const depthDelta = conceptDepth(left) - conceptDepth(right);
+    if (depthDelta !== 0) return depthDelta;
+    const leftScore = skillProfile.conceptScores[left] ?? 0;
+    const rightScore = skillProfile.conceptScores[right] ?? 0;
+    if (leftScore !== rightScore) return leftScore - rightScore;
+    return left.localeCompare(right);
+  });
 
   const supportProblems: Problem[] = [];
+  const coveredSupportConceptIds = new Set<string>();
   for (const conceptId of supportConceptIds) {
+    if (coveredSupportConceptIds.has(conceptId)) {
+      continue;
+    }
     const supportProblem = selectInternalProblemForConcept(
       targetTopicId,
       conceptId,
@@ -1292,6 +1331,11 @@ function injectBeginnerSupportProblems(
     }
     supportProblems.push(supportProblem);
     chosenIds.add(supportProblem.id);
+    for (const coveredConceptId of supportProblem.expectedConcepts) {
+      if (classifyConceptForRoadmap(targetTopicId, coveredConceptId) === "support") {
+        coveredSupportConceptIds.add(coveredConceptId);
+      }
+    }
   }
 
   return [...supportProblems, ...plannedProblems];

@@ -21,7 +21,7 @@
       "Using the wrong visit order"
     ],
     "practiceProblems": ["tr-001", "tr-002", "tr-003"],
-    "dependsOn": ["tree-intro"]
+    "dependsOn": ["tree-intro", "recursion-intro", "base-case", "functional-recursion"]
   },
   {
     "id": "level-order-traversal",

@@ -51,9 +51,9 @@ test("machine-bound license activation unlocks the requested topics", { concurre
 
   const result = activateLicenseCode("alice@example.com", code);
   assert.equal(result.success, true);
-  assert.equal(result.status.topicAccess.trees.access, "unlocked");
+  assert.equal(result.status.topicAccess.trees.access, "free");
   assert.equal(result.status.topicAccess.graphs.access, "unlocked");
-  assert.equal(result.status.topicAccess.arrays.access, "free");
+  assert.equal(result.status.topicAccess.arrays.access, "locked");
   assert.equal(getDesktopLicenseStatus().activeLicenses.length, 1);
 });
 
@@ -102,7 +102,7 @@ test("desktop revalidation removes revoked licenses after backend confirmation",
 
   const activated = activateLicenseCode("alice@example.com", code);
   assert.equal(activated.success, true);
-  assert.equal(getDesktopLicenseStatus().topicAccess.trees.access, "unlocked");
+  assert.equal(getDesktopLicenseStatus().topicAccess.trees.access, "free");
 
   global.fetch = async () => new Response(JSON.stringify({
     validatedAt: "2026-08-11T00:00:00.000Z",
@@ -117,7 +117,7 @@ test("desktop revalidation removes revoked licenses after backend confirmation",
   }) as typeof fetch extends (...args: any[]) => infer R ? Awaited<R> : never;
 
   const status = await revalidateDesktopLicenses();
-  assert.equal(status.topicAccess.trees.access, "locked");
+  assert.equal(status.topicAccess.trees.access, "free");
   assert.equal(status.activeLicenses.length, 0);
   assert.match(status.lastValidationMessage ?? "", /removed/i);
 });

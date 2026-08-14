@@ -197,7 +197,7 @@ function parseConfiguredPlans(): LicensePlan[] {
     return [
       { id: "trees-30d", name: "Trees 30 days", topicIds: ["trees"], durationDays: 30, priceInr: 199 },
       { id: "graphs-30d", name: "Graphs 30 days", topicIds: ["graphs"], durationDays: 30, priceInr: 249 },
-      { id: "all-topics-30d", name: "All topics 30 days", topicIds: ["strings", "two-pointers", "sliding-window", "prefix-suffix", "bit-manipulation", "linked-list", "stack", "queue", "recursion", "binary-search", "binary-search-trees", "trees", "graphs", "dp", "programming-mathematics"], durationDays: 30, priceInr: 999 }
+      { id: "all-topics-30d", name: "All topics 30 days", topicIds: ["programming-mathematics", "language-toolkit", "arrays", "strings", "two-pointers", "sliding-window", "prefix-suffix", "bit-manipulation", "linked-list", "stack", "queue", "recursion", "binary-search", "trees", "binary-search-trees", "graphs", "dp"], durationDays: 30, priceInr: 999 }
     ];
   }
   const plans = JSON.parse(raw) as LicensePlan[];

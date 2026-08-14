@@ -11,7 +11,11 @@
       "tree-intro",
       "recursive-tree-traversal"
     ],
-    "prerequisiteConcepts": [],
+    "prerequisiteConcepts": [
+      "recursion-intro",
+      "base-case",
+      "functional-recursion"
+    ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
     "description": "Given a binary tree in level-order form using -1 for nulls, print its preorder traversal.",
@@ -85,7 +89,10 @@
       "recursive-tree-traversal"
     ],
     "prerequisiteConcepts": [
-      "tree-intro"
+      "tree-intro",
+      "recursion-intro",
+      "base-case",
+      "functional-recursion"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,
@@ -162,7 +169,10 @@
       "recursive-tree-traversal"
     ],
     "prerequisiteConcepts": [
-      "tree-intro"
+      "tree-intro",
+      "recursion-intro",
+      "base-case",
+      "functional-recursion"
     ],
     "expectedComplexity": "O(n)",
     "estimatedMinutes": 15,

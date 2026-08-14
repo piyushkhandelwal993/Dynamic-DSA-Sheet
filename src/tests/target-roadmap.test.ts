@@ -160,6 +160,31 @@ test("validate bst roadmap uses cross-topic sorted-check and tree traversal brid
   assert.equal(roadmap.steps.at(-1)?.type, "target");
 });
 
+test("validate bst roadmap becomes recursion-first for complete beginners in beginner mode", () => {
+  process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-validate-bst-beginner-"));
+  invalidateCatalogCache();
+  const progress = createInitialProgress();
+  const skillProfile = createInitialSkillProfile();
+
+  const roadmap = createTargetProblemRoadmap(
+    "https://leetcode.com/problems/validate-binary-search-tree/",
+    progress,
+    skillProfile,
+    undefined,
+    { practiceMode: "beginner" }
+  );
+
+  const internalIds = roadmap.steps
+    .filter((step) => step.type === "internal")
+    .map((step) => step.internalProblemId);
+
+  assert.deepEqual(internalIds.slice(0, 3), ["rec-001", "rec-003", "tr-001"]);
+  assert.equal(internalIds.includes("bst-002"), true);
+  assert.equal(internalIds.indexOf("rec-001") < internalIds.indexOf("bst-002"), true);
+  assert.equal(internalIds.indexOf("rec-003") < internalIds.indexOf("bst-002"), true);
+  assert.equal(roadmap.steps.at(-1)?.title, "Validate Binary Search Tree");
+});
+
 test("ceil in bst roadmap stays BST-first and uses candidate tracking bridge", () => {
   process.env.DSA_SHEET_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "dsa-target-roadmap-ceil-bst-"));
   invalidateCatalogCache();
@@ -604,7 +629,7 @@ test("lowest common ancestor roadmap uses the internal bridge without stale note
     .filter((step) => step.type === "external")
     .map((step) => step.title);
 
-  assert.deepEqual(internalIds, ["tr-001", "tr-021", "tr-022", "tr-023", "tr-024", "tr-013"]);
+  assert.deepEqual(internalIds, ["rec-001", "rec-003", "tr-001", "tr-021", "tr-022", "tr-023", "tr-024", "tr-013"]);
   assert.equal((roadmap.notes ?? []).length, 0);
   assert.equal(externalTitles.includes("Binary Tree Preorder Traversal"), false);
   assert.equal(roadmap.steps.at(-1)?.title, "Lowest Common Ancestor of a Binary Tree");

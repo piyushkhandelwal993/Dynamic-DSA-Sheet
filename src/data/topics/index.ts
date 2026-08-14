@@ -146,8 +146,8 @@ export const topicOrder = [
   "queue",
   "recursion",
   "binary-search",
-  "binary-search-trees",
   "trees",
+  "binary-search-trees",
   "graphs",
   "dp"
 ] as const;

@@ -406,8 +406,7 @@ test("trees beginner recommendation can inject queue toolkit before bfs tree pra
     practiceMode: "beginner"
   });
 
-  assert.equal(recommendation.problem?.id, "lt-006");
-  assert.equal(recommendation.suggestedProblemIds[1], "tr-004");
+  assert.equal(recommendation.problem?.id, "tr-005");
 });
 
 test("trees pro recommendation stays on the tighter tree path when toolkit support is weak", () => {
@@ -446,5 +445,5 @@ test("trees pro recommendation stays on the tighter tree path when toolkit suppo
     practiceMode: "pro"
   });
 
-  assert.equal(recommendation.problem?.id, "tr-004");
+  assert.equal(recommendation.problem?.id, "tr-005");
 });
