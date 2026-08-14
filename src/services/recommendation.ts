@@ -30,8 +30,14 @@ interface RecommendationOptions {
   practiceMode?: PracticeMode;
 }
 
-function hasWeakPrerequisite(problem: Problem, skillProfile: SkillProfile): boolean {
-  return problem.prerequisiteConcepts.some((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) < 50);
+function hasWeakPrerequisite(
+  problem: Problem,
+  skillProfile: SkillProfile,
+  satisfiedConcepts: ReadonlySet<string> = new Set()
+): boolean {
+  return problem.prerequisiteConcepts.some(
+    (conceptId) => !satisfiedConcepts.has(conceptId) && (skillProfile.conceptScores[conceptId] ?? 0) < 50
+  );
 }
 
 function isSolved(progress: ProgressState, problemId: string): boolean {
@@ -176,14 +182,20 @@ function buildRecommendationOrder(problems: Problem[], skillProfile: SkillProfil
   });
 }
 
-function selectRecommendedProblem(problems: Problem[], progress: ProgressState, skillProfile: SkillProfile, excludeProblemId?: string): Problem | undefined {
+function selectRecommendedProblem(
+  problems: Problem[],
+  progress: ProgressState,
+  skillProfile: SkillProfile,
+  excludeProblemId?: string,
+  satisfiedConcepts: ReadonlySet<string> = new Set()
+): Problem | undefined {
   const weakConceptSet = new Set(skillProfile.weakConcepts);
   const sorted = buildRecommendationOrder(
     problems.filter((problem) => !isSolved(progress, problem.id) && problem.id !== excludeProblemId),
     skillProfile
   )
     .filter((problem) => {
-      if (problem.difficulty === "Hard" && hasWeakPrerequisite(problem, skillProfile)) {
+      if (problem.difficulty === "Hard" && hasWeakPrerequisite(problem, skillProfile, satisfiedConcepts)) {
         return false;
       }
 
@@ -199,8 +211,16 @@ function selectRecommendedProblem(problems: Problem[], progress: ProgressState, 
       const bWeak = b.expectedConcepts.some((conceptId) => weakConceptSet.has(conceptId)) ? 0 : 1;
       if (aWeak !== bWeak) return aWeak - bWeak;
 
-      const aPrereqSolved = a.prerequisiteConcepts.every((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 60) ? 0 : 1;
-      const bPrereqSolved = b.prerequisiteConcepts.every((conceptId) => (skillProfile.conceptScores[conceptId] ?? 0) >= 60) ? 0 : 1;
+      const aPrereqSolved = a.prerequisiteConcepts.every(
+        (conceptId) => satisfiedConcepts.has(conceptId) || (skillProfile.conceptScores[conceptId] ?? 0) >= 60
+      )
+        ? 0
+        : 1;
+      const bPrereqSolved = b.prerequisiteConcepts.every(
+        (conceptId) => satisfiedConcepts.has(conceptId) || (skillProfile.conceptScores[conceptId] ?? 0) >= 60
+      )
+        ? 0
+        : 1;
       if (aPrereqSolved !== bPrereqSolved) return aPrereqSolved - bPrereqSolved;
 
       return 0;
@@ -209,17 +229,28 @@ function selectRecommendedProblem(problems: Problem[], progress: ProgressState, 
   return sorted[0] ?? problems.find((problem) => problem.id !== excludeProblemId && !isSolved(progress, problem.id));
 }
 
-function findNextHigherProblem(problems: Problem[], problem: Problem, skillProfile: SkillProfile): Problem | undefined {
+function findNextHigherProblem(
+  problems: Problem[],
+  problem: Problem,
+  skillProfile: SkillProfile,
+  satisfiedConcepts: ReadonlySet<string> = new Set()
+): Problem | undefined {
   return problems.find(
     (candidate) =>
       candidate.id !== problem.id &&
       candidate.expectedConcepts.some((conceptId) => problem.expectedConcepts.includes(conceptId)) &&
       difficultyRank[candidate.difficulty] > difficultyRank[problem.difficulty] &&
-      !hasWeakPrerequisite(candidate, skillProfile)
+      !hasWeakPrerequisite(candidate, skillProfile, satisfiedConcepts)
   );
 }
 
-function findNextCuratedProblem(problems: Problem[], problem: Problem, progress: ProgressState, skillProfile: SkillProfile): Problem | undefined {
+function findNextCuratedProblem(
+  problems: Problem[],
+  problem: Problem,
+  progress: ProgressState,
+  skillProfile: SkillProfile,
+  satisfiedConcepts: ReadonlySet<string> = new Set()
+): Problem | undefined {
   const currentIndex = problems.findIndex((candidate) => candidate.id === problem.id);
   if (currentIndex < 0) {
     return undefined;
@@ -230,7 +261,7 @@ function findNextCuratedProblem(problems: Problem[], problem: Problem, progress:
     if (isSolved(progress, candidate.id)) {
       continue;
     }
-    if (hasWeakPrerequisite(candidate, skillProfile)) {
+    if (hasWeakPrerequisite(candidate, skillProfile, satisfiedConcepts)) {
       continue;
     }
     return candidate;
@@ -369,8 +400,11 @@ export function recommendAfterSubmission(
   }
 
   if (score.finalScore >= 85 && score.conceptMatchScore >= 80) {
-    const nextCurated = findNextCuratedProblem(problems, problem, progress, skillProfile) ?? selectRecommendedProblem(problems, progress, skillProfile, problem.id);
-    const nextHigher = findNextHigherProblem(problems, problem, skillProfile);
+    const satisfiedConcepts = new Set<string>([...problem.expectedConcepts, ...problem.prerequisiteConcepts]);
+    const nextCurated =
+      findNextCuratedProblem(problems, problem, progress, skillProfile, satisfiedConcepts) ??
+      selectRecommendedProblem(problems, progress, skillProfile, problem.id, satisfiedConcepts);
+    const nextHigher = findNextHigherProblem(problems, problem, skillProfile, satisfiedConcepts);
     const fallbackNext = problems.find((candidate) => candidate.id !== problem.id && !isSolved(progress, candidate.id));
     const nextProblem = nextCurated ?? nextHigher ?? fallbackNext;
     return {
