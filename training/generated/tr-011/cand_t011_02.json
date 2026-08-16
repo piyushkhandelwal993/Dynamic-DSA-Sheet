@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t011_02",
+  "importedAt": "2026-08-16T07:05:00.000Z",
+  "problemId": "tr-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "recursive-delete-with-predecessor",
+  "code": "class Solution {\n    public TreeNode deleteBST(TreeNode root, int key) {\n        if (root == null) {\n            return null;\n        }\n        if (key < root.val) {\n            root.left = deleteBST(root.left, key);\n        } else if (key > root.val) {\n            root.right = deleteBST(root.right, key);\n        } else {\n            if (root.left == null) {\n                return root.right;\n            }\n            if (root.right == null) {\n                return root.left;\n            }\n            TreeNode predecessor = root.left;\n            while (predecessor.right != null) {\n                predecessor = predecessor.right;\n            }\n            root.val = predecessor.val;\n            root.left = deleteBST(root.left, predecessor.val);\n        }\n        return root;\n    }\n}",
+  "notes": "Valid alternate solution using inorder predecessor.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

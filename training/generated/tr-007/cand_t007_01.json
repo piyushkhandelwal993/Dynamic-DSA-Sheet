@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t007_01",
+  "importedAt": "2026-08-16T05:50:00.000Z",
+  "problemId": "tr-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "minus-one-failure-propagation",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        return height(root) != -1;\n    }\n\n    private int height(TreeNode node) {\n        if (node == null) {\n            return 0;\n        }\n        int left = height(node.left);\n        if (left == -1) {\n            return -1;\n        }\n        int right = height(node.right);\n        if (right == -1) {\n            return -1;\n        }\n        if (Math.abs(left - right) > 1) {\n            return -1;\n        }\n        return 1 + Math.max(left, right);\n    }\n}",
+  "notes": "Canonical O(n) balanced-tree check with failure marker propagation.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

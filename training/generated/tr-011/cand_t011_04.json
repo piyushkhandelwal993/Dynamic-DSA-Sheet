@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t011_04",
+  "importedAt": "2026-08-16T07:05:00.000Z",
+  "problemId": "tr-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "drop-right-subtree-on-match",
+  "code": "class Solution {\n    public TreeNode deleteBST(TreeNode root, int key) {\n        if (root == null) {\n            return null;\n        }\n        if (key < root.val) {\n            root.left = deleteBST(root.left, key);\n        } else if (key > root.val) {\n            root.right = deleteBST(root.right, key);\n        } else {\n            return root.left;\n        }\n        return root;\n    }\n}",
+  "notes": "Incorrectly discards the right subtree whenever the key is found.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

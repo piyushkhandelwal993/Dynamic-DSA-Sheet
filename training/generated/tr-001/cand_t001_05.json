@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t001_05",
+  "importedAt": "2026-08-16T03:40:00.000Z",
+  "problemId": "tr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-only-answer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> preorder(TreeNode root) {\n        return Arrays.asList(1, 2, 3, 4, 5);\n    }\n}",
+  "notes": "Hardcodes the sample output instead of traversing the tree.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

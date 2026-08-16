@@ -81,6 +81,16 @@ export function hasFact(facts: CodeFacts, id: string): boolean {
   ].some((fact) => fact.id === id);
 }
 
+export function removeFact(facts: CodeFacts, id: string): void {
+  facts.structures = facts.structures.filter((fact) => fact.id !== id);
+  facts.controlFlow = facts.controlFlow.filter((fact) => fact.id !== id);
+  facts.dataStructures = facts.dataStructures.filter((fact) => fact.id !== id);
+  facts.algorithms = facts.algorithms.filter((fact) => fact.id !== id);
+  facts.complexitySignals = facts.complexitySignals.filter((fact) => fact.id !== id);
+  facts.edgeCaseSignals = facts.edgeCaseSignals.filter((fact) => fact.id !== id);
+  facts.antiPatterns = facts.antiPatterns.filter((fact) => fact.id !== id);
+}
+
 function confidenceRank(confidence: FactConfidence): number {
   if (confidence === "high") return 3;
   if (confidence === "medium") return 2;

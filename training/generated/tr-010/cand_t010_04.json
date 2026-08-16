@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t010_04",
+  "importedAt": "2026-08-16T06:10:00.000Z",
+  "problemId": "tr-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "wrong-direction-insert",
+  "code": "class Solution {\n    public TreeNode insertBST(TreeNode root, int x) {\n        if (root == null) {\n            return new TreeNode(x);\n        }\n        if (x < root.val) {\n            root.right = insertBST(root.right, x);\n        } else if (x > root.val) {\n            root.left = insertBST(root.left, x);\n        }\n        return root;\n    }\n}",
+  "notes": "Mutates the opposite child and breaks the BST property.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

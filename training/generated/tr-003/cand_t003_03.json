@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t003_03",
+  "importedAt": "2026-08-16T04:35:00.000Z",
+  "problemId": "tr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "two-stack-postorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> postorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        if (root == null) {\n            return answer;\n        }\n        Stack<TreeNode> first = new Stack<>();\n        Stack<TreeNode> second = new Stack<>();\n        first.push(root);\n        while (!first.isEmpty()) {\n            TreeNode node = first.pop();\n            second.push(node);\n            if (node.left != null) {\n                first.push(node.left);\n            }\n            if (node.right != null) {\n                first.push(node.right);\n            }\n        }\n        while (!second.isEmpty()) {\n            answer.add(second.pop().val);\n        }\n        return answer;\n    }\n}",
+  "notes": "Valid postorder traversal but iterative and stack-driven.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

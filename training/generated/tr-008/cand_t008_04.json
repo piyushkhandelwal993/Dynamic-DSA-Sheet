@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t008_04",
+  "importedAt": "2026-08-16T06:05:00.000Z",
+  "problemId": "tr-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "wrong-direction-on-compare",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean searchBST(TreeNode root, int target) {\n        while (root != null) {\n            if (root.val == target) {\n                return true;\n            }\n            if (target < root.val) {\n                root = root.right;\n            } else {\n                root = root.left;\n            }\n        }\n        return false;\n    }\n}",
+  "notes": "Uses the BST property in the wrong direction and can miss valid targets.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

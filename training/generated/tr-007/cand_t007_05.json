@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t007_05",
+  "importedAt": "2026-08-16T05:50:00.000Z",
+  "problemId": "tr-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "constant-balanced",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        return true;\n    }\n}",
+  "notes": "Hardcodes the answer as balanced.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

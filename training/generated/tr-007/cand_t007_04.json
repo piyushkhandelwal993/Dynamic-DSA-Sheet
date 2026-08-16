@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t007_04",
+  "importedAt": "2026-08-16T05:50:00.000Z",
+  "problemId": "tr-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "checks-root-only",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        if (root == null) {\n            return true;\n        }\n        int leftHeight = height(root.left);\n        int rightHeight = height(root.right);\n        return Math.abs(leftHeight - rightHeight) <= 1;\n    }\n\n    private int height(TreeNode node) {\n        if (node == null) {\n            return 0;\n        }\n        return 1 + Math.max(height(node.left), height(node.right));\n    }\n}",
+  "notes": "Only checks the root height difference and misses deep imbalances.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t007_02",
+  "importedAt": "2026-08-16T05:50:00.000Z",
+  "problemId": "tr-007",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "array-flag-with-height-return",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        boolean[] ok = new boolean[] { true };\n        height(root, ok);\n        return ok[0];\n    }\n\n    private int height(TreeNode node, boolean[] ok) {\n        if (node == null) {\n            return 0;\n        }\n        int left = height(node.left, ok);\n        int right = height(node.right, ok);\n        if (Math.abs(left - right) > 1) {\n            ok[0] = false;\n        }\n        return 1 + Math.max(left, right);\n    }\n}",
+  "notes": "Valid O(n) solution using a carried boolean flag instead of a sentinel return.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

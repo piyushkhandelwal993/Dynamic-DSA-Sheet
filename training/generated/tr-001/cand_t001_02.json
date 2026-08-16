@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t001_02",
+  "importedAt": "2026-08-16T03:40:00.000Z",
+  "problemId": "tr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "divide-return-lists",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> preorder(TreeNode root) {\n        if (root == null) {\n            return new ArrayList<>();\n        }\n        List<Integer> answer = new ArrayList<>();\n        answer.add(root.val);\n        answer.addAll(preorder(root.left));\n        answer.addAll(preorder(root.right));\n        return answer;\n    }\n}",
+  "notes": "Functional recursive style that builds and merges subtree lists.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

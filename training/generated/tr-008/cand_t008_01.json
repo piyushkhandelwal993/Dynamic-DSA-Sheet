@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t008_01",
+  "importedAt": "2026-08-16T06:05:00.000Z",
+  "problemId": "tr-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "iterative-bst-directional-search",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean searchBST(TreeNode root, int target) {\n        TreeNode current = root;\n        while (current != null) {\n            if (current.val == target) {\n                return true;\n            }\n            if (target < current.val) {\n                current = current.left;\n            } else {\n                current = current.right;\n            }\n        }\n        return false;\n    }\n}",
+  "notes": "Canonical iterative BST search using ordered pruning.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t009_01",
+  "importedAt": "2026-08-16T06:35:00.000Z",
+  "problemId": "tr-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "queue-first-node-per-level",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> leftView(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        if (root == null) {\n            return answer;\n        }\n        Queue<TreeNode> queue = new ArrayDeque<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int size = queue.size();\n            for (int i = 0; i < size; i++) {\n                TreeNode node = queue.poll();\n                if (i == 0) {\n                    answer.add(node.val);\n                }\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n        }\n        return answer;\n    }\n}",
+  "notes": "Canonical level-order traversal capturing the first node of each level.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t004_03",
+  "importedAt": "2026-08-16T04:50:00.000Z",
+  "problemId": "tr-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "recursive-height-by-level",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> levelOrder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        int height = height(root);\n        for (int level = 1; level <= height; level++) {\n            collect(root, level, answer);\n        }\n        return answer;\n    }\n\n    private int height(TreeNode node) {\n        if (node == null) {\n            return 0;\n        }\n        return 1 + Math.max(height(node.left), height(node.right));\n    }\n\n    private void collect(TreeNode node, int level, List<Integer> answer) {\n        if (node == null) {\n            return;\n        }\n        if (level == 1) {\n            answer.add(node.val);\n            return;\n        }\n        collect(node.left, level - 1, answer);\n        collect(node.right, level - 1, answer);\n    }\n}",
+  "notes": "Valid level order via repeated DFS levels, but worse than queue BFS.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

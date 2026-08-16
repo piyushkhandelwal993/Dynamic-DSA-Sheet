@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t010_01",
+  "importedAt": "2026-08-16T06:10:00.000Z",
+  "problemId": "tr-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "recursive-bst-insert",
+  "code": "class Solution {\n    public TreeNode insertBST(TreeNode root, int x) {\n        if (root == null) {\n            return new TreeNode(x);\n        }\n        if (x < root.val) {\n            root.left = insertBST(root.left, x);\n        } else if (x > root.val) {\n            root.right = insertBST(root.right, x);\n        }\n        return root;\n    }\n}",
+  "notes": "Canonical recursive BST insertion that updates the correct child link.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

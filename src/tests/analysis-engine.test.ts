@@ -453,6 +453,501 @@ test("java facts recognize parameterized recursion with carried state", () => {
   assert.equal(hasFact(facts, "functional-recursion"), false);
 });
 
+test("simple recursion intro solutions do not inherit unrelated bit or exponential DP facts", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public void printNameNTimes(String name, int n) {
+          if (n <= 0) {
+            return;
+          }
+          System.out.println(name);
+          printNameNTimes(name, n - 1);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "recursive-call"), true);
+  assert.equal(hasFact(facts, "base-case"), true);
+  assert.equal(hasFact(facts, "bit-edge-check"), false);
+  assert.equal(hasFact(facts, "exponential-dp-recursion"), false);
+});
+
+test("valid factorial recursion does not inherit hardcoded-output or exponential-dp noise", () => {
+  const directFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int factorial(int n) {
+          if (n <= 1) {
+            return 1;
+          }
+          return n * factorial(n - 1);
+        }
+      }
+    `
+  );
+  const helperFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int factorial(int n) {
+          return factorialFrom(n, 1);
+        }
+
+        private int factorialFrom(int n, int acc) {
+          if (n <= 1) {
+            return acc;
+          }
+          return factorialFrom(n - 1, acc * n);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(directFacts, "functional-recursion"), true);
+  assert.equal(hasFact(directFacts, "hardcoded-output"), false);
+  assert.equal(hasFact(directFacts, "exponential-dp-recursion"), false);
+  assert.equal(hasFact(helperFacts, "functional-recursion"), true);
+  assert.equal(hasFact(helperFacts, "hardcoded-output"), false);
+  assert.equal(hasFact(helperFacts, "exponential-dp-recursion"), false);
+});
+
+test("helper-style power recursion does not inherit tree-recursion noise", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int power(int a, int b) {
+          return powerFrom(a, b, 1);
+        }
+
+        private int powerFrom(int a, int b, int product) {
+          if (b == 0) {
+            return product;
+          }
+          return powerFrom(a, b - 1, product * a);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "parameterized-recursion"), true);
+  assert.equal(hasFact(facts, "functional-recursion"), true);
+  assert.equal(hasFact(facts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(facts, "tree-recursion"), false);
+});
+
+test("recursive palindrome solutions keep string-recursion signals without tree-recursion noise", () => {
+  const pointerFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public boolean isPalindrome(String s) {
+          return check(s, 0, s.length() - 1);
+        }
+
+        private boolean check(String s, int left, int right) {
+          if (left >= right) {
+            return true;
+          }
+          if (s.charAt(left) != s.charAt(right)) {
+            return false;
+          }
+          return check(s, left + 1, right - 1);
+        }
+      }
+    `
+  );
+  const substringFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public boolean isPalindrome(String s) {
+          if (s.length() <= 1) {
+            return true;
+          }
+          if (s.charAt(0) != s.charAt(s.length() - 1)) {
+            return false;
+          }
+          return isPalindrome(s.substring(1, s.length() - 1));
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(pointerFacts, "recursion-on-strings"), true);
+  assert.equal(hasFact(pointerFacts, "base-case"), true);
+  assert.equal(hasFact(pointerFacts, "tree-recursion"), false);
+  assert.equal(hasFact(pointerFacts, "exponential-dp-recursion"), false);
+  assert.equal(hasFact(substringFacts, "recursion-on-strings"), true);
+  assert.equal(hasFact(substringFacts, "base-case"), true);
+  assert.equal(hasFact(substringFacts, "tree-recursion"), false);
+});
+
+test("recursive string reversal solutions stay in string-recursion territory", () => {
+  const swapFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public String reverseString(String s) {
+          return reverse(s, 0, s.length() - 1);
+        }
+
+        private String reverse(String s, int left, int right) {
+          if (left >= right) {
+            return s;
+          }
+          char[] chars = s.toCharArray();
+          char temp = chars[left];
+          chars[left] = chars[right];
+          chars[right] = temp;
+          return reverse(new String(chars), left + 1, right - 1);
+        }
+      }
+    `
+  );
+  const builderFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public String reverseString(String s) {
+          if (s.length() <= 1) {
+            return s;
+          }
+          return reverseString(s.substring(1)) + s.charAt(0);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(swapFacts, "recursion-on-strings"), true);
+  assert.equal(hasFact(swapFacts, "functional-recursion"), true);
+  assert.equal(hasFact(swapFacts, "tree-recursion"), false);
+  assert.equal(hasFact(swapFacts, "exponential-dp-recursion"), false);
+  assert.equal(hasFact(builderFacts, "recursion-on-strings"), true);
+  assert.equal(hasFact(builderFacts, "functional-recursion"), true);
+  assert.equal(hasFact(builderFacts, "tree-recursion"), false);
+  assert.equal(hasFact(builderFacts, "missing-recursive-progress"), false);
+});
+
+test("digit-sum helper recursion does not inherit branching-recursion noise", () => {
+  const directFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int sumDigits(int n) {
+          if (n == 0) {
+            return 0;
+          }
+          return (n % 10) + sumDigits(n / 10);
+        }
+      }
+    `
+  );
+  const helperFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int sumDigits(int n) {
+          return sumDigits(n, 0);
+        }
+
+        private int sumDigits(int n, int total) {
+          if (n == 0) {
+            return total;
+          }
+          return sumDigits(n / 10, total + (n % 10));
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(directFacts, "functional-recursion"), true);
+  assert.equal(hasFact(directFacts, "tree-recursion"), false);
+  assert.equal(hasFact(directFacts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(directFacts, "missing-recursive-progress"), false);
+  assert.equal(hasFact(helperFacts, "functional-recursion"), true);
+  assert.equal(hasFact(helperFacts, "parameterized-recursion"), true);
+  assert.equal(hasFact(helperFacts, "tree-recursion"), false);
+  assert.equal(hasFact(helperFacts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(helperFacts, "exponential-dp-recursion"), false);
+});
+
+test("count-digits recursion stays in functional-recursion territory", () => {
+  const directFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int countDigits(int n) {
+          if (n < 10) {
+            return 1;
+          }
+          return 1 + countDigits(n / 10);
+        }
+      }
+    `
+  );
+  const helperFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int countDigits(int n) {
+          return countDigits(n, 0);
+        }
+
+        private int countDigits(int n, int count) {
+          if (n == 0) {
+            return Math.max(1, count);
+          }
+          return countDigits(n / 10, count + 1);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(directFacts, "functional-recursion"), true);
+  assert.equal(hasFact(directFacts, "base-case"), true);
+  assert.equal(hasFact(directFacts, "missing-recursive-progress"), false);
+  assert.equal(hasFact(directFacts, "hardcoded-output"), false);
+  assert.equal(hasFact(helperFacts, "functional-recursion"), true);
+  assert.equal(hasFact(helperFacts, "parameterized-recursion"), true);
+  assert.equal(hasFact(helperFacts, "tree-recursion"), false);
+  assert.equal(hasFact(helperFacts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(helperFacts, "exponential-dp-recursion"), false);
+});
+
+test("recursive binary search stays in divide-and-conquer territory", () => {
+  const directFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int binarySearch(int[] nums, int target) {
+          return search(nums, 0, nums.length - 1, target);
+        }
+
+        private int search(int[] nums, int left, int right, int target) {
+          if (left > right) {
+            return -1;
+          }
+          int mid = left + (right - left) / 2;
+          if (nums[mid] == target) {
+            return mid;
+          }
+          if (nums[mid] < target) {
+            return search(nums, mid + 1, right, target);
+          }
+          return search(nums, left, mid - 1, target);
+        }
+      }
+    `
+  );
+  const helperFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int binarySearch(int[] nums, int target) {
+          return binarySearch(nums, target, 0, nums.length - 1);
+        }
+
+        private int binarySearch(int[] nums, int target, int left, int right) {
+          if (left > right) {
+            return -1;
+          }
+          int mid = (left + right) / 2;
+          if (nums[mid] == target) {
+            return mid;
+          }
+          int found = nums[mid] > target
+              ? binarySearch(nums, target, left, mid - 1)
+              : binarySearch(nums, target, mid + 1, right);
+          return found;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(directFacts, "recursion-on-arrays"), true);
+  assert.equal(hasFact(directFacts, "divide-and-conquer"), true);
+  assert.equal(hasFact(directFacts, "sorted-mid-check"), true);
+  assert.equal(hasFact(directFacts, "tree-recursion"), false);
+  assert.equal(hasFact(directFacts, "subsequence-generation"), false);
+  assert.equal(hasFact(directFacts, "tree-construction"), false);
+  assert.equal(hasFact(directFacts, "modulo-division-by-two"), false);
+  assert.equal(hasFact(helperFacts, "recursion-on-arrays"), true);
+  assert.equal(hasFact(helperFacts, "parameterized-recursion"), true);
+  assert.equal(hasFact(helperFacts, "tree-recursion"), false);
+  assert.equal(hasFact(helperFacts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(helperFacts, "exponential-dp-recursion"), false);
+});
+
+test("euclid recursion accepts remainder-based progress without branching noise", () => {
+  const directFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int gcd(int a, int b) {
+          if (b == 0) {
+            return a;
+          }
+          return gcd(b, a % b);
+        }
+      }
+    `
+  );
+  const helperFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int gcd(int a, int b) {
+          if (a == 0) {
+            return b;
+          }
+          if (b == 0) {
+            return a;
+          }
+          if (a < b) {
+            return gcd(b, a);
+          }
+          return gcd(b, a % b);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(directFacts, "functional-recursion"), true);
+  assert.equal(hasFact(directFacts, "base-case"), true);
+  assert.equal(hasFact(directFacts, "missing-recursive-progress"), false);
+  assert.equal(hasFact(helperFacts, "functional-recursion"), true);
+  assert.equal(hasFact(helperFacts, "base-case"), true);
+  assert.equal(hasFact(helperFacts, "tree-recursion"), false);
+  assert.equal(hasFact(helperFacts, "multiple-recursive-calls"), false);
+  assert.equal(hasFact(helperFacts, "exponential-dp-recursion"), false);
+  assert.equal(hasFact(helperFacts, "missing-recursive-progress"), false);
+});
+
+test("subsequence generation accepts copied-state branching as backtracking basics", () => {
+  const copyFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public List<List<Integer>> generateSubsequences(int[] nums) {
+          List<List<Integer>> answer = new ArrayList<>();
+          dfs(nums, 0, new ArrayList<>(), answer);
+          return answer;
+        }
+
+        private void dfs(int[] nums, int index, List<Integer> path, List<List<Integer>> answer) {
+          if (index == nums.length) {
+            answer.add(path);
+            return;
+          }
+          List<Integer> take = new ArrayList<>(path);
+          take.add(nums[index]);
+          dfs(nums, index + 1, take, answer);
+          dfs(nums, index + 1, new ArrayList<>(path), answer);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(copyFacts, "subsequence-generation"), true);
+  assert.equal(hasFact(copyFacts, "parameterized-recursion"), true);
+  assert.equal(hasFact(copyFacts, "graph-traversal"), false);
+  assert.equal(hasFact(copyFacts, "graph-dfs"), false);
+});
+
+test("subset sum short-circuit recursion counts as subsequence generation", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public boolean subsetSumExists(int[] nums, int target) {
+          return search(nums, 0, target);
+        }
+
+        private boolean search(int[] nums, int index, int remaining) {
+          if (remaining == 0) {
+            return true;
+          }
+          if (index == nums.length) {
+            return false;
+          }
+          if (search(nums, index + 1, remaining - nums[index])) {
+            return true;
+          }
+          return search(nums, index + 1, remaining);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "subsequence-generation"), true);
+  assert.equal(hasFact(facts, "backtracking-undo"), false);
+  assert.equal(hasFact(facts, "graph-traversal"), false);
+  assert.equal(hasFact(facts, "graph-dfs"), false);
+});
+
+test("combination sum detects candidate reuse recursion and rejects forward-only branching", () => {
+  const reuseFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public List<List<Integer>> combinationSum(int[] candidates, int target) {
+          List<List<Integer>> answer = new ArrayList<>();
+          backtrack(candidates, 0, target, new ArrayList<>(), answer);
+          return answer;
+        }
+
+        private void backtrack(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {
+          if (remaining == 0) {
+            answer.add(new ArrayList<>(path));
+            return;
+          }
+          if (index == candidates.length || remaining < 0) {
+            return;
+          }
+          path.add(candidates[index]);
+          backtrack(candidates, index, remaining - candidates[index], path, answer);
+          path.remove(path.size() - 1);
+          backtrack(candidates, index + 1, remaining, path, answer);
+        }
+      }
+    `
+  );
+  const noReuseFacts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public List<List<Integer>> combinationSum(int[] candidates, int target) {
+          List<List<Integer>> answer = new ArrayList<>();
+          helper(candidates, 0, target, new ArrayList<>(), answer);
+          return answer;
+        }
+
+        private void helper(int[] candidates, int index, int remaining, List<Integer> path, List<List<Integer>> answer) {
+          if (remaining == 0) {
+            answer.add(new ArrayList<>(path));
+            return;
+          }
+          if (index == candidates.length || remaining < 0) {
+            return;
+          }
+          path.add(candidates[index]);
+          helper(candidates, index + 1, remaining - candidates[index], path, answer);
+          path.remove(path.size() - 1);
+          helper(candidates, index + 1, remaining, path, answer);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(reuseFacts, "recursive-choice-reuse"), true);
+  assert.equal(hasFact(noReuseFacts, "recursive-choice-reuse"), false);
+});
+
 test("java facts normalize backtracking recursion signals", () => {
   const facts = analyzeCodeFacts(
     "java",
@@ -720,6 +1215,110 @@ test("java facts normalize recursive tree traversal", () => {
   assert.equal(hasFact(facts, "tree-edge-check"), true);
 });
 
+test("java facts distinguish preorder, inorder, and postorder traversal order", () => {
+  const preorderFacts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      class Main {
+        static void walk(TreeNode node, List<Integer> out) {
+          if (node == null) return;
+          out.add(node.val);
+          walk(node.left, out);
+          walk(node.right, out);
+        }
+      }
+    `
+  );
+  const inorderFacts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      class Main {
+        static void walk(TreeNode node, List<Integer> out) {
+          if (node == null) return;
+          walk(node.left, out);
+          out.add(node.val);
+          walk(node.right, out);
+        }
+      }
+    `
+  );
+  const postorderFacts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      class Main {
+        static void walk(TreeNode node, List<Integer> out) {
+          if (node == null) return;
+          walk(node.left, out);
+          walk(node.right, out);
+          out.add(node.val);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(preorderFacts, "preorder-traversal-order"), true);
+  assert.equal(hasFact(preorderFacts, "inorder-traversal-order"), false);
+  assert.equal(hasFact(preorderFacts, "postorder-traversal-order"), false);
+  assert.equal(hasFact(inorderFacts, "preorder-traversal-order"), false);
+  assert.equal(hasFact(inorderFacts, "inorder-traversal-order"), true);
+  assert.equal(hasFact(inorderFacts, "postorder-traversal-order"), false);
+  assert.equal(hasFact(postorderFacts, "preorder-traversal-order"), false);
+  assert.equal(hasFact(postorderFacts, "inorder-traversal-order"), false);
+  assert.equal(hasFact(postorderFacts, "postorder-traversal-order"), true);
+});
+
+test("iterative stack preorder is not classified as recursive tree traversal", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      public class Main {
+        static List<Integer> preorder(TreeNode root) {
+          List<Integer> answer = new ArrayList<>();
+          if (root == null) return answer;
+          Stack<TreeNode> stack = new Stack<>();
+          stack.push(root);
+          while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            answer.add(node.val);
+            if (node.right != null) stack.push(node.right);
+            if (node.left != null) stack.push(node.left);
+          }
+          return answer;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "tree-node"), true);
+  assert.equal(hasFact(facts, "recursive-tree-traversal"), false);
+});
+
+test("tree sample-only Arrays.asList answer is classified as hardcoded output", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      public class Main {
+        static List<Integer> preorder(TreeNode root) {
+          return Arrays.asList(1, 2, 3, 4, 5);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "hardcoded-output"), true);
+  assert.equal(hasFact(facts, "recursive-tree-traversal"), false);
+});
+
 test("java facts normalize level-order tree traversal", () => {
   const facts = analyzeCodeFacts(
     "java",
@@ -744,6 +1343,68 @@ test("java facts normalize level-order tree traversal", () => {
   assert.equal(hasFact(facts, "tree-node"), true);
   assert.equal(hasFact(facts, "level-order-tree-traversal"), true);
   assert.equal(hasFact(facts, "bfs-queue-processing"), true);
+});
+
+test("tree placeholder return is flagged as hardcoded output", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class TreeNode { int val; TreeNode left, right; TreeNode(int v) { val = v; } }
+      class Solution {
+        TreeNode insertBST(TreeNode root, int x) {
+          return new TreeNode(x);
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "hardcoded-output"), true);
+  assert.equal(hasFact(facts, "bst-mutation"), false);
+});
+
+test("tree placeholder null return is flagged as hardcoded output", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class TreeNode { int val; TreeNode left, right; }
+      class Solution {
+        TreeNode deleteBST(TreeNode root, int key) {
+          return null;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "hardcoded-output"), true);
+});
+
+test("list-frontier tree BFS counts as level-order traversal without recursive traversal noise", () => {
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      import java.util.*;
+      class TreeNode { int val; TreeNode left, right; }
+      class Main {
+        static List<Integer> levelOrder(TreeNode root) {
+          List<Integer> answer = new ArrayList<>();
+          if (root == null) return answer;
+          List<TreeNode> frontier = new ArrayList<>();
+          frontier.add(root);
+          int index = 0;
+          while (index < frontier.size()) {
+            TreeNode node = frontier.get(index++);
+            answer.add(node.val);
+            if (node.left != null) frontier.add(node.left);
+            if (node.right != null) frontier.add(node.right);
+          }
+          return answer;
+        }
+      }
+    `
+  );
+
+  assert.equal(hasFact(facts, "level-order-tree-traversal"), true);
+  assert.equal(hasFact(facts, "recursive-tree-traversal"), false);
 });
 
 test("java facts normalize BST and LCA logic", () => {

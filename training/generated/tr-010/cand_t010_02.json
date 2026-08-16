@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t010_02",
+  "importedAt": "2026-08-16T06:10:00.000Z",
+  "problemId": "tr-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "iterative-parent-walk",
+  "code": "class Solution {\n    public TreeNode insertBST(TreeNode root, int x) {\n        if (root == null) {\n            return new TreeNode(x);\n        }\n        TreeNode current = root;\n        while (true) {\n            if (x < current.val) {\n                if (current.left == null) {\n                    current.left = new TreeNode(x);\n                    break;\n                }\n                current = current.left;\n            } else if (x > current.val) {\n                if (current.right == null) {\n                    current.right = new TreeNode(x);\n                    break;\n                }\n                current = current.right;\n            } else {\n                break;\n            }\n        }\n        return root;\n    }\n}",
+  "notes": "Valid iterative insertion that walks down the BST until a null child is found.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

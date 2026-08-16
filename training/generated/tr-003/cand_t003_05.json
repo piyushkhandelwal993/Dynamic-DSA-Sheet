@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t003_05",
+  "importedAt": "2026-08-16T04:35:00.000Z",
+  "problemId": "tr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "sample-only-answer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> postorder(TreeNode root) {\n        return Arrays.asList(2, 4, 5, 3, 1);\n    }\n}",
+  "notes": "Hardcodes the sample postorder output.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

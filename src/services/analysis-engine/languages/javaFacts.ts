@@ -1,4 +1,4 @@
-import { addFact, CodeFacts, createEmptyCodeFacts, hasFact } from "../facts";
+import { addFact, CodeFacts, createEmptyCodeFacts, hasFact, removeFact } from "../facts";
 import { detectOpposingPointerMovement, detectSameDirectionDualPointers } from "./pointerMovement";
 import { normalizeBinarySearchRoles, normalizeJavaLinkedListRoles } from "./semanticRoles";
 import {
@@ -63,6 +63,13 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   if (/(prefix|pref)\s*\[|runningSum|sum\s*\+=\s*\w+\s*\[/.test(content)) {
     addFact(facts, "algorithms", "prefix-sum", "high", ["prefix/running sum"]);
   }
+  if (
+    /while\s*\(\s*\w+\s*<\s*\w+\.length\s*&&\s*\w+\s*<\s*\w+\.length\s*\)[\s\S]{0,260}\w+\[\w+\+\+\]\s*=\s*[^;]+;/.test(content) ||
+    /while\s*\(\s*\w+\s*<=\s*(?:mid|right|end)\s*&&\s*\w+\s*<=\s*(?:right|end)\s*\)[\s\S]{0,260}\w+\[\w+\+\+\]\s*=\s*[^;]+;/.test(content) ||
+    /for\s*\(\s*int\s+\w+\s*=\s*(?:left|start)\s*;\s*\w+\s*<=\s*(?:right|end)\s*;\s*\w+\+\+\s*\)\s*\w+\[\w+\]\s*=\s*\w+\[\w+\]\s*;/.test(content)
+  ) {
+    addFact(facts, "algorithms", "merge-combine-step", "high", ["two sorted ranges are merged into a result or temp array"]);
+  }
   if (detectTwoPointerMovement(content)) {
     addFact(facts, "algorithms", "two-pointers", "high", ["opposite pointer movement"]);
     addFact(facts, "complexitySignals", "single-pass", "medium", ["pointer scan"]);
@@ -108,7 +115,7 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   }
   if (recursion.hasMultipleRecursiveCalls) {
     addFact(facts, "controlFlow", "multiple-recursive-calls", "high", recursion.methodNames);
-    addFact(facts, "algorithms", "tree-recursion", "medium", ["method called more than once"]);
+    addFact(facts, "algorithms", "tree-recursion", "high", ["method called more than once"]);
   }
   if (recursion.usesMemoization) {
     addFact(facts, "algorithms", "memoization", "medium", ["memo/dp map or table"]);
@@ -163,6 +170,19 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   }
   if (binarySearch.usesCapacitySearch) {
     addFact(facts, "algorithms", "capacity-search", "high", ["monotonic feasibility predicate tested at middle answer"]);
+  }
+  if (
+    hasFact(facts, "recursive-call") &&
+    hasFact(facts, "recursion-on-arrays") &&
+    hasFact(facts, "sorted-mid-check") &&
+    hasFact(facts, "divide-and-conquer")
+  ) {
+    removeFact(facts, "multiple-recursive-calls");
+    removeFact(facts, "tree-recursion");
+    removeFact(facts, "subsequence-generation");
+    removeFact(facts, "tree-construction");
+    removeFact(facts, "modulo-division-by-two");
+    removeFact(facts, "exponential-dp-recursion");
   }
   const linkedList = detectLinkedList(content);
   if (linkedList.usesLinkedListTraversal) {
@@ -259,6 +279,9 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   if (tree.usesBstLogic) {
     addFact(facts, "algorithms", "bst-logic", "high", ["value comparison selects a tree branch"]);
   }
+  if (tree.usesBstSearch) {
+    addFact(facts, "algorithms", "bst-search", "high", ["BST search prunes to the correct child based on target comparison"]);
+  }
   if (tree.usesTreeConstruction) {
     addFact(facts, "algorithms", "tree-construction", "medium", ["tree node creation or traversal partition"]);
   }
@@ -341,15 +364,33 @@ export function extractJavaCodeFacts(content: string): CodeFacts {
   if (bit.hasBitHardcoding) {
     addFact(facts, "antiPatterns", "bit-hardcoding", "medium", ["literal branches or assignments without bit-mask logic"]);
   }
-  if (bit.hasEdgeCaseHandling) {
+  if (bit.hasEdgeCaseHandling && bit.hasBitDomainContext) {
     addFact(facts, "edgeCaseSignals", "bit-edge-check", "medium", ["zero, negative, or null guard"]);
   }
 
   if (/(n\s*==\s*0|\.length\s*==\s*0|\.isEmpty\(\)|null|target\s*==\s*0)/.test(content)) {
     addFact(facts, "edgeCaseSignals", "empty-or-null-check", "medium", ["empty/null/base input check"]);
   }
-  if (/\breturn\s+(true|false|\d+|"[^"]*")\s*;/.test(content) && facts.metrics.loopCount === 0 && arrayAccessMatches.length === 0) {
-    addFact(facts, "antiPatterns", "hardcoded-output", "medium", ["literal return without traversal"]);
+  const returnsLiteralConstant =
+    /\breturn\s+(true|false|\d+|"[^"]*")\s*;/.test(content) ||
+    /\breturn\s+Arrays\.asList\([^;]*\)\s*;/.test(content);
+  const returnsPlaceholderTreeNode =
+    /\breturn\s+new\s+(?:TreeNode|Node)\s*\([^;]*\)\s*;/.test(content) &&
+    !/\b(?:root|node|current)\s*\.(?:left|right|val)\b/.test(content) &&
+    !/\b(?:root|node|current)\s*=\s*(?:root|node|current)\.(?:left|right)\b/.test(content);
+  const returnsPlaceholderTreeNull =
+    /\breturn\s+null\s*;/.test(content) &&
+    /\b(?:TreeNode|Node)\b/.test(content) &&
+    !/\bif\s*\(\s*(?:root|node|current)\s*==\s*null\s*\)\s*return\s+null\s*;/.test(content) &&
+    !/\bif\s*\(\s*(?:root|node|current)\s*==\s*null\s*\)\s*\{\s*return\s+null\s*;/.test(content);
+  if (
+    (returnsLiteralConstant || returnsPlaceholderTreeNode || returnsPlaceholderTreeNull) &&
+    !hasFact(facts, "recursive-call") &&
+    facts.metrics.loopCount === 0 &&
+    arrayAccessMatches.length === 0 &&
+    !/\b(?:root|node|current)\s*\.(?:left|right|val)\b/.test(content)
+  ) {
+    addFact(facts, "antiPatterns", "hardcoded-output", "medium", ["literal or placeholder return without traversal"]);
   }
   if (hasPoorVariableNames(facts.metrics.variableNames)) {
     addFact(facts, "antiPatterns", "poor-variable-names", "low", ["short ambiguous variable names"]);
@@ -388,7 +429,11 @@ function detectProgrammingMathTechniques(facts: CodeFacts, content: string): voi
   }
 
   if (
-    (/\bwhile\s*\(\s*\w+\s*!=\s*0\s*\)/.test(content) || /\breturn\s+\w+\s*==\s*0\s*\?\s*\w+\s*:\s*\w+\s*\(/.test(content)) &&
+    (
+      /\bwhile\s*\(\s*\w+\s*!=\s*0\s*\)/.test(content) ||
+      /\breturn\s+\w+\s*==\s*0\s*\?\s*\w+\s*:\s*\w+\s*\(/.test(content) ||
+      /return\s+gcd\s*\(\s*\w+\s*,\s*\w+\s*%\s*\w+\s*\)/.test(content)
+    ) &&
     /%\s*\w+/.test(content)
   ) {
     addFact(facts, "algorithms", "gcd-euclid", "high", ["remainder-driven gcd reduction"]);
@@ -614,24 +659,52 @@ function detectAdvancedStackTechniques(facts: CodeFacts, content: string): void 
 
 function detectRecursion(content: string) {
   const methodNames = detectMethodNames(content);
-  const recursiveCallCounts = methodNames.map((name) => ({
-    name,
-    count: content.match(new RegExp(`\\b${name}\\s*\\(`, "g"))?.length ?? 0
-  }));
-  const hasRecursiveCall = recursiveCallCounts.some((item) => item.count >= 2);
-  const hasMultipleRecursiveCalls = recursiveCallCounts.some((item) => item.count >= 3);
+  const methodBodies = extractMethodBodies(content, methodNames);
+  const recursiveCallCounts = methodNames.map((name) => {
+    const body = methodBodies.get(name) ?? "";
+    return {
+      name,
+      count: body.match(new RegExp(`\\b${escapeRegex(name)}\\s*\\(`, "g"))?.length ?? 0
+    };
+  });
+  const recursiveMethods = recursiveCallCounts.filter((item) => item.count >= 1).map((item) => item.name);
+  const hasRecursiveCall = recursiveMethods.length > 0;
+  const hasMultipleRecursiveCalls =
+    methodNames.some((name) => {
+      const body = methodBodies.get(name) ?? "";
+      return new RegExp(
+        `return[^;{}]*\\b${escapeRegex(name)}\\s*\\([^)]*\\)[^;{}]*\\b${escapeRegex(name)}\\s*\\(`,
+        "s"
+      ).test(body);
+    });
   const hasBaseCase =
     hasRecursiveCall &&
     /(if\s*\([^)]*(==|<=|>=|<|>)\s*[^)]*\)\s*(return|{|System\.out\.print)|return\s+\w+\s*;)/.test(content);
   const usesMemoization = /(dp\s*\[|memo|HashMap|Map<)/.test(content);
   const usesBacktrackingUndo = /(\.remove\s*\(|used\s*\[\w+\]\s*=\s*false|swap\s*\([^)]*\)\s*;[\s\S]*swap\s*\([^)]*\)\s*;)/.test(content);
-  const usesDivideAndConquer = /(mid\s*=|\(l\s*\+\s*r\)\s*\/\s*2|merge\s*\(|partition\s*\()/.test(content) && hasMultipleRecursiveCalls;
+  const hasSplitSignal =
+    /(mid\s*=|\(l\s*\+\s*r\)\s*\/\s*2|\bleft\b\s*,\s*mid|\bmid\s*\+\s*1\b|copyOfRange\s*\(|subList\s*\(|partition\s*\()/.test(content);
+  const hasCombineSignal = /(merge\s*\(|System\.arraycopy\s*\(|temp\s*\[|result\s*\[|combined\s*\[)/.test(content);
+  const hasPartitionSignal =
+    /partition\s*\(/i.test(content) ||
+    (/pivot/i.test(content) &&
+      (/\b(i|j)\s*<=\s*\b(j|right)\b|\b(i|left)\s*<\s*\b(j|high)\b/.test(content) ||
+        /nums\s*\[\s*\w+\s*\]\s*[<>]=?\s*pivot|pivot\s*[<>]=?\s*nums\s*\[\s*\w+\s*\]/.test(content) ||
+        /swap\s*\(|temp\s*=/.test(content)));
+  const usesDivideAndConquer = (hasMultipleRecursiveCalls || recursiveMethods.some((name) => {
+    const body = methodBodies.get(name) ?? "";
+    return (body.match(new RegExp(`\\b${escapeRegex(name)}\\s*\\(`, "g"))?.length ?? 0) >= 2;
+  })) && (hasSplitSignal || hasPartitionSignal) && (hasCombineSignal || hasPartitionSignal || /mergeSort|quickSort|merge\s*\(/.test(content));
+  const hasSearchStateProgress =
+    /(?:board|grid)\s*\[[^\]]+\]\s*\[[^\]]+\]\s*=\s*(?:digit|value|\w+)/.test(content) &&
+    /(?:board|grid)\s*\[[^\]]+\]\s*\[[^\]]+\]\s*=\s*(?:0|'\.'|"\.")/.test(content);
   const missingRecursiveProgress =
     hasRecursiveCall &&
-    !/(\w+\s*-\s*1|\w+\s*\+\s*1|\w+\s*\/\s*(?:2|10)|mid|left|right|start|end|idx|index|half|len|size|count)/.test(content);
+    !/(\w+\s*-\s*1|\w+\s*\+\s*1|\w+\s*\/\s*(?:2|10)|\w+\s*%\s*\w+|mid|left|right|start|end|idx|index|half|len|size|count)/.test(content) &&
+    !hasSearchStateProgress;
 
   return {
-    methodNames,
+    methodNames: recursiveMethods.length > 0 ? recursiveMethods : methodNames,
     hasRecursiveCall,
     hasMultipleRecursiveCalls,
     hasBaseCase,
@@ -642,12 +715,39 @@ function detectRecursion(content: string) {
   };
 }
 
+function extractMethodBodies(content: string, methodNames: string[]): Map<string, string> {
+  const bodies = new Map<string, string>();
+  for (const name of methodNames) {
+    const signature = new RegExp(`\\b${escapeRegex(name)}\\s*\\([^)]*\\)\\s*\\{`, "g");
+    let match = signature.exec(content);
+    const collectedBodies: string[] = [];
+    while (match) {
+      const bodyStart = match.index + match[0].length;
+      let depth = 1;
+      let cursor = bodyStart;
+      while (cursor < content.length && depth > 0) {
+        const ch = content[cursor];
+        if (ch === "{") depth++;
+        if (ch === "}") depth--;
+        cursor++;
+      }
+      collectedBodies.push(content.slice(bodyStart, Math.max(bodyStart, cursor - 1)));
+      match = signature.exec(content);
+    }
+    if (collectedBodies.length > 0) {
+      bodies.set(name, collectedBodies.join("\n"));
+    }
+  }
+  return bodies;
+}
+
 function detectMethodNames(content: string): string[] {
-  const methodRegex = /\b(?:public|private|protected|static|\s)*\s*(?:int|long|boolean|String|void|List<[^>]+>|ArrayList<[^>]+>|char|double)\s+([a-zA-Z_]\w*)\s*\(/g;
+  const methodRegex =
+    /\b(?:public|private|protected|static|\s)*\s*(?:int|long|boolean|String|void|char|double)(?:\s*\[\s*\])?\s+([a-zA-Z_]\w*)\s*\(|\b(?:public|private|protected|static|\s)*\s*(?:List<[^>]+>|ArrayList<[^>]+>|Map<[^>]+>|Set<[^>]+>|Queue<[^>]+>|Deque<[^>]+>|Stack<[^>]+>|PriorityQueue<[^>]+>)\s+([a-zA-Z_]\w*)\s*\(/g;
   const names: string[] = [];
   let match = methodRegex.exec(content);
   while (match) {
-    names.push(match[1]);
+    names.push(match[1] || match[2]);
     match = methodRegex.exec(content);
   }
   return Array.from(new Set(names));
@@ -659,6 +759,50 @@ function detectAdvancedRecursion(facts: CodeFacts, content: string, methodNames:
   const recursiveCallPattern = methodNames.map(escapeRegex).join("|");
   const returnedRecursiveCall = new RegExp(`return\\s+[^;]*(?:${recursiveCallPattern})\\s*\\(`).test(content);
   const parameterizedCall = new RegExp(`(?:${recursiveCallPattern})\\s*\\([^)]*,[^)]*\\)`).test(content);
+  const shortCircuitBranchingRecursion = methodNames.some((name) => {
+    const body = extractMethodBodies(content, methodNames).get(name) ?? "";
+    return new RegExp(
+      `if\\s*\\(\\s*${escapeRegex(name)}\\s*\\([^)]*\\)\\s*\\)\\s*\\{?\\s*return\\s+true\\s*;[\\s\\S]{0,220}return\\s+${escapeRegex(name)}\\s*\\(`,
+      "s"
+    ).test(body);
+  });
+  const branchingArrayRecursion = methodNames.some((name) => {
+    const body = extractMethodBodies(content, methodNames).get(name) ?? "";
+    const callCount = body.match(new RegExp(`\\b${escapeRegex(name)}\\s*\\(`, "g"))?.length ?? 0;
+    if (callCount < 2) return false;
+    if (/(mid\s*=|\bleft\b|\bright\b|gcd\s*\(|%\s*\w+)/.test(body)) return false;
+    return /(?:pick|skip|take|notTake|include|exclude|target|subset|path\.add|current\.add|sum)/i.test(body);
+  });
+  const recursiveChoiceReuse = methodNames.some((name) => {
+    const body = extractMethodBodies(content, methodNames).get(name) ?? "";
+    return new RegExp(
+      `\\b${escapeRegex(name)}\\s*\\([^)]*,\\s*(?:i|index)\\s*,\\s*(?:remaining|target)\\s*-\\s*[^)]*\\)`,
+      "i"
+    ).test(body);
+  }) || methodNames.some((name) => {
+    const body = extractMethodBodies(content, methodNames).get(name) ?? "";
+    return new RegExp(
+      `for\\s*\\([^)]*\\bint\\s+(i|index)\\b[^)]*\\)[\\s\\S]{0,260}\\b${escapeRegex(name)}\\s*\\([^)]*,\\s*\\1\\s*,\\s*(?:remaining|target)\\s*-\\s*[^)]*\\)`,
+      "i"
+    ).test(body);
+  });
+  const arrayStateUndo =
+    /\w+\s*\[\s*\w+\s*\]\s*=\s*[^;]+;[\s\S]{0,260}\b\w+\s*\([^)]*\)[\s\S]{0,260}\w+\s*\[\s*\w+\s*\]\s*=\s*(?:-1|0|false|null|'\\.'|"\.")\s*;/.test(content);
+  const josephusRecurrence = methodNames.some((name) => {
+    const body = extractMethodBodies(content, methodNames).get(name) ?? "";
+    const zeroBaseCasePattern = /if\s*\(\s*\w+\s*==\s*1\s*\)\s*(?:\{\s*)?return\s+0\s*;\s*(?:\})?/;
+    const oneBasedRecurrence = new RegExp(
+      `return\\s*\\(\\s*${escapeRegex(name)}\\s*\\([^)]*\\)\\s*\\+\\s*\\w+\\s*-\\s*1\\s*\\)\\s*%\\s*\\w+\\s*\\+\\s*1\\s*;`
+    ).test(body);
+    const zeroBasedRecurrence =
+      zeroBaseCasePattern.test(body) &&
+      new RegExp(`return\\s*\\(\\s*${escapeRegex(name)}\\s*\\([^)]*\\)\\s*\\+\\s*\\w+\\s*\\)\\s*%\\s*\\w+\\s*;`).test(body);
+    return oneBasedRecurrence || zeroBasedRecurrence;
+  }) || (
+    /return\s+\w+\s*\([^)]*\)\s*\+\s*1\s*;/.test(content) &&
+    /if\s*\(\s*\w+\s*==\s*1\s*\)\s*(?:\{\s*)?return\s+0\s*;\s*(?:\})?/.test(content) &&
+    /return\s*\(\s*\w+\s*\([^)]*\)\s*\+\s*\w+\s*\)\s*%\s*\w+\s*;/.test(content)
+  );
 
   if (returnedRecursiveCall) {
     addFact(facts, "algorithms", "functional-recursion", "high", ["recursive result returned or combined"]);
@@ -673,11 +817,29 @@ function detectAdvancedRecursion(facts: CodeFacts, content: string, methodNames:
     addFact(facts, "algorithms", "recursion-on-arrays", "medium", ["recursive call processes indexed collection state"]);
   }
   if (
-    hasFact(facts, "multiple-recursive-calls") &&
+    (hasFact(facts, "multiple-recursive-calls") || branchingArrayRecursion || shortCircuitBranchingRecursion) &&
     (/(?:pick|skip|take|notTake|include|exclude|path\.add|current\.add)/i.test(content) ||
-      hasFact(facts, "recursion-on-arrays"))
+      hasFact(facts, "backtracking-undo") ||
+      shortCircuitBranchingRecursion ||
+      /(?:target|subset|sum)/i.test(content))
   ) {
     addFact(facts, "algorithms", "subsequence-generation", "high", ["include/exclude recursive branches"]);
+  }
+  if (
+    recursiveChoiceReuse &&
+    hasFact(facts, "backtracking-undo") &&
+    hasFact(facts, "recursive-call")
+  ) {
+    addFact(facts, "algorithms", "subsequence-generation", "high", ["recursive choice tree reuses the same option while exploring combinations"]);
+  }
+  if (recursiveChoiceReuse) {
+    addFact(facts, "algorithms", "recursive-choice-reuse", "high", ["recursive branch keeps the same candidate/index while reducing the target"]);
+  }
+  if (arrayStateUndo && hasFact(facts, "recursive-call") && !hasFact(facts, "backtracking-undo")) {
+    addFact(facts, "algorithms", "backtracking-undo", "high", ["array state restored after recursive exploration"]);
+  }
+  if (josephusRecurrence) {
+    addFact(facts, "algorithms", "josephus-recurrence", "high", ["survivor recurrence keeps the circular shift aligned with the indexing convention"]);
   }
   if (
     hasFact(facts, "recursive-call") &&
@@ -690,7 +852,7 @@ function detectAdvancedRecursion(facts: CodeFacts, content: string, methodNames:
   if (
     (hasFact(facts, "backtracking-undo") ||
       /(?:board|grid)\s*\[[^\]]+\]\s*\[[^\]]+\]\s*=\s*(?:0|'\.'|"\.")/.test(content)) &&
-    /(?:isSafe|isValid|valid|canPlace|board|sudoku|queen|row|column)/i.test(content)
+    /(?:isSafe|isValid|valid|safe|canPlace|board|sudoku|queen|row|column|diag|diagonal)/i.test(content)
   ) {
     if (!hasFact(facts, "backtracking-undo")) {
       addFact(facts, "algorithms", "backtracking-undo", "high", ["board choice restored after recursive exploration"]);
@@ -711,7 +873,12 @@ function detectBinarySearch(content: string) {
     /(while\s*\(\s*(?:left|low)\s*<=?\s*(?:right|high)\s*\))[\s\S]{0,260}(mid)[\s\S]{0,260}(possible|can|isValid|isPossible|hours|capacity|days|bouquets|canFinish)/i;
   const sortedMidCheckPattern = /((?:arr|nums|values)\s*\[\s*mid\s*\]|midVal|midValue)/;
   const partitionPattern = /(partition|cut1|cut2|left1|left2|right1|right2|maxLeft|minRight)/;
-  const usesBinarySearch = midPattern.test(content) && /\b(left|right|low|high)\b/.test(content) && /while\s*\(/.test(content);
+  const hasBinarySearchLoop =
+    /while\s*\(\s*(?:left|low)\s*<=?\s*(?:right|high)\s*\)/.test(content) ||
+    /while\s*\(\s*(?:left|low)\s*<\s*(?:right|high)\s*\)/.test(content);
+  const hasBinarySearchBranching =
+    /\w+\s*\[\s*mid\s*\]\s*[<>]=?\s*(?:target|x|key|value)|(?:left|low)\s*=\s*mid\s*\+\s*1|(?:right|high)\s*=\s*mid\s*-\s*1|return\s+mid\s*;/.test(content);
+  const usesBinarySearch = midPattern.test(content) && /\b(left|right|low|high)\b/.test(content) && hasBinarySearchLoop && hasBinarySearchBranching;
   const usesLowerBound =
     usesBinarySearch &&
     /\w+\s*\[\s*mid\s*\]\s*>=\s*(?:target|x|key)[\s\S]{0,160}(?:ans|answer|result|right)\s*=/.test(content);
@@ -841,21 +1008,26 @@ function detectQueue(content: string) {
 function detectTree(content: string) {
   const usesTreeNodePattern =
     /(TreeNode|Node)\s+\w+|class\s+TreeNode|class\s+Node|root\.(left|right)|\w+\.(left|right)/.test(content);
-  const usesRecursiveTraversal =
-    detectsTreeBranchRecursion(content, ".") ||
-    /(preorder|inorder|postorder|dfs|traverse|height|depth|diameter|maxPath|isBalanced)\s*\([^)]*\)\s*\{[\s\S]{0,400}\w+\s*\(\s*\w+\.(left|right)\s*\)/.test(content);
+  const usesRecursiveTraversal = detectsTreeBranchRecursion(content, ".");
   const usesQueueTraversal =
     usesTreeNodePattern &&
-    /(Queue<|ArrayDeque<|LinkedList<)[\s\S]{0,320}(offer|poll|peek)/.test(content);
+    (
+      /(Queue<|ArrayDeque<|LinkedList<)[\s\S]{0,320}(offer|poll|peek)/.test(content) ||
+      /(List<TreeNode>|ArrayList<TreeNode>)[\s\S]{0,260}\b\w+\.add\(\s*root\s*\)[\s\S]{0,420}while\s*\(\s*\w+\s*<\s*\w+\.size\(\)\s*\)[\s\S]{0,260}\b\w+\s*=\s*\w+\.get\(\s*\w+\+\+\s*\)[\s\S]{0,260}\w+\.add\(\s*\w+\.(?:left|right)\s*\)/.test(content)
+    );
 
   return {
     usesTreeNodePattern,
     usesRecursiveTraversal,
     usesQueueTraversal,
     usesBstLogic:
-      /(root\.val|node\.val|current\.val|data)\s*[<>]=?\s*(low|high|target|key|val)|target\s*[<>]=?\s*(root|node|current)\.val|\w+\.val\s*[<>]=?\s*\w+\.val|isValidBST|minValue|maxValue/.test(content),
+      /(?:root|node|current)\.val\s*[<>]=?\s*[a-zA-Z_]\w*|[a-zA-Z_]\w*\s*[<>]=?\s*(?:root|node|current)\.val|\w+\.val\s*[<>]=?\s*\w+\.val|isValidBST|minValue|maxValue/.test(content),
+    usesBstSearch:
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.right/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?return\s+\w+\s*\(\s*\w+\.left\s*,\s*(?:target|key|value)\s*\)/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*>\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?return\s+\w+\s*\(\s*\w+\.right\s*,\s*(?:target|key|value)\s*\)/.test(content),
     usesTreeConstruction:
-      /(buildTree|construct|preorderIndex|postorderIndex|inorderMap|splitIndex|mid\s*=|new\s+TreeNode|new\s+Node)/.test(content),
+      /(buildTree|constructTree|preorderIndex|postorderIndex|inorderMap|splitIndex|new\s+TreeNode|new\s+Node)/.test(content),
     usesLcaPattern:
       /(lowestCommonAncestor|lca)\s*\(|if\s*\(\s*root\s*==\s*p\s*\|\||if\s*\(\s*root\s*==\s*q\s*\|\|left\s*!=\s*null\s*&&\s*right\s*!=\s*null/.test(content),
     hasEdgeCaseHandling:
@@ -873,7 +1045,30 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
 
   if (
     recursiveTraversal &&
-    /(?:Math\.)?max\s*\(\s*\w+\s*\(\s*\w+\.left\s*\)\s*,\s*\w+\s*\(\s*\w+\.right\s*\)\s*\)\s*\+\s*1|1\s*\+\s*(?:Math\.)?max\s*\(/.test(content)
+    /(?:add|offer|push)\s*\(\s*\w+\.val\s*\)[\s\S]{0,220}\b\w+\s*\(\s*\w+\.left\b[^)]*\)[\s\S]{0,220}\b\w+\s*\(\s*\w+\.right\b[^)]*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "preorder-traversal-order", "high", ["node value is processed before left and right recursion"]);
+  }
+  if (
+    recursiveTraversal &&
+    /\b\w+\s*\(\s*\w+\.left\b[^)]*\)[\s\S]{0,220}(?:add|offer|push)\s*\(\s*\w+\.val\s*\)[\s\S]{0,220}\b\w+\s*\(\s*\w+\.right\b[^)]*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "inorder-traversal-order", "high", ["node value is processed between left and right recursion"]);
+  }
+  if (
+    recursiveTraversal &&
+    /\b\w+\s*\(\s*\w+\.left\b[^)]*\)[\s\S]{0,220}\b\w+\s*\(\s*\w+\.right\b[^)]*\)[\s\S]{0,220}(?:add|offer|push)\s*\(\s*\w+\.val\s*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "postorder-traversal-order", "high", ["node value is processed after left and right recursion"]);
+  }
+
+  if (
+    recursiveTraversal &&
+    (
+      /(?:Math\.)?max\s*\(\s*\w+\s*\(\s*\w+\.left\s*\)\s*,\s*\w+\s*\(\s*\w+\.right\s*\)\s*\)\s*\+\s*1|1\s*\+\s*(?:Math\.)?max\s*\(/.test(content) ||
+      /int\s+\w*left\w*\s*=\s*\w+\(\s*\w+\.left\s*\)\s*;[\s\S]{0,180}int\s+\w*right\w*\s*=\s*\w+\(\s*\w+\.right\s*\)\s*;[\s\S]{0,180}return\s*\(\s*\w*left\w*\s*>\s*\w*right\w*\s*\?\s*\w*left\w*\s*:\s*\w*right\w*\s*\)\s*\+\s*1\s*;/.test(content) ||
+      /int\s+\w*left\w*\s*=\s*\w+\(\s*\w+\.left\s*\)\s*;[\s\S]{0,180}int\s+\w*right\w*\s*=\s*\w+\(\s*\w+\.right\s*\)\s*;[\s\S]{0,180}return\s*\(\s*\w*left\w*\s*>=\s*\w*right\w*\s*\?\s*\w*left\w*\s*:\s*\w*right\w*\s*\)\s*\+\s*1\s*;/.test(content)
+    )
   ) {
     addFact(facts, "algorithms", "tree-height", "high", ["one plus maximum child height"]);
   }
@@ -893,9 +1088,31 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
   }
   if (
     hasTree &&
-    /(?:target|key|value)\s*<\s*\w+\.val[\s\S]{0,140}\w+\s*=\s*\w+\.left|(?:target|key|value)\s*>\s*\w+\.val[\s\S]{0,140}\w+\s*=\s*\w+\.right/.test(content)
+    (
+      (
+        /if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.right/.test(content) &&
+        !/if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.right\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.left/.test(content)
+      ) ||
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+\.left|return\s+\w+\s*\(\s*\w+\.left\s*,)/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*>\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+\.right|return\s+\w+\s*\(\s*\w+\.right\s*,)/.test(content)
+    ) &&
+    !/if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+\.right|return\s+\w+\s*\(\s*\w+\.right\s*,)/.test(content) &&
+    !/if\s*\(\s*(?:target|key|value)\s*>\s*\w+\.val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+\.left|return\s+\w+\s*\(\s*\w+\.left\s*,)/.test(content)
   ) {
     addFact(facts, "algorithms", "bst-search", "high", ["BST comparison chooses one child"]);
+  }
+  if (
+    hasFact(facts, "bst-logic") &&
+    recursiveTraversal &&
+    /return\s+\w+\s*\(\s*\w+\.left\s*,\s*(?:target|key|value)\s*\)|return\s+\w+\s*\(\s*\w+\.right\s*,\s*(?:target|key|value)\s*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-search", "high", ["recursive BST search prunes to one child"]);
+  }
+  if (
+    hasFact(facts, "bst-logic") &&
+    /if\s*\(\s*(?:target|key|value)\s*<\s*\w+\.val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+\.right/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-search", "high", ["iterative BST search prunes left on smaller target and right otherwise"]);
   }
   if (
     hasFact(facts, "bst-logic") &&
@@ -905,11 +1122,57 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
     addFact(facts, "algorithms", "bst-mutation", "high", ["BST child link updated recursively"]);
   }
   if (
+    hasFact(facts, "bst-logic") &&
+    /(?:insert|delete|remove)\w*\s*\(/i.test(content) &&
+    /if\s*\(\s*[a-zA-Z_]\w*\s*<\s*\w+\.val\s*\)[\s\S]{0,220}\w+\.left\s*=\s*new\s+TreeNode\s*\(|if\s*\(\s*[a-zA-Z_]\w*\s*>\s*\w+\.val\s*\)[\s\S]{0,220}\w+\.right\s*=\s*new\s+TreeNode\s*\(/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-mutation", "high", ["BST insertion attaches a new node at the correct null child"]);
+  }
+  if (
+    /delete\w*\s*\(/i.test(content) &&
+    /if\s*\(\s*root\.left\s*==\s*null\s*\)\s*\{?\s*return\s+root\.right\s*;?\s*\}?/.test(content) &&
+    /if\s*\(\s*root\.right\s*==\s*null\s*\)\s*\{?\s*return\s+root\.left\s*;?\s*\}?/.test(content) &&
+    (
+      /while\s*\(\s*\w+\.(?:left|right)\s*!=\s*null\s*\)/.test(content) ||
+      /root\.val\s*=\s*\w+\.val[\s\S]{0,180}root\.(?:left|right)\s*=\s*delete\w*\(\s*root\.(?:left|right)\s*,\s*\w+\.val\s*\)/.test(content)
+    )
+  ) {
+    addFact(facts, "algorithms", "bst-delete-handling", "high", ["handles one-child cases and replaces two-child node with successor or predecessor"]);
+  }
+  if (
+    /(?:insert|delete|remove)\w*\s*\(/i.test(content) &&
+    (
+      /if\s*\(\s*[a-zA-Z_]\w*\s*<\s*\w+\.val\s*\)\s*\{?[^;{}]{0,160}\w+\.right\s*=/.test(content) ||
+      /if\s*\(\s*[a-zA-Z_]\w*\s*>\s*\w+\.val\s*\)\s*\{?[^;{}]{0,160}\w+\.left\s*=/.test(content)
+    )
+  ) {
+    addFact(facts, "antiPatterns", "wrong-bst-mutation-direction", "high", ["BST mutation follows the wrong branch for the comparison"]);
+    removeFact(facts, "bst-mutation");
+  }
+  if (
     hasFact(facts, "level-order-tree-traversal") &&
     (/(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}(?:i\s*==\s*0|i\s*==\s*(?:levelSize|size)\s*-\s*1)/.test(content) ||
       /(?:horizontalDistance|hd|column)\w*[\s\S]{0,240}(?:Map<|TreeMap<|putIfAbsent|containsKey)/.test(content))
   ) {
     addFact(facts, "algorithms", "tree-view", "high", ["one visible node retained per level or horizontal distance"]);
+  }
+  if (
+    hasFact(facts, "level-order-tree-traversal") &&
+    /(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}i\s*==\s*0/.test(content)
+  ) {
+    addFact(facts, "algorithms", "left-view-tree", "high", ["first node of each level is chosen"]);
+  }
+  if (
+    hasFact(facts, "level-order-tree-traversal") &&
+    /List<\w+>\s+\w+\s*=\s*new\s+ArrayList<>\s*\(\s*\)\s*;[\s\S]{0,320}\w+\.add\(\s*\w+\.val\s*\)[\s\S]{0,220}answer\.add\(\s*\w+\.get\(\s*0\s*\)\s*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "left-view-tree", "high", ["first value from each collected level is chosen"]);
+  }
+  if (
+    hasFact(facts, "level-order-tree-traversal") &&
+    /(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}i\s*==\s*(?:levelSize|size)\s*-\s*1/.test(content)
+  ) {
+    addFact(facts, "algorithms", "right-view-tree", "high", ["last node of each level is chosen"]);
   }
   if (
     hasTree &&
@@ -928,7 +1191,7 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
   if (
     recursiveTraversal &&
     /(?:height|depth)\s*\(\s*\w+\.(?:left|right)\s*\)/.test(content) &&
-    (content.match(/(?:height|depth)\s*\(/g)?.length ?? 0) >= 4
+    (content.match(/(?:height|depth)\s*\(\s*\w+\.(?:left|right)\s*\)/g)?.length ?? 0) >= 4
   ) {
     addFact(facts, "antiPatterns", "repeated-tree-height", "medium", ["height recomputed from multiple nodes"]);
     addFact(facts, "complexitySignals", "quadratic-candidate", "medium", ["repeated subtree height traversal"]);
@@ -936,26 +1199,32 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
 }
 
 function detectGraph(content: string) {
-  const usesGraphAdjacency =
-    detectsNestedAdjacency(content, "java") ||
+  const hasNamedAdjacencyHint =
     /(ArrayList<.*>.*graph|List<.*>.*graph|\badj\b|adjacency|neighbors|edges)/.test(content);
+  const hasNestedAdjacencyContainer = detectsNestedAdjacency(content, "java");
   const hasVisitedState = /(visited|vis)\s*\[/.test(content);
   const hasQueue = /\b(?:Queue<|ArrayDeque<|Deque<)/.test(content);
   const hasStack = /\bStack<|Deque<|ArrayDeque</.test(content);
   const hasBfsName = /\bbfs\s*\(/i.test(content);
   const hasDfsName = /\bdfs\s*\(/i.test(content);
-  const hasNeighborIteration = /(?:graph|adj|neighbors)\s*\.get\s*\(|for\s*\([^:]+:\s*(?:graph|adj|neighbors)/.test(content);
+  const hasNeighborIteration =
+    /(?:graph|adj|neighbors)\s*\.get\s*\(|for\s*\([^:]+:\s*(?:graph|adj|neighbors)/.test(content) ||
+    /for\s*\([^:]+:\s*\w+\.get\s*\([^)]+\)\s*\)/.test(content);
+  const usesGraphAdjacency =
+    hasNamedAdjacencyHint ||
+    (hasNestedAdjacencyContainer && (hasVisitedState || hasQueue || hasStack || hasNeighborIteration));
+  const hasGraphContext = usesGraphAdjacency || hasVisitedState || hasNeighborIteration;
   const usesGraphTraversal =
     hasVisitedState ||
-    hasBfsName ||
-    hasDfsName ||
+    (hasBfsName && (hasGraphContext || hasQueue)) ||
+    (hasDfsName && (hasGraphContext || hasStack)) ||
     (usesGraphAdjacency && (hasQueue || hasStack || hasNeighborIteration));
 
   return {
     usesGraphAdjacency,
     usesGraphTraversal,
-    usesBfsTraversal: usesGraphAdjacency && (hasBfsName || (hasQueue && /\.(offer|poll)\s*\(/.test(content))),
-    usesDfsTraversal: usesGraphAdjacency && (hasDfsName || (hasStack && /\.(push|pop)\s*\(/.test(content))),
+    usesBfsTraversal: usesGraphAdjacency && ((hasBfsName && (hasGraphContext || hasQueue)) || (hasQueue && /\.(offer|poll)\s*\(/.test(content))),
+    usesDfsTraversal: usesGraphAdjacency && ((hasDfsName && (hasGraphContext || hasStack)) || (hasStack && /\.(push|pop)\s*\(/.test(content))),
     usesTopologicalSort:
       /(indegree|inDegree|topo|topological|Queue<.*>\s+\w+.*indegree|dfsOrder|stack\.push)/.test(content),
     usesShortestPath:
@@ -1032,8 +1301,8 @@ function detectDynamicProgramming(content: string) {
     new RegExp(`${dpState}\\s*=\\s*Math\\.(?:max|min)|${dpState}\\s*=\\s*${dpState}\\s*[+\\-*\\/]|take|notTake|pick|skip`);
   const spaceOptPattern = /(prev|curr|next)\b|rolling|oneD|1d dp|dp\s*=\s*new\s+int\s*\[/i;
   const knapsackPattern = /(capacity|weight|weights|values|target|sum)\b[\s\S]{0,220}dp\s*\[/i;
-  const intervalPattern =
-    /(gap|len|length)\b[\s\S]{0,220}for\s*\(\s*int\s+i|for\s*\(\s*int\s+j\s*=/;
+  const intervalLengthPattern = /\b(?:gap|len|length)\b[\s\S]{0,220}for\s*\(\s*int\s+i/i;
+  const intervalIndexPattern = /int\s+j\s*=\s*i\s*[+\-]|int\s+i\s*=\s*j\s*[-+]/;
   const recursivePattern =
     /\b\w+\s*\(\s*[^)]*\)\s*\{[\s\S]{0,500}\b\w+\s*\(\s*[^)]*\)/;
 
@@ -1050,7 +1319,9 @@ function detectDynamicProgramming(content: string) {
     usesSpaceOptimization:
       (spaceOptPattern.test(content) && bottomUpPattern.test(content)) || detectsRollingState(content),
     usesKnapsackPattern: knapsackPattern.test(content) && bottomUpPattern.test(content),
-    usesIntervalDp: intervalPattern.test(content),
+    usesIntervalDp:
+      new RegExp(dpState).test(content) &&
+      (intervalLengthPattern.test(content) || intervalIndexPattern.test(content)),
     hasEdgeCaseHandling:
       /(n\s*==\s*0|index\s*<\s*0|target\s*==\s*0|if\s*\(\s*\w+\s*==\s*null|arr\.length\s*==\s*0)/.test(content)
   };
@@ -1061,6 +1332,9 @@ function detectAdvancedDynamicProgramming(facts: CodeFacts, content: string): vo
   const recursiveCalls = functionNames.reduce(
     (highest, name) => Math.max(highest, content.match(new RegExp(`\\b${name}\\s*\\(`, "g"))?.length ?? 0),
     0
+  );
+  const hasBranchingSelfRecursion = functionNames.some((name) =>
+    new RegExp(`return[^;{}]*\\b${escapeRegex(name)}\\s*\\([^)]*\\)[^;{}]*\\b${escapeRegex(name)}\\s*\\(`).test(content)
   );
   const hasMemoization = hasFact(facts, "dp-memoization");
   const hasRollingState =
@@ -1094,7 +1368,7 @@ function detectAdvancedDynamicProgramming(facts: CodeFacts, content: string): vo
   ) {
     addFact(facts, "algorithms", "string-dp", "high", ["two-dimensional states compare string characters"]);
   }
-  if (recursiveCalls >= 3 && !hasMemoization) {
+  if (hasBranchingSelfRecursion && recursiveCalls >= 3 && !hasMemoization) {
     addFact(facts, "antiPatterns", "exponential-dp-recursion", "high", ["overlapping recursive branches are not cached"]);
   }
 }
@@ -1117,13 +1391,18 @@ function detectBitManipulation(content: string) {
     usesLeftShift: /<</.test(content),
     usesRightShift: />>/.test(content),
     usesNot: /~/.test(content),
+    hasBitDomainContext,
     usesPowerOfTwoPattern:
       /n\s*&\s*\(\s*n\s*-\s*1\s*\)|\w+\s*&=\s*\(\s*\w+\s*-\s*1\s*\)/.test(content),
     usesStringConversion:
       /(Integer\.toBinaryString|toString\(\s*n\s*,\s*2\s*\)|StringBuilder|StringBuffer)/.test(content),
-    usesModuloDivision: /[%\/]\s*2/.test(content),
+    usesModuloDivision:
+      /%\s*2/.test(content) ||
+      (/\/\s*2/.test(content) &&
+        /(toBinaryString|binary|bit|mask|shift|odd|even|setBit|clearBit|toggleBit|countSetBits|checkBit)/i.test(content)),
     hasBitHardcoding:
       hasBitDomainContext &&
+      !/(?:sudoku|board|grid|row|col|digit|isValid|isSafe|queen)/i.test(content) &&
       ((!usesBitwiseOperators && hardcodedBranchCount >= 1) ||
         (hardcodedAssignmentCount >= 2 && !normalBitMaskPattern.test(content))),
     hasEdgeCaseHandling:

@@ -1,4 +1,4 @@
-import { addFact, CodeFacts, createEmptyCodeFacts } from "../facts";
+import { addFact, CodeFacts, createEmptyCodeFacts, removeFact } from "../facts";
 import { detectOpposingPointerMovement, detectSameDirectionDualPointers } from "./pointerMovement";
 import { normalizeBinarySearchRoles, normalizeCppLinkedListRoles } from "./semanticRoles";
 import {
@@ -52,8 +52,18 @@ export function extractCppCodeFacts(content: string): CodeFacts {
   if (/(n\s*==\s*0|\.empty\s*\(\)|nullptr|target\s*==\s*0|\.size\s*\(\)\s*==\s*0)/.test(content)) {
     addFact(facts, "edgeCaseSignals", "empty-or-null-check", "medium", ["empty/null/base input check"]);
   }
-  if (/\breturn\s+(true|false|\d+|"[^"]*")\s*;/.test(content) && facts.metrics.loopCount === 0 && arrayAccessMatches.length === 0) {
-    addFact(facts, "antiPatterns", "hardcoded-output", "medium", ["literal return without traversal"]);
+  const returnsLiteralConstant = /\breturn\s+(true|false|\d+|"[^"]*")\s*;/.test(content);
+  const returnsPlaceholderTreeNode =
+    /\breturn\s+new\s+(?:TreeNode|Node)\s*\([^;]*\)\s*;/.test(content) &&
+    !/\b(?:root|node|current)->(?:left|right|val)\b/.test(content) &&
+    !/\b(?:root|node|current)\s*=\s*(?:root|node|current)->(?:left|right)\b/.test(content);
+  const returnsPlaceholderTreeNull =
+    /\breturn\s+nullptr\s*;|\breturn\s+NULL\s*;|\breturn\s+null\s*;/.test(content) &&
+    /\b(?:TreeNode|Node)\b/.test(content) &&
+    !/\bif\s*\(\s*!\s*(?:root|node|current)\s*\)\s*return\s+(?:nullptr|NULL|null)\s*;/.test(content) &&
+    !/\bif\s*\(\s*(?:root|node|current)\s*==\s*(?:nullptr|NULL|null)\s*\)\s*return\s+(?:nullptr|NULL|null)\s*;/.test(content);
+  if ((returnsLiteralConstant || returnsPlaceholderTreeNode || returnsPlaceholderTreeNull) && facts.metrics.loopCount === 0 && arrayAccessMatches.length === 0) {
+    addFact(facts, "antiPatterns", "hardcoded-output", "medium", ["literal or placeholder return without traversal"]);
   }
   if (hasPoorVariableNames(facts.metrics.variableNames)) {
     addFact(facts, "antiPatterns", "poor-variable-names", "low", ["short ambiguous variable names"]);
@@ -77,6 +87,13 @@ function detectCollections(facts: CodeFacts, content: string, arrayAccessMatches
 function detectArrayAlgorithms(facts: CodeFacts, content: string): void {
   if (/(prefix|pref)\s*\[|runningSum|sum\s*\+=\s*\w+\s*\[/.test(content)) {
     addFact(facts, "algorithms", "prefix-sum", "high", ["prefix/running sum"]);
+  }
+  if (
+    /while\s*\(\s*\w+\s*<\s*\w+\.size\s*\(\)\s*&&\s*\w+\s*<\s*\w+\.size\s*\(\)\s*\)[\s\S]{0,260}\w+\[\w+\+\+\]\s*=\s*[^;]+;/.test(content) ||
+    /while\s*\(\s*\w+\s*<=\s*(?:mid|right|end)\s*&&\s*\w+\s*<=\s*(?:right|end)\s*\)[\s\S]{0,260}\w+\[\w+\+\+\]\s*=\s*[^;]+;/.test(content) ||
+    /for\s*\(\s*int\s+\w+\s*=\s*(?:left|start)\s*;\s*\w+\s*<=\s*(?:right|end)\s*;\s*\w+\+\+\s*\)\s*\w+\[\w+\]\s*=\s*\w+\[\w+\]\s*;/.test(content)
+  ) {
+    addFact(facts, "algorithms", "merge-combine-step", "high", ["two sorted ranges are merged into a result or temp array"]);
   }
   if (detectTwoPointerMovement(content)) {
     addFact(facts, "algorithms", "two-pointers", "high", ["opposite pointer movement"]);
@@ -446,7 +463,10 @@ function detectRecursion(facts: CodeFacts, content: string): void {
   if (/(\.pop_back\s*\(|used\s*\[\w+\]\s*=\s*false|swap\s*\([^)]*\)\s*;[\s\S]*swap\s*\([^)]*\)\s*;|(?:board|grid)\s*\[[^\]]+\]\s*\[[^\]]+\]\s*=\s*(?:0|'\.'|"\."))/.test(content)) {
     addFact(facts, "algorithms", "backtracking-undo", "high", ["pop/reset/swap undo"]);
   }
-  if (hasMultipleRecursiveCalls && /(mid\s*=|merge\s*\(|partition\s*\()/.test(content)) {
+  const hasSplitSignal =
+    /(mid\s*=|\bleft\b\s*,\s*mid|\bmid\s*\+\s*1\b|partition\s*\()/.test(content);
+  const hasCombineSignal = /(merge\s*\(|temp\s*\[|result\s*\[|combined\s*\[|copy\s*\()/.test(content);
+  if (hasMultipleRecursiveCalls && hasSplitSignal && (hasCombineSignal || /mergeSort|quickSort|merge\s*\(/.test(content))) {
     addFact(facts, "algorithms", "divide-and-conquer", "medium", ["mid/partition/merge with recursive branching"]);
   }
   const recursiveCallPattern = methodNames.map(escapeRegex).join("|");
@@ -635,6 +655,16 @@ function detectTree(facts: CodeFacts, content: string): void {
   if (hasTreeNode && /(\w+->val\s*[<>]=?\s*\w+|\w+\s*[<>]=?\s*\w+->val|\w+->val\s*[<>]=?\s*\w+->val|isValidBST|minValue|maxValue)/.test(content)) {
     addFact(facts, "algorithms", "bst-logic", "high", ["value comparison selects a tree branch"]);
   }
+  if (
+    hasTreeNode &&
+    (
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->right/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?return\s+\w+\s*\(\s*\w+->left\s*,\s*(?:target|key|value)\s*\)/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*>\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?return\s+\w+\s*\(\s*\w+->right\s*,\s*(?:target|key|value)\s*\)/.test(content)
+    )
+  ) {
+    addFact(facts, "algorithms", "bst-search", "high", ["BST search prunes to the correct child based on target comparison"]);
+  }
   if (/(buildTree|construct|preorderIndex|postorderIndex|inorderMap|splitIndex|new\s+TreeNode|new\s+Node)/.test(content)) {
     addFact(facts, "algorithms", "tree-construction", "medium", ["tree node creation or traversal partition"]);
   }
@@ -677,9 +707,31 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
   }
   if (
     hasTree &&
-    /(?:target|key|value)\s*<\s*\w+->val[\s\S]{0,140}\w+\s*=\s*\w+->left|(?:target|key|value)\s*>\s*\w+->val[\s\S]{0,140}\w+\s*=\s*\w+->right/.test(content)
+    (
+      (
+        /if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->right/.test(content) &&
+        !/if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->right\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->left/.test(content)
+      ) ||
+      /if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+->left|return\s+\w+\s*\(\s*\w+->left\s*,)/.test(content) ||
+      /if\s*\(\s*(?:target|key|value)\s*>\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+->right|return\s+\w+\s*\(\s*\w+->right\s*,)/.test(content)
+    ) &&
+    !/if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+->right|return\s+\w+\s*\(\s*\w+->right\s*,)/.test(content) &&
+    !/if\s*\(\s*(?:target|key|value)\s*>\s*\w+->val\s*\)\s*\{?[\s\S]{0,80}?(?:\w+\s*=\s*\w+->left|return\s+\w+\s*\(\s*\w+->left\s*,)/.test(content)
   ) {
     addFact(facts, "algorithms", "bst-search", "high", ["BST comparison chooses one child"]);
+  }
+  if (
+    hasFactInBuckets(facts, "bst-logic") &&
+    recursiveTraversal &&
+    /return\s+\w+\s*\(\s*\w+->left\s*,\s*(?:target|key|value)\s*\)|return\s+\w+\s*\(\s*\w+->right\s*,\s*(?:target|key|value)\s*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-search", "high", ["recursive BST search prunes to one child"]);
+  }
+  if (
+    hasFactInBuckets(facts, "bst-logic") &&
+    /if\s*\(\s*(?:target|key|value)\s*<\s*\w+->val\s*\)\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->left\s*;?\s*\}?\s*else\s*\{?[\s\S]{0,40}?\w+\s*=\s*\w+->right/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-search", "high", ["iterative BST search prunes left on smaller target and right otherwise"]);
   }
   if (
     hasFactInBuckets(facts, "bst-logic") &&
@@ -689,11 +741,57 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
     addFact(facts, "algorithms", "bst-mutation", "high", ["BST child link updated recursively"]);
   }
   if (
+    hasFactInBuckets(facts, "bst-logic") &&
+    /(?:insert|delete|remove)\w*\s*\(/i.test(content) &&
+    /if\s*\(\s*[a-zA-Z_]\w*\s*<\s*\w+->val\s*\)[\s\S]{0,220}\w+->left\s*=\s*new\s+TreeNode\s*\(|if\s*\(\s*[a-zA-Z_]\w*\s*>\s*\w+->val\s*\)[\s\S]{0,220}\w+->right\s*=\s*new\s+TreeNode\s*\(/.test(content)
+  ) {
+    addFact(facts, "algorithms", "bst-mutation", "high", ["BST insertion attaches a new node at the correct null child"]);
+  }
+  if (
+    /delete\w*\s*\(/i.test(content) &&
+    /if\s*\(\s*root->left\s*==\s*nullptr\s*\)\s*\{?\s*return\s+root->right\s*;?\s*\}?|if\s*\(\s*!root->left\s*\)\s*\{?\s*return\s+root->right\s*;?\s*\}?/.test(content) &&
+    /if\s*\(\s*root->right\s*==\s*nullptr\s*\)\s*\{?\s*return\s+root->left\s*;?\s*\}?|if\s*\(\s*!root->right\s*\)\s*\{?\s*return\s+root->left\s*;?\s*\}?/.test(content) &&
+    (
+      /while\s*\(\s*\w+->(?:left|right)\s*!=\s*nullptr\s*\)|while\s*\(\s*\w+->(?:left|right)\s*\)/.test(content) ||
+      /root->val\s*=\s*\w+->val[\s\S]{0,180}root->(?:left|right)\s*=\s*delete\w*\(\s*root->(?:left|right)\s*,\s*\w+->val\s*\)/.test(content)
+    )
+  ) {
+    addFact(facts, "algorithms", "bst-delete-handling", "high", ["handles one-child cases and replaces two-child node with successor or predecessor"]);
+  }
+  if (
+    /(?:insert|delete|remove)\w*\s*\(/i.test(content) &&
+    (
+      /if\s*\(\s*[a-zA-Z_]\w*\s*<\s*\w+->val\s*\)\s*\{?[^;{}]{0,160}\w+->right\s*=/.test(content) ||
+      /if\s*\(\s*[a-zA-Z_]\w*\s*>\s*\w+->val\s*\)\s*\{?[^;{}]{0,160}\w+->left\s*=/.test(content)
+    )
+  ) {
+    addFact(facts, "antiPatterns", "wrong-bst-mutation-direction", "high", ["BST mutation follows the wrong branch for the comparison"]);
+    removeFact(facts, "bst-mutation");
+  }
+  if (
     hasFactInBuckets(facts, "level-order-tree-traversal") &&
     (/(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}(?:i\s*==\s*0|i\s*==\s*(?:levelSize|size)\s*-\s*1)/.test(content) ||
       /(?:horizontalDistance|hd|column)\w*[\s\S]{0,240}(?:map<|unordered_map<|emplace|count\s*\()/i.test(content))
   ) {
     addFact(facts, "algorithms", "tree-view", "high", ["one visible node retained per level or horizontal distance"]);
+  }
+  if (
+    hasFactInBuckets(facts, "level-order-tree-traversal") &&
+    /vector<\w+>\s+\w+\s*;[\s\S]{0,320}\w+\.push_back\(\s*\w+->val\s*\)[\s\S]{0,220}answer\.push_back\(\s*\w+\s*\[\s*0\s*\]\s*\)/.test(content)
+  ) {
+    addFact(facts, "algorithms", "left-view-tree", "high", ["first value from each collected level is chosen"]);
+  }
+  if (
+    hasFactInBuckets(facts, "level-order-tree-traversal") &&
+    /(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}i\s*==\s*0/.test(content)
+  ) {
+    addFact(facts, "algorithms", "left-view-tree", "high", ["first node of each level is chosen"]);
+  }
+  if (
+    hasFactInBuckets(facts, "level-order-tree-traversal") &&
+    /(?:levelSize|size)\s*=\s*\w+\.size\s*\(\)[\s\S]{0,260}i\s*==\s*(?:levelSize|size)\s*-\s*1/.test(content)
+  ) {
+    addFact(facts, "algorithms", "right-view-tree", "high", ["last node of each level is chosen"]);
   }
   if (
     hasTree &&
@@ -712,7 +810,7 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
   if (
     recursiveTraversal &&
     /(?:height|depth)\s*\(\s*\w+->(?:left|right)\s*\)/.test(content) &&
-    (content.match(/(?:height|depth)\s*\(/g)?.length ?? 0) >= 4
+    (content.match(/(?:height|depth)\s*\(\s*\w+->(?:left|right)\s*\)/g)?.length ?? 0) >= 4
   ) {
     addFact(facts, "antiPatterns", "repeated-tree-height", "medium", ["height recomputed from multiple nodes"]);
     addFact(facts, "complexitySignals", "quadratic-candidate", "medium", ["repeated subtree height traversal"]);
@@ -720,10 +818,15 @@ function detectAdvancedTreeTechniques(facts: CodeFacts, content: string): void {
 }
 
 function detectGraph(facts: CodeFacts, content: string): void {
-  const hasAdjacency =
-    detectsNestedAdjacency(content, "cpp") ||
+  const hasNamedAdjacencyHint =
     /(vector<.*>.*graph|\badj\b|adjacency|neighbors|edges)/.test(content);
-  const hasTraversal = /(visited|vis)\s*\[|\bdfs\s*\(|\bbfs\s*\(|(?:graph|adj|neighbors)\s*\[/.test(content);
+  const hasNestedAdjacencyContainer = detectsNestedAdjacency(content, "cpp");
+  const hasTraversal =
+    /(visited|vis)\s*\[|\bdfs\s*\(|\bbfs\s*\(|(?:graph|adj|neighbors)\s*\[/.test(content) ||
+    /for\s*\([^:]+:\s*\w+\s*\[[^\]]+\]\s*\)/.test(content);
+  const hasAdjacency =
+    hasNamedAdjacencyHint ||
+    (hasNestedAdjacencyContainer && hasTraversal);
   if (hasAdjacency) addFact(facts, "dataStructures", "graph-adjacency", "high", ["adjacency list, neighbors, or edges"]);
   if (hasTraversal) addFact(facts, "algorithms", "graph-traversal", "high", ["visited state with DFS/BFS or neighbor iteration"]);
   if (hasAdjacency && (/\bbfs\s*\(/.test(content) || (/\bqueue</.test(content) && /\.(push|pop|front)\s*\(/.test(content)))) {

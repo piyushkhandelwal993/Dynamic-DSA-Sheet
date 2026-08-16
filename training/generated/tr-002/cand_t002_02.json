@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t002_02",
+  "importedAt": "2026-08-16T04:20:00.000Z",
+  "problemId": "tr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "functional-merge-inorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> inorder(TreeNode root) {\n        if (root == null) {\n            return new ArrayList<>();\n        }\n        List<Integer> answer = new ArrayList<>();\n        answer.addAll(inorder(root.left));\n        answer.add(root.val);\n        answer.addAll(inorder(root.right));\n        return answer;\n    }\n}",
+  "notes": "Functional recursive style that merges subtree answers in inorder sequence.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

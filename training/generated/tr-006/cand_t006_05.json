@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t006_05",
+  "importedAt": "2026-08-16T05:25:00.000Z",
+  "problemId": "tr-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "constant-answer",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int diameter(TreeNode root) {\n        return 3;\n    }\n}",
+  "notes": "Hardcodes a sample-style answer.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

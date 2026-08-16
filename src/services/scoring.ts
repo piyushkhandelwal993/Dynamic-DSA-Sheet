@@ -203,6 +203,7 @@ function scoreTreeSubmission(
     !analysis.signals.usesRecursiveTraversal &&
     !analysis.signals.usesQueueTraversal &&
     !analysis.signals.usesBstLogic &&
+    !analysis.signals.usesBstMutation &&
     !analysis.signals.usesTreeConstruction &&
     !analysis.signals.usesLcaPattern;
 
@@ -234,7 +235,7 @@ function scoreTreeSubmission(
     complexityScore = 55;
   } else if (problem.expectedConcepts.includes("bst-search") && !analysis.signals.usesBstLogic) {
     complexityScore = 55;
-  } else if (problem.expectedConcepts.includes("bst-insert-delete") && !analysis.signals.usesBstLogic) {
+  } else if (problem.expectedConcepts.includes("bst-insert-delete") && !analysis.signals.usesBstMutation) {
     complexityScore = 55;
   } else if (problem.expectedConcepts.includes("tree-construction") && !analysis.signals.usesTreeConstruction) {
     complexityScore = 60;

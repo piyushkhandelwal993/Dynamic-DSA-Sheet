@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t008_02",
+  "importedAt": "2026-08-16T06:05:00.000Z",
+  "problemId": "tr-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "recursive-bst-directional-search",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean searchBST(TreeNode root, int target) {\n        if (root == null) {\n            return false;\n        }\n        if (root.val == target) {\n            return true;\n        }\n        if (target < root.val) {\n            return searchBST(root.left, target);\n        }\n        return searchBST(root.right, target);\n    }\n}",
+  "notes": "Recursive BST search that still prunes to one side at each step.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

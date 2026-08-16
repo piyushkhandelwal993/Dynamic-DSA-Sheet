@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t008_05",
+  "importedAt": "2026-08-16T06:05:00.000Z",
+  "problemId": "tr-008",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "always-false",
+  "code": "import java.util.*;\n\nclass Solution {\n    public boolean searchBST(TreeNode root, int target) {\n        return false;\n    }\n}",
+  "notes": "Hardcoded answer with no real BST logic.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t006_01",
+  "importedAt": "2026-08-16T05:25:00.000Z",
+  "problemId": "tr-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "global-best-height-helper",
+  "code": "import java.util.*;\n\nclass Solution {\n    private int best;\n\n    public int diameter(TreeNode root) {\n        best = 0;\n        height(root);\n        return best;\n    }\n\n    private int height(TreeNode node) {\n        if (node == null) {\n            return 0;\n        }\n        int leftHeight = height(node.left);\n        int rightHeight = height(node.right);\n        best = Math.max(best, leftHeight + rightHeight);\n        return 1 + Math.max(leftHeight, rightHeight);\n    }\n}",
+  "notes": "Canonical O(n) postorder height helper that updates a shared best diameter.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

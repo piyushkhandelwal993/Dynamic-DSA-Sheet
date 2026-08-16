@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t006_02",
+  "importedAt": "2026-08-16T05:25:00.000Z",
+  "problemId": "tr-006",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "array-best-carrier",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int diameter(TreeNode root) {\n        int[] answer = new int[1];\n        dfs(root, answer);\n        return answer[0];\n    }\n\n    private int dfs(TreeNode node, int[] answer) {\n        if (node == null) {\n            return 0;\n        }\n        int left = dfs(node.left, answer);\n        int right = dfs(node.right, answer);\n        answer[0] = Math.max(answer[0], left + right);\n        return (left > right ? left : right) + 1;\n    }\n}",
+  "notes": "Equivalent O(n) solution using a mutable array instead of a class field.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

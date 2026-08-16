@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t003_02",
+  "importedAt": "2026-08-16T04:35:00.000Z",
+  "problemId": "tr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "functional-merge-postorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> postorder(TreeNode root) {\n        if (root == null) {\n            return new ArrayList<>();\n        }\n        List<Integer> answer = new ArrayList<>();\n        answer.addAll(postorder(root.left));\n        answer.addAll(postorder(root.right));\n        answer.add(root.val);\n        return answer;\n    }\n}",
+  "notes": "Functional recursive style that merges subtree answers in postorder sequence.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

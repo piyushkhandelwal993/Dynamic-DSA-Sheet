@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t009_03",
+  "importedAt": "2026-08-16T06:35:00.000Z",
+  "problemId": "tr-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "full-level-collection-then-pick-first",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> leftView(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        if (root == null) {\n            return answer;\n        }\n        Queue<TreeNode> queue = new ArrayDeque<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int size = queue.size();\n            List<Integer> level = new ArrayList<>();\n            for (int i = 0; i < size; i++) {\n                TreeNode node = queue.poll();\n                level.add(node.val);\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            answer.add(level.get(0));\n        }\n        return answer;\n    }\n}",
+  "notes": "Conceptually correct but uses extra per-level storage before taking the first node.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

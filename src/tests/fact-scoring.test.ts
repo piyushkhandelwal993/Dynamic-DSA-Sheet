@@ -14,6 +14,7 @@ import {
   scoreStackSubmissionFromFacts
   ,scoreTreeSubmissionFromFacts
 } from "../services/analysis-engine/factScoring";
+import { hasFact } from "../services/analysis-engine/facts";
 import { matchProblemExpectations } from "../services/analysis-engine/matcher";
 import { getProblemById } from "../services/storage";
 
@@ -32,6 +33,40 @@ const cppCheckBit = `
     if (index < 0) return 0;
     int mask = 1 << index;
     return (n & mask) == 0 ? 0 : 1;
+  }
+`;
+
+const javaRec002HelperForward = `
+  class Solution {
+    public void printOneToN(int n) {
+      printFrom(1, n);
+    }
+
+    private void printFrom(int current, int n) {
+      if (current > n) {
+        return;
+      }
+      if (current > 1) {
+        System.out.print(" ");
+      }
+      System.out.print(current);
+      printFrom(current + 1, n);
+    }
+  }
+`;
+
+const javaRec002ReverseUnwind = `
+  class Solution {
+    public void printOneToN(int n) {
+      if (n <= 0) {
+        return;
+      }
+      printOneToN(n - 1);
+      if (n > 1) {
+        System.out.print(" ");
+      }
+      System.out.print(n);
+    }
   }
 `;
 
@@ -66,6 +101,51 @@ test("facts-native bit scoring gives Java and C++ score parity", () => {
   assert.deepEqual(javaScore, cppScore);
   assert.equal(javaScore.correctnessScore, 100);
   assert.equal(javaScore.conceptMatchScore, 100);
+});
+
+test("rec-002 accepts both helper-style parameterized recursion and reverse-unwinding recursion", () => {
+  const problem = getProblemById("rec-002");
+  assert.ok(problem);
+
+  const helperFacts = analyzeCodeFacts("java", javaRec002HelperForward);
+  const reverseFacts = analyzeCodeFacts("java", javaRec002ReverseUnwind);
+  const helperMatch = matchProblemExpectations(problem, helperFacts);
+  const reverseMatch = matchProblemExpectations(problem, reverseFacts);
+
+  assert.deepEqual(helperMatch.detection.missingConcepts, []);
+  assert.deepEqual(reverseMatch.detection.missingConcepts, []);
+  assert.equal(reverseMatch.detection.matchedConcepts.includes("base-case"), true);
+});
+
+test("rec-006 branching Fibonacci recursion gets full concept coverage", () => {
+  const problem = getProblemById("rec-006");
+  assert.ok(problem);
+
+  const facts = analyzeCodeFacts(
+    "java",
+    `
+      class Solution {
+        public int fibonacci(int n) {
+          if (n <= 1) {
+            return n;
+          }
+          return fibonacci(n - 1) + fibonacci(n - 2);
+        }
+      }
+    `
+  );
+  const match = matchProblemExpectations(problem, facts);
+  const score = scoreRecursionSubmissionFromFacts(problem, facts, match, {
+    usedTestCases: true,
+    compileSucceeded: true,
+    passedCount: 3,
+    totalCount: 3,
+    failedCases: []
+  });
+
+  assert.deepEqual(match.detection.missingConcepts, []);
+  assert.equal(match.conceptMatchScore, 85);
+  assert.ok(score.finalScore >= 90);
 });
 
 test("facts-native scoring penalizes non-bitwise constant-time workarounds", () => {
@@ -1221,8 +1301,16 @@ test("facts-native tree scoring gives Java and C++ height parity", () => {
 
   assert.deepEqual(javaMatch.detection, cppMatch.detection);
   assert.deepEqual(javaMatch.detection.matchedConcepts, problem.expectedConcepts);
-  assert.deepEqual(javaScore, cppScore);
+  assert.equal(hasFact(javaFacts, "repeated-tree-height"), false);
+  assert.equal(hasFact(cppFacts, "repeated-tree-height"), false);
+  assert.equal(javaScore.correctnessScore, 100);
+  assert.equal(cppScore.correctnessScore, 100);
+  assert.equal(javaScore.conceptMatchScore, 100);
+  assert.equal(cppScore.conceptMatchScore, 100);
   assert.ok(javaScore.complexityScore >= 90);
+  assert.ok(cppScore.complexityScore >= 90);
+  assert.ok(javaScore.qualityScore >= 65);
+  assert.ok(cppScore.qualityScore >= 65);
 });
 
 test("tree matcher recognizes diameter, balance, and BST operations", () => {
@@ -1797,10 +1885,17 @@ test("facts-native recursion scoring gives Java and C++ factorial parity", () =>
 
   assert.deepEqual(javaMatch.detection, cppMatch.detection);
   assert.deepEqual(javaMatch.detection.missingConcepts, []);
-  assert.deepEqual(
-    scoreRecursionSubmissionFromFacts(problem, javaFacts, javaMatch, execution),
-    scoreRecursionSubmissionFromFacts(problem, cppFacts, cppMatch, execution)
-  );
+  const javaScore = scoreRecursionSubmissionFromFacts(problem, javaFacts, javaMatch, execution);
+  const cppScore = scoreRecursionSubmissionFromFacts(problem, cppFacts, cppMatch, execution);
+
+  assert.equal(javaScore.correctnessScore, 100);
+  assert.equal(cppScore.correctnessScore, 100);
+  assert.equal(javaScore.conceptMatchScore, 85);
+  assert.equal(cppScore.conceptMatchScore, 85);
+  assert.ok(javaScore.qualityScore >= 70);
+  assert.ok(cppScore.qualityScore >= 70);
+  assert.ok(javaScore.finalScore >= 90);
+  assert.ok(cppScore.finalScore >= 90);
 });
 
 test("recursion matcher recognizes subsequences, permutations, memoization, divide and search", () => {
@@ -1842,6 +1937,16 @@ test("recursion matcher recognizes subsequences, permutations, memoization, divi
     }
   `);
   const divideFacts = analyzeCodeFacts("cpp", `
+    void merge(vector<int>& arr, int left, int mid, int right) {
+      vector<int> temp(right - left + 1);
+      int i = left, j = mid + 1, k = 0;
+      while (i <= mid && j <= right) {
+        temp[k++] = arr[i] <= arr[j] ? arr[i++] : arr[j++];
+      }
+      while (i <= mid) temp[k++] = arr[i++];
+      while (j <= right) temp[k++] = arr[j++];
+      for (int p = 0; p < temp.size(); p++) arr[left + p] = temp[p];
+    }
     void mergeSort(vector<int>& arr, int left, int right) {
       if (left >= right) return;
       int mid = (left + right) / 2;
@@ -1883,6 +1988,23 @@ test("facts-native recursion scoring penalizes an iterative substitute", () => {
 
   assert.ok(score.correctnessScore <= 35);
   assert.ok(score.finalScore < 60);
+});
+
+test("josephus wrong shift does not satisfy the facts-native recursion expectation", () => {
+  const problem = getProblemById("rec-018");
+  assert.ok(problem);
+  const facts = analyzeCodeFacts("java", `
+    class Solution {
+      public int josephus(int n, int k) {
+        if (n == 1) {
+          return 1;
+        }
+        return (josephus(n - 1, k) + k) % n;
+      }
+    }
+  `);
+
+  assert.deepEqual(matchProblemExpectations(problem, facts).detection.missingConcepts, ["functional-recursion"]);
 });
 
 test("recursion digit-sum keeps iterative answers below progression-ready", () => {

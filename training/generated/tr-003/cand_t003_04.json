@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t003_04",
+  "importedAt": "2026-08-16T04:35:00.000Z",
+  "problemId": "tr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "inorder-by-mistake",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> postorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        walk(root, answer);\n        return answer;\n    }\n\n    private void walk(TreeNode node, List<Integer> answer) {\n        if (node == null) {\n            return;\n        }\n        walk(node.left, answer);\n        answer.add(node.val);\n        walk(node.right, answer);\n    }\n}",
+  "notes": "Traverses recursively but visits in inorder rather than postorder.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

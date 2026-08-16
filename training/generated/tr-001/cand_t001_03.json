@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t001_03",
+  "importedAt": "2026-08-16T03:40:00.000Z",
+  "problemId": "tr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-stack-preorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> preorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        if (root == null) {\n            return answer;\n        }\n        Stack<TreeNode> stack = new Stack<>();\n        stack.push(root);\n        while (!stack.isEmpty()) {\n            TreeNode node = stack.pop();\n            answer.add(node.val);\n            if (node.right != null) {\n                stack.push(node.right);\n            }\n            if (node.left != null) {\n                stack.push(node.left);\n            }\n        }\n        return answer;\n    }\n}",
+  "notes": "Valid preorder traversal but uses explicit stack instead of recursion.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

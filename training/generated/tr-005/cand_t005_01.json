@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t005_01",
+  "importedAt": "2026-08-16T05:05:00.000Z",
+  "problemId": "tr-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "max-child-height",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int height(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n        return 1 + Math.max(height(root.left), height(root.right));\n    }\n}",
+  "notes": "Canonical recursive height computation.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

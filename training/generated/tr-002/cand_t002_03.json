@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t002_03",
+  "importedAt": "2026-08-16T04:20:00.000Z",
+  "problemId": "tr-002",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "iterative-stack-inorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> inorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        Stack<TreeNode> stack = new Stack<>();\n        TreeNode current = root;\n        while (current != null || !stack.isEmpty()) {\n            while (current != null) {\n                stack.push(current);\n                current = current.left;\n            }\n            current = stack.pop();\n            answer.add(current.val);\n            current = current.right;\n        }\n        return answer;\n    }\n}",
+  "notes": "Valid inorder traversal but iterative rather than recursive.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

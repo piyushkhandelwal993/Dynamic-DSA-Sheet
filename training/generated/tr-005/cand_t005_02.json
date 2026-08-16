@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t005_02",
+  "importedAt": "2026-08-16T05:05:00.000Z",
+  "problemId": "tr-005",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-alternate",
+  "label": "explicit-left-right-max",
+  "code": "import java.util.*;\n\nclass Solution {\n    public int height(TreeNode root) {\n        if (root == null) {\n            return 0;\n        }\n        int leftHeight = height(root.left);\n        int rightHeight = height(root.right);\n        return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;\n    }\n}",
+  "notes": "Equivalent recursive height using explicit child variables.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

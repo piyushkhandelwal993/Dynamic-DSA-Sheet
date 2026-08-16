@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t009_05",
+  "importedAt": "2026-08-16T06:35:00.000Z",
+  "problemId": "tr-009",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "constant-sample-view",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> leftView(TreeNode root) {\n        return Arrays.asList(1, 2, 4);\n    }\n}",
+  "notes": "Hardcodes the sample left view.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

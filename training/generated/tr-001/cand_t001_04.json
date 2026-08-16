@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t001_04",
+  "importedAt": "2026-08-16T03:40:00.000Z",
+  "problemId": "tr-001",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "inorder-by-mistake",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> preorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        visit(root, answer);\n        return answer;\n    }\n\n    private void visit(TreeNode node, List<Integer> answer) {\n        if (node == null) {\n            return;\n        }\n        visit(node.left, answer);\n        answer.add(node.val);\n        visit(node.right, answer);\n    }\n}",
+  "notes": "Recursive traversal but visits nodes in inorder, not preorder.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

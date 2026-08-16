@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t004_04",
+  "importedAt": "2026-08-16T04:50:00.000Z",
+  "problemId": "tr-004",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "incorrect",
+  "label": "preorder-by-mistake",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> levelOrder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        walk(root, answer);\n        return answer;\n    }\n\n    private void walk(TreeNode node, List<Integer> answer) {\n        if (node == null) {\n            return;\n        }\n        answer.add(node.val);\n        walk(node.left, answer);\n        walk(node.right, answer);\n    }\n}",
+  "notes": "Recursive DFS preorder instead of breadth-first traversal.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

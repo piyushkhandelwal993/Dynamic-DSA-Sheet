@@ -34,6 +34,18 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
+function clearJsonFiles(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    return;
+  }
+
+  for (const entry of fs.readdirSync(dirPath)) {
+    if (entry.endsWith(".json")) {
+      fs.unlinkSync(path.join(dirPath, entry));
+    }
+  }
+}
+
 function loadProblem(appRoot, problemId) {
   const topicsDir = path.join(appRoot, "src", "data", "topics");
   const topicIds = fs.readdirSync(topicsDir);
@@ -63,7 +75,8 @@ function scoreConceptMatch(problem, detection) {
 function buildSuspiciousReasons(candidate, analysis, detection, conceptMatchScore) {
   const reasons = [];
   const isExpectedCorrect = candidate.candidateType.startsWith("correct");
-  const isExpectedWrong = ["incorrect", "hardcoded", "suboptimal"].includes(candidate.candidateType);
+  const isExpectedWrong = ["incorrect", "hardcoded"].includes(candidate.candidateType);
+  const isExpectedSuboptimal = candidate.candidateType === "suboptimal";
   const hardcodingDetected = analysis.detected.includes("Bit Hardcoding") || analysis.signals.hasHardcoding;
 
   if (isExpectedCorrect && conceptMatchScore < 100) {
@@ -74,6 +87,9 @@ function buildSuspiciousReasons(candidate, analysis, detection, conceptMatchScor
   }
   if (isExpectedWrong && conceptMatchScore === 100) {
     reasons.push("wrong-candidate-full-concept-match");
+  }
+  if (isExpectedSuboptimal && conceptMatchScore < 100) {
+    reasons.push("suboptimal-candidate-missing-core-concepts");
   }
   if (candidate.candidateType === "hardcoded" && !hardcodingDetected) {
     reasons.push("hardcoded-candidate-not-flagged");
@@ -95,6 +111,7 @@ function main() {
   const problem = loadProblem(appRoot, options.problem);
 
   ensureDir(queueDir);
+  clearJsonFiles(queueDir);
 
   if (!fs.existsSync(generatedDir)) {
     throw new Error(`Generated candidate directory not found: ${generatedDir}`);

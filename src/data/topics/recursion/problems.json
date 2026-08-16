@@ -457,7 +457,7 @@
     "difficulty": "Medium",
     "platform": "Custom",
     "url": "",
-    "expectedConcepts": ["backtracking-basics", "subsequence-generation"],
+    "expectedConcepts": ["backtracking-basics", "subsequence-generation", "choice-reuse-recursion"],
     "prerequisiteConcepts": ["recursion-intro"],
     "expectedComplexity": "O(2^n)",
     "estimatedMinutes": 25,

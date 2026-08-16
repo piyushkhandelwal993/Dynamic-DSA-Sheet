@@ -14,12 +14,23 @@ export function analyzeTreeJavaContent(content: string): AnalysisResult {
   const signals = {
     ...base.signals,
     hasUnnecessaryLoop: facts.metrics.loopCount > 2 && !hasFact(facts, "level-order-tree-traversal"),
-    hasHardcoding: hasFact(facts, "hardcoded-output") && !hasFact(facts, "tree-node"),
+    hasHardcoding: hasFact(facts, "hardcoded-output"),
     missingEdgeCaseHandling: !hasFact(facts, "tree-edge-check"),
     usesTreeNodePattern: hasFact(facts, "tree-node"),
     usesRecursiveTraversal: hasFact(facts, "recursive-tree-traversal"),
+    usesPreorderTraversal: hasFact(facts, "preorder-traversal-order"),
+    usesInorderTraversal: hasFact(facts, "inorder-traversal-order"),
+    usesPostorderTraversal: hasFact(facts, "postorder-traversal-order"),
     usesQueueTraversal: hasFact(facts, "level-order-tree-traversal"),
+    usesLeftViewPattern: hasFact(facts, "left-view-tree"),
+    usesRightViewPattern: hasFact(facts, "right-view-tree"),
+    usesTreeHeight: hasFact(facts, "tree-height"),
+    usesTreeDiameter: hasFact(facts, "tree-diameter"),
+    usesBalancedTreeCheck: hasFact(facts, "balanced-tree-check"),
     usesBstLogic: hasFact(facts, "bst-logic"),
+    usesBstSearch: hasFact(facts, "bst-search"),
+    usesBstMutation: hasFact(facts, "bst-mutation"),
+    usesBstDeleteHandling: hasFact(facts, "bst-delete-handling"),
     usesTreeConstruction: hasFact(facts, "tree-construction"),
     usesLcaPattern: hasFact(facts, "lowest-common-ancestor")
   };
@@ -29,8 +40,19 @@ export function analyzeTreeJavaContent(content: string): AnalysisResult {
 
   if (signals.usesTreeNodePattern) detected.push("Used tree node structure");
   if (signals.usesRecursiveTraversal) detected.push("Used recursive tree traversal");
+  if (signals.usesPreorderTraversal) detected.push("Used preorder traversal order");
+  if (signals.usesInorderTraversal) detected.push("Used inorder traversal order");
+  if (signals.usesPostorderTraversal) detected.push("Used postorder traversal order");
   if (signals.usesQueueTraversal) detected.push("Used queue-based tree traversal");
+  if (signals.usesLeftViewPattern) detected.push("Used left-view selection pattern");
+  if (signals.usesRightViewPattern) detected.push("Used right-view selection pattern");
+  if (signals.usesTreeHeight) detected.push("Used tree height pattern");
+  if (signals.usesTreeDiameter) detected.push("Used tree diameter pattern");
+  if (signals.usesBalancedTreeCheck) detected.push("Used balanced tree check pattern");
   if (signals.usesBstLogic) detected.push("Used BST comparison logic");
+  if (signals.usesBstSearch) detected.push("Used BST directional search");
+  if (signals.usesBstMutation) detected.push("Used BST mutation pattern");
+  if (signals.usesBstDeleteHandling) detected.push("Used BST delete-case handling");
   if (signals.usesTreeConstruction) detected.push("Used tree construction pattern");
   if (signals.usesLcaPattern) detected.push("Used LCA-style recursion");
 
@@ -54,10 +76,15 @@ function extractVariableNames(content: string): string[] {
 export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): ConceptDetectionResult {
   const matchedConcepts = problem.expectedConcepts.filter((concept) => {
     if (concept === "tree-intro") return analysis.signals.usesTreeNodePattern;
-    if (concept === "recursive-tree-traversal") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "recursive-tree-traversal") {
+      if (problem.id === "tr-001") return analysis.signals.usesRecursiveTraversal && analysis.signals.usesPreorderTraversal;
+      if (problem.id === "tr-002") return analysis.signals.usesRecursiveTraversal && analysis.signals.usesInorderTraversal;
+      if (problem.id === "tr-003") return analysis.signals.usesRecursiveTraversal && analysis.signals.usesPostorderTraversal;
+      return analysis.signals.usesRecursiveTraversal;
+    }
     if (concept === "level-order-traversal") return analysis.signals.usesQueueTraversal;
-    if (concept === "tree-height") return analysis.signals.usesRecursiveTraversal;
-    if (concept === "tree-diameter") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "tree-height") return analysis.signals.usesTreeHeight;
+    if (concept === "tree-diameter") return analysis.signals.usesTreeDiameter;
     if (concept === "tree-path-contribution") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-root-to-leaf-paths") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-value-search") return analysis.signals.usesRecursiveTraversal;
@@ -75,14 +102,20 @@ export function detectTreeConcepts(problem: Problem, analysis: AnalysisResult): 
     if (concept === "wave-expansion-bfs") return analysis.signals.usesQueueTraversal;
     if (concept === "complete-tree-properties") return analysis.signals.usesRecursiveTraversal;
     if (concept === "perfect-subtree-counting") return analysis.signals.usesRecursiveTraversal;
-    if (concept === "balanced-tree-check") return analysis.signals.usesRecursiveTraversal;
+    if (concept === "balanced-tree-check") return analysis.signals.usesBalancedTreeCheck;
     if (concept === "tree-boundary-traversal") return analysis.signals.usesRecursiveTraversal;
     if (concept === "tree-vertical-ordering") return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;
-    if (concept === "bst-search") return analysis.signals.usesBstLogic;
-    if (concept === "bst-insert-delete") return analysis.signals.usesBstLogic;
+    if (concept === "bst-search") return analysis.signals.usesBstSearch;
+    if (concept === "bst-insert-delete") {
+      if (problem.id === "tr-011") return analysis.signals.usesBstDeleteHandling;
+      return analysis.signals.usesBstMutation;
+    }
     if (concept === "lca-binary-tree") return analysis.signals.usesLcaPattern;
     if (concept === "tree-construction") return analysis.signals.usesTreeConstruction;
-    if (concept === "tree-view") return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;
+    if (concept === "tree-view") {
+      if (problem.id === "tr-009") return analysis.signals.usesLeftViewPattern;
+      return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;
+    }
     if (concept === "serialize-tree") return analysis.signals.usesQueueTraversal || analysis.signals.usesRecursiveTraversal;
     return false;
   });

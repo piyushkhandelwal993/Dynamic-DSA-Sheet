@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t011_01",
+  "importedAt": "2026-08-16T07:05:00.000Z",
+  "problemId": "tr-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "recursive-delete-with-successor",
+  "code": "class Solution {\n    public TreeNode deleteBST(TreeNode root, int key) {\n        if (root == null) {\n            return null;\n        }\n        if (key < root.val) {\n            root.left = deleteBST(root.left, key);\n        } else if (key > root.val) {\n            root.right = deleteBST(root.right, key);\n        } else {\n            if (root.left == null) {\n                return root.right;\n            }\n            if (root.right == null) {\n                return root.left;\n            }\n            TreeNode successor = root.right;\n            while (successor.left != null) {\n                successor = successor.left;\n            }\n            root.val = successor.val;\n            root.right = deleteBST(root.right, successor.val);\n        }\n        return root;\n    }\n}",
+  "notes": "Canonical BST deletion using inorder successor for the two-child case.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

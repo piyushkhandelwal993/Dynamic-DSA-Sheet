@@ -37,7 +37,7 @@ public class DsaJavaAstHelper {
 
     @Override public Void visitMethod(MethodTree node, Void unused) {
       String previous = method;
-      method = node.getName().toString();
+      method = node.getName().toString() + "#" + node.getParameters().size();
       emit("METHOD", method);
       Void result = super.visitMethod(node, unused);
       method = previous;
@@ -109,6 +109,7 @@ public class DsaJavaAstHelper {
       ExpressionTree select = node.getMethodSelect();
       if (select instanceof IdentifierTree) called = ((IdentifierTree) select).getName().toString();
       if (select instanceof MemberSelectTree) called = ((MemberSelectTree) select).getIdentifier().toString();
+      called = called + "#" + node.getArguments().size();
       emit("CALL", method, called);
       return super.visitMethodInvocation(node, unused);
     }
@@ -210,16 +211,17 @@ function factsFromEvents(output: string): CodeFacts {
 
   methods.forEach((method) => {
     const recursiveCalls = (callsByMethod.get(method) ?? []).filter((called) => called === method).length;
+    const displayMethod = method.split("#")[0] ?? method;
     if (recursiveCalls > 0) {
-      addFact(facts, "controlFlow", "recursive-call", "high", [`JDK AST call to ${method}`]);
+      addFact(facts, "controlFlow", "recursive-call", "high", [`JDK AST call to ${displayMethod}`]);
       if (methodsWithIf.has(method)) {
-        addFact(facts, "controlFlow", "base-case", "medium", [`JDK AST conditional in recursive method ${method}`]);
-        addFact(facts, "edgeCaseSignals", "recursive-base-case", "medium", [`JDK AST conditional in recursive method ${method}`]);
+        addFact(facts, "controlFlow", "base-case", "medium", [`JDK AST conditional in recursive method ${displayMethod}`]);
+        addFact(facts, "edgeCaseSignals", "recursive-base-case", "medium", [`JDK AST conditional in recursive method ${displayMethod}`]);
       }
     }
     if (recursiveCalls >= 2) {
-      addFact(facts, "controlFlow", "multiple-recursive-calls", "high", [`JDK AST: ${recursiveCalls} calls to ${method}`]);
-      addFact(facts, "algorithms", "tree-recursion", "medium", [`JDK AST branching recursion in ${method}`]);
+      addFact(facts, "controlFlow", "multiple-recursive-calls", "high", [`JDK AST: ${recursiveCalls} calls to ${displayMethod}`]);
+      addFact(facts, "algorithms", "tree-recursion", "medium", [`JDK AST branching recursion in ${displayMethod}`]);
     }
   });
 

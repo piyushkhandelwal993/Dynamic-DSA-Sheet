@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t011_05",
+  "importedAt": "2026-08-16T07:05:00.000Z",
+  "problemId": "tr-011",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "always-return-null",
+  "code": "class Solution {\n    public TreeNode deleteBST(TreeNode root, int key) {\n        return null;\n    }\n}",
+  "notes": "Ignores the input tree entirely.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t003_01",
+  "importedAt": "2026-08-16T04:35:00.000Z",
+  "problemId": "tr-003",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "correct-optimal",
+  "label": "classic-recursive-postorder",
+  "code": "import java.util.*;\n\nclass Solution {\n    public List<Integer> postorder(TreeNode root) {\n        List<Integer> answer = new ArrayList<>();\n        dfs(root, answer);\n        return answer;\n    }\n\n    private void dfs(TreeNode node, List<Integer> answer) {\n        if (node == null) {\n            return;\n        }\n        dfs(node.left, answer);\n        dfs(node.right, answer);\n        answer.add(node.val);\n    }\n}",
+  "notes": "Canonical recursive postorder traversal.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

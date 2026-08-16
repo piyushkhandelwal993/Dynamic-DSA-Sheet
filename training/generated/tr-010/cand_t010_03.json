@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t010_03",
+  "importedAt": "2026-08-16T06:10:00.000Z",
+  "problemId": "tr-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "suboptimal",
+  "label": "collect-sort-rebuild",
+  "code": "import java.util.*;\n\nclass Solution {\n    public TreeNode insertBST(TreeNode root, int x) {\n        List<Integer> values = new ArrayList<>();\n        inorder(root, values);\n        values.add(x);\n        Collections.sort(values);\n        return build(values, 0, values.size() - 1);\n    }\n\n    private void inorder(TreeNode node, List<Integer> values) {\n        if (node == null) {\n            return;\n        }\n        inorder(node.left, values);\n        values.add(node.val);\n        inorder(node.right, values);\n    }\n\n    private TreeNode build(List<Integer> values, int left, int right) {\n        if (left > right) {\n            return null;\n        }\n        int mid = (left + right) / 2;\n        TreeNode node = new TreeNode(values.get(mid));\n        node.left = build(values, left, mid - 1);\n        node.right = build(values, mid + 1, right);\n        return node;\n    }\n}",
+  "notes": "Works functionally but rebuilds the entire tree instead of doing BST insertion in O(h).",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

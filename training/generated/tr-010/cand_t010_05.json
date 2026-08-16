@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "cand_t010_05",
+  "importedAt": "2026-08-16T06:10:00.000Z",
+  "problemId": "tr-010",
+  "language": "java",
+  "practiceMode": "beginner",
+  "candidateType": "hardcoded",
+  "label": "always-return-single-node",
+  "code": "class Solution {\n    public TreeNode insertBST(TreeNode root, int x) {\n        return new TreeNode(x);\n    }\n}",
+  "notes": "Ignores the original tree and returns a hardcoded-style placeholder result.",
+  "model": "manual-import",
+  "promptVersion": "v1",
+  "sourceFile": "manual-tree-training"
+}

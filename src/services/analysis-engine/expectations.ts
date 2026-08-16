@@ -212,8 +212,9 @@ export const conceptExpectations: Record<string, FactExpectation> = {
   "recursion-on-strings": fact("recursion-on-strings"),
   "recursion-on-arrays": fact("recursion-on-arrays"),
   "tree-recursion": fact("tree-recursion"),
-  "backtracking-basics": allOf(fact("recursive-call"), fact("backtracking-undo")),
+  "backtracking-basics": allOf(fact("recursive-call"), anyOf(fact("backtracking-undo"), fact("subsequence-generation"))),
   "subsequence-generation": fact("subsequence-generation"),
+  "choice-reuse-recursion": fact("recursive-choice-reuse"),
   "permutations": fact("permutation-backtracking"),
   "divide-and-conquer": fact("divide-and-conquer"),
   "recursive-search": fact("recursive-search"),
@@ -246,6 +247,24 @@ export const conceptExpectations: Record<string, FactExpectation> = {
 };
 
 const problemConceptOverrides: Record<string, Record<string, FactExpectation>> = {
+  "rec-002": {
+    "parameterized-recursion": anyOf(fact("parameterized-recursion"), fact("functional-recursion"), fact("recursive-call"))
+  },
+  "rec-018": {
+    "functional-recursion": fact("josephus-recurrence")
+  },
+  "rec-021": {
+    "divide-and-conquer": allOf(fact("divide-and-conquer"), fact("merge-combine-step"))
+  },
+  "tr-001": {
+    "recursive-tree-traversal": allOf(fact("recursive-tree-traversal"), fact("preorder-traversal-order"))
+  },
+  "tr-002": {
+    "recursive-tree-traversal": allOf(fact("recursive-tree-traversal"), fact("inorder-traversal-order"))
+  },
+  "tr-003": {
+    "recursive-tree-traversal": allOf(fact("recursive-tree-traversal"), fact("postorder-traversal-order"))
+  },
   "dp-001": {
     memoization: anyOf(fact("dp-memoization"), fact("bottom-up-dp")),
     tabulation: anyOf(fact("bottom-up-dp"), fact("dp-memoization"))
