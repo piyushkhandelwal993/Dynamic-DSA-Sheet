@@ -1818,17 +1818,23 @@ function buildUnlockUrl(topicId) {
   const portalUrl = state.bootstrap?.license?.unlockPortalUrl;
   const backendUrl = state.bootstrap?.license?.unlockBackendUrl;
   const machineHash = state.bootstrap?.license?.machineHash;
-  if (!portalUrl || !machineHash) {
+  if (!machineHash) {
     return null;
   }
-  const url = new URL(portalUrl);
+  const preferredBase = backendUrl
+    ? new URL("/unlock/", backendUrl).toString()
+    : portalUrl;
+  if (!preferredBase) {
+    return null;
+  }
+  const url = new URL(preferredBase);
   const email = (licenseEmailInputEl?.value?.trim() || state.bootstrap?.profile?.email || "").trim();
   url.searchParams.set("topic", topicId);
   url.searchParams.set("machineHash", machineHash);
   if (email) {
     url.searchParams.set("email", email);
   }
-  if (backendUrl) {
+  if (backendUrl && !preferredBase.startsWith(backendUrl)) {
     url.searchParams.set("backend", backendUrl);
   }
   return url.toString();
@@ -1848,7 +1854,10 @@ async function openBuyTopicFlow(topicId) {
   }
   state.currentView = "profile";
   render();
-  await window.dsaDesktop.openExternal(targetUrl);
+  const opened = await window.dsaDesktop.openExternal(targetUrl);
+  if (!opened && licenseActivationStatusEl) {
+    licenseActivationStatusEl.textContent = "Could not open the purchase flow automatically on this machine.";
+  }
 }
 
 function platformStats() {

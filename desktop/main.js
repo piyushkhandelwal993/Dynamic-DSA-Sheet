@@ -1,4 +1,5 @@
 const path = require("path");
+const { execFile } = require("child_process");
 const { app, BrowserWindow, ipcMain, shell, dialog, clipboard } = require("electron");
 const { autoUpdater } = require("electron-updater");
 
@@ -168,11 +169,27 @@ ipcMain.handle("desktop:open-external", async (_event, targetUrl) => {
   if (!targetUrl || typeof targetUrl !== "string") {
     return false;
   }
-  if (!/^https:\/\//i.test(targetUrl)) {
+  if (!/^https?:\/\//i.test(targetUrl)) {
     return false;
   }
-  await shell.openExternal(targetUrl);
-  return true;
+  try {
+    await shell.openExternal(targetUrl);
+    return true;
+  } catch (error) {
+    if (process.platform !== "win32") {
+      throw error;
+    }
+    await new Promise((resolve, reject) => {
+      execFile("cmd", ["/c", "start", "", targetUrl], { windowsHide: true }, (execError) => {
+        if (execError) {
+          reject(execError);
+          return;
+        }
+        resolve();
+      });
+    });
+    return true;
+  }
 });
 ipcMain.handle("desktop:pick-java-file", async () => {
   const result = await dialog.showOpenDialog({

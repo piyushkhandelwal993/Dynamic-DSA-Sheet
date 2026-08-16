@@ -143,6 +143,10 @@ async function route(request: IncomingMessage, response: ServerResponse): Promis
     return html(response, 200, readSitePage("admin", "index.html"));
   }
 
+  if (request.method === "GET" && (url.pathname === "/unlock" || url.pathname === "/unlock/")) {
+    return html(response, 200, readSitePage("unlock", "index.html"));
+  }
+
   if (request.method === "GET" && url.pathname === "/payment/complete") {
     return html(response, 200, `<!doctype html>
 <html lang="en">

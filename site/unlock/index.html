@@ -178,6 +178,10 @@
           statusEl.textContent = "Add ?backend=https://your-license-server-host to this page URL.";
           return;
         }
+        if (window.location.protocol === "https:" && /^http:\/\//i.test(backendBaseUrl)) {
+          statusEl.textContent = "This unlock page is pointed at an insecure http backend. Open the backend-hosted /unlock page or configure an https backend.";
+          return;
+        }
         const response = await fetch(`${backendBaseUrl}/api/plans`);
         const payload = await response.json();
         planSelect.innerHTML = payload.plans
